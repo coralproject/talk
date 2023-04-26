@@ -3,6 +3,7 @@
 }
 
 .title {
+  margin-top: 0;
   margin-bottom: var(--spacing-2);
 
   font-family: var(--font-family-primary);

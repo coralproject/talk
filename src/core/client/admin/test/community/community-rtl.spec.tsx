@@ -12,10 +12,12 @@ import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   GQLUSER_ROLE,
+  GQLUsersConnection,
   QueryToSettingsResolver,
   QueryToUsersResolver,
 } from "coral-framework/schema";
 import {
+  createFixture,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -24,7 +26,6 @@ import {
 
 import { createContext } from "../create";
 import {
-  communityUsers,
   disabledEmail,
   disabledLocalAuth,
   disabledLocalAuthAdminTargetFilter,
@@ -36,6 +37,19 @@ import {
   sites,
   users,
 } from "../fixtures";
+
+export const communityUsers = createFixture<GQLUsersConnection>({
+  edges: [
+    { node: users.admins[0], cursor: users.admins[0].createdAt },
+    { node: users.admins[1], cursor: users.admins[1].createdAt },
+    { node: users.moderators[0], cursor: users.moderators[0].createdAt },
+    { node: users.moderators[1], cursor: users.moderators[1].createdAt },
+    { node: users.moderators[2], cursor: users.moderators[2].createdAt },
+    { node: users.staff[0], cursor: users.staff[0].createdAt },
+    { node: users.commenters[0], cursor: users.commenters[0].createdAt },
+  ],
+  pageInfo: { endCursor: null, hasNextPage: false },
+});
 
 const adminViewer = users.admins[0];
 
@@ -258,24 +272,97 @@ it("change user role", async () => {
   expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
 
-it("can't change role as a moderator", async () => {
-  const moderator = users.moderators[0];
-  await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        viewer: () => moderator,
+it("org mods may allocate site mods", async () => {
+  const orgModerator = users.moderators[0];
+  const commenter = users.commenters[0];
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      viewer: () => orgModerator,
+      user: () => commenter,
+      settings: () => ({ ...settings, multisite: true }),
+      sites: () => siteConnection,
+    },
+    Mutation: {
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables.scoped).toBeTruthy();
+        return {
+          user: {
+            ...commenter,
+            role: variables.role,
+          },
+        };
       },
-    }),
+    },
+  });
+
+  await createTestRenderer({
+    resolvers,
   });
   await screen.findByTestId("community-container");
 
   const userStatus = screen.getAllByLabelText("Change user status")[0];
   expect(userStatus).toBeVisible();
-  expect(screen.queryByLabelText("Change role")).toBeNull();
+
+  const userRow = await screen.findByTestId(`community-row-${commenter.id}`);
+  const changeRoleButton = within(userRow).getByLabelText("Change role");
+
+  await act(async () => {
+    userEvent.click(changeRoleButton);
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+  expect(popup).toBeVisible();
+
+  const siteModeratorButton = await within(popup).findByRole("button", {
+    name: "Site Moderator",
+  });
+  await act(async () => {
+    fireEvent.click(siteModeratorButton);
+  });
+
+  const siteRolePopup = await within(userRow).findByLabelText(
+    "A modal for managing the scope of a site scoped role"
+  );
+
+  expect(siteRolePopup).toBeVisible();
+
+  const searchBar = within(siteRolePopup).getByLabelText(
+    "Search by site name",
+    {
+      exact: false,
+    }
+  );
+
+  userEvent.type(searchBar, sites[0].name);
+
+  const siteSearchButton = await screen.findByTestId("site-search-button");
+  await act(async () => {
+    userEvent.click(siteSearchButton);
+  });
+
+  const testSiteButton = await within(siteRolePopup).findByRole("button", {
+    name: sites[0].name,
+  });
+  await act(async () => {
+    userEvent.click(testSiteButton);
+  });
+
+  const assignButton = within(siteRolePopup).getByRole("button", {
+    name: "Update",
+  });
+  expect(assignButton).toBeEnabled();
+  await act(async () => {
+    userEvent.click(assignButton);
+  });
+
+  expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
 
 it("change user role to Site Moderator and add sites to moderate", async () => {
   const user = users.commenters[0];
+  const site = sites[0];
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateUserRole: ({ variables }) => {
@@ -290,17 +377,15 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
           user: userRecord,
         };
       },
-      updateUserModerationScopes: ({ variables }) => {
+      promoteModerator: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
-          moderationScopes: {
-            siteIDs: ["site-1"],
-          },
+          siteIDs: [site.id],
           userID: user.id,
         });
         const userRecord = pureMerge<typeof user>(user, {
           moderationScopes: {
             scoped: true,
-            sites: [sites[0]],
+            sites: [site],
           },
           role: GQLUSER_ROLE.MODERATOR,
         });
@@ -334,9 +419,9 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
   const modal = await screen.findByTestId("site-role-modal");
 
   // The submit button should be disabled until at least 1 site is selected
-  const submitButton = await screen.findByTestId(
-    "site-role-modal-submitButton"
-  );
+  const submitButton = await screen.findByRole("button", {
+    name: "Update",
+  });
   expect(submitButton).toBeDisabled();
 
   const siteSearchField = within(modal).getByRole("textbox", {
@@ -345,26 +430,29 @@ it("change user role to Site Moderator and add sites to moderate", async () => {
   userEvent.type(siteSearchField, "Test");
 
   const siteSearchButton = await screen.findByTestId("site-search-button");
-  userEvent.click(siteSearchButton);
+  await act(async () => {
+    userEvent.click(siteSearchButton);
+  });
 
   const siteSearchList = await screen.findByTestId("site-search-list");
   const testSiteButton = within(siteSearchList).getByRole("button", {
     name: "Test Site",
   });
-  userEvent.click(testSiteButton);
+  await act(async () => {
+    userEvent.click(testSiteButton);
+  });
 
-  const assignButton = within(modal).getByRole("button", { name: "Assign" });
-  userEvent.click(assignButton);
+  const assignButton = within(modal).getByRole("button", { name: "Update" });
+  await act(async () => {
+    userEvent.click(assignButton);
+  });
 
   await waitFor(() =>
     expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)
   );
-  await waitFor(() =>
-    expect(resolvers.Mutation!.updateUserModerationScopes!.called).toBe(true)
-  );
 });
 
-it("promote user role as a site moderator", async () => {
+it("add moderation scopes as a site moderator", async () => {
   const siteModerator = users.moderators[1];
   const user = users.commenters[0];
   const resolvers = createResolversStub<GQLResolver>({
@@ -405,7 +493,11 @@ it("promote user role as a site moderator", async () => {
   fireEvent.click(siteModButton);
 
   await waitFor(() => screen.getByTestId("siteModeratorActions-modal"));
-  const assignButton = screen.getByRole("button", { name: "Assign" });
+
+  const siteCheckBoxes = screen.getAllByRole("checkbox");
+  siteCheckBoxes.forEach((checkbox) => fireEvent.click(checkbox));
+
+  const assignButton = screen.getByRole("button", { name: "Update" });
   userEvent.click(assignButton);
 
   await waitFor(() =>
@@ -413,7 +505,7 @@ it("promote user role as a site moderator", async () => {
   );
 });
 
-it("demote user role as a site moderator", async () => {
+it("remove moderation scopes as a site moderator", async () => {
   const siteModeratorViewer = users.moderators[1];
   const siteModeratorUser = users.moderators[2];
 
@@ -426,7 +518,7 @@ it("demote user role as a site moderator", async () => {
       demoteModerator: ({ variables }) => {
         expectAndFail(variables).toMatchObject({
           userID: siteModeratorUser.id,
-          siteIDs: [sites[0].id],
+          siteIDs: siteModeratorViewer.moderationScopes?.siteIDs,
         });
         const userRecord = pureMerge<typeof siteModeratorUser>(
           siteModeratorUser,
@@ -454,19 +546,172 @@ it("demote user role as a site moderator", async () => {
     "A dropdown to promote/demote a user to/from sites"
   );
   const siteModButton = within(popup).getByRole("button", {
-    name: "Remove moderator from my sites",
+    name: "Site Moderator",
   });
   fireEvent.click(siteModButton);
 
   await screen.findByTestId("siteModeratorActions-modal");
-  const removeButton = screen.getByRole("button", { name: "Remove" });
-  userEvent.click(removeButton);
+
+  const siteCheckBoxes = screen.getAllByRole("checkbox");
+
+  siteCheckBoxes.forEach((checkbox) => fireEvent.click(checkbox));
+
+  const updateButton = screen.getByRole("button", { name: "Update" });
+  userEvent.click(updateButton);
 
   await waitFor(() =>
     expect(resolvers.Mutation!.demoteModerator!.called).toBe(true)
   );
 });
 
+it("allows admins to promote site mods to org mod", async () => {
+  const viewer = users.admins[0];
+  const siteModeratorUser = users.moderators[2];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      viewer: () => viewer,
+      settings: () => settingsWithMultisite,
+    },
+    Mutation: {
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables.scoped).toEqual(false);
+        const userRecord = pureMerge<typeof siteModeratorUser>(
+          siteModeratorUser,
+          {
+            role: GQLUSER_ROLE.MODERATOR,
+            moderationScopes: { scoped: false, sites: [] },
+          }
+        );
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = await screen.findByTestId(
+    `community-row-${siteModeratorUser.id}`
+  );
+  const changeRoleButton = within(userRow).getByLabelText("Change role");
+  userEvent.click(changeRoleButton);
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+  const orgModButton = within(popup).getByRole("button", {
+    name: "Organization Moderator",
+  });
+  fireEvent.click(orgModButton);
+
+  await waitFor(() =>
+    expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)
+  );
+});
+
+it("change user role", async () => {
+  const user = users.commenters[0];
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          role: GQLUSER_ROLE.STAFF,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          role: variables.role,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = await screen.findByTestId(`community-row-${user.id}`);
+  const changeRoleButton = within(userRow).getByLabelText("Change role");
+  userEvent.click(changeRoleButton);
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+  const staffButton = await within(popup).findByRole("button", {
+    name: "Staff",
+  });
+  fireEvent.click(staffButton);
+
+  expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
+});
+
+it("only admins can demote other admins", async () => {
+  const viewer = users.moderators[0];
+  const adminUser = users.admins[1];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      viewer: () => viewer,
+      settings: () => settingsWithMultisite,
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = await screen.findByTestId(`community-row-${adminUser.id}`);
+
+  const changeRoleButton = within(userRow).queryByLabelText("Change role");
+  expect(changeRoleButton).toBeNull();
+});
+
+it("allow admins to demote other admins", async () => {
+  const viewer = users.admins[0];
+  const adminUser = users.admins[1];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      viewer: () => viewer,
+      settings: () => settingsWithMultisite,
+    },
+    Mutation: {
+      updateUserRole: () => {
+        const userRecord = pureMerge<typeof adminUser>(adminUser, {
+          role: GQLUSER_ROLE.MODERATOR,
+          moderationScopes: undefined,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = await screen.findByTestId(`community-row-${adminUser.id}`);
+  const changeRoleButton = within(userRow).getByLabelText("Change role");
+  userEvent.click(changeRoleButton);
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user role"
+  );
+  const orgModButton = within(popup).getByRole("button", {
+    name: "Organization Moderator",
+  });
+  fireEvent.click(orgModButton);
+
+  await waitFor(() =>
+    expect(resolvers.Mutation!.updateUserRole!.called).toBe(true)
+  );
+});
+
+// BOOKMARK: marcus, i think we just need to add a new field to these fixtures, maybe scopes.sites.id?
 it("load more", async () => {
   await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({

@@ -23,6 +23,11 @@ exports[`renders correctly 1`] = `
       }
       showCommentID={false}
       username="Marvin"
+      usernameEl={
+        <span>
+          Marvin
+        </span>
+      }
     />
   </ForwardRef(forwardRef)>
 </Indent>

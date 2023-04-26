@@ -553,7 +553,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
               </Flex>
             )
           }
-          username={
+          username={comment.author?.username}
+          usernameEl={
             comment.author && (
               <UsernameWithPopoverContainer
                 className={cn(
@@ -618,7 +619,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
                         </Button>
                       )}
                       {showAvatar && comment.author?.avatar && (
-                        <div className={styles.avatarContainer}>
+                        <div
+                          className={cn(
+                            styles.avatarContainer,
+                            CLASSES.comment.avatar
+                          )}
+                        >
                           <Localized
                             id="comments-commentContainer-avatar"
                             attrs={{ alt: true }}
@@ -802,7 +808,10 @@ const enhanced = withShowAuthPopupMutation(
       }
     `,
     story: graphql`
-      fragment CommentContainer_story on Story {
+      fragment CommentContainer_story on Story
+      @argumentDefinitions(
+        refreshStream: { type: "Boolean", defaultValue: false }
+      ) {
         id
         url
         isClosed
@@ -820,7 +829,10 @@ const enhanced = withShowAuthPopupMutation(
       }
     `,
     comment: graphql`
-      fragment CommentContainer_comment on Comment {
+      fragment CommentContainer_comment on Comment
+      @argumentDefinitions(
+        refreshStream: { type: "Boolean", defaultValue: false }
+      ) {
         id
         author {
           id

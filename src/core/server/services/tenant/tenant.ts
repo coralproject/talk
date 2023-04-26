@@ -2,10 +2,19 @@ import { Redis } from "ioredis";
 import { isUndefined, toLower, uniqBy } from "lodash";
 import { URL } from "url";
 
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
+import { ERROR_CODES } from "coral-common/errors";
+import { isModerator, isOrgModerator } from "coral-common/permissions/types";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import { TenantInstalledAlreadyError } from "coral-server/errors";
+import {
+  OperationForbiddenError,
+  TenantInstalledAlreadyError,
+  UserForbiddenError,
+  UserNotFoundError,
+} from "coral-server/errors";
 import logger from "coral-server/logger";
+import { retrieveTenantSites } from "coral-server/models/site";
 import {
   CreateAnnouncementInput,
   CreateEmailDomainInput,
@@ -23,7 +32,7 @@ import {
   updateTenant,
   updateTenantEmailDomain,
 } from "coral-server/models/tenant";
-import { User } from "coral-server/models/user";
+import { retrieveUser, User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { I18n } from "coral-server/services/i18n";
 import { discover } from "coral-server/services/oidc/discover";
@@ -32,8 +41,11 @@ import {
   GQLFEATURE_FLAG,
   GQLSettingsInput,
   GQLSettingsWordListInput,
+  GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { WordListCategory } from "../comments/pipeline/phases/wordList/message";
+import { WordListService } from "../comments/pipeline/phases/wordList/service";
 import TenantCache from "./cache/cache";
 
 export type UpdateTenant = GQLSettingsInput;
@@ -70,6 +82,7 @@ export async function update(
   redis: Redis,
   cache: TenantCache,
   config: Config,
+  wordList: WordListService,
   tenant: Tenant,
   user: User,
   input: UpdateTenant
@@ -84,10 +97,33 @@ export async function update(
     delete input.live.enabled;
   }
 
-  // If the word list was specified, we should validate it to ensure there isn't
-  // any empty spaces.
   if (input.wordList) {
+    // If the word list was specified, we should validate it to ensure there isn't
+    // any empty spaces.
     input.wordList = cleanWordLists(input.wordList);
+
+    if (input.wordList.banned) {
+      const result = await wordList.initialize(
+        tenant.id,
+        tenant.locale,
+        WordListCategory.Banned,
+        input.wordList.banned
+      );
+      if (!result) {
+        throw new Error("unable to update banned word list");
+      }
+    }
+    if (input.wordList.suspect) {
+      const result = await wordList.initialize(
+        tenant.id,
+        tenant.locale,
+        WordListCategory.Suspect,
+        input.wordList.suspect
+      );
+      if (!result) {
+        throw new Error("unable to update suspect word list");
+      }
+    }
   }
 
   // Whenever the settings are updated, log who performed the update and what
@@ -298,8 +334,51 @@ export async function createEmailDomain(
   redis: Redis,
   cache: TenantCache,
   tenant: Tenant,
+  viewer: Pick<User, "id"> | undefined,
   input: CreateEmailDomainInput
 ) {
+  // TODO: This is tech debt, to be removed when
+  // MODERATOR is split into ORG_MODERATOR + SITE_MODERATOR
+  if (!viewer) {
+    throw new UserForbiddenError(
+      "Must be authenticated to create email domain ban",
+      "emailDomain",
+      "create"
+    );
+  }
+
+  if (PROTECTED_EMAIL_DOMAINS.has(input.domain)) {
+    throw new OperationForbiddenError(
+      ERROR_CODES.EMAIL_DOMAIN_PROTECTED,
+      "This email domain may not be moderated",
+      input.domain,
+      input.newUserModeration
+    );
+  }
+
+  const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
+  if (!fullViewer) {
+    throw new UserNotFoundError("Viewer not found");
+  }
+
+  const tenantSites = await retrieveTenantSites(mongo, tenant.id);
+  const isAdmin = fullViewer.role === GQLUSER_ROLE.ADMIN;
+  const multiSiteEnabled = tenantSites.length > 1;
+  const modOnSingleSite = isModerator(fullViewer) && !multiSiteEnabled;
+  const orgModOnMultiSite = isOrgModerator(fullViewer) && multiSiteEnabled;
+
+  const allowed =
+    fullViewer.tenantID === tenant.id &&
+    (isAdmin || modOnSingleSite || orgModOnMultiSite);
+
+  if (!allowed) {
+    throw new UserForbiddenError(
+      "Insufficient priviledges to create email domain",
+      "emailDomain",
+      "create",
+      viewer.id
+    );
+  }
   const updated = await createTenantEmailDomain(mongo, tenant.id, input);
   if (!updated) {
     throw new Error("tenant not found");

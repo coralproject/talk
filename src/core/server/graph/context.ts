@@ -3,6 +3,7 @@ import { v1 as uuid } from "uuid";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
 import { Config } from "coral-server/config";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import CoralEventListenerBroker, {
   CoralEventPublisherBroker,
@@ -12,11 +13,14 @@ import { PersistedQuery } from "coral-server/models/queries";
 import { Site } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
+import { UnarchiverQueue } from "coral-server/queue/tasks/unarchiver";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
+import { WordListService } from "coral-server/services/comments/pipeline/phases/wordList/service";
 import { ErrorReporter } from "coral-server/services/errors";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
@@ -48,6 +52,8 @@ export interface GraphContextOptions {
   scraperQueue: ScraperQueue;
   webhookQueue: WebhookQueue;
   notifierQueue: NotifierQueue;
+  loadCacheQueue: LoadCacheQueue;
+  unarchiverQueue: UnarchiverQueue;
   mongo: MongoContext;
   pubsub: RedisPubSub;
   redis: AugmentedRedis;
@@ -55,6 +61,8 @@ export interface GraphContextOptions {
   site?: Site;
   tenantCache: TenantCache;
   broker: CoralEventListenerBroker;
+
+  wordList: WordListService;
 }
 
 export default class GraphContext {
@@ -72,6 +80,8 @@ export default class GraphContext {
   public readonly scraperQueue: ScraperQueue;
   public readonly webhookQueue: WebhookQueue;
   public readonly notifierQueue: NotifierQueue;
+  public readonly loadCacheQueue: LoadCacheQueue;
+  public readonly unarchiverQueue: UnarchiverQueue;
   public readonly mongo: MongoContext;
   public readonly mutators: ReturnType<typeof mutators>;
   public readonly now: Date;
@@ -88,6 +98,10 @@ export default class GraphContext {
   public readonly user?: User;
 
   public readonly seenComments: SeenCommentsCollection;
+
+  public readonly cache: DataCache;
+
+  public readonly wordList: WordListService;
 
   constructor(options: GraphContextOptions) {
     this.id = options.id || uuid();
@@ -116,14 +130,26 @@ export default class GraphContext {
     this.rejectorQueue = options.rejectorQueue;
     this.notifierQueue = options.notifierQueue;
     this.webhookQueue = options.webhookQueue;
+    this.loadCacheQueue = options.loadCacheQueue;
+    this.unarchiverQueue = options.unarchiverQueue;
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
     this.reporter = options.reporter;
+    this.wordList = options.wordList;
 
     this.broker = options.broker.instance(this);
     this.loaders = loaders(this);
     this.mutators = mutators(this);
 
     this.seenComments = new SeenCommentsCollection();
+
+    this.cache = new DataCache(
+      this.mongo,
+      this.redis,
+      this.tenantCache,
+      this.logger,
+      this.disableCaching,
+      this.config.get("redis_cache_expiry") / 1000
+    );
   }
 }

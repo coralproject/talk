@@ -1,8 +1,8 @@
 error-commentingDisabled = Commenting has been disabled tenant wide.
 error-storyClosed = Story is currently closed for commenting.
 error-commentBodyTooShort = Comment body must have at least {$min} characters.
-error-parentCommentRejected = The comment you are replying to has been rejected by a moderator.
-error-ancestorRejected = The comment you are replying to is an ancestor of a rejected comment.
+error-parentCommentRejected = A comment earlier in this conversation thread was removed. No additional replies can be submitted.
+error-ancestorRejected = A comment earlier in this conversation thread was removed. No additional replies can be submitted.
 error-commentBodyExceedsMaxLength =
   Comment body exceeds maximum length of {$max} characters.
 error-storyURLNotPermitted =
@@ -15,6 +15,7 @@ error-tokenInvalid = Invalid API Token provided.
 error-tokenNotFound = Specified token does not exist.
 error-emailAlreadySet = Email address has already been set.
 error-emailNotSet = Email address has not been set yet.
+error-emailDomainProtected = Email domain cannot be moderated.
 error-duplicateUser =
   Specified user already exists with a different login method.
 error-duplicateEmail = Specified email address is already in use.
@@ -76,3 +77,5 @@ error-cannotCreateCommentOnArchivedStory = Cannot create a comment on an archive
 error-cannotOpenAnArchivedStory = Cannot open an archived story. The story must be unarchived first.
 error-cannotMergeAnArchivedStory = Cannot merge an archived story. The story must be unarchived first.
 error-usernameAlreadyExists = This username already exists. Please choose another.
+error-unableToUpdateStoryURL = Unable to update the story URL.
+error-dataCachingNotAvailable = Data caching is not available at this time.

@@ -20,13 +20,13 @@ exports[`renders correctly 1`] = `
       id="general-userBoxUnauthenticated-joinTheConversation"
     >
       <span
-        className="UserBoxUnauthenticated-joinText"
+        className="UserBoxUnauthenticated-joinText coral coral-viewerBox-joinText"
       >
         Join the conversation
       </span>
     </Localized>
     <div
-      className="UserBoxUnauthenticated-actions"
+      className="UserBoxUnauthenticated-actions coral coral-viewerBox-actionButtons"
     >
       <Localized
         id="general-userBoxUnauthenticated-register"
@@ -83,13 +83,13 @@ exports[`renders correctly hides showRegisterButton 1`] = `
       id="general-userBoxUnauthenticated-joinTheConversation"
     >
       <span
-        className="UserBoxUnauthenticated-joinText"
+        className="UserBoxUnauthenticated-joinText coral coral-viewerBox-joinText"
       >
         Join the conversation
       </span>
     </Localized>
     <div
-      className="UserBoxUnauthenticated-actions"
+      className="UserBoxUnauthenticated-actions coral coral-viewerBox-actionButtons"
     >
       <Localized
         id="general-userBoxUnauthenticated-signIn"

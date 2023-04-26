@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "relay-runtime";
 
+import RecacheStoryAction from "coral-admin/components/StoryInfoDrawer/RecacheStoryAction";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLSTORY_STATUS } from "coral-framework/schema";
 import { Flex, HorizontalGutter, TextLink } from "coral-ui/components/v2";
@@ -12,6 +13,7 @@ import { StoryInfoDrawerContainer_story } from "coral-admin/__generated__/StoryI
 import { StoryInfoDrawerContainer_viewer } from "coral-admin/__generated__/StoryInfoDrawerContainer_viewer.graphql";
 
 import ArchiveStoryActionsContainer from "./ArchiveStoryActionsContainer";
+import InvalidateCachedStoryAction from "./InvalidateCachedStoryAction";
 import ModerateStoryButton from "./ModerateStoryButton";
 import RescrapeStory from "./RescrapeStory";
 import StorySettingsContainer from "./StorySettingsContainer";
@@ -51,12 +53,14 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
           </TextLink>
           {story.isArchived || story.isArchiving ? (
             <Flex direction="column" className={styles.status}>
-              <Flex direction="column" className={styles.archived}>
+              <div className={styles.flexSizeToContentWidth}>
                 <ArchivedMarker />
-                {viewer && (
+              </div>
+              {viewer && (
+                <div className={styles.flexSizeToContentWidth}>
                   <ArchiveStoryActionsContainer story={story} viewer={viewer} />
-                )}
-              </Flex>
+                </div>
+              )}
             </Flex>
           ) : (
             <>
@@ -77,9 +81,21 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
                   />
                 )}
               </Flex>
-              <RescrapeStory storyID={story.id} />
+              <div className={styles.storyDrawerAction}>
+                <RescrapeStory storyID={story.id} />
+              </div>
+              <div className={styles.storyDrawerAction}>
+                <RecacheStoryAction storyID={story.id} />
+              </div>
+              {story.cached && (
+                <div className={styles.storyDrawerAction}>
+                  <InvalidateCachedStoryAction storyID={story.id} />
+                </div>
+              )}
               {viewer && (
-                <ArchiveStoryActionsContainer story={story} viewer={viewer} />
+                <div className={styles.flexSizeToContentWidth}>
+                  <ArchiveStoryActionsContainer story={story} viewer={viewer} />
+                </div>
               )}
               <StorySettingsContainer
                 settings={story.settings}
@@ -107,6 +123,7 @@ const enhanced = withFragmentContainer<Props>({
         author
         publishedAt
       }
+      cached
       ...ModerateStoryButton_story
       settings {
         ...StorySettingsContainer_storySettings

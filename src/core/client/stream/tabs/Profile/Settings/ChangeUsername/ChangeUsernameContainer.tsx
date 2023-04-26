@@ -4,7 +4,9 @@ import { FORM_ERROR, FormApi } from "final-form";
 import React, {
   FunctionComponent,
   useCallback,
+  useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { Field, Form } from "react-final-form";
@@ -62,6 +64,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const newUsernameRef = useRef<HTMLInputElement>(null);
   const emitShowEditUsernameDialog = useViewerEvent(
     ShowEditUsernameDialogEvent
   );
@@ -157,6 +160,12 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
     year: "numeric",
   });
 
+  useEffect(() => {
+    if (newUsernameRef.current) {
+      newUsernameRef.current.focus();
+    }
+  });
+
   return (
     <HorizontalGutter
       spacing={3}
@@ -185,7 +194,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
               !canChangeUsername || showSuccessMessage,
           })}
         >
-          <Localized id="profile-changeUsername-change">
+          <Localized
+            id="profile-changeUsername-change"
+            attrs={{ "aria-label": true }}
+          >
             <Button
               className={cn(
                 CLASSES.myUsername.editButton,
@@ -196,6 +208,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
               color="primary"
               onClick={toggleEditForm}
               disabled={!canChangeUsername}
+              aria-label="Change username"
             >
               Change
             </Button>
@@ -306,6 +319,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                               id={input.name}
                               data-testid="profile-changeUsername-username"
                               color={streamColorFromMeta(meta)}
+                              ref={newUsernameRef}
                             />
                             <ValidationMessage
                               className={CLASSES.validationMessage}

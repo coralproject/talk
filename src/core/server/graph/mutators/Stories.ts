@@ -1,6 +1,10 @@
 import { isNull, omitBy } from "lodash";
 
 import { ERROR_CODES } from "coral-common/errors";
+import {
+  DataCachingNotAvailableError,
+  StoryNotFoundError,
+} from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { initializeCommentTagCountsForStory } from "coral-server/models/comment";
@@ -10,7 +14,7 @@ import {
   retrieveStory,
   Story,
 } from "coral-server/models/story";
-import { archiveStory, unarchiveStory } from "coral-server/services/archive";
+import { archiveStory } from "coral-server/services/archive";
 import {
   addExpert,
   close,
@@ -28,6 +32,7 @@ import { scrape } from "coral-server/services/stories/scraper";
 import {
   GQLAddStoryExpertInput,
   GQLArchiveStoriesInput,
+  GQLCacheStoryInput,
   GQLCloseStoryInput,
   GQLCreateStoryInput,
   GQLMergeStoriesInput,
@@ -164,26 +169,15 @@ export const Stories = (ctx: GraphContext) => ({
     const stories: Readonly<Story>[] = [];
 
     for (const storyID of input.storyIDs) {
-      const markResult = await markStoryForUnarchiving(
+      const result = await markStoryForUnarchiving(
         ctx.mongo,
         ctx.tenant.id,
         storyID,
         ctx.now
       );
 
-      if (markResult) {
-        await unarchiveStory(
-          ctx.mongo,
-          ctx.redis,
-          ctx.tenant.id,
-          storyID,
-          ctx.logger,
-          ctx.now
-        );
-      }
-
-      const result = await retrieveStory(ctx.mongo, ctx.tenant.id, storyID);
-      if (result) {
+      if (result && result.isUnarchiving) {
+        await ctx.unarchiverQueue.add({ storyID, tenantID: ctx.tenant.id });
         stories.push(result);
       }
     }
@@ -202,5 +196,38 @@ export const Stories = (ctx: GraphContext) => ({
     } else {
       return await ctx.loaders.Stories.find.load({ id: input.storyID });
     }
+  },
+  cacheStory: async (input: GQLCacheStoryInput) => {
+    const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
+    if (!cacheAvailable) {
+      throw new DataCachingNotAvailableError(ctx.tenant.id);
+    }
+
+    const story = await ctx.loaders.Stories.find.load({ id: input.id });
+    if (!story) {
+      throw new StoryNotFoundError(input.id);
+    }
+
+    await ctx.loadCacheQueue.add({
+      tenantID: story.tenantID,
+      storyID: story.id,
+    });
+
+    return story;
+  },
+  invalidateCachedStory: async (input: GQLCacheStoryInput) => {
+    const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
+    if (!cacheAvailable) {
+      throw new DataCachingNotAvailableError(ctx.tenant.id);
+    }
+
+    const story = await ctx.loaders.Stories.find.load({ id: input.id });
+    if (!story) {
+      throw new StoryNotFoundError(input.id);
+    }
+
+    await ctx.cache.comments.invalidateCache(story.tenantID, story.id);
+
+    return story;
   },
 });

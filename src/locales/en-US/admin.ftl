@@ -11,6 +11,7 @@ storyStatus-open = Open
 storyStatus-closed = Closed
 storyStatus-archiving = Archiving
 storyStatus-archived = Archived
+storyStatus-unarchiving = Unarchiving
 
 ## Roles
 role-admin = Admin
@@ -573,6 +574,7 @@ stories-actions-close = Close story
 stories-actions-open = Open story
 stories-actions-archive = Archive story
 stories-actions-unarchive = Unarchive story
+stories-actions-isUnarchiving = Unarchiving
 
 ### Sections
 
@@ -1320,6 +1322,7 @@ community-userStatus-premodUser = Always pre-moderate
 community-userStatus-removePremod = Remove pre-moderate
 
 community-banModal-allSites-title = Are you sure you want to ban <username></username>?
+community-banModal-banEmailDomain = Ban all new accounts on { $domain }
 community-banModal-specificSites-title = Are you sure you want to manage the ban status of <username></username>?
 community-banModal-noSites-title = Are you sure you want to unban <username></username>?
 community-banModal-allSites-consequence =
@@ -1378,8 +1381,7 @@ community-siteRoleModal-assignSites =
 community-siteRoleModal-assignSitesDescription-siteModerator =
   Site moderators are permitted to make moderation decisions and issue suspensions on the sites they are assigned.
 community-siteRoleModal-cancel = Cancel
-community-siteRoleModal-assign = Assign
-community-siteRoleModal-remove = Remove
+community-siteRoleModal-update = Update
 community-siteRoleModal-selectSites-siteModerator = Select sites to moderate
 community-siteRoleModal-selectSites-member = Select sites for this user to be a member of
 community-siteRoleModal-noSites = No sites
@@ -1485,7 +1487,11 @@ storyInfoDrawerSettings-moderationMode-post = Post
 storyInfoDrawerSettings-update = Update
 storyInfoDrawer-storyStatus-archiving = Archiving
 storyInfoDrawer-storyStatus-archived = Archived
-
+storyInfoDrawer-cacheStory-recache = Recache story
+storyInfoDrawer-cacheStory-recaching = Recaching
+storyInfoDrawer-cacheStory-cached = Cached
+storyInfoDrawer-cacheStory-uncacheStory = Uncache story
+storyInfoDrawer-cacheStory-uncaching = Uncaching
 
 ## Invite
 
@@ -1696,7 +1702,7 @@ dashboard-alltime-rejections-archiveEnabled = { $value } { $unit ->
     }
     *[other] unknown unit
   } average
-dashboard-today-staff-comments = Staff comments
+dashboard-today-staffPlus-comments = Staff+ comments
 dashboard-alltime-staff-comments = All time total
 dashboard-alltime-staff-comments-archiveEnabled = { $value } { $unit ->
     [second] { $value ->
@@ -1753,3 +1759,9 @@ conversation-modal-commentNotFound = Comment not found.
 conversation-modal-showMoreReplies = Show more replies
 conversation-modal-header-title = Conversation on:
 conversation-modal-header-moderate-link = Moderate story
+
+# Control panel
+
+controlPanel-redis-redis = Redis
+controlPanel-redis-flushRedis = Flush Redis
+controlPanel-redis-flush = Flush

@@ -2,6 +2,8 @@ import { CountJSONPData } from "coral-common/types/count";
 import { COUNT_SELECTOR } from "coral-framework/constants";
 import getPreviousCountStorageKey from "coral-framework/helpers/getPreviousCountStorageKey";
 
+const TEXT_CLASS_NAME = "coral-count-text";
+
 type GetCountFunction = (opts?: { reset?: boolean }) => void;
 
 /**
@@ -54,6 +56,8 @@ function createCountElementEnhancer({
   // Create the root element we're using for this.
   const element = document.createElement("span");
 
+  const showText = html.includes(TEXT_CLASS_NAME);
+
   // Update the innerHTML which contains the count and new value..
   element.innerHTML = html;
 
@@ -69,23 +73,25 @@ function createCountElementEnhancer({
     dataset.coralPreviousCount = previousCount.toString();
     dataset.coralNewCount = newCount.toString();
 
-    // Insert the divider " / "
-    const dividerElement = document.createElement("span");
-    dividerElement.className = "coral-new-count-divider";
-    dividerElement.innerText = " / ";
-    element.appendChild(dividerElement);
+    if (showText) {
+      // Insert the divider " / "
+      const dividerElement = document.createElement("span");
+      dividerElement.className = "coral-new-count-divider";
+      dividerElement.innerText = " / ";
+      element.appendChild(dividerElement);
 
-    // Add the number of new comments to that.
-    const newCountNumber = document.createElement("span");
-    newCountNumber.className = "coral-new-count-number";
-    newCountNumber.innerText = newCount.toString();
-    element.appendChild(newCountNumber);
+      // Add the number of new comments to that.
+      const newCountNumber = document.createElement("span");
+      newCountNumber.className = "coral-new-count-number";
+      newCountNumber.innerText = newCount.toString();
+      element.appendChild(newCountNumber);
 
-    // Add the number of new comments to that.
-    const newCountText = document.createElement("span");
-    newCountText.className = "coral-new-count-text";
-    newCountText.innerText = " New";
-    element.appendChild(newCountText);
+      // Add the number of new comments to that.
+      const newCountText = document.createElement("span");
+      newCountText.className = "coral-new-count-text";
+      newCountText.innerText = " New";
+      element.appendChild(newCountText);
+    }
   }
 
   return (target: HTMLElement) => {
@@ -129,6 +135,7 @@ function injectJSONPCallback(getCount: GetCountFunction) {
       });
     },
     getCount,
+    reload: () => getCount(),
   };
 }
 

@@ -21,7 +21,7 @@ exports[`renders correctly 1`] = `
   >
     <i
       aria-hidden="true"
-      className="Icon-root Icon-sm"
+      className="Icon-root Icon-sm coral coral-icon"
     >
       expand_more
     </i>

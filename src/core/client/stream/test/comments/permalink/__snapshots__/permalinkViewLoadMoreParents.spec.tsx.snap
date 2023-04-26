@@ -92,6 +92,7 @@ exports[`renders conversation thread 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-from-staff-0"
+                                aria-label="User Moderator"
                                 className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -196,7 +197,7 @@ exports[`renders conversation thread 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReactionButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                                 >
                                   thumb_up
                                 </i>
@@ -223,7 +224,7 @@ exports[`renders conversation thread 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReplyButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                                 >
                                   reply
                                 </i>
@@ -252,7 +253,7 @@ exports[`renders conversation thread 1`] = `
                                 >
                                   <i
                                     aria-hidden="true"
-                                    className="Icon-root Icon-sm PermalinkButton-icon"
+                                    className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                   >
                                     share
                                   </i>
@@ -289,7 +290,7 @@ exports[`renders conversation thread 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReportButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                                 >
                                   flag
                                 </i>
@@ -312,7 +313,7 @@ exports[`renders conversation thread 1`] = `
     >
       <i
         aria-hidden="true"
-        className="Icon-root Icon-lg ConversationThreadContainer-showMoreIcon"
+        className="Icon-root Icon-lg coral coral-icon ConversationThreadContainer-showMoreIcon"
       >
         more_vert
       </i>
@@ -414,6 +415,7 @@ exports[`renders conversation thread 1`] = `
                           >
                             <button
                               aria-controls="username-popover-comment-0"
+                              aria-label="User Markus"
                               className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -505,7 +507,7 @@ exports[`renders conversation thread 1`] = `
                             >
                               <i
                                 aria-hidden="true"
-                                className="Icon-root Icon-sm ReactionButton-icon"
+                                className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                               >
                                 thumb_up
                               </i>
@@ -532,7 +534,7 @@ exports[`renders conversation thread 1`] = `
                             >
                               <i
                                 aria-hidden="true"
-                                className="Icon-root Icon-sm ReplyButton-icon"
+                                className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                               >
                                 reply
                               </i>
@@ -561,7 +563,7 @@ exports[`renders conversation thread 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm PermalinkButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                 >
                                   share
                                 </i>
@@ -598,7 +600,7 @@ exports[`renders conversation thread 1`] = `
                             >
                               <i
                                 aria-hidden="true"
-                                className="Icon-root Icon-sm ReportButton-icon"
+                                className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                               >
                                 flag
                               </i>
@@ -711,6 +713,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-from-staff-0"
+                                aria-label="User Moderator"
                                 className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -815,7 +818,7 @@ exports[`shows more of this conversation 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReactionButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                                 >
                                   thumb_up
                                 </i>
@@ -842,7 +845,7 @@ exports[`shows more of this conversation 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReplyButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                                 >
                                   reply
                                 </i>
@@ -871,7 +874,7 @@ exports[`shows more of this conversation 1`] = `
                                 >
                                   <i
                                     aria-hidden="true"
-                                    className="Icon-root Icon-sm PermalinkButton-icon"
+                                    className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                   >
                                     share
                                   </i>
@@ -908,7 +911,7 @@ exports[`shows more of this conversation 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReportButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                                 >
                                   flag
                                 </i>
@@ -1011,6 +1014,7 @@ exports[`shows more of this conversation 1`] = `
                               >
                                 <button
                                   aria-controls="username-popover-comment-1"
+                                  aria-label="User Lukas"
                                   className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                   onBlur={[Function]}
                                   onClick={[Function]}
@@ -1102,7 +1106,7 @@ exports[`shows more of this conversation 1`] = `
                                 >
                                   <i
                                     aria-hidden="true"
-                                    className="Icon-root Icon-sm ReactionButton-icon"
+                                    className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                                   >
                                     thumb_up
                                   </i>
@@ -1129,7 +1133,7 @@ exports[`shows more of this conversation 1`] = `
                                 >
                                   <i
                                     aria-hidden="true"
-                                    className="Icon-root Icon-sm ReplyButton-icon"
+                                    className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                                   >
                                     reply
                                   </i>
@@ -1158,7 +1162,7 @@ exports[`shows more of this conversation 1`] = `
                                   >
                                     <i
                                       aria-hidden="true"
-                                      className="Icon-root Icon-sm PermalinkButton-icon"
+                                      className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                     >
                                       share
                                     </i>
@@ -1195,7 +1199,7 @@ exports[`shows more of this conversation 1`] = `
                                 >
                                   <i
                                     aria-hidden="true"
-                                    className="Icon-root Icon-sm ReportButton-icon"
+                                    className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                                   >
                                     flag
                                   </i>
@@ -1293,6 +1297,7 @@ exports[`shows more of this conversation 1`] = `
                           >
                             <button
                               aria-controls="username-popover-comment-0"
+                              aria-label="User Markus"
                               className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -1384,7 +1389,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <i
                                 aria-hidden="true"
-                                className="Icon-root Icon-sm ReactionButton-icon"
+                                className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                               >
                                 thumb_up
                               </i>
@@ -1411,7 +1416,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <i
                                 aria-hidden="true"
-                                className="Icon-root Icon-sm ReplyButton-icon"
+                                className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                               >
                                 reply
                               </i>
@@ -1440,7 +1445,7 @@ exports[`shows more of this conversation 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm PermalinkButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                 >
                                   share
                                 </i>
@@ -1477,7 +1482,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <i
                                 aria-hidden="true"
-                                className="Icon-root Icon-sm ReportButton-icon"
+                                className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                               >
                                 flag
                               </i>

@@ -39,7 +39,7 @@ exports[`post a comment: optimistic response 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
         >
           <button
-            aria-label="Collapse comment thread"
+            aria-label="Hide comment by Markus and its replies"
             className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
             onBlur={[Function]}
             onClick={[Function]}
@@ -51,7 +51,7 @@ exports[`post a comment: optimistic response 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
             >
               remove
             </i>
@@ -73,6 +73,7 @@ exports[`post a comment: optimistic response 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-x"
+                      aria-label="User Markus"
                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -142,7 +143,7 @@ exports[`post a comment: optimistic response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm CommentContainer-editIcon"
+                        className="Icon-root Icon-sm coral coral-icon CommentContainer-editIcon"
                       >
                         edit
                       </i>
@@ -189,7 +190,7 @@ exports[`post a comment: optimistic response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReactionButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -216,7 +217,7 @@ exports[`post a comment: optimistic response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReplyButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                       >
                         reply
                       </i>
@@ -245,7 +246,7 @@ exports[`post a comment: optimistic response 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm PermalinkButton-icon"
+                          className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                         >
                           share
                         </i>
@@ -282,7 +283,7 @@ exports[`post a comment: optimistic response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReportButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                       >
                         flag
                       </i>

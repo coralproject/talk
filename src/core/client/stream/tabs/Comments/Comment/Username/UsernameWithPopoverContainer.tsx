@@ -43,16 +43,22 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = (props) => {
         )}
       >
         {({ toggleVisibility, ref }) => (
-          <BaseButton
-            onClick={toggleVisibility}
-            aria-controls={popoverID}
-            ref={ref}
-            className={props.className}
+          <Localized
+            id="common-username"
+            attrs={{ "aria-label": true }}
+            vars={{ username: props.comment.author!.username }}
           >
-            <Username className={props.usernameClassName}>
-              {props.comment.author!.username}
-            </Username>
-          </BaseButton>
+            <BaseButton
+              onClick={toggleVisibility}
+              aria-controls={popoverID}
+              ref={ref}
+              className={props.className}
+            >
+              <Username className={props.usernameClassName}>
+                {props.comment.author!.username}
+              </Username>
+            </BaseButton>
+          </Localized>
         )}
       </Popover>
     </Localized>

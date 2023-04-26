@@ -144,7 +144,7 @@ it("render empty ignored users list", async () => {
     "profile-account-ignoredCommenters"
   );
   const editButton = within(ignoredCommenters).getByRole("button", {
-    name: "Manage",
+    name: "Manage ignored commenters",
   });
   userEvent.click(editButton);
   expect(
@@ -177,7 +177,7 @@ it("render ignored users list", async () => {
     "profile-account-ignoredCommenters"
   );
   const editButton = within(ignoredCommenters).getByRole("button", {
-    name: "Manage",
+    name: "Manage ignored commenters",
   });
   userEvent.click(editButton);
   within(ignoredCommenters).getByText(commenters[0].username!);

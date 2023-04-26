@@ -5,7 +5,7 @@ import { GQLUSER_ROLE } from "coral-framework/schema";
 import CoralWindowContainer from "coral-ui/encapsulation/CoralWindowContainer";
 
 import MainRoute from "./App/MainRoute";
-import { Ability } from "./permissions";
+import { Ability } from "./permissions/tenant";
 import { createAuthCheckRoute } from "./routes/AuthCheck";
 import CommunityRoute from "./routes/Community";
 import ConfigureRoute from "./routes/Configure";
@@ -30,6 +30,7 @@ import {
 } from "./routes/Configure/sections";
 import AddSiteRoute from "./routes/Configure/sections/Sites/AddSiteRoute";
 import SiteRoute from "./routes/Configure/sections/Sites/SiteRoute";
+import ControlPanelRoute from "./routes/ControlPanel";
 import DashboardRoute from "./routes/Dashboard";
 import SiteDashboardRoute from "./routes/Dashboard/SiteDashboardRoute";
 import ForgotPasswordRoute from "./routes/ForgotPassword";
@@ -179,6 +180,11 @@ export default makeRouteConfig(
             <Route path="new" {...AddSiteRoute.routeConfig} />
             <Route path=":siteID" {...SiteRoute.routeConfig} />
           </Route>
+        </Route>
+        <Route
+          {...createAuthCheckRoute({ role: GQLUSER_ROLE.ADMIN }).routeConfig}
+        >
+          <Route path="controlpanel" {...ControlPanelRoute.routeConfig} />
         </Route>
       </Route>
     </Route>

@@ -39,7 +39,7 @@ exports[`cancel edit 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
         >
           <button
-            aria-label="Collapse comment thread"
+            aria-label="Hide comment by Markus and its replies"
             className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
             onBlur={[Function]}
             onClick={[Function]}
@@ -51,7 +51,7 @@ exports[`cancel edit 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
             >
               remove
             </i>
@@ -73,6 +73,7 @@ exports[`cancel edit 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
+                      aria-label="User Markus"
                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -142,7 +143,7 @@ exports[`cancel edit 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm CommentContainer-editIcon"
+                        className="Icon-root Icon-sm coral coral-icon CommentContainer-editIcon"
                       >
                         edit
                       </i>
@@ -189,7 +190,7 @@ exports[`cancel edit 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReactionButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -216,7 +217,7 @@ exports[`cancel edit 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReplyButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                       >
                         reply
                       </i>
@@ -245,7 +246,7 @@ exports[`cancel edit 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm PermalinkButton-icon"
+                          className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                         >
                           share
                         </i>
@@ -282,7 +283,7 @@ exports[`cancel edit 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReportButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                       >
                         flag
                       </i>
@@ -391,7 +392,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_bold
                       </i>
@@ -411,7 +412,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_italic
                       </i>
@@ -431,7 +432,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_quote
                       </i>
@@ -451,7 +452,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_list_bulleted
                       </i>
@@ -466,7 +467,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm MessageIcon-root"
+              className="Icon-root Icon-sm coral coral-icon MessageIcon-root"
             >
               alarm
             </i>
@@ -612,7 +613,7 @@ exports[`edit a comment: edit form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_bold
                       </i>
@@ -632,7 +633,7 @@ exports[`edit a comment: edit form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_italic
                       </i>
@@ -652,7 +653,7 @@ exports[`edit a comment: edit form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_quote
                       </i>
@@ -672,7 +673,7 @@ exports[`edit a comment: edit form 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_list_bulleted
                       </i>
@@ -687,7 +688,7 @@ exports[`edit a comment: edit form 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm MessageIcon-root"
+              className="Icon-root Icon-sm coral coral-icon MessageIcon-root"
             >
               alarm
             </i>
@@ -833,7 +834,7 @@ exports[`edit a comment: optimistic response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_bold
                       </i>
@@ -853,7 +854,7 @@ exports[`edit a comment: optimistic response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_italic
                       </i>
@@ -873,7 +874,7 @@ exports[`edit a comment: optimistic response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_quote
                       </i>
@@ -893,7 +894,7 @@ exports[`edit a comment: optimistic response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_list_bulleted
                       </i>
@@ -908,7 +909,7 @@ exports[`edit a comment: optimistic response 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm MessageIcon-root"
+              className="Icon-root Icon-sm coral coral-icon MessageIcon-root"
             >
               alarm
             </i>
@@ -1001,7 +1002,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
         >
           <button
-            aria-label="Collapse comment thread"
+            aria-label="Hide comment by Markus and its replies"
             className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
             onBlur={[Function]}
             onClick={[Function]}
@@ -1013,7 +1014,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
             >
               remove
             </i>
@@ -1035,6 +1036,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
+                      aria-label="User Markus"
                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1104,7 +1106,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm CommentContainer-editIcon"
+                        className="Icon-root Icon-sm coral coral-icon CommentContainer-editIcon"
                       >
                         edit
                       </i>
@@ -1151,7 +1153,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReactionButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -1178,7 +1180,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReplyButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                       >
                         reply
                       </i>
@@ -1207,7 +1209,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm PermalinkButton-icon"
+                          className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                         >
                           share
                         </i>
@@ -1244,7 +1246,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReportButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                       >
                         flag
                       </i>
@@ -1300,7 +1302,7 @@ exports[`edit a comment: server response 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
         >
           <button
-            aria-label="Collapse comment thread"
+            aria-label="Hide comment by Markus and its replies"
             className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
             onBlur={[Function]}
             onClick={[Function]}
@@ -1312,7 +1314,7 @@ exports[`edit a comment: server response 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
             >
               remove
             </i>
@@ -1334,6 +1336,7 @@ exports[`edit a comment: server response 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
+                      aria-label="User Markus"
                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1412,7 +1415,7 @@ exports[`edit a comment: server response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm CommentContainer-editIcon"
+                        className="Icon-root Icon-sm coral coral-icon CommentContainer-editIcon"
                       >
                         edit
                       </i>
@@ -1459,7 +1462,7 @@ exports[`edit a comment: server response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReactionButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -1486,7 +1489,7 @@ exports[`edit a comment: server response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReplyButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                       >
                         reply
                       </i>
@@ -1515,7 +1518,7 @@ exports[`edit a comment: server response 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm PermalinkButton-icon"
+                          className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                         >
                           share
                         </i>
@@ -1552,7 +1555,7 @@ exports[`edit a comment: server response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReportButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                       >
                         flag
                       </i>
@@ -1608,7 +1611,7 @@ exports[`shows expiry message: edit form closed 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
         >
           <button
-            aria-label="Collapse comment thread"
+            aria-label="Hide comment by Markus and its replies"
             className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
             onBlur={[Function]}
             onClick={[Function]}
@@ -1620,7 +1623,7 @@ exports[`shows expiry message: edit form closed 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
             >
               remove
             </i>
@@ -1642,6 +1645,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-with-replies"
+                      aria-label="User Markus"
                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -1711,7 +1715,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm CommentContainer-editIcon"
+                        className="Icon-root Icon-sm coral coral-icon CommentContainer-editIcon"
                       >
                         edit
                       </i>
@@ -1758,7 +1762,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReactionButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -1785,7 +1789,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReplyButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                       >
                         reply
                       </i>
@@ -1814,7 +1818,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm PermalinkButton-icon"
+                          className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                         >
                           share
                         </i>
@@ -1851,7 +1855,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReportButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                       >
                         flag
                       </i>
@@ -1960,7 +1964,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_bold
                       </i>
@@ -1980,7 +1984,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_italic
                       </i>
@@ -2000,7 +2004,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_quote
                       </i>
@@ -2020,7 +2024,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-md"
+                        className="Icon-root Icon-md coral coral-icon"
                       >
                         format_list_bulleted
                       </i>
@@ -2041,7 +2045,7 @@ exports[`shows expiry message: edit time expired 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm"
+                  className="Icon-root Icon-sm coral coral-icon"
                 >
                   error
                 </i>

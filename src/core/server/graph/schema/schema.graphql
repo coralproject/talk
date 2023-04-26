@@ -561,6 +561,12 @@ enum FEATURE_FLAG {
   an external profile for a user.
   """
   CONFIGURE_PUBLIC_PROFILE_URL
+
+  """
+  DATA_CACHE will allow the use of the data cache to store and load comments,
+  users, and commentActions more quickly. It is disabled by default.
+  """
+  DATA_CACHE
 }
 
 # The moderation mode of the site.
@@ -2779,6 +2785,12 @@ type UserModerationScopes {
   on. When null, it means that the user is allowed to moderate on all sites.
   """
   sites: [Site!]
+
+  """
+  siteIDs (when not null) list the sites that the user is only allowed to moderate
+  on. When null, it means that the user is allowed to moderate on all sites.
+  """
+  siteIDs: [String!]
 }
 
 """
@@ -2797,6 +2809,12 @@ type UserMembershipScopes {
   When null, it means that the user is a member of all sites within the organization.
   """
   sites: [Site!]
+
+  """
+  siteIDs (when not null) list the sites that the user is a member of
+  When null, it means that the user is a member of all sites within the organization.
+  """
+  siteIDs: [String!]
 }
 
 """
@@ -3719,6 +3737,7 @@ type Comment @cacheControl(maxAge: 5) {
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
     flatten: Boolean
+    refreshStream: Boolean
   ): CommentsConnection!
 
   """
@@ -4101,6 +4120,7 @@ type Story @cacheControl(maxAge: 30) {
     first: Int = 20 @constraint(max: 99999)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+    refreshStream: Boolean
 
     """
     rating allows filtering for comments with a specific rating. If this feature
@@ -4157,6 +4177,12 @@ type Story @cacheControl(maxAge: 30) {
   isArchived: Boolean!
 
   """
+  isUnarchiving returns true when a story is in-between being unarchived and is
+  yet to be fully unarchived.
+  """
+  isUnarchiving: Boolean!
+
+  """
   commentCounts stores all the counts of Comments that are left on the Comment.
   """
   commentCounts: CommentCounts!
@@ -4206,6 +4232,11 @@ type Story @cacheControl(maxAge: 30) {
   this story.
   """
   viewerRating: Comment
+
+  """
+  cached returns whether a story's stream is currently cached in redis or not.
+  """
+  cached: Boolean
 }
 
 """
@@ -4297,6 +4328,11 @@ type Queues {
   rejector is the Queue associated with the Rejector queue.
   """
   rejector: Queue!
+
+  """
+  unarchiver is the Queue associated with unarchiving stories.
+  """
+  unarchiver: Queue!
 }
 
 ################################################################################
@@ -7449,10 +7485,16 @@ could be assigned.
 """
 input ModerationScopesInput {
   """
+  scoped is whether or not the user's moderation
+  priveledges are limited to specified sites
+  """
+  scoped: Boolean!
+
+  """
   siteIDs is an array of ID's that should be the list of sites that a moderator
   is limited to. If none are passed, it will remove the scoping for this User.
   """
-  siteIDs: [ID!]
+  siteIDs: [ID!]!
 }
 
 input UpdateUserModerationScopesInput {
@@ -7489,6 +7531,11 @@ type UpdateUserModerationScopesPayload {
 # updateUserMembershipScopes
 ############################
 input MembershipScopesInput {
+  """
+  scoped is whether or not a user's membership is limited to specific sites.
+  """
+  scoped: Boolean!
+
   """
   siteIDs are the ids of the sites on which to scope a user's membership to.
   """
@@ -7538,6 +7585,11 @@ input UpdateUserRoleInput {
   role is the `USER_ROLE` that the User should be set to.
   """
   role: USER_ROLE!
+
+  """
+  scoped is whether or not the role will be limited to specific sites or not.
+  """
+  scoped: Boolean!
 
   """
   clientMutationId is required for Relay support.
@@ -8759,6 +8811,78 @@ type RefreshStoryCountsPayload {
 }
 
 ##################
+## cacheStory
+##################
+
+input CacheStoryInput {
+  """
+  id is the identifier of the Story whose comment and user data
+  will be scheduled for caching in Redis.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CacheStoryPayload {
+  """
+  story is the Story that was scheduled for caching in Redis.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##########################
+## invalidateCachedStory
+##########################
+
+input InvalidateCachedStoryInput {
+  """
+  id is the identifier of the Story whose data cache will be invalidated in Redis.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type InvalidateCachedStoryPayload {
+  """
+  story is the Story whose data cache was invalidated in Redis.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## Redis
+##################
+
+input FlushRedisInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type FlushRedisPayload {
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -9086,7 +9210,7 @@ type Mutation {
   updateUserRole will update a given User's role.
   """
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   promoteModerator will allow the viewer to add one or many scopes that applies to
@@ -9126,7 +9250,7 @@ type Mutation {
   """
   updateUserModerationScopes(
     input: UpdateUserModerationScopesInput!
-  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN])
+  ): UpdateUserModerationScopesPayload! @auth(roles: [ADMIN, MODERATOR])
 
   """
   updateUserMembershipScopes will update the membership scopes for a given user.
@@ -9135,7 +9259,7 @@ type Mutation {
   """
   updateUserMembershipScopes(
     input: UpdateUserMembershipScopesInput!
-  ): UpdateUserMembershipScopesPayload! @auth(roles: [ADMIN])
+  ): UpdateUserMembershipScopesPayload! @auth(roles: [ADMIN, MODERATOR])
 
   """
   banUser will ban a specific User from interacting with Comments.
@@ -9294,7 +9418,7 @@ type Mutation {
   createEmailDomain creates an email domain configuration.
   """
   createEmailDomain(input: CreateEmailDomainInput!): CreateEmailDomainPayload!
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   updateEmailDomain updates an email domain configuration.
@@ -9446,8 +9570,29 @@ type Mutation {
   refreshStoryCounts will recompute the cached counts for a story based on
   which flags are set to recompute in the operation input.
   """
-  refreshStoryCounts(input: RefreshStoryCountsInput!): RefreshStoryCountsPayload!
-    @auth(roles: [ADMIN])
+  refreshStoryCounts(
+    input: RefreshStoryCountsInput!
+  ): RefreshStoryCountsPayload! @auth(roles: [ADMIN])
+
+  """
+  cacheStory will cache the given Story and its comments into redis for fast
+  retrieval avoiding Mongo resources to load the story data.
+  """
+  cacheStory(input: CacheStoryInput!): CacheStoryPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  invalidateCachedStory will invalidate any cached data for a story whose stream
+  may be cached in redis.
+  """
+  invalidateCachedStory(
+    input: InvalidateCachedStoryInput!
+  ): InvalidateCachedStoryPayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  flushRedis flushes the redis instance.
+  """
+  flushRedis(input: FlushRedisInput!): FlushRedisPayload! @auth(roles: [ADMIN])
 }
 
 ##################

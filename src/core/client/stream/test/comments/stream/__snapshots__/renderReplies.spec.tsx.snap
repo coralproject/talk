@@ -53,7 +53,7 @@ exports[`renders reply list 1`] = `
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
             >
               <button
-                aria-label="Collapse comment thread"
+                aria-label="Hide comment by Markus and its replies"
                 className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -65,7 +65,7 @@ exports[`renders reply list 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
                 >
                   remove
                 </i>
@@ -87,6 +87,7 @@ exports[`renders reply list 1`] = `
                       >
                         <button
                           aria-controls="username-popover-comment-with-replies"
+                          aria-label="User Markus"
                           className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -159,7 +160,7 @@ exports[`renders reply list 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm InReplyTo-icon"
+                        className="Icon-root Icon-sm coral coral-icon InReplyTo-icon"
                       >
                         reply
                       </i>
@@ -216,7 +217,7 @@ exports[`renders reply list 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ReactionButton-icon"
+                            className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                           >
                             thumb_up
                           </i>
@@ -243,7 +244,7 @@ exports[`renders reply list 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ReplyButton-icon"
+                            className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                           >
                             reply
                           </i>
@@ -272,7 +273,7 @@ exports[`renders reply list 1`] = `
                           >
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-sm PermalinkButton-icon"
+                              className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                             >
                               share
                             </i>
@@ -309,7 +310,7 @@ exports[`renders reply list 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ReportButton-icon"
+                            className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                           >
                             flag
                           </i>
@@ -379,7 +380,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                   >
                     <button
-                      aria-label="Collapse comment thread"
+                      aria-label="Hide comment by Isabelle and its replies"
                       className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -391,7 +392,7 @@ exports[`renders reply list 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                        className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
                       >
                         remove
                       </i>
@@ -413,6 +414,7 @@ exports[`renders reply list 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-3"
+                                aria-label="User Isabelle"
                                 className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -485,7 +487,7 @@ exports[`renders reply list 1`] = `
                           >
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-sm InReplyTo-icon"
+                              className="Icon-root Icon-sm coral coral-icon InReplyTo-icon"
                             >
                               reply
                             </i>
@@ -542,7 +544,7 @@ exports[`renders reply list 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReactionButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                                 >
                                   thumb_up
                                 </i>
@@ -569,7 +571,7 @@ exports[`renders reply list 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReplyButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                                 >
                                   reply
                                 </i>
@@ -598,7 +600,7 @@ exports[`renders reply list 1`] = `
                                 >
                                   <i
                                     aria-hidden="true"
-                                    className="Icon-root Icon-sm PermalinkButton-icon"
+                                    className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                   >
                                     share
                                   </i>
@@ -635,7 +637,7 @@ exports[`renders reply list 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReportButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                                 >
                                   flag
                                 </i>
@@ -699,7 +701,7 @@ exports[`renders reply list 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
                   >
                     <button
-                      aria-label="Collapse comment thread"
+                      aria-label="Hide comment by Isabelle and its replies"
                       className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -711,7 +713,7 @@ exports[`renders reply list 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                        className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
                       >
                         remove
                       </i>
@@ -733,6 +735,7 @@ exports[`renders reply list 1`] = `
                             >
                               <button
                                 aria-controls="username-popover-comment-4"
+                                aria-label="User Isabelle"
                                 className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                                 onBlur={[Function]}
                                 onClick={[Function]}
@@ -805,7 +808,7 @@ exports[`renders reply list 1`] = `
                           >
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-sm InReplyTo-icon"
+                              className="Icon-root Icon-sm coral coral-icon InReplyTo-icon"
                             >
                               reply
                             </i>
@@ -862,7 +865,7 @@ exports[`renders reply list 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReactionButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                                 >
                                   thumb_up
                                 </i>
@@ -889,7 +892,7 @@ exports[`renders reply list 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReplyButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                                 >
                                   reply
                                 </i>
@@ -918,7 +921,7 @@ exports[`renders reply list 1`] = `
                                 >
                                   <i
                                     aria-hidden="true"
-                                    className="Icon-root Icon-sm PermalinkButton-icon"
+                                    className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                                   >
                                     share
                                   </i>
@@ -955,7 +958,7 @@ exports[`renders reply list 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm ReportButton-icon"
+                                  className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                                 >
                                   flag
                                 </i>
@@ -1022,7 +1025,7 @@ exports[`renders reply list 1`] = `
               className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
             >
               <button
-                aria-label="Collapse comment thread"
+                aria-label="Hide comment by Isabelle and its replies"
                 className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -1034,7 +1037,7 @@ exports[`renders reply list 1`] = `
               >
                 <i
                   aria-hidden="true"
-                  className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
                 >
                   remove
                 </i>
@@ -1056,6 +1059,7 @@ exports[`renders reply list 1`] = `
                       >
                         <button
                           aria-controls="username-popover-comment-5"
+                          aria-label="User Isabelle"
                           className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -1128,7 +1132,7 @@ exports[`renders reply list 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm InReplyTo-icon"
+                        className="Icon-root Icon-sm coral coral-icon InReplyTo-icon"
                       >
                         reply
                       </i>
@@ -1185,7 +1189,7 @@ exports[`renders reply list 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ReactionButton-icon"
+                            className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                           >
                             thumb_up
                           </i>
@@ -1212,7 +1216,7 @@ exports[`renders reply list 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ReplyButton-icon"
+                            className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                           >
                             reply
                           </i>
@@ -1241,7 +1245,7 @@ exports[`renders reply list 1`] = `
                           >
                             <i
                               aria-hidden="true"
-                              className="Icon-root Icon-sm PermalinkButton-icon"
+                              className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                             >
                               share
                             </i>
@@ -1278,7 +1282,7 @@ exports[`renders reply list 1`] = `
                         >
                           <i
                             aria-hidden="true"
-                            className="Icon-root Icon-sm ReportButton-icon"
+                            className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                           >
                             flag
                           </i>

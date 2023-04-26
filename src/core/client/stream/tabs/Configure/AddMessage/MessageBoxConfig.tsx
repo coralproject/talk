@@ -28,6 +28,10 @@ import {
 
 import styles from "./MessageBoxConfig.css";
 
+export interface Props {
+  autoFocus?: boolean;
+}
+
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment MessageBoxConfig_formValues on StorySettings {
@@ -39,7 +43,7 @@ graphql`
   }
 `;
 
-const MessageBoxConfig: FunctionComponent = () => (
+const MessageBoxConfig: FunctionComponent<Props> = ({ autoFocus }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Field name="messageBox.icon" parse={parseEmptyAsNull} format={formatEmpty}>
       {({ input: iconInput }) => (
@@ -153,6 +157,8 @@ const MessageBoxConfig: FunctionComponent = () => (
                 <Suspense fallback={<Spinner />}>
                   <MarkdownEditor
                     id="configure-messageBox-content"
+                    /* eslint-disable-next-line jsx-a11y/no-autofocus*/
+                    autoFocus={autoFocus}
                     data-testid="configure-messageBox-content"
                     name={contentInput.name}
                     onChange={contentInput.onChange}

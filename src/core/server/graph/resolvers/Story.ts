@@ -38,6 +38,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   closedAt: (s, input, ctx) => story.getStoryClosedAt(ctx.tenant, s) || null,
   isArchiving: (s, input, ctx) => story.isStoryArchiving(s),
   isArchived: (s, input, ctx) => story.isStoryArchived(s),
+  isUnarchiving: (s, input, ctx) => story.isStoryUnarchiving(s),
   commentActionCounts: (s) => decodeActionCounts(s.commentCounts.action),
   commentCounts: (s): CommentCountsInput => s,
   // Merge tenant settings into the story settings so we can easily inherit the
@@ -90,5 +91,8 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
 
     // Return the computed count!
     return ctx.loaders.Stories.viewerCount(s.siteID, s.id);
+  },
+  cached: async (s, input, ctx) => {
+    return ctx.cache.comments.isCached(s.tenantID, s.id);
   },
 };

@@ -10,7 +10,7 @@ import SiteSearch from "coral-admin/components/SiteSearch";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { FieldSet, HorizontalGutter, Label } from "coral-ui/components/v2";
 
-import { USER_ROLE } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
+import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
 import { dedupe } from "./helpers";
 import UserStatusSitesListSelectedSiteQuery from "./UserStatusSitesListSelectedSiteQuery";
@@ -22,11 +22,6 @@ interface ScopeSite {
   readonly name: string;
 }
 
-export interface Scopes {
-  role: USER_ROLE;
-  sites?: ScopeSite[] | null;
-}
-
 export interface UserBanStatus {
   sites: ReadonlyArray<ScopeSite> | null;
   active: boolean | null;
@@ -36,19 +31,21 @@ interface Props {
   readonly userBanStatus?: UserBanStatus;
   banState: [string[], (siteIDs: string[]) => void];
   unbanState: [string[], (siteIDs: string[]) => void];
-  viewerScopes: Scopes;
+  viewer: UserStatusChangeContainer_viewer;
 }
 
 const UserStatusSitesList: FunctionComponent<Props> = ({
-  viewerScopes,
+  viewer,
   userBanStatus,
   banState: [banSiteIDs, setBanSiteIDs],
   unbanState: [unbanSiteIDs, setUnbanSiteIDs],
 }) => {
-  const viewerIsScoped = !!viewerScopes.sites && viewerScopes.sites.length > 0;
+  const viewerIsScoped =
+    !!viewer.moderationScopes?.sites &&
+    viewer.moderationScopes.sites.length > 0;
   const viewerScopesSiteIDs = useMemo(() => {
-    return viewerScopes.sites?.map((site) => site.id);
-  }, [viewerScopes.sites]);
+    return viewer.moderationScopes?.sites?.map((site) => site.id);
+  }, [viewer.moderationScopes]);
 
   const initiallyBanned = useCallback(
     (siteID: string) => !!userBanStatus?.sites?.some(({ id }) => id === siteID),
@@ -62,7 +59,9 @@ const UserStatusSitesList: FunctionComponent<Props> = ({
       .concat(unbanSiteIDs);
 
     if (viewerIsScoped) {
-      all = all.concat(viewerScopes.sites!.map((scopeSite) => scopeSite.id));
+      all = all.concat(
+        viewer.moderationScopes!.sites!.map((scopeSite) => scopeSite.id)
+      );
     }
 
     return dedupe(all);

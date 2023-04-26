@@ -2,7 +2,7 @@
 
 exports[`render popup 1`] = `
 <div
-  className="ReportCommentForm-root"
+  className="ReportCommentForm-root coral coral-reportPopover"
   data-testid="report-comment-form"
   role="none"
 >
@@ -225,7 +225,7 @@ exports[`render popup 1`] = `
 
 exports[`render popup expanded 1`] = `
 <div
-  className="ReportCommentForm-root"
+  className="ReportCommentForm-root coral coral-reportPopover"
   data-testid="report-comment-form"
   role="none"
 >
@@ -485,7 +485,7 @@ exports[`report comment as offensive 1`] = `
           className="Box-root Flex-root Flex-flex Flex-alignFlexStart gutter Flex-spacing-1"
         >
           <button
-            aria-label="Collapse comment thread"
+            aria-label="Hide comment by Markus and its replies"
             className="BaseButton-root IndentedComment-toggleButton coral coral-comment-collapse-toggle"
             onBlur={[Function]}
             onClick={[Function]}
@@ -497,7 +497,7 @@ exports[`report comment as offensive 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
+              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root IndentedComment-icon coral coral-comment-collapse-toggle-icon"
             >
               remove
             </i>
@@ -519,6 +519,7 @@ exports[`report comment as offensive 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-0"
+                      aria-label="User Markus"
                       className="BaseButton-root CommentContainer-usernameButton coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -610,7 +611,7 @@ exports[`report comment as offensive 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReactionButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -637,7 +638,7 @@ exports[`report comment as offensive 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReplyButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReplyButton-icon"
                       >
                         reply
                       </i>
@@ -666,7 +667,7 @@ exports[`report comment as offensive 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm PermalinkButton-icon"
+                          className="Icon-root Icon-sm coral coral-icon PermalinkButton-icon"
                         >
                           share
                         </i>
@@ -693,7 +694,7 @@ exports[`report comment as offensive 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReportButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReportButton-icon"
                       >
                         flag
                       </i>
@@ -717,7 +718,7 @@ exports[`report comment as offensive 1`] = `
         >
           <i
             aria-hidden="true"
-            className="Icon-root Icon-sm"
+            className="Icon-root Icon-sm coral coral-icon"
           >
             check_circle
           </i>
@@ -754,7 +755,7 @@ exports[`report comment as offensive 1`] = `
           >
             <i
               aria-hidden="true"
-              className="Icon-root Icon-sm"
+              className="Icon-root Icon-sm coral coral-icon"
             >
               close
             </i>

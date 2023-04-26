@@ -4,7 +4,7 @@ import { GQLUserMembershipScopesTypeResolver } from "core/server/graph/schema/__
 
 export const UserMembershipScopes: GQLUserMembershipScopesTypeResolver<user.UserMembershipScopes> =
   {
-    scoped: ({ siteIDs }) => !!siteIDs?.length,
+    scoped: ({ scoped, siteIDs }) => scoped || !!siteIDs?.length,
     sites: ({ siteIDs }, _, ctx) => {
       if (siteIDs) {
         return ctx.loaders.Sites.site.loadMany(siteIDs);

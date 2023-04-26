@@ -47,6 +47,7 @@ interface Props {
   onChange: (value: string) => void;
   value: string;
   toolbar?: ToolbarItem[];
+  autoFocus?: boolean;
 }
 
 const MarkdownEditor: FunctionComponent<Props> = ({
@@ -55,6 +56,7 @@ const MarkdownEditor: FunctionComponent<Props> = ({
   onChange,
   value,
   toolbar,
+  autoFocus = false,
   ...rest
 }) => {
   const getMessage = useGetMessage();
@@ -193,6 +195,7 @@ const MarkdownEditor: FunctionComponent<Props> = ({
       const editorSetup = new SimpleMDE({
         ...config,
         element: textarea,
+        autofocus: autoFocus,
       });
       // Don't trap the key, to stay accessible.
       editorSetup.codemirror.options.extraKeys.Tab = false;
@@ -206,6 +209,7 @@ const MarkdownEditor: FunctionComponent<Props> = ({
   }, [textarea]);
 
   useEffect(() => {
+    // Remove mde on dismount
     return () => {
       if (editor) {
         editor.toTextArea();

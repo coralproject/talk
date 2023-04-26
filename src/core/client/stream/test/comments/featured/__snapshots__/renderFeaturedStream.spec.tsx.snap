@@ -40,7 +40,7 @@ exports[`renders comment stream 1`] = `
           <div>
             <i
               aria-hidden="true"
-              className="Icon-root Icon-lg"
+              className="Icon-root Icon-lg coral coral-icon"
             >
               forum
             </i>
@@ -72,12 +72,12 @@ exports[`renders comment stream 1`] = `
             className="Box-root Flex-root coral coral-viewerBox Flex-flex Flex-wrap Flex-alignCenter"
           >
             <span
-              className="UserBoxUnauthenticated-joinText"
+              className="UserBoxUnauthenticated-joinText coral coral-viewerBox-joinText"
             >
               Join the conversation
             </span>
             <div
-              className="UserBoxUnauthenticated-actions"
+              className="UserBoxUnauthenticated-actions coral coral-viewerBox-actionButtons"
             >
               <button
                 className="BaseButton-root Button-base Button-filled Button-fontSizeExtraSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeExtraSmall Button-colorPrimary Button-upperCase UserBoxUnauthenticated-register coral coral-viewerBox-registerButton"
@@ -124,7 +124,7 @@ exports[`renders comment stream 1`] = `
               className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
             >
               <div
-                className="PostCommentFormFake-rteContainer"
+                className="PostCommentFormFake-rteContainer coral coral-rte-fake-container"
               >
                 <div
                   role="none"
@@ -166,7 +166,7 @@ exports[`renders comment stream 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-md"
+                          className="Icon-root Icon-md coral coral-icon"
                         >
                           format_bold
                         </i>
@@ -186,7 +186,7 @@ exports[`renders comment stream 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-md"
+                          className="Icon-root Icon-md coral coral-icon"
                         >
                           format_italic
                         </i>
@@ -206,7 +206,7 @@ exports[`renders comment stream 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-md"
+                          className="Icon-root Icon-md coral coral-icon"
                         >
                           format_quote
                         </i>
@@ -226,7 +226,7 @@ exports[`renders comment stream 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-md"
+                          className="Icon-root Icon-md coral coral-icon"
                         >
                           format_list_bulleted
                         </i>
@@ -257,7 +257,7 @@ exports[`renders comment stream 1`] = `
         >
           <nav
             aria-label="Secondary Tablist"
-            className="Box-root Flex-root StreamContainer-tabBarRow Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
+            className="Box-root Flex-root StreamContainer-tabBarRow coral coral-tabBarSecondary-row Flex-flex Flex-justifySpaceBetween Flex-alignFlexEnd Flex-directionRow"
           >
             <ul
               className="TabBar-root TabBar-streamSecondary coral coral-tabBarSecondary coral-tabBarComments StreamContainer-tabBarRoot"
@@ -339,7 +339,7 @@ exports[`renders comment stream 1`] = `
                   >
                     <i
                       aria-hidden="true"
-                      className="Icon-root Icon-sm"
+                      className="Icon-root Icon-sm coral coral-icon"
                     >
                       info
                     </i>
@@ -453,7 +453,7 @@ exports[`renders comment stream 1`] = `
                 >
                   <i
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-sm coral coral-icon"
                   >
                     expand_more
                   </i>
@@ -511,6 +511,7 @@ exports[`renders comment stream 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-0"
+                      aria-label="User Markus"
                       className="BaseButton-root coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -582,7 +583,7 @@ exports[`renders comment stream 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReactionButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -595,6 +596,7 @@ exports[`renders comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <a
+                        aria-label="Go to this featured comment by user Markus in the main comment stream"
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
                         data-variant="flat"
                         disabled={false}
@@ -608,7 +610,7 @@ exports[`renders comment stream 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm FeaturedCommentContainer-icon"
+                          className="Icon-root Icon-sm coral coral-icon FeaturedCommentContainer-icon"
                         >
                           forum
                         </i>
@@ -658,6 +660,7 @@ exports[`renders comment stream 1`] = `
                   >
                     <button
                       aria-controls="username-popover-comment-1"
+                      aria-label="User Lukas"
                       className="BaseButton-root coral coral-username coral-comment-username"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -729,7 +732,7 @@ exports[`renders comment stream 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm ReactionButton-icon"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -742,6 +745,7 @@ exports[`renders comment stream 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-alignCenter"
                     >
                       <a
+                        aria-label="Go to this featured comment by user Lukas in the main comment stream"
                         className="BaseButton-root Button-base Button-flat Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold coral coral-featuredComment-goToConversationButton FeaturedCommentContainer-gotoConversation"
                         data-variant="flat"
                         disabled={false}
@@ -755,7 +759,7 @@ exports[`renders comment stream 1`] = `
                       >
                         <i
                           aria-hidden="true"
-                          className="Icon-root Icon-sm FeaturedCommentContainer-icon"
+                          className="Icon-root Icon-sm coral coral-icon FeaturedCommentContainer-icon"
                         >
                           forum
                         </i>
