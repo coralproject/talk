@@ -1,0 +1,231 @@
+{% import "macros.html" as macros %} {% extends "templates/base.html" %} {%
+block meta %}
+<base href="/" />
+{% if defaultFontsCSS %} {{ macros.css(defaultFontsCSS.src,
+defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
+%} {{ macros.css(asset.src, asset.integrity, staticURI) }} {% endfor %}
+<style>
+  svg {
+    height: 14px;
+    width: 14px;
+    margin-right: var(--spacing-1);
+  }
+  .coral-commentEmbed {
+    background-color: var(--palette-grey-100);
+    padding: var(--spacing-2);
+  }
+  .coral-comment-username {
+    font-family: var(--font-family-secondary);
+    font-weight: bold;
+    font-size: var(--font-size-4);
+    margin-right: var(--spacing-2);
+  }
+  .coral-comment-topBar {
+    display: flex;
+    margin: 0 0 calc(0.5 * var(--mini-unit)) 0;
+    justify-content: space-between;
+  }
+  .coral-comment-avatar {
+    align-self: flex-end;
+  }
+  .coral-comment-avatar img {
+    height: 24px;
+    width: 24px;
+  }
+  .coral-comment-leftActions {
+    align-items: center;
+    display: flex;
+  }
+  .coral-comment-actionBar {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-2);
+  }
+  .coral-comment-goToConversation {
+    align-self: flex-end;
+    padding: var(--spacing-1);
+    display: flex;
+    align-items: center;
+  }
+  .coral-comment-reactButton {
+    padding: var(--spacing-1);
+    display: flex;
+    align-items: center;
+  }
+  .coral-comment-replyButton {
+    padding: var(--spacing-1);
+    display: flex;
+    align-items: center;
+  }
+  .coral-comment-content {
+    font-family: var(--font-family-primary);
+    font-style: normal;
+    font-weight: var(--font-weight-primary-regular);
+    font-size: var(--font-size-3);
+    line-height: 1.45;
+    color: var(--palette-text-500);
+    word-wrap: break-word;
+    margin: 0 0 calc(1.5 * var(--mini-unit)) 0;
+  }
+  .coral-comment-timestamp {
+    font-family: var(--font-family-primary);
+    font-style: normal;
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-size: var(--font-size-2);
+    color: var(--palette-grey-500);
+  }
+  body {
+    margin: 0;
+  }
+</style>
+{% if customFontsCSSURL %}
+<link href="{{customFontsCSSURL}}" rel="stylesheet" />
+{% endif %} {% if customCSSURL %}
+<link href="{{customCSSURL}}" rel="stylesheet" />
+{% endif %} {% endblock %} {% block body %}
+<div id="coral">
+  <div class="coral coral-commentEmbed">
+    <!-- TODO: make reacted only have no if there are some reactions -->
+    <div
+      class="coral coral-comment coral-reacted-{{ comment.actionCounts.REACTION }}"
+    >
+      <div class="coral coral-comment-topBar">
+        <div class="coral coral-comment-leftActions">
+          <div class="coral coral-username coral-comment-username">
+            {% block commentAuthor %} {{ commentAuthor.username }} {% endblock
+            %}
+          </div>
+          <div class="coral coral-timestamp coral-comment-timestamp">
+            {{ formattedCreatedAt }}
+          </div>
+        </div>
+        {% if commentAuthor.avatar%}
+        <div class="coral coral-comment-avatar">
+          <img src="{{commentAuthor.avatar}}" />
+        </div>
+        {% endif %}
+      </div>
+      <div class="coral coral-content coral-comment-content">
+        {% block commentRevision %} {{ commentRevision.body | safe }} {% if
+        mediaUrl %}<iframe src="{{mediaUrl}}"></iframe>{% endif %} {% if
+        giphyMedia %} {% if giphyMedia.video %}
+        <!-- TODO: Handle case where width/height undefined -->
+        <video
+          width="{{giphyMedia.width}}"
+          height="{{giphyMedia.height}}"
+          autoplay
+          loop
+          playsinline
+          muted
+        >
+          <source src="{{giphyMedia.video}}" type="video/mp4" />
+        </video>
+        {% else %}
+        <!-- TODO: Handle no title. Also need to find an image to test with, all seem to be videos -->
+        <img
+          src="{{giphyMedia.url}}"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+          alt="{{giphyMedia.title}}"
+        />
+        {% endif %} {% endif %} {% endblock %}
+      </div>
+      <div class="coral coral-comment-actionBar">
+        <div class="coral coral-comment-leftActions">
+          <div class="coral coral-reactButton coral-comment-reactButton">
+            {% block rec %}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="-0.25 -0.25 24.5 24.5"
+              stroke-width="2"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-miterlimit="10"
+                d="M20.25 12.4299H21.45C22.45 12.4299 23.25 13.2299 23.25 14.2299C23.25 15.2299 22.45 16.0299 21.45 16.0299H20.25"
+              ></path>
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-miterlimit="10"
+                d="M20.25 19.6299H20.55C21.55 19.6299 22.35 18.8299 22.35 17.8299C22.35 16.8299 21.55 16.0299 20.55 16.0299H20.25"
+              ></path>
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-miterlimit="10"
+                d="M20.2499 12.4299H20.9499C21.9499 12.4299 22.7499 11.6299 22.7499 10.6299C22.7499 9.62993 21.9499 8.82995 20.9499 8.82995H20.2499H14.9499L15.0499 8.62993C16.0499 6.92993 16.6499 4.92995 16.7499 2.82995C16.8499 2.12995 16.5499 1.52993 15.9499 1.12993C15.5499 0.829933 15.1499 0.829921 14.6499 0.929921C14.1499 1.02992 13.7499 1.32994 13.5499 1.72994C11.5104 5.29895 10.1527 9.80017 6.6499 12.3299H4.25"
+              ></path>
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-miterlimit="10"
+                d="M20.25 19.6299H19.55C20.65 19.6299 21.45 20.5299 21.25 21.6299C21.15 22.5299 20.35 23.1299 19.45 23.1299H12.95C12.55 23.1299 12.05 23.1299 11.65 23.0299L6.35 22.1299H4.25"
+              ></path>
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-miterlimit="10"
+                d="M4.25 10.6299H0.75V23.1299H4.25V10.6299Z"
+              ></path>
+            </svg>
+            Rec {{ comment.actionCounts.REACTION }} {% endblock %}
+          </div>
+          {% if includeInteractions === true %}
+          <div class="coral coral-comment-replyButton">
+            {% block reply %}
+            <svg
+              viewBox="-0.25 -0.25 24.5 24.5"
+              xmlns="http://www.w3.org/2000/svg"
+              stroke-width="2"
+            >
+              <path
+                d="M9.709,6.837a1.5,1.5,0,0,0-2.6-1.018L1.648,11.733a1.5,1.5,0,0,0,0,2.034l5.458,5.914a1.5,1.5,0,0,0,2.6-1.018V15.75h6a7.5,7.5,0,0,1,7.5,7.5v-6a7.5,7.5,0,0,0-7.5-7.5h-6Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+            Reply{% endblock %}
+          </div>
+        </div>
+        <div class="coral coral-comment-goToConversation">
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke-width="2"
+          >
+            <path
+              d="M21.75,8.25h-12l-4.5,4.5V8.25h-3a1.5,1.5,0,0,1-1.5-1.5V2.25A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v4.5A1.5,1.5,0,0,1,21.75,8.25Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+            <path
+              d="M2.25,11.25a1.5,1.5,0,0,0-1.5,1.5v4.5a1.5,1.5,0,0,0,1.5,1.5h12l4.5,4.5v-4.5h3a1.5,1.5,0,0,0,1.5-1.5v-4.5a1.5,1.5,0,0,0-1.5-1.5H11.25"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+          Go to conversation{% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {# Include all the scripts from the entrypoint #} {% if
+entrypoint.js %} {% block js %} {% for asset in entrypoint.js %} {{
+macros.js(asset.src, asset.integrity, staticURI) }} {% endfor %} {% endblock %}
+{% endif %}
