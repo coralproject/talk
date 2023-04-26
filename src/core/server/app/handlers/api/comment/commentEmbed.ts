@@ -5,6 +5,7 @@ import { createDateFormatter } from "coral-common/date";
 import { AppOptions } from "coral-server/app";
 import { createManifestLoader } from "coral-server/app/helpers/manifestLoader";
 import { validate } from "coral-server/app/request/body";
+import { constructTenantURL } from "coral-server/app/url";
 import { retrieveComment } from "coral-server/models/comment";
 import { retrieveUser } from "coral-server/models/user";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
@@ -44,6 +45,8 @@ export const commentEmbedJSONPHandler =
       const customFontsCSSURL = tenant.customFontsCSSURL;
       const customCSSURL = tenant.customCSSURL;
       const staticURI = config.get("static_uri");
+
+      const tenantURL = constructTenantURL(config, tenant);
 
       // Ensure we have something to query with.
       const { commentID, ref, interactions }: CommentEmbedJSONPQuery = validate(
@@ -132,6 +135,7 @@ export const commentEmbedJSONPHandler =
             customCSSURL,
             staticURI,
             giphyMedia,
+            tenantURL,
           });
         }
       }

@@ -28,6 +28,11 @@ function createCommentEmbedElementEnhancer({
       target.appendChild(customFontsLink);
     }
 
+    // Remove any styles applied by style attribute for simple comment embed
+    target.removeAttribute("style");
+    // Remove class attribute added to style simple comment embed
+    target.classList.remove("coral-comment-embed-simple");
+
     const div = window.document.createElement("div");
     target.appendChild(div);
     const shadowRoot = div.attachShadow({ mode: "open" });

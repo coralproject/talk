@@ -1,72 +1,43 @@
-{% import "macros.html" as macros %}
-{% extends "templates/base.html" %}
-
-{% block meta %}
-  <base href="/" />
-  {# Insert the link preload tags here. #}
-  {% if entrypoint.css %}
-    {% for asset in entrypoint.css %}
-      {{ macros.preload(asset.src, "style", prefix = staticURI) }}
-    {% endfor %}
-  {% endif %}
-  {% if entrypoint.js %}
-    {% for asset in entrypoint.js %}
-      {{ macros.preload(asset.src, "script", prefix = staticURI) }}
-    {% endfor %}
-  {% endif %}
-{% endblock %}
-
-{% block css %}
-  {% if entrypoint.css %}
-    {% for asset in entrypoint.css %}
-      {{ macros.css(asset.src, asset.integrity, staticURI) }}
-    {% endfor %}
-  {% endif %}
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
+{% import "macros.html" as macros %} {% extends "templates/base.html" %} {%
+block meta %}
+<base href="/" />
+{# Insert the link preload tags here. #} {% if entrypoint.css %} {% for asset in
+entrypoint.css %} {{ macros.preload(asset.src, "style", prefix = staticURI) }}
+{% endfor %} {% endif %} {% if entrypoint.js %} {% for asset in entrypoint.js %}
+{{ macros.preload(asset.src, "script", prefix = staticURI) }} {% endfor %} {%
+endif %} {% endblock %} {% block css %} {% if entrypoint.css %} {% for asset in
+entrypoint.css %} {{ macros.css(asset.src, asset.integrity, staticURI) }} {%
+endfor %} {% endif %}
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+  }
+  {% if html %}
+    .container * {
+      margin: 0 !important;
     }
-    {% if html %}
-      .container * {
-        margin: 0 !important;
+    {% if ratio %}
+      .container {
+        overflow: hidden;
+        position: relative;
+        padding-bottom: {{ ratio }}%;
       }
-      {% if ratio %}
-        .container {
-          overflow: hidden;
-          position: relative;
-          padding-bottom: {{ ratio }}%;
-        }
 
-        .container iframe {
-          border: 0;
-          height: 100%;
-          left: 0;
-          position: absolute;
-          top: 0;
-          width: 100%;
-        }
-      {% endif %}
+      .container iframe {
+        border: 0;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
     {% endif %}
-  </style>
-{% endblock %}
-
-{% block body %}
-  {% if message %}
-    {{ message }}
-  {% elif html %}
-    <div class="container">
-      {{ html | safe }}
-    </div>
   {% endif %}
-{% endblock %}
-
-{# Include all the scripts from the entrypoint #}
-{% if entrypoint.js %}
-  {% block js %}
-    {% for asset in entrypoint.js %}
-      {{ macros.js(asset.src, asset.integrity, staticURI) }}
-    {% endfor %}
-  {% endblock %}
+</style>
+{% endblock %} {% block body %} {% if message %} {{ message }} {% elif html %}
+<div class="container">{{ html | safe }}</div>
+{% endif %} {% endblock %} {# Include all the scripts from the entrypoint #} {%
+if entrypoint.js %} {% block js %} {% for asset in entrypoint.js %} {{
+macros.js(asset.src, asset.integrity, staticURI) }} {% endfor %} {% endblock %}
 {% endif %}
-
