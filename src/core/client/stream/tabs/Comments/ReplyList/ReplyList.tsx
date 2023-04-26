@@ -37,6 +37,7 @@ export interface ReplyListProps {
   onViewNew?: () => void;
   allowIgnoredTombstoneReveal?: boolean;
   showRemoveAnswered?: boolean;
+  refreshStream: boolean | null;
 }
 
 const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
@@ -64,6 +65,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = (props) => {
           showRemoveAnswered={props.showRemoveAnswered}
           showConversationLink={comment.showConversationLink}
           replyListElement={comment.replyListElement}
+          refreshStream={props.refreshStream}
         />
       ))}
       {props.hasMore && (

@@ -44,6 +44,8 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { WordListCategory } from "../comments/pipeline/phases/wordList/message";
+import { WordListService } from "../comments/pipeline/phases/wordList/service";
 import TenantCache from "./cache/cache";
 
 export type UpdateTenant = GQLSettingsInput;
@@ -80,6 +82,7 @@ export async function update(
   redis: Redis,
   cache: TenantCache,
   config: Config,
+  wordList: WordListService,
   tenant: Tenant,
   user: User,
   input: UpdateTenant
@@ -94,10 +97,33 @@ export async function update(
     delete input.live.enabled;
   }
 
-  // If the word list was specified, we should validate it to ensure there isn't
-  // any empty spaces.
   if (input.wordList) {
+    // If the word list was specified, we should validate it to ensure there isn't
+    // any empty spaces.
     input.wordList = cleanWordLists(input.wordList);
+
+    if (input.wordList.banned) {
+      const result = await wordList.initialize(
+        tenant.id,
+        tenant.locale,
+        WordListCategory.Banned,
+        input.wordList.banned
+      );
+      if (!result) {
+        throw new Error("unable to update banned word list");
+      }
+    }
+    if (input.wordList.suspect) {
+      const result = await wordList.initialize(
+        tenant.id,
+        tenant.locale,
+        WordListCategory.Suspect,
+        input.wordList.suspect
+      );
+      if (!result) {
+        throw new Error("unable to update suspect word list");
+      }
+    }
   }
 
   // Whenever the settings are updated, log who performed the update and what
