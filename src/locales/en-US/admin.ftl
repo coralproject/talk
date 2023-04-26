@@ -1488,7 +1488,11 @@ storyInfoDrawerSettings-moderationMode-post = Post
 storyInfoDrawerSettings-update = Update
 storyInfoDrawer-storyStatus-archiving = Archiving
 storyInfoDrawer-storyStatus-archived = Archived
-
+storyInfoDrawer-cacheStory-recache = Recache story
+storyInfoDrawer-cacheStory-recaching = Recaching
+storyInfoDrawer-cacheStory-cached = Cached
+storyInfoDrawer-cacheStory-uncacheStory = Uncache story
+storyInfoDrawer-cacheStory-uncaching = Uncaching
 
 ## Invite
 
@@ -1756,3 +1760,9 @@ conversation-modal-commentNotFound = Comment not found.
 conversation-modal-showMoreReplies = Show more replies
 conversation-modal-header-title = Conversation on:
 conversation-modal-header-moderate-link = Moderate story
+
+# Control panel
+
+controlPanel-redis-redis = Redis
+controlPanel-redis-flushRedis = Flush Redis
+controlPanel-redis-flush = Flush

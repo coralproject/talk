@@ -60,7 +60,7 @@ const rootComment = denormalizeComment(
                             ...baseComment,
                             id: "my-comment-3",
                             body: "body 3",
-                            replyCount: 0,
+                            replyCount: 1,
                             replies: {
                               ...baseComment.replies,
                               edges: [

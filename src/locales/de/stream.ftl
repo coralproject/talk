@@ -580,7 +580,7 @@ profile-account-notifications-sendNotifications-daily = Täglich
 profile-account-notifications-sendNotifications-hourly = Stündlich
 profile-account-notifications-updated = Ihre Benachrichtigungseinstellungen wurden aktualisiert.
 profile-account-notifications-button = Benachrichtigungseinstellungen aktualisieren
-profile-account-notifications-buttonon-update = Aktualisieren
+profile-account-notifications-button-update = Aktualisieren
 
 ## Report Comment Popover
 comments-reportPopover =
@@ -788,7 +788,7 @@ suspendInfo-heading-yourAccountHasBeen =
   Ihr Benutzerkonto wurde vorübergehend für Kommentare gesperrt.
 ## suspendInfo-info =
 suspendInfo-description-inAccordanceWith =
-  In Übereinstimmung mit den Community-Richtlinien von { $organisation } wurde Ihr Benutzerkonto vorübergehend gesperrt. Während der Sperrung können Sie keine Kommentare verfassen, Reaktionen verwenden oder Kommentare melden.
+  In Übereinstimmung mit den Community-Richtlinien von { $organization } wurde Ihr Benutzerkonto vorübergehend gesperrt. Während der Sperrung können Sie keine Kommentare verfassen, Reaktionen verwenden oder Kommentare melden.
 suspendInfo-until-pleaseRejoinThe =
   Bitte nehmen Sie bis { $until } wieder an der Unterhaltung teil.
 

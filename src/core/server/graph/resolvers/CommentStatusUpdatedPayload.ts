@@ -7,6 +7,6 @@ export const CommentStatusUpdatedPayload: GQLCommentStatusUpdatedPayloadTypeReso
   {
     moderator: ({ moderatorID }, args, ctx) =>
       moderatorID ? ctx.loaders.Users.user.load(moderatorID) : null,
-    comment: ({ commentID }, args, ctx, info) =>
-      maybeLoadOnlyID(ctx, info, commentID),
+    comment: ({ commentID, storyID }, args, ctx, info) =>
+      maybeLoadOnlyID(ctx, info, storyID, commentID),
   };

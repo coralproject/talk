@@ -4,6 +4,8 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitLocalUpdatePromisified,
   createMutation,
+  LOCAL_ID,
+  lookup,
 } from "coral-framework/lib/relay";
 import { ShowMoreRepliesEvent } from "coral-stream/events";
 
@@ -57,7 +59,8 @@ const ReplyListViewNewMutation = createMutation(
         return;
       }
       const connectionKey = "ReplyList_replies";
-      const filters = { orderBy: "CREATED_AT_ASC" };
+      const refreshStream = !!lookup(environment, LOCAL_ID).refreshStream;
+      const filters = { orderBy: "CREATED_AT_ASC", refreshStream };
       const connection = ConnectionHandler.getConnection(
         parentProxy,
         connectionKey,

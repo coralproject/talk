@@ -366,7 +366,7 @@ export function retrieveRejectedCommentUserConnection(
  * the live or the archived comments databases.
  * @returns a connection of comments.
  */
-export function retrieveCommentStoryConnection(
+export async function retrieveCommentStoryConnection(
   mongo: MongoContext,
   tenantID: string,
   storyID: string,
@@ -374,12 +374,14 @@ export function retrieveCommentStoryConnection(
   isArchived?: boolean
 ) {
   const collection = getCollection(mongo, isArchived);
-  return retrieveCommentStoryConnectionModel(
+  const conn = await retrieveCommentStoryConnectionModel(
     collection,
     tenantID,
     storyID,
     input
   );
+
+  return conn;
 }
 
 /**
