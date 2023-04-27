@@ -8,7 +8,7 @@ import { Sites } from "./Sites";
 import { Stories } from "./Stories";
 import { Users } from "./Users";
 
-export default (ctx: GraphContext) => ({
+const root = (ctx: GraphContext) => ({
   Actions: Actions(ctx),
   Comments: Comments(ctx),
   Settings: Settings(ctx),
@@ -17,3 +17,5 @@ export default (ctx: GraphContext) => ({
   Sites: Sites(ctx),
   Redis: Redis(ctx),
 });
+
+export default root;

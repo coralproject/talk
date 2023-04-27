@@ -4,7 +4,7 @@ import { hasFeatureFlag } from "coral-server/models/tenant";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
-import { GQLFEATURE_FLAG } from "core/client/framework/schema/__generated__/types";
+import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 
 import { CommentActionsCache } from "./commentActionsCache";
 import { CommentCache } from "./commentCache";

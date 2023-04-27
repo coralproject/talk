@@ -60,6 +60,7 @@ export const Settings = ({
   tenantCache,
   tenant,
   config,
+  wordList,
   now,
   mailerQueue,
   user,
@@ -67,7 +68,16 @@ export const Settings = ({
   update: (
     input: WithoutMutationID<GQLUpdateSettingsInput>
   ): Promise<Tenant | null> =>
-    update(mongo, redis, tenantCache, config, tenant, user!, input.settings),
+    update(
+      mongo,
+      redis,
+      tenantCache,
+      config,
+      wordList,
+      tenant,
+      user!,
+      input.settings
+    ),
   rotateSSOSigningSecret: ({ inactiveIn }: GQLRotateSSOSigningSecretInput) =>
     rotateSSOSigningSecret(mongo, redis, tenantCache, tenant, inactiveIn, now),
   deleteSSOSigningSecret: ({ kid }: GQLDeleteSSOSigningSecretInput) =>
