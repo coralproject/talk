@@ -291,7 +291,7 @@ export const Comments = (ctx: GraphContext) => ({
     markAllAsSeen,
   }: WithoutMutationID<GQLMarkCommentsAsSeenInput>) => {
     if (ctx.user) {
-      await markSeen(
+      const result = await markSeen(
         ctx.mongo,
         ctx.cache,
         ctx.tenant.id,
@@ -301,10 +301,22 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.now,
         markAllAsSeen
       );
-    }
 
-    const comments =
-      (await ctx.loaders.Comments.comment.loadMany(commentIDs)) ?? [];
-    return comments;
+      if (result) {
+        const ids: string[] = [];
+        Object.entries(result.comments).forEach(([id]) => ids.push(id));
+        const comments =
+          (await ctx.loaders.Comments.comment.loadMany(ids)) ?? [];
+        return comments;
+      } else {
+        const comments =
+          (await ctx.loaders.Comments.comment.loadMany(commentIDs)) ?? [];
+        return comments;
+      }
+    } else {
+      const comments =
+        (await ctx.loaders.Comments.comment.loadMany(commentIDs)) ?? [];
+      return comments;
+    }
   },
 });

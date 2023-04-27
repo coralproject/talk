@@ -25,7 +25,7 @@ export async function markSeen(
   now: Date,
   markAllAsSeen?: boolean
 ) {
-  await markSeenComments(
+  return await markSeenComments(
     mongo,
     cache,
     tenantID,
