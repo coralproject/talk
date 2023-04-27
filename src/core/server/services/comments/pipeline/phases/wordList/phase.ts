@@ -1,35 +1,33 @@
 import { ACTION_TYPE } from "coral-server/models/action/comment";
-import {
-  IntermediateModerationPhase,
-  IntermediatePhaseResult,
-} from "coral-server/services/comments/pipeline";
 
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { WordList } from "../wordList";
+import {
+  IntermediateModerationPhase,
+  IntermediatePhaseResult,
+} from "../../pipeline";
+import { WordListCategory } from "./message";
 
-// Create a new wordlist instance to use.
-const list = new WordList();
-
-// This phase checks the comment against the wordList.
-export const wordList: IntermediateModerationPhase = ({
+export const wordListPhase: IntermediateModerationPhase = async ({
   config,
   tenant,
   comment,
-}): IntermediatePhaseResult | void => {
+  wordList,
+}): Promise<IntermediatePhaseResult | void> => {
   // If there isn't a body, there can't be a bad word!
   if (!comment.body) {
     return;
   }
 
-  // Get the timeout to use.
-  const timeout = config.get("word_list_timeout");
+  const banned = await wordList.process(
+    tenant.id,
+    WordListCategory.Banned,
+    comment.body
+  );
 
-  // Test the comment for banned words.
-  const banned = list.test(tenant, "banned", timeout, comment.body);
   if (banned.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
@@ -61,8 +59,11 @@ export const wordList: IntermediateModerationPhase = ({
     };
   }
 
-  // Test the comment for suspect words.
-  const suspect = list.test(tenant, "suspect", timeout, comment.body);
+  const suspect = await wordList.process(
+    tenant.id,
+    WordListCategory.Suspect,
+    comment.body
+  );
 
   if (tenant.premoderateSuspectWords && suspect.isMatched) {
     return {
