@@ -1,11 +1,13 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
-import BanModal from "./BanModal";
+
+import { QueryRenderer } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import { BanModalQuery as QueryTypes } from "coral-admin/__generated__/BanModalQuery.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
-import { QueryRenderer } from "coral-framework/lib/relay";
-import { QueryError } from "coral-ui/components/v3";
+
+import BanModal from "./BanModal";
 
 export interface Props {
   userID: string;
