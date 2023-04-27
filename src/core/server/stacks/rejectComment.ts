@@ -101,7 +101,10 @@ const rejectComment = async (
     return tagResult;
   }
 
-  await cache.comments.remove(result.after);
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.comments.remove(result.after);
+  }
 
   // Return the resulting comment.
   return result.after;

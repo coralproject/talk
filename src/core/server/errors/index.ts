@@ -999,3 +999,23 @@ export class UsernameAlreadyExists extends CoralError {
     });
   }
 }
+
+export class UnableToUpdateStoryURL extends CoralError {
+  constructor(cause: MongoError, id: string, oldUrl: string, url: string) {
+    super({
+      cause,
+      reportable: true,
+      code: ERROR_CODES.UNABLE_TO_UPDATE_STORY_URL,
+      context: { pvt: { id, oldUrl, url } },
+    });
+  }
+}
+
+export class DataCachingNotAvailableError extends CoralError {
+  constructor(tenantID: string) {
+    super({
+      code: ERROR_CODES.DATA_CACHING_NOT_AVAILABLE,
+      context: { pub: { tenantID } },
+    });
+  }
+}

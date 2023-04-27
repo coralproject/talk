@@ -3,12 +3,15 @@ import { Logger } from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { AugmentedRedis } from "coral-server/services/redis";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
+
+import { dataCacheAvailable, IDataCache } from "./dataCache";
 
 const REDIS_SUPPORTED_SORTS = [
   GQLCOMMENT_SORT.CREATED_AT_ASC,
@@ -21,7 +24,7 @@ export interface Filter {
   statuses?: GQLCOMMENT_STATUS[];
 }
 
-export class CommentCache {
+export class CommentCache implements IDataCache {
   private disableLocalCaching: boolean;
   private expirySeconds: number;
 
@@ -31,16 +34,19 @@ export class CommentCache {
 
   private commentsByKey: Map<string, Readonly<Comment>>;
   private membersLookup: Map<string, string[]>;
+  private tenantCache: TenantCache | null;
 
   constructor(
     mongo: MongoContext,
     redis: AugmentedRedis,
+    tenantCache: TenantCache | null,
     logger: Logger,
     disableLocalCaching: boolean,
     expirySeconds: number
   ) {
     this.mongo = mongo;
     this.redis = redis;
+    this.tenantCache = tenantCache;
 
     this.logger = logger.child({ dataCache: "CommentCache" });
 
@@ -49,6 +55,10 @@ export class CommentCache {
 
     this.commentsByKey = new Map<string, Readonly<Comment>>();
     this.membersLookup = new Map<string, string[]>();
+  }
+
+  public async available(tenantID: string): Promise<boolean> {
+    return dataCacheAvailable(this.tenantCache, tenantID);
   }
 
   public computeLockKey(tenantID: string, storyID: string) {

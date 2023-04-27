@@ -14,23 +14,30 @@ async function createTestRenderer() {
     replies: createSinonStub(
       (s) => s.throws(),
       (s) =>
-        s.withArgs({ first: 10, orderBy: "CREATED_AT_ASC" }).returns({
-          edges: [
-            {
-              node: comments[1],
-              cursor: comments[1].createdAt,
+        s
+          .withArgs({
+            first: 10,
+            orderBy: "CREATED_AT_ASC",
+            refreshStream: false,
+          })
+          .returns({
+            edges: [
+              {
+                node: comments[1],
+                cursor: comments[1].createdAt,
+              },
+            ],
+            pageInfo: {
+              endCursor: comments[1].createdAt,
+              hasNextPage: true,
             },
-          ],
-          pageInfo: {
-            endCursor: comments[1].createdAt,
-            hasNextPage: true,
-          },
-        }),
+          }),
       (s) =>
         s
           .withArgs({
             first: sinon.match((n) => n > 10000),
             orderBy: "CREATED_AT_ASC",
+            refreshStream: false,
             after: comments[1].createdAt,
           })
           .returns({
