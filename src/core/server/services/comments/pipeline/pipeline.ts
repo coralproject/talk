@@ -24,6 +24,7 @@ import {
 
 import { mergePhaseResult } from "./helpers";
 import { moderationPhases } from "./phases";
+import { WordListService } from "./phases/wordList/service";
 
 export type ModerationAction = Omit<
   CreateActionInput,
@@ -63,6 +64,7 @@ export interface ModerationPhaseContextInput {
   readonly mongo: MongoContext;
   readonly redis: AugmentedRedis;
   readonly config: Config;
+  readonly wordList: WordListService;
   readonly log: Logger;
   readonly story: Readonly<Story>;
   readonly tenant: Readonly<Tenant>;

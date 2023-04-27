@@ -69,7 +69,7 @@ describe("with recently changed username", () => {
     const changeUsername = await screen.findByTestId("profile-changeUsername");
     within(changeUsername).getByText("u_changed");
     const editButton = within(changeUsername).getByRole("button", {
-      name: "Change",
+      name: "Change username",
     });
     userEvent.click(editButton);
     const form = within(changeUsername).queryByTestId(
@@ -104,7 +104,7 @@ describe("with new username", () => {
 
     within(changeUsername).getByText("u_original");
     const editButton = within(changeUsername).getByRole("button", {
-      name: "Change",
+      name: "Change username",
     });
     userEvent.click(editButton);
     expect(await axe(changeUsername)).toHaveNoViolations();
@@ -151,7 +151,7 @@ describe("change username form", () => {
   it("ensures username field is required", async () => {
     const changeUsername = await screen.findByTestId("profile-changeUsername");
     const editButton = within(changeUsername).getByRole("button", {
-      name: "Change",
+      name: "Change username",
     });
     userEvent.click(editButton);
     const saveChanges = within(changeUsername).getByRole("button", {
@@ -163,7 +163,7 @@ describe("change username form", () => {
   it("ensures username confirmation matches", async () => {
     const changeUsername = await screen.findByTestId("profile-changeUsername");
     const editButton = within(changeUsername).getByRole("button", {
-      name: "Change",
+      name: "Change username",
     });
     userEvent.click(editButton);
     const username = within(changeUsername).getByRole("textbox", {
@@ -183,7 +183,7 @@ describe("change username form", () => {
   it("updates username if fields are valid", async () => {
     const changeUsername = await screen.findByTestId("profile-changeUsername");
     const editButton = within(changeUsername).getByRole("button", {
-      name: "Change",
+      name: "Change username",
     });
     userEvent.click(editButton);
     const username = within(changeUsername).getByRole("textbox", {
