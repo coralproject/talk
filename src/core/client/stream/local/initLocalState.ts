@@ -165,5 +165,6 @@ export const createInitLocalState: (options: Options) => InitLocalState =
       localRecord.setValue(autoArchiveOlderThanMs, "autoArchiveOlderThanMs");
 
       localRecord.setValue(false, "showCommentIDs");
+      localRecord.setValue(false, "refreshStream");
     });
   };

@@ -1492,7 +1492,11 @@ storyInfoDrawerSettings-moderationMode-post = Post
 storyInfoDrawerSettings-update = Update
 storyInfoDrawer-storyStatus-archiving = Archiving
 storyInfoDrawer-storyStatus-archived = Archived
-
+storyInfoDrawer-cacheStory-recache = Recache story
+storyInfoDrawer-cacheStory-recaching = Recaching
+storyInfoDrawer-cacheStory-cached = Cached
+storyInfoDrawer-cacheStory-uncacheStory = Uncache story
+storyInfoDrawer-cacheStory-uncaching = Uncaching
 
 ## Invite
 
@@ -1703,7 +1707,7 @@ dashboard-alltime-rejections-archiveEnabled = { $value } { $unit ->
     }
     *[other] unknown unit
   } average
-dashboard-today-staff-comments = Staff comments
+dashboard-today-staffPlus-comments = Staff+ comments
 dashboard-alltime-staff-comments = All time total
 dashboard-alltime-staff-comments-archiveEnabled = { $value } { $unit ->
     [second] { $value ->
@@ -1760,3 +1764,9 @@ conversation-modal-commentNotFound = Comment not found.
 conversation-modal-showMoreReplies = Show more replies
 conversation-modal-header-title = Conversation on:
 conversation-modal-header-moderate-link = Moderate story
+
+# Control panel
+
+controlPanel-redis-redis = Redis
+controlPanel-redis-flushRedis = Flush Redis
+controlPanel-redis-flush = Flush

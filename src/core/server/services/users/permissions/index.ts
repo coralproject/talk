@@ -22,11 +22,7 @@ const userShouldBeDemotedToCommenter: PermissionsActionSideEffectTest = ({
   newUserRole,
   scopeDeletions,
 }) => {
-  if (
-    !scopeDeletions ||
-    (newUserRole !== GQLUSER_ROLE.MODERATOR &&
-      newUserRole !== GQLUSER_ROLE.MEMBER)
-  ) {
+  if (!newUserRole || !scopeDeletions) {
     return;
   }
 
@@ -40,23 +36,32 @@ const userShouldBeDemotedToCommenter: PermissionsActionSideEffectTest = ({
   );
 
   if (noneRemaining) {
-    return (mongo: MongoContext, tenantID: string) =>
-      updateUserRole(mongo, tenantID, user.id, GQLUSER_ROLE.COMMENTER);
+    const demoteToCommenter = (mongo: MongoContext, tenantID: string) =>
+      updateUserRole(mongo, tenantID, user.id, GQLUSER_ROLE.COMMENTER, false);
+    return demoteToCommenter;
   }
 
   return async () => null;
 };
 
 const userShouldHaveModerationScopesRemoved: PermissionsActionSideEffectTest =
-  ({ user, newUserRole }) => {
-    if (isSiteModerator(user) && newUserRole !== GQLUSER_ROLE.MODERATOR) {
-      return (mongo: MongoContext, tenantID: string) =>
+  ({ user, newUserRole, scopeDeletions }) => {
+    const isSiteMod = isSiteModerator(user);
+    const newRole = newUserRole !== GQLUSER_ROLE.MODERATOR;
+    const allScopesDeleted = !!user.moderationScopes?.siteIDs?.every((id) =>
+      scopeDeletions?.includes(id)
+    );
+    const userHadScopes = !!user.moderationScopes?.siteIDs;
+    if (isSiteMod && (newRole || allScopesDeleted) && userHadScopes) {
+      const removeModerationScopes = (mongo: MongoContext, tenantID: string) =>
         pullUserSiteModerationScopes(
           mongo,
           tenantID,
           user.id,
-          user.moderationScopes.siteIDs
+          user.moderationScopes!.siteIDs!
         );
+
+      return removeModerationScopes;
     }
 
     return undefined;
@@ -64,14 +69,20 @@ const userShouldHaveModerationScopesRemoved: PermissionsActionSideEffectTest =
 
 const userShouldHaveMembershipScopesRemoved: PermissionsActionSideEffectTest =
   ({ user, newUserRole }) => {
-    if (isSiteMember(user) && newUserRole !== GQLUSER_ROLE.MEMBER) {
-      return (mongo: MongoContext, tenantID: string) =>
+    if (
+      isSiteMember(user) &&
+      newUserRole !== GQLUSER_ROLE.MEMBER &&
+      !!user.membershipScopes.siteIDs
+    ) {
+      const removeMembershipScopes = (mongo: MongoContext, tenantID: string) =>
         pullUserMembershipScopes(
           mongo,
           tenantID,
           user.id,
-          user.membershipScopes.siteIDs
+          user.membershipScopes.siteIDs!
         );
+
+      return removeMembershipScopes;
     }
 
     return async () => null;

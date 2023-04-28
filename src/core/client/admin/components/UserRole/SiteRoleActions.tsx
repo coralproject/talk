@@ -108,6 +108,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     await changeRole({
       userID: user.id,
       role: GQLUSER_ROLE.COMMENTER,
+      scoped: false,
     });
 
     setIsPopoverVisible(false);
@@ -156,6 +157,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     viewer,
     user,
     newUserRole: GQLUSER_ROLE.COMMENTER,
+    scoped: false,
   });
 
   // These are sites that only the viewer can moderate, and not the user.
@@ -180,6 +182,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     user,
     newUserRole: GQLUSER_ROLE.MEMBER,
     scopeAdditions: membershipSitesToGive,
+    scoped: true,
   });
 
   const canPromoteToModerator = validatePermissionsAction({
@@ -187,6 +190,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
     user,
     newUserRole: GQLUSER_ROLE.MODERATOR,
     scopeAdditions: moderationSitesToGive,
+    scoped: true,
   });
 
   // If the user is a site moderator and some of the sites on the user are the
@@ -198,6 +202,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
       user,
       newUserRole: GQLUSER_ROLE.MODERATOR,
       scopeDeletions: moderationSitesToRemove,
+      scoped: true,
     });
 
   // If the user is a site moderator, staff, or commenter and some of the sites
@@ -209,6 +214,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
       user,
       newUserRole: GQLUSER_ROLE.MODERATOR,
       scopeAdditions: moderationSitesToGive,
+      scoped: true,
     });
 
   const canPromoteMember =
@@ -218,6 +224,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
       user,
       newUserRole: GQLUSER_ROLE.MEMBER,
       scopeAdditions: membershipSitesToGive,
+      scoped: true,
     });
   const canDemoteMember =
     !!membershipSitesToRemove.length &&
@@ -226,6 +233,7 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
       user,
       newUserRole: GQLUSER_ROLE.MEMBER,
       scopeDeletions: membershipSitesToRemove,
+      scoped: true,
     });
 
   const canPerformActions =
