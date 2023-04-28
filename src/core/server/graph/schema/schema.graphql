@@ -2074,6 +2074,11 @@ type Settings @cacheControl(maxAge: 30) {
   reaction: ReactionConfiguration!
 
   """
+  featuredBy specifies whether or not to display 'Featured by' for featured comments
+  """
+  featuredBy: Boolean
+
+  """
   staff specifies the configuration for the user badges assigned to users with
   any role above COMMENTER
   """
@@ -5635,6 +5640,11 @@ input SettingsInput {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfigurationInput
+
+  """
+  featuredBy specifies whether or not the "Featured by" featured is enabled
+  """
+  featuredBy: Boolean
 
   """
   badges specifies the configuration for user badges assigned to users with

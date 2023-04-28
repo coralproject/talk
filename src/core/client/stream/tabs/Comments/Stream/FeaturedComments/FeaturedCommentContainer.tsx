@@ -7,7 +7,7 @@ import { getURLWithCommentID } from "coral-framework/helpers";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { useMutation } from "coral-framework/lib/relay";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { GQLSTORY_MODE, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLSTORY_MODE, GQLTAG, GQLUSER_STATUS } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
@@ -75,7 +75,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
   );
 
   const featuringUser = comment.tags.find(
-    (tag) => tag.code === "FEATURED"
+    (tag) => tag.code === GQLTAG.FEATURED
   )?.createdBy;
 
   const gotoConvAriaLabelId = comment.author?.username
@@ -100,7 +100,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
           </Hidden>
         </Localized>
         <HorizontalGutter>
-          {featuringUser?.username && (
+          {settings.featuredBy && featuringUser?.username && (
             <FeaturedBy username={featuringUser.username} />
           )}
           {isRatingsAndReviews && comment.rating && (
@@ -282,6 +282,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment FeaturedCommentContainer_settings on Settings {
+      featuredBy
       ...ReactionButtonContainer_settings
       ...UserTagsContainer_settings
       ...MediaSectionContainer_settings

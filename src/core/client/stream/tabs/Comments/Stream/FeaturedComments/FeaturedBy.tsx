@@ -9,7 +9,11 @@ interface Props {
 
 const FeaturedBy: FunctionComponent<Props> = ({ username }) => {
   return (
-    <Localized id="comments-featuredBy" vars={{ username }}>
+    <Localized
+      id="comments-featuredBy"
+      vars={{ username }}
+      elems={{ strong: <strong className={styles.name} /> }}
+    >
       <span className={styles.root}>
         featured by <strong className={styles.name}>{username}</strong>
       </span>
