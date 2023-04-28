@@ -1,5 +1,6 @@
 import { screen, within } from "@testing-library/react";
 import { pureMerge } from "coral-common/utils";
+
 import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
@@ -188,7 +189,7 @@ it("renders disabled reply when story is closed", async () => {
   expect(replyButton).toBeDisabled();
 });
 
-it.only("renders with tombstone when comment has been deleted", async () => {
+it("renders with tombstone when comment has been deleted", async () => {
   const storyFixture = storyWithDeletedComments;
   const { container } = await createTestRenderer({
     resolvers: {
