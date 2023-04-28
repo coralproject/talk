@@ -15,7 +15,7 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       -
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -96,6 +96,8 @@ jobs:
           tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
+          cache-from: type=registry,ref=${{ env.IMAGE_REPOSITORY }}/cache:latest
+          cache-to: type=inline
 # Build tag push the release candidate image when the branch name begins with release-
       -
         name: Build, Tag, Push RC
@@ -106,3 +108,5 @@ jobs:
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
+          cache-from: type=registry,ref=${{ env.IMAGE_REPOSITORY }}/cache:latest
+          cache-to: type=inline

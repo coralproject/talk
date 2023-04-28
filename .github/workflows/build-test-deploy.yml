@@ -124,6 +124,8 @@ jobs:
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}
           build-args: |
               REVISION_HASH=${{ env.GITHUB_SHA }}
+          cache-from: type=registry,ref=${{ env.IMAGE_REPOSITORY }}/cache:latest
+          cache-to: type=inline
       -
         name: Build, Tag, Push Minor Tag
         uses: docker/build-push-action@v3
@@ -132,6 +134,8 @@ jobs:
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}
           build-args: |
               REVISION_HASH=${{ env.GITHUB_SHA }}
+          cache-from: type=registry,ref=${{ env.IMAGE_REPOSITORY }}/cache:latest
+          cache-to: type=inline
       -
         name: Build, Tag, Push Patch Tag
         uses: docker/build-push-action@v3
@@ -140,6 +144,8 @@ jobs:
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}
           build-args: |
               REVISION_HASH=${{ env.GITHUB_SHA }}
+          cache-from: type=registry,ref=${{ env.IMAGE_REPOSITORY }}/cache:latest
+          cache-to: type=inline
       -
         name: Deploy Static Assets to GCS Bucket
         run: |
