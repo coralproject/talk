@@ -89,7 +89,7 @@ jobs:
 # Build tag push the image after a merge to develop
       -
         name: Build, Tag, Push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         if: github.ref == 'refs/heads/develop'
         with:
           push: true
@@ -101,7 +101,7 @@ jobs:
 # Build tag push the release candidate image when the branch name begins with release-
       -
         name: Build, Tag, Push RC
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         if: startsWith( github.ref, 'refs/heads/release-')
         with:
           push: true

@@ -20,7 +20,7 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       -
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -118,7 +118,7 @@ jobs:
           echo "PATCH_TAG=${MAJOR}.${MINOR}.${PATCH}" >> $GITHUB_ENV
       -
         name: Build, Tag, Push Major Tag
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}
@@ -128,7 +128,7 @@ jobs:
           cache-to: type=inline
       -
         name: Build, Tag, Push Minor Tag
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}
@@ -138,7 +138,7 @@ jobs:
           cache-to: type=inline
       -
         name: Build, Tag, Push Patch Tag
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}
