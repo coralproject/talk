@@ -359,16 +359,37 @@ export async function retrieveManyUserActionPresence(
   userID: string | null,
   commentIDs: string[]
 ): Promise<GQLActionPresence[]> {
-  const actionsFromCache = await commentActionsCache.findMany(
-    tenantID,
-    commentIDs
-  );
+  let actions: Readonly<CommentAction>[] = [];
 
-  const actions: Readonly<CommentAction>[] = [];
-  for (const action of actionsFromCache) {
-    if (action.userID === userID) {
-      actions.push(action);
+  const cacheAvailable = await commentActionsCache.available(tenantID);
+  if (cacheAvailable) {
+    const actionsFromCache = await commentActionsCache.findMany(
+      tenantID,
+      commentIDs
+    );
+
+    for (const action of actionsFromCache) {
+      if (action.userID === userID) {
+        actions.push(action);
+      }
     }
+  } else {
+    const cursor = mongo.commentActions().find(
+      {
+        tenantID,
+        userID,
+        commentID: { $in: commentIDs },
+      },
+      {
+        // We only need the commentID and actionType from the database.
+        projection: {
+          commentID: 1,
+          actionType: 1,
+        },
+      }
+    );
+
+    actions = await cursor.toArray();
   }
 
   // For each of the actions returned by the query, group the actions by the
