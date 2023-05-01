@@ -316,6 +316,8 @@ comments-refreshComments-refreshButton =
   .aria-label = Refresh comments
 comments-refreshQuestions-refreshButton =
   .aria-label = Refresh questions
+  comments-refreshReviews-refreshButton =
+  .aria-label = Refresh reviews
 
 comments-replyChangedWarning-theCommentHasJust =
   This comment has just been edited. The latest version is displayed above.
