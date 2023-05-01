@@ -221,14 +221,19 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
   }, [refreshStream]);
 
   const refreshCommentsLocalization =
-    story.settings.mode === GQLSTORY_MODE.COMMENTS
+    story.settings.mode === GQLSTORY_MODE.QA
       ? {
-          id: "comments-refreshComments-refreshButton",
-          text: "Refresh comments",
-        }
-      : {
           id: "comments-refreshQuestions-refreshButton",
           text: "Refresh questions",
+        }
+      : story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS
+      ? {
+          id: "comments-refreshReviews-refreshButton",
+          text: "Refresh reviews",
+        }
+      : {
+          id: "comments-refreshComments-refreshButton",
+          text: "Refresh comments",
         };
 
   const onChangeRating = useCallback(
