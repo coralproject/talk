@@ -6,7 +6,10 @@ import { AppOptions } from "coral-server/app";
 import { createManifestLoader } from "coral-server/app/helpers/manifestLoader";
 import { validate } from "coral-server/app/request/body";
 import { constructTenantURL } from "coral-server/app/url";
-import { retrieveComment } from "coral-server/models/comment";
+import {
+  retrieveComment,
+  updateCommentEmbeddedAt,
+} from "coral-server/models/comment";
 import { retrieveUser } from "coral-server/models/user";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
@@ -84,9 +87,16 @@ export const commentEmbedJSONPHandler =
           tenant.id,
           commentID
         );
+
         if (!comment) {
           // throw 404 Not Found
           throw new Error("Comment not found");
+        }
+
+        // update the comment with an embeddedAt timestamp if not already set
+        if (!comment.embeddedAt) {
+          const now = new Date();
+          void updateCommentEmbeddedAt(mongo, tenant.id, commentID, now);
         }
 
         if (comment.authorID) {

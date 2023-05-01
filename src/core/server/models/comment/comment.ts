@@ -156,6 +156,8 @@ export interface Comment extends TenantResource {
    * pagination or the initial load of stream comments.
    */
   seen?: boolean;
+
+  embeddedAt?: Date;
 }
 
 export type CreateCommentInput = Omit<
@@ -822,6 +824,42 @@ export interface UpdateCommentStatus {
    * after is the comment after editing the status.
    */
   after: Readonly<Comment>;
+}
+
+export async function updateCommentEmbeddedAt(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  embeddedAt: Date,
+  isArchived = false
+): Promise<UpdateCommentStatus | null> {
+  const coll =
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
+  const result = await coll.findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: { embeddedAt },
+    },
+    {
+      // True to return the original document instead of the updated
+      // document.
+      returnOriginal: true,
+    }
+  );
+  if (!result.value) {
+    return null;
+  }
+
+  return {
+    before: result.value,
+    after: {
+      ...result.value,
+      embeddedAt,
+    },
+  };
 }
 
 export async function updateCommentStatus(

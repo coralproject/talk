@@ -3831,6 +3831,11 @@ type Comment @cacheControl(maxAge: 5) {
   seen determines whether a comment has been seen by the user already.
   """
   seen: Boolean
+
+  """
+  embeddedAt is the date at which the comment was first embedded.
+  """
+  embeddedAt: Time
 }
 
 type PageInfo {
