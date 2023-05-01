@@ -35,6 +35,7 @@ interface Props {
   viewer: UnansweredCommentsTabContainer_viewer | null;
   relay: RelayPaginationProp;
   flattenReplies: boolean;
+  refreshStream: boolean | null;
 }
 
 export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
@@ -90,6 +91,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
       orderBy: commentsOrderBy,
       storyConnectionKey: "UnansweredStream_comments",
       tag: GQLTAG.UNANSWERED,
+      refreshStream,
     });
 
     return () => {
@@ -101,6 +103,7 @@ export const UnansweredCommentsTabContainer: FunctionComponent<Props> = (
     live,
     props.story.id,
     subscribeToCommentEntered,
+    refreshStream,
   ]);
 
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 20);
@@ -208,6 +211,7 @@ const enhanced = withPaginationContainer<
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         tag: { type: "TAG!", defaultValue: UNANSWERED }
+        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         id
         isClosed
@@ -221,19 +225,26 @@ const enhanced = withPaginationContainer<
             UNANSWERED
           }
         }
-        comments(first: $count, after: $cursor, orderBy: $orderBy, tag: $tag)
-          @connection(key: "UnansweredStream_comments") {
+        comments(
+          first: $count
+          after: $cursor
+          orderBy: $orderBy
+          tag: $tag
+          refreshStream: $refreshStream
+        ) @connection(key: "UnansweredStream_comments") {
           viewNewEdges {
             cursor
             node {
               id
               ...UnansweredCommentsTabCommentContainer_comment
+                @arguments(refreshStream: $refreshStream)
             }
           }
           edges {
             node {
               id
               ...UnansweredCommentsTabCommentContainer_comment
+                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -278,6 +289,7 @@ const enhanced = withPaginationContainer<
         storyID: props.story.id,
         tag: GQLTAG.UNANSWERED,
         flattenReplies: props.flattenReplies,
+        refreshStream: props.refreshStream,
       };
     },
     query: graphql`
@@ -289,10 +301,16 @@ const enhanced = withPaginationContainer<
         $orderBy: COMMENT_SORT!
         $storyID: ID
         $flattenReplies: Boolean!
+        $refreshStream: Boolean
       ) {
         story(id: $storyID) {
           ...UnansweredCommentsTabContainer_story
-            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+            @arguments(
+              count: $count
+              cursor: $cursor
+              orderBy: $orderBy
+              refreshStream: $refreshStream
+            )
         }
       }
     `,
