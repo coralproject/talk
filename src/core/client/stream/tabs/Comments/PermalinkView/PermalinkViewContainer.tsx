@@ -10,7 +10,6 @@ import React, {
 import { graphql } from "react-relay";
 
 import { parseQuery } from "coral-common/utils";
-import { parseURL } from "coral-framework/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
@@ -18,6 +17,7 @@ import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import { parseURL } from "coral-framework/utils";
 import CLASSES from "coral-stream/classes";
 import scrollToBeginning from "coral-stream/common/scrollToBeginning";
 import UserBoxContainer from "coral-stream/common/UserBox";
