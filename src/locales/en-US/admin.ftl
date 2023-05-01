@@ -504,8 +504,7 @@ configure-general-flattenReplies-explanation =
 
 configure-general-featuredBy-title = Featured by
 configure-general-featuredBy-enabled = Featured by enabled
-configure-general-featuredBy-explanation =
-  Toggles whether or not featured comments display the name of the staff member who featured the comment.
+configure-general-featuredBy-explanation = Add moderator name to featured comment display
 
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
