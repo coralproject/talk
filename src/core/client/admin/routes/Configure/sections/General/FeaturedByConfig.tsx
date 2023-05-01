@@ -34,8 +34,7 @@ const FeaturedByConfig: FunctionComponent<Props> = ({ disabled }) => (
   >
     <Localized id="configure-general-featuredBy-explanation">
       <FormFieldDescription>
-        Toggles whether or not featured comments display the name of the staff
-        member who featured the comment.
+        Add moderator name to featured comment display
       </FormFieldDescription>
     </Localized>
     <FormField container={<FieldSet />}>
