@@ -51,6 +51,7 @@ export const Comments = (ctx: GraphContext) => ({
       createComment(
         ctx.mongo,
         ctx.redis,
+        ctx.wordList,
         ctx.cache,
         ctx.config,
         ctx.broker,
@@ -80,6 +81,7 @@ export const Comments = (ctx: GraphContext) => ({
       editComment(
         ctx.mongo,
         ctx.redis,
+        ctx.wordList,
         ctx.cache,
         ctx.config,
         ctx.broker,

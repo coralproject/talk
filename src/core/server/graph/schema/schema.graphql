@@ -561,6 +561,12 @@ enum FEATURE_FLAG {
   an external profile for a user.
   """
   CONFIGURE_PUBLIC_PROFILE_URL
+
+  """
+  DATA_CACHE will allow the use of the data cache to store and load comments,
+  users, and commentActions more quickly. It is disabled by default.
+  """
+  DATA_CACHE
 }
 
 # The moderation mode of the site.
@@ -3731,6 +3737,7 @@ type Comment @cacheControl(maxAge: 5) {
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
     flatten: Boolean
+    refreshStream: Boolean
   ): CommentsConnection!
 
   """
@@ -4113,6 +4120,7 @@ type Story @cacheControl(maxAge: 30) {
     first: Int = 20 @constraint(max: 99999)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+    refreshStream: Boolean
 
     """
     rating allows filtering for comments with a specific rating. If this feature
@@ -7480,7 +7488,6 @@ input ModerationScopesInput {
   scoped is whether or not the user's moderation
   priveledges are limited to specified sites
   """
-
   scoped: Boolean!
 
   """
@@ -8861,6 +8868,21 @@ type InvalidateCachedStoryPayload {
 }
 
 ##################
+## Redis
+##################
+
+input FlushRedisInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type FlushRedisPayload {
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -9548,8 +9570,9 @@ type Mutation {
   refreshStoryCounts will recompute the cached counts for a story based on
   which flags are set to recompute in the operation input.
   """
-  refreshStoryCounts(input: RefreshStoryCountsInput!): RefreshStoryCountsPayload!
-    @auth(roles: [ADMIN])
+  refreshStoryCounts(
+    input: RefreshStoryCountsInput!
+  ): RefreshStoryCountsPayload! @auth(roles: [ADMIN])
 
   """
   cacheStory will cache the given Story and its comments into redis for fast
@@ -9562,8 +9585,14 @@ type Mutation {
   invalidateCachedStory will invalidate any cached data for a story whose stream
   may be cached in redis.
   """
-  invalidateCachedStory(input: InvalidateCachedStoryInput!): InvalidateCachedStoryPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+  invalidateCachedStory(
+    input: InvalidateCachedStoryInput!
+  ): InvalidateCachedStoryPayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  flushRedis flushes the redis instance.
+  """
+  flushRedis(input: FlushRedisInput!): FlushRedisPayload! @auth(roles: [ADMIN])
 }
 
 ##################

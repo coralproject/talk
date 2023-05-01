@@ -56,6 +56,7 @@ import {
   PhaseResult,
   processForModeration,
 } from "coral-server/services/comments/pipeline";
+import { WordListService } from "coral-server/services/comments/pipeline/phases/wordList/service";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
@@ -195,6 +196,7 @@ const validateRating = async (
 export default async function create(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  wordList: WordListService,
   cache: DataCache,
   config: Config,
   broker: CoralEventPublisherBroker,
@@ -304,6 +306,7 @@ export default async function create(
       mongo,
       redis,
       config,
+      wordList,
       tenant,
       story,
       storyMode,
@@ -443,16 +446,19 @@ export default async function create(
     after: comment,
   });
 
-  await cache.comments.update(comment);
-  if (comment.authorID) {
-    await cache.users.populateUsers(tenant.id, [comment.authorID]);
-  }
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.comments.update(comment);
+    if (comment.authorID) {
+      await cache.users.populateUsers(tenant.id, [comment.authorID]);
+    }
 
-  if (parent) {
-    await cache.comments.update(parent);
+    if (parent) {
+      await cache.comments.update(parent);
 
-    if (parent.authorID) {
-      await cache.users.populateUsers(tenant.id, [parent.authorID]);
+      if (parent.authorID) {
+        await cache.users.populateUsers(tenant.id, [parent.authorID]);
+      }
     }
   }
 

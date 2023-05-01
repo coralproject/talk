@@ -1,5 +1,3 @@
 module.exports = {
-  projects: [
-    "<rootDir>/jest/client.other.config.js",
-  ],
+  projects: ["<rootDir>/jest/client.other.config.js"],
 };

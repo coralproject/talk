@@ -6,4 +6,4 @@ module.exports = {
   ...baseConfig,
   displayName: "client",
   roots: ["<rootDir>/src/core/client"],
-}
+};
