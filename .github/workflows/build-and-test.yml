@@ -90,9 +90,9 @@ jobs:
       -
         name: Build, Tag, Push
         uses: docker/build-push-action@v4
-        if: github.ref == 'refs/heads/develop'
+        # if: github.ref == 'refs/heads/develop'
         with:
-          push: true
+          # push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
