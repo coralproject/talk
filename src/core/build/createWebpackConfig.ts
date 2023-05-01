@@ -219,7 +219,7 @@ export default function createWebpackConfig(
             safari10: true,
           },
           cache: enableBuildCache,
-          parallel: 4,
+          parallel: 2,
           sourceMap: !disableSourcemaps,
         }),
       ],
