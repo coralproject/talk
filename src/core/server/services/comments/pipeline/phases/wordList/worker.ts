@@ -62,23 +62,12 @@ const process = (
   const listKey = computeWordListKey(tenantID, category);
   const list = lists.get(listKey);
 
-  if (!list) {
-    return {
-      id,
-      tenantID,
-      ok: false,
-    };
-  }
-
   if (!list || list.regex === null) {
     return {
       id,
       tenantID,
-      ok: true,
-      data: {
-        isMatched: false,
-        matches: [],
-      },
+      ok: false,
+      err: new Error("word list for tenant not found"),
     };
   }
 
