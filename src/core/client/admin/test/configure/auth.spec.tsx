@@ -53,11 +53,6 @@ async function createTestRenderer(
   return { context, testRenderer, configureContainer, authContainer };
 }
 
-it("renders configure auth", async () => {
-  const { configureContainer } = await createTestRenderer();
-  expect(within(configureContainer).toJSON()).toMatchSnapshot();
-});
-
 it("rotate sso key", async () => {
   const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({

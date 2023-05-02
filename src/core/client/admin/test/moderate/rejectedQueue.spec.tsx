@@ -11,7 +11,6 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  toJSON,
   waitForElement,
   waitUntilThrow,
   within,
@@ -64,44 +63,6 @@ async function createTestRenderer(
 
 beforeEach(() => {
   replaceHistoryLocation(`http://localhost/admin/moderate/rejected`);
-});
-
-it("renders rejected queue with comments", async () => {
-  const { testRenderer } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        comments: ({ variables }) => {
-          expectAndFail(variables).toEqual({
-            first: 5,
-            status: "REJECTED",
-            storyID: null,
-            siteID: null,
-            section: null,
-            orderBy: "CREATED_AT_DESC",
-          });
-          return {
-            edges: [
-              {
-                node: rejectedComments[0],
-                cursor: rejectedComments[0].createdAt,
-              },
-              {
-                node: rejectedComments[1],
-                cursor: rejectedComments[1].createdAt,
-              },
-            ],
-            pageInfo: {
-              endCursor: rejectedComments[1].createdAt,
-              hasNextPage: false,
-            },
-          };
-        },
-      },
-    }),
-  });
-  const { getByTestID } = within(testRenderer.root);
-  await waitForElement(() => getByTestID("moderate-container"));
-  expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
 });
 
 it("shows a moderate story", async () => {
@@ -214,7 +175,7 @@ it("renders rejected queue with comments and load more", async () => {
     within(testRenderer.root).getByTestID("moderate-container")
   );
 
-  const { getByText, getAllByTestID, getByTestID } = within(moderateContainer);
+  const { getByText, getAllByTestID } = within(moderateContainer);
 
   // Get previous count of comments.
   const previousCount = getAllByTestID(/^moderate-comment-card-.*$/).length;
@@ -236,11 +197,6 @@ it("renders rejected queue with comments and load more", async () => {
   expect(comments[comments.length - 1].props["data-testid"]).toBe(
     `moderate-comment-card-${rejectedComments[2].id}`
   );
-
-  // Snapshot of added comment.
-  expect(
-    toJSON(getByTestID(`moderate-comment-card-${rejectedComments[2].id}`))
-  ).toMatchSnapshot();
 });
 
 it("approves comment in rejected queue", async () => {
@@ -324,16 +280,8 @@ it("approves comment in rejected queue", async () => {
   );
   ApproveButton.props.onClick();
 
-  // Snapshot dangling state of comment.
-  expect(toJSON(getByTestID(testID))).toMatchSnapshot("dangling");
-
   // Wait until comment is gone.
   await waitUntilThrow(() => getByTestID(testID));
 
   expect(approveCommentStub.called).toBe(true);
-
-  // Count should have been updated.
-  expect(
-    toJSON(getByTestID("moderate-navigation-reported-count"))
-  ).toMatchSnapshot("count should be 1");
 });

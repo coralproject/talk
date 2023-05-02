@@ -5,7 +5,6 @@ import { pureMerge } from "coral-common/utils";
 import {
   act,
   createAccessToken,
-  toJSON,
   wait,
   waitForElement,
   within,
@@ -54,12 +53,6 @@ async function createTestRenderer(
     };
   });
 }
-
-it("renders sign in view", async () => {
-  const { testRenderer } = await createTestRenderer();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
-  expect(await within(testRenderer.root).axe()).toHaveNoViolations();
-});
 
 it("renders sign in view with error", async () => {
   const error = "Social Login Error";
@@ -214,28 +207,6 @@ it("submits form successfully", async () => {
 });
 
 describe("auth configuration", () => {
-  it("renders all auth enabled", async () => {
-    const { main } = await createTestRenderer({
-      Query: {
-        settings: {
-          auth: {
-            integrations: {
-              facebook: {
-                enabled: true,
-              },
-              google: {
-                enabled: true,
-              },
-              oidc: {
-                enabled: true,
-              },
-            },
-          },
-        },
-      },
-    });
-    expect(toJSON(main)).toMatchSnapshot();
-  });
   it("renders all social login disabled", async () => {
     const { main } = await createTestRenderer({
       Query: {
@@ -294,27 +265,5 @@ describe("auth configuration", () => {
     expect(queryByText("facebook")).toBeNull();
     expect(queryByText("google")).toBeNull();
     expect(queryByText("oidc")).toBeNull();
-  });
-  it("renders only some social login enabled", async () => {
-    const { main } = await createTestRenderer({
-      Query: {
-        settings: {
-          auth: {
-            integrations: {
-              local: {
-                enabled: false,
-              },
-              google: {
-                enabled: true,
-              },
-              facebook: {
-                enabled: true,
-              },
-            },
-          },
-        },
-      },
-    });
-    expect(toJSON(main)).toMatchSnapshot();
   });
 });

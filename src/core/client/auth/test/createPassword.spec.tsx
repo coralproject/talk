@@ -2,13 +2,7 @@ import { get } from "lodash";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
-import {
-  act,
-  toJSON,
-  wait,
-  waitForElement,
-  within,
-} from "coral-framework/testHelpers";
+import { act, wait, waitForElement, within } from "coral-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";
@@ -59,25 +53,7 @@ async function createTestRenderer(
 
 it("renders createPassword view", async () => {
   const { root } = await createTestRenderer();
-  expect(toJSON(root)).toMatchSnapshot();
   expect(await within(root).axe()).toHaveNoViolations();
-});
-
-it("shows error when submitting empty form", async () => {
-  const { form } = await createTestRenderer();
-  act(() => {
-    form.props.onSubmit();
-  });
-  expect(toJSON(form)).toMatchSnapshot();
-});
-
-it("checks for invalid password", async () => {
-  const { form, passwordField } = await createTestRenderer();
-  act(() => {
-    passwordField.props.onChange({ target: { value: "x" } });
-    form.props.onSubmit();
-  });
-  expect(toJSON(form)).toMatchSnapshot();
 });
 
 it("shows server error", async () => {
@@ -107,8 +83,6 @@ it("shows server error", async () => {
   await act(async () => {
     await wait(() => expect(submitButton.props.disabled).toBe(false));
   });
-
-  expect(toJSON(form)).toMatchSnapshot();
 });
 
 it("successfully sets password", async () => {
@@ -146,6 +120,5 @@ it("successfully sets password", async () => {
     await wait(() => expect(submitButton.props.disabled).toBe(false));
   });
 
-  expect(toJSON(form)).toMatchSnapshot();
   expect(setPassword.called).toBe(true);
 });

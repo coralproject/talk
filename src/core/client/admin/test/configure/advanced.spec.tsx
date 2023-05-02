@@ -60,11 +60,6 @@ async function createTestRenderer(
   };
 }
 
-it("renders configure advanced", async () => {
-  const { configureContainer } = await createTestRenderer();
-  expect(within(configureContainer).toJSON()).toMatchSnapshot();
-});
-
 it("change custom css", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {

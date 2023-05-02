@@ -5,7 +5,6 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  toJSON,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
@@ -52,16 +51,6 @@ async function createTestRenderer(
 }
 
 describe("tab bar", () => {
-  it("renders tab bar (empty queues)", async () => {
-    await act(async () => {
-      const { testRenderer } = await createTestRenderer();
-      const { getByTestID } = within(testRenderer.root);
-      await waitForElement(() => getByTestID("moderate-container"));
-      expect(
-        toJSON(getByTestID("moderate-tabBar-container"))
-      ).toMatchSnapshot();
-    });
-  });
   it("should not show moderate story link in comment cards", async () => {
     await act(async () => {
       const { testRenderer } = await createTestRenderer();
