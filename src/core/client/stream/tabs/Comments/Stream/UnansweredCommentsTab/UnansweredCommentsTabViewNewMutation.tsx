@@ -4,6 +4,8 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitLocalUpdatePromisified,
   createMutation,
+  LOCAL_ID,
+  lookup,
 } from "coral-framework/lib/relay";
 import { GQLCOMMENT_SORT, GQLTAG } from "coral-framework/schema";
 import { ViewNewCommentsEvent } from "coral-stream/events";
@@ -22,12 +24,14 @@ const UnansweredCommentsTabViewNewMutation = createMutation(
   ) => {
     await commitLocalUpdatePromisified(environment, async (store) => {
       const story = store.get(input.storyID)!;
+      const refreshStream = !!lookup(environment, LOCAL_ID).refreshStream;
       const connection = ConnectionHandler.getConnection(
         story,
         "UnansweredStream_comments",
         {
           orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
           tag: GQLTAG.UNANSWERED,
+          refreshStream,
         }
       )!;
 

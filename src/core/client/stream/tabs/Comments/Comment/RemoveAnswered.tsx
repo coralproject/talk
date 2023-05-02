@@ -19,15 +19,22 @@ interface Props {
 const RemoveAnswered: FunctionComponent<Props> = ({ commentID, storyID }) => {
   const removeAnswered = useMutation(RemoveAnsweredMutation);
 
-  const [{ commentsOrderBy }] = useLocal<RemoveAnsweredLocal>(graphql`
-    fragment RemoveAnsweredLocal on Local {
-      commentsOrderBy
-    }
-  `);
+  const [{ commentsOrderBy, refreshStream }] =
+    useLocal<RemoveAnsweredLocal>(graphql`
+      fragment RemoveAnsweredLocal on Local {
+        commentsOrderBy
+        refreshStream
+      }
+    `);
 
   const onRemove = useCallback(async () => {
-    await removeAnswered({ commentID, storyID, orderBy: commentsOrderBy });
-  }, [commentID, commentsOrderBy, removeAnswered, storyID]);
+    await removeAnswered({
+      commentID,
+      storyID,
+      orderBy: commentsOrderBy,
+      refreshStream,
+    });
+  }, [commentID, commentsOrderBy, removeAnswered, storyID, refreshStream]);
 
   return (
     <>
