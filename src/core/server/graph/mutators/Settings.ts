@@ -65,10 +65,10 @@ export const Settings = ({
   mailerQueue,
   user,
 }: GraphContext) => ({
-  update: (
+  update: async (
     input: WithoutMutationID<GQLUpdateSettingsInput>
-  ): Promise<Tenant | null> =>
-    update(
+  ): Promise<Tenant | null> => {
+    return await update(
       mongo,
       redis,
       tenantCache,
@@ -77,7 +77,8 @@ export const Settings = ({
       tenant,
       user!,
       input.settings
-    ),
+    );
+  },
   rotateSSOSigningSecret: ({ inactiveIn }: GQLRotateSSOSigningSecretInput) =>
     rotateSSOSigningSecret(mongo, redis, tenantCache, tenant, inactiveIn, now),
   deleteSSOSigningSecret: ({ kid }: GQLDeleteSSOSigningSecretInput) =>
