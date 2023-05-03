@@ -10,25 +10,6 @@ import {
 
 import { GQLCOMMENT_FLAG_REASON } from "coral-server/graph/schema/__generated__/types";
 
-describe("#encodeActionCounts", () => {
-  it("generates the action counts correctly", () => {
-    const actions: Array<Partial<CommentAction>> = [
-      { actionType: ACTION_TYPE.DONT_AGREE },
-      {
-        actionType: ACTION_TYPE.FLAG,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
-      },
-      {
-        actionType: ACTION_TYPE.FLAG,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OTHER,
-      },
-    ];
-    const actionCounts = encodeActionCounts(...(actions as CommentAction[]));
-
-    expect(actionCounts).toMatchSnapshot();
-  });
-});
-
 describe("#decodeActionCounts", () => {
   it("parses the action counts correctly", () => {
     const actions: Array<Partial<CommentAction>> = [

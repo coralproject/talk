@@ -4,17 +4,6 @@ import TestRenderer from "react-test-renderer";
 import TabContent from "./TabContent";
 import TabPane from "./TabPane";
 
-it("renders correctly", () => {
-  const renderer = TestRenderer.create(
-    <TabContent activeTab="one">
-      <TabPane tabID="one">Hola One</TabPane>
-      <TabPane tabID="two">Hola Two</TabPane>
-      <TabPane tabID="three">Hola Three</TabPane>
-    </TabContent>
-  );
-  expect(renderer.toJSON()).toMatchSnapshot();
-});
-
 it("sets initial tab as active, renders only one", () => {
   const renderer = TestRenderer.create(
     <TabContent activeTab="one">

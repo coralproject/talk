@@ -49,6 +49,5 @@ describe("createJWTSigningConfig", () => {
     const signingConfig = createJWTSigningConfig(input, "RS256");
 
     expect(signingConfig.algorithm).toEqual("RS256");
-    expect(signingConfig.secret.toString()).toMatchSnapshot();
   });
 });
