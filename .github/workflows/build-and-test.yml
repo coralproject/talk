@@ -104,11 +104,11 @@ jobs:
         # if: github.ref == 'refs/heads/develop'
         with:
           push: true
-          tags: ${{ env.IMAGE_CACHE_REPOSITORY }}:cache-latest
+          tags: ${{ env.IMAGE_CACHE_REPOSITORY }}:cache
           # tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
-          cache-from: type=registry,${{ env.IMAGE_CACHE_REPOSITORY }}:cache-latest
+          cache-from: type=registry,${{ env.IMAGE_CACHE_REPOSITORY }}:cache
           cache-to: type=inline
 # Build tag push the release candidate image when the branch name begins with release-
       -
@@ -120,5 +120,5 @@ jobs:
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
-          cache-from: type=registry,${{ env.IMAGE_CACHE_REPOSITORY }}:cache-latest
+          cache-from: type=registry,${{ env.IMAGE_CACHE_REPOSITORY }}:cache
           cache-to: type=inline
