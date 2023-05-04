@@ -125,7 +125,7 @@ class Server {
 
   private wordList: WordListService;
   private onTenantDeleteDelegate: () => void;
-  private onTenantUpdateDelegate: () => void;
+  private onTenantUpdateDelegate: (tenant: Tenant) => void;
 
   /**
    * broker stores a reference to all of the listeners that can be used in
