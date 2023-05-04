@@ -124,6 +124,8 @@ class Server {
   private readonly reporter?: ErrorReporter;
 
   private wordList: WordListService;
+  private onTenantDeleteDelegate: () => void;
+  private onTenantUpdateDelegate: () => void;
 
   /**
    * broker stores a reference to all of the listeners that can be used in
@@ -310,9 +312,6 @@ class Server {
       this.onTenantDeleteDelegate
     );
   }
-
-  private onTenantDeleteDelegate: () => void;
-  private onTenantUpdateDelegate: () => void;
 
   private onTenantDelete() {}
 
