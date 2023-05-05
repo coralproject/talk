@@ -35,7 +35,6 @@ import {
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { createMongoContext, MongoContext } from "./data/context";
-import { TenantNotFoundError } from "./errors";
 import {
   AnalyticsCoralEventListener,
   NotifierCoralEventListener,
@@ -320,7 +319,11 @@ class Server {
 
     const updatedTenant = await retrieveTenant(this.mongo, tenant.id);
     if (!updatedTenant) {
-      throw new TenantNotFoundError(tenant.domain);
+      logger.warn(
+        { tenantID: tenant.id },
+        "tenant not found during tenantCache wordlist update"
+      );
+      return;
     }
 
     await this.wordList.initialize(
