@@ -320,7 +320,11 @@ class Server {
 
     const updatedTenant = await retrieveTenant(this.mongo, tenant.id);
     if (!updatedTenant) {
-      throw new TenantNotFoundError(tenant.domain);
+      logger.warn(
+        { tenantID: tenant.id },
+        "tenant not found during tenantCache wordlist update"
+      );
+      return;
     }
 
     await this.wordList.initialize(
