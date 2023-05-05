@@ -35,7 +35,6 @@ import {
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { createMongoContext, MongoContext } from "./data/context";
-import { TenantNotFoundError } from "./errors";
 import {
   AnalyticsCoralEventListener,
   NotifierCoralEventListener,
