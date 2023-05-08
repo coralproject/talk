@@ -41,33 +41,33 @@ jobs:
       -
         name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-      # -
-      #   name: Setup Node14.x
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '14.x'
-      # -
-      #   name: Install npm 8
-      #   run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
-      # -
-      #   name: npm Lockfile Version
-      #   uses: mansona/npm-lockfile-version@v1
-      #   with:
-      #     version: 2
-      # -
-      #   name: Cache Dependencies
-      #   id: cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ./node_modules
-      #     key: modules-${{ hashFiles('package-lock.json') }}
-      #     restore-keys: npm-
-      # -
-      #   name: npm ci
-      #   run: npm ci
-      # -
-      #   name: Generate schemas and types
-      #   run: npm run generate
+      -
+        name: Setup Node14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'
+      -
+        name: Install npm 8
+        run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
+      -
+        name: npm Lockfile Version
+        uses: mansona/npm-lockfile-version@v1
+        with:
+          version: 2
+      -
+        name: Cache Dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+      -
+        name: npm ci
+        run: npm ci
+      -
+        name: Generate schemas and types
+        run: npm run generate
       # -
       #   name: Lint Source Code
       #   run: npm run lint
@@ -91,12 +91,12 @@ jobs:
       # -
       #   name: Run Client Other Unit Tests
       #   run: npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
-      # -
-      #   name: Build
-      #   run: npm run build
-      # -
-      #   name: Verify Bundle Size
-      #   run: ./node_modules/.bin/bundlesize --enable-github-checks
+      -
+        name: Build
+        run: npm run build
+      -
+        name: Verify Bundle Size
+        run: ./node_modules/.bin/bundlesize --enable-github-checks
 # Build tag push the image after a merge to develop
       -
         name: Build, Tag, Push
@@ -105,7 +105,6 @@ jobs:
         with:
           # push: true
           # tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
-          # tags: ${{ env.IMAGE_CACHE_REPOSITORY }}:cache
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache
