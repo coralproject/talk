@@ -68,29 +68,29 @@ jobs:
       -
         name: Generate schemas and types
         run: npm run generate
-      # -
-      #   name: Lint Source Code
-      #   run: npm run lint
-      # -
-      #   name: Lint Markdown
-      #   run: |
-      #     npm run doctoc
-      #     git diff --exit-code
-      # -
-      #   name: Lint Versions
-      #   run: npx @coralproject/package-version-lint
-      # -
-      #   name: Run Server Unit Tests
-      #   run: npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
-      # -
-      #   name: Run Client Stream Unit Tests
-      #   run: npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
-      # -
-      #   name: Run Client Admin Unit Tests
-      #   run: npm run test:client:admin -- --ci --runInBand --reporters=default --reporters=jest-junit
-      # -
-      #   name: Run Client Other Unit Tests
-      #   run: npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Lint Source Code
+        run: npm run lint
+      -
+        name: Lint Markdown
+        run: |
+          npm run doctoc
+          git diff --exit-code
+      -
+        name: Lint Versions
+        run: npx @coralproject/package-version-lint
+      -
+        name: Run Server Unit Tests
+        run: npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Run Client Stream Unit Tests
+        run: npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Run Client Admin Unit Tests
+        run: npm run test:client:admin -- --ci --runInBand --reporters=default --reporters=jest-junit
+      -
+        name: Run Client Other Unit Tests
+        run: npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Build
         run: npm run build
@@ -101,10 +101,10 @@ jobs:
       -
         name: Build, Tag, Push
         uses: docker/build-push-action@v4
-        # if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/develop'
         with:
-          # push: true
-          # tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
+          push: true
+          tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache
