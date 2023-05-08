@@ -6,7 +6,7 @@ on:
 
 env:
   IMAGE_REPOSITORY: 'gcr.io/the-coral-project/coral'
-  IMAGE_CACHE_REPOSITORY: 'coralproject'
+  IMAGE_CACHE_REPOSITORY: 'coralproject/talk'
   DOCKERHUB_USERNAME: 'coralproject'
 
 
@@ -43,19 +43,19 @@ jobs:
       -
         name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-      -
-        name: Setup Node14.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14.x'
-      -
-        name: Install npm 8
-        run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
-      -
-        name: npm Lockfile Version
-        uses: mansona/npm-lockfile-version@v1
-        with:
-          version: 2
+      # -
+      #   name: Setup Node14.x
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '14.x'
+      # -
+      #   name: Install npm 8
+      #   run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
+      # -
+      #   name: npm Lockfile Version
+      #   uses: mansona/npm-lockfile-version@v1
+      #   with:
+      #     version: 2
       # -
       #   name: Cache Dependencies
       #   id: cache
@@ -102,7 +102,7 @@ jobs:
 # Build tag push the image after a merge to develop
       -
         name: Build, Tag, Push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v3
         # if: github.ref == 'refs/heads/develop'
         with:
           # push: true
