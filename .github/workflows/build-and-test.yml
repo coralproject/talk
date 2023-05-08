@@ -6,7 +6,7 @@ on:
 
 env:
   IMAGE_REPOSITORY: 'gcr.io/the-coral-project/coral'
-  IMAGE_CACHE_REPOSITORY: 'coralproject/talk'
+  IMAGE_CACHE_REPOSITORY: 'coralproject/ci'
   DOCKERHUB_USERNAME: 'coralproject'
 
 
@@ -102,6 +102,7 @@ jobs:
         with:
           push: true
           # tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
+          tags: ${{ env.IMAGE_CACHE_REPOSITORY }}:cache
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache
