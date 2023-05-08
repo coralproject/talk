@@ -3,6 +3,7 @@ name: Build and Test
 on:
   workflow_dispatch:
   push:
+  merge_group:
 
 env:
   IMAGE_REPOSITORY: 'gcr.io/the-coral-project/coral'
