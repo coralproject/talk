@@ -1,17 +1,26 @@
 import { AppOptions } from "coral-server/app";
 import Joi from "joi";
+import { JSDOM } from "jsdom";
 import nunjucks from "nunjucks";
 
-import { createDateFormatter } from "coral-common/date";
-import { createManifestLoader } from "coral-server/app/helpers/manifestLoader";
+import {
+  getCommentEmbedCreatedAtFormatter,
+  getCommentEmbedCSS,
+  getCommentEmbedData,
+  transform,
+  transformSimpleEmbed,
+} from "coral-server/app/helpers/commentEmbedHelpers";
 import { validate } from "coral-server/app/request/body";
-import { retrieveComment } from "coral-server/models/comment";
-import { retrieveUser } from "coral-server/models/user";
+import {
+  retrieveComment,
+  updateCommentEmbeddedAt,
+} from "coral-server/models/comment";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const OEmbedServiceQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
   interactions: Joi.string().optional(),
+  format: Joi.string().optional(),
 });
 
 type Options = Pick<AppOptions, "config" | "mongo">;
@@ -24,36 +33,27 @@ export const oembedProviderHandler = ({
   return async (req, res, next) => {
     const { tenant } = req.coral;
 
-    const customFontsCSSURL = tenant.customFontsCSSURL;
-    const customCSSURL = tenant.customCSSURL;
-    const staticURI = config.get("static_uri");
+    const {
+      customFontsCSSURL,
+      customCSSURL,
+      staticURI,
+      streamCSS,
+      defaultFontsCSS,
+    } = await getCommentEmbedCSS(tenant, { config });
 
-    const manifestLoader = createManifestLoader(config, "asset-manifest.json");
-
-    const streamEntrypointLoader =
-      manifestLoader.createEntrypointLoader("stream");
-    const entrypoint = await streamEntrypointLoader();
-    const streamCSS = entrypoint?.css.filter((css) =>
-      css.src.includes("assets/css/stream")
-    );
-    const defaultFontsCSS = (await manifestLoader.load())[
-      "assets/css/typography.css"
-    ];
-
-    // Create the date formatter to format the dates for the CSV.
-    const formatter = createDateFormatter(tenant.locale, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-    });
+    const formatter = getCommentEmbedCreatedAtFormatter(tenant);
 
     try {
-      const { url, interactions } = validate(
+      const { url, interactions, format } = validate(
         OEmbedServiceQuerySchema,
         req.query
       );
+
+      // We don't currently support xml format responses
+      if (format && format === "xml") {
+        res.sendStatus(501);
+        return;
+      }
 
       // default to including reply/go to conversation interactions if no query param provided
       const includeInteractions = interactions ?? true;
@@ -66,67 +66,57 @@ export const oembedProviderHandler = ({
           tenant.id,
           commentID
         );
+
         if (!comment) {
-          // throw 404 Not Found
-          throw new Error("Comment not found");
+          res.sendStatus(404);
+          return;
+        }
+        const { commentAuthor, commentRevision, mediaUrl, giphyMedia } =
+          await getCommentEmbedData(mongo, comment, tenant.id);
+
+        const formattedCreatedAt = formatter.format(comment.createdAt);
+
+        // update the comment with an embeddedAt timestamp if not already set
+        if (!comment.embeddedAt) {
+          const now = new Date();
+          void updateCommentEmbeddedAt(mongo, tenant.id, commentID, now);
         }
 
-        if (comment.authorID) {
-          const commentAuthor = await retrieveUser(
-            mongo,
-            tenant.id,
-            comment.authorID
-          );
+        const sanitized = transform(
+          new JSDOM("", {}).window as any,
+          commentRevision.body
+        );
 
-          if (!commentAuthor) {
-            // should we include a fallback for comment author if not found?
-          }
+        const sanitizedSimple = transformSimpleEmbed(
+          new JSDOM("", {}).window as any,
+          commentRevision.body
+        );
 
-          // the latest comment revision
-          const commentRevision =
-            comment.revisions[comment.revisions.length - 1];
+        const simpleCommentEmbed = nunjucks.render("simpleCommentEmbed.html", {
+          commentID,
+          includeInteractions,
+          commentAuthor,
+          sanitizedSimple,
+        });
 
-          const formattedCreatedAt = formatter.format(comment.createdAt);
+        const html = nunjucks.render("oembedService.html", {
+          comment,
+          commentAuthor,
+          commentRevision,
+          formattedCreatedAt,
+          mediaUrl,
+          includeInteractions,
+          customCSSURL,
+          customFontsCSSURL,
+          streamCSS,
+          defaultFontsCSS,
+          staticURI,
+          giphyMedia,
+          sanitized,
+        });
 
-          // Need to add siteID to media urls
-          let mediaUrl = null;
-          if (
-            commentRevision.media?.type === "twitter" ||
-            commentRevision.media?.type === "youtube"
-          ) {
-            mediaUrl = `/api/oembed?type=${commentRevision.media?.type}&url=${commentRevision.media?.url}`;
-          }
-          if (commentRevision.media?.type === "external") {
-            mediaUrl = `/api/external-media?url=${commentRevision.media.url}`;
-          }
-
-          const simpleCommentEmbed = nunjucks.render(
-            "simpleCommentEmbed.html",
-            {
-              commentID,
-              commentRevision,
-              includeInteractions,
-              commentAuthor,
-            }
-          );
-
-          const html = nunjucks.render("oembedService.html", {
-            comment,
-            commentAuthor,
-            commentRevision,
-            formattedCreatedAt,
-            mediaUrl,
-            includeInteractions,
-            customCSSURL,
-            customFontsCSSURL,
-            streamCSS,
-            defaultFontsCSS,
-            staticURI,
-          });
-
-          // Need to update width, height
-          res.json({ html, simpleCommentEmbed, width: 0, height: 0 });
-        }
+        // Need to update width, height
+        res.json({ html, simpleCommentEmbed, width: 0, height: 0 });
       }
     } catch (err) {
       next(err);

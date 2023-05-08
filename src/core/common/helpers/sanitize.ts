@@ -254,3 +254,41 @@ export function createSanitize(
 
   return purify.sanitize.bind(purify);
 }
+
+/**
+ * Sanitize html content and find spoiler tags.
+ */
+export const sanitizeAndFindSpoilerTags: (
+  window: Window,
+  source: string | Node
+) => [HTMLElement, Element[]] = (() => {
+  /** Resused instance */
+  let sanitize: Sanitize | null = null;
+
+  /** Found spoiler tags during sanitization will be placed here. */
+  let spoilerTags: Element[] = [];
+
+  return (window: Window, source: string | Node): [HTMLElement, Element[]] => {
+    if (!sanitize) {
+      sanitize = createSanitize(window, {
+        // Allow all rte features to be displayed.
+        features: ALL_FEATURES,
+        modify: (purify) => {
+          // Add a hook that detects spoiler tags and adds to `spoilerTags` array
+          purify.addHook("afterSanitizeAttributes", (node) => {
+            if (
+              node.tagName === "SPAN" &&
+              node.className === SPOILER_CLASSNAME
+            ) {
+              spoilerTags.push(node);
+            }
+          });
+        },
+      });
+    }
+    const sanitized = sanitize(source);
+    const ret = spoilerTags;
+    spoilerTags = [];
+    return [sanitized, ret];
+  };
+})();

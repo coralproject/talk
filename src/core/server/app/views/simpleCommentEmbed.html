@@ -5,5 +5,5 @@
   data-interactions="{{ includeInteractions }}"
 >
   <div style="margin-bottom: 8px">{{ commentAuthor.username }}</div>
-  <div>{{ commentRevision.body | safe }}</div>
+  <div>{{ sanitizedSimple | safe }}</div>
 </div>

@@ -12,6 +12,12 @@ $commentsModerationFeaturedColor: var(--palette-primary-500);
   text-align: left;
 }
 
+.embedCodeCopied {
+  background-color: var(--palette-success-100);
+  color: var(--palette-success-500);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
 .featured {
   color: $commentsModerationFeaturedColor;
   font-weight: var(--font-weight-primary-bold);
@@ -21,7 +27,7 @@ $commentsModerationFeaturedColor: var(--palette-primary-500);
   color: $commentsModerationApprovedColor;
   font-weight: var(--font-weight-primary-bold);
   &:disabled {
-    opacity: 1.0;
+    opacity: 1;
   }
 }
 
@@ -34,7 +40,7 @@ $commentsModerationFeaturedColor: var(--palette-primary-500);
   color: $commentsModerationRejectedColor;
   font-weight: var(--font-weight-primary-bold);
   &:disabled {
-    opacity: 1.0;
+    opacity: 1;
   }
 }
 

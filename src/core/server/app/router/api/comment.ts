@@ -3,6 +3,7 @@ import {
   commentEmbedJSONPHandler,
   featuredHander,
 } from "coral-server/app/handlers";
+import { commentEmbedWhitelisted } from "coral-server/app/middleware";
 import cacheMiddleware from "coral-server/app/middleware/cache";
 
 import { createAPIRouter } from "./helpers";
@@ -18,7 +19,11 @@ export function createCommentRouter(app: AppOptions) {
   }
 
   router.get("/featured.js", featuredHander(app));
-  router.get("/commentEmbed.js", commentEmbedJSONPHandler(app));
+  router.get(
+    "/commentEmbed.js",
+    commentEmbedWhitelisted(app),
+    commentEmbedJSONPHandler(app)
+  );
 
   return router;
 }

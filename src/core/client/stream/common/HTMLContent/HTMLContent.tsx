@@ -2,52 +2,10 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { SPOILER_CLASSNAME } from "coral-common/constants";
-import {
-  ALL_FEATURES,
-  createSanitize,
-  Sanitize,
-} from "coral-common/helpers/sanitize";
+import { sanitizeAndFindSpoilerTags } from "coral-common/helpers/sanitize";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 
 import styles from "./HTMLContent.css";
-
-/**
- * Sanitize html content and find spoiler tags.
- */
-const sanitizeAndFindSpoilerTags: (
-  window: Window,
-  source: string | Node
-) => [HTMLElement, Element[]] = (() => {
-  /** Resused instance */
-  let sanitize: Sanitize | null = null;
-
-  /** Found spoiler tags during sanitization will be placed here. */
-  let spoilerTags: Element[] = [];
-
-  return (window: Window, source: string | Node): [HTMLElement, Element[]] => {
-    if (!sanitize) {
-      sanitize = createSanitize(window, {
-        // Allow all rte features to be displayed.
-        features: ALL_FEATURES,
-        modify: (purify) => {
-          // Add a hook that detects spoiler tags and adds to `spoilerTags` array
-          purify.addHook("afterSanitizeAttributes", (node) => {
-            if (
-              node.tagName === "SPAN" &&
-              node.className === SPOILER_CLASSNAME
-            ) {
-              spoilerTags.push(node);
-            }
-          });
-        },
-      });
-    }
-    const sanitized = sanitize(source);
-    const ret = spoilerTags;
-    spoilerTags = [];
-    return [sanitized, ret];
-  };
-})();
 
 /**
  * Makes sure SpoilerTag Handler is registered in `global`.

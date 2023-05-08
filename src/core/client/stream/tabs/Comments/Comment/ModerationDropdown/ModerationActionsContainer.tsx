@@ -1,9 +1,17 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
 import { graphql } from "react-relay";
 
+import { sanitizeAndFindSpoilerTags } from "coral-common/helpers/sanitize";
 import { useModerationLink } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
 import {
   useLocal,
@@ -136,6 +144,46 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       ? false
       : comment.author.id !== viewer.id;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+
+  const [embedCodeCopied, setEmbedCodeCopied] = useState(false);
+
+  const handleCopyEmbedCode = useCallback(() => {
+    setEmbedCodeCopied(true);
+    // do we want to emit a copy event when code is copied
+  }, [setEmbedCodeCopied]);
+
+  const { window } = useCoralContext();
+
+  function transform(transformWindow: Window, source: string | Node) {
+    // Sanitize source.
+    const [sanitized, spoilerTags] = sanitizeAndFindSpoilerTags(
+      transformWindow,
+      source
+    );
+
+    // Attach event handlers to spoiler tags.
+    spoilerTags.forEach((node) => {
+      node.setAttribute(
+        "onclick",
+        "{this.removeAttribute('style');this.removeAttribute('role');this.removeAttribute('title');this.removeAttribute('onclick');}"
+      );
+      node.setAttribute("role", "button");
+      node.setAttribute("style", "background-color: #14171A;");
+      node.setAttribute("title", "Reveal spoiler");
+      node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
+    });
+    // Return results.
+    return sanitized.innerHTML;
+  }
+
+  let showCopyCommentEmbed = false;
+  let sanitizedBody;
+  if (comment.revision && comment.revision.body) {
+    showCopyCommentEmbed = true;
+    sanitizedBody = transform(window, comment.revision.body);
+  }
+  // TODO: Update to use the default interactions setting once configurable in the admin
+  const embedCode = `<div class="coral-comment-embed" style="background-color: #f4f7f7; padding: 8px;" data-commentID=${comment.id} data-interactions="true"><div style="margin-bottom: 8px;">${comment.author?.username}</div><div>${sanitizedBody}</div></div>`;
 
   return (
     <>
@@ -301,6 +349,36 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
           Moderate story
         </DropdownButton>
       </Localized>
+      {showCopyCommentEmbed && (
+        <>
+          <DropdownDivider />
+          <CopyToClipboard text={embedCode} onCopy={handleCopyEmbedCode}>
+            {embedCodeCopied ? (
+              <DropdownButton
+                className={cn(styles.label, styles.embedCodeCopied)}
+                icon={
+                  <Icon color="success" size="md">
+                    check_circle_outline
+                  </Icon>
+                }
+              >
+                <Localized id="comments-moderationDropdown-embedCodeCopied">
+                  <span>Code copied</span>
+                </Localized>
+              </DropdownButton>
+            ) : (
+              <DropdownButton
+                className={styles.label}
+                icon={<Icon size="md">code</Icon>}
+              >
+                <Localized id="comments-moderationDropdown-embedCode">
+                  <span>Embed comment</span>
+                </Localized>
+              </DropdownButton>
+            )}
+          </CopyToClipboard>
+        </>
+      )}
     </>
   );
 };
@@ -311,9 +389,11 @@ const enhanced = withFragmentContainer<Props>({
       id
       author {
         id
+        username
       }
       revision {
         id
+        body
       }
       status
       tags {

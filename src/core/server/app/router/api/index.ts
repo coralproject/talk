@@ -10,6 +10,7 @@ import {
 import {
   apolloGraphQLMiddleware,
   authenticate,
+  commentEmbedWhitelisted,
   corsWhitelisted,
   cspSiteMiddleware,
   JSONErrorHandler,
@@ -94,7 +95,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.get("/oembed", cspSiteMiddleware(app), oembedHandler(app));
   router.get(
     "/services/oembed",
-    corsWhitelisted(app.mongo),
+    commentEmbedWhitelisted(app),
     oembedProviderHandler(app)
   );
   router.get(
