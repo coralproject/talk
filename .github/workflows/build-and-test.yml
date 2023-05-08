@@ -6,7 +6,7 @@ on:
 
 env:
   IMAGE_REPOSITORY: 'gcr.io/the-coral-project/coral'
-  IMAGE_CACHE_REPOSITORY: 'coralproject/talk'
+  IMAGE_CACHE_REPOSITORY: 'coralproject'
   DOCKERHUB_USERNAME: 'coralproject'
 
 
