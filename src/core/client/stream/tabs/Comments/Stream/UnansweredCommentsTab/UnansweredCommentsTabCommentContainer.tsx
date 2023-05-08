@@ -24,6 +24,7 @@ interface Props {
   settings: UnansweredCommentsTabCommentContainer_settings;
   story: UnansweredCommentsTabCommentContainer_story;
   isLast: boolean;
+  refreshStream: boolean | null;
 }
 
 const UnansweredCommentsTabCommentContainer: FunctionComponent<Props> = ({
@@ -32,6 +33,7 @@ const UnansweredCommentsTabCommentContainer: FunctionComponent<Props> = ({
   settings,
   story,
   isLast,
+  refreshStream,
 }) => {
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
@@ -62,6 +64,7 @@ const UnansweredCommentsTabCommentContainer: FunctionComponent<Props> = ({
                   comment={comment}
                   story={story}
                   showRemoveAnswered
+                  refreshStream={refreshStream}
                 />
               </div>
             </HorizontalGutter>
@@ -93,10 +96,13 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   comment: graphql`
-    fragment UnansweredCommentsTabCommentContainer_comment on Comment {
+    fragment UnansweredCommentsTabCommentContainer_comment on Comment
+    @argumentDefinitions(
+      refreshStream: { type: "Boolean", defaultValue: false }
+    ) {
       enteredLive
       ...CommentContainer_comment
-      ...ReplyListContainer1_comment
+      ...ReplyListContainer1_comment @arguments(refreshStream: $refreshStream)
       ...IgnoredTombstoneOrHideContainer_comment
     }
   `,

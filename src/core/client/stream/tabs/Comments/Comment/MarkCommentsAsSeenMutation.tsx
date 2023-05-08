@@ -10,6 +10,8 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
+  LOCAL_ID,
+  lookup,
 } from "coral-framework/lib/relay";
 
 import {
@@ -103,6 +105,7 @@ const enhanced = createMutation(
                 "Stream_comments",
                 {
                   orderBy: input.orderBy,
+                  refreshStream: !!lookup(environment, LOCAL_ID).refreshStream,
                 }
               )!;
               const comments = connection?.getLinkedRecords("edges");

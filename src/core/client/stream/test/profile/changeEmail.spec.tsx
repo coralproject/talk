@@ -73,7 +73,7 @@ describe("change email form", () => {
   it("ensures email field is required", async () => {
     const changeEmail = await screen.findByTestId("profile-changeEmail");
     const editButton = within(changeEmail).getByRole("button", {
-      name: "Change",
+      name: "Change email",
     });
     userEvent.click(editButton);
     expect(await axe(changeEmail)).toHaveNoViolations();
@@ -87,7 +87,7 @@ describe("change email form", () => {
   it("ensures password field is required", async () => {
     const changeEmail = await screen.findByTestId("profile-changeEmail");
     const editButton = within(changeEmail).getByRole("button", {
-      name: "Change",
+      name: "Change email",
     });
     userEvent.click(editButton);
     const emailInput = within(changeEmail).getByLabelText("New email address", {
@@ -103,7 +103,7 @@ describe("change email form", () => {
   it("updates email if fields are valid", async () => {
     const changeEmail = await screen.findByTestId("profile-changeEmail");
     const editButton = within(changeEmail).getByRole("button", {
-      name: "Change",
+      name: "Change email",
     });
     userEvent.click(editButton);
     const emailInput = within(changeEmail).getByLabelText("New email address", {
