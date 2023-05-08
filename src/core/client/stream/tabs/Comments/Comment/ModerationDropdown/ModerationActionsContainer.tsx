@@ -178,9 +178,9 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
 
   let showCopyCommentEmbed = false;
   let sanitizedBody;
-  if (comment.revision && comment.revision.body) {
+  if (comment.body) {
     showCopyCommentEmbed = true;
-    sanitizedBody = transform(window, comment.revision.body);
+    sanitizedBody = transform(window, comment.body);
   }
   // TODO: Update to use the default interactions setting once configurable in the admin
   const embedCode = `<div class="coral-comment-embed" style="background-color: #f4f7f7; padding: 8px;" data-commentID=${comment.id} data-interactions="true"><div style="margin-bottom: 8px;">${comment.author?.username}</div><div>${sanitizedBody}</div></div>`;
@@ -391,9 +391,9 @@ const enhanced = withFragmentContainer<Props>({
         id
         username
       }
+      body
       revision {
         id
-        body
       }
       status
       tags {
