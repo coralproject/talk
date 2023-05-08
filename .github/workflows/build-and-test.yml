@@ -100,13 +100,13 @@ jobs:
         uses: docker/build-push-action@v4
         # if: github.ref == 'refs/heads/develop'
         with:
-          push: true
+          # push: true
           # tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
-          tags: ${{ env.IMAGE_CACHE_REPOSITORY }}:cache
+          # tags: ${{ env.IMAGE_CACHE_REPOSITORY }}:cache
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache
-          cache-to: type=inline
+          cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache
 # Build tag push the release candidate image when the branch name begins with release-
       -
         name: Build, Tag, Push RC
@@ -118,4 +118,4 @@ jobs:
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache
-          cache-to: type=inline
+          cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache
