@@ -1,0 +1,14 @@
+{
+  "src": "./src/core/client/admin/",
+  "exclude": [
+    "**/node_modules/**",
+    "**/__mocks__/**",
+    "**/__generated__/**"
+  ],
+  "language": "typescript",
+  "schema": "./src/core/client/admin/local/combined.graphql",
+  "persistConfig": {
+    "file": "./src/core/client/admin/persisted-queries.json",
+    "algorithm": "MD5"
+  }
+}
