@@ -327,6 +327,7 @@ export const Users = (ctx: GraphContext) => ({
   }: GQLBanUserInput) =>
     ban(
       ctx.mongo,
+      ctx.cache,
       ctx.mailerQueue,
       ctx.rejectorQueue,
       ctx.tenant,

@@ -15,6 +15,7 @@ import {
 } from "coral-common/permissions";
 import { PermissionsAction } from "coral-common/permissions/types";
 import { Config } from "coral-server/config";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import {
   DuplicateEmailError,
@@ -1337,6 +1338,7 @@ export async function destroyModeratorNote(
  * ban will ban a specific user from interacting with Coral.
  *
  * @param mongo mongo database to interact with
+ * @param cache the data cache
  * @param mailer the mailer
  * @param rejector the comment rejector queue
  * @param tenant Tenant where the User will be banned on
@@ -1348,6 +1350,7 @@ export async function destroyModeratorNote(
  */
 export async function ban(
   mongo: MongoContext,
+  cache: DataCache,
   mailer: MailerQueue,
   rejector: RejectorQueue,
   tenant: Tenant,
@@ -1441,6 +1444,11 @@ export async function ban(
 
     if (warningStatus.active) {
       user = await removeUserWarning(mongo, tenant.id, userID, banner.id, now);
+    }
+
+    const cacheAvailable = await cache.available(tenant.id);
+    if (cacheAvailable) {
+      await cache.users.update(user);
     }
 
     if (rejectExistingComments) {

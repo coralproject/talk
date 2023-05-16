@@ -117,6 +117,15 @@ export class UserCache implements IDataCache {
     return user;
   }
 
+  public async update(user: Readonly<User>) {
+    const cmd = this.redis.multi();
+    const dataKey = this.computeDataKey(user.tenantID, user.id);
+    cmd.set(dataKey, this.serializeObject(user));
+    cmd.expire(dataKey, this.expirySeconds);
+    await cmd.exec();
+    this.usersByKey.set(dataKey, user);
+  }
+
   private serializeObject(comment: Readonly<User>) {
     const json = JSON.stringify(comment);
     return json;
