@@ -226,7 +226,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.user!
     ),
   updateBio: async (input: GQLUpdateBioInput) =>
-    updateBio(ctx.mongo, ctx.tenant, ctx.user!, input.bio),
+    updateBio(ctx.mongo, ctx.cache, ctx.tenant, ctx.user!, input.bio),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
     updateEmailByID(ctx.mongo, ctx.tenant, input.userID, input.email),
   updateEmail: async (input: GQLUpdateEmailInput) =>
@@ -243,12 +243,19 @@ export const Users = (ctx: GraphContext) => ({
     ),
   updateNotificationSettings: async (
     input: WithoutMutationID<GQLUpdateNotificationSettingsInput>
-  ) => updateNotificationSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
+  ) =>
+    updateNotificationSettings(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input
+    ),
   updateUserMediaSettings: async (
     input: WithoutMutationID<GQLUpdateUserMediaSettingsInput>
-  ) => updateMediaSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
+  ) => updateMediaSettings(ctx.mongo, ctx.cache, ctx.tenant, ctx.user!, input),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
-    updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
+    updateAvatar(ctx.mongo, ctx.cache, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(
       ctx.mongo,

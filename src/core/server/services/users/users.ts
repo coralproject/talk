@@ -1274,6 +1274,7 @@ export async function updateEmailByID(
  */
 export async function updateBio(
   mongo: MongoContext,
+  cache: DataCache,
   tenant: Tenant,
   user: User,
   bio?: string
@@ -1282,7 +1283,14 @@ export async function updateBio(
     throw new UserBioTooLongError(user.id);
   }
 
-  return updateUserBio(mongo, tenant.id, user.id, bio);
+  const updatedUser = await updateUserBio(mongo, tenant.id, user.id, bio);
+
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.users.update(updatedUser);
+  }
+
+  return updatedUser;
 }
 
 /**
@@ -1295,11 +1303,19 @@ export async function updateBio(
  */
 export async function updateAvatar(
   mongo: MongoContext,
+  cache: DataCache,
   tenant: Tenant,
   userID: string,
   avatar?: string
 ) {
-  return updateUserAvatar(mongo, tenant.id, userID, avatar);
+  const updatedUser = await updateUserAvatar(mongo, tenant.id, userID, avatar);
+
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.users.update(updatedUser);
+  }
+
+  return updatedUser;
 }
 
 /**
@@ -1706,7 +1722,7 @@ export async function premod(
   }
 
   // Premod the user.
-  const premoddedUser = await premodUser(
+  const updatedUser = await premodUser(
     mongo,
     tenant.id,
     userID,
@@ -1716,10 +1732,10 @@ export async function premod(
 
   const cacheAvailable = await cache.available(tenant.id);
   if (cacheAvailable) {
-    await cache.users.update(premoddedUser);
+    await cache.users.update(updatedUser);
   }
 
-  return premoddedUser;
+  return updatedUser;
 }
 
 export async function removePremod(
@@ -1795,7 +1811,7 @@ export async function warn(
   }
 
   // Warn the user.
-  const warnedUser = await warnUser(
+  const updatedUser = await warnUser(
     mongo,
     tenant.id,
     userID,
@@ -1806,10 +1822,10 @@ export async function warn(
 
   const cacheAvailable = await cache.available(tenant.id);
   if (cacheAvailable) {
-    await cache.users.update(warnedUser);
+    await cache.users.update(updatedUser);
   }
 
-  return warnedUser;
+  return updatedUser;
 }
 
 export async function removeWarning(
@@ -2247,20 +2263,46 @@ export async function requestUserCommentsDownload(
 
 export async function updateNotificationSettings(
   mongo: MongoContext,
+  cache: DataCache,
   tenant: Tenant,
   user: User,
   settings: NotificationSettingsInput
 ) {
-  return updateUserNotificationSettings(mongo, tenant.id, user.id, settings);
+  const updatedUser = await updateUserNotificationSettings(
+    mongo,
+    tenant.id,
+    user.id,
+    settings
+  );
+
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.users.update(updatedUser);
+  }
+
+  return updatedUser;
 }
 
 export async function updateMediaSettings(
   mongo: MongoContext,
+  cache: DataCache,
   tenant: Tenant,
   user: User,
   settings: UpdateUserMediaSettingsInput
 ) {
-  return updateUserMediaSettings(mongo, tenant.id, user.id, settings);
+  const updatedUser = await updateUserMediaSettings(
+    mongo,
+    tenant.id,
+    user.id,
+    settings
+  );
+
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.users.update(updatedUser);
+  }
+
+  return updatedUser;
 }
 
 function userLastCommentIDKey(
