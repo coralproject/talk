@@ -126,8 +126,8 @@ export class UserCache implements IDataCache {
     this.usersByKey.set(dataKey, user);
   }
 
-  private serializeObject(comment: Readonly<User>) {
-    const json = JSON.stringify(comment);
+  private serializeObject(user: Readonly<User>) {
+    const json = JSON.stringify(user);
     return json;
   }
 
