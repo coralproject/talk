@@ -210,6 +210,7 @@ export const Users = (ctx: GraphContext) => ({
   updateUsername: async (input: GQLUpdateUsernameInput) =>
     updateUsername(
       ctx.mongo,
+      ctx.cache,
       ctx.mailerQueue,
       ctx.tenant,
       ctx.user!,
@@ -231,6 +232,7 @@ export const Users = (ctx: GraphContext) => ({
   updateEmail: async (input: GQLUpdateEmailInput) =>
     updateEmail(
       ctx.mongo,
+      ctx.cache,
       ctx.tenant,
       ctx.mailerQueue,
       ctx.config,
@@ -349,6 +351,7 @@ export const Users = (ctx: GraphContext) => ({
     async () =>
       updateUserBan(
         ctx.mongo,
+        ctx.cache,
         ctx.mailerQueue,
         ctx.rejectorQueue,
         ctx.tenant,
@@ -363,6 +366,7 @@ export const Users = (ctx: GraphContext) => ({
   warn: async (input: GQLWarnUserInput) =>
     warn(
       ctx.mongo,
+      ctx.cache,
       ctx.tenant,
       ctx.user!,
       input.userID,
@@ -370,7 +374,14 @@ export const Users = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeWarning: async (input: GQLRemoveUserWarningInput) =>
-    removeWarning(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removeWarning(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   acknowledgeWarning: async () =>
     acknowledgeWarning(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
   sendModMessage: async (input: GQLSendModMessageInput) =>
@@ -385,10 +396,11 @@ export const Users = (ctx: GraphContext) => ({
   acknowledgeModMessage: async () =>
     acknowledgeModMessage(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
   premodUser: async (input: GQLPremodUserInput) =>
-    premod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    premod(ctx.mongo, ctx.cache, ctx.tenant, ctx.user!, input.userID, ctx.now),
   suspend: async (input: GQLSuspendUserInput) =>
     suspend(
       ctx.mongo,
+      ctx.cache,
       ctx.mailerQueue,
       ctx.tenant,
       ctx.user!,
@@ -398,11 +410,32 @@ export const Users = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeBan: async (input: GQLRemoveUserBanInput) =>
-    removeBan(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removeBan(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   removeSuspension: async (input: GQLRemoveUserSuspensionInput) =>
-    removeSuspension(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removeSuspension(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   removeUserPremod: async (input: GQLRemovePremodUserInput) =>
-    removePremod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removePremod(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   ignore: async (input: GQLIgnoreUserInput) =>
     ignore(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeIgnore: async (input: GQLRemoveUserIgnoreInput) =>
