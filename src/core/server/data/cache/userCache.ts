@@ -136,13 +136,23 @@ export class UserCache implements IDataCache {
     const parsedSuspensionHistory = parsed.status.suspension.history.map(
       (suspension: {
         createdAt: Date;
-        modifiedAt: Date;
+        modifiedAt?: Date;
         from: { start: Date; finish: Date };
       }) => {
+        if (suspension.modifiedAt) {
+          return {
+            ...suspension,
+            createdAt: new Date(suspension.createdAt),
+            from: {
+              start: new Date(suspension.from.start),
+              finish: new Date(suspension.from.finish),
+            },
+            modifiedAt: new Date(suspension.modifiedAt),
+          };
+        }
         return {
           ...suspension,
           createdAt: new Date(suspension.createdAt),
-          modifiedAt: new Date(suspension.modifiedAt),
           from: {
             start: new Date(suspension.from.start),
             finish: new Date(suspension.from.finish),
