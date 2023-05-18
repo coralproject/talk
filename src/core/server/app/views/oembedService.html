@@ -224,7 +224,8 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
                     d="M4.25 10.6299H0.75V23.1299H4.25V10.6299Z"
                   ></path>
                 </svg>
-                Rec {{ comment.actionCounts.REACTION }}</a
+                {% if reactionLabel %}{{ reactionLabel }}{% else %}Rec{% endif
+                %} {{ comment.actionCounts.REACTION }}</a
               >
               {% endblock %}
             </div>
@@ -248,7 +249,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
                     stroke-linejoin="round"
                   ></path>
                 </svg>
-                Reply</a
+                {{ replyMessage }}</a
               >
               {% endblock %}
             </div>
@@ -278,7 +279,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
                   stroke-linejoin="round"
                 ></path>
               </svg>
-              Go to conversation</a
+              {{ goToConversationMessage }}</a
             >
             {% endif %}
           </div>

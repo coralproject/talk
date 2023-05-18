@@ -15,23 +15,38 @@ import {
   retrieveComment,
   updateCommentEmbeddedAt,
 } from "coral-server/models/comment";
+import { translate } from "coral-server/services/i18n";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const OEmbedServiceQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
   allowReplies: Joi.string().optional(),
   format: Joi.string().optional(),
+  reactionLabel: Joi.string().optional(),
 });
 
-type Options = Pick<AppOptions, "config" | "mongo">;
+type Options = Pick<AppOptions, "config" | "mongo" | "i18n">;
 
 export const oembedProviderHandler = ({
   config,
   mongo,
+  i18n,
 }: Options): RequestHandler<TenantCoralRequest> => {
   // TODO: add some kind of rate limiting or spam protection
   return async (req, res, next) => {
     const { tenant } = req.coral;
+
+    const bundle = i18n.getBundle(tenant.locale);
+    const replyMessage = translate(
+      bundle,
+      "Reply",
+      "comments-replyButton-reply"
+    );
+    const goToConversationMessage = translate(
+      bundle,
+      "Go to conversation",
+      "featured-gotoConversation"
+    );
 
     const {
       customFontsCSSURL,
@@ -44,7 +59,7 @@ export const oembedProviderHandler = ({
     const formatter = getCommentEmbedCreatedAtFormatter(tenant);
 
     try {
-      const { url, allowReplies, format } = validate(
+      const { url, allowReplies, format, reactionLabel } = validate(
         OEmbedServiceQuerySchema,
         req.query
       );
@@ -113,6 +128,9 @@ export const oembedProviderHandler = ({
           staticURI,
           giphyMedia,
           sanitized,
+          replyMessage,
+          goToConversationMessage,
+          reactionLabel,
         });
 
         // Need to update width, height

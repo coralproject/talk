@@ -15,9 +15,10 @@ import {
   retrieveComment,
   updateCommentEmbeddedAt,
 } from "coral-server/models/comment";
+import { translate } from "coral-server/services/i18n";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-export type JSONPEmbedOptions = Pick<AppOptions, "mongo" | "config">;
+export type JSONPEmbedOptions = Pick<AppOptions, "mongo" | "config" | "i18n">;
 
 export interface CommentEmbedJSONPData {
   ref: string;
@@ -31,6 +32,7 @@ const CommentEmbedJSONPQuerySchema = Joi.object().keys({
   callback: Joi.string().allow("").optional(),
   commentID: Joi.string().required(),
   allowReplies: Joi.string().optional(),
+  reactionLabel: Joi.string().optional(),
   ref: Joi.string().required(),
 });
 
@@ -39,18 +41,40 @@ interface CommentEmbedJSONPQuery {
   commentID: string;
   ref: string;
   allowReplies?: string;
+  reactionLabel?: string;
 }
 
 /**
  * commentEmbedJSONPHandler returns html for a single comment embed using JSONP.
  */
 export const commentEmbedJSONPHandler =
-  ({ mongo, config }: JSONPEmbedOptions): RequestHandler<TenantCoralRequest> =>
+  ({
+    mongo,
+    config,
+    i18n,
+  }: JSONPEmbedOptions): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
     try {
       const { tenant } = req.coral;
 
-      const { commentID, ref, allowReplies }: CommentEmbedJSONPQuery = validate(
+      const bundle = i18n.getBundle(tenant.locale);
+      const replyMessage = translate(
+        bundle,
+        "Reply",
+        "comments-replyButton-reply"
+      );
+      const goToConversationMessage = translate(
+        bundle,
+        "Go to conversation",
+        "comments-featured-gotoConversation"
+      );
+
+      const {
+        commentID,
+        ref,
+        allowReplies,
+        reactionLabel,
+      }: CommentEmbedJSONPQuery = validate(
         CommentEmbedJSONPQuerySchema,
         req.query
       );
@@ -110,6 +134,9 @@ export const commentEmbedJSONPHandler =
           giphyMedia,
           tenantURL,
           sanitized,
+          replyMessage,
+          goToConversationMessage,
+          reactionLabel,
         });
       }
 

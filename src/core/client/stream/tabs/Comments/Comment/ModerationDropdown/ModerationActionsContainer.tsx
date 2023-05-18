@@ -189,6 +189,8 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     comment.id
   } data-allowReplies="${
     settings.embeddedComments?.allowReplies ?? true
+  }" data-reactionLabel="${
+    settings.reaction.label
   }"><div style="margin-bottom: 8px;">${
     comment.author?.username
   }</div><div>${sanitizedBody}</div></div>`;
@@ -423,6 +425,9 @@ const enhanced = withFragmentContainer<Props>({
       }
       embeddedComments {
         allowReplies
+      }
+      reaction {
+        label
       }
     }
   `,

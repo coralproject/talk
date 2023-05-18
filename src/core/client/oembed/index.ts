@@ -8,6 +8,7 @@ import injectJSONPCallback from "./injectJSONPCallback";
 interface CommentEmbedQueryArgs {
   commentID?: string;
   allowReplies?: string;
+  reactionLabel?: string;
 }
 
 /** createCommentEmbedQueryRef creates a unique reference from the query args */
@@ -30,10 +31,11 @@ function detectAndInject(opts: DetectAndInjectArgs = {}) {
   const elements = document.querySelectorAll(".coral-comment-embed");
   Array.prototype.forEach.call(elements, (element: HTMLElement) => {
     const commentID = element.dataset.commentid;
-    const allowReplies = element.dataset.allowReplies;
+    const allowReplies = element.dataset.allowreplies;
+    const reactionLabel = element.dataset.reactionlabel;
 
     // Construct the args for generating the ref.
-    const args = { commentID, allowReplies };
+    const args = { commentID, allowReplies, reactionLabel };
 
     // Get or create a ref.
     let ref = element.dataset.coralRef;
@@ -56,13 +58,14 @@ function detectAndInject(opts: DetectAndInjectArgs = {}) {
 
   // Call server using JSONP.
   Object.keys(queryMap).forEach((ref) => {
-    const { commentID, allowReplies } = queryMap[ref];
+    const { commentID, allowReplies, reactionLabel } = queryMap[ref];
 
     // Compile the arguments used to generate the
     const args: Record<string, string | undefined> = {
       allowReplies,
       commentID,
       ref,
+      reactionLabel,
     };
 
     // Add the script element with the specified options to the page.
