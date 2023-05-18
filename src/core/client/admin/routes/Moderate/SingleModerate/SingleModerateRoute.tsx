@@ -62,6 +62,9 @@ const enhanced = withRouteConfig<Props, SingleModerateRouteQueryResponse>({
         author {
           id
         }
+        revision {
+          id
+        }
         ...ModerateCardContainer_comment
       }
       settings {

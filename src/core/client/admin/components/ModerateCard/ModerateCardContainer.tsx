@@ -3,10 +3,6 @@ import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import {
-  ApproveCommentMutation,
-  RejectCommentMutation,
-} from "coral-admin/mutations";
 import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { getModerationLink } from "coral-framework/helpers";
 import parseModerationOptions from "coral-framework/helpers/parseModerationOptions";
@@ -45,6 +41,8 @@ interface Props {
   selectPrev?: () => void;
   selectNext?: () => void;
   loadNext?: (() => void) | null;
+  handleReject: () => void;
+  handleApprove: () => void;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
@@ -77,9 +75,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   onConversationClicked: conversationClicked,
   onSetSelected: setSelected,
   loadNext,
+  handleReject,
+  handleApprove,
 }) => {
-  const approveComment = useMutation(ApproveCommentMutation);
-  const rejectComment = useMutation(RejectCommentMutation);
   const featureComment = useMutation(FeatureCommentMutation);
   const unfeatureComment = useMutation(UnfeatureCommentMutation);
 
@@ -98,70 +96,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     () => scoped && !comment.canModerate,
     [scoped, comment]
   );
-
-  const handleApprove = useCallback(async () => {
-    if (!comment.revision) {
-      return;
-    }
-
-    if (readOnly) {
-      return;
-    }
-
-    const { storyID, siteID, section } = parseModerationOptions(match);
-
-    await approveComment({
-      commentID: comment.id,
-      commentRevisionID: comment.revision.id,
-      storyID,
-      siteID,
-      section,
-      orderBy: moderationQueueSort,
-    });
-    if (loadNext) {
-      loadNext();
-    }
-  }, [
-    approveComment,
-    comment.id,
-    comment.revision,
-    loadNext,
-    match,
-    readOnly,
-    moderationQueueSort,
-  ]);
-
-  const handleReject = useCallback(async () => {
-    if (!comment.revision) {
-      return;
-    }
-
-    if (readOnly) {
-      return;
-    }
-
-    const { storyID, siteID, section } = parseModerationOptions(match);
-
-    await rejectComment({
-      commentID: comment.id,
-      commentRevisionID: comment.revision.id,
-      storyID,
-      siteID,
-      section,
-      orderBy: moderationQueueSort,
-    });
-    if (loadNext) {
-      loadNext();
-    }
-  }, [
-    comment.revision,
-    comment.id,
-    readOnly,
-    match,
-    rejectComment,
-    loadNext,
-    moderationQueueSort,
-  ]);
 
   const handleFeature = useCallback(() => {
     if (!comment.revision) {

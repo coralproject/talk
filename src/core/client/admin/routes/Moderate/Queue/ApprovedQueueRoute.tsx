@@ -131,6 +131,7 @@ const enhanced = withPaginationContainer<
             node {
               id
               author {
+              revision {
                 id
               }
               ...ModerateCardContainer_comment

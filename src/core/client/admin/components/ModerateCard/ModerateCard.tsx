@@ -1,5 +1,7 @@
+/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
+import key from "keymaster";
 import React, {
   FunctionComponent,
   useCallback,
@@ -30,7 +32,9 @@ import FeatureButton from "./FeatureButton";
 import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
 
+import { HOTKEYS } from "coral-admin/constants";
 import styles from "./ModerateCard.css";
+import { noop } from "lodash";
 
 interface Props {
   id: string;
@@ -121,8 +125,6 @@ const ModerateCard: FunctionComponent<Props> = ({
   deleted = false,
   readOnly = false,
   edited,
-  selectNext,
-  selectPrev,
   isQA,
   bannedWords,
   suspectWords,

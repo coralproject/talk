@@ -290,6 +290,9 @@ const createQueueRoute = (
                   author {
                     id
                   }
+                  revision {
+                    id
+                  }
                   ...ModerateCardContainer_comment
                 }
               }

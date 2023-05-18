@@ -4,8 +4,13 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { ModerateCardContainer } from "coral-admin/components/ModerateCard";
 import {
+  // ApproveCommentMutation,
+  RejectCommentMutation,
+} from "coral-admin/mutations";
+import {
   useLoadMore,
   useLocal,
+  useMutation,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { Button, CallOut, Divider } from "coral-ui/components/v2";
@@ -28,6 +33,9 @@ interface Props {
   setUserID?: (id: string) => void;
 }
 
+type Comment =
+  UserHistoryDrawerAllComments_user["allComments"]["edges"][number]["node"];
+
 const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
   user,
   settings,
@@ -36,6 +44,8 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
   setUserID,
 }) => {
   const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
+  // const approveComment = useMutation(ApproveCommentMutation);
+  const rejectComment = useMutation(RejectCommentMutation);
 
   const [{ archivingEnabled, autoArchiveOlderThanMs }] =
     useLocal<UserHistoryDrawerAllCommentsLocal>(graphql`
@@ -55,6 +65,20 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
 
   const hasMore = relay.hasMore();
   const comments = user ? user.allComments.edges.map((edge) => edge.node) : [];
+
+  const reject = useCallback(async (comment: Comment) => {
+    if (!comment.revision?.id) {
+      return;
+    }
+    await rejectComment({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID: comment.story.id,
+      siteID: comment.site.id,
+      section: null,
+      orderBy: null,
+    });
+  }, []);
 
   if (comments.length === 0) {
     return (
@@ -89,6 +113,8 @@ const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
             showStoryInfo
             mini
             onUsernameClicked={setUserID}
+            handleApprove={() => null}
+            handleReject={() => reject(c)}
           />
           {
             // Don't show horizontal rule after last comment
@@ -138,6 +164,15 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
+              revision {
+                id
+              }
+              story {
+                id
+              }
+              site {
+                id
+              }
               ...ModerateCardContainer_comment
             }
           }

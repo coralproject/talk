@@ -8,6 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { graphql } from "react-relay";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import BanModalQuery from "coral-admin/components/BanModalQuery";
@@ -15,19 +16,31 @@ import ConversationModal from "coral-admin/components/ConversationModal";
 import ModerateCardContainer from "coral-admin/components/ModerateCard";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { HOTKEYS } from "coral-admin/constants";
+import {
+  ApproveCommentMutation,
+  RejectCommentMutation,
+} from "coral-admin/mutations";
+import { parseModerationOptions } from "coral-framework/helpers";
 import useMemoizer from "coral-framework/hooks/useMemoizer";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
+
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { useHotkey } from "coral-ui/hooks";
 import { PropTypesOf } from "coral-ui/types";
 
+import { QueueLocal } from "coral-admin/__generated__/QueueLocal.graphql";
+
 import QueueWrapper from "./QueueWrapper";
 
+import { useRouter } from "found";
 import styles from "./Queue.css";
 
-type CommentType = { id: string; author: { id: string } | null } & PropTypesOf<
-  typeof ModerateCardContainer
->["comment"];
+type CommentType = {
+  id: string;
+  author: { id: string } | null;
+  revision: { id: string } | null;
+} & PropTypesOf<typeof ModerateCardContainer>["comment"];
 
 interface Props {
   comments: CommentType[];
@@ -67,7 +80,16 @@ const Queue: FunctionComponent<Props> = ({
   const [conversationModalVisible, setConversationModalVisible] =
     useState(false);
   const [conversationCommentID, setConversationCommentID] = useState("");
+  const rejectComment = useMutation(RejectCommentMutation);
+  const approveComment = useMutation(ApproveCommentMutation);
   const memoize = useMemoizer();
+
+  const { match } = useRouter();
+  const [{ moderationQueueSort }] = useLocal<QueueLocal>(graphql`
+    fragment QueueLocal on Local {
+      moderationQueueSort
+    }
+  `);
 
   const toggleView = useCallback(() => {
     if (!singleView) {
@@ -122,10 +144,44 @@ const Queue: FunctionComponent<Props> = ({
 
   useEffect(() => setShowBanModal(false), [selectedComment]);
 
+  const reject = useCallback(async () => {
+    const { storyID, siteID, section } = parseModerationOptions(match);
+    const comment = comments[selectedComment!];
+    if (!comment.revision) {
+      return;
+    }
+    await rejectComment({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID,
+      siteID,
+      section,
+      orderBy: moderationQueueSort,
+    });
+  }, [selectedComment, comments, match, moderationQueueSort, rejectComment]);
+
+  const approve = useCallback(async () => {
+    const { storyID, siteID, section } = parseModerationOptions(match);
+    const comment = comments[selectedComment!];
+    if (!comment.revision) {
+      return;
+    }
+    await approveComment({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID,
+      siteID,
+      section,
+      orderBy: moderationQueueSort,
+    });
+  }, [selectedComment, comments, match, moderationQueueSort, approveComment]);
+
   useEffect(() => {
     key(HOTKEYS.NEXT, QUEUE_HOTKEY_ID, selectNext);
     key(HOTKEYS.PREV, QUEUE_HOTKEY_ID, selectPrev);
     key(HOTKEYS.BAN, QUEUE_HOTKEY_ID, ban);
+    key(HOTKEYS.REJECT, QUEUE_HOTKEY_ID, reject);
+    key(HOTKEYS.APPROVE, QUEUE_HOTKEY_ID, approve);
 
     // The the scope such that only events attached to the ${id} scope will
     // be honored.
@@ -137,7 +193,7 @@ const Queue: FunctionComponent<Props> = ({
     };
 
     return noop;
-  }, [selectNext, selectPrev, ban]);
+  }, [selectNext, selectPrev, ban, reject, approve]);
 
   const onSetUserDrawerUserID = useCallback((userID: string) => {
     setUserDrawerID(userID);
@@ -203,6 +259,8 @@ const Queue: FunctionComponent<Props> = ({
             selected={selectedComment === i}
             selectPrev={selectPrev}
             selectNext={selectNext}
+            handleApprove={approve}
+            handleReject={reject}
           />
         )}
       />
