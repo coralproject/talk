@@ -139,18 +139,7 @@ export class UserCache implements IDataCache {
         modifiedAt?: Date;
         from: { start: Date; finish: Date };
       }) => {
-        if (suspension.modifiedAt) {
-          return {
-            ...suspension,
-            createdAt: new Date(suspension.createdAt),
-            from: {
-              start: new Date(suspension.from.start),
-              finish: new Date(suspension.from.finish),
-            },
-            modifiedAt: new Date(suspension.modifiedAt),
-          };
-        }
-        return {
+        const suspensionUpdated = {
           ...suspension,
           createdAt: new Date(suspension.createdAt),
           from: {
@@ -158,6 +147,13 @@ export class UserCache implements IDataCache {
             finish: new Date(suspension.from.finish),
           },
         };
+        if (suspension.modifiedAt) {
+          return {
+            ...suspensionUpdated,
+            modifiedAt: new Date(suspension.modifiedAt),
+          };
+        }
+        return suspensionUpdated;
       }
     );
 
