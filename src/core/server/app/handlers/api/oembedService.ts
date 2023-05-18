@@ -19,7 +19,7 @@ import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const OEmbedServiceQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
-  interactions: Joi.string().optional(),
+  allowReplies: Joi.string().optional(),
   format: Joi.string().optional(),
 });
 
@@ -44,7 +44,7 @@ export const oembedProviderHandler = ({
     const formatter = getCommentEmbedCreatedAtFormatter(tenant);
 
     try {
-      const { url, interactions, format } = validate(
+      const { url, allowReplies, format } = validate(
         OEmbedServiceQuerySchema,
         req.query
       );
@@ -56,7 +56,7 @@ export const oembedProviderHandler = ({
       }
 
       // default to including reply/go to conversation interactions if no query param provided
-      const includeInteractions = interactions ?? true;
+      const includeReplies = allowReplies ?? true;
 
       const urlToParse = new URL(url);
       const commentID = urlToParse.searchParams.get("commentID");
@@ -94,7 +94,7 @@ export const oembedProviderHandler = ({
 
         const simpleCommentEmbed = nunjucks.render("simpleCommentEmbed.html", {
           commentID,
-          includeInteractions,
+          includeReplies,
           commentAuthor,
           sanitizedSimple,
         });
@@ -105,7 +105,7 @@ export const oembedProviderHandler = ({
           commentRevision,
           formattedCreatedAt,
           mediaUrl,
-          includeInteractions,
+          includeReplies,
           customCSSURL,
           customFontsCSSURL,
           streamCSS,

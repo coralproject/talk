@@ -30,7 +30,7 @@ const CommentEmbedJSONPQuerySchema = Joi.object().keys({
   // Required for JSONP support.
   callback: Joi.string().allow("").optional(),
   commentID: Joi.string().required(),
-  interactions: Joi.string().optional(),
+  allowReplies: Joi.string().optional(),
   ref: Joi.string().required(),
 });
 
@@ -38,7 +38,7 @@ interface CommentEmbedJSONPQuery {
   callback: string;
   commentID: string;
   ref: string;
-  interactions?: string;
+  allowReplies?: string;
 }
 
 /**
@@ -50,7 +50,7 @@ export const commentEmbedJSONPHandler =
     try {
       const { tenant } = req.coral;
 
-      const { commentID, ref, interactions }: CommentEmbedJSONPQuery = validate(
+      const { commentID, ref, allowReplies }: CommentEmbedJSONPQuery = validate(
         CommentEmbedJSONPQuerySchema,
         req.query
       );
@@ -90,7 +90,7 @@ export const commentEmbedJSONPHandler =
 
         const formattedCreatedAt = formatter.format(comment.createdAt);
 
-        const includeInteractions = interactions === "true" ?? false;
+        const includeReplies = allowReplies === "true" ?? false;
 
         const sanitized = transform(
           new JSDOM("", {}).window as any,
@@ -103,7 +103,7 @@ export const commentEmbedJSONPHandler =
           commentRevision,
           formattedCreatedAt,
           mediaUrl,
-          includeInteractions,
+          includeReplies,
           streamCSS,
           customCSSURL,
           staticURI,

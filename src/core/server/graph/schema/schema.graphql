@@ -1668,6 +1668,10 @@ type CommenterAccountFeatures {
   deleteAccount: Boolean!
 }
 
+type EmbeddedCommentsConfiguration {
+  allowReplies: Boolean
+}
+
 """
 BadgeConfiguration specifies the configuration for the staff badges assigned to
 users with any role above COMMENTER.
@@ -2184,6 +2188,8 @@ type Settings @cacheControl(maxAge: 30) {
   external profile.
   """
   externalProfileURL: String
+
+  embeddedComments: EmbeddedCommentsConfiguration
 }
 
 ################################################################################
@@ -5525,6 +5531,10 @@ input NewCommentersConfigurationInput {
   moderation: NewCommentersModerationConfigInput
 }
 
+input EmbeddedCommentsConfigurationInput {
+  allowReplies: Boolean
+}
+
 """
 RTEConfigurationInput specifies the configuration for the rte.
 """
@@ -5732,6 +5742,8 @@ input SettingsInput {
   external profile.
   """
   externalProfileURL: String
+
+  embeddedComments: EmbeddedCommentsConfigurationInput
 }
 
 """

@@ -880,6 +880,12 @@ configure-advanced-customCSS-containsFontFace =
   URL to a custom CSS stylesheet that contains all @font-face
   definitions needed by above stylesheet.
 
+configure-advanced-embeddedCommentReplies = Embedded comment replies
+configure-advanced-embeddedCommentReplies-explanation = When enabled, a reply button
+  will appear with each embedded comment to encourage additional discussion on that
+  specific comment or story.
+configure-advanced-embeddedCommentReplies-label = Allow replies to embedded comments
+
 configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =
   Domains where your { -product-name } instance is allowed to be embedded
