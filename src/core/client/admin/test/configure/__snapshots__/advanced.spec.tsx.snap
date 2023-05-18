@@ -291,6 +291,97 @@ definitions needed by above stylesheet.
               <div>
                 <label
                   className="Header-root"
+                  htmlFor="configure-advanced-embeddedCommentReplies"
+                >
+                  Embedded comment replies
+                </label>
+              </div>
+              <div />
+            </div>
+            <div
+              className="ConfigBox-content"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-4"
+              >
+                <div
+                  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-spacing-2"
+                >
+                  <p
+                    className="FormFieldDescription-root"
+                  >
+                    When enabled, a reply button
+will appear with each embedded comment to encourage additional discussion on that
+specific comment or story.
+                  </p>
+                  <label
+                    className="Label-root"
+                  >
+                    Allow replies to embedded comments
+                  </label>
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="embeddedComments.allowReplies-true"
+                        name="embeddedComments.allowReplies"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="true"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="embeddedComments.allowReplies-true"
+                      >
+                        <span>
+                          On
+                        </span>
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        disabled={false}
+                        id="embeddedComments.allowReplies-false"
+                        name="embeddedComments.allowReplies"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="false"
+                      />
+                      <label
+                        className="RadioButton-label RadioButton-labelChecked"
+                        htmlFor="embeddedComments.allowReplies-false"
+                      >
+                        <span>
+                          Off
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Box-root ConfigBox-root"
+          >
+            <div
+              className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+            >
+              <div>
+                <label
+                  className="Header-root"
                   htmlFor="configure-advanced-liveUpdates"
                 >
                   Comment stream live updates
