@@ -9,7 +9,7 @@ import React, {
 import CopyToClipboard from "react-copy-to-clipboard";
 import { graphql } from "react-relay";
 
-import { sanitizeAndFindSpoilerTags } from "coral-common/helpers/sanitize";
+import { sanitizeAndFindSpoilerAndSarcasmTags } from "coral-common/helpers/sanitize";
 import { useModerationLink } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
@@ -156,10 +156,8 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
 
   function transform(transformWindow: Window, source: string | Node) {
     // Sanitize source.
-    const [sanitized, spoilerTags] = sanitizeAndFindSpoilerTags(
-      transformWindow,
-      source
-    );
+    const [sanitized, spoilerTags, sarcasmTags] =
+      sanitizeAndFindSpoilerAndSarcasmTags(transformWindow, source);
 
     // Attach event handlers to spoiler tags.
     spoilerTags.forEach((node) => {
@@ -172,6 +170,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       node.setAttribute("title", "Reveal spoiler");
       node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
     });
+
+    sarcasmTags.forEach((node) => {
+      node.setAttribute("style", "font-family: monospace;");
+    });
+
     // Return results.
     return sanitized.innerHTML;
   }

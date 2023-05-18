@@ -1,5 +1,5 @@
 import { createDateFormatter } from "coral-common/date";
-import { sanitizeAndFindSpoilerTags } from "coral-common/helpers/sanitize";
+import { sanitizeAndFindSpoilerAndSarcasmTags } from "coral-common/helpers/sanitize";
 import { MongoContext } from "coral-server/data/context";
 import { Comment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
@@ -83,7 +83,7 @@ export async function getCommentEmbedData(
 
 export function transform(window: Window, source: string | Node) {
   // Sanitize source.
-  const [sanitized, spoilerTags] = sanitizeAndFindSpoilerTags(
+  const [sanitized, spoilerTags] = sanitizeAndFindSpoilerAndSarcasmTags(
     window as any,
     source
   );
@@ -104,7 +104,7 @@ export function transform(window: Window, source: string | Node) {
 
 export function transformSimpleEmbed(window: Window, source: string | Node) {
   // Sanitize source.
-  const [sanitized, spoilerTags] = sanitizeAndFindSpoilerTags(
+  const [sanitized, spoilerTags] = sanitizeAndFindSpoilerAndSarcasmTags(
     window as any,
     source
   );

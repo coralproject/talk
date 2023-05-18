@@ -256,19 +256,23 @@ export function createSanitize(
 }
 
 /**
- * Sanitize html content and find spoiler tags.
+ * Sanitize html content and find spoiler and sarcasm tags.
  */
-export const sanitizeAndFindSpoilerTags: (
+export const sanitizeAndFindSpoilerAndSarcasmTags: (
   window: Window,
   source: string | Node
-) => [HTMLElement, Element[]] = (() => {
+) => [HTMLElement, Element[], Element[]] = (() => {
   /** Resused instance */
   let sanitize: Sanitize | null = null;
 
   /** Found spoiler tags during sanitization will be placed here. */
   let spoilerTags: Element[] = [];
+  const sarcasmTags: Element[] = [];
 
-  return (window: Window, source: string | Node): [HTMLElement, Element[]] => {
+  return (
+    window: Window,
+    source: string | Node
+  ): [HTMLElement, Element[], Element[]] => {
     if (!sanitize) {
       sanitize = createSanitize(window, {
         // Allow all rte features to be displayed.
@@ -282,13 +286,20 @@ export const sanitizeAndFindSpoilerTags: (
             ) {
               spoilerTags.push(node);
             }
+            if (
+              node.tagName === "SPAN" &&
+              node.className === SARCASM_CLASSNAME
+            ) {
+              sarcasmTags.push(node);
+            }
           });
         },
       });
     }
     const sanitized = sanitize(source);
     const ret = spoilerTags;
+    const sarcasm = sarcasmTags;
     spoilerTags = [];
-    return [sanitized, ret];
+    return [sanitized, ret, sarcasm];
   };
 })();
