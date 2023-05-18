@@ -185,7 +185,7 @@ const clientHandler =
     });
   };
 
-export const createEmbedBootstrapHandler: (
+const createEmbedBootstrapHandler: (
   defaultLocale: LanguageCode,
   manifestLoader: ManifestLoader,
   staticConfig: StaticConfig

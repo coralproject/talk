@@ -157,6 +157,10 @@ export interface Comment extends TenantResource {
    */
   seen?: boolean;
 
+  /**
+   * embeddedAt is the date when a comment embed was first embedded and requested
+   * from the comment embed API
+   */
   embeddedAt?: Date;
 }
 
@@ -826,6 +830,15 @@ export interface UpdateCommentStatus {
   after: Readonly<Comment>;
 }
 
+/**
+ * updateCommentEmbeddedAt will update with the date at which the comment
+ * was first embedded.
+ *
+ * @param mongo the database handle
+ * @param tenantID the id of the Tenant
+ * @param id the id of the Comment being embedded
+ * @param isArchived whether the Comment is archived
+ */
 export async function updateCommentEmbeddedAt(
   mongo: MongoContext,
   tenantID: string,

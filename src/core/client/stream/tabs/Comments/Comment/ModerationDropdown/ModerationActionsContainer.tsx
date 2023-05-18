@@ -61,6 +61,8 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       accessToken
     }
   `);
+  const { window } = useCoralContext();
+  const [embedCodeCopied, setEmbedCodeCopied] = useState(false);
 
   const emitGotoModerationEvent = useViewerEvent(GotoModerationEvent);
   const approve = useMutation(ApproveCommentMutation);
@@ -145,14 +147,9 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       : comment.author.id !== viewer.id;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
-  const [embedCodeCopied, setEmbedCodeCopied] = useState(false);
-
   const handleCopyEmbedCode = useCallback(() => {
     setEmbedCodeCopied(true);
-    // do we want to emit a copy event when code is copied
   }, [setEmbedCodeCopied]);
-
-  const { window } = useCoralContext();
 
   function transform(transformWindow: Window, source: string | Node) {
     // Sanitize source.
@@ -166,7 +163,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
         "{this.removeAttribute('style');this.removeAttribute('role');this.removeAttribute('title');this.removeAttribute('onclick');}"
       );
       node.setAttribute("role", "button");
-      node.setAttribute("style", "background-color: #14171A;");
+      node.setAttribute("style", "background-color: #14171A; color: #14171A;");
       node.setAttribute("title", "Reveal spoiler");
       node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
     });

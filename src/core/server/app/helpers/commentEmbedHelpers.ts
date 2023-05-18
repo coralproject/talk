@@ -113,11 +113,10 @@ export function transformSimpleEmbed(window: Window, source: string | Node) {
   spoilerTags.forEach((node) => {
     node.setAttribute(
       "onclick",
-      "{this.removeSttribute('style');this.removeAttribute('role');this.removeAttribute('title');this.removeAttribute('onclick');}"
+      "{this.removeAttribute('style');this.removeAttribute('role');this.removeAttribute('title');this.removeAttribute('onclick');}"
     );
     node.setAttribute("role", "button");
-    // TODO: Make this the correct color
-    node.setAttribute("style", "background-color: black;");
+    node.setAttribute("style", "background-color: #14171A; color: #14171A;");
     node.setAttribute("title", "Reveal spoiler");
     node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
   });

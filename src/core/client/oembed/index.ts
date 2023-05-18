@@ -1,3 +1,4 @@
+import { COMMENT_EMBED_SELECTOR } from "coral-framework/constants";
 import { detectCommentEmbedScript } from "coral-framework/helpers";
 import getCurrentScriptOrigin from "coral-framework/helpers/getCurrentScriptOrigin";
 import jsonp from "coral-framework/utils/jsonp";
@@ -28,7 +29,7 @@ function detectAndInject(opts: DetectAndInjectArgs = {}) {
   const queryMap: Record<string, CommentEmbedQueryArgs> = {};
 
   // Find all the selected elements and fill the queryMap.
-  const elements = document.querySelectorAll(".coral-comment-embed");
+  const elements = document.querySelectorAll(COMMENT_EMBED_SELECTOR);
   Array.prototype.forEach.call(elements, (element: HTMLElement) => {
     const commentID = element.dataset.commentid;
     const allowReplies = element.dataset.allowreplies;

@@ -1668,6 +1668,9 @@ type CommenterAccountFeatures {
   deleteAccount: Boolean!
 }
 
+"""
+EmbeddedCommentsConfiguration specifies the configuration for embedded comments.
+"""
 type EmbeddedCommentsConfiguration {
   allowReplies: Boolean
 }
@@ -2189,6 +2192,9 @@ type Settings @cacheControl(maxAge: 30) {
   """
   externalProfileURL: String
 
+  """
+  embeddedComments includes the configuration for embedded comments.
+  """
   embeddedComments: EmbeddedCommentsConfiguration
 }
 
@@ -5531,6 +5537,9 @@ input NewCommentersConfigurationInput {
   moderation: NewCommentersModerationConfigInput
 }
 
+"""
+EmbeddedCommentsConfigurationInput specifies the configuration for comment embeds.
+"""
 input EmbeddedCommentsConfigurationInput {
   allowReplies: Boolean
 }
@@ -5743,6 +5752,9 @@ input SettingsInput {
   """
   externalProfileURL: String
 
+  """
+  embeddedComments includes the configuration for embedded comments.
+  """
   embeddedComments: EmbeddedCommentsConfigurationInput
 }
 
