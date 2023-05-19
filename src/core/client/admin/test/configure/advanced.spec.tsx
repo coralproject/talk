@@ -204,3 +204,40 @@ it("change review all user reports to enable For review queue", async () => {
     expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
   });
 });
+
+it("change embedded comments allow replies", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(
+          variables.settings.embeddedComments?.allowReplies
+        ).toEqual(false);
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const { advancedContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
+
+  const embeddedCommentReplies = within(advancedContainer).getByTestId(
+    "embedded-comment-replies-config"
+  );
+
+  const offField = within(embeddedCommentReplies).getByText("Off");
+
+  userEvent.click(offField);
+
+  // Send form
+  userEvent.click(saveChangesButton);
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton).toBeDisabled();
+
+  // Should have successfully sent with server.
+  await waitFor(() => {
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+  });
+});

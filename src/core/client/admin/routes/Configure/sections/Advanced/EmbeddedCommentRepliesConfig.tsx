@@ -25,6 +25,7 @@ const EmbeddedCommentRepliesConfig: FunctionComponent<Props> = ({
   disabled,
 }) => (
   <ConfigBox
+    data-testid="embedded-comment-replies-config"
     title={
       <Localized id="configure-advanced-embeddedCommentReplies">
         <Header htmlFor="configure-advanced-embeddedCommentReplies">
