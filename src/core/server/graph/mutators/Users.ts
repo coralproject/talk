@@ -210,6 +210,7 @@ export const Users = (ctx: GraphContext) => ({
   updateUsername: async (input: GQLUpdateUsernameInput) =>
     updateUsername(
       ctx.mongo,
+      ctx.cache,
       ctx.mailerQueue,
       ctx.tenant,
       ctx.user!,
@@ -225,12 +226,13 @@ export const Users = (ctx: GraphContext) => ({
       ctx.user!
     ),
   updateBio: async (input: GQLUpdateBioInput) =>
-    updateBio(ctx.mongo, ctx.tenant, ctx.user!, input.bio),
+    updateBio(ctx.mongo, ctx.cache, ctx.tenant, ctx.user!, input.bio),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
     updateEmailByID(ctx.mongo, ctx.tenant, input.userID, input.email),
   updateEmail: async (input: GQLUpdateEmailInput) =>
     updateEmail(
       ctx.mongo,
+      ctx.cache,
       ctx.tenant,
       ctx.mailerQueue,
       ctx.config,
@@ -241,12 +243,19 @@ export const Users = (ctx: GraphContext) => ({
     ),
   updateNotificationSettings: async (
     input: WithoutMutationID<GQLUpdateNotificationSettingsInput>
-  ) => updateNotificationSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
+  ) =>
+    updateNotificationSettings(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input
+    ),
   updateUserMediaSettings: async (
     input: WithoutMutationID<GQLUpdateUserMediaSettingsInput>
-  ) => updateMediaSettings(ctx.mongo, ctx.tenant, ctx.user!, input),
+  ) => updateMediaSettings(ctx.mongo, ctx.cache, ctx.tenant, ctx.user!, input),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
-    updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
+    updateAvatar(ctx.mongo, ctx.cache, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(
       ctx.mongo,
@@ -327,6 +336,7 @@ export const Users = (ctx: GraphContext) => ({
   }: GQLBanUserInput) =>
     ban(
       ctx.mongo,
+      ctx.cache,
       ctx.mailerQueue,
       ctx.rejectorQueue,
       ctx.tenant,
@@ -348,6 +358,7 @@ export const Users = (ctx: GraphContext) => ({
     async () =>
       updateUserBan(
         ctx.mongo,
+        ctx.cache,
         ctx.mailerQueue,
         ctx.rejectorQueue,
         ctx.tenant,
@@ -362,6 +373,7 @@ export const Users = (ctx: GraphContext) => ({
   warn: async (input: GQLWarnUserInput) =>
     warn(
       ctx.mongo,
+      ctx.cache,
       ctx.tenant,
       ctx.user!,
       input.userID,
@@ -369,7 +381,14 @@ export const Users = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeWarning: async (input: GQLRemoveUserWarningInput) =>
-    removeWarning(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removeWarning(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   acknowledgeWarning: async () =>
     acknowledgeWarning(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
   sendModMessage: async (input: GQLSendModMessageInput) =>
@@ -384,10 +403,11 @@ export const Users = (ctx: GraphContext) => ({
   acknowledgeModMessage: async () =>
     acknowledgeModMessage(ctx.mongo, ctx.tenant, ctx.user!.id, ctx.now),
   premodUser: async (input: GQLPremodUserInput) =>
-    premod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    premod(ctx.mongo, ctx.cache, ctx.tenant, ctx.user!, input.userID, ctx.now),
   suspend: async (input: GQLSuspendUserInput) =>
     suspend(
       ctx.mongo,
+      ctx.cache,
       ctx.mailerQueue,
       ctx.tenant,
       ctx.user!,
@@ -397,11 +417,32 @@ export const Users = (ctx: GraphContext) => ({
       ctx.now
     ),
   removeBan: async (input: GQLRemoveUserBanInput) =>
-    removeBan(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removeBan(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   removeSuspension: async (input: GQLRemoveUserSuspensionInput) =>
-    removeSuspension(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removeSuspension(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   removeUserPremod: async (input: GQLRemovePremodUserInput) =>
-    removePremod(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    removePremod(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   ignore: async (input: GQLIgnoreUserInput) =>
     ignore(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeIgnore: async (input: GQLRemoveUserIgnoreInput) =>
