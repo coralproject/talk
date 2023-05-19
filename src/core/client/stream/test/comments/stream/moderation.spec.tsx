@@ -408,3 +408,27 @@ it("site moderator can site ban commenter", async () => {
     `/admin/moderate/comment/${firstComment.id}`
   );
 });
+
+it("can copy comment embed code", async () => {
+  const jsdomPrompt = window.prompt;
+  window.prompt = jest.fn(() => null);
+
+  await act(async () => {
+    await createTestRenderer();
+  });
+
+  const comment = await screen.findByTestId(`comment-${firstComment.id}`);
+  const caretButton = within(comment).getByLabelText("Moderate");
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
+
+  const embedCodeButton = within(comment).getByRole("button", {
+    name: "Embed code",
+  });
+  fireEvent.click(embedCodeButton);
+  expect(
+    within(comment).getByRole("button", { name: "Code copied" })
+  ).toBeDefined();
+  window.prompt = jsdomPrompt;
+});
