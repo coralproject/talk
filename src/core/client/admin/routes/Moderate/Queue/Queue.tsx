@@ -1,6 +1,5 @@
 import { Localized } from "@fluent/react/compat";
 import key from "keymaster";
-import { noop } from "lodash";
 import React, {
   FunctionComponent,
   useCallback,
@@ -40,8 +39,6 @@ interface Props {
   viewNewCount?: number;
 }
 
-const QUEUE_HOTKEY_ID = "moderation-queue";
-
 const Queue: FunctionComponent<Props> = ({
   settings,
   comments,
@@ -65,6 +62,12 @@ const Queue: FunctionComponent<Props> = ({
   const [conversationCommentID, setConversationCommentID] = useState("");
   const memoize = useMemoizer();
 
+  useEffect(() => {
+    if (selectedComment === -1 && comments.length > 0) {
+      key.setScope(comments[0].id);
+    }
+  });
+
   const toggleView = useCallback(() => {
     if (!singleView) {
       setSelectedComment(0);
@@ -82,10 +85,12 @@ const Queue: FunctionComponent<Props> = ({
   commentsRef.current = comments;
 
   const selectNext = useCallback(() => {
+    // MARCUS TODO: DRY THIS
     const index = selectedCommentRef.current || 0;
     const nextComment = commentsRef.current[index + 1];
     if (nextComment) {
       setSelectedComment(index + 1);
+      key.setScope(nextComment.id);
       const container: HTMLElement | null = window.document.getElementById(
         `moderate-comment-${nextComment.id}`
       );
@@ -100,6 +105,7 @@ const Queue: FunctionComponent<Props> = ({
     const prevComment = commentsRef.current[index - 1];
     if (prevComment) {
       setSelectedComment(index - 1);
+      key.setScope(prevComment.id);
       const container: HTMLElement | null = window.document.getElementById(
         `moderate-comment-${prevComment.id}`
       );
@@ -108,22 +114,6 @@ const Queue: FunctionComponent<Props> = ({
       }
     }
   }, [window.document]);
-
-  useEffect(() => {
-    key(HOTKEYS.NEXT, QUEUE_HOTKEY_ID, selectNext);
-    key(HOTKEYS.PREV, QUEUE_HOTKEY_ID, selectPrev);
-
-    // The the scope such that only events attached to the ${id} scope will
-    // be honored.
-    key.setScope(QUEUE_HOTKEY_ID);
-
-    return () => {
-      // Remove all events that are set in the ${id} scope.
-      key.deleteScope(QUEUE_HOTKEY_ID);
-    };
-
-    return noop;
-  }, [selectNext, selectPrev]);
 
   const onSetUserDrawerUserID = useCallback((userID: string) => {
     setUserDrawerID(userID);

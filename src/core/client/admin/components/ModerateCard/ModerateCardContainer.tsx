@@ -30,8 +30,8 @@ import {
 import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
 import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
-
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
+
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -478,6 +478,8 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment ModerateCardContainer_viewer on User {
+      ...UserStatusChangeContainer_viewer
+      id
       role
       moderationScopes {
         scoped
