@@ -67,7 +67,8 @@
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",
     "tscheck": "npm-run-all --parallel tscheck:*",
-    "watch": "NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
+    "watch": "NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts",
+    "generate-v2": "graphql-codegen --config codegen.yml"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -176,8 +177,14 @@
     "@fluent/react": "^0.12.0",
     "@giphy/js-fetch-api": "^4.1.2",
     "@giphy/react-components": "^5.4.0",
-    "@graphql-codegen/cli": "^1.20.0",
-    "@graphql-codegen/introspection": "^1.18.1",
+    "@graphql-codegen/cli": "3.3.1",
+    "@graphql-codegen/introspection": "3.0.1",
+    "@graphql-codegen/typescript": "3.0.4",
+    "@graphql-codegen/typescript-document-nodes": "3.0.4",
+    "@graphql-codegen/typescript-graphql-files-modules": "2.2.1",
+    "@graphql-codegen/typescript-operations": "^3.0.4",
+    "@graphql-codegen/typescript-react-apollo": "3.3.7",
+    "@graphql-codegen/typescript-resolvers": "3.2.1",
     "@intervolga/optimize-cssnano-plugin": "^1.0.6",
     "@sentry/react": "^6.19.7",
     "@testing-library/jest-dom": "^5.16.2",
