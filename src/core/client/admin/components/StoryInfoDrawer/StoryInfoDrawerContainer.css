@@ -56,3 +56,7 @@
 .storyLink {
   font-weight: var(--font-weight-primary-regular);
 }
+
+.storyDrawerAction {
+  margin-bottom: var(--spacing-2);
+}

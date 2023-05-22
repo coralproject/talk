@@ -3,6 +3,7 @@ import { camelCase, isEqual, omit, pick, uniqWith } from "lodash";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/types";
+import { CommentActionsCache } from "coral-server/data/cache/commentActionsCache";
 import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
 import {
@@ -353,26 +354,43 @@ export async function retrieveUserAction(
  */
 export async function retrieveManyUserActionPresence(
   mongo: MongoContext,
+  commentActionsCache: CommentActionsCache,
   tenantID: string,
   userID: string | null,
   commentIDs: string[]
 ): Promise<GQLActionPresence[]> {
-  const cursor = mongo.commentActions().find(
-    {
-      tenantID,
-      userID,
-      commentID: { $in: commentIDs },
-    },
-    {
-      // We only need the commentID and actionType from the database.
-      projection: {
-        commentID: 1,
-        actionType: 1,
-      },
-    }
-  );
+  let actions: Readonly<CommentAction>[] = [];
 
-  const actions = await cursor.toArray();
+  const cacheAvailable = await commentActionsCache.available(tenantID);
+  if (cacheAvailable) {
+    const actionsFromCache = await commentActionsCache.findMany(
+      tenantID,
+      commentIDs
+    );
+
+    for (const action of actionsFromCache) {
+      if (action.userID === userID) {
+        actions.push(action);
+      }
+    }
+  } else {
+    const cursor = mongo.commentActions().find(
+      {
+        tenantID,
+        userID,
+        commentID: { $in: commentIDs },
+      },
+      {
+        // We only need the commentID and actionType from the database.
+        projection: {
+          commentID: 1,
+          actionType: 1,
+        },
+      }
+    );
+
+    actions = await cursor.toArray();
+  }
 
   // For each of the actions returned by the query, group the actions by the
   // item id. Then compute the action presence for each of the actions.

@@ -45,6 +45,9 @@ import {
   WebhookCoralEventListener,
 } from "./events/listeners";
 import CoralEventListenerBroker from "./events/publisher";
+import { retrieveAllTenants, retrieveTenant, Tenant } from "./models/tenant";
+import { WordListCategory } from "./services/comments/pipeline/phases/wordList/message";
+import { WordListService } from "./services/comments/pipeline/phases/wordList/service";
 import { ErrorReporter, SentryErrorReporter } from "./services/errors";
 import { isInstalled } from "./services/tenant";
 
@@ -118,6 +121,10 @@ class Server {
   private migrationManager: MigrationManager;
 
   private readonly reporter?: ErrorReporter;
+
+  private wordList: WordListService;
+  private onTenantDeleteDelegate: () => void;
+  private onTenantUpdateDelegate: (tenant: Tenant) => void;
 
   /**
    * broker stores a reference to all of the listeners that can be used in
@@ -276,6 +283,61 @@ class Server {
 
     // Setup the metrics collectors.
     collectDefaultMetrics();
+
+    // word list services
+
+    this.wordList = new WordListService(logger);
+    const tenants = await retrieveAllTenants(this.mongo);
+    for (const tenant of tenants) {
+      await this.wordList.initialize(
+        tenant.id,
+        tenant.locale,
+        WordListCategory.Banned,
+        tenant.wordList.banned
+      );
+      await this.wordList.initialize(
+        tenant.id,
+        tenant.locale,
+        WordListCategory.Suspect,
+        tenant.wordList.suspect
+      );
+    }
+
+    this.onTenantDeleteDelegate = this.onTenantDelete.bind(this);
+    this.onTenantUpdateDelegate = this.onTenantUpdate.bind(this);
+
+    this.tenantCache.subscribe(
+      this.onTenantUpdateDelegate,
+      this.onTenantDeleteDelegate
+    );
+  }
+
+  private onTenantDelete() {}
+
+  private async onTenantUpdate(tenant: Tenant) {
+    logger.info({ tenantID: tenant.id }, "received remote tenant update");
+
+    const updatedTenant = await retrieveTenant(this.mongo, tenant.id);
+    if (!updatedTenant) {
+      logger.warn(
+        { tenantID: tenant.id },
+        "tenant not found during tenantCache wordlist update"
+      );
+      return;
+    }
+
+    await this.wordList.initialize(
+      updatedTenant.id,
+      updatedTenant.locale,
+      WordListCategory.Banned,
+      updatedTenant.wordList.banned
+    );
+    await this.wordList.initialize(
+      updatedTenant.id,
+      updatedTenant.locale,
+      WordListCategory.Suspect,
+      updatedTenant.wordList.suspect
+    );
   }
 
   /**
@@ -312,6 +374,7 @@ class Server {
       this.tasks.webhook.process();
       this.tasks.rejector.process();
       this.tasks.archiver.process();
+      this.tasks.loadCache.process();
       this.tasks.unarchiver.process();
 
       // Start up the cron job processors.
@@ -374,7 +437,9 @@ class Server {
       signingConfig: this.signingConfig,
       tenantCache: this.tenantCache,
       webhookQueue: this.tasks.webhook,
+      loadCacheQueue: this.tasks.loadCache,
       unarchiverQueue: this.tasks.unarchiver,
+      wordList: this.wordList,
     };
 
     // Create the Coral App, branching off from the parent app.

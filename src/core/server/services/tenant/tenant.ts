@@ -2,10 +2,13 @@ import { Redis } from "ioredis";
 import { isUndefined, toLower, uniqBy } from "lodash";
 import { URL } from "url";
 
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
+import { ERROR_CODES } from "coral-common/errors";
 import { isModerator, isOrgModerator } from "coral-common/permissions/types";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
+  OperationForbiddenError,
   TenantInstalledAlreadyError,
   UserForbiddenError,
   UserNotFoundError,
@@ -41,6 +44,8 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { WordListCategory } from "../comments/pipeline/phases/wordList/message";
+import { WordListService } from "../comments/pipeline/phases/wordList/service";
 import TenantCache from "./cache/cache";
 
 export type UpdateTenant = GQLSettingsInput;
@@ -77,6 +82,7 @@ export async function update(
   redis: Redis,
   cache: TenantCache,
   config: Config,
+  wordList: WordListService,
   tenant: Tenant,
   user: User,
   input: UpdateTenant
@@ -91,10 +97,33 @@ export async function update(
     delete input.live.enabled;
   }
 
-  // If the word list was specified, we should validate it to ensure there isn't
-  // any empty spaces.
   if (input.wordList) {
+    // If the word list was specified, we should validate it to ensure there isn't
+    // any empty spaces.
     input.wordList = cleanWordLists(input.wordList);
+
+    if (input.wordList.banned) {
+      const result = await wordList.initialize(
+        tenant.id,
+        tenant.locale,
+        WordListCategory.Banned,
+        input.wordList.banned
+      );
+      if (!result) {
+        throw new Error("unable to update banned word list");
+      }
+    }
+    if (input.wordList.suspect) {
+      const result = await wordList.initialize(
+        tenant.id,
+        tenant.locale,
+        WordListCategory.Suspect,
+        input.wordList.suspect
+      );
+      if (!result) {
+        throw new Error("unable to update suspect word list");
+      }
+    }
   }
 
   // Whenever the settings are updated, log who performed the update and what
@@ -315,6 +344,15 @@ export async function createEmailDomain(
       "Must be authenticated to create email domain ban",
       "emailDomain",
       "create"
+    );
+  }
+
+  if (PROTECTED_EMAIL_DOMAINS.has(input.domain)) {
+    throw new OperationForbiddenError(
+      ERROR_CODES.EMAIL_DOMAIN_PROTECTED,
+      "This email domain may not be moderated",
+      input.domain,
+      input.newUserModeration
     );
   }
 

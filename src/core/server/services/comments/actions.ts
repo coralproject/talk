@@ -1,3 +1,5 @@
+import { CommentActionsCache } from "coral-server/data/cache/commentActionsCache";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { CommentNotFoundError, UserSiteBanned } from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
@@ -177,6 +179,7 @@ async function addCommentAction(
 export async function removeCommentAction(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   input: Omit<RemoveActionInput, "reason">
@@ -237,6 +240,12 @@ export async function removeCommentAction(
       throw new Error("could not update comment action counts");
     }
 
+    const cacheAvailable = await cache.available(tenant.id);
+    if (cacheAvailable) {
+      await cache.commentActions.remove(action);
+      await cache.comments.update(updatedComment);
+    }
+
     // Update the comment counts onto other documents.
     const counts = await updateAllCommentCounts(mongo, redis, {
       tenant,
@@ -267,6 +276,7 @@ export type CreateCommentReaction = Pick<
 export async function createReaction(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -287,6 +297,12 @@ export async function createReaction(
     now
   );
   if (action) {
+    const cacheAvailable = await cache.available(tenant.id);
+    if (cacheAvailable) {
+      await cache.commentActions.add(action);
+      await cache.comments.update(comment);
+    }
+
     // A comment reaction was created! Publish it.
     publishCommentReactionCreated(
       broker,
@@ -309,12 +325,13 @@ export type RemoveCommentReaction = Pick<
 export async function removeReaction(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: RemoveCommentReaction
 ) {
-  return removeCommentAction(mongo, redis, broker, tenant, {
+  return removeCommentAction(mongo, redis, cache, broker, tenant, {
     actionType: ACTION_TYPE.REACTION,
     commentID: input.commentID,
     commentRevisionID: input.commentRevisionID,
@@ -330,13 +347,14 @@ export type CreateCommentDontAgree = Pick<
 export async function createDontAgree(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  commentActionsCache: CommentActionsCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: CreateCommentDontAgree,
   now = new Date()
 ) {
-  const { comment } = await addCommentAction(
+  const { comment, action } = await addCommentAction(
     mongo,
     redis,
     broker,
@@ -351,6 +369,11 @@ export async function createDontAgree(
     now
   );
 
+  const cacheAvailable = await commentActionsCache.available(tenant.id);
+  if (action && cacheAvailable) {
+    await commentActionsCache.add(action);
+  }
+
   return comment;
 }
 
@@ -362,12 +385,13 @@ export type RemoveCommentDontAgree = Pick<
 export async function removeDontAgree(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: RemoveCommentDontAgree
 ) {
-  return removeCommentAction(mongo, redis, broker, tenant, {
+  return removeCommentAction(mongo, redis, cache, broker, tenant, {
     actionType: ACTION_TYPE.DONT_AGREE,
     commentID: input.commentID,
     commentRevisionID: input.commentRevisionID,
@@ -385,6 +409,7 @@ export type CreateCommentFlag = Pick<
 export async function createFlag(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  commentActionsCache: CommentActionsCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -408,6 +433,11 @@ export async function createFlag(
     now
   );
   if (action) {
+    const cacheAvailable = await commentActionsCache.available(tenant.id);
+    if (cacheAvailable) {
+      await commentActionsCache.add(action);
+    }
+
     // A action was created! Publish the event.
     publishCommentFlagCreated(
       broker,

@@ -1,3 +1,4 @@
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision, hasTag } from "coral-server/models/comment";
@@ -19,6 +20,7 @@ import { updateTagCommentCounts } from "./helpers/updateAllCommentCounts";
 const rejectComment = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   broker: CoralEventPublisherBroker | null,
   tenant: Tenant,
   commentID: string,
@@ -97,6 +99,11 @@ const rejectComment = async (
     );
 
     return tagResult;
+  }
+
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.comments.remove(result.after);
   }
 
   // Return the resulting comment.
