@@ -117,16 +117,55 @@ export class UserCache implements IDataCache {
     return user;
   }
 
-  private serializeObject(comment: Readonly<User>) {
-    const json = JSON.stringify(comment);
+  public async update(user: Readonly<User>) {
+    const cmd = this.redis.multi();
+    const dataKey = this.computeDataKey(user.tenantID, user.id);
+    cmd.set(dataKey, this.serializeObject(user));
+    cmd.expire(dataKey, this.expirySeconds);
+    await cmd.exec();
+    this.usersByKey.set(dataKey, user);
+  }
+
+  private serializeObject(user: Readonly<User>) {
+    const json = JSON.stringify(user);
     return json;
   }
 
   private deserializeObject(data: string): Readonly<User> {
     const parsed = JSON.parse(data);
+    const parsedSuspensionHistory = parsed.status.suspension.history.map(
+      (suspension: {
+        createdAt: Date;
+        modifiedAt?: Date;
+        from: { start: Date; finish: Date };
+      }) => {
+        const suspensionUpdated = {
+          ...suspension,
+          createdAt: new Date(suspension.createdAt),
+          from: {
+            start: new Date(suspension.from.start),
+            finish: new Date(suspension.from.finish),
+          },
+        };
+        if (suspension.modifiedAt) {
+          return {
+            ...suspensionUpdated,
+            modifiedAt: new Date(suspension.modifiedAt),
+          };
+        }
+        return suspensionUpdated;
+      }
+    );
+
     return {
       ...parsed,
       createdAt: new Date(parsed.createdAt),
+      status: {
+        ...parsed.status,
+        suspension: {
+          history: parsedSuspensionHistory,
+        },
+      },
     };
   }
 }
