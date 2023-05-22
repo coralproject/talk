@@ -137,8 +137,8 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
           loading={loading || totalLoading}
         >
           <TodayValue value={today?.comments.staff.toString()}>
-            <Localized id="dashboard-today-staff-comments">
-              Staff comments
+            <Localized id="dashboard-today-staffPlus-comments">
+              Staff+ comments
             </Localized>
           </TodayValue>
           <TodayCompareValue value={total?.comments.staff.toString()}>

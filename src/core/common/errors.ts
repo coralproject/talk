@@ -57,6 +57,12 @@ export enum ERROR_CODES {
   EMAIL_ALREADY_SET = "EMAIL_ALREADY_SET",
 
   /**
+   * EMAIL_DOMAIN_PROTECTED is used when trying to ban an email domain that is
+   * so common that it is most likely being done in error.
+   */
+  EMAIL_DOMAIN_PROTECTED = "EMAIL_DOMAIN_PROTECTED",
+
+  /**
    * EMAIL_NOT_SET is used when performing an operation that requires that the
    * email address be set on the User, and it is not.
    */
@@ -419,4 +425,16 @@ export enum ERROR_CODES {
    * their username and the provided username has already been taken.
    */
   USERNAME_ALREADY_EXISTS = "USERNAME_ALREADY_EXISTS",
+
+  /**
+   * UNABLE_TO_UPDATE_STORY_URL is thrown when a story already exists for
+   * a storyID and we were unable to update the url for that story ID.
+   */
+  UNABLE_TO_UPDATE_STORY_URL = "UNABLE_TO_UPDATE_STORY_URL",
+
+  /**
+   * DATA_CACHING_NOT_AVAILABLE is thrown when someone tries to enact a data
+   * caching action when it is not available for that tenant.
+   */
+  DATA_CACHING_NOT_AVAILABLE = "DATA_CACHING_NOT_AVAILABLE",
 }

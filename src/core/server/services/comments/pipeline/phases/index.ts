@@ -23,7 +23,7 @@ import { tagReview } from "./tagReview";
 import { tagStaff } from "./tagStaff";
 import { tagUnansweredQuestions } from "./tagUnansweredQuestions";
 import { toxic } from "./toxic";
-import { wordList } from "./wordList";
+import { wordListPhase } from "./wordList/phase";
 
 /**
  * The moderation phases to apply for each comment being processed.
@@ -56,7 +56,7 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   approveRatings,
 
   // Run any content checking filters.
-  wordList,
+  wordListPhase,
   toxic,
   recentCommentHistory,
   spam,

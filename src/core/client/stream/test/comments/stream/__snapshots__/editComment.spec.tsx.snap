@@ -190,7 +190,7 @@ exports[`cancel edit 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -1153,7 +1153,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -1462,7 +1462,7 @@ exports[`edit a comment: server response 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>
@@ -1762,7 +1762,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     >
                       <i
                         aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                        className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                       >
                         thumb_up
                       </i>

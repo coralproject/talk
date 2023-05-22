@@ -197,7 +197,7 @@ exports[`renders conversation thread 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                                  className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                                 >
                                   thumb_up
                                 </i>
@@ -507,7 +507,7 @@ exports[`renders conversation thread 1`] = `
                             >
                               <i
                                 aria-hidden="true"
-                                className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                                className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                               >
                                 thumb_up
                               </i>
@@ -818,7 +818,7 @@ exports[`shows more of this conversation 1`] = `
                               >
                                 <i
                                   aria-hidden="true"
-                                  className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                                  className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                                 >
                                   thumb_up
                                 </i>
@@ -1106,7 +1106,7 @@ exports[`shows more of this conversation 1`] = `
                                 >
                                   <i
                                     aria-hidden="true"
-                                    className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                                    className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                                   >
                                     thumb_up
                                   </i>
@@ -1389,7 +1389,7 @@ exports[`shows more of this conversation 1`] = `
                             >
                               <i
                                 aria-hidden="true"
-                                className="Icon-root Icon-sm coral coral-icon ReactionButton-icon coral coral-reactButton coral-comment-reactButton"
+                                className="Icon-root Icon-sm coral coral-icon ReactionButton-icon"
                               >
                                 thumb_up
                               </i>

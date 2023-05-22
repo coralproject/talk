@@ -21,6 +21,7 @@ export type LanguageCode =
   | "ro"
   | "fi-FI"
   | "sv"
+  | "sk-SK"
   | "pl"
   | "ru"
   | "nb-NO"
@@ -51,6 +52,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   "fi-FI": "Suomi",
   sv: "Svenska",
   pl: "Polski",
+  "sk-SK": "Slovensky",
   ru: "Русский",
   "nb-NO": "Norsk Bokmål",
   "zh-CN": "中国人",

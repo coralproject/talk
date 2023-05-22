@@ -194,7 +194,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
               !canChangeUsername || showSuccessMessage,
           })}
         >
-          <Localized id="profile-changeUsername-change">
+          <Localized
+            id="profile-changeUsername-change"
+            attrs={{ "aria-label": true }}
+          >
             <Button
               className={cn(
                 CLASSES.myUsername.editButton,
@@ -205,6 +208,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
               color="primary"
               onClick={toggleEditForm}
               disabled={!canChangeUsername}
+              aria-label="Change username"
             >
               Change
             </Button>

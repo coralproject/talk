@@ -35,6 +35,8 @@ framework-validation-usernamesDoNotMatch = Gebruikersnamen komen niet overeen. P
 framework-validation-deleteConfirmationInvalid = Incorrecte bevestiging. Probeer opnieuw.
 framework-validation-invalidWebhookEndpointEventSelection = Selecteer minimaal een optie.
 framework-validation-media-url-invalid = Vul een geldig bestandstype in (.png, .jpg, of .gif)
+framework-validation-invalidEmailDomain = Ongeldig e-mail domein formaat. Gebruik alstublieft "email.com"
+framework-validation-invalidExternalProfileURL = Alle patronen van externe profiel URLs moeten $USER_NAME of $USER_ID bevatten.
 
 framework-timeago-just-now = Nu
 

@@ -159,15 +159,17 @@ function addCommentReplyToStory(
 ) {
   const flattenReplies = lookupFlattenReplies(environment);
   const singleCommentID = lookup(environment, LOCAL_ID).commentID;
+  const refreshStream = lookup(environment, LOCAL_ID).refreshStream;
   const comment = commentEdge.getLinkedRecord("node")!;
   const depth = singleCommentID
-    ? determineDepthTillAncestor(store, comment, singleCommentID)
+    ? determineDepthTillAncestor(store, comment, refreshStream, singleCommentID)
     : determineDepthTillStory(
         store,
         comment,
         input.storyID,
         lookupStoryConnectionOrderBy(environment),
         lookupStoryConnectionKey(environment),
+        refreshStream,
         lookupStoryConnectionTag(environment)
       );
 
@@ -197,7 +199,7 @@ function addCommentReplyToStory(
 
   // Get parent proxy.
   const connectionKey = "ReplyList_replies";
-  const filters = { orderBy: "CREATED_AT_ASC" };
+  const filters = { orderBy: "CREATED_AT_ASC", refreshStream };
 
   if (parentProxy) {
     const con = ConnectionHandler.getConnection(
@@ -262,12 +264,14 @@ const mutation = graphql`
   mutation CreateCommentReplyMutation(
     $input: CreateCommentReplyInput!
     $flattenReplies: Boolean!
+    $refreshStream: Boolean!
   ) {
     createCommentReply(input: $input) {
       edge {
         cursor
         node {
           ...AllCommentsTabCommentContainer_comment
+            @arguments(refreshStream: $refreshStream)
           id
           status
           story {
@@ -335,6 +339,7 @@ async function commit(
             media: input.media,
           },
           flattenReplies: lookupFlattenReplies(environment),
+          refreshStream: !!lookup(environment, LOCAL_ID).refreshStream,
         },
         optimisticResponse: {
           createCommentReply: {

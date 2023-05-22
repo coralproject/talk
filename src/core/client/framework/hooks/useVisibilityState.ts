@@ -35,7 +35,9 @@ function useVisibilityState() {
     window.document.addEventListener("visibilitychange", update);
 
     return () => {
-      window.document.removeEventListener("visibilitychange", update);
+      if (window.document.removeEventListener) {
+        window.document.removeEventListener("visibilitychange", update);
+      }
     };
   }, [state, window.document]);
 

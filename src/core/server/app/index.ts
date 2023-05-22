@@ -31,12 +31,14 @@ import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import CoralEventListenerBroker from "coral-server/events/publisher";
 import logger from "coral-server/logger";
+import { LoadCacheQueue } from "coral-server/queue/tasks/loadCache";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { UnarchiverQueue } from "coral-server/queue/tasks/unarchiver";
 import { WebhookQueue } from "coral-server/queue/tasks/webhook";
+import { WordListService } from "coral-server/services/comments/pipeline/phases/wordList/service";
 import { ErrorReporter } from "coral-server/services/errors";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
@@ -74,7 +76,9 @@ export interface AppOptions {
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
   webhookQueue: WebhookQueue;
+  loadCacheQueue: LoadCacheQueue;
   unarchiverQueue: UnarchiverQueue;
+  wordList: WordListService;
 }
 
 /**

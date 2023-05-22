@@ -19,7 +19,8 @@ import UnansweredCommentsTabContainer from "./UnansweredCommentsTabContainer";
 
 export const render = (
   data: QueryRenderData<QueryTypes>,
-  flattenReplies: boolean
+  flattenReplies: boolean,
+  refreshStream: boolean | null
 ) => {
   if (!data) {
     return null;
@@ -43,6 +44,7 @@ export const render = (
           viewer={data.props.viewer}
           story={data.props.story}
           flattenReplies={flattenReplies}
+          refreshStream={refreshStream}
         />
       </SpinnerWhileRendering>
     );
@@ -56,12 +58,13 @@ export const render = (
 
 const UnansweredCommentsTabQuery: FunctionComponent = () => {
   const flattenReplies = useStaticFlattenReplies();
-  const [{ storyID, storyURL, commentsOrderBy }] =
+  const [{ storyID, storyURL, commentsOrderBy, refreshStream }] =
     useLocal<UnansweredCommentsTabQueryLocal>(graphql`
       fragment UnansweredCommentsTabQueryLocal on Local {
         storyID
         storyURL
         commentsOrderBy
+        refreshStream
       }
     `);
   return (
@@ -72,13 +75,18 @@ const UnansweredCommentsTabQuery: FunctionComponent = () => {
           $storyURL: String
           $commentsOrderBy: COMMENT_SORT
           $flattenReplies: Boolean!
+          $refreshStream: Boolean
         ) {
           viewer {
             ...UnansweredCommentsTabContainer_viewer
           }
           story: stream(id: $storyID, url: $storyURL) {
             ...UnansweredCommentsTabContainer_story
-              @arguments(orderBy: $commentsOrderBy, tag: UNANSWERED)
+              @arguments(
+                orderBy: $commentsOrderBy
+                tag: UNANSWERED
+                refreshStream: $refreshStream
+              )
           }
           settings {
             ...UnansweredCommentsTabContainer_settings
@@ -90,8 +98,9 @@ const UnansweredCommentsTabQuery: FunctionComponent = () => {
         storyURL,
         commentsOrderBy,
         flattenReplies,
+        refreshStream,
       }}
-      render={(data) => render(data, flattenReplies)}
+      render={(data) => render(data, flattenReplies, refreshStream)}
     />
   );
 };

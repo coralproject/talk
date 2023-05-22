@@ -5,6 +5,6 @@ import { CommentCreatedInput } from "./Subscription/commentCreated";
 
 export const CommentCreatedPayload: GQLCommentCreatedPayloadTypeResolver<CommentCreatedInput> =
   {
-    comment: ({ commentID }, args, ctx, info) =>
-      maybeLoadOnlyID(ctx, info, commentID),
+    comment: ({ commentID, storyID }, args, ctx, info) =>
+      maybeLoadOnlyID(ctx, info, storyID, commentID),
   };
