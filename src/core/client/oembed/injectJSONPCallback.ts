@@ -34,6 +34,7 @@ function createCommentEmbedElementEnhancer({
     target.classList.remove("coral-comment-embed-simple");
 
     const div = window.document.createElement("div");
+    div.className = "coral-comment-embed-shadowRoot";
     target.appendChild(div);
     const shadowRoot = div.attachShadow({ mode: "open" });
     shadowRoot.innerHTML = html;

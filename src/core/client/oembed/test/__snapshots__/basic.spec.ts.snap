@@ -1,0 +1,240 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calls JSONP 1`] = `
+<body>
+  <div
+    class="coral-comment-embed coral-comment-embed-simple"
+    data-commentid="12345678910"
+    data-coral-ref="MTIzNDU2Nzg5MTA="
+    style="background-color:#F4F7F7; padding: 8px;"
+  >
+    <div
+      style="margin-bottom: 8px;"
+    >
+      Username
+    </div>
+    <div>
+      I am a comment. I am a comment. I am a comment. I am a comment. I ama comment. I am a comment. I am a comment. I am a comment. I am a comment.
+    </div>
+  </div>
+  <script
+    src="http://localhost:8080/api/comment/commentEmbed.js?callback=CoralCommentEmbed.setCommentEmbed&commentID=12345678910&ref=MTIzNDU2Nzg5MTA%3D"
+  />
+</body>
+`;
+
+exports[`Inject embedded comment 1`] = `
+<body>
+  <div
+    class="coral-comment-embed"
+    data-commentid="12345678910"
+    data-coral-ref="MTIzNDU2Nzg5MTA="
+  >
+    <link
+      href="https://www.defaultfonts.url"
+      rel="stylesheet"
+    />
+    <link
+      href="https://www.customfonts.url"
+      rel="stylesheet"
+    />
+    <div
+      class="coral-comment-embed-shadowRoot"
+    />
+  </div>
+  <script
+    src="http://localhost:8080/api/comment/commentEmbed.js?callback=CoralCommentEmbed.setCommentEmbed&commentID=12345678910&ref=MTIzNDU2Nzg5MTA%3D"
+  />
+</body>
+`;
+
+exports[`Inject embedded comment 2`] = `
+"
+
+  
+    
+    <meta charset=\\"utf-8\\">
+    <meta name=\\"viewport\\" content=\\"width=device-width, user-scalable=no\\">
+<base href=\\"/\\">
+    <link type=\\"text/css\\" rel=\\"stylesheet\\" href=\\"assets/css/stream.d8d0c6b36a8a78561206aa73de58adab.css\\">
+  
+  
+ <style>
+  #coral {
+    position: relative;
+  }
+  body {
+    margin: 0;
+  }
+  svg {
+    height: 14px;
+    width: 14px;
+    margin-right: var(--spacing-1);
+  }
+  .coral-commentEmbed {
+    background-color: var(--palette-grey-100);
+    padding: var(--spacing-2);
+  }
+  .coral-comment-content {
+    font-family: var(--font-family-primary);
+    font-style: normal;
+    font-weight: var(--font-weight-primary-regular);
+    font-size: var(--font-size-3);
+    line-height: 1.45;
+    color: var(--palette-text-500);
+    word-wrap: break-word;
+    margin: 0 0 calc(1.5 * var(--mini-unit)) 0;
+  }
+  .coral-comment-timestamp {
+    font-family: var(--font-family-primary);
+    font-style: normal;
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-size: var(--font-size-2);
+    color: var(--palette-grey-500);
+  }
+  .coral-comment-username {
+    font-family: var(--font-family-secondary);
+    font-weight: bold;
+    font-size: var(--font-size-4);
+    margin-right: var(--spacing-2);
+  }
+  .coral-comment-topBar {
+    display: flex;
+    margin: 0 0 calc(0.5 * var(--mini-unit)) 0;
+    justify-content: space-between;
+  }
+  .coral-comment-avatar {
+    align-self: flex-end;
+  }
+  .coral-comment-avatar img {
+    height: 24px;
+    width: 24px;
+  }
+  .coral-comment-leftActions {
+    display: flex;
+  }
+  .coral-comment-actionBar {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-2);
+  }
+  .coral-comment-actionBar a:hover {
+    color: var(--palette-grey-600);
+  }
+  /* together, the below two styles allow for nested links
+  so that the overall embed comment link and more specific replies/
+  goToConversation/etc. all have their own query params */
+  .coral-comment-actionBar a {
+    text-decoration: none;
+    color: var(--palette-grey-500);
+    align-items: center;
+    display: flex;
+    position: relative;
+    z-index: 1;
+  }
+  .overall-embed-link::before {
+    content: \\"\\";
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  /* styles to support formatting within comments */
+  .coral-rte-spoiler {
+    position: relative;
+    z-index: 1;
+    background-color: var(--palette-text-900);
+    color: var(--palette-text-900);
+  }
+  .coral-rte-sarcasm {
+    font-family: monospace;
+  }
+  blockquote {
+    background-color: var(--palette-grey-200);
+    border-radius: var(--round-corners);
+    margin: calc(2 * var(--mini-unit)) 0 calc(2 * var(--mini-unit))
+      var(--mini-unit);
+    padding: var(--mini-unit);
+  }
+  /* styles for buttons within comment embed */
+  .coral-comment-goToConversation {
+    align-self: flex-end;
+    padding: var(--spacing-1);
+    display: flex;
+  }
+  .coral-comment-reactButton {
+    padding: var(--spacing-1);
+    display: flex;
+  }
+  .coral-comment-replyButton {
+    padding: var(--spacing-1);
+    display: flex;
+  }
+</style>
+  
+    
+    <title></title>
+
+    
+  
+  
+<div id=\\"coral\\">
+  <!-- A hidden link for the overall comment embed that is styled to fill embed -->
+  <a class=\\"overall-embed-link\\" href=\\"http://localhost:8080/?commentID=c3e4c3fc-1de3-45bb-826b-6e29ffff8ea8&amp;embedInteraction=generalEmbed\\" target=\\"_blank\\"></a>
+  <div class=\\"coral coral-commentEmbed\\">
+      <div class=\\"coral coral-comment coral-reacted-0\\">
+        <div class=\\"coral coral-comment-topBar\\">
+          <div class=\\"coral coral-comment-leftActions\\">
+            <div class=\\"coral coral-username coral-comment-username\\">
+              username
+            </div>
+            <div class=\\"coral coral-timestamp coral-comment-timestamp\\">
+              May 4, 2023, 11:37 AM
+            </div>
+          </div>
+          <div class=\\"coral coral-comment-avatar\\">
+            <img src=\\"https://cdn.vox-cdn.com/thumbor/rK3rErK9JxaIgdWGm-KwixKVAG4=/512x512/cdn.vox-cdn.com/profile_images/2653780/Kobe.jpg\\">
+          </div>
+        </div>
+        <div class=\\"coral coral-content coral-comment-content\\">
+ <div>comment with <span class=\\"coral-rte-spoiler\\" onclick=\\"{this.classList.remove('coral-rte-spoiler');this.classList.add('coral-rte-spoiler-reveal');this.removeAttribute('role');this.removeAttribute('title');this.removeAttribute('onclick');}\\" role=\\"button\\" title=\\"Reveal spoiler\\"><span aria-hidden=\\"true\\">spoiler</span></span> text</div>           </div>
+        <div class=\\"coral coral-comment-actionBar\\">
+          <div class=\\"coral coral-comment-leftActions\\">
+            <div class=\\"coral coral-reactButton coral-comment-reactButton\\">
+              <a href=\\"http://localhost:8080/?commentID=c3e4c3fc-1de3-45bb-826b-6e29ffff8ea8&amp;embedInteraction=react\\" target=\\"_blank\\">
+                <svg xmlns=\\"http://www.w3.org/2000/svg\\" fill=\\"none\\" viewBox=\\"-0.25 -0.25 24.5 24.5\\" stroke-width=\\"2\\">
+                  <path stroke=\\"currentColor\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" stroke-miterlimit=\\"10\\" d=\\"M20.25 12.4299H21.45C22.45 12.4299 23.25 13.2299 23.25 14.2299C23.25 15.2299 22.45 16.0299 21.45 16.0299H20.25\\"></path>
+                  <path stroke=\\"currentColor\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" stroke-miterlimit=\\"10\\" d=\\"M20.25 19.6299H20.55C21.55 19.6299 22.35 18.8299 22.35 17.8299C22.35 16.8299 21.55 16.0299 20.55 16.0299H20.25\\"></path>
+                  <path stroke=\\"currentColor\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" stroke-miterlimit=\\"10\\" d=\\"M20.2499 12.4299H20.9499C21.9499 12.4299 22.7499 11.6299 22.7499 10.6299C22.7499 9.62993 21.9499 8.82995 20.9499 8.82995H20.2499H14.9499L15.0499 8.62993C16.0499 6.92993 16.6499 4.92995 16.7499 2.82995C16.8499 2.12995 16.5499 1.52993 15.9499 1.12993C15.5499 0.829933 15.1499 0.829921 14.6499 0.929921C14.1499 1.02992 13.7499 1.32994 13.5499 1.72994C11.5104 5.29895 10.1527 9.80017 6.6499 12.3299H4.25\\"></path>
+                  <path stroke=\\"currentColor\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" stroke-miterlimit=\\"10\\" d=\\"M20.25 19.6299H19.55C20.65 19.6299 21.45 20.5299 21.25 21.6299C21.15 22.5299 20.35 23.1299 19.45 23.1299H12.95C12.55 23.1299 12.05 23.1299 11.65 23.0299L6.35 22.1299H4.25\\"></path>
+                  <path stroke=\\"currentColor\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" stroke-miterlimit=\\"10\\" d=\\"M4.25 10.6299H0.75V23.1299H4.25V10.6299Z\\"></path>
+                </svg>
+Rec </a>
+            </div>
+            <div class=\\"coral coral-comment-replyButton\\">
+              <a href=\\"http://localhost:8080/?commentID=c3e4c3fc-1de3-45bb-826b-6e29ffff8ea8&amp;embedInteraction=reply\\" target=\\"_blank\\">
+                <svg viewBox=\\"-0.25 -0.25 24.5 24.5\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke-width=\\"2\\">
+                  <path d=\\"M9.709,6.837a1.5,1.5,0,0,0-2.6-1.018L1.648,11.733a1.5,1.5,0,0,0,0,2.034l5.458,5.914a1.5,1.5,0,0,0,2.6-1.018V15.75h6a7.5,7.5,0,0,1,7.5,7.5v-6a7.5,7.5,0,0,0-7.5-7.5h-6Z\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\"></path>
+                </svg>
+                Reply</a>
+            </div>
+          </div>
+          <div class=\\"coral coral-comment-goToConversation\\">
+            <a href=\\"http://localhost:8080/?commentID=c3e4c3fc-1de3-45bb-826b-6e29ffff8ea8&amp;embedInteraction=goToConversation\\" target=\\"_blank\\">
+              <svg viewBox=\\"-0.25 -0.25 24.5 24.5\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke-width=\\"2\\">
+                <path d=\\"M21.75,8.25h-12l-4.5,4.5V8.25h-3a1.5,1.5,0,0,1-1.5-1.5V2.25A1.5,1.5,0,0,1,2.25.75h19.5a1.5,1.5,0,0,1,1.5,1.5v4.5A1.5,1.5,0,0,1,21.75,8.25Z\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\"></path>
+                <path d=\\"M2.25,11.25a1.5,1.5,0,0,0-1.5,1.5v4.5a1.5,1.5,0,0,0,1.5,1.5h12l4.5,4.5v-4.5h3a1.5,1.5,0,0,0,1.5-1.5v-4.5a1.5,1.5,0,0,0-1.5-1.5H11.25\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\"></path>
+              </svg>
+              Go to conversation</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+
+"
+`;
