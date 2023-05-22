@@ -107,14 +107,17 @@ export const oembedProviderHandler = ({
           commentRevision.body
         );
 
-        const simpleCommentEmbed = nunjucks.render("simpleCommentEmbed.html", {
-          commentID,
-          includeReplies,
-          commentAuthor,
-          sanitizedSimple,
-        });
+        const simpleSingleCommentEmbed = nunjucks.render(
+          "commentEmbed/simpleSingleCommentEmbed.html",
+          {
+            commentID,
+            includeReplies,
+            commentAuthor,
+            sanitizedSimple,
+          }
+        );
 
-        const html = nunjucks.render("oembedService.html", {
+        const html = nunjucks.render("commentEmbed/singleCommentEmbed.html", {
           comment,
           commentAuthor,
           commentRevision,
@@ -134,7 +137,7 @@ export const oembedProviderHandler = ({
         });
 
         // Need to update width, height
-        res.json({ html, simpleCommentEmbed, width: 0, height: 0 });
+        res.json({ html, simpleSingleCommentEmbed, width: 0, height: 0 });
       }
     } catch (err) {
       next(err);

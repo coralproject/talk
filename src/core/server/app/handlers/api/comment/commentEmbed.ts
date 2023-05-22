@@ -121,7 +121,7 @@ export const commentEmbedJSONPHandler =
           commentRevision.body
         );
 
-        html = nunjucks.render("oembedService.html", {
+        html = nunjucks.render("commentEmbed/singleCommentEmbed.html", {
           comment,
           commentAuthor,
           commentRevision,
