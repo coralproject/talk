@@ -23,7 +23,6 @@ function attachTag(attrs: object) {
   const element = document.createElement("div");
   element.className = "coral-comment-embed coral-comment-embed-simple";
   element.setAttribute("style", "background-color:#F4F7F7; padding: 8px;");
-  // const div = window.document.createElement("div");
   const simpleCommentDiv =
     '<div style="margin-bottom: 8px;">Username</div><div>I am a comment. I am a comment. I am a comment. I am a comment. I am' +
     "a comment. I am a comment. I am a comment. I am a comment. I am a comment.</div>";
