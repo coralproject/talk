@@ -63,7 +63,7 @@ const Queue: FunctionComponent<Props> = ({
   const memoize = useMemoizer();
 
   useEffect(() => {
-    if (selectedComment === -1 && comments.length > 0) {
+    if (comments.length > 0) {
       key.setScope(comments[0].id);
     }
   });
@@ -84,36 +84,27 @@ const Queue: FunctionComponent<Props> = ({
   const commentsRef = useRef<Props["comments"]>(comments);
   commentsRef.current = comments;
 
-  const selectNext = useCallback(() => {
-    // MARCUS TODO: DRY THIS
-    const index = selectedCommentRef.current || 0;
-    const nextComment = commentsRef.current[index + 1];
-    if (nextComment) {
-      setSelectedComment(index + 1);
-      key.setScope(nextComment.id);
-      const container: HTMLElement | null = window.document.getElementById(
-        `moderate-comment-${nextComment.id}`
-      );
-      if (container) {
-        container.scrollIntoView();
+  const varyComment = useCallback(
+    (delta: number) => {
+      const index = selectedCommentRef.current || 0;
+      const targetComment = commentsRef.current[index + delta];
+      if (targetComment) {
+        setSelectedComment(index + delta);
+        key.setScope(targetComment.id);
+        const container: HTMLElement | null = window.document.getElementById(
+          `moderate-comment-${targetComment.id}`
+        );
+        if (container) {
+          container.scrollIntoView();
+        }
       }
-    }
-  }, [window.document]);
+    },
+    [window.document]
+  );
 
-  const selectPrev = useCallback(() => {
-    const index = selectedCommentRef.current || 0;
-    const prevComment = commentsRef.current[index - 1];
-    if (prevComment) {
-      setSelectedComment(index - 1);
-      key.setScope(prevComment.id);
-      const container: HTMLElement | null = window.document.getElementById(
-        `moderate-comment-${prevComment.id}`
-      );
-      if (container) {
-        container.scrollIntoView();
-      }
-    }
-  }, [window.document]);
+  const selectNext = useCallback(() => varyComment(1), [varyComment]);
+
+  const selectPrev = useCallback(() => varyComment(-1), [varyComment]);
 
   const onSetUserDrawerUserID = useCallback((userID: string) => {
     setUserDrawerID(userID);

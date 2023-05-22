@@ -478,7 +478,6 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment ModerateCardContainer_viewer on User {
-      ...UserStatusChangeContainer_viewer
       id
       role
       moderationScopes {

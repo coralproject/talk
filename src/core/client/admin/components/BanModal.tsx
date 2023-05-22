@@ -218,7 +218,7 @@ const BanModal: FunctionComponent<Props> = ({
           message: customizeMessage ? emailMessage : getDefaultMessage,
           rejectExistingComments,
           siteIDs: viewerIsScoped
-            ? viewer.moderationScopes?.sites.map(({ id }) => id)
+            ? viewer?.moderationScopes?.sites?.map(({ id }) => id)
             : [],
         });
         break;
