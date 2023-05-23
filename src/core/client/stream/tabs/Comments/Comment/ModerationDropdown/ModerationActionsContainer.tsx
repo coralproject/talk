@@ -22,13 +22,13 @@ import { ModerationActionsContainer_story } from "coral-stream/__generated__/Mod
 import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
+import CopyCommentEmbedCodeContainer from "./CopyCommentEmbedCodeContainer";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerationActionBanQuery from "./ModerationActionBanQuery";
 import RejectCommentMutation from "./RejectCommentMutation";
 import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
 import styles from "./ModerationActionsContainer.css";
-import CopyCommentEmbedCodeContainer from "./CopyCommentEmbedCodeContainer";
 
 interface Props {
   comment: ModerationActionsContainer_comment;
