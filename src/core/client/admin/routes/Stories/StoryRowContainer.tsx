@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { StoryRowContainer_story as StoryData } from "coral-admin/__generated__/StoryRowContainer_story.graphql";
+import { AdminStoryRowContainer_story as StoryData } from "coral-admin/__generated__/AdminStoryRowContainer_story.graphql";
 
 import StoryRow from "./StoryRow";
 
@@ -59,7 +59,7 @@ const StoryRowContainer: FunctionComponent<Props> = (props) => {
 
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
-    fragment StoryRowContainer_story on Story {
+    fragment AdminStoryRowContainer_story on Story {
       id
       metadata {
         title

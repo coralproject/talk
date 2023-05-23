@@ -16,8 +16,8 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 
-import { SignInContainer_auth } from "coral-auth/__generated__/SignInContainer_auth.graphql";
-import { SignInContainerLocal } from "coral-auth/__generated__/SignInContainerLocal.graphql";
+import { AuthSignInContainer_auth } from "coral-auth/__generated__/AuthSignInContainer_auth.graphql";
+import { AuthSignInContainerLocal } from "coral-auth/__generated__/AuthSignInContainerLocal.graphql";
 
 import {
   ClearErrorMutation,
@@ -26,7 +26,7 @@ import {
 import SignIn from "./SignIn";
 
 interface Props {
-  auth: SignInContainer_auth;
+  auth: AuthSignInContainer_auth;
   clearError: ClearErrorMutation;
 }
 
@@ -37,12 +37,15 @@ function isEnabled(integration: {
   return integration.enabled && integration.targetFilter.stream;
 }
 
-const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
+const AuthSignInContainer: FunctionComponent<Props> = ({
+  auth,
+  clearError,
+}) => {
   const setView = useMutation(SetViewMutation);
   const { window } = useCoralContext();
 
-  const [{ error }] = useLocal<SignInContainerLocal>(graphql`
-    fragment SignInContainerLocal on Local {
+  const [{ error }] = useLocal<AuthSignInContainerLocal>(graphql`
+    fragment AuthSignInContainerLocal on Local {
       error
     }
   `);
@@ -130,7 +133,7 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
 const enhanced = withClearErrorMutation(
   withFragmentContainer<Props>({
     auth: graphql`
-      fragment SignInContainer_auth on Auth {
+      fragment AuthSignInContainer_auth on Auth {
         ...SignInWithOIDCContainer_auth
         ...SignInWithGoogleContainer_auth
         ...SignInWithFacebookContainer_auth
@@ -165,7 +168,7 @@ const enhanced = withClearErrorMutation(
         }
       }
     `,
-  })(SignInContainer)
+  })(AuthSignInContainer)
 );
 
 export default enhanced;

@@ -9,15 +9,15 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 
-import { AccountCompletionContainer_auth } from "coral-auth/__generated__/AccountCompletionContainer_auth.graphql";
-import { AccountCompletionContainer_viewer } from "coral-auth/__generated__/AccountCompletionContainer_viewer.graphql";
-import { AccountCompletionContainerLocal } from "coral-auth/__generated__/AccountCompletionContainerLocal.graphql";
+import { AuthAccountCompletionContainer_auth } from "coral-auth/__generated__/AuthAccountCompletionContainer_auth.graphql";
+import { AuthAccountCompletionContainer_viewer } from "coral-auth/__generated__/AuthAccountCompletionContainer_viewer.graphql";
+import { AuthAccountCompletionContainerLocal } from "coral-auth/__generated__/AuthAccountCompletionContainerLocal.graphql";
 
 import CompleteAccountMutation from "./CompleteAccountMutation";
 
 interface Props {
-  auth: AccountCompletionContainer_auth;
-  viewer: AccountCompletionContainer_viewer | null;
+  auth: AuthAccountCompletionContainer_auth;
+  viewer: AuthAccountCompletionContainer_viewer | null;
   children?: React.ReactNode;
 }
 
@@ -30,8 +30,8 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
   const setView = useMutation(SetViewMutation);
 
   const [{ view: currentView, accessToken, duplicateEmail }] =
-    useLocal<AccountCompletionContainerLocal>(graphql`
-      fragment AccountCompletionContainerLocal on Local {
+    useLocal<AuthAccountCompletionContainerLocal>(graphql`
+      fragment AuthAccountCompletionContainerLocal on Local {
         accessToken
         view
         duplicateEmail
@@ -118,7 +118,7 @@ const AccountCompletionContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   auth: graphql`
-    fragment AccountCompletionContainer_auth on Auth {
+    fragment AuthAccountCompletionContainer_auth on Auth {
       integrations {
         local {
           enabled
@@ -130,7 +130,7 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   viewer: graphql`
-    fragment AccountCompletionContainer_viewer on User {
+    fragment AuthAccountCompletionContainer_viewer on User {
       username
       email
       duplicateEmail
