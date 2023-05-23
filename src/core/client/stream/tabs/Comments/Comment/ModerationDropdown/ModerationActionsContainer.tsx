@@ -153,7 +153,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
 
   function transform(transformWindow: Window, source: string | Node) {
     // Sanitize source.
-    const [sanitized, spoilerTags, sarcasmTags] =
+    const [sanitized, spoilerTags, sarcasmTags, blockquoteTags] =
       sanitizeAndFindSpoilerAndSarcasmTags(transformWindow, source);
 
     // Attach event handlers to spoiler tags.
@@ -170,6 +170,13 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
 
     sarcasmTags.forEach((node) => {
       node.setAttribute("style", "font-family: monospace;");
+    });
+
+    blockquoteTags.forEach((node) => {
+      node.setAttribute(
+        "style",
+        "background-color: #EAEFF0; border-radius: 3px; margin: 0.5rem 0 0.5rem 0.2rem; padding: 0.2rem;"
+      );
     });
 
     // Return results.

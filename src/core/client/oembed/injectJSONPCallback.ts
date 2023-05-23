@@ -3,6 +3,7 @@ export interface CommentEmbedJSONPData {
   html: string;
   defaultFontsCSSURL: string;
   customFontsCSSURL?: string;
+  commentID: string;
 }
 
 type GetCommentEmbedFunction = (opts?: { reset?: boolean }) => void;
@@ -11,6 +12,7 @@ function createCommentEmbedElementEnhancer({
   html,
   customFontsCSSURL,
   defaultFontsCSSURL,
+  commentID,
 }: CommentEmbedJSONPData) {
   return (target: HTMLElement) => {
     target.innerHTML = "";
@@ -33,11 +35,15 @@ function createCommentEmbedElementEnhancer({
     // Remove class attribute added to style simple comment embed
     target.classList.remove("coral-comment-embed-simple");
 
+    const iframeHeightScript = window.document.createElement("script");
+    iframeHeightScript.innerHTML = `window.addEventListener("message", (e) => {const iframe = window.document.querySelector("#coral-comment-embed-shadowRoot-${commentID}").shadowRoot.querySelector("#embed-iframe"); if (e.data.commentID === '${commentID}' && iframe && e.data.height) {{iframe.height = e.data.height;}}});`;
+
     const div = window.document.createElement("div");
-    div.className = "coral-comment-embed-shadowRoot";
+    div.id = `coral-comment-embed-shadowRoot-${commentID}`;
     target.appendChild(div);
     const shadowRoot = div.attachShadow({ mode: "open" });
     shadowRoot.innerHTML = html;
+    shadowRoot.appendChild(iframeHeightScript);
   };
 }
 

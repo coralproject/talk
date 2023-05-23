@@ -37,7 +37,23 @@ endfor %} {% endif %}
 </style>
 {% endblock %} {% block body %} {% if message %} {{ message }} {% elif html %}
 <div class="container">{{ html | safe }}</div>
-{% endif %} {% endblock %} {# Include all the scripts from the entrypoint #} {%
-if entrypoint.js %} {% block js %} {% for asset in entrypoint.js %} {{
-macros.js(asset.src, asset.integrity, staticURI) }} {% endfor %} {% endblock %}
-{% endif %}
+{% if commentID %}
+<script>
+  new ResizeObserver((entries) => {
+    const entry = entries[0];
+    const contentBoxSize = entry.contentBoxSize[0];
+    if (contentBoxSize === null) {
+      // eslint-disable-next-line no-console
+      console.warn("ResizeObserver contains invalid `contentBoxSize`", entries);
+    }
+    const msg = {
+      height: contentBoxSize.blockSize,
+      commentID: "{{ commentID }}",
+    };
+    window.parent.postMessage(msg, "*");
+  }).observe(window.document.body);
+</script>
+{% endif %} {% endif %} {% endblock %} {# Include all the scripts from the
+entrypoint #} {% if entrypoint.js %} {% block js %} {% for asset in
+entrypoint.js %} {{ macros.js(asset.src, asset.integrity, staticURI) }} {%
+endfor %} {% endblock %} {% endif %}

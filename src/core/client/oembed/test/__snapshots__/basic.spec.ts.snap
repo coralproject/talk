@@ -39,7 +39,7 @@ exports[`Inject embedded comment 1`] = `
       rel="stylesheet"
     />
     <div
-      class="coral-comment-embed-shadowRoot"
+      id="coral-comment-embed-shadowRoot-12345678910"
     />
   </div>
   <script
@@ -236,5 +236,5 @@ Rec </a>
   </div>
     
 
-"
+<script>window.addEventListener(\\"message\\", (e) => {const iframe = window.document.querySelector(\\"#coral-comment-embed-shadowRoot-12345678910\\").shadowRoot.querySelector(\\"#embed-iframe\\"); if (iframe) {iframe.height = e.data;}});</script>"
 `;

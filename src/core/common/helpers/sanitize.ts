@@ -261,18 +261,19 @@ export function createSanitize(
 export const sanitizeAndFindSpoilerAndSarcasmTags: (
   window: Window,
   source: string | Node
-) => [HTMLElement, Element[], Element[]] = (() => {
+) => [HTMLElement, Element[], Element[], Element[]] = (() => {
   /** Resused instance */
   let sanitize: Sanitize | null = null;
 
   /** Found spoiler tags during sanitization will be placed here. */
   let spoilerTags: Element[] = [];
   const sarcasmTags: Element[] = [];
+  const blockquoteTags: Element[] = [];
 
   return (
     window: Window,
     source: string | Node
-  ): [HTMLElement, Element[], Element[]] => {
+  ): [HTMLElement, Element[], Element[], Element[]] => {
     if (!sanitize) {
       sanitize = createSanitize(window, {
         // Allow all rte features to be displayed.
@@ -292,6 +293,9 @@ export const sanitizeAndFindSpoilerAndSarcasmTags: (
             ) {
               sarcasmTags.push(node);
             }
+            if (node.tagName === "BLOCKQUOTE") {
+              blockquoteTags.push(node);
+            }
           });
         },
       });
@@ -299,7 +303,8 @@ export const sanitizeAndFindSpoilerAndSarcasmTags: (
     const sanitized = sanitize(source);
     const ret = spoilerTags;
     const sarcasm = sarcasmTags;
+    const blockquote = blockquoteTags;
     spoilerTags = [];
-    return [sanitized, ret, sarcasm];
+    return [sanitized, ret, sarcasm, blockquote];
   };
 })();

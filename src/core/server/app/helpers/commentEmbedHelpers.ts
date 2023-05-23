@@ -66,7 +66,7 @@ export async function getCommentEmbedData(
     commentRevision.media?.type === "twitter" ||
     commentRevision.media?.type === "youtube"
   ) {
-    mediaUrl = `/api/oembed?type=${commentRevision.media?.type}&url=${commentRevision.media?.url}&siteID=${comment.siteID}`;
+    mediaUrl = `/api/oembed?type=${commentRevision.media?.type}&url=${commentRevision.media?.url}&siteID=${comment.siteID}&commentID=${comment.id}`;
   }
   if (commentRevision.media?.type === "external") {
     mediaUrl = `/api/external-media?url=${commentRevision.media.url}&siteID=${comment.siteID}`;
@@ -98,6 +98,9 @@ export function transform(window: Window, source: string | Node) {
     node.setAttribute("title", "Reveal spoiler");
     node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
   });
+
+  // TODO: Also apply styles for sarcasm font for sarcasm tags here and blockquote for blockquotes here
+
   // Return results.
   return sanitized.innerHTML;
 }

@@ -56,6 +56,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
     width: 24px;
   }
   .coral-comment-leftActions {
+    align-items: center;
     display: flex;
   }
   .coral-comment-actionBar {
@@ -105,7 +106,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
     padding: var(--mini-unit);
   }
   /* styles for buttons within comment embed */
-  .coral-comment-goToConversation {
+  .coral-comment-goToConversationButton {
     align-self: flex-end;
     padding: var(--spacing-1);
     display: flex;
@@ -158,8 +159,17 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
         </div>
         <div class="coral coral-content coral-comment-content">
           {% block commentRevision %} {{ sanitized | safe }} {% if mediaUrl
-          %}<iframe src="{{mediaUrl}}"></iframe>{% endif %} {% if giphyMedia %}
-          {% if giphyMedia.video %}
+          %}<iframe
+            id="embed-iframe"
+            frameborder="0"
+            src="{{mediaUrl}}"
+            style="max-height: none; border: none; display: block"
+            scrolling="no"
+            allowfullscreen
+            allow
+            sandbox="allow-same-origin allow-scripts allow-presentation"
+          ></iframe>
+          {% endif %} {% if giphyMedia %} {% if giphyMedia.video %}
           <video
             width="{{giphyMedia.width}}"
             height="{{giphyMedia.height}}"
@@ -206,7 +216,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
               {% endblock %}
             </div>
           </div>
-          <div class="coral coral-comment-goToConversation">
+          <div class="coral coral-comment-goToConversationButton">
             <a
               href="{{tenantURL}}?commentID={{comment.id}}&embedInteraction=goToConversation"
               target="_blank"
