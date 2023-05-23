@@ -12,12 +12,6 @@ $commentsModerationFeaturedColor: var(--palette-primary-500);
   text-align: left;
 }
 
-.embedCodeCopied {
-  background-color: var(--palette-success-100);
-  color: var(--palette-success-500);
-  font-weight: var(--font-weight-primary-semi-bold);
-}
-
 .featured {
   color: $commentsModerationFeaturedColor;
   font-weight: var(--font-weight-primary-bold);
