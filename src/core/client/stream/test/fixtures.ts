@@ -869,6 +869,31 @@ export const storyWithFeaturedComments = denormalizeStory(
   )
 );
 
+export const storyWithDeletedComments = denormalizeStory(
+  createFixture<GQLStory>(
+    {
+      id: "story-with-deleted-comments",
+      url: "http://localhost/stories/story-with-deleted-comments",
+      comments: {
+        edges: [
+          {
+            node: { ...comments[0], deleted: true },
+            cursor: comments[0].createdAt,
+          },
+          {
+            node: { ...comments[1] },
+            cursor: comments[1].createdAt,
+          },
+        ],
+        pageInfo: {
+          hasNextPage: false,
+        },
+      },
+    },
+    baseStory
+  )
+);
+
 export const storyQAMode = createFixture<GQLStory>(
   {
     settings: {

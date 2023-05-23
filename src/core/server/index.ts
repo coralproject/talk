@@ -45,7 +45,7 @@ import {
   WebhookCoralEventListener,
 } from "./events/listeners";
 import CoralEventListenerBroker from "./events/publisher";
-import { retrieveAllTenants } from "./models/tenant";
+import { retrieveAllTenants, retrieveTenant, Tenant } from "./models/tenant";
 import { WordListCategory } from "./services/comments/pipeline/phases/wordList/message";
 import { WordListService } from "./services/comments/pipeline/phases/wordList/service";
 import { ErrorReporter, SentryErrorReporter } from "./services/errors";
@@ -123,6 +123,8 @@ class Server {
   private readonly reporter?: ErrorReporter;
 
   private wordList: WordListService;
+  private onTenantDeleteDelegate: () => void;
+  private onTenantUpdateDelegate: (tenant: Tenant) => void;
 
   /**
    * broker stores a reference to all of the listeners that can be used in
@@ -282,6 +284,8 @@ class Server {
     // Setup the metrics collectors.
     collectDefaultMetrics();
 
+    // word list services
+
     this.wordList = new WordListService(logger);
     const tenants = await retrieveAllTenants(this.mongo);
     for (const tenant of tenants) {
@@ -298,6 +302,42 @@ class Server {
         tenant.wordList.suspect
       );
     }
+
+    this.onTenantDeleteDelegate = this.onTenantDelete.bind(this);
+    this.onTenantUpdateDelegate = this.onTenantUpdate.bind(this);
+
+    this.tenantCache.subscribe(
+      this.onTenantUpdateDelegate,
+      this.onTenantDeleteDelegate
+    );
+  }
+
+  private onTenantDelete() {}
+
+  private async onTenantUpdate(tenant: Tenant) {
+    logger.info({ tenantID: tenant.id }, "received remote tenant update");
+
+    const updatedTenant = await retrieveTenant(this.mongo, tenant.id);
+    if (!updatedTenant) {
+      logger.warn(
+        { tenantID: tenant.id },
+        "tenant not found during tenantCache wordlist update"
+      );
+      return;
+    }
+
+    await this.wordList.initialize(
+      updatedTenant.id,
+      updatedTenant.locale,
+      WordListCategory.Banned,
+      updatedTenant.wordList.banned
+    );
+    await this.wordList.initialize(
+      updatedTenant.id,
+      updatedTenant.locale,
+      WordListCategory.Suspect,
+      updatedTenant.wordList.suspect
+    );
   }
 
   /**

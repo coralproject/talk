@@ -2,6 +2,7 @@ import RE2 from "re2";
 import { isMainThread, parentPort } from "worker_threads";
 
 import { LanguageCode } from "coral-common/helpers";
+import logger from "coral-server/logger";
 import { WordlistMatch } from "coral-server/models/comment";
 
 import createServerWordListRegEx from "../../createServerWordListRegEx";
@@ -32,11 +33,21 @@ const initialize = (
   id: string,
   { tenantID, category, locale, phrases }: InitializationPayload
 ): WordListWorkerResult => {
+  logger.info(
+    { tenantID, category, phrases: phrases.length },
+    "initializing wordlist"
+  );
+
   const key = computeWordListKey(tenantID, category);
   const regex =
     phrases.length > 0 ? createServerWordListRegEx(locale, phrases) : null;
 
   lists.set(key, { tenantID, category, locale, regex });
+
+  logger.info(
+    { tenantID, category, phrases: phrases.length },
+    "successfully initialized wordlist"
+  );
 
   return {
     id,
@@ -62,23 +73,12 @@ const process = (
   const listKey = computeWordListKey(tenantID, category);
   const list = lists.get(listKey);
 
-  if (!list) {
-    return {
-      id,
-      tenantID,
-      ok: false,
-    };
-  }
-
   if (!list || list.regex === null) {
     return {
       id,
       tenantID,
-      ok: true,
-      data: {
-        isMatched: false,
-        matches: [],
-      },
+      ok: false,
+      err: new Error("word list for tenant not found"),
     };
   }
 
