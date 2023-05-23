@@ -99,18 +99,14 @@ export function transform(window: Window, source: string | Node) {
     node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
   });
 
-  // TODO: Also apply styles for sarcasm font for sarcasm tags here and blockquote for blockquotes here
-
   // Return results.
   return sanitized.innerHTML;
 }
 
 export function transformSimpleEmbed(window: Window, source: string | Node) {
   // Sanitize source.
-  const [sanitized, spoilerTags] = sanitizeAndFindSpoilerAndSarcasmTags(
-    window as any,
-    source
-  );
+  const [sanitized, spoilerTags, sarcasmTags, blockquoteTags] =
+    sanitizeAndFindSpoilerAndSarcasmTags(window as any, source);
 
   // Attach event handlers to spoiler tags.
   spoilerTags.forEach((node) => {
@@ -122,6 +118,17 @@ export function transformSimpleEmbed(window: Window, source: string | Node) {
     node.setAttribute("style", "background-color: #14171A; color: #14171A;");
     node.setAttribute("title", "Reveal spoiler");
     node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
+  });
+
+  sarcasmTags.forEach((node) => {
+    node.setAttribute("style", "font-family: monospace;");
+  });
+
+  blockquoteTags.forEach((node) => {
+    node.setAttribute(
+      "style",
+      "background-color: #EAEFF0; border-radius: 3px; margin: 0.5rem 0 0.5rem 0.2rem; padding: 0.2rem;"
+    );
   });
   // Return results.
   return sanitized.innerHTML;
