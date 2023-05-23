@@ -51,6 +51,7 @@
     "lint:graphql": "graphql-schema-linter src/core/server/graph/schema/schema.graphql",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
     "lint:server": "eslint 'src/**/*.{js,ts,tsx}' --ignore-pattern 'src/core/client/**'",
+    "lint:imports": "ts-node --transpile-only ./scripts/importBlocker.ts",
     "lint": "npm-run-all --parallel lint:* tscheck:*",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "start:development": "NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
