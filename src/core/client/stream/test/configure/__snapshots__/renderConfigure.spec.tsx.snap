@@ -170,6 +170,7 @@ to pose a topic, ask a question or make announcements relating to this
 story.
         </div>
         <button
+          aria-label="Add message"
           class="BaseButton-root Button-base Button-filled Button-fontSizeSmall Button-textAlignCenter Button-fontFamilyPrimary Button-fontWeightPrimaryBold Button-paddingSizeSmall Button-colorSecondary Button-upperCase coral coral-openCommentStream-openButton"
           data-testid="configure-addMessage"
           data-variant="filled"
