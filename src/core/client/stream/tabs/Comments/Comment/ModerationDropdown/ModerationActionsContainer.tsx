@@ -185,9 +185,28 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
 
   let showCopyCommentEmbed = false;
   let sanitizedBody;
+  let mediaUrl = null;
   if (comment.body) {
     showCopyCommentEmbed = true;
     sanitizedBody = transform(window, comment.body);
+  }
+  if (comment.revision?.media) {
+    switch (comment.revision.media.__typename) {
+      case "YouTubeMedia":
+        mediaUrl = comment.revision.media.url;
+        break;
+      case "GiphyMedia":
+        mediaUrl = comment.revision.media.url;
+        break;
+      case "TwitterMedia":
+        mediaUrl = comment.revision.media.url;
+        break;
+      case "ExternalMedia":
+        mediaUrl = comment.revision.media.url;
+        break;
+      case "%other":
+        break;
+    }
   }
   const embedCode = `<div class="coral-comment-embed" style="background-color: #f4f7f7; padding: 8px;" data-commentID=${
     comment.id
@@ -197,7 +216,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     settings.reaction.label
   }"><div style="margin-bottom: 8px;">${
     comment.author?.username
-  }</div><div>${sanitizedBody}</div></div>`;
+  }</div><div>${sanitizedBody}${
+    mediaUrl
+      ? `<div><br><a href="${mediaUrl}" target="_blank" rel="noopener noreferrer ugc">${mediaUrl}</a></div>`
+      : ""
+  }</div></div>`;
 
   return (
     <>
@@ -408,6 +431,21 @@ const enhanced = withFragmentContainer<Props>({
       body
       revision {
         id
+        media {
+          __typename
+          ... on GiphyMedia {
+            url
+          }
+          ... on TwitterMedia {
+            url
+          }
+          ... on YouTubeMedia {
+            url
+          }
+          ... on ExternalMedia {
+            url
+          }
+        }
       }
       status
       tags {

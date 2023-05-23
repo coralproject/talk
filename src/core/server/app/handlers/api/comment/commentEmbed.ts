@@ -104,8 +104,13 @@ export const commentEmbedJSONPHandler =
           res.sendStatus(404);
           return;
         }
-        const { commentAuthor, commentRevision, mediaUrl, giphyMedia } =
-          await getCommentEmbedData(mongo, comment, tenant.id);
+        const {
+          commentAuthor,
+          commentRevision,
+          mediaUrl,
+          giphyMedia,
+          externalMediaUrl,
+        } = await getCommentEmbedData(mongo, comment, tenant.id);
 
         // update the comment with an embeddedAt timestamp if not already set
         if (!comment.embeddedAt) {
@@ -138,6 +143,7 @@ export const commentEmbedJSONPHandler =
           replyMessage,
           goToConversationMessage,
           reactionLabel,
+          externalMediaUrl,
         });
       }
 

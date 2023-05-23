@@ -62,6 +62,7 @@ export async function getCommentEmbedData(
 
   let mediaUrl = null;
   let giphyMedia = null;
+  let externalMediaUrl = null;
   if (
     commentRevision.media?.type === "twitter" ||
     commentRevision.media?.type === "youtube"
@@ -69,7 +70,7 @@ export async function getCommentEmbedData(
     mediaUrl = `/api/oembed?type=${commentRevision.media?.type}&url=${commentRevision.media?.url}&siteID=${comment.siteID}&commentID=${comment.id}`;
   }
   if (commentRevision.media?.type === "external") {
-    mediaUrl = `/api/external-media?url=${commentRevision.media.url}&siteID=${comment.siteID}`;
+    externalMediaUrl = `/api/external-media?url=${commentRevision.media.url}&siteID=${comment.siteID}`;
   }
   if (commentRevision.media?.type === "giphy") {
     giphyMedia = commentRevision.media;
@@ -78,7 +79,14 @@ export async function getCommentEmbedData(
     }
   }
 
-  return { comment, commentAuthor, commentRevision, mediaUrl, giphyMedia };
+  return {
+    comment,
+    commentAuthor,
+    commentRevision,
+    mediaUrl,
+    giphyMedia,
+    externalMediaUrl,
+  };
 }
 
 export function transform(window: Window, source: string | Node) {
