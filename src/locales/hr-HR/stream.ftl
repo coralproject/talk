@@ -307,6 +307,15 @@ comments-mobileToolbar-closeButton =
 comments-mobileToolbar-unmarkAll = Označite sve kao pročitano
 comments-mobileToolbar-nextUnread = Sljedeće nepročitano
 
+comments-refreshComments-closeButton =
+.aria-label = Zatvori
+comments-refreshComments-refreshButton =
+.aria-label = Osvježi komentare
+comments-refreshQuestions-refreshButton =
+.aria-label = Osvježi pitanja
+  comments-refreshReviews-refreshButton =
+.aria-label = Osvježi recenzije
+
 comments-replyChangedWarning-theCommentHasJust =
   Ovaj komentar je upravo uređen. Najnovija verzija je prikazana iznad.
 
