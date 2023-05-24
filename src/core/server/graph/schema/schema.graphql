@@ -3587,7 +3587,7 @@ type Tag {
   createdBy is the User that assigned the Tag. This is null when the Tag is
   assigned by the System.
   """
-  createdBy: User @auth(roles: [MODERATOR, ADMIN])
+  createdBy: User
 
   """
   createdAt is the time that the Tag was assigned on.
