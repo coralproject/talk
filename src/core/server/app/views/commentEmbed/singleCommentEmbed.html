@@ -169,18 +169,6 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
             allow
             sandbox="allow-same-origin allow-scripts allow-presentation"
           ></iframe>
-          {% endif %} {% if externalMediaUrl %}
-          <iframe
-            id="embed-iframe"
-            frameborder="0"
-            src="{{tenantURL}}{{externalMediaUrl}}"
-            style="max-height: none; border: none; display: block"
-            scrolling="no"
-            allowfullscreen
-            allow
-            sandbox="allow-same-origin allow-scripts allow-presentation"
-            onload="{this.height = this.contentWindow.document.body.scrollHeight;}"
-          ></iframe>
           {% endif %}{% if giphyMedia %} {% if giphyMedia.video %}
           <video
             width="{{giphyMedia.width}}"
