@@ -162,7 +162,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
           %}<iframe
             id="embed-iframe"
             frameborder="0"
-            src="{{mediaUrl}}"
+            src="{{tenantURL}}{{mediaUrl}}"
             style="max-height: none; border: none; display: block"
             scrolling="no"
             allowfullscreen
@@ -173,7 +173,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
           <iframe
             id="embed-iframe"
             frameborder="0"
-            src="{{externalMediaUrl}}"
+            src="{{tenantURL}}{{externalMediaUrl}}"
             style="max-height: none; border: none; display: block"
             scrolling="no"
             allowfullscreen

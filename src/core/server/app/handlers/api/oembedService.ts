@@ -92,7 +92,7 @@ export const oembedProviderHandler = ({
         }
 
         const story = await retrieveStory(mongo, tenant.id, comment.storyID);
-        const commentPermalinkURL = story?.url + `?commentID=${commentID}`;
+        const commentPermalinkURL = `${story?.url}?commentID=${commentID}`;
 
         const { commentAuthor, commentRevision, mediaUrl, giphyMedia } =
           await getCommentEmbedData(mongo, comment, tenant.id);

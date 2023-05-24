@@ -108,7 +108,7 @@ export const commentEmbedJSONPHandler =
         }
 
         const story = await retrieveStory(mongo, tenant.id, comment.storyID);
-        const commentPermalinkURL = story?.url + `?commentID=${commentID}`;
+        const commentPermalinkURL = `${story?.url}?commentID=${commentID}`;
 
         const {
           commentAuthor,

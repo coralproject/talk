@@ -67,10 +67,10 @@ export async function getCommentEmbedData(
     commentRevision.media?.type === "twitter" ||
     commentRevision.media?.type === "youtube"
   ) {
-    mediaUrl = `/api/oembed?type=${commentRevision.media?.type}&url=${commentRevision.media?.url}&siteID=${comment.siteID}&commentID=${comment.id}`;
+    mediaUrl = `api/oembed?type=${commentRevision.media?.type}&url=${commentRevision.media?.url}&siteID=${comment.siteID}&commentID=${comment.id}`;
   }
   if (commentRevision.media?.type === "external") {
-    externalMediaUrl = `/api/external-media?url=${commentRevision.media.url}&siteID=${comment.siteID}`;
+    externalMediaUrl = `api/external-media?url=${commentRevision.media.url}&siteID=${comment.siteID}`;
   }
   if (commentRevision.media?.type === "giphy") {
     giphyMedia = commentRevision.media;
