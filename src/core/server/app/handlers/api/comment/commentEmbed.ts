@@ -26,6 +26,7 @@ export interface CommentEmbedJSONPData {
   defaultFontsCSSURL: string;
   customFontsCSSURL?: string;
   commentID: string;
+  tenantURL: string;
 }
 
 const CommentEmbedJSONPQuerySchema = Joi.object().keys({
@@ -136,7 +137,7 @@ export const commentEmbedJSONPHandler =
           includeReplies,
           streamCSS,
           customCSSURL,
-          staticURI,
+          staticURI: staticURI || tenantURL,
           giphyMedia,
           tenantURL,
           sanitized,
@@ -153,6 +154,7 @@ export const commentEmbedJSONPHandler =
         customFontsCSSURL,
         defaultFontsCSSURL,
         commentID,
+        tenantURL: staticURI || tenantURL,
       };
 
       // Respond using jsonp.

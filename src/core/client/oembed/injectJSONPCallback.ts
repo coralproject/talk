@@ -4,6 +4,7 @@ export interface CommentEmbedJSONPData {
   defaultFontsCSSURL: string;
   customFontsCSSURL?: string;
   commentID: string;
+  tenantURL: string;
 }
 
 type GetCommentEmbedFunction = (opts?: { reset?: boolean }) => void;
@@ -13,6 +14,7 @@ function createCommentEmbedElementEnhancer({
   customFontsCSSURL,
   defaultFontsCSSURL,
   commentID,
+  tenantURL,
 }: CommentEmbedJSONPData) {
   return (target: HTMLElement) => {
     target.innerHTML = "";
@@ -20,7 +22,7 @@ function createCommentEmbedElementEnhancer({
     // Fonts must be included outside of the shadow dom
     const defaultFontsLink = window.document.createElement("link");
     defaultFontsLink.rel = "stylesheet";
-    defaultFontsLink.href = defaultFontsCSSURL;
+    defaultFontsLink.href = tenantURL + defaultFontsCSSURL;
     target.appendChild(defaultFontsLink);
 
     if (customFontsCSSURL) {

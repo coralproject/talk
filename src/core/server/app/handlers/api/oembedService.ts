@@ -11,6 +11,7 @@ import {
   transformSimpleEmbed,
 } from "coral-server/app/helpers/commentEmbedHelpers";
 import { validate } from "coral-server/app/request/body";
+import { constructTenantURL } from "coral-server/app/url";
 import {
   retrieveComment,
   updateCommentEmbeddedAt,
@@ -57,6 +58,8 @@ export const oembedProviderHandler = ({
     } = await getCommentEmbedCSS(tenant, { config });
 
     const formatter = getCommentEmbedCreatedAtFormatter(tenant);
+
+    const tenantURL = constructTenantURL(config, tenant);
 
     try {
       const { url, allowReplies, format, reactionLabel } = validate(
@@ -128,7 +131,7 @@ export const oembedProviderHandler = ({
           customFontsCSSURL,
           streamCSS,
           defaultFontsCSS,
-          staticURI,
+          staticURI: staticURI || tenantURL,
           giphyMedia,
           sanitized,
           replyMessage,
