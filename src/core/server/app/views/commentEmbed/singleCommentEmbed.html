@@ -129,7 +129,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
   <!-- A hidden link for the overall comment embed that is styled to fill embed -->
   <a
     class="overall-embed-link"
-    href="{{tenantURL}}?commentID={{comment.id}}&embedInteraction=generalEmbed"
+    href="{{commentPermalinkURL}}&embedInteraction=generalEmbed"
     target="_blank"
   ></a>
   <div class="coral coral-commentEmbed">
@@ -206,7 +206,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
             <div class="coral coral-reactButton coral-comment-reactButton">
               {% block rec %}
               <a
-                href="{{tenantURL}}?commentID={{comment.id}}&embedInteraction=react"
+                href="{{commentPermalinkURL}}&embedInteraction=react"
                 target="_blank"
               >
                 {% include "commentEmbed/reactionIcon.html" %} {% if
@@ -219,7 +219,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
             <div class="coral coral-comment-replyButton">
               {% block reply %}
               <a
-                href="{{tenantURL}}?commentID={{comment.id}}&embedInteraction=reply"
+                href="{{commentPermalinkURL}}&embedInteraction=reply"
                 target="_blank"
               >
                 {% include "commentEmbed/replyIcon.html" %} {{ replyMessage
@@ -230,7 +230,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
           </div>
           <div class="coral coral-comment-goToConversationButton">
             <a
-              href="{{tenantURL}}?commentID={{comment.id}}&embedInteraction=goToConversation"
+              href="{{commentPermalinkURL}}&embedInteraction=goToConversation"
               target="_blank"
             >
               {% include "commentEmbed/goToConversationIcon.html" %} {{

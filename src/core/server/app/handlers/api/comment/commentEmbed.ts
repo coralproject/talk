@@ -15,6 +15,7 @@ import {
   retrieveComment,
   updateCommentEmbeddedAt,
 } from "coral-server/models/comment";
+import { retrieveStory } from "coral-server/models/story";
 import { translate } from "coral-server/services/i18n";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
@@ -105,6 +106,10 @@ export const commentEmbedJSONPHandler =
           res.sendStatus(404);
           return;
         }
+
+        const story = await retrieveStory(mongo, tenant.id, comment.storyID);
+        const commentPermalinkURL = story?.url + `?commentID=${commentID}`;
+
         const {
           commentAuthor,
           commentRevision,
@@ -145,6 +150,7 @@ export const commentEmbedJSONPHandler =
           goToConversationMessage,
           reactionLabel,
           externalMediaUrl,
+          commentPermalinkURL,
         });
       }
 
