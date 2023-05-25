@@ -60,13 +60,14 @@ const Queue: FunctionComponent<Props> = ({
   const [conversationModalVisible, setConversationModalVisible] =
     useState(false);
   const [conversationCommentID, setConversationCommentID] = useState("");
+  const [hasModerated, setHasModerated] = useState(false);
   const memoize = useMemoizer();
 
   useEffect(() => {
     if (comments.length > 0) {
       key.setScope(comments[0].id);
     }
-  });
+  }, []);
 
   const toggleView = useCallback(() => {
     if (!singleView) {
@@ -84,13 +85,22 @@ const Queue: FunctionComponent<Props> = ({
   const commentsRef = useRef<Props["comments"]>(comments);
   commentsRef.current = comments;
 
+  useEffect(() => {
+    if (selectedComment !== null && commentsRef.current.length > 0) {
+      if (selectedComment >= commentsRef.current.length) {
+        setSelectedComment(commentsRef.current.length - 1);
+      } else if (selectedComment < 0 && hasModerated) {
+        setSelectedComment(0);
+      }
+    }
+  }, [commentsRef.current.length, selectedComment, hasModerated]);
+
   const varyComment = useCallback(
     (delta: number) => {
       const index = selectedCommentRef.current || 0;
       const targetComment = commentsRef.current[index + delta];
       if (targetComment) {
         setSelectedComment(index + delta);
-        key.setScope(targetComment.id);
         const container: HTMLElement | null = window.document.getElementById(
           `moderate-comment-${targetComment.id}`
         );
@@ -170,6 +180,7 @@ const Queue: FunctionComponent<Props> = ({
             selected={selectedComment === i}
             selectPrev={selectPrev}
             selectNext={selectNext}
+            onModerated={() => setHasModerated(true)}
           />
         )}
       />

@@ -137,6 +137,12 @@ const ModerateCard: FunctionComponent<Props> = ({
   const div = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (selected) {
+      key.setScope(id);
+    }
+  }, [selected, id]);
+
+  useEffect(() => {
     if (selectNext) {
       key(HOTKEYS.NEXT, id, selectNext);
     }
