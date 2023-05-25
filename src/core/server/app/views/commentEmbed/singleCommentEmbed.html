@@ -16,7 +16,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
     width: 14px;
     margin-right: var(--spacing-1);
   }
-  .coral-commentEmbed {
+  .coral-comment-embed-container {
     background-color: var(--palette-grey-100);
     padding: var(--spacing-2);
   }
@@ -132,7 +132,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
     href="{{commentPermalinkURL}}&embedInteraction=generalEmbed"
     target="_blank"
   ></a>
-  <div class="coral coral-commentEmbed">
+  <div class="coral coral-comment-embed-container">
     {% if comment.actionCounts.REACTION %}
     <div
       class="coral coral-comment coral-reacted-{{ comment.actionCounts.REACTION }}"
