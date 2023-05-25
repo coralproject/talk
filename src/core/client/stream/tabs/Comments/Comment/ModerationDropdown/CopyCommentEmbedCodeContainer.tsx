@@ -5,7 +5,6 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { graphql } from "react-relay";
 
 import { sanitizeAndFindFormattingTags } from "coral-common/helpers/sanitize";
-import { COMMENT_EMBED_SELECTOR } from "coral-framework/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components/v2";
@@ -89,11 +88,9 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
     }
   }
 
-  const embedCode = `<div class=${COMMENT_EMBED_SELECTOR} style="background-color: #f4f7f7; padding: 8px;" data-commentID=${
+  const embedCode = `<div class="coral-comment-embed" style="background-color: #f4f7f7; padding: 8px;" data-commentID=${
     comment.id
-  } data-allowReplies="${
-    settings.embeddedComments?.allowReplies ?? true
-  }" data-reactionLabel="${
+  } data-reactionLabel="${
     settings.reaction.label
   }"><div style="margin-bottom: 8px;">${
     comment.author?.username

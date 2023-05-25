@@ -74,7 +74,9 @@ export const oembedProviderHandler = ({
       }
 
       // default to including reply/go to conversation interactions if no query param provided
-      const includeReplies = allowReplies ?? true;
+      const includeReplies = allowReplies
+        ? !!allowReplies
+        : tenant.embeddedComments?.allowReplies;
 
       const urlToParse = new URL(url);
       const commentID = urlToParse.searchParams.get("commentID");

@@ -45,7 +45,7 @@ You can configure your comment embed using `data-*` attributes as needed. The av
 
 - data-allowReplies
 
-When set to `"true"`, a reply button will appear with the embedded comment to encourage additional discussion on that specific comment or story. When set to `"false"`, reply buttons will not appear.
+When set to `"true"`, a reply button will appear with the embedded comment to encourage additional discussion on that specific comment or story. When set to `"false"`, reply buttons will not appear. When `data-allowReplies` is not present, it will default to the admin configuration.
 
 - data-reactionLabel
 
