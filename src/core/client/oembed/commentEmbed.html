@@ -82,7 +82,7 @@
       </p>
       <!-- This is an example of how the Oembed API could be used to add a comment embed to the page. -->
       <!-- You'll need to update COMMENT_ID with your comment id -->
-      <div id="coral-comment-embed-shadowRoot-COMMENT_ID"></div>
+      <!-- <div id="coral-comment-embed-shadowRoot-COMMENT_ID"></div>
       <script type="module">
         const response = await fetch("/api/services/oembed?url=http://localhost:8080/?commentID=COMMENT_ID");
         const { html, embeddedMediaIframeScript } = await response.json();
@@ -94,6 +94,6 @@
           iframeHeightScript.innerHTML = embeddedMediaIframeScript;
           shadowRoot.appendChild(iframeHeightScript);
         };
-      </script>
+      </script> -->
   </body>
 </html>

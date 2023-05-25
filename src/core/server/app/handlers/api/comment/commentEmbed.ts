@@ -126,7 +126,7 @@ export const commentEmbedJSONPHandler =
         const formattedCreatedAt = formatter.format(comment.createdAt);
 
         const includeReplies = allowReplies
-          ? !!allowReplies
+          ? allowReplies === "true"
           : tenant.embeddedComments?.allowReplies;
 
         const sanitized = transform(
