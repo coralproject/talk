@@ -149,7 +149,6 @@ export const oembedProviderHandler = ({
           commentID,
         });
 
-        // Need to update width, height
         res.json({
           html,
           simpleSingleCommentEmbed,
