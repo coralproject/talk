@@ -236,5 +236,5 @@ Rec </a>
   </div>
     
 
-<script>window.addEventListener(\\"message\\", (e) => {const iframe = window.document.querySelector(\\"#coral-comment-embed-shadowRoot-12345678910\\").shadowRoot.querySelector(\\"#embed-iframe\\"); if (e.data.commentID === '12345678910' && iframe && e.data.height) {{iframe.height = e.data.height;}}});</script>"
+"
 `;
