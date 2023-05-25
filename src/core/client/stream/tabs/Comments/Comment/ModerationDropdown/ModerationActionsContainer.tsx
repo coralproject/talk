@@ -138,10 +138,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       : comment.author.id !== viewer.id;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
-  let showCopyCommentEmbed = false;
-  if (comment.body) {
-    showCopyCommentEmbed = true;
-  }
+  const showCopyCommentEmbed = !!comment.body;
 
   return (
     <>
@@ -320,7 +317,6 @@ const enhanced = withFragmentContainer<Props>({
       id
       author {
         id
-        username
       }
       body
       revision {

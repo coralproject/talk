@@ -5,6 +5,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { graphql } from "react-relay";
 
 import { sanitizeAndFindSpoilerAndSarcasmTags } from "coral-common/helpers/sanitize";
+import { COMMENT_EMBED_SELECTOR } from "coral-framework/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components/v2";
@@ -46,10 +47,12 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
       node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
     });
 
+    // Set styles for sarcasm tags
     sarcasmTags.forEach((node) => {
       node.setAttribute("style", "font-family: monospace;");
     });
 
+    // Set styles for blockquote tags
     blockquoteTags.forEach((node) => {
       node.setAttribute(
         "style",
@@ -62,10 +65,11 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
   }
 
   let sanitizedBody;
-  let mediaUrl = null;
   if (comment.body) {
     sanitizedBody = transform(window, comment.body);
   }
+
+  let mediaUrl = null;
   if (comment.revision?.media) {
     switch (comment.revision.media.__typename) {
       case "YouTubeMedia":
@@ -84,7 +88,8 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
         break;
     }
   }
-  const embedCode = `<div class="coral-comment-embed" style="background-color: #f4f7f7; padding: 8px;" data-commentID=${
+
+  const embedCode = `<div class=${COMMENT_EMBED_SELECTOR} style="background-color: #f4f7f7; padding: 8px;" data-commentID=${
     comment.id
   } data-allowReplies="${
     settings.embeddedComments?.allowReplies ?? true

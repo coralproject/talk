@@ -39,6 +39,7 @@ endfor %} {% endif %}
 <div class="container">{{ html | safe }}</div>
 {% if commentID %}
 <script>
+  // This supports the single comment embed setting the correct height for the iframe
   new ResizeObserver((entries) => {
     const entry = entries[0];
     const contentBoxSize = entry.contentBoxSize[0];

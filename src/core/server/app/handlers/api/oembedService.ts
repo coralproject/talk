@@ -34,7 +34,6 @@ export const oembedProviderHandler = ({
   mongo,
   i18n,
 }: Options): RequestHandler<TenantCoralRequest> => {
-  // TODO: add some kind of rate limiting or spam protection
   return async (req, res, next) => {
     const { tenant } = req.coral;
 

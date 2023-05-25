@@ -126,10 +126,12 @@ export function transformSimpleEmbed(window: Window, source: string | Node) {
     node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
   });
 
+  // Add styles for sarcasm tags
   sarcasmTags.forEach((node) => {
     node.setAttribute("style", "font-family: monospace;");
   });
 
+  // Add styles for blockquote tags
   blockquoteTags.forEach((node) => {
     node.setAttribute(
       "style",

@@ -158,15 +158,14 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
           {% endif %}
         </div>
         <div class="coral coral-content coral-comment-content">
-          {% block commentRevision %} {{ sanitized | safe }} {% if mediaUrl
-          %}<iframe
+          {{ sanitized | safe }} {% if mediaUrl %}<iframe
             id="embed-iframe"
             frameborder="0"
             src="{{tenantURL}}{{mediaUrl}}"
             style="max-height: none; border: none; display: block"
             scrolling="no"
             allowfullscreen
-            allow
+            allow="fullscreen;"
             sandbox="allow-same-origin allow-scripts allow-presentation"
           ></iframe>
           {% endif %}{% if giphyMedia %} {% if giphyMedia.video %}
@@ -187,12 +186,11 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
             referrerpolicy="no-referrer"
             alt="{{giphyMedia.title}}"
           />
-          {% endif %} {% endif %} {% endblock %}
+          {% endif %} {% endif %}
         </div>
         <div class="coral coral-comment-actionBar">
           <div class="coral coral-comment-leftActions">
             <div class="coral coral-reactButton coral-comment-reactButton">
-              {% block rec %}
               <a
                 href="{{commentPermalinkURL}}&embedInteraction=react"
                 target="_blank"
@@ -201,11 +199,9 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
                 reactionLabel %}{{ reactionLabel }}{% else %}Rec{% endif %} {{
                 comment.actionCounts.REACTION }}</a
               >
-              {% endblock %}
             </div>
             {% if includeReplies === true %}
             <div class="coral coral-comment-replyButton">
-              {% block reply %}
               <a
                 href="{{commentPermalinkURL}}&embedInteraction=reply"
                 target="_blank"
@@ -213,7 +209,6 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
                 {% include "commentEmbed/replyIcon.html" %} {{ replyMessage
                 }}</a
               >
-              {% endblock %}
             </div>
           </div>
           <div class="coral coral-comment-goToConversationButton">

@@ -1,3 +1,5 @@
+import { COMMENT_EMBED_SELECTOR } from "coral-framework/constants";
+
 export interface CommentEmbedJSONPData {
   ref: string;
   html: string;
@@ -22,7 +24,7 @@ function createCommentEmbedElementEnhancer({
     // Fonts must be included outside of the shadow dom
     const defaultFontsLink = window.document.createElement("link");
     defaultFontsLink.rel = "stylesheet";
-    defaultFontsLink.href = tenantURL + defaultFontsCSSURL;
+    defaultFontsLink.href = `${tenantURL}${defaultFontsCSSURL}`;
     target.appendChild(defaultFontsLink);
 
     if (customFontsCSSURL) {
@@ -37,14 +39,17 @@ function createCommentEmbedElementEnhancer({
     // Remove class attribute added to style simple comment embed
     target.classList.remove("coral-comment-embed-simple");
 
-    const iframeHeightScript = window.document.createElement("script");
-    iframeHeightScript.innerHTML = `window.addEventListener("message", (e) => {const iframe = window.document.querySelector("#coral-comment-embed-shadowRoot-${commentID}").shadowRoot.querySelector("#embed-iframe"); if (e.data.commentID === '${commentID}' && iframe && e.data.height) {{iframe.height = e.data.height;}}});`;
-
     const div = window.document.createElement("div");
     div.id = `coral-comment-embed-shadowRoot-${commentID}`;
     target.appendChild(div);
+
+    // attaches a shadow root and sets its innerHTML to the comment embed html
     const shadowRoot = div.attachShadow({ mode: "open" });
     shadowRoot.innerHTML = html;
+
+    // Support iframe embeds, listens for height and sets it correctly on the iframe
+    const iframeHeightScript = window.document.createElement("script");
+    iframeHeightScript.innerHTML = `window.addEventListener("message", (e) => {const iframe = window.document.querySelector("#coral-comment-embed-shadowRoot-${commentID}").shadowRoot.querySelector("#embed-iframe"); if (e.data.commentID === '${commentID}' && iframe && e.data.height) {{iframe.height = e.data.height;}}});`;
     shadowRoot.appendChild(iframeHeightScript);
   };
 }
@@ -60,7 +65,7 @@ function injectJSONPCallback(getCommentEmbed: GetCommentEmbedFunction) {
       // Find all the elements with ref. These are the ones that should be
       // updated with this enhanced value.
       const elements = document.querySelectorAll(
-        `${".coral-comment-embed"}[data-coral-ref='${data.ref}']`
+        `${COMMENT_EMBED_SELECTOR}[data-coral-ref='${data.ref}']`
       );
 
       // Create the element enhancer. This helps when we

@@ -27,6 +27,7 @@ endfor %} {% endif %}
 <img src="{{ url }}" referrerpolicy="no-referrer" />
 {% if commentID %}
 <script>
+  // This supports the single comment embed setting the correct height for the image
   new ResizeObserver((entries) => {
     const entry = entries[0];
     const contentBoxSize = entry.contentBoxSize[0];
