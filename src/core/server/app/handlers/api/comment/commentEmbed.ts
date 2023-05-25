@@ -27,7 +27,8 @@ export interface CommentEmbedJSONPData {
   defaultFontsCSSURL: string;
   customFontsCSSURL?: string;
   commentID: string;
-  tenantURL: string;
+  staticRoot: string;
+  includesIframe: boolean;
 }
 
 const CommentEmbedJSONPQuerySchema = Joi.object().keys({
@@ -95,6 +96,7 @@ export const commentEmbedJSONPHandler =
       const formatter = getCommentEmbedCreatedAtFormatter(tenant);
 
       let html = "";
+      let includesIframe = false;
       if (commentID) {
         const comment = await retrieveComment(
           mongo.comments(),
@@ -112,6 +114,8 @@ export const commentEmbedJSONPHandler =
 
         const { commentAuthor, commentRevision, mediaUrl, giphyMedia } =
           await getCommentEmbedData(mongo, comment, tenant.id);
+
+        includesIframe = !!mediaUrl;
 
         // update the comment with an embeddedAt timestamp if not already set
         if (!comment.embeddedAt) {
@@ -137,7 +141,7 @@ export const commentEmbedJSONPHandler =
           includeReplies,
           streamCSS,
           customCSSURL,
-          staticURI: staticURI || tenantURL,
+          staticRoot: staticURI || tenantURL,
           giphyMedia,
           tenantURL,
           sanitized,
@@ -145,6 +149,7 @@ export const commentEmbedJSONPHandler =
           goToConversationMessage,
           reactionLabel,
           commentPermalinkURL,
+          commentID,
         });
       }
 
@@ -154,7 +159,8 @@ export const commentEmbedJSONPHandler =
         customFontsCSSURL,
         defaultFontsCSSURL,
         commentID,
-        tenantURL: staticURI || tenantURL,
+        staticRoot: staticURI || tenantURL,
+        includesIframe,
       };
 
       // Respond using jsonp.

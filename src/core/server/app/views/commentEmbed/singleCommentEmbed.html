@@ -2,8 +2,8 @@
 block meta %}
 <base href="/" />
 {% if defaultFontsCSS %} {{ macros.css(defaultFontsCSS.src,
-defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
-%} {{ macros.css(asset.src, asset.integrity, staticURI) }} {% endfor %}
+defaultFontsCSS.integrity, staticRoot) }} {% endif %} {% for asset in streamCSS
+%} {{ macros.css(asset.src, asset.integrity, staticRoot) }} {% endfor %}
 <style>
   #coral {
     position: relative;
@@ -159,7 +159,7 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
         </div>
         <div class="coral coral-content coral-comment-content">
           {{ sanitized | safe }} {% if mediaUrl %}<iframe
-            id="embed-iframe"
+            id="embed-iframe-{{commentID}}"
             frameborder="0"
             src="{{tenantURL}}{{mediaUrl}}"
             style="max-height: none; border: none; display: block"
@@ -227,6 +227,6 @@ defaultFontsCSS.integrity, staticURI) }} {% endif %} {% for asset in streamCSS
   </div>
   {% endblock %} {# Include all the scripts from the entrypoint #} {% if
   entrypoint.js %} {% block js %} {% for asset in entrypoint.js %} {{
-  macros.js(asset.src, asset.integrity, staticURI) }} {% endfor %} {% endblock
+  macros.js(asset.src, asset.integrity, staticRoot) }} {% endfor %} {% endblock
   %} {% endif %}
 </div>

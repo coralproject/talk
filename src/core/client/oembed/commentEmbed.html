@@ -39,9 +39,9 @@
         of the faucet meow meow, i tell my human. Destroy couch.
       </p>
       <!-- Add in a comment ID and uncomment -->
-      <!-- Can set data-allowReplies to true/false to show/hide reply and go to conversation links -->
+      <!-- Can set data-allowReplies to true/false to show/hide reply and go to conversation buttons -->
       <p>
-        <div class="coral-comment-embed coral-comment-embed-simple" style="background-color:#F4F7F7; padding: 8px;" data-allowReplies="true" data-commentID="49c8cd91-f2fb-4639-8fc7-6a7b3f32ff44"
+        <div class="coral-comment-embed coral-comment-embed-simple" style="background-color:#F4F7F7; padding: 8px;" data-allowReplies="true" data-commentID="COMMENT_ID"
           ><div style="margin-bottom: 8px;">Username</div><div>I am a comment. I am a comment. I am a comment. I am a comment. I am
           a comment. I am a comment. I am a comment. I am a comment. I am a comment.</div></div>
       </p>
@@ -57,12 +57,8 @@
         it but need to check on human, have not seen in an hour might be dead oh
         look, human is alive, hiss at human, feed me.
       </p>
-      <!-- Add in a comment ID and uncomment -->
-      <!-- Can set data-interactions to true/false to show/hide reply and go to conversation links -->
-      <!-- <p>
-        <div class="coral-comment-embed coral-comment-embed-simple" style="background-color:#F4F7F7; padding: 8px;" data-allowReplies="true" data-commentID="COMMENT_ID"
-        </p>
-      -->
+      <!-- Copy and paste an embed code from Coral Stream comment moderation actions dropdown to test out embedding a comment here -->
+      <!-- To see what a simple fallback comment embed looks like, remove the coral-comment-embed class that triggers the comment embed injection script -->
       <p>
         I show my fluffy belly but it's a trap! if you pet it i will tear up
         your hand refuse to drink water except out of someone's glass mice, so
@@ -84,11 +80,20 @@
         around the house and up and down stairs chasing phantoms drink water out
         of the faucet meow meow, i tell my human. Destroy couch.
       </p>
-      <p>
-        <!-- Can set data-interactions to true/false to show/hide reply and go to conversation links -->
-      <!-- <p>
-        <div class="coral-comment-embed coral-comment-embed-simple" style="background-color:#F4F7F7; padding: 8px;" data-allowReplies="true" data-commentID="COMMENT_ID"
-        </p>
-      -->
+      <!-- This is an example of how the Oembed API could be used to add a comment embed to the page. -->
+      <!-- You'll need to update COMMENT_ID with your comment id -->
+      <div id="coral-comment-embed-shadowRoot-COMMENT_ID"></div>
+      <script type="module">
+        const response = await fetch("/api/services/oembed?url=http://localhost:8080/?commentID=COMMENT_ID");
+        const { html, embeddedMediaIframeScript } = await response.json();
+        const embed = window.document.querySelector("#coral-comment-embed-shadowRoot-COMMENT_ID");
+        const shadowRoot = embed.attachShadow({ mode: "open" });
+        shadowRoot.innerHTML = html;
+        if (embeddedMediaIframeScript) {
+          const iframeHeightScript = window.document.createElement("script");
+          iframeHeightScript.innerHTML = embeddedMediaIframeScript;
+          shadowRoot.appendChild(iframeHeightScript);
+        };
+      </script>
   </body>
 </html>

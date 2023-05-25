@@ -2,7 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { SPOILER_CLASSNAME } from "coral-common/constants";
-import { sanitizeAndFindSpoilerAndSarcasmTags } from "coral-common/helpers/sanitize";
+import { sanitizeAndFindFormattingTags } from "coral-common/helpers/sanitize";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 
 import styles from "./HTMLContent.css";
@@ -41,7 +41,7 @@ function registerSpoilerTagHandler(window: Window) {
 
 export function transform(window: Window, source: string | Node) {
   // Sanitize source.
-  const [sanitized, spoilerTags] = sanitizeAndFindSpoilerAndSarcasmTags(
+  const [sanitized, spoilerTags] = sanitizeAndFindFormattingTags(
     window,
     source
   );

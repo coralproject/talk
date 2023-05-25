@@ -124,6 +124,8 @@ export const oembedProviderHandler = ({
           }
         );
 
+        const iframeScript = `window.addEventListener("message", (e) => {const iframe = window.document.querySelector("#coral-comment-embed-shadowRoot-${commentID}").shadowRoot.querySelector("#embed-iframe-${commentID}"); if (e.data.commentID === '${commentID}' && iframe && e.data.height) {{iframe.height = e.data.height;}}});`;
+
         const html = nunjucks.render("commentEmbed/singleCommentEmbed.html", {
           comment,
           commentAuthor,
@@ -135,17 +137,24 @@ export const oembedProviderHandler = ({
           customFontsCSSURL,
           streamCSS,
           defaultFontsCSS,
-          staticURI: staticURI || tenantURL,
+          staticRoot: staticURI || tenantURL,
           giphyMedia,
           sanitized,
           replyMessage,
           goToConversationMessage,
           reactionLabel,
           commentPermalinkURL,
+          commentID,
         });
 
         // Need to update width, height
-        res.json({ html, simpleSingleCommentEmbed, width: 0, height: 0 });
+        res.json({
+          html,
+          simpleSingleCommentEmbed,
+          width: 0,
+          height: 0,
+          embeddedMediaIframeScript: mediaUrl ? iframeScript : undefined,
+        });
       }
     } catch (err) {
       next(err);

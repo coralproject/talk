@@ -6,7 +6,8 @@ export interface CommentEmbedJSONPData {
   defaultFontsCSSURL: string;
   customFontsCSSURL?: string;
   commentID: string;
-  tenantURL: string;
+  staticRoot: string;
+  includesIframe: boolean;
 }
 
 type GetCommentEmbedFunction = (opts?: { reset?: boolean }) => void;
@@ -16,7 +17,8 @@ function createCommentEmbedElementEnhancer({
   customFontsCSSURL,
   defaultFontsCSSURL,
   commentID,
-  tenantURL,
+  staticRoot,
+  includesIframe,
 }: CommentEmbedJSONPData) {
   return (target: HTMLElement) => {
     target.innerHTML = "";
@@ -24,7 +26,7 @@ function createCommentEmbedElementEnhancer({
     // Fonts must be included outside of the shadow dom
     const defaultFontsLink = window.document.createElement("link");
     defaultFontsLink.rel = "stylesheet";
-    defaultFontsLink.href = `${tenantURL}${defaultFontsCSSURL}`;
+    defaultFontsLink.href = `${staticRoot}${defaultFontsCSSURL}`;
     target.appendChild(defaultFontsLink);
 
     if (customFontsCSSURL) {
@@ -48,9 +50,11 @@ function createCommentEmbedElementEnhancer({
     shadowRoot.innerHTML = html;
 
     // Support iframe embeds, listens for height and sets it correctly on the iframe
-    const iframeHeightScript = window.document.createElement("script");
-    iframeHeightScript.innerHTML = `window.addEventListener("message", (e) => {const iframe = window.document.querySelector("#coral-comment-embed-shadowRoot-${commentID}").shadowRoot.querySelector("#embed-iframe"); if (e.data.commentID === '${commentID}' && iframe && e.data.height) {{iframe.height = e.data.height;}}});`;
-    shadowRoot.appendChild(iframeHeightScript);
+    if (includesIframe) {
+      const iframeHeightScript = window.document.createElement("script");
+      iframeHeightScript.innerHTML = `window.addEventListener("message", (e) => {const iframe = window.document.querySelector("#coral-comment-embed-shadowRoot-${commentID}").shadowRoot.querySelector("#embed-iframe-${commentID}"); if (e.data.commentID === '${commentID}' && iframe && e.data.height) {{iframe.height = e.data.height;}}});`;
+      shadowRoot.appendChild(iframeHeightScript);
+    }
   };
 }
 

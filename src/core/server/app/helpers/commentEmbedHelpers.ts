@@ -1,5 +1,5 @@
 import { createDateFormatter } from "coral-common/date";
-import { sanitizeAndFindSpoilerAndSarcasmTags } from "coral-common/helpers/sanitize";
+import { sanitizeAndFindFormattingTags } from "coral-common/helpers/sanitize";
 import { MongoContext } from "coral-server/data/context";
 import { Comment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
@@ -89,7 +89,7 @@ export async function getCommentEmbedData(
 
 export function transform(window: Window, source: string | Node) {
   // Sanitize source.
-  const [sanitized, spoilerTags] = sanitizeAndFindSpoilerAndSarcasmTags(
+  const [sanitized, spoilerTags] = sanitizeAndFindFormattingTags(
     window as any,
     source
   );
@@ -112,7 +112,7 @@ export function transform(window: Window, source: string | Node) {
 export function transformSimpleEmbed(window: Window, source: string | Node) {
   // Sanitize source.
   const [sanitized, spoilerTags, sarcasmTags, blockquoteTags] =
-    sanitizeAndFindSpoilerAndSarcasmTags(window as any, source);
+    sanitizeAndFindFormattingTags(window as any, source);
 
   // Attach event handlers to spoiler tags.
   spoilerTags.forEach((node) => {

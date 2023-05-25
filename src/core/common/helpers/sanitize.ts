@@ -258,7 +258,7 @@ export function createSanitize(
 /**
  * Sanitize html content and find spoiler and sarcasm tags.
  */
-export const sanitizeAndFindSpoilerAndSarcasmTags: (
+export const sanitizeAndFindFormattingTags: (
   window: Window,
   source: string | Node
 ) => [HTMLElement, Element[], Element[], Element[]] = (() => {

@@ -81,7 +81,13 @@ The full comment embed html including any default or custom CSS.
 
 - simpleCommentEmbedHtml
 
-The simple comment embed html includes the comment's text, comment author's username, and the CSS class that the `commentEmbed.js` script uses to inject the full comment embed.
+The simple comment embed html includes the comment's text, comment author's username, and the CSS class that the `commentEmbed.js` script uses to inject the full comment embed within a shadow dom on your page.
+
+- embeddedMediaIframeScript
+
+If you are embedding a comment that includes embedded media (Twitter, Youtube, external media image), you will need to add a script to set the correct height for the embed. A message is already being posted via `postMessage` from the embedded media iframe in the Coral comment. An example of how this might be added can be found in `https://github.com/coralproject/talk/tree/develop/src/core/client/oembed/commentEmbed.html`. To support the embedded media height with this iframe script, you will need to attach the comment embed via shadow dom to an element with the id of `coral-comment-embed-shadowRoot-COMMENT_ID`.
+
+You will not need to add this script if you are using the Oembed API to add the `simpleCommentEmbedHtml` to your page to work with `commentEmbed.js` injection. The injection script will add the needed iframe script in this case.
 
 - width
 

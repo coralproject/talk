@@ -4,7 +4,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { graphql } from "react-relay";
 
-import { sanitizeAndFindSpoilerAndSarcasmTags } from "coral-common/helpers/sanitize";
+import { sanitizeAndFindFormattingTags } from "coral-common/helpers/sanitize";
 import { COMMENT_EMBED_SELECTOR } from "coral-framework/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -33,7 +33,7 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
   function transform(transformWindow: Window, source: string | Node) {
     // Sanitize source.
     const [sanitized, spoilerTags, sarcasmTags, blockquoteTags] =
-      sanitizeAndFindSpoilerAndSarcasmTags(transformWindow, source);
+      sanitizeAndFindFormattingTags(transformWindow, source);
 
     // Attach event handlers to spoiler tags.
     spoilerTags.forEach((node) => {
