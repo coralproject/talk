@@ -22,6 +22,10 @@ interface ScopeSite {
   readonly name: string;
 }
 
+export interface Scopes {
+  sites?: Readonly<Readonly<ScopeSite>[]> | null;
+}
+
 export interface UserBanStatus {
   sites: ReadonlyArray<ScopeSite> | null;
   active: boolean | null;

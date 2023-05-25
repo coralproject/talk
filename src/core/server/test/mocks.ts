@@ -1,3 +1,4 @@
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
@@ -26,6 +27,11 @@ export const createMockTenantCache = (): TenantCache =>
   ({
     // add methods as nessecary
   } as unknown as TenantCache);
+
+export const createMockDataCache = (): DataCache =>
+  ({
+    available: jest.fn().mockResolvedValue(false),
+  } as unknown as DataCache);
 
 export const createMockMailer = () =>
   ({

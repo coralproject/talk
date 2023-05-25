@@ -1,0 +1,12 @@
+.root {
+  font-weight: var(--font-weight-secondary-regular);
+  font-family: var(--font-family-secondary);
+  color: var(--palette-primary-400);
+  font-size: var(--font-size-1);
+  text-transform: uppercase;
+}
+
+.name {
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-bold);
+}

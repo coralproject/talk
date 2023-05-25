@@ -71,17 +71,17 @@ export const isModerator = (user: Readonly<User>): user is Moderator => {
   return user.role === "MODERATOR";
 };
 
-export const isSiteModerator = (user: Readonly<User>): user is SiteModerator =>
+export const isSiteModerator = (user: User): user is SiteModerator =>
   user.role === "MODERATOR" && isSiteModerationScoped(user.moderationScopes);
 
-export const isOrgModerator = (user: Readonly<User>): user is OrgModerator =>
+export const isOrgModerator = (user: User): user is OrgModerator =>
   user.role === "MODERATOR" && !isSiteModerationScoped(user.moderationScopes);
 
-export const isLTEModerator = (user: Readonly<User>): user is LTEModerator => {
+export const isLTEModerator = (user: User): user is LTEModerator => {
   return user.role !== "ADMIN";
 };
 
-export const isLTModerator = (user: Readonly<User>): user is LTModerator =>
+export const isLTModerator = (user: User): user is LTModerator =>
   user.role === "COMMENTER" || user.role === "MEMBER" || user.role === "STAFF";
 
 export const isLTESiteModerator = (
