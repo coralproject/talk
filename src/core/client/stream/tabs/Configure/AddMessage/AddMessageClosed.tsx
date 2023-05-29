@@ -38,6 +38,7 @@ const AddMessageClosed: FunctionComponent<Props> = ({
           disabled={disableButton}
           upperCase
           data-testid="configure-addMessage"
+          aria-label="Add message"
         >
           Add message
         </Button>

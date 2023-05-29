@@ -32,8 +32,14 @@ const RemoveUserSuspensionMutation = createMutation(
           "createdBy.username",
         ])
       ) as any;
-      newHistory[newHistory.length - 1].active = false;
-      newHistory[newHistory.length - 1].from.finish = new Date().toISOString();
+      if (
+        newHistory[newHistory.length - 1].active &&
+        newHistory[newHistory.length - 1].from
+      ) {
+        newHistory[newHistory.length - 1].active = false;
+        newHistory[newHistory.length - 1].from.finish =
+          new Date().toISOString();
+      }
     }
 
     return commitMutationPromiseNormalized<MutationTypes>(environment, {

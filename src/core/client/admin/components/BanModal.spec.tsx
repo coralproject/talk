@@ -137,7 +137,7 @@ it("creates domain ban for unmoderated domain while updating user ban status", a
   const modal = getBanModal(container, user);
 
   const banDomainButton = within(modal).getByLabelText(
-    `Ban all new accounts on test.com`
+    `Ban all new commenter accounts from test.com`
   );
   userEvent.click(banDomainButton);
   screen.debug(banDomainButton);
@@ -173,7 +173,7 @@ test.each(gteOrgMods)(
     const modal = getBanModal(container, commenterUser);
 
     const banDomainButton = within(modal).getByLabelText(
-      `Ban all new accounts on test.com`
+      `Ban all new commenter accounts from test.com`
     );
 
     expect(banDomainButton).toBeInTheDocument();
@@ -199,7 +199,7 @@ test.each(siteMods)(
     const modal = getBanModal(container, commenterUser);
 
     const banDomainButton = within(modal).queryByText(
-      `Ban all new accounts on test.com`
+      `Ban all new commenter accounts from test.com`
     );
 
     expect(banDomainButton).toBeNull();
@@ -234,7 +234,7 @@ it("does not display ban domain option for moderated domain", async () => {
   const modal = getBanModal(container, user);
 
   const banDomainButton = within(modal).queryByText(
-    `Ban all new accounts on test.com`
+    `Ban all new commenter accounts from test.com`
   );
 
   expect(banDomainButton).not.toBeInTheDocument();
@@ -280,7 +280,7 @@ test.each([...PROTECTED_EMAIL_DOMAINS.values()])(
     const modal = getBanModal(container, user);
 
     const banDomainButton = within(modal).queryByText(
-      `Ban all new accounts on test.com`
+      `Ban all new commenter accounts from test.com`
     );
 
     expect(banDomainButton).not.toBeInTheDocument();
