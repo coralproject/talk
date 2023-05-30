@@ -193,6 +193,11 @@ class ReportCommentForm extends React.Component<Props> {
                           id={`comments-reportCommentForm-additionalDetails--${id}`}
                           className={styles.textarea}
                           disabled={submitting}
+                          onKeyDown={(e) => {
+                            if (e.keyCode === 32) {
+                              e.stopPropagation();
+                            }
+                          }}
                         />
                         <div className={styles.textareaInfo}>
                           {(meta.error && (
