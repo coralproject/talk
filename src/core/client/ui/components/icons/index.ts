@@ -4,6 +4,7 @@ export { default as AlarmClockIcon } from "./AlarmClockIcon";
 export { default as AlertCircleIcon } from "./AlertCircleIcon";
 export { default as AlertTriangleIcon } from "./AlertTriangleIcon";
 export { default as AppWindowDisableIcon } from "./AppWindowDisableIcon";
+export { default as AppWindowIcon } from "./AppWindowIcon";
 export { default as ArchiveIcon } from "./ArchiveIcon";
 export { default as ArrowsDownIcon } from "./ArrowsDownIcon";
 export { default as ArrowRightIcon } from "./ArrowRightIcon";

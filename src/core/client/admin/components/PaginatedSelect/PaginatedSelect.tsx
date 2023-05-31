@@ -1,9 +1,10 @@
 import cn from "classnames";
 import { noop } from "lodash";
-import React, { FunctionComponent } from "react";
+import React, { ComponentType, FunctionComponent } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
+import { ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   ButtonIcon,
@@ -18,7 +19,7 @@ import styles from "./PaginatedSelect.css";
 
 interface Props {
   onLoadMore?: () => void;
-  icon?: string;
+  Icon?: ComponentType;
   hasMore?: boolean;
   disableLoadMore?: boolean;
   loading?: boolean;
@@ -33,7 +34,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
   hasMore = false,
   loading = false,
   children,
-  icon,
+  Icon,
   selected,
   className,
 }) => {
@@ -75,8 +76,8 @@ const PaginatedSelect: FunctionComponent<Props> = ({
           ref={ref}
           uppercase={false}
         >
-          {icon && (
-            <ButtonIcon className={styles.buttonIconLeft}>{icon}</ButtonIcon>
+          {Icon && (
+            <ButtonSvgIcon className={styles.buttonIconLeft} Icon={Icon} />
           )}
           <Flex alignItems="center" className={styles.wrapper}>
             {selected}
