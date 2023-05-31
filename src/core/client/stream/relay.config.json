@@ -10,5 +10,6 @@
   "persistConfig": {
     "file": "./src/core/client/stream/persisted-queries.json",
     "algorithm": "MD5"
-  }
+  },
+  "artifactDirectory": "./src/core/client/stream/__generated__"
 }
