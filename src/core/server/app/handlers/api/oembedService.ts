@@ -101,6 +101,7 @@ export const oembedProviderHandler = ({
           mediaUrl,
           giphyMedia,
           externalMediaUrl,
+          simpleEmbedMediaUrl,
         } = await getCommentEmbedData(mongo, comment, tenant.id);
 
         const formattedCreatedAt = formatter.format(comment.createdAt);
@@ -128,6 +129,7 @@ export const oembedProviderHandler = ({
             includeReplies,
             commentAuthor,
             sanitizedSimple,
+            simpleEmbedMediaUrl,
           }
         );
 

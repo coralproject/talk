@@ -6,4 +6,14 @@
 >
   <div style="margin-bottom: 8px">{{ commentAuthor.username }}</div>
   <div>{{ sanitizedSimple | safe }}</div>
+  {% if simpleEmbedMediaUrl %}
+  <div>
+    <br /><a
+      href="{{simpleEmbedMediaUrl}}"
+      target="_blank"
+      rel="noopener noreferrer ugc"
+      >{{simpleEmbedMediaUrl}}</a
+    >
+  </div>
+  {% endif %}
 </div>
