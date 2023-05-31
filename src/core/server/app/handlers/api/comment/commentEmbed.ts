@@ -112,10 +112,15 @@ export const commentEmbedJSONPHandler =
         const story = await retrieveStory(mongo, tenant.id, comment.storyID);
         const commentPermalinkURL = `${story?.url}?commentID=${commentID}`;
 
-        const { commentAuthor, commentRevision, mediaUrl, giphyMedia } =
-          await getCommentEmbedData(mongo, comment, tenant.id);
+        const {
+          commentAuthor,
+          commentRevision,
+          mediaUrl,
+          giphyMedia,
+          externalMediaUrl,
+        } = await getCommentEmbedData(mongo, comment, tenant.id);
 
-        includesIframe = !!mediaUrl;
+        includesIframe = !!mediaUrl || !!externalMediaUrl;
 
         // update the comment with an embeddedAt timestamp if not already set
         if (!comment.embeddedAt) {
@@ -152,6 +157,7 @@ export const commentEmbedJSONPHandler =
           reactionLabel,
           commentPermalinkURL,
           commentID,
+          externalMediaUrl,
         });
       }
 

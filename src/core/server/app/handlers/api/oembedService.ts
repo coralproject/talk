@@ -95,8 +95,13 @@ export const oembedProviderHandler = ({
         const story = await retrieveStory(mongo, tenant.id, comment.storyID);
         const commentPermalinkURL = `${story?.url}?commentID=${commentID}`;
 
-        const { commentAuthor, commentRevision, mediaUrl, giphyMedia } =
-          await getCommentEmbedData(mongo, comment, tenant.id);
+        const {
+          commentAuthor,
+          commentRevision,
+          mediaUrl,
+          giphyMedia,
+          externalMediaUrl,
+        } = await getCommentEmbedData(mongo, comment, tenant.id);
 
         const formattedCreatedAt = formatter.format(comment.createdAt);
 
@@ -147,6 +152,7 @@ export const oembedProviderHandler = ({
           reactionLabel,
           commentPermalinkURL,
           commentID,
+          externalMediaUrl,
         });
 
         res.json({
@@ -154,7 +160,8 @@ export const oembedProviderHandler = ({
           simpleSingleCommentEmbed,
           width: 0,
           height: 0,
-          embeddedMediaIframeScript: mediaUrl ? iframeScript : undefined,
+          embeddedMediaIframeScript:
+            mediaUrl || externalMediaUrl ? iframeScript : undefined,
         });
       }
     } catch (err) {
