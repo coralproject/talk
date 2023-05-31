@@ -73,20 +73,15 @@ const UnansweredCommentsTabQuery: FunctionComponent = () => {
         query UnansweredCommentsTabQuery(
           $storyID: ID
           $storyURL: String
-          $commentsOrderBy: COMMENT_SORT
+          $commentsOrderBy: COMMENT_SORT!
           $flattenReplies: Boolean!
-          $refreshStream: Boolean
         ) {
           viewer {
             ...UnansweredCommentsTabContainer_viewer
           }
           story: stream(id: $storyID, url: $storyURL) {
             ...UnansweredCommentsTabContainer_story
-              @arguments(
-                orderBy: $commentsOrderBy
-                tag: UNANSWERED
-                refreshStream: $refreshStream
-              )
+              @arguments(orderBy: $commentsOrderBy, tag: UNANSWERED)
           }
           settings {
             ...UnansweredCommentsTabContainer_settings

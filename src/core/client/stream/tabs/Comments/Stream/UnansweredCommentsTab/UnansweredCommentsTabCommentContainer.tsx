@@ -96,13 +96,10 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
   comment: graphql`
-    fragment UnansweredCommentsTabCommentContainer_comment on Comment
-    @argumentDefinitions(
-      refreshStream: { type: "Boolean", defaultValue: false }
-    ) {
+    fragment UnansweredCommentsTabCommentContainer_comment on Comment {
       enteredLive
       ...CommentContainer_comment
-      ...ReplyListContainer1_comment @arguments(refreshStream: $refreshStream)
+      ...ReplyListContainer1_comment
       ...IgnoredTombstoneOrHideContainer_comment
     }
   `,

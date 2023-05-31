@@ -108,12 +108,11 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
         query AllCommentsTabQuery(
           $storyID: ID
           $storyURL: String
-          $commentsOrderBy: COMMENT_SORT
+          $commentsOrderBy: COMMENT_SORT!
           $tag: TAG
           $storyMode: STORY_MODE
           $flattenReplies: Boolean!
           $ratingFilter: Int
-          $refreshStream: Boolean
         ) {
           viewer {
             ...AllCommentsTabContainer_viewer
@@ -124,7 +123,6 @@ const AllCommentsTabQuery: FunctionComponent<Props> = ({
                 orderBy: $commentsOrderBy
                 tag: $tag
                 ratingFilter: $ratingFilter
-                refreshStream: $refreshStream
               )
           }
           settings {

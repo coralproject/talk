@@ -185,7 +185,6 @@ const mutation = graphql`
   mutation CreateCommentMutation(
     $input: CreateCommentInput!
     $flattenReplies: Boolean!
-    $refreshStream: Boolean!
   ) {
     createComment(input: $input) {
       edge {
@@ -197,7 +196,6 @@ const mutation = graphql`
             code
           }
           ...AllCommentsTabCommentContainer_comment
-            @arguments(refreshStream: $refreshStream)
           story {
             id
             ratings {

@@ -608,7 +608,6 @@ const enhanced = withPaginationContainer<
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         tag: { type: "TAG" }
         ratingFilter: { type: "Int" }
-        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         id
         isClosed
@@ -632,7 +631,6 @@ const enhanced = withPaginationContainer<
           orderBy: $orderBy
           tag: $tag
           rating: $ratingFilter
-          refreshStream: $refreshStream
         ) @connection(key: "Stream_comments") {
           viewNewEdges {
             cursor
@@ -657,7 +655,6 @@ const enhanced = withPaginationContainer<
                 }
               }
               ...AllCommentsTabCommentContainer_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
           edges {
@@ -682,7 +679,6 @@ const enhanced = withPaginationContainer<
                 }
               }
               ...AllCommentsTabCommentContainer_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -756,7 +752,6 @@ const enhanced = withPaginationContainer<
         $tag: TAG
         $flattenReplies: Boolean!
         $ratingFilter: Int
-        $refreshStream: Boolean
       ) {
         story(id: $storyID) {
           ...AllCommentsTabContainer_story
@@ -766,7 +761,6 @@ const enhanced = withPaginationContainer<
               orderBy: $orderBy
               tag: $tag
               ratingFilter: $ratingFilter
-              refreshStream: $refreshStream
             )
         }
       }

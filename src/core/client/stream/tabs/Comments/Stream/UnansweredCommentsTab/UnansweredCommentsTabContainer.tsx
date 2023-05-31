@@ -211,7 +211,6 @@ const enhanced = withPaginationContainer<
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         tag: { type: "TAG!", defaultValue: UNANSWERED }
-        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         id
         isClosed
@@ -230,21 +229,18 @@ const enhanced = withPaginationContainer<
           after: $cursor
           orderBy: $orderBy
           tag: $tag
-          refreshStream: $refreshStream
         ) @connection(key: "UnansweredStream_comments") {
           viewNewEdges {
             cursor
             node {
               id
               ...UnansweredCommentsTabCommentContainer_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
           edges {
             node {
               id
               ...UnansweredCommentsTabCommentContainer_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -301,16 +297,10 @@ const enhanced = withPaginationContainer<
         $orderBy: COMMENT_SORT!
         $storyID: ID
         $flattenReplies: Boolean!
-        $refreshStream: Boolean
       ) {
         story(id: $storyID) {
           ...UnansweredCommentsTabContainer_story
-            @arguments(
-              count: $count
-              cursor: $cursor
-              orderBy: $orderBy
-              refreshStream: $refreshStream
-            )
+            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }
       }
     `,

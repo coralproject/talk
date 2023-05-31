@@ -196,8 +196,7 @@ graphql`
 `;
 // eslint-disable-next-line no-unused-expressions
 graphql`
-  fragment ReplyListContainer_comment on Comment
-  @argumentDefinitions(refreshStream: { type: "Boolean" }) {
+  fragment ReplyListContainer_comment on Comment {
     id
     status
     pending
@@ -467,18 +466,16 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
         count: { type: "Int", defaultValue: 10 }
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         lastViewerAction
         status
         id
-        ...ReplyListContainer_comment @arguments(refreshStream: $refreshStream)
+        ...ReplyListContainer_comment
         replies(
           first: $count
           after: $cursor
           orderBy: $orderBy
           flatten: $flattenReplies
-          refreshStream: $refreshStream
         )
           @connection(
             key: "ReplyList_replies"
@@ -503,16 +500,10 @@ const ReplyListContainerLastFlattened = createReplyListContainer({
       $orderBy: COMMENT_SORT!
       $commentID: ID!
       $flattenReplies: Boolean!
-      $refreshStream: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainerLastFlattened_comment
-          @arguments(
-            count: $count
-            cursor: $cursor
-            orderBy: $orderBy
-            refreshStream: $refreshStream
-          )
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
       }
     }
   `,
@@ -555,10 +546,7 @@ const ReplyListContainerLast = createRelayFragmentContainer<
       }
     `,
     comment: graphql`
-      fragment ReplyListContainerLast_comment on Comment
-      @argumentDefinitions(
-        refreshStream: { type: "Boolean", defaultValue: false }
-      ) {
+      fragment ReplyListContainerLast_comment on Comment {
         ...LocalReplyListContainer_comment @skip(if: $flattenReplies)
         ...ReplyListContainerLastFlattened_comment @include(if: $flattenReplies)
       }
@@ -601,18 +589,13 @@ const ReplyListContainer6 = createReplyListContainer({
         count: { type: "Int", defaultValue: 10 }
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         lastViewerAction
         status
         id
-        ...ReplyListContainer_comment @arguments(refreshStream: $refreshStream)
-        replies(
-          first: $count
-          after: $cursor
-          orderBy: $orderBy
-          refreshStream: $refreshStream
-        ) @connection(key: "ReplyList_replies") {
+        ...ReplyListContainer_comment
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
           ...ReplyListContainer_repliesConnection @relay(mask: false)
           viewNewEdges {
             node {
@@ -622,7 +605,6 @@ const ReplyListContainer6 = createReplyListContainer({
           edges {
             node {
               ...ReplyListContainerLast_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -638,16 +620,10 @@ const ReplyListContainer6 = createReplyListContainer({
       $orderBy: COMMENT_SORT!
       $commentID: ID!
       $flattenReplies: Boolean!
-      $refreshStream: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer6_comment
-          @arguments(
-            count: $count
-            cursor: $cursor
-            orderBy: $orderBy
-            refreshStream: $refreshStream
-          )
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
       }
     }
   `,
@@ -681,18 +657,13 @@ const ReplyListContainer5 = createReplyListContainer({
         count: { type: "Int", defaultValue: 10 }
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         lastViewerAction
         status
         id
-        ...ReplyListContainer_comment @arguments(refreshStream: $refreshStream)
-        replies(
-          first: $count
-          after: $cursor
-          orderBy: $orderBy
-          refreshStream: $refreshStream
-        ) @connection(key: "ReplyList_replies") {
+        ...ReplyListContainer_comment
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
           ...ReplyListContainer_repliesConnection @relay(mask: false)
           viewNewEdges {
             node {
@@ -702,7 +673,6 @@ const ReplyListContainer5 = createReplyListContainer({
           edges {
             node {
               ...ReplyListContainer6_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -718,16 +688,10 @@ const ReplyListContainer5 = createReplyListContainer({
       $orderBy: COMMENT_SORT!
       $commentID: ID!
       $flattenReplies: Boolean!
-      $refreshStream: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer5_comment
-          @arguments(
-            count: $count
-            cursor: $cursor
-            orderBy: $orderBy
-            refreshStream: $refreshStream
-          )
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
       }
     }
   `,
@@ -761,18 +725,13 @@ const ReplyListContainer4 = createReplyListContainer({
         count: { type: "Int", defaultValue: 10 }
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         lastViewerAction
         status
         id
-        ...ReplyListContainer_comment @arguments(refreshStream: $refreshStream)
-        replies(
-          first: $count
-          after: $cursor
-          orderBy: $orderBy
-          refreshStream: $refreshStream
-        ) @connection(key: "ReplyList_replies") {
+        ...ReplyListContainer_comment
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
           ...ReplyListContainer_repliesConnection @relay(mask: false)
           viewNewEdges {
             node {
@@ -782,7 +741,6 @@ const ReplyListContainer4 = createReplyListContainer({
           edges {
             node {
               ...ReplyListContainer5_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -798,16 +756,10 @@ const ReplyListContainer4 = createReplyListContainer({
       $orderBy: COMMENT_SORT!
       $commentID: ID!
       $flattenReplies: Boolean!
-      $refreshStream: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer4_comment
-          @arguments(
-            count: $count
-            cursor: $cursor
-            orderBy: $orderBy
-            refreshStream: $refreshStream
-          )
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
       }
     }
   `,
@@ -841,18 +793,13 @@ const ReplyListContainer3 = createReplyListContainer({
         count: { type: "Int", defaultValue: 10 }
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         lastViewerAction
         status
         id
-        ...ReplyListContainer_comment @arguments(refreshStream: $refreshStream)
-        replies(
-          first: $count
-          after: $cursor
-          orderBy: $orderBy
-          refreshStream: $refreshStream
-        ) @connection(key: "ReplyList_replies") {
+        ...ReplyListContainer_comment
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
           ...ReplyListContainer_repliesConnection @relay(mask: false)
           viewNewEdges {
             node {
@@ -862,7 +809,6 @@ const ReplyListContainer3 = createReplyListContainer({
           edges {
             node {
               ...ReplyListContainer4_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -878,16 +824,10 @@ const ReplyListContainer3 = createReplyListContainer({
       $orderBy: COMMENT_SORT!
       $commentID: ID!
       $flattenReplies: Boolean!
-      $refreshStream: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer3_comment
-          @arguments(
-            count: $count
-            cursor: $cursor
-            orderBy: $orderBy
-            refreshStream: $refreshStream
-          )
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
       }
     }
   `,
@@ -921,18 +861,13 @@ const ReplyListContainer2 = createReplyListContainer({
         count: { type: "Int", defaultValue: 10 }
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         lastViewerAction
         status
         id
-        ...ReplyListContainer_comment @arguments(refreshStream: $refreshStream)
-        replies(
-          first: $count
-          after: $cursor
-          orderBy: $orderBy
-          refreshStream: $refreshStream
-        ) @connection(key: "ReplyList_replies") {
+        ...ReplyListContainer_comment
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
           ...ReplyListContainer_repliesConnection @relay(mask: false)
           viewNewEdges {
             node {
@@ -942,7 +877,6 @@ const ReplyListContainer2 = createReplyListContainer({
           edges {
             node {
               ...ReplyListContainer3_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -958,16 +892,10 @@ const ReplyListContainer2 = createReplyListContainer({
       $orderBy: COMMENT_SORT!
       $commentID: ID!
       $flattenReplies: Boolean!
-      $refreshStream: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer2_comment
-          @arguments(
-            count: $count
-            cursor: $cursor
-            orderBy: $orderBy
-            refreshStream: $refreshStream
-          )
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
       }
     }
   `,
@@ -1001,18 +929,13 @@ const ReplyListContainer1 = createReplyListContainer({
         count: { type: "Int", defaultValue: 10 }
         cursor: { type: "Cursor" }
         orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
-        refreshStream: { type: "Boolean", defaultValue: false }
       ) {
         lastViewerAction
         status
         id
-        ...ReplyListContainer_comment @arguments(refreshStream: $refreshStream)
-        replies(
-          first: $count
-          after: $cursor
-          orderBy: $orderBy
-          refreshStream: $refreshStream
-        ) @connection(key: "ReplyList_replies") {
+        ...ReplyListContainer_comment
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
           ...ReplyListContainer_repliesConnection @relay(mask: false)
           viewNewEdges {
             node {
@@ -1022,7 +945,6 @@ const ReplyListContainer1 = createReplyListContainer({
           edges {
             node {
               ...ReplyListContainer2_comment
-                @arguments(refreshStream: $refreshStream)
             }
           }
         }
@@ -1038,16 +960,10 @@ const ReplyListContainer1 = createReplyListContainer({
       $orderBy: COMMENT_SORT!
       $commentID: ID!
       $flattenReplies: Boolean!
-      $refreshStream: Boolean!
     ) {
       comment(id: $commentID) {
         ...ReplyListContainer1_comment
-          @arguments(
-            count: $count
-            cursor: $cursor
-            orderBy: $orderBy
-            refreshStream: $refreshStream
-          )
+          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
       }
     }
   `,

@@ -22,6 +22,8 @@
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
     "relay": "relay-compiler",
+    "relay:admin": "cat src/core/server/graph/schema/schema.graphql src/core/client/framework/lib/relay/local.graphql src/core/client/admin/local/local.graphql > src/core/client/admin/local/combined.graphql && npm run relay -- src/core/client/admin/relay.config.json",
+    "relay:stream": "cat src/core/server/graph/schema/schema.graphql src/core/client/framework/lib/relay/local.graphql src/core/client/stream/local/local.graphql > src/core/client/stream/local/combined.graphql && npm run relay -- src/core/client/stream/relay.config.json",
     "build:client": "ts-node --transpile-only ./scripts/build.ts",
     "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client build:server",
     "build:server": "gulp server",

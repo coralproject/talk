@@ -208,7 +208,6 @@ const CommentEnteredSubscription = createSubscription(
         $storyID: ID!
         $ancestorID: ID
         $flattenReplies: Boolean!
-        $refreshStream: Boolean
       ) {
         commentEntered(storyID: $storyID, ancestorID: $ancestorID) {
           comment {
@@ -221,7 +220,6 @@ const CommentEnteredSubscription = createSubscription(
               code
             }
             ...AllCommentsTabCommentContainer_comment
-              @arguments(refreshStream: $refreshStream)
           }
         }
       }

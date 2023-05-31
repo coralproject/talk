@@ -264,14 +264,12 @@ const mutation = graphql`
   mutation CreateCommentReplyMutation(
     $input: CreateCommentReplyInput!
     $flattenReplies: Boolean!
-    $refreshStream: Boolean!
   ) {
     createCommentReply(input: $input) {
       edge {
         cursor
         node {
           ...AllCommentsTabCommentContainer_comment
-            @arguments(refreshStream: $refreshStream)
           id
           status
           story {
