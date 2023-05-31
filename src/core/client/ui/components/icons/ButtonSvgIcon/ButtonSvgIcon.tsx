@@ -10,8 +10,9 @@ import { SvgIcon } from "coral-ui/components/icons";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
-import styles from "./ButtonSvgIcon.css";
 import { SvgIconProps } from "../SvgIcon/SvgIcon";
+
+import styles from "./ButtonSvgIcon.css";
 
 interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
   /**
