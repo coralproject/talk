@@ -169,19 +169,21 @@ const AddMessageOpen: FunctionComponent<Props> = ({
                 >
                   <Localized id="configure-addMessage-cancel">Cancel</Localized>
                 </Button>
-                <Button
-                  className={CLASSES.configureCommentStream.applyButton}
-                  color="primary"
-                  variant="filled"
-                  type="submit"
-                  disabled={submitting || pristine}
-                  upperCase
-                  data-testid="configure-addMessage-submitAdd"
-                >
-                  <Localized id="configure-addMessage-submitAdd">
+                <Localized id="configure-addMessage-submitAdd">
+                  <Button
+                    className={CLASSES.configureCommentStream.applyButton}
+                    color="primary"
+                    variant="filled"
+                    type="submit"
+                    disabled={submitting || pristine}
+                    upperCase
+                    data-testid="configure-addMessage-submitAdd"
+                    aria-label="Add message"
+                  >
                     Add message
-                  </Localized>
-                </Button>
+                  </Button>
+                </Localized>
+
                 {renderSuccess}
               </div>
             )}

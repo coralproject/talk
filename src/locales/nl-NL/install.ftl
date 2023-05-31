@@ -2,7 +2,7 @@
 
 install-backButton-back = Vorige
 install-nextButton-next = Volgende
-install-permittedDomains-finishInstall = Finish installatie
+install-permittedDomains-finishInstall = Installatie voltooien
 install-header-title = { -product-name } Installatie Wizard
 
 install-initialStep-theRemainder = De resterende tijd van de installatie bedraagt ongeveer 10 minuten. Zodra dit is afgerond, beschik je over je eigen versie van { -product-name }.
@@ -15,7 +15,7 @@ install-selectLanguage-description =
 install-selectLanguage-language = Taal
 
 install-addOrganization-stepTitle = Organisatie en site details
-install-addOrganization-title = Add Organisatie en site details
+install-addOrganization-title = Organisatie en site details toevoegen
 install-addOrganization-description =
   Vul je bedrijfsnaam en informatie voor je site in. Als je organisatie meerdere sites heeft, kan je deze toevoegen in de Coral Admin nadat de installatie is voltooid.
 install-addOrganization-orgName = Bedrijfsnaam.

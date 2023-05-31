@@ -302,12 +302,16 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
             [styles.changeButtonMessage]: showSuccessMessage,
           })}
         >
-          <Localized id="profile-changeEmail-change">
+          <Localized
+            id="profile-changeEmail-change"
+            attrs={{ "aria-lable": true }}
+          >
             <Button
               className={CLASSES.myEmail.editButton}
               variant="flat"
               paddingSize="none"
               onClick={toggleEditForm}
+              aria-label="Change email"
             >
               Change
             </Button>

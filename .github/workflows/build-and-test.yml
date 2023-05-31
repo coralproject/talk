@@ -3,9 +3,12 @@ name: Build and Test
 on:
   workflow_dispatch:
   push:
+  merge_group:
 
 env:
   IMAGE_REPOSITORY: 'gcr.io/the-coral-project/coral'
+  IMAGE_CACHE_REPOSITORY: 'coralproject/ci'
+  DOCKERHUB_USERNAME: 'coralproject'
 
 
 jobs:
@@ -15,7 +18,10 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       -
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -27,6 +33,12 @@ jobs:
           registry: gcr.io
           username: _json_key
           password: ${{ secrets.GCR_JSON_KEY }}
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       -
         name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
@@ -89,20 +101,24 @@ jobs:
 # Build tag push the image after a merge to develop
       -
         name: Build, Tag, Push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         if: github.ref == 'refs/heads/develop'
         with:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
+          cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop
+          cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop
 # Build tag push the release candidate image when the branch name begins with release-
       -
         name: Build, Tag, Push RC
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         if: startsWith( github.ref, 'refs/heads/release-')
         with:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
+          cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release
+          cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release

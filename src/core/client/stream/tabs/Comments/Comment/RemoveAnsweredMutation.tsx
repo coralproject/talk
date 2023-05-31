@@ -13,6 +13,7 @@ export interface RemoveAnsweredMutationInput {
   commentID: string;
   storyID: string;
   orderBy: COMMENT_SORT;
+  refreshStream: boolean | null;
 }
 
 export async function commit(
@@ -37,6 +38,7 @@ export async function commit(
       {
         orderBy: input.orderBy,
         tag: "UNANSWERED",
+        refreshStream: input.refreshStream,
       }
     );
 

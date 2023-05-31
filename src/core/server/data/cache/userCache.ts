@@ -2,14 +2,17 @@ import { UserNotFoundError } from "coral-server/errors";
 import { Logger } from "coral-server/logger";
 import { User } from "coral-server/models/user";
 import { AugmentedRedis } from "coral-server/services/redis";
+import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { MongoContext } from "../context";
+import { dataCacheAvailable, IDataCache } from "./dataCache";
 
-export class UserCache {
+export class UserCache implements IDataCache {
   private expirySeconds: number;
 
   private mongo: MongoContext;
   private redis: AugmentedRedis;
+  private tenantCache: TenantCache | null;
   private logger: Logger;
 
   private usersByKey: Map<string, Readonly<User>>;
@@ -17,16 +20,22 @@ export class UserCache {
   constructor(
     mongo: MongoContext,
     redis: AugmentedRedis,
+    tenantCache: TenantCache | null,
     logger: Logger,
     expirySeconds: number
   ) {
     this.mongo = mongo;
     this.redis = redis;
+    this.tenantCache = tenantCache;
     this.logger = logger.child({ dataCache: "UserCache" });
 
     this.expirySeconds = expirySeconds;
 
     this.usersByKey = new Map<string, Readonly<User>>();
+  }
+
+  public async available(tenantID: string): Promise<boolean> {
+    return dataCacheAvailable(this.tenantCache, tenantID);
   }
 
   private computeDataKey(tenantID: string, id: string) {
@@ -108,16 +117,55 @@ export class UserCache {
     return user;
   }
 
-  private serializeObject(comment: Readonly<User>) {
-    const json = JSON.stringify(comment);
+  public async update(user: Readonly<User>) {
+    const cmd = this.redis.multi();
+    const dataKey = this.computeDataKey(user.tenantID, user.id);
+    cmd.set(dataKey, this.serializeObject(user));
+    cmd.expire(dataKey, this.expirySeconds);
+    await cmd.exec();
+    this.usersByKey.set(dataKey, user);
+  }
+
+  private serializeObject(user: Readonly<User>) {
+    const json = JSON.stringify(user);
     return json;
   }
 
   private deserializeObject(data: string): Readonly<User> {
     const parsed = JSON.parse(data);
+    const parsedSuspensionHistory = parsed.status.suspension.history.map(
+      (suspension: {
+        createdAt: Date;
+        modifiedAt?: Date;
+        from: { start: Date; finish: Date };
+      }) => {
+        const suspensionUpdated = {
+          ...suspension,
+          createdAt: new Date(suspension.createdAt),
+          from: {
+            start: new Date(suspension.from.start),
+            finish: new Date(suspension.from.finish),
+          },
+        };
+        if (suspension.modifiedAt) {
+          return {
+            ...suspensionUpdated,
+            modifiedAt: new Date(suspension.modifiedAt),
+          };
+        }
+        return suspensionUpdated;
+      }
+    );
+
     return {
       ...parsed,
       createdAt: new Date(parsed.createdAt),
+      status: {
+        ...parsed.status,
+        suspension: {
+          history: parsedSuspensionHistory,
+        },
+      },
     };
   }
 }

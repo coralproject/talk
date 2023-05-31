@@ -561,6 +561,12 @@ enum FEATURE_FLAG {
   an external profile for a user.
   """
   CONFIGURE_PUBLIC_PROFILE_URL
+
+  """
+  DATA_CACHE will allow the use of the data cache to store and load comments,
+  users, and commentActions more quickly. It is disabled by default.
+  """
+  DATA_CACHE
 }
 
 # The moderation mode of the site.
@@ -2074,6 +2080,11 @@ type Settings @cacheControl(maxAge: 30) {
   reaction: ReactionConfiguration!
 
   """
+  featuredBy specifies whether or not to display 'Featured by' for featured comments
+  """
+  featuredBy: Boolean
+
+  """
   staff specifies the configuration for the user badges assigned to users with
   any role above COMMENTER
   """
@@ -3576,7 +3587,7 @@ type Tag {
   createdBy is the User that assigned the Tag. This is null when the Tag is
   assigned by the System.
   """
-  createdBy: User @auth(roles: [MODERATOR, ADMIN])
+  createdBy: User
 
   """
   createdAt is the time that the Tag was assigned on.
@@ -3731,6 +3742,7 @@ type Comment @cacheControl(maxAge: 5) {
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
     flatten: Boolean
+    refreshStream: Boolean
   ): CommentsConnection!
 
   """
@@ -4113,6 +4125,7 @@ type Story @cacheControl(maxAge: 30) {
     first: Int = 20 @constraint(max: 99999)
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
+    refreshStream: Boolean
 
     """
     rating allows filtering for comments with a specific rating. If this feature
@@ -5640,6 +5653,11 @@ input SettingsInput {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfigurationInput
+
+  """
+  featuredBy specifies whether or not the "Featured by" featured is enabled
+  """
+  featuredBy: Boolean
 
   """
   badges specifies the configuration for user badges assigned to users with

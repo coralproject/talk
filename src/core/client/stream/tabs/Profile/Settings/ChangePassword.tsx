@@ -110,11 +110,15 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
         </div>
       </Localized>
       {!showForm && (
-        <Localized id="profile-account-changePassword-change">
+        <Localized
+          id="profile-account-changePassword-change"
+          attrs={{ "aria-label": true }}
+        >
           <Button
             variant="flat"
             color="primary"
             paddingSize="none"
+            aria-label="Change password"
             onClick={toggleForm}
             className={cn(
               {
