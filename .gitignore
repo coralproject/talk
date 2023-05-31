@@ -23,3 +23,4 @@ dist
 __generated__
 persisted-queries.json
 docs/out
+combined.graphql
