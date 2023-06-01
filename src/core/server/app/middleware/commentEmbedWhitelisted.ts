@@ -31,12 +31,12 @@ export const commentEmbedWhitelisted =
         if (site) {
           const origin = getRequesterOrigin(req);
           if (origin) {
-            if (!site.allowedOrigins.includes(origin)) {
-              res.sendStatus(401);
+            if (site.allowedOrigins.includes(origin)) {
+              return next();
             }
           }
         }
       }
     }
-    return next();
+    res.sendStatus(401);
   };
