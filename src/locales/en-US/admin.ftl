@@ -502,6 +502,10 @@ configure-general-flattenReplies-enabled = Flatten replies enabled
 configure-general-flattenReplies-explanation =
   Change how levels of replies display. When enabled, replies to comments can go up to seven levels deep before they are no longer indented on the page. When disabled, after a depth of seven replies, the rest of the conversation is displayed in a dedicated view away from the other comments.
 
+configure-general-featuredBy-title = Featured by
+configure-general-featuredBy-enabled = Featured by enabled
+configure-general-featuredBy-explanation = Add moderator name to featured comment display
+
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear when a story is closed for commenting.
@@ -1322,7 +1326,8 @@ community-userStatus-premodUser = Always pre-moderate
 community-userStatus-removePremod = Remove pre-moderate
 
 community-banModal-allSites-title = Are you sure you want to ban <username></username>?
-community-banModal-banEmailDomain = Ban all new accounts on { $domain }
+community-banModal-banEmailDomain-title = Email domain ban
+community-banModal-banEmailDomain = Ban all new commenter accounts from { $domain }
 community-banModal-specificSites-title = Are you sure you want to manage the ban status of <username></username>?
 community-banModal-noSites-title = Are you sure you want to unban <username></username>?
 community-banModal-allSites-consequence =
