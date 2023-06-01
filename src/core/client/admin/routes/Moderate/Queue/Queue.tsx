@@ -63,6 +63,7 @@ const Queue: FunctionComponent<Props> = ({
   const [hasModerated, setHasModerated] = useState(false);
   const memoize = useMemoizer();
 
+  // So we can register hotkeys for the first comment without immediately pulling focus
   useEffect(() => {
     if (comments.length > 0) {
       key.setScope(comments[0].id);
@@ -87,8 +88,10 @@ const Queue: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (selectedComment !== null && commentsRef.current.length > 0) {
+      // We've moderated the last comment via hotkey
       if (selectedComment >= commentsRef.current.length) {
         setSelectedComment(commentsRef.current.length - 1);
+        // We've moderated the first comment via hotkey
       } else if (selectedComment < 0 && hasModerated) {
         setSelectedComment(0);
       }
