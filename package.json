@@ -24,6 +24,7 @@
     "relay": "relay-compiler",
     "relay:admin": "mkdir src/core/client/admin/__generated__ && cat src/core/server/graph/schema/schema.graphql src/core/client/framework/lib/relay/local.graphql src/core/client/admin/local/local.graphql > src/core/client/admin/local/combined.graphql && npm run relay -- src/core/client/admin/relay.config.json",
     "relay:stream": "mkdir src/core/client/stream/__generated__ && cat src/core/server/graph/schema/schema.graphql src/core/client/framework/lib/relay/local.graphql src/core/client/stream/local/local.graphql > src/core/client/stream/local/combined.graphql && npm run relay -- src/core/client/stream/relay.config.json",
+    "relay:auth": "mkdir src/core/client/auth/__generated__ && cat src/core/server/graph/schema/schema.graphql src/core/client/framework/lib/relay/local.graphql src/core/client/auth/local/local.graphql > src/core/client/auth/local/combined.graphql && npm run relay -- src/core/client/auth/relay.config.json",
     "build:client": "ts-node --transpile-only ./scripts/build.ts",
     "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client build:server",
     "build:server": "gulp server",
