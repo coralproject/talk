@@ -95,6 +95,7 @@ it("allows mailto links", () => {
     .toMatchInlineSnapshot(`
     <body>
       <a
+        class="coral-comment-content-link"
         href="mailto:email@example.com"
         rel="noopener noreferrer ugc"
         target="_blank"
@@ -135,7 +136,7 @@ it("does not replace anchor tags with their text if href does match inner html",
   expect(el.innerHTML).toMatchInlineSnapshot(`
     "
         <div>
-          This is a link where href matches <a href=\\"http://test.com\\" target=\\"_blank\\" rel=\\"noopener noreferrer ugc\\">http://test.com</a>.
+          This is a link where href matches <a href=\\"http://test.com\\" target=\\"_blank\\" rel=\\"noopener noreferrer ugc\\" class=\\"coral-comment-content-link\\">http://test.com</a>.
         </div>
       "
   `);
@@ -153,7 +154,7 @@ it("does not replace anchor tags with their text if href does match inner html a
   expect(el.innerHTML).toMatchInlineSnapshot(`
     "
         <div>
-          This is a link where href matches <a href=\\"http://test.com/\\" target=\\"_blank\\" rel=\\"noopener noreferrer ugc\\">http://test.com</a>.
+          This is a link where href matches <a href=\\"http://test.com/\\" target=\\"_blank\\" rel=\\"noopener noreferrer ugc\\" class=\\"coral-comment-content-link\\">http://test.com</a>.
         </div>
       "
   `);
