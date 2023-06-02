@@ -151,6 +151,14 @@ comments-rejectedTombstone =
 
 comments-featuredTag = Resaltado
 
+comments-refreshComments-closeButton =
+  .aria-label = Cerrar
+comments-refreshComments-refreshButton =
+  .aria-label = Actualizar comentarios
+comments-refreshQuestions-refreshButton =
+  .aria-label = Actualizar preguntas
+  comments-refreshReviews-refreshButton =
+  .aria-label = Actualizar revisiones
 
 ### Q&A
 
