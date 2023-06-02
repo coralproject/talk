@@ -305,7 +305,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
         </DropdownButton>
       </Localized>
       {showCopyCommentEmbed && (
-        <CopyCommentEmbedCodeContainer comment={comment} settings={settings} />
+        <CopyCommentEmbedCodeContainer
+          comment={comment}
+          settings={settings}
+          story={story}
+        />
       )}
     </>
   );
@@ -350,6 +354,7 @@ const enhanced = withFragmentContainer<Props>({
       settings {
         mode
       }
+      ...CopyCommentEmbedCodeContainer_story
     }
   `,
   viewer: graphql`

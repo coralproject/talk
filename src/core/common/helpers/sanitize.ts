@@ -1,6 +1,10 @@
 import createDOMPurify, { DOMPurifyI } from "dompurify";
 
-import { SARCASM_CLASSNAME, SPOILER_CLASSNAME } from "coral-common/constants";
+import {
+  LINK_CLASSNAME,
+  SARCASM_CLASSNAME,
+  SPOILER_CLASSNAME,
+} from "coral-common/constants";
 
 // TODO: Reaching directly into coral-framework for the types. Maybe having
 // types in coral-common instead? 🤔
@@ -119,6 +123,7 @@ const sanitizeAnchor = (node: Element) => {
       // Ensure we wrap all the links with the target + rel set
       node.setAttribute("target", "_blank");
       node.setAttribute("rel", "noopener noreferrer ugc");
+      node.classList.add("coral-comment-content-link");
     } else {
       // Otherwise, turn the anchor link into text corresponding to its inner html
       node.insertAdjacentText("beforebegin", node.innerHTML);
@@ -261,7 +266,7 @@ export function createSanitize(
 export const sanitizeAndFindFormattingTags: (
   window: Window,
   source: string | Node
-) => [HTMLElement, Element[], Element[], Element[]] = (() => {
+) => [HTMLElement, Element[], Element[], Element[], Element[]] = (() => {
   /** Resused instance */
   let sanitize: Sanitize | null = null;
 
@@ -269,11 +274,12 @@ export const sanitizeAndFindFormattingTags: (
   let spoilerTags: Element[] = [];
   const sarcasmTags: Element[] = [];
   const blockquoteTags: Element[] = [];
+  const linkTags: Element[] = [];
 
   return (
     window: Window,
     source: string | Node
-  ): [HTMLElement, Element[], Element[], Element[]] => {
+  ): [HTMLElement, Element[], Element[], Element[], Element[]] => {
     if (!sanitize) {
       sanitize = createSanitize(window, {
         // Allow all rte features to be displayed.
@@ -296,6 +302,9 @@ export const sanitizeAndFindFormattingTags: (
             if (node.tagName === "BLOCKQUOTE") {
               blockquoteTags.push(node);
             }
+            if (node.tagName === "A" && node.className === LINK_CLASSNAME) {
+              linkTags.push(node);
+            }
           });
         },
       });
@@ -304,7 +313,8 @@ export const sanitizeAndFindFormattingTags: (
     const ret = spoilerTags;
     const sarcasm = sarcasmTags;
     const blockquote = blockquoteTags;
+    const links = linkTags;
     spoilerTags = [];
-    return [sanitized, ret, sarcasm, blockquote];
+    return [sanitized, ret, sarcasm, blockquote, links];
   };
 })();

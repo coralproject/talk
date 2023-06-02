@@ -5,23 +5,27 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { graphql } from "react-relay";
 
 import { sanitizeAndFindFormattingTags } from "coral-common/helpers/sanitize";
+import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components/v2";
 
 import { CopyCommentEmbedCodeContainer_comment } from "coral-stream/__generated__/CopyCommentEmbedCodeContainer_comment.graphql";
 import { CopyCommentEmbedCodeContainer_settings } from "coral-stream/__generated__/CopyCommentEmbedCodeContainer_settings.graphql";
+import { CopyCommentEmbedCodeContainer_story } from "coral-stream/__generated__/CopyCommentEmbedCodeContainer_story.graphql";
 
 import styles from "./CopyCommentEmbedCodeContainer.css";
 
 interface Props {
   comment: CopyCommentEmbedCodeContainer_comment;
   settings: CopyCommentEmbedCodeContainer_settings;
+  story: CopyCommentEmbedCodeContainer_story;
 }
 
 const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
   comment,
   settings,
+  story,
 }) => {
   const { window } = useCoralContext();
   const [embedCodeCopied, setEmbedCodeCopied] = useState(false);
@@ -31,7 +35,7 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
 
   function transform(transformWindow: Window, source: string | Node) {
     // Sanitize source.
-    const [sanitized, spoilerTags, sarcasmTags, blockquoteTags] =
+    const [sanitized, spoilerTags, sarcasmTags, blockquoteTags, linkTags] =
       sanitizeAndFindFormattingTags(transformWindow, source);
 
     // Attach event handlers to spoiler tags.
@@ -59,6 +63,12 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
       );
     });
 
+    // Set styles for links
+    // They need this styling to be clickable within overall clickable simple embed
+    linkTags.forEach((node) => {
+      node.setAttribute("style", "position: relative; z-index: 1;");
+    });
+
     // Return results.
     return sanitized.innerHTML;
   }
@@ -71,32 +81,30 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
   let mediaUrl = null;
   if (comment.revision?.media) {
     switch (comment.revision.media.__typename) {
-      case "YouTubeMedia":
-        mediaUrl = comment.revision.media.url;
-        break;
       case "GiphyMedia":
-        mediaUrl = comment.revision.media.url;
-        break;
-      case "TwitterMedia":
         mediaUrl = comment.revision.media.url;
         break;
       case "ExternalMedia":
         mediaUrl = comment.revision.media.url;
         break;
-      case "%other":
+      // Twitter and YouTube media embeds already have links in comments
+      // so they don't also need to be added to the simple comment fallback
+      case "%other" || "TwitterMedia" || "YouTubeMedia":
         break;
     }
   }
 
-  const embedCode = `<div class="coral-comment-embed" style="background-color: #f4f7f7; padding: 8px;" data-commentID=${
+  const permalinkUrl = getURLWithCommentID(story.url, comment.id);
+
+  const embedCode = `<div class="coral-comment-embed" style="background-color: #f4f7f7; padding: 8px; position: relative;" data-commentID=${
     comment.id
   } data-reactionLabel="${
     settings.reaction.label
-  }"><div style="margin-bottom: 8px;">${
+  }"><a target="_blank" style="position: absolute; z-index: 0; top: 0; bottom: 0; left: 0; right: 0;" href="${permalinkUrl}"></a><div style="margin-bottom: 8px;">${
     comment.author?.username
   }</div><div>${sanitizedBody}${
     mediaUrl
-      ? `<div><br><a href="${mediaUrl}" target="_blank" rel="noopener noreferrer ugc">${mediaUrl}</a></div>`
+      ? `<div><br><a href="${mediaUrl}" target="_blank" rel="noopener noreferrer ugc" style="position: relative; z-index: 1;">${mediaUrl}</a></div>`
       : ""
   }</div></div>`;
 
@@ -159,6 +167,11 @@ const enhanced = withFragmentContainer<Props>({
           }
         }
       }
+    }
+  `,
+  story: graphql`
+    fragment CopyCommentEmbedCodeContainer_story on Story {
+      url
     }
   `,
   settings: graphql`

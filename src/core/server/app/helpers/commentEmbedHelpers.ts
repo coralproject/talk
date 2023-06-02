@@ -69,7 +69,6 @@ export async function getCommentEmbedData(
     commentRevision.media?.type === "youtube"
   ) {
     mediaUrl = `api/oembed?type=${commentRevision.media?.type}&url=${commentRevision.media?.url}&siteID=${comment.siteID}&commentID=${comment.id}`;
-    simpleEmbedMediaUrl = mediaUrl;
   }
   if (commentRevision.media?.type === "external") {
     externalMediaUrl = `api/external-media?url=${commentRevision.media.url}&siteID=${comment.siteID}&commentID=${comment.id}`;
@@ -118,7 +117,7 @@ export function transform(window: Window, source: string | Node) {
 
 export function transformSimpleEmbed(window: Window, source: string | Node) {
   // Sanitize source.
-  const [sanitized, spoilerTags, sarcasmTags, blockquoteTags] =
+  const [sanitized, spoilerTags, sarcasmTags, blockquoteTags, links] =
     sanitizeAndFindFormattingTags(window as any, source);
 
   // Attach event handlers to spoiler tags.
@@ -144,6 +143,9 @@ export function transformSimpleEmbed(window: Window, source: string | Node) {
       "style",
       "background-color: #EAEFF0; border-radius: 3px; margin: 0.5rem 0 0.5rem 0.2rem; padding: 0.2rem;"
     );
+  });
+  links.forEach((node) => {
+    node.setAttribute("style", "position: relative; z-index: 1;");
   });
   // Return results.
   return sanitized.innerHTML;

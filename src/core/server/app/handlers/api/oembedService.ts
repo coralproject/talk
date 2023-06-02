@@ -129,6 +129,7 @@ export const oembedProviderHandler = ({
             includeReplies,
             commentAuthor,
             sanitizedSimple,
+            commentPermalinkURL,
             simpleEmbedMediaUrl,
           }
         );
