@@ -45,7 +45,10 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
         "{this.removeAttribute('style');this.removeAttribute('role');this.removeAttribute('title');this.removeAttribute('onclick');}"
       );
       node.setAttribute("role", "button");
-      node.setAttribute("style", "background-color: #14171A; color: #14171A;");
+      node.setAttribute(
+        "style",
+        "background-color: #14171A; color: #14171A; position: relative; z-index: 1;"
+      );
       node.setAttribute("title", "Reveal spoiler");
       node.innerHTML = `<span aria-hidden="true">${node.innerHTML}</span>`;
     });
@@ -96,7 +99,7 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
 
   const permalinkUrl = getURLWithCommentID(story.url, comment.id);
 
-  const embedCode = `<div class="coral-comment-embed" style="background-color: #f4f7f7; padding: 8px; position: relative;" data-commentID=${
+  const embedCode = `<div class="coral-comment-embed coral-comment-embed-simple" style="background-color: #f4f7f7; padding: 8px; position: relative;" data-commentID=${
     comment.id
   } data-reactionLabel="${
     settings.reaction.label
