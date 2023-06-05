@@ -79,19 +79,31 @@ if (persist) {
   args.push("--persist-output", persist);
 }
 
-spawn.sync("relay-compiler", args, { stdio: "inherit" });
+if (persist && fs.existsSync(persist)) {
+  // Create the new filename.
+  const generated = "./src/core/server/graph/persisted/__generated__";
 
-if (persist) {
-  if (fs.existsSync(persist)) {
-    // Create the new filename.
-    const generated = "./src/core/server/graph/persisted/__generated__";
+  // Create the generated directory if it doesn't exist.
+  fs.ensureDirSync(generated);
 
-    // Create the generated directory if it doesn't exist.
-    fs.ensureDirSync(generated);
-
-    // Copy the file over to the destination directory.
-    fs.copySync(persist, `${generated}/${program.bundle}.json`, {
-      overwrite: true,
-    });
-  }
+  // Copy the file over to the destination directory.
+  fs.copySync(persist, `${generated}/${program.bundle}.json`, {
+    overwrite: true,
+  });
 }
+
+// create artifact directory if it does not exist
+fs.ensureDirSync(`./src/core/client/${program.bundle}/__generated__`);
+
+// combine graphql files together for bundle
+spawn.sync(
+  `cat src/core/server/graph/schema/schema.graphql src/core/client/framework/lib/relay/local.graphql src/core/client/${program.bundle}/local/local.graphql > src/core/client/${program.bundle}/local/combined.graphql`,
+  [],
+  { stdio: "inherit" }
+);
+
+spawn.sync(
+  `npm run relay -- src/core/client/${program.bundle}/relay.config.json`,
+  [],
+  { stdio: "inherit" }
+);
