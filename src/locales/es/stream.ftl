@@ -157,7 +157,7 @@ comments-refreshComments-refreshButton =
   .aria-label = Actualizar comentarios
 comments-refreshQuestions-refreshButton =
   .aria-label = Actualizar preguntas
-  comments-refreshReviews-refreshButton =
+comments-refreshReviews-refreshButton =
   .aria-label = Actualizar revisiones
 
 ### Q&A
