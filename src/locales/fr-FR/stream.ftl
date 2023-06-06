@@ -256,7 +256,7 @@ comments-refreshComments-refreshButton =
   .aria-label = Rafraîchir les commentaires
 comments-refreshQuestions-refreshButton =
   .aria-label = Rafraîchir les questions
-  comments-refreshReviews-refreshButton =
+comments-refreshReviews-refreshButton =
   .aria-label = Rafraîchir les avis
 
 ### Q&A
