@@ -287,6 +287,7 @@ comments-moderationRejectedTombstone-moderateLink =
   Ga naar modereren om dit besluit te herzien.
 
 comments-featuredTag = Uitgelicht
+comments-featuredBy = Uitgelicht door <strong>{$username}</strong>
 
 # $reaction could be "Respect" as an example. Be careful when translating to other languages with different grammar cases.
 comments-react =
