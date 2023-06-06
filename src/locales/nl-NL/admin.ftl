@@ -1301,6 +1301,7 @@ community-userStatus-message = Stuur bericht
 
 
 community-banModal-allSites-title = Weet je zeker dat je <username></username> wilt verbannen?
+community-banModal-banEmailDomain-title = E-mail domain ban
 community-banModal-banEmailDomain = Blokkeer alle nieuwe accounts op { $domain }
 community-banModal-specificSites-title = Weet je zeker dat je de verbanningsstatus van <username></username> wilt beheren?
 community-banModal-noSites-title = Weet je zeker dat je de verbanning van <username></username> wilt opheffen?

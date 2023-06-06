@@ -655,7 +655,7 @@ profile-account-deleteAccount-pages-completeWhyDeleteAccount =
   ons reactiesysteem door te e-mailen{ $email }.
 profile-account-changePassword-edit = Bewerk
 profile-account-changePassword-change = Wijzigen
-
+  .aria-label = Wijzig wachtwoord
 
 ## Notifications
 profile-notificationsTab = Kennisgevingen
