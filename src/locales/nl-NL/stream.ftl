@@ -311,6 +311,15 @@ comments-mobileToolbar-closeButton =
 comments-mobileToolbar-unmarkAll = Markeer alle als gelezen
 comments-mobileToolbar-nextUnread = Volgende ongelezen
 
+comments-refreshComments-closeButton =
+  .aria-label = Sluiten
+comments-refreshComments-refreshButton =
+  .aria-label = Herlaad reacties
+comments-refreshQuestions-refreshButton =
+  .aria-label = Herlaad vragen
+  comments-refreshReviews-refreshButton =
+  .aria-label = Herlaad reviews
+
 comments-replyChangedWarning-theCommentHasJust =
   Deze reactie is zojuist bewerkt. De nieuwste versie wordt hierboven weergegeven.
 
