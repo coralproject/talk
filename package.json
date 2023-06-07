@@ -42,7 +42,7 @@
     "generate:relay": "npm-run-all --parallel generate:relay:*",
     "generate:schema": "node ./scripts/generateSchemaTypes.js",
     "generate:supportedBrowsersRegExp": "ts-node --transpile-only ./scripts/generateSupportedBrowsersRegExp.ts ./src/core/client/framework/helpers/supportedBrowsersRegExp.ts",
-    "generate": "npm-run-all generate:css-types generate:schema generate:relay",
+    "generate": "npm-run-all generate:css-types generate:schema-v2 generate:relay",
     "job-pods:up": "docker-compose up -d",
     "job-pods:down": "docker-compose down",
     "lint-fix": "npm run lint:server -- --fix && npm run lint:client -- --fix && npm run lint:scripts -- --fix",
@@ -68,7 +68,7 @@
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",
     "tscheck": "npm-run-all --parallel tscheck:*",
     "watch": "NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts",
-    "generate-v2": "graphql-codegen --config codegen.yml"
+    "generate:schema-v2": "graphql-codegen --config codegen.yml"
   },
   "license": "Apache-2.0",
   "dependencies": {

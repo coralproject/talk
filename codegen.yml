@@ -17,7 +17,7 @@ generates:
       - "src/core/client/admin/local/local.graphql"
       - "src/core/client/stream/local/local.graphql"
       - "src/core/client/auth/local/local.graphql"
-    documents: "src/core/client/**/*.tsx"
+    # documents: "src/core/client/**/*.tsx"
     plugins:
       - "typescript"
       - "typescript-operations"
