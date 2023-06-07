@@ -318,7 +318,7 @@ comments-refreshComments-refreshButton =
   .aria-label = Herlaad reacties
 comments-refreshQuestions-refreshButton =
   .aria-label = Herlaad vragen
-  comments-refreshReviews-refreshButton =
+comments-refreshReviews-refreshButton =
   .aria-label = Herlaad reviews
 
 comments-replyChangedWarning-theCommentHasJust =
