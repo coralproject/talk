@@ -29,8 +29,8 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
-import { AuthLinkAccountContainer_viewer } from "coral-auth/__generated__/AuthLinkAccountContainer_viewer.graphql";
-import { AuthLinkAccountContainerLocal } from "coral-auth/__generated__/AuthLinkAccountContainerLocal.graphql";
+import { LinkAccountContainer_viewer } from "coral-auth/__generated__/LinkAccountContainer_viewer.graphql";
+import { LinkAccountContainerLocal } from "coral-auth/__generated__/LinkAccountContainerLocal.graphql";
 
 import LinkAccountMutation from "./LinkAccountMutation";
 
@@ -43,12 +43,12 @@ interface FormProps {
 interface FormErrorProps extends FormProps, FormError {}
 
 interface Props {
-  viewer: AuthLinkAccountContainer_viewer | null;
+  viewer: LinkAccountContainer_viewer | null;
 }
 
-const AuthLinkAccountContainer: FunctionComponent<Props> = (props) => {
-  const [local] = useLocal<AuthLinkAccountContainerLocal>(graphql`
-    fragment AuthLinkAccountContainerLocal on Local {
+const LinkAccountContainer: FunctionComponent<Props> = (props) => {
+  const [local] = useLocal<LinkAccountContainerLocal>(graphql`
+    fragment LinkAccountContainerLocal on Local {
       duplicateEmail
     }
   `);
@@ -179,10 +179,10 @@ const AuthLinkAccountContainer: FunctionComponent<Props> = (props) => {
 
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
-    fragment AuthLinkAccountContainer_viewer on User {
+    fragment LinkAccountContainer_viewer on User {
       duplicateEmail
     }
   `,
-})(AuthLinkAccountContainer);
+})(LinkAccountContainer);
 
 export default enhanced;
