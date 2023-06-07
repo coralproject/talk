@@ -495,6 +495,10 @@ configure-general-flattenReplies-enabled = Flatten reacties aan
 configure-general-flattenReplies-explanation =
   Wijzig hoe niveaus van antwoorden worden weergegeven. Indien ingeschakeld, kunnen antwoorden op reacties tot zeven niveaus diep gaan voordat ze niet langer ingesprongen zijn op de pagina. Indien uitgeschakeld, wordt na een diepte van zeven antwoorden de rest van het gesprek weergegeven in een speciale weergave, weg van de andere reacties.
 
+configure-general-featuredBy-title = Uitgelicht door
+configure-general-featuredBy-enabled = Uitgelicht door ingeschakeld
+configure-general-featuredBy-explanation = Toon naam van de moderator bij een uitgelichte reactie
+
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Gesloten reactiestreambericht
 configure-general-closedStreamMessage-explanation = Schrijf een bericht dat verschijnt wanneer een artikel is gesloten voor reacties.
@@ -1297,6 +1301,7 @@ community-userStatus-message = Stuur bericht
 
 
 community-banModal-allSites-title = Weet je zeker dat je <username></username> wilt verbannen?
+community-banModal-banEmailDomain-title = E-mail domain ban
 community-banModal-banEmailDomain = Blokkeer alle nieuwe accounts op { $domain }
 community-banModal-specificSites-title = Weet je zeker dat je de verbanningsstatus van <username></username> wilt beheren?
 community-banModal-noSites-title = Weet je zeker dat je de verbanning van <username></username> wilt opheffen?

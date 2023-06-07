@@ -250,6 +250,15 @@ comments-jumpToComment-GoToReply = Aller à la réponse
 comments-permalink-copyLink = Copier le lien
 comments-permalink-linkCopied = Lien copié
 
+comments-refreshComments-closeButton =
+  .aria-label = Fermer
+comments-refreshComments-refreshButton =
+  .aria-label = Rafraîchir les commentaires
+comments-refreshQuestions-refreshButton =
+  .aria-label = Rafraîchir les questions
+comments-refreshReviews-refreshButton =
+  .aria-label = Rafraîchir les avis
+
 ### Q&A
 
 general-tabBar-qaTab = Q&R

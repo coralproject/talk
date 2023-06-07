@@ -287,6 +287,7 @@ comments-moderationRejectedTombstone-moderateLink =
   Ga naar modereren om dit besluit te herzien.
 
 comments-featuredTag = Uitgelicht
+comments-featuredBy = Uitgelicht door <strong>{$username}</strong>
 
 # $reaction could be "Respect" as an example. Be careful when translating to other languages with different grammar cases.
 comments-react =
@@ -310,6 +311,15 @@ comments-mobileToolbar-closeButton =
   .aria-label = Sluiten
 comments-mobileToolbar-unmarkAll = Markeer alle als gelezen
 comments-mobileToolbar-nextUnread = Volgende ongelezen
+
+comments-refreshComments-closeButton =
+  .aria-label = Sluiten
+comments-refreshComments-refreshButton =
+  .aria-label = Herlaad reacties
+comments-refreshQuestions-refreshButton =
+  .aria-label = Herlaad vragen
+comments-refreshReviews-refreshButton =
+  .aria-label = Herlaad reviews
 
 comments-replyChangedWarning-theCommentHasJust =
   Deze reactie is zojuist bewerkt. De nieuwste versie wordt hierboven weergegeven.
@@ -382,7 +392,7 @@ qa-answeredTooltip-toggleButton =
 ### Account Deletion Stream
 
 comments-stream-deleteAccount-callOut-title =
-  Verwijderen Account aangevraagd
+  Verwijderen account aangevraagd
 comments-stream-deleteAccount-callOut-receivedDesc =
   Een aanvraag om je account te verwijderen is ontvangen op { $date }.
 comments-stream-deleteAccount-callOut-cancelDesc =
@@ -645,7 +655,7 @@ profile-account-deleteAccount-pages-completeWhyDeleteAccount =
   ons reactiesysteem door te e-mailen{ $email }.
 profile-account-changePassword-edit = Bewerk
 profile-account-changePassword-change = Wijzigen
-
+  .aria-label = Wijzig wachtwoord
 
 ## Notifications
 profile-notificationsTab = Kennisgevingen
@@ -737,6 +747,7 @@ profile-changeUsername-username = Gebruikersnaam
 profile-changeUsername-success = Je gebruikersnaam is succesvol aangepast
 profile-changeUsername-edit = Bewerk
 profile-changeUsername-change = Wijzigen
+  .aria-label = Wijzig gebruikernaam
 profile-changeUsername-heading = Bewerk je gebruikersnaam
 profile-changeUsername-heading-changeYourUsername = Change your username
 profile-changeUsername-desc = Wijzig de gebruikersnaam die bij al je vroegere en toekomstige reacties zal verschijnen. <strong>Gebruikersnamen kunnen gewijzigd worden ééns per { framework-timeago-time }.</strong>
@@ -898,6 +909,7 @@ profile-changeEmail-unverified = (Niet geverifieerd)
 profile-changeEmail-current = (Huidig)
 profile-changeEmail-edit = Bewerk
 profile-changeEmail-change = Aanpassen
+  .aria-label = Wijzig e-mailadres
 profile-changeEmail-please-verify = Controleer je e-mailadres
 profile-changeEmail-please-verify-details =
   Een e-mail is verzonden naar { $email } ter bevestiging van je account.
