@@ -4,9 +4,16 @@ import {
 } from "coral-server/services/jwt";
 import { Request } from "coral-server/types/express";
 
+interface Req {
+  headers?: {
+    authorization?: string;
+  };
+  url: string;
+}
+
 describe("extractJWTFromRequest", () => {
   it("extracts the token from header", () => {
-    const req = {
+    const req: Req = {
       headers: {
         authorization: "Bearer token",
       },
@@ -15,7 +22,7 @@ describe("extractJWTFromRequest", () => {
 
     expect(extractTokenFromRequest(req as any as Request)).toEqual("token");
 
-    delete req.headers.authorization;
+    delete req?.headers?.authorization;
 
     expect(extractTokenFromRequest(req as any as Request)).toEqual(null);
   });
