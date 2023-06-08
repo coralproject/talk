@@ -151,13 +151,13 @@ comments-rejectedTombstone =
 
 comments-featuredTag = Resaltado
 
-comments-refreshComments-closeButton =
+comments-refreshComments-closeButton = Cerrar
   .aria-label = Cerrar
-comments-refreshComments-refreshButton =
+comments-refreshComments-refreshButton = Actualizar comentarios
   .aria-label = Actualizar comentarios
-comments-refreshQuestions-refreshButton =
+comments-refreshQuestions-refreshButton = Actualizar preguntas
   .aria-label = Actualizar preguntas
-comments-refreshReviews-refreshButton =
+comments-refreshReviews-refreshButton = Actualizar revisiones
   .aria-label = Actualizar revisiones
 
 ### Q&A
