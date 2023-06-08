@@ -1,15 +1,15 @@
 #!/usr/bin/env ts-node
 
-import program from "commander";
-import spawn from "cross-spawn";
-import fs from "fs-extra";
-import { loadConfigSync } from "graphql-config";
+const program = require("commander");
+const spawn = require("cross-spawn");
+const fs = require("fs-extra");
+const gqlConfig = require("graphql-config");
 
 const CLIENT_ROOT = "./src/core/client";
 const SCHEMA_NAME = "tenant";
 
 // Load the configuration from the provided `graphql-config` configuration file.
-const config = loadConfigSync({});
+const config = gqlConfig.loadConfigSync({});
 
 program
   .version("0.1.0")
@@ -20,9 +20,7 @@ program
   .parse(process.argv);
 
 // Get the GraphQLSchema from the configuration.
-const schemaConfig = config.getProject(SCHEMA_NAME).schema as
-  | string[]
-  | undefined;
+const schemaConfig = config.getProject(SCHEMA_NAME).schema;
 
 if (!schemaConfig) {
   // eslint-disable-next-line no-console
