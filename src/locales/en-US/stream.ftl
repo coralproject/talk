@@ -311,13 +311,13 @@ comments-mobileToolbar-closeButton =
 comments-mobileToolbar-unmarkAll = Mark all as read
 comments-mobileToolbar-nextUnread = Next unread
 
-comments-refreshComments-closeButton =
+comments-refreshComments-closeButton = Close
   .aria-label = Close
-comments-refreshComments-refreshButton =
+comments-refreshComments-refreshButton = Refresh comments
   .aria-label = Refresh comments
-comments-refreshQuestions-refreshButton =
+comments-refreshQuestions-refreshButton = Refresh questions
   .aria-label = Refresh questions
-comments-refreshReviews-refreshButton =
+comments-refreshReviews-refreshButton = Refresh reviews
   .aria-label = Refresh reviews
 
 comments-replyChangedWarning-theCommentHasJust =
