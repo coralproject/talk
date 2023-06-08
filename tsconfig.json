@@ -28,7 +28,6 @@
     "./scripts/**/*",
     "./config/**/*",
     "*.js",
-    "*.cjs",
   ],
   "exclude": ["node_modules"]
 }
