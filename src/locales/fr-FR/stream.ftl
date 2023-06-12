@@ -90,6 +90,8 @@ comments-viewNew =
     *[other] Voir les {$count} nouveaux commentaires
   }
 comments-loadMore = Charger plus
+comments-loadAll = Charger tous les commentaires
+comments-loadAll-loading = Chargement...
 
 comments-permalinkPopover =
   .description = Un dialogue qui montre un lien vers le commentaire
