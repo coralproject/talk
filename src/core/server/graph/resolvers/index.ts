@@ -2,7 +2,7 @@ import Cursor from "coral-server/graph/scalars/cursor";
 import Locale from "coral-server/graph/scalars/locale";
 import Time from "coral-server/graph/scalars/time";
 
-import { GQLResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLResolvers } from "coral-server/graph/schema/__generated__/types";
 
 import { AkismetExternalIntegration } from "./AkismetExternalIntegration";
 import { ApproveCommentPayload } from "./ApproveCommentPayload";
@@ -83,7 +83,7 @@ import { WarningStatusHistory } from "./WarningStatusHistory";
 import { WebhookEndpoint } from "./WebhookEndpoint";
 import { YouTubeMediaConfiguration } from "./YouTubeMediaConfiguration";
 
-const Resolvers: GQLResolver = {
+const Resolvers: GQLResolvers = {
   AkismetExternalIntegration,
   ApproveCommentPayload,
   AuthIntegrations,

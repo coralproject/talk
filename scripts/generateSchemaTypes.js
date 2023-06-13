@@ -4,6 +4,9 @@ const path = require("path");
 const fs = require("fs");
 
 async function main() {
+  /* eslint-disable */
+  console.log("SKIPPING OLD GENERATE SCHEMA TYPES script");
+  return;
   const config = loadConfigSync({});
   const projects = config.projects;
 

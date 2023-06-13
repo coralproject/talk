@@ -1,0 +1,25 @@
+overwrite: true
+schema: "src/core/server/graph/schema/schema.graphql"
+config:
+  namingConvention:
+    typeNames: ./scripts/prefixTypes
+    enumValues: keep
+generates:
+  src/core/server/graph/schema/__generated__/types.ts:
+    plugins:
+      - "typescript"
+      # - "typescript-operations"
+      - "typescript-resolvers"
+      # - "typescript-document-nodes"
+    config:
+      contextType: "GraphContext"
+      importStatement: "import GraphContext from 'coral-server/graph/context';"
+  # src/core/client/framework/schema/__generated__/types.ts:
+  #   schema:
+  #     - "src/core/client/framework/lib/relay/local.graphql"
+  #     - "src/core/client/admin/local/local.graphql"
+  #     - "src/core/client/stream/local/local.graphql"
+  #     - "src/core/client/auth/local/local.graphql"
+  #   plugins:
+  #     - "typescript"
+  #     - "typescript-document-nodes"
