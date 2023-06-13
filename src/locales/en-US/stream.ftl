@@ -286,6 +286,7 @@ comments-moderationRejectedTombstone-moderateLink =
   Go to moderate to review this decision
 
 comments-featuredTag = Featured
+comments-featuredBy = Featured by <strong>{$username}</strong>
 
 # $reaction could be "Respect" as an example. Be careful when translating to other languages with different grammar cases.
 comments-react =
@@ -310,13 +311,13 @@ comments-mobileToolbar-closeButton =
 comments-mobileToolbar-unmarkAll = Mark all as read
 comments-mobileToolbar-nextUnread = Next unread
 
-comments-refreshComments-closeButton =
+comments-refreshComments-closeButton = Close
   .aria-label = Close
-comments-refreshComments-refreshButton =
+comments-refreshComments-refreshButton = Refresh comments
   .aria-label = Refresh comments
-comments-refreshQuestions-refreshButton =
+comments-refreshQuestions-refreshButton = Refresh questions
   .aria-label = Refresh questions
-  comments-refreshReviews-refreshButton =
+comments-refreshReviews-refreshButton = Refresh reviews
   .aria-label = Refresh reviews
 
 comments-replyChangedWarning-theCommentHasJust =

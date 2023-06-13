@@ -2080,6 +2080,11 @@ type Settings @cacheControl(maxAge: 30) {
   reaction: ReactionConfiguration!
 
   """
+  featuredBy specifies whether or not to display 'Featured by' for featured comments
+  """
+  featuredBy: Boolean
+
+  """
   staff specifies the configuration for the user badges assigned to users with
   any role above COMMENTER
   """
@@ -3582,7 +3587,7 @@ type Tag {
   createdBy is the User that assigned the Tag. This is null when the Tag is
   assigned by the System.
   """
-  createdBy: User @auth(roles: [MODERATOR, ADMIN])
+  createdBy: User
 
   """
   createdAt is the time that the Tag was assigned on.
@@ -5648,6 +5653,11 @@ input SettingsInput {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfigurationInput
+
+  """
+  featuredBy specifies whether or not the "Featured by" featured is enabled
+  """
+  featuredBy: Boolean
 
   """
   badges specifies the configuration for user badges assigned to users with

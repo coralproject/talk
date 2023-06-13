@@ -151,6 +151,14 @@ comments-rejectedTombstone =
 
 comments-featuredTag = Resaltado
 
+comments-refreshComments-closeButton = Cerrar
+  .aria-label = Cerrar
+comments-refreshComments-refreshButton = Actualizar comentarios
+  .aria-label = Actualizar comentarios
+comments-refreshQuestions-refreshButton = Actualizar preguntas
+  .aria-label = Actualizar preguntas
+comments-refreshReviews-refreshButton = Actualizar revisiones
+  .aria-label = Actualizar revisiones
 
 ### Q&A
 
@@ -433,3 +441,14 @@ warning-instructions =
 warning-acknowledge = Reconocer
 
 warning-notice = Su cuenta ha recibido una advertencia. Para continuar participando, <a> revise el mensaje de advertencia </a>.
+
+stream-footer-links-top-of-article = Ir al inicio del artículo
+  .title = Ir al inicio del artículo
+stream-footer-links-top-of-comments = Ir al inicio de los comentarios
+  .title = Ir al inicio de los comentarios
+stream-footer-links-profile = Perfil y respuestas
+  .title = Ir a mi perfil y respuestas
+stream-footer-links-discussions = Más discusiones
+  .title = Ir a más discusiones
+stream-footer-navigation =
+  .aria-label = Menú de comentarios en pie de página

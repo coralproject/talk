@@ -8,6 +8,7 @@ import {
   createUserFixture,
 } from "coral-server/test/fixtures";
 import {
+  createMockDataCache,
   createMockMailer,
   createMockMongoContex,
   createMockRejector,
@@ -21,6 +22,7 @@ import { demoteMember, promoteMember } from ".";
 describe("updateUserBan", () => {
   afterEach(jest.clearAllMocks);
 
+  const cache = createMockDataCache();
   const mailer = createMockMailer();
   const rejector = createMockRejector();
   const { ctx: mongo } = createMockMongoContex();
@@ -46,6 +48,7 @@ describe("updateUserBan", () => {
       async () =>
         await updateUserBan(
           mongo,
+          cache,
           mailer,
           rejector,
           tenant,
@@ -66,6 +69,7 @@ describe("updateUserBan", () => {
       async () =>
         await updateUserBan(
           mongo,
+          cache,
           mailer,
           rejector,
           tenant,
@@ -91,6 +95,7 @@ describe("updateUserBan", () => {
       async () =>
         await updateUserBan(
           mongo,
+          cache,
           mailer,
           rejector,
           tenant,
@@ -113,6 +118,7 @@ describe("updateUserBan", () => {
       async () =>
         await updateUserBan(
           mongo,
+          cache,
           mailer,
           rejector,
           tenant,
@@ -137,10 +143,13 @@ describe("updateUserBan", () => {
     });
 
     /* eslint-disable-next-line */
-    require("coral-server/models/user").retrieveUser.mockResolvedValue(bannedOnSiteA);
+    require("coral-server/models/user").retrieveUser.mockResolvedValue(
+      bannedOnSiteA
+    );
 
     const res = await updateUserBan(
       mongo,
+      cache,
       mailer,
       rejector,
       tenant,
@@ -174,6 +183,7 @@ describe("updateUserBan", () => {
 
     const res = await updateUserBan(
       mongo,
+      cache,
       mailer,
       rejector,
       tenant,
@@ -199,6 +209,7 @@ describe("updateUserBan", () => {
 
     const res = await updateUserBan(
       mongo,
+      cache,
       mailer,
       rejector,
       tenant,
@@ -224,6 +235,7 @@ describe("updateUserBan", () => {
 
     const dontRejectRes = await updateUserBan(
       mongo,
+      cache,
       mailer,
       rejector,
       tenant,
@@ -239,6 +251,7 @@ describe("updateUserBan", () => {
 
     const rejectRes = await updateUserBan(
       mongo,
+      cache,
       mailer,
       rejector,
       tenant,
