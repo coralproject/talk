@@ -22,9 +22,9 @@
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
     "relay": "relay-compiler",
-    "build:client": "ts-node --transpile-only ./scripts/build.ts",
+    "build:client": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" ts-node --transpile-only ./scripts/build.ts",
     "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development npm-run-all generate --parallel build:client build:server",
-    "build:server": "gulp server",
+    "build:server": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" gulp server",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true npm-run-all generate --parallel build:client build:server",
     "build": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production npm-run-all generate-persist --parallel build:client build:server",
     "clean": "gulp clean",
