@@ -12,7 +12,7 @@
     "url": "git://github.com/coralproject/talk.git"
   },
   "engines": {
-    "node": "^14.18",
+    "node": "^18.16.0",
     "npm": "^8.0.0"
   },
   "bugs": "https://github.com/coralproject/talk/issues",
@@ -23,7 +23,7 @@
   "scripts": {
     "relay": "relay-compiler",
     "build:client": "ts-node --transpile-only ./scripts/build.ts",
-    "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client build:server",
+    "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development npm-run-all generate --parallel build:client build:server",
     "build:server": "gulp server",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true npm-run-all generate --parallel build:client build:server",
     "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:client build:server",
@@ -155,7 +155,7 @@
     "proxy-agent": "^5.0.0",
     "querystringify": "^2.1.1",
     "re2": "^1.16.0",
-    "source-map-support": "^0.5.16",
+    "source-map-support": "^0.5.21",
     "stack-utils": "^2.0.1",
     "striptags": "^3.2.0",
     "tsscmp": "^1.0.6",
@@ -172,7 +172,7 @@
     "@babel/preset-typescript": "^7.10.1",
     "@babel/runtime-corejs3": "^7.10.3",
     "@coralproject/npm-run-all": "^4.1.5",
-    "@coralproject/rte": "^2.2.2",
+    "@coralproject/rte": "^2.2.3",
     "@fluent/react": "^0.12.0",
     "@giphy/js-fetch-api": "^4.1.2",
     "@giphy/react-components": "^5.4.0",
