@@ -30,8 +30,8 @@ import {
 import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
 import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
-
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
+
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -52,6 +52,7 @@ interface Props {
   selectPrev?: () => void;
   selectNext?: () => void;
   loadNext?: (() => void) | null;
+  onModerated?: () => void;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
@@ -84,6 +85,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   onConversationClicked: conversationClicked,
   onSetSelected: setSelected,
   loadNext,
+  onModerated,
 }) => {
   const approveComment = useMutation(ApproveCommentMutation);
   const rejectComment = useMutation(RejectCommentMutation);
@@ -129,6 +131,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (loadNext) {
       loadNext();
     }
+    if (onModerated) {
+      onModerated();
+    }
   }, [
     approveComment,
     comment.id,
@@ -137,6 +142,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     match,
     readOnly,
     moderationQueueSort,
+    onModerated,
   ]);
 
   const handleReject = useCallback(async () => {
@@ -161,6 +167,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     if (loadNext) {
       loadNext();
     }
+    if (onModerated) {
+      onModerated();
+    }
   }, [
     comment.revision,
     comment.id,
@@ -169,6 +178,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     rejectComment,
     loadNext,
     moderationQueueSort,
+    onModerated,
   ]);
 
   const handleFeature = useCallback(() => {
