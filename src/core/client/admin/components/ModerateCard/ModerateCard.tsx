@@ -1,5 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
+import key from "keymaster";
+import { noop } from "lodash";
 import React, {
   FunctionComponent,
   useCallback,
@@ -9,6 +11,7 @@ import React, {
 } from "react";
 
 import { MediaContainer } from "coral-admin/components/MediaContainer";
+import { HOTKEYS } from "coral-admin/constants";
 import { GQLWordlistMatch } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import {
@@ -132,6 +135,33 @@ const ModerateCard: FunctionComponent<Props> = ({
   isArchiving,
 }) => {
   const div = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selected) {
+      key.setScope(id);
+    }
+  }, [selected, id]);
+
+  useEffect(() => {
+    if (selectNext) {
+      key(HOTKEYS.NEXT, id, selectNext);
+    }
+    if (selectPrev) {
+      key(HOTKEYS.PREV, id, selectPrev);
+    }
+    if (onBan) {
+      key(HOTKEYS.BAN, id, onBan);
+    }
+    key(HOTKEYS.APPROVE, id, onApprove);
+    key(HOTKEYS.REJECT, id, onReject);
+
+    return () => {
+      // Remove all events that are set in the ${id} scope.
+      key.deleteScope(id);
+    };
+
+    return noop;
+  }, [id, selectNext, selectPrev, onBan, onApprove, onReject]);
 
   useEffect(() => {
     if (selected && div && div.current) {
