@@ -10,12 +10,16 @@ generates:
       - "typescript"
       # - "typescript-operations"
       - "typescript-resolvers"
+      - add:
+          content: "import GraphContext from 'coral-server/graph/context';"
       # - "typescript-document-nodes"
     config:
       contextType: "GraphContext"
       allowParentTypeOverride: true
       importStatement: "import GraphContext from 'coral-server/graph/context';"
+      avoidOptionals: true
       customResolverFn: "(parent: TParent, args: TArgs, ctx: TContext) => ResolverTypeWrapper<any>"
+      maybeValue: "T | null | undefined"
   # src/core/client/framework/schema/__generated__/types.ts:
   #   schema:
   #     - "src/core/client/framework/lib/relay/local.graphql"
