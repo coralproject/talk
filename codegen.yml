@@ -13,7 +13,9 @@ generates:
       # - "typescript-document-nodes"
     config:
       contextType: "GraphContext"
+      allowParentTypeOverride: true
       importStatement: "import GraphContext from 'coral-server/graph/context';"
+      customResolverFn: "(parent: TParent, args: TArgs, ctx: TContext) => ResolverTypeWrapper<any>"
   # src/core/client/framework/schema/__generated__/types.ts:
   #   schema:
   #     - "src/core/client/framework/lib/relay/local.graphql"
