@@ -18,8 +18,9 @@ generates:
       allowParentTypeOverride: true
       importStatement: "import GraphContext from 'coral-server/graph/context';"
       avoidOptionals: true
-      customResolverFn: "(parent: TParent, args: TArgs, ctx: TContext) => ResolverTypeWrapper<any>"
+      customResolverFn: "(parent: TParent, args: TArgs, ctx: TContext, info: GraphQLResolveInfo) => ResolverTypeWrapper<any>"
       maybeValue: "T | null | undefined"
+      useInstanceSignature: true
   # src/core/client/framework/schema/__generated__/types.ts:
   #   schema:
   #     - "src/core/client/framework/lib/relay/local.graphql"
