@@ -137,3 +137,17 @@ You can then run Coral with the production command instead:
 # Start the server in production mode.
 npm run start
 ```
+## Other Options
+
+### Easypanel
+
+[Easypanel](https://easypanel.io) it's a modern server control panel. You can use it to deploy Coral on your own server.
+
+[![Deploy to Easypanel](https://easypanel.io/img/deploy-on-easypanel-40.svg)](https://easypanel.io/docs/templates/coralproject)
+
+**Instructions**
+
+1. Create a VM that runs Ubuntu on your cloud provider.
+2. Install Easypanel using the instructions from the website.
+3. Create a new project.
+4. Install Coral using the dedicated template.
