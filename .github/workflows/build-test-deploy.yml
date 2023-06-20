@@ -101,6 +101,8 @@ jobs:
         run: npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Build
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
         run: npm run build
       -
         name: Verify Bundle Size

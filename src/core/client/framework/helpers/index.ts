@@ -1,5 +1,6 @@
 export { default as clearHash } from "./clearHash";
 export { default as createContextHOC } from "./createContextHOC";
+export { default as detectCommentEmbedScript } from "./detectCommentEmbedScript";
 export { default as detectCountScript } from "./detectCountScript";
 export { default as getModerationLink, QUEUE_NAME } from "./getModerationLink";
 export { default as getParamsFromHash } from "./getParamsFromHash";

@@ -86,7 +86,7 @@ export interface AppOptions {
  * they are integrated into the CMS directly). These should be updated when
  * other files are added.
  */
-const NON_FINGERPRINTED_FILES = ["count.js", "embed.js"];
+const NON_FINGERPRINTED_FILES = ["count.js", "embed.js", "commentEmbed.js"];
 
 /**
  * isFingerprintedPath will return true if the path provided is a fingerprinted

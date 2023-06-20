@@ -22,6 +22,7 @@ import { ModerationActionsContainer_story } from "coral-stream/__generated__/Mod
 import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
+import CopyCommentEmbedCodeContainer from "./CopyCommentEmbedCodeContainer";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerationActionBanQuery from "./ModerationActionBanQuery";
 import RejectCommentMutation from "./RejectCommentMutation";
@@ -136,6 +137,8 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       ? false
       : comment.author.id !== viewer.id;
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
+
+  const showCopyCommentEmbed = !!comment.body;
 
   return (
     <>
@@ -301,6 +304,13 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
           Moderate story
         </DropdownButton>
       </Localized>
+      {showCopyCommentEmbed && (
+        <CopyCommentEmbedCodeContainer
+          comment={comment}
+          settings={settings}
+          story={story}
+        />
+      )}
     </>
   );
 };
@@ -312,6 +322,7 @@ const enhanced = withFragmentContainer<Props>({
       author {
         id
       }
+      body
       revision {
         id
       }
@@ -319,6 +330,7 @@ const enhanced = withFragmentContainer<Props>({
       tags {
         code
       }
+      ...CopyCommentEmbedCodeContainer_comment
     }
   `,
   settings: graphql`
@@ -333,6 +345,7 @@ const enhanced = withFragmentContainer<Props>({
           }
         }
       }
+      ...CopyCommentEmbedCodeContainer_settings
     }
   `,
   story: graphql`
@@ -341,6 +354,7 @@ const enhanced = withFragmentContainer<Props>({
       settings {
         mode
       }
+      ...CopyCommentEmbedCodeContainer_story
     }
   `,
   viewer: graphql`

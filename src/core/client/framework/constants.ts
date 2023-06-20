@@ -5,6 +5,12 @@
 export const COUNT_SELECTOR = ".coral-count";
 
 /**
+ * COMMENT_EMBED_SELECTOR is a css selector used to identify elements that
+ * will be replaced by the comment embed.
+ */
+export const COMMENT_EMBED_SELECTOR = ".coral-comment-embed";
+
+/**
  * ORIGIN_FALLBACK_ID can be attached to any <script /> tag as an
  * id or class to allow the `count.js` script to find its origin when
  * `document.currentScript` is not available (for legacy browsers).

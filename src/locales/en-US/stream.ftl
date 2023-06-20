@@ -281,6 +281,9 @@ comments-moderationDropdown-moderateStory = Moderate story
 comments-moderationDropdown-caretButton =
   .aria-label = Moderate
 
+comments-moderationDropdown-embedCode = Embed code
+comments-moderationDropdown-embedCodeCopied = Code copied
+
 comments-moderationRejectedTombstone-title = You have rejected this comment.
 comments-moderationRejectedTombstone-moderateLink =
   Go to moderate to review this decision

@@ -1,0 +1,25 @@
+<div
+  class="coral-comment-embed coral-comment-embed-simple"
+  style="background-color: #f4f7f7; padding: 8px; position: relative"
+  data-commentID="{{ commentID }}"
+  data-allowReplies="{{ includeReplies }}"
+>
+  <a
+    target="_blank"
+    style="position: absolute; z-index: 0; top: 0; bottom: 0; left: 0; right: 0"
+    href="{{commentPermalinkURL}}"
+  ></a>
+  <div style="margin-bottom: 8px">{{ commentAuthor.username }}</div>
+  <div>{{ sanitizedSimple | safe }}</div>
+  {% if simpleEmbedMediaUrl %}
+  <div>
+    <br /><a
+      href="{{simpleEmbedMediaUrl}}"
+      target="_blank"
+      rel="noopener noreferrer ugc"
+      style="position: relative; z-index: 1"
+      >{{simpleEmbedMediaUrl}}</a
+    >
+  </div>
+  {% endif %}
+</div>

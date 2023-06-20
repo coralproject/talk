@@ -222,6 +222,9 @@ export const settings = createFixture<GQLSettings>({
   flattenReplies: false,
   forReviewQueue: false,
   emailDomainModeration: [],
+  embeddedComments: {
+    allowReplies: true,
+  },
 });
 
 export const settingsWithMultisite = createFixture<GQLSettings>(
