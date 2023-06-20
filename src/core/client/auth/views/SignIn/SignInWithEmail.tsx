@@ -113,9 +113,6 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
               >
                 <Flex alignItems="center" justifyContent="center">
                   <SvgIcon size="md" className={styles.icon} Icon={EmailIcon} />
-                  {/* <Icon size="md" className={styles.icon}>
-                    email
-                  </Icon> */}
                   <Localized id="signIn-signInWithEmail">
                     <span>Sign in with Email</span>
                   </Localized>

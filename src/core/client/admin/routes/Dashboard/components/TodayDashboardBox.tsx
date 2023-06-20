@@ -1,7 +1,15 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { ComponentType, FunctionComponent } from "react";
 
-import { Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import {
+  CloseIcon,
+  DeleteIcon,
+  MessagesBubbleSquareIcon,
+  MultipleActionsChatIcon,
+  SingleNeutralActionsAddIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import DashboardBox from "./DashboardBox";
 import Loader from "./Loader";
@@ -9,14 +17,14 @@ import Loader from "./Loader";
 import styles from "./TodayDashboardBox.css";
 
 interface Props {
-  icon: "forum" | "close" | "recent_actors" | "person_add" | "block";
+  Icon: ComponentType;
   loading: boolean;
   children?: React.ReactNode;
 }
 
 const TodayDashboardBox: FunctionComponent<Props> = ({
   children,
-  icon,
+  Icon,
   loading,
 }) => {
   return (
@@ -27,13 +35,13 @@ const TodayDashboardBox: FunctionComponent<Props> = ({
         <Flex spacing={5} className={styles.outer}>
           <div
             className={cn(styles.icon, {
-              [styles.tealIcon]: icon === "forum",
-              [styles.redIcon]: icon === "close" || icon === "block",
-              [styles.greyIcon]: icon === "recent_actors",
-              [styles.blueIcon]: icon === "person_add",
+              [styles.tealIcon]: Icon === MessagesBubbleSquareIcon,
+              [styles.redIcon]: Icon === DeleteIcon || Icon === CloseIcon,
+              [styles.greyIcon]: Icon === MultipleActionsChatIcon,
+              [styles.blueIcon]: Icon === SingleNeutralActionsAddIcon,
             })}
           >
-            <Icon size="md">{icon}</Icon>
+            <SvgIcon Icon={Icon} />
           </div>
           <HorizontalGutter>
             <Flex

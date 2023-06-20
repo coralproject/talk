@@ -9,13 +9,14 @@ import { SectionFilter } from "coral-common/section";
 import { getModerationLink } from "coral-framework/helpers";
 import {
   CheckCircleIcon,
+  CheckDoubleIcon,
   CloseCircleIcon,
   FlagIcon,
   MessagesBubbleSquareIcon,
   SvgIcon,
   TimeClockIcon,
 } from "coral-ui/components/icons";
-import { Counter, Icon, SubBarNavigation } from "coral-ui/components/v2";
+import { Counter, SubBarNavigation } from "coral-ui/components/v2";
 
 import NavigationLink from "./NavigationLink";
 
@@ -145,7 +146,7 @@ const Navigation: FunctionComponent<Props> = ({
       </NavigationLink>
       {enableForReview && (
         <NavigationLink to={moderationLinks[5]}>
-          <Icon>done_all</Icon>
+          <SvgIcon Icon={CheckDoubleIcon} className={styles.icon} />
           <Localized id="moderate-navigation-forReview">
             <span>For Review</span>
           </Localized>

@@ -159,6 +159,10 @@ $button-text-stream-foreground-active: var(--palette-primary-700);
   &.iconRight i {
     padding-left: var(--spacing-1);
   }
+
+  &.iconRight span {
+    padding-left: var(--spacing-1);
+  }
 }
 
 .adornmentLeft {

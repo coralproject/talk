@@ -27,6 +27,9 @@ const SvgIcon: React.FC<SvgIconProps> = ({
 }) => {
   let sizeStyle;
   switch (size) {
+    case "xxs":
+      sizeStyle = styles.xxs;
+      break;
     case "xs":
       sizeStyle = styles.xs;
       break;

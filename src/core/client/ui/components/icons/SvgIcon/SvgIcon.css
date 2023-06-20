@@ -1,6 +1,12 @@
 .root svg {
 }
 
+.xxs,
+.xxs svg {
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
 .xs,
 .xs svg {
   height: var(--font-size-icon-xs);

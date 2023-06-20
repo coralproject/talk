@@ -112,9 +112,6 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
             className={styles.reacterUsernamesIcon}
             Icon={ThumbsUpIcon}
           />
-          {/* <Icon size="sm" className={styles.reacterUsernamesIcon}>
-            {settings.reaction.icon}
-          </Icon> */}
           <Flex spacing={1}>
             <span>
               {compact(

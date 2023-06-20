@@ -11,13 +11,13 @@ import React, {
 import { MediaContainer } from "coral-admin/components/MediaContainer";
 import { GQLWordlistMatch } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
+import { ArrowRightIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   ButtonIcon,
   Card,
   Flex,
   HorizontalGutter,
-  Icon,
   TextLink,
   Timestamp,
 } from "coral-ui/components/v2";
@@ -260,7 +260,11 @@ const ModerateCard: FunctionComponent<Props> = ({
                     {siteName && (
                       <span className={styles.siteName}>
                         {siteName}
-                        <Icon>keyboard_arrow_right</Icon>
+                        <SvgIcon
+                          Icon={ArrowRightIcon}
+                          className={styles.siteNameArrow}
+                          size="xxs"
+                        />
                       </span>
                     )}
                     <span className={styles.storyTitle}>{storyTitle}</span>

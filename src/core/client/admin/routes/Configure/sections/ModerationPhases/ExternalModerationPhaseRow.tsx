@@ -4,13 +4,8 @@ import { graphql } from "react-relay";
 
 import getExternalModerationPhaseLink from "coral-admin/helpers/getExternalModerationPhaseLink";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  Button,
-  Flex,
-  Icon,
-  TableCell,
-  TableRow,
-} from "coral-ui/components/v2";
+import { ArrowRightIcon, SvgIcon } from "coral-ui/components/icons";
+import { Button, Flex, TableCell, TableRow } from "coral-ui/components/v2";
 
 import { ExternalModerationPhaseRow_phase } from "coral-admin/__generated__/ExternalModerationPhaseRow_phase.graphql";
 
@@ -32,7 +27,15 @@ const ExternalModerationPhaseRow: FunctionComponent<Props> = ({ phase }) => (
       <Flex justifyContent="flex-end">
         <Localized
           id="configure-moderationPhases-detailsButton"
-          elems={{ icon: <Icon>keyboard_arrow_right</Icon> }}
+          elems={{
+            icon: (
+              <SvgIcon
+                Icon={ArrowRightIcon}
+                className={styles.detailsIcon}
+                size="xxs"
+              />
+            ),
+          }}
         >
           <Button
             variant="text"
@@ -40,7 +43,11 @@ const ExternalModerationPhaseRow: FunctionComponent<Props> = ({ phase }) => (
             iconRight
           >
             Details
-            <Icon>keyboard_arrow_right</Icon>
+            <SvgIcon
+              Icon={ArrowRightIcon}
+              className={styles.detailsIcon}
+              size="xxs"
+            />
           </Button>
         </Localized>
       </Flex>
