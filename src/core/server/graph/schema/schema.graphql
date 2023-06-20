@@ -1669,6 +1669,13 @@ type CommenterAccountFeatures {
 }
 
 """
+EmbeddedCommentsConfiguration specifies the configuration for embedded comments.
+"""
+type EmbeddedCommentsConfiguration {
+  allowReplies: Boolean
+}
+
+"""
 BadgeConfiguration specifies the configuration for the staff badges assigned to
 users with any role above COMMENTER.
 """
@@ -2189,6 +2196,11 @@ type Settings @cacheControl(maxAge: 30) {
   external profile.
   """
   externalProfileURL: String
+
+  """
+  embeddedComments includes the configuration for embedded comments.
+  """
+  embeddedComments: EmbeddedCommentsConfiguration
 }
 
 ################################################################################
@@ -3836,6 +3848,11 @@ type Comment @cacheControl(maxAge: 5) {
   seen determines whether a comment has been seen by the user already.
   """
   seen: Boolean
+
+  """
+  embeddedAt is the date at which the comment was first embedded.
+  """
+  embeddedAt: Time
 }
 
 type PageInfo {
@@ -5526,6 +5543,13 @@ input NewCommentersConfigurationInput {
 }
 
 """
+EmbeddedCommentsConfigurationInput specifies the configuration for comment embeds.
+"""
+input EmbeddedCommentsConfigurationInput {
+  allowReplies: Boolean
+}
+
+"""
 RTEConfigurationInput specifies the configuration for the rte.
 """
 input RTEConfigurationInput {
@@ -5737,6 +5761,11 @@ input SettingsInput {
   external profile.
   """
   externalProfileURL: String
+
+  """
+  embeddedComments includes the configuration for embedded comments.
+  """
+  embeddedComments: EmbeddedCommentsConfigurationInput
 }
 
 """

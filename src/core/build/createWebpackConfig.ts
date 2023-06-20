@@ -796,5 +796,44 @@ export default function createWebpackConfig(
         }),
       ]),
     },
+    /* Webpack config for oembed */
+    {
+      ...baseConfig,
+      optimization: {
+        ...baseConfig.optimization,
+        // Ensure that we never split the main library into chunks.
+        splitChunks: {
+          chunks: "async",
+        },
+        // We can turn on sideEffects here as we don't use
+        // css here and don't run into: https://github.com/webpack/webpack/issues/7094
+        sideEffects: true,
+      },
+      entry: [paths.appOEmbedIndex],
+      output: {
+        ...baseConfig.output,
+        // Each config needs a unique jsonpFunction name to avoid collisions of chunks.
+        jsonpFunction: "coralCommentEmbedWebpackJsonp",
+        // don't hash the count, cache-busting must be completed by the requester
+        // as this lives in a static template on the embed site.
+        filename: "assets/js/commentEmbed.js",
+      },
+      plugins: filterPlugins([
+        ...baseConfig.plugins!,
+        ...ifWatch(
+          // Generates a `commentEmbed.html` file with the <script> injected.
+          new HtmlWebpackPlugin({
+            filename: "commentEmbed.html",
+            template: paths.appCommentEmbedHTML,
+            inject: "body",
+          })
+        ),
+        new WebpackAssetsManifest({
+          output: "oembed-asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        }),
+      ]),
+    },
   ];
 }

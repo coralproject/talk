@@ -310,6 +310,7 @@ export type Settings = GlobalModerationSettings &
     | "slack"
     | "announcement"
     | "memberBios"
+    | "embeddedComments"
   > & {
     /**
      * auth is the set of configured authentication integrations.

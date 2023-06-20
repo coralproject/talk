@@ -2,10 +2,15 @@ import express from "express";
 import passport from "passport";
 
 import { AppOptions } from "coral-server/app";
-import { externalMediaHandler, oembedHandler } from "coral-server/app/handlers";
+import {
+  externalMediaHandler,
+  oembedHandler,
+  oembedProviderHandler,
+} from "coral-server/app/handlers";
 import {
   apolloGraphQLMiddleware,
   authenticate,
+  commentEmbedWhitelisted,
   corsWhitelisted,
   cspSiteMiddleware,
   JSONErrorHandler,
@@ -88,6 +93,11 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     createRemoteMediaRouter(app)
   );
   router.get("/oembed", cspSiteMiddleware(app), oembedHandler(app));
+  router.get(
+    "/services/oembed",
+    commentEmbedWhitelisted(app),
+    oembedProviderHandler(app)
+  );
   router.get(
     "/external-media",
     cspSiteMiddleware(app),

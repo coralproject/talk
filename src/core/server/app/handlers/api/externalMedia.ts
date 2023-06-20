@@ -10,10 +10,12 @@ import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const ExternalMediaQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
+  commentID: Joi.string().optional(),
 });
 
 interface ExternalMediaQuery {
   url: string;
+  commentID?: string;
 }
 
 type Options = Pick<AppOptions, "i18n" | "config">;
@@ -44,7 +46,7 @@ export const externalMediaHandler = ({
         return;
       }
 
-      const { url }: ExternalMediaQuery = validate(
+      const { url, commentID }: ExternalMediaQuery = validate(
         ExternalMediaQuerySchema,
         req.query
       );
@@ -58,7 +60,7 @@ export const externalMediaHandler = ({
         return;
       }
 
-      res.render("image", { url, entrypoint });
+      res.render("image", { url, entrypoint, commentID });
     } catch (err) {
       // There was no response! Return a translated error message.
       const bundle = i18n.getBundle(tenant.locale);

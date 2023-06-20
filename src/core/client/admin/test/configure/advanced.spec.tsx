@@ -1,18 +1,16 @@
-import { noop } from "lodash";
+import { screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
-  act,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  wait,
-  waitForElement,
-  within,
 } from "coral-framework/testHelpers";
 
-import create from "../create";
+import { createContext } from "../create";
+import customRenderAppWithContext from "../customRenderAppWithContext";
 import { settings, users } from "../fixtures";
 
 beforeEach(() => {
@@ -24,7 +22,7 @@ const viewer = users.admins[0];
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create({
+  const { context } = createContext({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -41,24 +39,39 @@ async function createTestRenderer(
       }
     },
   });
+  customRenderAppWithContext(context);
 
-  const configureContainer = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("configure-container")
-  );
-  const advancedContainer = await waitForElement(() =>
-    within(configureContainer).getByTestID("configure-advancedContainer")
-  );
-  const saveChangesButton = within(configureContainer).getByTestID(
-    "configure-sideBar-saveChanges"
-  );
+  const configureContainer = await screen.findByTestId("configure-container");
+  const advancedContainer = screen.getByTestId("configure-advancedContainer");
+  const saveChangesButton = screen.getByRole("button", {
+    name: "Save Changes",
+  });
+
   return {
     context,
-    testRenderer,
     configureContainer,
     advancedContainer,
     saveChangesButton,
   };
 }
+
+it("renders configure advanced", async () => {
+  const { configureContainer } = await createTestRenderer();
+  expect(within(configureContainer).getByLabelText("Custom CSS")).toBeDefined();
+  expect(
+    within(configureContainer).getByText("Embedded comment replies")
+  ).toBeDefined();
+  expect(
+    within(configureContainer).getByText("Comment stream live updates")
+  ).toBeDefined();
+  expect(within(configureContainer).getByText("Story creation")).toBeDefined();
+  expect(
+    within(configureContainer).getByText("Accelerated Mobile Pages")
+  ).toBeDefined();
+  expect(
+    within(configureContainer).getByText("Review all user reports")
+  ).toBeDefined();
+});
 
 it("change custom css", async () => {
   const resolvers = createResolversStub<GQLResolver>({
@@ -71,32 +84,25 @@ it("change custom css", async () => {
       },
     },
   });
-  const { configureContainer, advancedContainer, saveChangesButton } =
-    await createTestRenderer({
-      resolvers,
-    });
+  const { advancedContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
 
   const customCSSField = within(advancedContainer).getByLabelText("Custom CSS");
 
   // Let's change the customCSS field.
-  act(() => customCSSField.props.onChange("./custom.css"));
+  userEvent.type(customCSSField, "./custom.css");
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   // Submit button and text field should be disabled.
-  expect(saveChangesButton.props.disabled).toBe(true);
-  expect(customCSSField.props.disabled).toBe(true);
+  expect(saveChangesButton).toBeDisabled();
+  expect(customCSSField).toBeDisabled();
 
-  // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(customCSSField.props.disabled).toBe(false);
-    });
+  // // Wait for submission to be finished
+  await waitFor(() => {
+    expect(customCSSField).not.toBeDisabled();
   });
 
   // Should have successfully sent with server.
@@ -120,27 +126,22 @@ it("remove custom css", async () => {
       },
     },
   });
-  const { configureContainer, advancedContainer } = await createTestRenderer({
+  const { saveChangesButton, advancedContainer } = await createTestRenderer({
     resolvers,
   });
 
   const customCSSField = within(advancedContainer).getByLabelText("Custom CSS");
 
   // Let's change the customCSS field.
-  act(() => customCSSField.props.onChange(""));
+  userEvent.clear(customCSSField);
+  userEvent.type(customCSSField, "");
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
-    });
+  await waitFor(() => {
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
   });
 });
 
@@ -184,28 +185,59 @@ it("change review all user reports to enable For review queue", async () => {
       },
     },
   });
-  const { configureContainer, advancedContainer } = await createTestRenderer({
+  const { advancedContainer, saveChangesButton } = await createTestRenderer({
     resolvers,
   });
 
-  const forReviewQueueBox = within(advancedContainer).getByTestID(
+  const forReviewQueueBox = within(advancedContainer).getByTestId(
     "for-review-queue-config-box"
   );
 
   const onField = within(forReviewQueueBox).getByLabelText("On");
-  act(() => onField.props.onChange(onField.props.value.toString()));
+  userEvent.click(onField);
 
   // Send form
-  act(() => {
-    within(configureContainer)
-      .getByType("form")
-      .props.onSubmit({ preventDefault: noop });
-  });
+  userEvent.click(saveChangesButton);
 
   // Wait for submission to be finished
-  await act(async () => {
-    await wait(() => {
-      expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
-    });
+  await waitFor(() => {
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+  });
+});
+
+it("change embedded comments allow replies", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(
+          variables.settings.embeddedComments?.allowReplies
+        ).toEqual(false);
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const { advancedContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
+
+  const embeddedCommentReplies = within(advancedContainer).getByTestId(
+    "embedded-comment-replies-config"
+  );
+
+  const offField = within(embeddedCommentReplies).getByText("Off");
+
+  userEvent.click(offField);
+
+  // Send form
+  userEvent.click(saveChangesButton);
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton).toBeDisabled();
+
+  // Should have successfully sent with server.
+  await waitFor(() => {
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
   });
 });
