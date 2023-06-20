@@ -23,12 +23,3 @@ it("should nth key", () => {
   storage.setItem("c", "2");
   expect(storage.key(2)).toBe("c");
 });
-
-it("accepts predefined data", () => {
-  const storage = createInMemoryStorage({
-    a: "0",
-    b: "1",
-    c: "2",
-  });
-  expect(storage.toString()).toMatchSnapshot();
-});

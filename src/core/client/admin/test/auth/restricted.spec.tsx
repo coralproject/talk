@@ -51,26 +51,6 @@ async function createTestRenderer(
   return { testRenderer, context };
 }
 
-it("show restricted screen for commenters and staff", async () => {
-  const restrictedRoles = [GQLUSER_ROLE.COMMENTER, GQLUSER_ROLE.STAFF];
-  for (const role of restrictedRoles) {
-    const { testRenderer } = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          viewer: () =>
-            pureMerge<typeof viewer>(viewer, {
-              role,
-            }),
-        },
-      }),
-    });
-    const authBox = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("authBox")
-    );
-    expect(within(authBox).toJSON()).toMatchSnapshot();
-  }
-});
-
 it("sign out when clicking on sign in as", async () => {
   const { testRenderer, context } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({

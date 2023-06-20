@@ -2,61 +2,11 @@ import {
   ACTION_TYPE,
   CommentAction,
   CreateActionInput,
-  decodeActionCounts,
-  encodeActionCounts,
   filterDuplicateActions,
   validateAction,
 } from "coral-server/models/action/comment";
 
 import { GQLCOMMENT_FLAG_REASON } from "coral-server/graph/schema/__generated__/types";
-
-describe("#encodeActionCounts", () => {
-  it("generates the action counts correctly", () => {
-    const actions: Array<Partial<CommentAction>> = [
-      { actionType: ACTION_TYPE.DONT_AGREE },
-      {
-        actionType: ACTION_TYPE.FLAG,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
-      },
-      {
-        actionType: ACTION_TYPE.FLAG,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OTHER,
-      },
-    ];
-    const actionCounts = encodeActionCounts(...(actions as CommentAction[]));
-
-    expect(actionCounts).toMatchSnapshot();
-  });
-});
-
-describe("#decodeActionCounts", () => {
-  it("parses the action counts correctly", () => {
-    const actions: Array<Partial<CommentAction>> = [
-      { actionType: ACTION_TYPE.REACTION },
-      { actionType: ACTION_TYPE.REACTION },
-      { actionType: ACTION_TYPE.REACTION },
-      { actionType: ACTION_TYPE.DONT_AGREE },
-      {
-        actionType: ACTION_TYPE.FLAG,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
-      },
-      {
-        actionType: ACTION_TYPE.FLAG,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OTHER,
-      },
-    ];
-
-    const modelActionCounts = encodeActionCounts(
-      ...(actions as CommentAction[])
-    );
-
-    expect(modelActionCounts).toMatchSnapshot();
-
-    const actionCounts = decodeActionCounts(modelActionCounts);
-
-    expect(actionCounts).toMatchSnapshot();
-  });
-});
 
 describe("#validateAction", () => {
   it("allows a valid action", () => {

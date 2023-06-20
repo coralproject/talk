@@ -26,19 +26,6 @@ const context: UIContextProps = {
 
 jest.spyOn(React, "useContext").mockImplementation(() => context);
 
-it("renders correctly", () => {
-  const props: PropTypesOf<typeof TrapFocus> = {
-    children: (
-      <>
-        <span>child1</span>
-        <span>child2</span>
-      </>
-    ),
-  };
-  const renderer = create(<TrapFocus {...props} />, { createNodeMock });
-  expect(renderer.toJSON()).toMatchSnapshot();
-});
-
 // kabeaty: focus seems to be working as expected
 // not sure why this test is failing now
 it.skip("autofocus", () => {

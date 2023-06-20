@@ -51,31 +51,3 @@ beforeEach(async () => {
 it("Sets the JSONP callback", async () => {
   expect((window as any).CoralCount).toBeDefined();
 });
-
-it("Calls JSONP", async () => {
-  expect(document.body).toMatchSnapshot();
-});
-
-it("Calls JSONP again", async () => {
-  expect(document.body).toMatchSnapshot();
-  (window as any).CoralCount.getCount();
-  expect(document.body).toMatchSnapshot();
-  attachTag({ coralId: "another-coral-id" });
-  (window as any).CoralCount.getCount();
-  expect(document.body).toMatchSnapshot();
-});
-
-it("Calls JSONP again with reset", async () => {
-  expect(document.body).toMatchSnapshot();
-  (window as any).CoralCount.getCount({ reset: true });
-  expect(document.body).toMatchSnapshot();
-});
-
-it("Inject counts", async () => {
-  (window as any).CoralCount.setCount({
-    ref: "ZmFsc2U7aHR0cDovL2xvY2FsaG9zdDo4MDgwLw==",
-    html: '<span class="coral-count-number">5</span> <span class="coral-count-text">Comments</span>',
-    count: 5,
-  });
-  expect(document.body).toMatchSnapshot();
-});

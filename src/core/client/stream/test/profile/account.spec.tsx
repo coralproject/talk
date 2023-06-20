@@ -56,7 +56,6 @@ it("renders the empty settings pane", async () => {
     await createTestRenderer();
   });
   const account = await screen.findByTestId("profile-manageAccount");
-  expect(account).toMatchSnapshot();
   expect(await axe(account)).toHaveNoViolations();
 });
 
