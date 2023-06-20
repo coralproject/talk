@@ -14,7 +14,7 @@ import {
 
 import {
   GQLFEATURE_FLAG,
-  GQLModerationQueuesTypeResolver,
+  GQLModerationQueuesResolvers,
   GQLSectionFilter,
   QueryToModerationQueuesResolver,
 } from "coral-server/graph/schema/__generated__/types";
@@ -162,25 +162,27 @@ export const moderationQueuesResolver: QueryToModerationQueuesResolver = async (
   return sharedModerationInputResolver(source, args, ctx);
 };
 
-export const ModerationQueues: GQLModerationQueuesTypeResolver<ModerationQueuesInput> =
-  {
-    unmoderated: mergeModerationInputFilters(
-      {
-        status: { $in: UNMODERATED_STATUSES },
-      },
-      "unmoderated"
-    ),
-    reported: mergeModerationInputFilters(
-      {
-        status: { $in: REPORTED_STATUS },
-        "actionCounts.FLAG": { $gt: 0 },
-      },
-      "reported"
-    ),
-    pending: mergeModerationInputFilters(
-      {
-        status: { $in: PENDING_STATUS },
-      },
-      "pending"
-    ),
-  };
+export const ModerationQueues: GQLModerationQueuesResolvers<
+  GraphContext,
+  ModerationQueuesInput
+> = {
+  unmoderated: mergeModerationInputFilters(
+    {
+      status: { $in: UNMODERATED_STATUSES },
+    },
+    "unmoderated"
+  ),
+  reported: mergeModerationInputFilters(
+    {
+      status: { $in: REPORTED_STATUS },
+      "actionCounts.FLAG": { $gt: 0 },
+    },
+    "reported"
+  ),
+  pending: mergeModerationInputFilters(
+    {
+      status: { $in: PENDING_STATUS },
+    },
+    "pending"
+  ),
+};

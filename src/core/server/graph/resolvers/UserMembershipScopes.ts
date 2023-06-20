@@ -1,15 +1,19 @@
 import * as user from "coral-server/models/user";
 
-import { GQLUserMembershipScopesTypeResolver } from "core/server/graph/schema/__generated__/types";
+import { GQLUserMembershipScopesResolvers } from "core/server/graph/schema/__generated__/types";
 
-export const UserMembershipScopes: GQLUserMembershipScopesTypeResolver<user.UserMembershipScopes> =
-  {
-    scoped: ({ scoped, siteIDs }) => scoped || !!siteIDs?.length,
-    sites: ({ siteIDs }, _, ctx) => {
-      if (siteIDs) {
-        return ctx.loaders.Sites.site.loadMany(siteIDs);
-      }
+import GraphContext from "../context";
 
-      return null;
-    },
-  };
+export const UserMembershipScopes: GQLUserMembershipScopesResolvers<
+  GraphContext,
+  user.UserMembershipScopes
+> = {
+  scoped: ({ scoped, siteIDs }) => scoped || !!siteIDs?.length,
+  sites: ({ siteIDs }, _, ctx) => {
+    if (siteIDs) {
+      return ctx.loaders.Sites.site.loadMany(siteIDs);
+    }
+
+    return null;
+  },
+};

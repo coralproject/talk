@@ -1,9 +1,12 @@
 import * as user from "coral-server/models/user";
 
-import { GQLUsernameHistoryTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLUsernameHistoryResolvers } from "coral-server/graph/schema/__generated__/types";
 
-export const UsernameHistory: Required<
-  GQLUsernameHistoryTypeResolver<user.UsernameHistory>
+import GraphContext from "../context";
+import RequiredResolver from "./RequireResolver";
+
+export const UsernameHistory: RequiredResolver<
+  GQLUsernameHistoryResolvers<GraphContext, user.UsernameHistory>
 > = {
   createdBy: ({ createdBy }, input, ctx) => {
     if (createdBy) {

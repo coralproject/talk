@@ -1,7 +1,9 @@
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import { Comment, Revision } from "coral-server/models/comment";
 
-import { GQLCommentRevisionTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLCommentRevisionResolvers } from "coral-server/graph/schema/__generated__/types";
+
+import GraphContext from "../context";
 
 export interface WrappedCommentRevision {
   revision: Revision;
@@ -9,7 +11,7 @@ export interface WrappedCommentRevision {
 }
 
 export const CommentRevision: Required<
-  GQLCommentRevisionTypeResolver<WrappedCommentRevision>
+  GQLCommentRevisionResolvers<GraphContext, WrappedCommentRevision>
 > = {
   id: (w) => {
     return w.revision.id;

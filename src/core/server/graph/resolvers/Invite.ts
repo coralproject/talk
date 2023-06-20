@@ -1,8 +1,10 @@
 import * as invite from "coral-server/models/invite";
 
-import { GQLInviteTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLInviteResolvers } from "coral-server/graph/schema/__generated__/types";
 
-export const Invite: GQLInviteTypeResolver<invite.Invite> = {
+import GraphContext from "../context";
+
+export const Invite: GQLInviteResolvers<GraphContext, invite.Invite> = {
   createdBy: ({ createdBy }, args, ctx) =>
     ctx.loaders.Users.user.load(createdBy),
 };

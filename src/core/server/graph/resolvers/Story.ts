@@ -10,15 +10,16 @@ import {
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
   GQLSTORY_STATUS,
-  GQLStoryTypeResolver,
+  GQLStoryResolvers,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
+import GraphContext from "../context";
 import { CommentCountsInput } from "./CommentCounts";
 import { storyModerationInputResolver } from "./ModerationQueues";
 import { StorySettingsInput } from "./StorySettings";
 
-export const Story: GQLStoryTypeResolver<story.Story> = {
+export const Story: GQLStoryResolvers<GraphContext, story.Story> = {
   comments: (s, input, ctx) => ctx.loaders.Comments.forStory(s.id, input),
   featuredComments: (s, input, ctx) =>
     ctx.loaders.Comments.taggedForStory(s.id, GQLTAG.FEATURED, input),

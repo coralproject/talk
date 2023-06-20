@@ -3,11 +3,15 @@ import { hasFeatureFlag } from "coral-server/models/tenant";
 
 import {
   GQLFEATURE_FLAG,
-  GQLRTEConfigurationTypeResolver,
+  GQLRTEConfigurationResolvers,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const RTEConfiguration: GQLRTEConfigurationTypeResolver<settings.RTEConfiguration> =
-  {
-    sarcasm: (config, args, { tenant }) =>
-      hasFeatureFlag(tenant, GQLFEATURE_FLAG.RTE_SARCASM),
-  };
+import GraphContext from "../context";
+
+export const RTEConfiguration: GQLRTEConfigurationResolvers<
+  GraphContext,
+  settings.RTEConfiguration
+> = {
+  sarcasm: (config, args, { tenant }) =>
+    hasFeatureFlag(tenant, GQLFEATURE_FLAG.RTE_SARCASM),
+};

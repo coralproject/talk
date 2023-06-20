@@ -2,12 +2,15 @@ import { hasFeatureFlag } from "coral-server/models/tenant";
 
 import {
   GQLExternalMediaConfiguration,
-  GQLExternalMediaConfigurationTypeResolver,
+  GQLExternalMediaConfigurationResolvers,
   GQLFEATURE_FLAG,
 } from "coral-server/graph/schema/__generated__/types";
 
+import GraphContext from "../context";
+
 export const ExternalMediaConfiguration: Required<
-  GQLExternalMediaConfigurationTypeResolver<
+  GQLExternalMediaConfigurationResolvers<
+    GraphContext,
     Partial<GQLExternalMediaConfiguration>
   >
 > = {

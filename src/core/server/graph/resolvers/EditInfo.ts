@@ -4,10 +4,12 @@ import { setCacheHint } from "coral-common/graphql";
 
 import {
   GQLEditInfo,
-  GQLEditInfoTypeResolver,
+  GQLEditInfoResolvers,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const EditInfo: GQLEditInfoTypeResolver<GQLEditInfo> = {
+import GraphContext from "../context";
+
+export const EditInfo: GQLEditInfoResolvers<GraphContext, GQLEditInfo> = {
   editableUntil: ({ editableUntil }, args, ctx, info) => {
     if (!editableUntil) {
       return null;

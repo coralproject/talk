@@ -1,6 +1,8 @@
-import { GQLMutationTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLMutationResolvers } from "coral-server/graph/schema/__generated__/types";
 
-export const Mutation: Required<GQLMutationTypeResolver<void>> = {
+import GraphContext from "../context";
+
+export const Mutation: Required<GQLMutationResolvers<GraphContext, void>> = {
   editComment: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comments.edit(input),
     clientMutationId: input.clientMutationId,

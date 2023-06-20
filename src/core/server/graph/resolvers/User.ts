@@ -7,7 +7,7 @@ import { roleIsStaff } from "coral-server/models/user/helpers";
 import {
   GQLUser,
   GQLUSER_ROLE,
-  GQLUserTypeResolver,
+  GQLUserResolvers,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { RecentCommentHistoryInput } from "./RecentCommentHistory";
@@ -43,7 +43,7 @@ const maybeLoadOnlyExistingIgnoredUsers = async (
   return existingIgnoredUsers;
 };
 
-export const User: GQLUserTypeResolver<user.User> = {
+export const User: GQLUserResolvers<GraphContext, user.User> = {
   comments: ({ id }, input, ctx) => ctx.loaders.Comments.forUser(id, input),
   allComments: ({ id }, input, ctx) =>
     ctx.loaders.Comments.forUserAll(id, input),

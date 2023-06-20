@@ -1,8 +1,12 @@
 import * as settings from "coral-server/models/settings";
 
-import { GQLStoryScrapingConfigurationTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLStoryScrapingConfigurationResolvers } from "coral-server/graph/schema/__generated__/types";
 
-export const StoryScrapingConfiguration: GQLStoryScrapingConfigurationTypeResolver<settings.StoryScrapingConfiguration> =
-  {
-    authentication: ({ authentication }) => !!authentication,
-  };
+import GraphContext from "../context";
+
+export const StoryScrapingConfiguration: GQLStoryScrapingConfigurationResolvers<
+  GraphContext,
+  settings.StoryScrapingConfiguration
+> = {
+  authentication: ({ authentication }) => !!authentication,
+};

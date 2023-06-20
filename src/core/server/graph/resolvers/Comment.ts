@@ -29,7 +29,7 @@ import {
   GQLComment,
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
-  GQLCommentTypeResolver,
+  GQLCommentResolvers,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
@@ -71,7 +71,7 @@ export const maybeLoadOnlyID = async (
   return ctx.loaders.Comments.visible.load(id);
 };
 
-export const Comment: GQLCommentTypeResolver<comment.Comment> = {
+export const Comment: GQLCommentResolvers<GraphContext, comment.Comment> = {
   body: (c) => (c.revisions.length > 0 ? getLatestRevision(c).body : null),
   // Send the whole comment back when you request revisions. This way, we get to
   // know the comment ID. The field mapping is handled by the CommentRevision

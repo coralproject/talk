@@ -1,9 +1,12 @@
 import * as user from "coral-server/models/user";
 
-import { GQLWarningStatusHistoryTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLWarningStatusHistoryResolvers } from "coral-server/graph/schema/__generated__/types";
 
-export const WarningStatusHistory: Required<
-  GQLWarningStatusHistoryTypeResolver<user.WarningStatusHistory>
+import GraphContext from "../context";
+import RequiredResolver from "./RequireResolver";
+
+export const WarningStatusHistory: RequiredResolver<
+  GQLWarningStatusHistoryResolvers<GraphContext, user.WarningStatusHistory>
 > = {
   active: ({ active }) => active,
   acknowledgedAt: ({ acknowledgedAt }) => acknowledgedAt,

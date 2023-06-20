@@ -1,9 +1,12 @@
 import * as user from "coral-server/models/user";
 
-import { GQLBanStatusHistoryTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLBanStatusHistoryResolvers } from "coral-server/graph/schema/__generated__/types";
 
-export const BanStatusHistory: Required<
-  GQLBanStatusHistoryTypeResolver<user.BanStatusHistory>
+import GraphContext from "../context";
+import RequiredResolver from "./RequireResolver";
+
+export const BanStatusHistory: RequiredResolver<
+  GQLBanStatusHistoryResolvers<GraphContext, user.BanStatusHistory>
 > = {
   active: ({ active }) => active,
   createdBy: ({ createdBy }, input, ctx) => {

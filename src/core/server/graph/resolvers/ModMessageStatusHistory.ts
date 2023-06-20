@@ -1,9 +1,15 @@
 import * as user from "coral-server/models/user";
 
-import { GQLModMessageStatusHistoryTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLModMessageStatusHistoryResolvers } from "coral-server/graph/schema/__generated__/types";
 
-export const ModMessageStatusHistory: Required<
-  GQLModMessageStatusHistoryTypeResolver<user.ModMessageStatusHistory>
+import GraphContext from "../context";
+import RequiredResolver from "./RequireResolver";
+
+export const ModMessageStatusHistory: RequiredResolver<
+  GQLModMessageStatusHistoryResolvers<
+    GraphContext,
+    user.ModMessageStatusHistory
+  >
 > = {
   active: ({ active }) => active,
   acknowledgedAt: ({ acknowledgedAt }) => acknowledgedAt,

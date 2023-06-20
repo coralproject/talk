@@ -1,18 +1,20 @@
 import * as story from "coral-server/models/story";
 
+import GraphContext from "../context";
 import {
   GQLMODERATION_MODE,
-  GQLStorySettingsTypeResolver,
+  GQLStorySettingsResolvers,
 } from "../schema/__generated__/types";
 
 import { LiveConfigurationInput } from "./LiveConfiguration";
+import RequiredResolver from "./RequireResolver";
 
 export interface StorySettingsInput extends story.StorySettings {
   story: story.Story;
 }
 
-export const StorySettings: Required<
-  GQLStorySettingsTypeResolver<StorySettingsInput>
+export const StorySettings: RequiredResolver<
+  GQLStorySettingsResolvers<GraphContext, StorySettingsInput>
 > = {
   live: (s): LiveConfigurationInput => s.story,
   moderation: (s, input, ctx) => {

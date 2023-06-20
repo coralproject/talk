@@ -2,9 +2,14 @@ import { roundRating } from "coral-common/utils";
 
 import {
   GQLStoryRatings,
-  GQLStoryRatingsTypeResolver,
+  GQLStoryRatingsResolvers,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const StoryRatings: GQLStoryRatingsTypeResolver<GQLStoryRatings> = {
+import GraphContext from "../context";
+
+export const StoryRatings: GQLStoryRatingsResolvers<
+  GraphContext,
+  GQLStoryRatings
+> = {
   average: ({ average }) => roundRating(average),
 };

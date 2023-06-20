@@ -1,10 +1,14 @@
 import {
   GQLYouTubeMediaConfiguration,
-  GQLYouTubeMediaConfigurationTypeResolver,
+  GQLYouTubeMediaConfigurationResolvers,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const YouTubeMediaConfiguration: Required<
-  GQLYouTubeMediaConfigurationTypeResolver<
+import GraphContext from "../context";
+import RequiredResolver from "./RequireResolver";
+
+export const YouTubeMediaConfiguration: RequiredResolver<
+  GQLYouTubeMediaConfigurationResolvers<
+    GraphContext,
     Partial<GQLYouTubeMediaConfiguration>
   >
 > = {

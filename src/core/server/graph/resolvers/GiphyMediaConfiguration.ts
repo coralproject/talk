@@ -1,9 +1,12 @@
 import {
   GQLGiphyMediaConfiguration,
-  GQLGiphyMediaConfigurationTypeResolver,
+  GQLGiphyMediaConfigurationResolvers,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const GiphyMediaConfiguration: GQLGiphyMediaConfigurationTypeResolver<
+import GraphContext from "../context";
+
+export const GiphyMediaConfiguration: GQLGiphyMediaConfigurationResolvers<
+  GraphContext,
   Partial<GQLGiphyMediaConfiguration>
 > = {
   enabled: ({ enabled = false }) => enabled,

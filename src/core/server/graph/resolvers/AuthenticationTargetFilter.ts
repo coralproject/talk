@@ -1,16 +1,20 @@
 import {
   GQLAuthenticationTargetFilter,
-  GQLAuthenticationTargetFilterTypeResolver,
+  GQLAuthenticationTargetFilterResolvers,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const AuthenticationTargetFilter: GQLAuthenticationTargetFilterTypeResolver<GQLAuthenticationTargetFilter> =
-  {
-    admin: ({ admin }, _, { config }) => {
-      if (config.get("force_admin_local_auth")) {
-        return true;
-      }
+import GraphContext from "../context";
 
-      return admin;
-    },
-    stream: ({ stream }) => stream,
-  };
+export const AuthenticationTargetFilter: GQLAuthenticationTargetFilterResolvers<
+  GraphContext,
+  GQLAuthenticationTargetFilter
+> = {
+  admin: ({ admin }, _, { config }) => {
+    if (config.get("force_admin_local_auth")) {
+      return true;
+    }
+
+    return admin;
+  },
+  stream: ({ stream }) => stream,
+};

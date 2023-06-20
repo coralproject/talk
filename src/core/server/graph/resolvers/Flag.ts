@@ -2,12 +2,14 @@ import * as actions from "coral-server/models/action/comment";
 
 import {
   GQLCOMMENT_FLAG_REASON,
-  GQLFlagTypeResolver,
+  GQLFlagResolvers,
 } from "coral-server/graph/schema/__generated__/types";
+
+import GraphContext from "../context";
 
 import { WrappedCommentRevision } from "./CommentRevision";
 
-export const Flag: GQLFlagTypeResolver<actions.CommentAction> = {
+export const Flag: GQLFlagResolvers<GraphContext, actions.CommentAction> = {
   reason: ({ id, reason }, args, ctx) => {
     if (reason && reason in GQLCOMMENT_FLAG_REASON) {
       return reason;

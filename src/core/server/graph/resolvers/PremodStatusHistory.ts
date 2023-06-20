@@ -1,9 +1,12 @@
 import * as user from "coral-server/models/user";
 
-import { GQLPremodStatusHistoryTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLPremodStatusHistoryResolvers } from "coral-server/graph/schema/__generated__/types";
 
-export const PremodStatusHistory: Required<
-  GQLPremodStatusHistoryTypeResolver<user.PremodStatusHistory>
+import GraphContext from "../context";
+import RequiredResolver from "./RequireResolver";
+
+export const PremodStatusHistory: RequiredResolver<
+  GQLPremodStatusHistoryResolvers<GraphContext, user.PremodStatusHistory>
 > = {
   active: ({ active }) => active,
   createdBy: ({ createdBy }, input, ctx) => {

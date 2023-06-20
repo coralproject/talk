@@ -9,13 +9,14 @@ import {
 } from "coral-server/models/tenant";
 
 import {
-  GQLSettingsTypeResolver,
+  GQLSettingsResolvers,
   GQLWEBHOOK_EVENT_NAME,
 } from "coral-server/graph/schema/__generated__/types";
 
+import GraphContext from "../context";
 import { LiveConfigurationInput } from "./LiveConfiguration";
 
-export const Settings: GQLSettingsTypeResolver<Tenant> = {
+export const Settings: GQLSettingsResolvers<GraphContext, Tenant> = {
   slack: ({ slack = {} }) => slack,
   featureFlags: ({ featureFlags = [] }, args, ctx) =>
     featureFlags.filter(validFeatureFlagsFilter(ctx.user)),

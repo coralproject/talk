@@ -1,9 +1,11 @@
 import * as site from "coral-server/models/site";
 import { canModerate } from "coral-server/models/user/helpers";
 
-import { GQLSiteTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLSiteResolvers } from "coral-server/graph/schema/__generated__/types";
 
-export const Site: GQLSiteTypeResolver<site.Site> = {
+import GraphContext from "../context";
+
+export const Site: GQLSiteResolvers<GraphContext, site.Site> = {
   canModerate: ({ id }, args, ctx) => {
     if (!ctx.user) {
       return false;

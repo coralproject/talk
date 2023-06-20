@@ -1,8 +1,13 @@
 import * as settings from "coral-server/models/settings";
 
-import { GQLEmailDomainTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import { GQLEmailDomainResolvers } from "coral-server/graph/schema/__generated__/types";
 
-export const EmailDomain: GQLEmailDomainTypeResolver<settings.EmailDomain> = {
+import GraphContext from "../context";
+
+export const EmailDomain: GQLEmailDomainResolvers<
+  GraphContext,
+  settings.EmailDomain
+> = {
   domain: ({ domain }) => domain,
   newUserModeration: ({ newUserModeration }) => newUserModeration,
 };

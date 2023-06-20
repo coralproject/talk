@@ -1,10 +1,14 @@
 import {
   GQLTwitterMediaConfiguration,
-  GQLTwitterMediaConfigurationTypeResolver,
+  GQLTwitterMediaConfigurationResolvers,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const TwitterMediaConfiguration: Required<
-  GQLTwitterMediaConfigurationTypeResolver<
+import GraphContext from "../context";
+import RequiredResolver from "./RequireResolver";
+
+export const TwitterMediaConfiguration: RequiredResolver<
+  GQLTwitterMediaConfigurationResolvers<
+    GraphContext,
     Partial<GQLTwitterMediaConfiguration>
   >
 > = {
