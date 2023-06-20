@@ -1,9 +1,15 @@
 import cn from "classnames";
-import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
+import React, {
+  ComponentType,
+  FunctionComponent,
+  HTMLAttributes,
+  Ref,
+} from "react";
 
+import { SvgIcon } from "coral-ui/components/icons";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 
-import Icon, { IconProps } from "../Icon";
+import { IconProps } from "../Icon";
 
 import styles from "./MessageIcon.css";
 
@@ -16,17 +22,18 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
 
   size?: IconProps["size"];
 
-  /** The name of the icon to render */
-  children: string;
+  Icon: ComponentType;
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLSpanElement>;
 }
 
 export const MessageIcon: FunctionComponent<Props> = (props) => {
-  const { classes, className, forwardRef, ...rest } = props;
+  const { classes, className, forwardRef, Icon, ...rest } = props;
   const rootClassName = cn(classes.root, className);
-  return <Icon className={rootClassName} {...rest} ref={forwardRef} />;
+  return (
+    <SvgIcon Icon={Icon} className={rootClassName} {...rest} ref={forwardRef} />
+  );
 };
 
 MessageIcon.defaultProps = {

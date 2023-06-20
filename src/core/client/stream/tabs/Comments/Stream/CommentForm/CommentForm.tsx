@@ -19,6 +19,7 @@ import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import {
   AddIcon,
+  AlarmClockIcon,
   AlertCircleIcon,
   ImageAddIcon,
   SvgIcon,
@@ -400,7 +401,7 @@ const CommentForm: FunctionComponent<Props> = ({
                   className={CLASSES.editComment.remainingTime}
                   fullWidth
                 >
-                  <MessageIcon>alarm</MessageIcon>
+                  <MessageIcon Icon={AlarmClockIcon} />
                   <Localized
                     id="comments-editCommentForm-editRemainingTime"
                     elems={{ time: <RelativeTime date={editableUntil} live /> }}

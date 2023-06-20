@@ -36,6 +36,7 @@ export { default as HyperlinkIcon } from "./HyperlinkIcon";
 export { default as ImageAddIcon } from "./ImageAddIcon";
 export { default as ImageFileLandscapeIcon } from "./ImageFileLandscapeIcon";
 export { default as InfoCircleIcon } from "./InfoCircleIcon";
+export { default as LabFlaskIcon } from "./LabFlaskIcon";
 export { default as ListBulletsIcon } from "./ListBulletsIcon";
 export { default as LockIcon } from "./LockIcon";
 export { default as MessagesBubbleSquareIcon } from "./MessagesBubbleSquareIcon";
@@ -58,6 +59,7 @@ export { default as SingleNeutralActionsAddIcon } from "./SingleNeutralActionsAd
 export { default as SingleNeutralActionsBlockIcon } from "./SingleNeutralActionsBlockIcon";
 export { default as SingleNeutralProfilePictureIcon } from "./SingleNeutralProfilePictureIcon";
 export { default as StarIcon } from "./StarIcon";
+export { default as StarHalfIcon } from "./StarHalfIcon";
 export { default as StopwatchIcon } from "./StopwatchIcon";
 export { default as StrikethroughIcon } from "./StrikethroughIcon";
 export { default as SvgIcon } from "./SvgIcon";

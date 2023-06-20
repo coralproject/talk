@@ -18,6 +18,7 @@ import CLASSES from "coral-stream/classes";
 import StarRatingIcon from "./StarRatingIcon";
 
 import styles from "./StarRating.css";
+import { StarHalfIcon, StarIcon } from "coral-ui/components/icons";
 
 interface Props {
   className?: string;
@@ -96,6 +97,7 @@ const StarRating: FunctionComponent<Props> = ({
   const stars = useMemo(() => {
     const props = {
       readOnly,
+
       name,
       onFocus: !readOnly ? onFocus : undefined,
       onBlur: !readOnly ? onBlur : undefined,
@@ -104,19 +106,20 @@ const StarRating: FunctionComponent<Props> = ({
     };
 
     return STARS.map((star) => {
+      const starType =
+        rating >= star ? "full" : rating + 0.5 >= star ? "half" : "empty";
       return (
         <StarRatingIcon
           id={`${uuid}-${star}`}
           key={star}
           checked={star === rating}
           size={size}
-          fill={
-            rating >= star
-              ? "star"
-              : rating + 0.5 >= star
-              ? "star_half"
-              : "star_border"
+          Icon={
+            starType === "full" || starType === "empty"
+              ? StarIcon
+              : StarHalfIcon
           }
+          filled={starType === "full" || starType === "half"}
           value={star}
           {...props}
         />

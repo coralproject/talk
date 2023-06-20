@@ -38,6 +38,10 @@
   margin-bottom: var(--spacing-4);
 }
 
+.error span {
+  display: inline-block;
+}
+
 .strong {
   display: inline;
 

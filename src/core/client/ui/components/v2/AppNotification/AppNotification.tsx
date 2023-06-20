@@ -1,19 +1,20 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { ComponentType, FunctionComponent } from "react";
 
-import { Button, ButtonIcon, Flex, Icon } from "coral-ui/components/v2";
+import { SvgIcon } from "coral-ui/components/icons";
+import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
 
 import styles from "./AppNotification.css";
 
 interface Props {
-  icon?: string;
+  Icon?: ComponentType;
   onClose?: () => void;
   color?: "success" | "alert" | "mono";
   children?: React.ReactNode;
 }
 
 const AppNotification: FunctionComponent<Props> = ({
-  icon,
+  Icon,
   children,
   onClose,
   color,
@@ -30,7 +31,7 @@ const AppNotification: FunctionComponent<Props> = ({
         className={styles.inner}
       >
         <Flex alignItems="center" itemGutter>
-          {icon && <Icon>{icon}</Icon>}
+          {Icon && <SvgIcon Icon={Icon} className={styles.icon} />}
           {children}
         </Flex>
         {onClose && (

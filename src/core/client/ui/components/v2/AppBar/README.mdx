@@ -5,9 +5,14 @@ menu: UI Kit v2
 
 import { Playground } from "docz";
 
+import {
+  HistoryIcon,
+  SingleNeutralProfilePictureIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+
 import { AppBar, Begin, End, Navigation, NavigationItem, Divider } from "./";
 import Flex from "../Flex";
-import Icon from "../Icon";
 import BaseButton from "../BaseButton";
 
 # AppBar
@@ -24,11 +29,11 @@ import BaseButton from "../BaseButton";
     </Begin>
     <End itemGutter>
       <BaseButton>
-        <Icon size="lg">history</Icon>
+        <SvgIcon size="lg" Icon={HistoryIcon} />
       </BaseButton>
       <Divider />
       <BaseButton>
-        <Icon size="lg">account_box</Icon>
+        <SvgIcon size="lg" Icon={SingleNeutralProfilePictureIcon} />
       </BaseButton>
     </End>
   </AppBar>
