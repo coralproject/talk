@@ -14,11 +14,13 @@ import {
 
 import {
   GQLFEATURE_FLAG,
+  GQLModerationQueue,
   GQLModerationQueuesResolvers,
   GQLSectionFilter,
-  QueryToModerationQueuesResolver,
+  Resolver,
 } from "coral-server/graph/schema/__generated__/types";
 
+import Maybe from "graphql/tsutils/Maybe";
 import GraphContext from "../context";
 import { ModerationQueueInput } from "./ModerationQueue";
 
@@ -131,12 +133,14 @@ export const sharedModerationInputResolver = async (
  * @param source the source of the payload, not used
  * @param args the args of the payload containing potentially a Story ID
  * @param ctx the GraphContext for which we can use to retrieve the shared data
+ * @todo marcushaddon: find out what the parent type should be (might be the root type)
  */
-export const moderationQueuesResolver: QueryToModerationQueuesResolver = async (
-  source,
-  args,
-  ctx
-): Promise<ModerationQueuesInput | null> => {
+export const moderationQueuesResolver: Resolver<
+  Maybe<GQLModerationQueue>,
+  {},
+  GraphContext,
+  { storyID?: string; siteID?: string; section: GQLSectionFilter }
+> = async (source, args, ctx): Promise<ModerationQueuesInput | null> => {
   if (args.storyID) {
     const story = await ctx.loaders.Stories.story.load(args.storyID);
     if (!story) {
