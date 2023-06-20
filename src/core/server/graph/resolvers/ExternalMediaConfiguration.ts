@@ -7,8 +7,9 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
+import RequiredResolver from "./RequireResolver";
 
-export const ExternalMediaConfiguration: Required<
+export const ExternalMediaConfiguration: RequiredResolver<
   GQLExternalMediaConfigurationResolvers<
     GraphContext,
     Partial<GQLExternalMediaConfiguration>

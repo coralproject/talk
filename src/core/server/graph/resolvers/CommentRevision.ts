@@ -4,13 +4,14 @@ import { Comment, Revision } from "coral-server/models/comment";
 import { GQLCommentRevisionResolvers } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
+import RequiredResolver from "./RequireResolver";
 
 export interface WrappedCommentRevision {
   revision: Revision;
   comment: Comment;
 }
 
-export const CommentRevision: Required<
+export const CommentRevision: RequiredResolver<
   GQLCommentRevisionResolvers<GraphContext, WrappedCommentRevision>
 > = {
   id: (w) => {
