@@ -1,11 +1,20 @@
 import * as user from "coral-server/models/user";
 
-import { GQLProfileResolvers } from "coral-server/graph/schema/__generated__/types";
+import {
+  // GQLProfileResolvers,
+  TypeResolveFn,
+} from "coral-server/graph/schema/__generated__/types";
 import GraphContext from "../context";
 
-const resolveType: GQLProfileResolvers<GraphContext, user.Profile> = (
-  profile
-) => {
+const resolveType: TypeResolveFn<
+  | "LocalProfile"
+  | "OIDCProfile"
+  | "SSOProfile"
+  | "FacebookProfile"
+  | "GoogleProfile",
+  user.Profile,
+  GraphContext
+> = (profile) => {
   switch (profile.type) {
     case "local":
       return "LocalProfile";
