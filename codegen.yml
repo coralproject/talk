@@ -21,6 +21,7 @@ generates:
       customResolverFn: "(parent: TParent, args: TArgs, ctx: TContext, info: GraphQLResolveInfo) => ResolverTypeWrapper<any>"
       maybeValue: "T | null | undefined"
       useInstanceSignature: true
+      makeResolverTypeCallable: true
   # src/core/client/framework/schema/__generated__/types.ts:
   #   schema:
   #     - "src/core/client/framework/lib/relay/local.graphql"
