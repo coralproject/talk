@@ -17,7 +17,7 @@ generates:
       contextType: "GraphContext"
       allowParentTypeOverride: true
       importStatement: "import GraphContext from 'coral-server/graph/context';"
-      avoidOptionals: true
+      avoidOptionals: false
       customResolverFn: "(parent: TParent, args: TArgs, ctx: TContext, info: GraphQLResolveInfo) => ResolverTypeWrapper<any>"
       maybeValue: "T | null | undefined"
       useInstanceSignature: true
