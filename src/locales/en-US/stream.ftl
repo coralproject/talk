@@ -281,6 +281,9 @@ comments-moderationDropdown-moderateStory = Moderate story
 comments-moderationDropdown-caretButton =
   .aria-label = Moderate
 
+comments-moderationDropdown-embedCode = Embed code
+comments-moderationDropdown-embedCodeCopied = Code copied
+
 comments-moderationRejectedTombstone-title = You have rejected this comment.
 comments-moderationRejectedTombstone-moderateLink =
   Go to moderate to review this decision
@@ -311,13 +314,13 @@ comments-mobileToolbar-closeButton =
 comments-mobileToolbar-unmarkAll = Mark all as read
 comments-mobileToolbar-nextUnread = Next unread
 
-comments-refreshComments-closeButton =
+comments-refreshComments-closeButton = Close
   .aria-label = Close
-comments-refreshComments-refreshButton =
+comments-refreshComments-refreshButton = Refresh comments
   .aria-label = Refresh comments
-comments-refreshQuestions-refreshButton =
+comments-refreshQuestions-refreshButton = Refresh questions
   .aria-label = Refresh questions
-  comments-refreshReviews-refreshButton =
+comments-refreshReviews-refreshButton = Refresh reviews
   .aria-label = Refresh reviews
 
 comments-replyChangedWarning-theCommentHasJust =

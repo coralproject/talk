@@ -1,3 +1,4 @@
+export * from "./commentEmbedWhitelisted";
 export * from "./csp";
 export * from "./graphql";
 export * from "./passport";

@@ -94,6 +94,7 @@ createComment.error
 - <a href="#createCommentReaction">createCommentReaction</a>
 - <a href="#createCommentReply">createCommentReply</a>
 - <a href="#editComment">editComment</a>
+- <a href="#embedInteraction">embedInteraction</a>
 - <a href="#featureComment">featureComment</a>
 - <a href="#gotoModeration">gotoModeration</a>
 - <a href="#ignoreUser">ignoreUser</a>
@@ -291,6 +292,12 @@ createComment.error
           message: string;
           code?: string | undefined;
       };
+  }
+  ```
+- <a id="embedInteraction">**embedInteraction**</a>: This event is emitted when the viewer clicks on a link in the single comment embed that goes to the comment's permalink page.
+  ```ts
+  {
+      interaction: string;
   }
   ```
 - <a id="featureComment">**featureComment.success**, **featureComment.error**</a>: This event is emitted when the viewer features a comment.

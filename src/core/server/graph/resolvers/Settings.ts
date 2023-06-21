@@ -53,4 +53,9 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
 
     return deprecated;
   },
+  embeddedComments: (
+    { embeddedComments = { allowReplies: true } },
+    args,
+    ctx
+  ) => embeddedComments,
 };

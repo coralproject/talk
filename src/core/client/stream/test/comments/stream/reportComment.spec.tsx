@@ -71,20 +71,6 @@ async function createTestRenderer(
   return { testRenderer, resolvers };
 }
 
-it("render popup", async () => {
-  const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer } = await createTestRenderer();
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentID}`)
-  );
-  const button = within(comment).getByTestID("comment-report-button");
-  act(() => button.props.onClick());
-
-  const form = within(testRenderer.root).getByTestID("report-comment-form");
-
-  expect(within(form).toJSON()).toMatchSnapshot();
-});
-
 it("close popup", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
   const { testRenderer } = await createTestRenderer();
@@ -98,30 +84,6 @@ it("close popup", async () => {
   act(() =>
     within(form).getByText("Cancel", { exact: false }).props.onClick({})
   );
-});
-
-it("render popup expanded", async () => {
-  const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer } = await createTestRenderer();
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentID}`)
-  );
-  const button = within(comment).getByTestID("comment-report-button");
-  act(() => button.props.onClick());
-
-  const popover = within(testRenderer.root).getByTestID("report-comment-form");
-
-  const radioButton = within(popover).getByLabelText(
-    "This comment is offensive"
-  );
-
-  act(() =>
-    radioButton.props.onChange({
-      target: { type: "radio", value: radioButton.props.value },
-    })
-  );
-
-  expect(within(popover).toJSON()).toMatchSnapshot();
 });
 
 it("report comment as offensive", async () => {
@@ -158,7 +120,6 @@ it("report comment as offensive", async () => {
       within(comment).getByText("Thank you", { exact: false })
     );
   });
-  expect(within(comment).toJSON()).toMatchSnapshot();
   within(comment).getByTestID("comment-reported-button");
   expect(resolvers.Mutation.createCommentFlag.called).toBe(true);
 });

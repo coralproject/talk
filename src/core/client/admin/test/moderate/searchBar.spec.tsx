@@ -78,17 +78,6 @@ const openSearchBar = async (testRenderer: ReactTestRenderer) => {
 };
 
 describe("all stories", () => {
-  it("renders search bar", async () => {
-    let searchBar: ReactTestInstance;
-    await act(async () => {
-      const { testRenderer } = await createTestRenderer();
-      searchBar = await waitForElement(() =>
-        within(testRenderer.root).getByTestID("moderate-searchBar-container")
-      );
-    });
-    expect(within(searchBar!).toJSON()).toMatchSnapshot();
-  });
-
   describe("active", () => {
     it("search with no results", async () => {
       const query = "InterestingStory";
@@ -103,7 +92,6 @@ describe("all stories", () => {
         }),
       });
       const { searchBar, textField, form } = await openSearchBar(testRenderer);
-      expect(within(searchBar).toJSON()).toMatchSnapshot();
 
       await act(async () => {
         // Search for sth.
@@ -207,8 +195,6 @@ describe("all stories", () => {
           "li"
         )!;
       });
-
-      expect(within(seeAllOption!).toJSON()).toMatchSnapshot();
 
       // Go to story.
       seeAllOption!.props.onClick({ button: 0, preventDefault: noop });

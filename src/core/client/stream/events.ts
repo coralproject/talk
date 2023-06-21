@@ -355,6 +355,15 @@ export const ShowAllRepliesEvent = createViewerNetworkEvent<{
 
 /**
  *
+ * This event is emitted when the viewer clicks on a link in the single
+ * comment embed that goes to the comment's permalink page.
+ */
+export const EmbedInteractionEvent = createViewerEvent<{ interaction: string }>(
+  "embedInteractionEvent"
+);
+
+/**
+ *
  * This event is emitted when the viewer clicks the add a comment
  * button in alternate oldest view.
  */

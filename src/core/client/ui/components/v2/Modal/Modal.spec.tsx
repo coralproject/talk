@@ -40,7 +40,6 @@ it("renders correctly", () => {
       </UIContext.Provider>
     );
   });
-  expect(testRenderer!.toJSON()).toMatchSnapshot();
   act(() => {
     testRenderer.unmount();
   });

@@ -5,6 +5,7 @@ export * from "./externalMedia";
 export * from "./health";
 export * from "./install";
 export * from "./oembed";
+export * from "./oembedService";
 export * from "./remoteMedia";
 export * from "./story";
 export * from "./user";

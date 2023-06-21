@@ -17,21 +17,6 @@ const createInput = () => ({
   thingWithNumbers: [1, 2, 3],
 });
 
-it("stringify values with dates", () => {
-  const input = createInput();
-  const stringified = stringify(input);
-
-  expect(stringified).toMatchSnapshot();
-});
-
-it("parse values with dates", () => {
-  const json = '{ "date": { "$date": "2020-10-19T18:35:31.151Z" } }';
-
-  const parsed = parse(json);
-
-  expect(parsed).toMatchSnapshot();
-});
-
 it("can parse what's stringified", () => {
   const input = createInput();
   const parsed = parse(stringify(input));

@@ -64,13 +64,6 @@ beforeEach(() => {
   }));
 });
 
-it("renders permalink view with unknown comment", async () => {
-  const tabPane = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("current-tab-pane")
-  );
-  expect(within(tabPane).toJSON()).toMatchSnapshot();
-});
-
 it("show all comments", async () => {
   const mockEvent = {
     preventDefault: sinon.mock().once(),

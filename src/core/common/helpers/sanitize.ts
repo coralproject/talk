@@ -1,6 +1,10 @@
 import createDOMPurify, { DOMPurifyI } from "dompurify";
 
-import { SARCASM_CLASSNAME, SPOILER_CLASSNAME } from "coral-common/constants";
+import {
+  LINK_CLASSNAME,
+  SARCASM_CLASSNAME,
+  SPOILER_CLASSNAME,
+} from "coral-common/constants";
 
 // TODO: Reaching directly into coral-framework for the types. Maybe having
 // types in coral-common instead? 🤔
@@ -119,6 +123,7 @@ const sanitizeAnchor = (node: Element) => {
       // Ensure we wrap all the links with the target + rel set
       node.setAttribute("target", "_blank");
       node.setAttribute("rel", "noopener noreferrer ugc");
+      node.classList.add("coral-comment-content-link");
     } else {
       // Otherwise, turn the anchor link into text corresponding to its inner html
       node.insertAdjacentText("beforebegin", node.innerHTML);
@@ -254,3 +259,62 @@ export function createSanitize(
 
   return purify.sanitize.bind(purify);
 }
+
+/**
+ * Sanitize html content and find spoiler and sarcasm tags.
+ */
+export const sanitizeAndFindFormattingTags: (
+  window: Window,
+  source: string | Node
+) => [HTMLElement, Element[], Element[], Element[], Element[]] = (() => {
+  /** Resused instance */
+  let sanitize: Sanitize | null = null;
+
+  /** Found spoiler tags during sanitization will be placed here. */
+  let spoilerTags: Element[] = [];
+  const sarcasmTags: Element[] = [];
+  const blockquoteTags: Element[] = [];
+  const linkTags: Element[] = [];
+
+  return (
+    window: Window,
+    source: string | Node
+  ): [HTMLElement, Element[], Element[], Element[], Element[]] => {
+    if (!sanitize) {
+      sanitize = createSanitize(window, {
+        // Allow all rte features to be displayed.
+        features: ALL_FEATURES,
+        modify: (purify) => {
+          // Add a hook that detects spoiler tags and adds to `spoilerTags` array
+          purify.addHook("afterSanitizeAttributes", (node) => {
+            if (
+              node.tagName === "SPAN" &&
+              node.className === SPOILER_CLASSNAME
+            ) {
+              spoilerTags.push(node);
+            }
+            if (
+              node.tagName === "SPAN" &&
+              node.className === SARCASM_CLASSNAME
+            ) {
+              sarcasmTags.push(node);
+            }
+            if (node.tagName === "BLOCKQUOTE") {
+              blockquoteTags.push(node);
+            }
+            if (node.tagName === "A" && node.className === LINK_CLASSNAME) {
+              linkTags.push(node);
+            }
+          });
+        },
+      });
+    }
+    const sanitized = sanitize(source);
+    const ret = spoilerTags;
+    const sarcasm = sarcasmTags;
+    const blockquote = blockquoteTags;
+    const links = linkTags;
+    spoilerTags = [];
+    return [sanitized, ret, sarcasm, blockquote, links];
+  };
+})();

@@ -90,6 +90,8 @@ comments-viewNew =
     *[other] Voir les {$count} nouveaux commentaires
   }
 comments-loadMore = Charger plus
+comments-loadAll = Charger tous les commentaires
+comments-loadAll-loading = Chargement...
 
 comments-permalinkPopover =
   .description = Un dialogue qui montre un lien vers le commentaire
@@ -249,6 +251,15 @@ comments-jumpToComment-GoToReply = Aller à la réponse
 
 comments-permalink-copyLink = Copier le lien
 comments-permalink-linkCopied = Lien copié
+
+comments-refreshComments-closeButton = Fermer
+  .aria-label = Fermer
+comments-refreshComments-refreshButton = Rafraîchir les commentaires
+  .aria-label = Rafraîchir les commentaires
+comments-refreshQuestions-refreshButton = Rafraîchir les questions
+  .aria-label = Rafraîchir les questions
+comments-refreshReviews-refreshButton = Rafraîchir les avis
+  .aria-label = Rafraîchir les avis
 
 ### Q&A
 

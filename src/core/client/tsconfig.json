@@ -15,6 +15,7 @@
       "coral-embed/*": ["./embed/*"],
       "coral-stream/*": ["./stream/*"],
       "coral-framework/*": ["./framework/*"],
+      "coral-oembed/*": ["./oembed/*"],
       "coral-ui/*": ["./ui/*"],
       "coral-test/*": ["./test/*"],
       "coral-common/*": ["../common/*"]

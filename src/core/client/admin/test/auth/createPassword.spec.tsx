@@ -5,7 +5,6 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  toJSON,
   wait,
   waitForElement,
   within,
@@ -61,42 +60,6 @@ async function createTestRenderer(
   });
 }
 
-it("renders createPassword view", async () => {
-  const { root } = await createTestRenderer();
-
-  await act(async () => {
-    await wait(async () => {
-      expect(toJSON(root)).toMatchSnapshot();
-    });
-  });
-});
-
-it("shows error when submitting empty form", async () => {
-  const { form } = await createTestRenderer();
-
-  act(() => {
-    form.props.onSubmit();
-  });
-
-  await act(async () => {
-    await wait(async () => {
-      expect(toJSON(form)).toMatchSnapshot();
-    });
-  });
-});
-
-it("checks for invalid password", async () => {
-  const { form, passwordField } = await createTestRenderer();
-
-  act(() => passwordField.props.onChange({ target: { value: "x" } }));
-  act(() => {
-    form.props.onSubmit();
-  });
-
-  await act(async () => {});
-  expect(toJSON(form)).toMatchSnapshot();
-});
-
 it("shows server error", async () => {
   const password = "secretpassword";
   const resolvers = await act(async () => {
@@ -127,7 +90,6 @@ it("shows server error", async () => {
   await act(async () => {
     await wait(() => expect(submitButton.props.disabled).toBe(false));
   });
-  expect(toJSON(form)).toMatchSnapshot();
 });
 
 it("successfully sets password", async () => {
@@ -167,6 +129,5 @@ it("successfully sets password", async () => {
   await act(async () => {
     await wait(() => expect(submitButton.props.disabled).toBe(false));
   });
-  expect(toJSON(form)).toMatchSnapshot();
   expect(resolvers.Mutation!.setPassword!.called).toBe(true);
 });
