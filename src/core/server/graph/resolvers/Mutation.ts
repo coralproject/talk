@@ -2,7 +2,7 @@ import { GQLMutationResolvers } from "coral-server/graph/schema/__generated__/ty
 
 import GraphContext from "../context";
 
-export const Mutation: Required<GQLMutationResolvers<GraphContext, void>> = {
+export const Mutation: Required<GQLMutationResolvers<GraphContext, {}>> = {
   editComment: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comments.edit(input),
     clientMutationId: input.clientMutationId,

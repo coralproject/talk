@@ -17,7 +17,7 @@ import GraphContext from "../context";
 import { moderationQueuesResolver } from "./ModerationQueues";
 import { setCacheHintWhenTruthy } from "./util";
 
-export const Query: Required<GQLQueryResolvers<GraphContext, void>> = {
+export const Query: Required<GQLQueryResolvers<GraphContext, {}>> = {
   story: (source, args, ctx) => ctx.loaders.Stories.find.load(args),
   stream: (source, args, ctx) =>
     ctx.tenant.stories.disableLazy
