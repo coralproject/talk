@@ -14,11 +14,11 @@ import React, {
 import { roundRating } from "coral-common/utils";
 import { useUUID } from "coral-framework/hooks";
 import CLASSES from "coral-stream/classes";
+import { StarHalfIcon, StarIcon } from "coral-ui/components/icons";
 
 import StarRatingIcon from "./StarRatingIcon";
 
 import styles from "./StarRating.css";
-import { StarHalfIcon, StarIcon } from "coral-ui/components/icons";
 
 interface Props {
   className?: string;

@@ -33,12 +33,30 @@ exports[`all stories active search with no results 1`] = `
             <div
               className="Box-root Flex-root Field-begin Flex-flex Flex-alignCenter"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-md coral coral-icon Field-searchIcon"
+              <span
+                className="SvgIcon-root SvgIcon-sm Field-searchIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                search
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.750 9.812 A9.063 9.063 0 1 0 18.876 9.812 A9.063 9.063 0 1 0 0.750 9.812 Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    transform="translate(-3.056 4.62) rotate(-23.025)"
+                  />
+                  <path
+                    d="M16.221 16.22L23.25 23.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <div
                 className="Field-beginStories"
               >
@@ -171,12 +189,22 @@ exports[`all stories active search with too many results 1`] = `
     <span>
       See all results
     </span>
-    <i
-      aria-hidden="true"
-      className="Icon-root Icon-md coral coral-icon SeeAllOption-icon"
+    <span
+      className="SvgIcon-root SvgIcon-xs SeeAllOption-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
     >
-      keyboard_arrow_right
-    </i>
+      <svg
+        viewBox="-0.25 -0.25 24.5 24.5"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5.5.75,16.22,11.47a.749.749,0,0,1,0,1.06L5.5,23.25"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
   </a>
 </li>
 `;
@@ -214,12 +242,30 @@ exports[`all stories renders search bar 1`] = `
             <div
               className="Box-root Flex-root Field-begin Flex-flex Flex-alignCenter"
             >
-              <i
-                aria-hidden="true"
-                className="Icon-root Icon-md coral coral-icon Field-searchIcon"
+              <span
+                className="SvgIcon-root SvgIcon-sm Field-searchIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
               >
-                search
-              </i>
+                <svg
+                  viewBox="-0.25 -0.25 24.5 24.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.750 9.812 A9.063 9.063 0 1 0 18.876 9.812 A9.063 9.063 0 1 0 0.750 9.812 Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    transform="translate(-3.056 4.62) rotate(-23.025)"
+                  />
+                  <path
+                    d="M16.221 16.22L23.25 23.25"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </div>
             <input
               aria-autocomplete="list"

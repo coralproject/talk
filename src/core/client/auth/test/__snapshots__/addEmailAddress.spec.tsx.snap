@@ -20,12 +20,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -42,12 +52,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -63,12 +83,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -219,12 +249,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -241,12 +281,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -262,12 +312,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -481,12 +541,22 @@ Your email address will be used to:
               <div
                 className="ListItem-leftCol"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm coral coral-icon"
+                <span
+                  className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
                 >
-                  done
-                </i>
+                  <svg
+                    viewBox="-0.25 -0.25 24.5 24.5"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
               </div>
               <div>
                 <div
@@ -503,12 +573,22 @@ Your email address will be used to:
               <div
                 className="ListItem-leftCol"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm coral coral-icon"
+                <span
+                  className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
                 >
-                  done
-                </i>
+                  <svg
+                    viewBox="-0.25 -0.25 24.5 24.5"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
               </div>
               <div>
                 <div
@@ -524,12 +604,22 @@ Your email address will be used to:
               <div
                 className="ListItem-leftCol"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm coral coral-icon"
+                <span
+                  className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
                 >
-                  done
-                </i>
+                  <svg
+                    viewBox="-0.25 -0.25 24.5 24.5"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
               </div>
               <div>
                 <div
@@ -644,12 +734,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -666,12 +766,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -687,12 +797,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -883,12 +1003,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -905,12 +1035,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -926,12 +1066,22 @@ Your email address will be used to:
       <div
         className="ListItem-leftCol"
       >
-        <i
-          aria-hidden="true"
-          className="Icon-root Icon-sm coral coral-icon"
+        <span
+          className="SvgIcon-root SvgIcon-xs SvgIcon-strokeWidthRegular SvgIcon-noFill"
         >
-          done
-        </i>
+          <svg
+            viewBox="-0.25 -0.25 24.5 24.5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.25.749,8.158,22.308a2.2,2.2,0,0,1-3.569.059L.75,17.249"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </div>
       <div>
         <div
@@ -954,12 +1104,34 @@ Your email address will be used to:
         <div
           className="CallOut-icon CallOut-error CallOut-leftIcon"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-sm coral coral-icon"
+          <span
+            className="SvgIcon-root SvgIcon-sm SvgIcon-strokeWidthRegular SvgIcon-noFill"
           >
-            error
-          </i>
+            <svg
+              viewBox="-0.25 -0.25 24.5 24.5"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 17.25C11.7929 17.25 11.625 17.0821 11.625 16.875C11.625 16.6679 11.7929 16.5 12 16.5"
+                stroke="currentColor"
+              />
+              <path
+                d="M12 17.25C12.2071 17.25 12.375 17.0821 12.375 16.875C12.375 16.6679 12.2071 16.5 12 16.5"
+                stroke="currentColor"
+              />
+              <path
+                d="M12 13.5V5.25"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeMiterlimit="10"
+              />
+              <path
+                d="M12 23.25C18.2132 23.25 23.25 18.2132 23.25 12C23.25 5.7868 18.2132 0.75 12 0.75C5.7868 0.75 0.75 5.7868 0.75 12C0.75 18.2132 5.7868 23.25 12 23.25Z"
+                stroke="currentColor"
+                strokeMiterlimit="10"
+              />
+            </svg>
+          </span>
         </div>
         <div
           className="CallOut-content"

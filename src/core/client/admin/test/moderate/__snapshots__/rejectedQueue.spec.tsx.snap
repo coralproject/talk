@@ -113,12 +113,73 @@ exports[`approves comment in rejected queue: dangling 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
+            <span
+              className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              question_answer
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs />
+                <title>
+                  conversation-chat-text
+                </title>
+                <path
+                  d="M8.25,18l-3,2.25v-4.5h-3a1.5,1.5,0,0,1-1.5-1.5v-12A1.5,1.5,0,0,1,2.25.75h16.5a1.5,1.5,0,0,1,1.5,1.5v4.5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  x1="5.25"
+                  x2="15.75"
+                  y1="5.25"
+                  y2="5.25"
+                />
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  x1="5.25"
+                  x2="8.25"
+                  y1="9.75"
+                  y2="9.75"
+                />
+                <polygon
+                  fill="none"
+                  points="23.25 18.75 20.25 18.75 20.25 23.25 15.75 18.75 11.25 18.75 11.25 9.75 23.25 9.75 23.25 18.75"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  x1="20.25"
+                  x2="14.25"
+                  y1="12.75"
+                  y2="12.75"
+                />
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  x1="20.25"
+                  x2="14.25"
+                  y1="15.75"
+                  y2="15.75"
+                />
+              </svg>
+            </span>
             <span>
               View Conversation
             </span>
@@ -258,12 +319,21 @@ exports[`approves comment in rejected queue: dangling 1`] = `
                 >
                   Details
                 </span>
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
+                <span
+                  className="SvgIcon-root SvgIcon-xxs ButtonSvgIcon-root Markers-detailsButtonIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                 >
-                  arrow_drop_down
-                </i>
+                  <svg
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M23.25 7.311L12.53 18.03C12.4604 18.0997 12.3778 18.1549 12.2869 18.1926C12.1959 18.2304 12.0984 18.2498 12 18.2498C11.9016 18.2498 11.8041 18.2304 11.7131 18.1926C11.6222 18.1549 11.5396 18.0997 11.47 18.03L0.75 7.311"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
               </button>
             </div>
           </div>
@@ -462,12 +532,73 @@ exports[`renders rejected queue with comments 1`] = `
                   onTouchEnd={[Function]}
                   type="button"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
+                  <span
+                    className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root SvgIcon-strokeWidthRegular SvgIcon-noFill"
                   >
-                    question_answer
-                  </i>
+                    <svg
+                      viewBox="-0.25 -0.25 24.5 24.5"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <defs />
+                      <title>
+                        conversation-chat-text
+                      </title>
+                      <path
+                        d="M8.25,18l-3,2.25v-4.5h-3a1.5,1.5,0,0,1-1.5-1.5v-12A1.5,1.5,0,0,1,2.25.75h16.5a1.5,1.5,0,0,1,1.5,1.5v4.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <line
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        x1="5.25"
+                        x2="15.75"
+                        y1="5.25"
+                        y2="5.25"
+                      />
+                      <line
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        x1="5.25"
+                        x2="8.25"
+                        y1="9.75"
+                        y2="9.75"
+                      />
+                      <polygon
+                        fill="none"
+                        points="23.25 18.75 20.25 18.75 20.25 23.25 15.75 18.75 11.25 18.75 11.25 9.75 23.25 9.75 23.25 18.75"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <line
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        x1="20.25"
+                        x2="14.25"
+                        y1="12.75"
+                        y2="12.75"
+                      />
+                      <line
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        x1="20.25"
+                        x2="14.25"
+                        y1="15.75"
+                        y2="15.75"
+                      />
+                    </svg>
+                  </span>
                   <span>
                     View Conversation
                   </span>
@@ -607,12 +738,21 @@ exports[`renders rejected queue with comments 1`] = `
                       >
                         Details
                       </span>
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
+                      <span
+                        className="SvgIcon-root SvgIcon-xxs ButtonSvgIcon-root Markers-detailsButtonIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
-                        arrow_drop_down
-                      </i>
+                        <svg
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M23.25 7.311L12.53 18.03C12.4604 18.0997 12.3778 18.1549 12.2869 18.1926C12.1959 18.2304 12.0984 18.2498 12 18.2498C11.9016 18.2498 11.8041 18.2304 11.7131 18.1926C11.6222 18.1549 11.5396 18.0997 11.47 18.03L0.75 7.311"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -857,12 +997,73 @@ exports[`renders rejected queue with comments 1`] = `
                   onTouchEnd={[Function]}
                   type="button"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
+                  <span
+                    className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root SvgIcon-strokeWidthRegular SvgIcon-noFill"
                   >
-                    question_answer
-                  </i>
+                    <svg
+                      viewBox="-0.25 -0.25 24.5 24.5"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <defs />
+                      <title>
+                        conversation-chat-text
+                      </title>
+                      <path
+                        d="M8.25,18l-3,2.25v-4.5h-3a1.5,1.5,0,0,1-1.5-1.5v-12A1.5,1.5,0,0,1,2.25.75h16.5a1.5,1.5,0,0,1,1.5,1.5v4.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <line
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        x1="5.25"
+                        x2="15.75"
+                        y1="5.25"
+                        y2="5.25"
+                      />
+                      <line
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        x1="5.25"
+                        x2="8.25"
+                        y1="9.75"
+                        y2="9.75"
+                      />
+                      <polygon
+                        fill="none"
+                        points="23.25 18.75 20.25 18.75 20.25 23.25 15.75 18.75 11.25 18.75 11.25 9.75 23.25 9.75 23.25 18.75"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <line
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        x1="20.25"
+                        x2="14.25"
+                        y1="12.75"
+                        y2="12.75"
+                      />
+                      <line
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        x1="20.25"
+                        x2="14.25"
+                        y1="15.75"
+                        y2="15.75"
+                      />
+                    </svg>
+                  </span>
                   <span>
                     View Conversation
                   </span>
@@ -954,12 +1155,21 @@ exports[`renders rejected queue with comments 1`] = `
                       >
                         Details
                       </span>
-                      <i
-                        aria-hidden="true"
-                        className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
+                      <span
+                        className="SvgIcon-root SvgIcon-xxs ButtonSvgIcon-root Markers-detailsButtonIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                       >
-                        arrow_drop_down
-                      </i>
+                        <svg
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M23.25 7.311L12.53 18.03C12.4604 18.0997 12.3778 18.1549 12.2869 18.1926C12.1959 18.2304 12.0984 18.2498 12 18.2498C11.9016 18.2498 11.8041 18.2304 11.7131 18.1926C11.6222 18.1549 11.5396 18.0997 11.47 18.03L0.75 7.311"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -1161,12 +1371,73 @@ exports[`renders rejected queue with comments and load more 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            <i
-              aria-hidden="true"
-              className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
+            <span
+              className="SvgIcon-root SvgIcon-sm ButtonSvgIcon-root SvgIcon-strokeWidthRegular SvgIcon-noFill"
             >
-              question_answer
-            </i>
+              <svg
+                viewBox="-0.25 -0.25 24.5 24.5"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs />
+                <title>
+                  conversation-chat-text
+                </title>
+                <path
+                  d="M8.25,18l-3,2.25v-4.5h-3a1.5,1.5,0,0,1-1.5-1.5v-12A1.5,1.5,0,0,1,2.25.75h16.5a1.5,1.5,0,0,1,1.5,1.5v4.5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  x1="5.25"
+                  x2="15.75"
+                  y1="5.25"
+                  y2="5.25"
+                />
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  x1="5.25"
+                  x2="8.25"
+                  y1="9.75"
+                  y2="9.75"
+                />
+                <polygon
+                  fill="none"
+                  points="23.25 18.75 20.25 18.75 20.25 23.25 15.75 18.75 11.25 18.75 11.25 9.75 23.25 9.75 23.25 18.75"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  x1="20.25"
+                  x2="14.25"
+                  y1="12.75"
+                  y2="12.75"
+                />
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  x1="20.25"
+                  x2="14.25"
+                  y1="15.75"
+                  y2="15.75"
+                />
+              </svg>
+            </span>
             <span>
               View Conversation
             </span>
@@ -1271,12 +1542,21 @@ exports[`renders rejected queue with comments and load more 1`] = `
                 >
                   Details
                 </span>
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm coral coral-icon ButtonIcon-root"
+                <span
+                  className="SvgIcon-root SvgIcon-xxs ButtonSvgIcon-root Markers-detailsButtonIcon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                 >
-                  arrow_drop_down
-                </i>
+                  <svg
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M23.25 7.311L12.53 18.03C12.4604 18.0997 12.3778 18.1549 12.2869 18.1926C12.1959 18.2304 12.0984 18.2498 12 18.2498C11.9016 18.2498 11.8041 18.2304 11.7131 18.1926C11.6222 18.1549 11.5396 18.0997 11.47 18.03L0.75 7.311"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
               </button>
             </div>
           </div>

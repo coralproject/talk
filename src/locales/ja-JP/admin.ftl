@@ -209,7 +209,7 @@ configure-moderationPhases-noExternalModerationPhases =
   外部モデレーションフェイズは、構成されていません。上に追加してください。
 configure-moderationPhases-enabledModerationPhase = 有効
 configure-moderationPhases-disableModerationPhase = 無効
-configure-moderationPhases-detailsButton = 詳細を確認するには <icon/>
+configure-moderationPhases-detailsButton = 詳細を確認するには <icon></icon>
 configure-moderationPhases-addExternalModerationPhase = 外部モデレーションフェイズを追加する
 configure-moderationPhases-updateExternalModerationPhaseButton = アップデートの詳細
 configure-moderationPhases-cancelButton = キャンセル
@@ -361,7 +361,7 @@ configure-webhooks-expiresOldSecretHoursFromNow =
     [1] 1時間後
     *[other] { $hours } 時間後
   }  今から
-configure-webhooks-detailsButton = 詳細を確認するには<icon/>
+configure-webhooks-detailsButton = 詳細を確認するには<icon></icon>
 
 ### General
 configure-general-guidelines-title = コミュニティガイドラインの概要

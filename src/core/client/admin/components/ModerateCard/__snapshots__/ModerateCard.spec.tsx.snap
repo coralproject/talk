@@ -63,9 +63,9 @@ exports[`renders approved correctly 1`] = `
             onClick={[Function]}
             variant="text"
           >
-            <ForwardRef(forwardRef)>
-              question_answer
-            </ForwardRef(forwardRef)>
+            <ForwardRef(forwardRef)
+              Icon={[Function]}
+            />
             <Localized
               id="moderate-comment-viewConversation"
             >
@@ -193,9 +193,9 @@ exports[`renders correctly 1`] = `
             onClick={[Function]}
             variant="text"
           >
-            <ForwardRef(forwardRef)>
-              question_answer
-            </ForwardRef(forwardRef)>
+            <ForwardRef(forwardRef)
+              Icon={[Function]}
+            />
             <Localized
               id="moderate-comment-viewConversation"
             >
@@ -322,9 +322,9 @@ exports[`renders dangling correctly 1`] = `
             onClick={[Function]}
             variant="text"
           >
-            <ForwardRef(forwardRef)>
-              question_answer
-            </ForwardRef(forwardRef)>
+            <ForwardRef(forwardRef)
+              Icon={[Function]}
+            />
             <Localized
               id="moderate-comment-viewConversation"
             >
@@ -453,9 +453,9 @@ exports[`renders rejected correctly 1`] = `
             onClick={[Function]}
             variant="text"
           >
-            <ForwardRef(forwardRef)>
-              question_answer
-            </ForwardRef(forwardRef)>
+            <ForwardRef(forwardRef)
+              Icon={[Function]}
+            />
             <Localized
               id="moderate-comment-viewConversation"
             >
@@ -588,9 +588,9 @@ exports[`renders reply correctly 1`] = `
             onClick={[Function]}
             variant="text"
           >
-            <ForwardRef(forwardRef)>
-              question_answer
-            </ForwardRef(forwardRef)>
+            <ForwardRef(forwardRef)
+              Icon={[Function]}
+            />
             <Localized
               id="moderate-comment-viewConversation"
             >
@@ -717,9 +717,9 @@ exports[`renders story info 1`] = `
             onClick={[Function]}
             variant="text"
           >
-            <ForwardRef(forwardRef)>
-              question_answer
-            </ForwardRef(forwardRef)>
+            <ForwardRef(forwardRef)
+              Icon={[Function]}
+            />
             <Localized
               id="moderate-comment-viewConversation"
             >
@@ -894,9 +894,9 @@ exports[`renders tombstoned when comment is deleted 1`] = `
             onClick={[Function]}
             variant="text"
           >
-            <ForwardRef(forwardRef)>
-              question_answer
-            </ForwardRef(forwardRef)>
+            <ForwardRef(forwardRef)
+              Icon={[Function]}
+            />
             <Localized
               id="moderate-comment-viewConversation"
             >

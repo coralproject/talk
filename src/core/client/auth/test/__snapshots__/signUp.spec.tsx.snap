@@ -163,12 +163,29 @@ exports[`auth configuration renders all auth enabled 1`] = `
         <div
           className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
         >
-          <i
-            aria-hidden="true"
-            className="Icon-root Icon-md coral coral-icon SignUpWithEmail-icon"
+          <span
+            className="SvgIcon-root SvgIcon-md SignUpWithEmail-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
           >
-            email
-          </i>
+            <svg
+              viewBox="-0.25 -0.25 24.5 24.5"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.500 4.750 L22.500 4.750 L22.500 19.750 L1.500 19.750 Z"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M22.161,5.3l-8.144,6.264a3.308,3.308,0,0,1-4.034,0L1.839,5.3"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
           <span>
             Sign up with Email
           </span>
@@ -573,12 +590,29 @@ exports[`renders sign up form 1`] = `
               <div
                 className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter"
               >
-                <i
-                  aria-hidden="true"
-                  className="Icon-root Icon-md coral coral-icon SignUpWithEmail-icon"
+                <span
+                  className="SvgIcon-root SvgIcon-md SignUpWithEmail-icon SvgIcon-strokeWidthRegular SvgIcon-noFill"
                 >
-                  email
-                </i>
+                  <svg
+                    viewBox="-0.25 -0.25 24.5 24.5"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.500 4.750 L22.500 4.750 L22.500 19.750 L1.500 19.750 Z"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M22.161,5.3l-8.144,6.264a3.308,3.308,0,0,1-4.034,0L1.839,5.3"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
                 <span>
                   Sign up with Email
                 </span>

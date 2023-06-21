@@ -1,6 +1,7 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
+import { AlertTriangleIcon } from "coral-ui/components/icons";
 import { PropTypesOf } from "coral-ui/types";
 
 import Message from "./Message";
@@ -18,7 +19,8 @@ it("renders correctly", () => {
 it("renders icon", () => {
   const renderer = TestRenderer.create(
     <Message>
-      <MessageIcon>alert</MessageIcon>Alert Message
+      <MessageIcon Icon={AlertTriangleIcon} />
+      Alert Message
     </Message>
   );
   expect(renderer.toJSON()).toMatchSnapshot();
