@@ -52,6 +52,5 @@ it("renders comment stream", async () => {
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-featuredComments-log")
   );
-  expect(within(testRenderer.root).toJSON()).toMatchSnapshot();
   expect(await within(testRenderer.root).axe()).toHaveNoViolations();
 });

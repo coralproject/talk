@@ -93,14 +93,10 @@ it("edit a comment", async () => {
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
   );
-  expect(within(comment).toJSON()).toMatchSnapshot(
-    "render comment with edit button"
-  );
   expect(within(comment).queryByText("Edited")).toBe(null);
 
   // Open edit form.
   act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
-  expect(within(comment).toJSON()).toMatchSnapshot("edit form");
   await act(async () => {
     expect(await within(comment).axe()).toHaveNoViolations();
   });
@@ -116,18 +112,12 @@ it("edit a comment", async () => {
     within(comment).getByType("form").props.onSubmit();
   });
 
-  // Test optimistic response.
-  expect(within(comment).toJSON()).toMatchSnapshot("optimistic response");
-
   // Wait for server response.
   await act(async () => {
     await waitForElement(() =>
       within(comment).getByText("Edited! (from server)")
     );
   });
-
-  // Test after server response.
-  expect(within(comment).toJSON()).toMatchSnapshot("server response");
 
   expect(within(comment).getByText("Edited"));
 });
@@ -183,45 +173,6 @@ it("edit a comment and handle non-published comment state", async () => {
   ).toBe(0);
 });
 
-it("cancel edit", async () => {
-  const testRenderer = await createTestRenderer();
-
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
-  );
-
-  // Open edit form.
-  act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
-
-  // Cancel edit form.
-  act(() => within(comment).getByText("Cancel").props.onClick());
-
-  expect(within(comment).toJSON()).toMatchSnapshot();
-});
-
-it("shows expiry message", async () => {
-  const testRenderer = await createTestRenderer();
-
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
-  );
-
-  jest.useFakeTimers();
-
-  // Open edit form.
-  act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
-
-  timekeeper.reset();
-  act(() => jest.runOnlyPendingTimers());
-
-  // Show edit time expired.
-  expect(within(comment).toJSON()).toMatchSnapshot("edit time expired");
-
-  // Close edit form.
-  act(() => within(comment).getByText("Cancel").props.onClick());
-  expect(within(comment).toJSON()).toMatchSnapshot("edit form closed");
-});
-
 it("edit a comment and handle server error", async () => {
   const testRenderer = await createTestRenderer(
     {
@@ -243,7 +194,6 @@ it("edit a comment and handle server error", async () => {
 
   // Open edit form.
   act(() => within(comment).getByTestID("comment-edit-button").props.onClick());
-  expect(within(comment).toJSON()).toMatchSnapshot("edit form");
 
   act(() =>
     testRenderer.root

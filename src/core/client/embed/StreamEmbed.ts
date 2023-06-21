@@ -10,6 +10,7 @@ import {
   withLiveCommentCount,
   withSetCommentID,
 } from "./decorators";
+import injectCommentEmbedScriptIfNeeded from "./injectCommentEmbedScriptIfNeeded";
 import injectCountScriptIfNeeded from "./injectCountScriptIfNeeded";
 import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 
@@ -129,6 +130,9 @@ export class StreamEmbed {
 
     // Detect if comment count injection is needed and add the count script.
     injectCountScriptIfNeeded(config.rootURL, this.ts);
+
+    // Detect if comment embed injection is needed and add the comment embed script.
+    injectCommentEmbedScriptIfNeeded(config.rootURL, this.ts);
 
     if (config.commentID) {
       // Delay emit of `showPermalink` event to allow user enough time to setup

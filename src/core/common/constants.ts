@@ -97,6 +97,11 @@ export const SPOILER_CLASSNAME = "coral-rte-spoiler";
 export const SARCASM_CLASSNAME = "coral-rte-sarcasm";
 
 /**
+ * LINK_CLASSNAME is the classname that is attached to links within comments.
+ */
+export const LINK_CLASSNAME = "coral-comment-content-link";
+
+/**
  * MAX_BIO_LENGTH is the maximum length of a user bio in characters
  */
 export const MAX_BIO_LENGTH = 100;

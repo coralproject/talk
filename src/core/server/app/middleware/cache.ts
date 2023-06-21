@@ -61,27 +61,31 @@ const cacheMiddleware =
     log.debug("request was not in the cache");
 
     const send = res.send.bind(res);
+
     res.send = (body) => {
       // Send the response to the client.
       const ret = send(body);
 
-      // Create a new cache entry.
-      entry = {
-        headers: res.getHeaders(),
-        status: res.statusCode,
-        body,
-        createdAt: Date.now(),
-      };
+      // only cache responses with content-type header included
+      if ("content-type" in res.getHeaders()) {
+        // Create a new cache entry.
+        entry = {
+          headers: res.getHeaders(),
+          status: res.statusCode,
+          body,
+          createdAt: Date.now(),
+        };
 
-      // Add it in Redis.
-      redis
-        .set(key, JSON.stringify(entry), "PX", ttl)
-        .then(() => {
-          log.debug("request added to cache");
-        })
-        .catch((err) => {
-          log.error({ err }, "could not add request to cache");
-        });
+        // Add it in Redis.
+        redis
+          .set(key, JSON.stringify(entry), "PX", ttl)
+          .then(() => {
+            log.debug("request added to cache");
+          })
+          .catch((err) => {
+            log.error({ err }, "could not add request to cache");
+          });
+      }
 
       return ret;
     };

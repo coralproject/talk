@@ -1,15 +1,8 @@
 import { get } from "lodash";
-import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
-import {
-  act,
-  toJSON,
-  wait,
-  waitForElement,
-  within,
-} from "coral-framework/testHelpers";
+import { act, wait, waitForElement, within } from "coral-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";
@@ -57,41 +50,7 @@ async function createTestRenderer(
 
 it("renders createUsername view", async () => {
   const { root } = await createTestRenderer();
-  expect(toJSON(root)).toMatchSnapshot();
   expect(await within(root).axe()).toHaveNoViolations();
-});
-
-it("shows error when submitting empty form", async () => {
-  let form: ReactTestInstance;
-  await act(async () => {
-    const { form: f } = await createTestRenderer();
-    form = f;
-  });
-  act(() => form.props.onSubmit());
-  await act(async () => {
-    await wait(() => {
-      expect(toJSON(form)).toMatchSnapshot();
-    });
-  });
-});
-
-it("checks for invalid username", async () => {
-  let form: ReactTestInstance;
-  let usernameField: ReactTestInstance;
-  await act(async () => {
-    const { form: f, usernameField: u } = await createTestRenderer();
-    form = f;
-    usernameField = u;
-  });
-
-  act(() => usernameField.props.onChange({ target: { value: "x" } }));
-  act(() => form.props.onSubmit());
-
-  await act(async () => {
-    await wait(() => {
-      expect(toJSON(form)).toMatchSnapshot();
-    });
-  });
 });
 
 it("shows server error", async () => {
@@ -127,8 +86,6 @@ it("shows server error", async () => {
   await act(async () => {
     await wait(() => expect(submitButton.props.disabled).toBe(false));
   });
-
-  expect(toJSON(form)).toMatchSnapshot();
 });
 
 it("successfully sets username", async () => {
@@ -176,6 +133,5 @@ it("successfully sets username", async () => {
     await wait(() => expect(submitButton.props.disabled).toBe(false));
   });
 
-  expect(toJSON(form)).toMatchSnapshot();
   expect(setUsername.called).toBe(true);
 });

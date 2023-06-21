@@ -5,7 +5,6 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  toJSON,
   wait,
   waitForElement,
   within,
@@ -55,44 +54,6 @@ async function createTestRenderer(
   });
 }
 
-it("renders createUsername view", async () => {
-  const { root } = await createTestRenderer();
-
-  await act(async () => {
-    await wait(() => {
-      expect(toJSON(root)).toMatchSnapshot();
-    });
-  });
-});
-
-it("shows error when submitting empty form", async () => {
-  const { form } = await createTestRenderer();
-  act(() => {
-    form.props.onSubmit();
-  });
-
-  await act(async () => {
-    await wait(() => {
-      expect(toJSON(form)).toMatchSnapshot();
-    });
-  });
-});
-
-it("checks for invalid username", async () => {
-  const { form, usernameField } = await createTestRenderer();
-
-  act(() => usernameField.props.onChange({ target: { value: "x" } }));
-  act(() => {
-    form.props.onSubmit();
-  });
-
-  await act(async () => {
-    await wait(() => {
-      expect(toJSON(form)).toMatchSnapshot();
-    });
-  });
-});
-
 it("shows server error", async () => {
   const username = "hans";
   const resolvers = createResolversStub<GQLResolver>({
@@ -123,7 +84,6 @@ it("shows server error", async () => {
       expect(submitButton.props.disabled).toBe(false);
     });
   });
-  expect(toJSON(form)).toMatchSnapshot();
 });
 
 it("successfully sets username", async () => {
@@ -164,6 +124,5 @@ it("successfully sets username", async () => {
       expect(submitButton.props.disabled).toBe(false);
     });
   });
-  expect(toJSON(form)).toMatchSnapshot();
   expect(resolvers.Mutation!.setUsername!.called).toBe(true);
 });

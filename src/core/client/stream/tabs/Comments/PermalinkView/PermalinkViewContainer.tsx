@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
+import { parseQuery } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
@@ -16,10 +17,14 @@ import {
   useSubscription,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import { parseURL } from "coral-framework/utils";
 import CLASSES from "coral-stream/classes";
 import scrollToBeginning from "coral-stream/common/scrollToBeginning";
 import UserBoxContainer from "coral-stream/common/UserBox";
-import { ViewFullDiscussionEvent } from "coral-stream/events";
+import {
+  EmbedInteractionEvent,
+  ViewFullDiscussionEvent,
+} from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import ReplyListContainer from "coral-stream/tabs/Comments/ReplyList";
 import { CommentEnteredSubscription } from "coral-stream/tabs/Comments/Stream/Subscriptions";
@@ -79,6 +84,24 @@ const PermalinkViewContainer: FunctionComponent<Props> = (props) => {
       100
     );
   }, [root, renderWindow, customScrollContainer]);
+
+  const emitEmbedInteractionEvent = useCallback(
+    (interaction: string) => {
+      EmbedInteractionEvent.emit(eventEmitter, {
+        interaction,
+      });
+    },
+    [eventEmitter]
+  );
+
+  useEffect(() => {
+    const parsedURL = parseURL(window.location.href);
+    const query = parseQuery(parsedURL.search);
+    const embedInteraction = query.embedInteraction;
+    if (embedInteraction) {
+      emitEmbedInteractionEvent(embedInteraction);
+    }
+  }, [window.location.href, emitEmbedInteractionEvent]);
 
   const onShowAllComments = useCallback(
     (e: MouseEvent<any>) => {

@@ -16,12 +16,14 @@ const OEmbedQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
   type: Joi.string().allow("twitter", "youtube").only(),
   maxWidth: Joi.number().optional(),
+  commentID: Joi.string().optional(),
 });
 
 interface OEmbedQuery {
   type: "twitter" | "youtube";
   url: string;
   maxWidth?: number;
+  commentID?: string;
 }
 
 type Options = Pick<AppOptions, "i18n" | "config">;
@@ -47,7 +49,7 @@ export const oembedHandler = ({
     }
 
     try {
-      const { type, url, maxWidth }: OEmbedQuery = validate(
+      const { type, url, maxWidth, commentID }: OEmbedQuery = validate(
         OEmbedQuerySchema,
         req.query
       );
@@ -109,7 +111,7 @@ export const oembedHandler = ({
       }
 
       // Send back the template!
-      return res.render("oembed", { html, ratio, entrypoint });
+      return res.render("oembed", { html, ratio, commentID, entrypoint });
     } catch (err) {
       next(err);
     }

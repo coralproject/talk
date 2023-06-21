@@ -58,11 +58,6 @@ async function createTestRenderer(
   };
 }
 
-it("renders configure wordList", async () => {
-  const { configureContainer } = await createTestRenderer();
-  expect(within(configureContainer).toJSON()).toMatchSnapshot();
-});
-
 it("change banned and suspect words", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {

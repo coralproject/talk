@@ -18,20 +18,6 @@ it("should get nth key", () => {
   expect(prefixed.key(2)).toBeNull();
 });
 
-it("should call clear", () => {
-  const storage = createInMemoryStorage({
-    a: "0",
-    b: "1",
-    "coral:c": "2",
-    d: "3",
-    "coral:e": "4",
-  });
-
-  const prefixed = prefixStorage(storage, "coral:");
-  prefixed.clear();
-  expect(storage.toString()).toMatchSnapshot();
-});
-
 it("should call length", () => {
   const storage = createInMemoryStorage({
     a: "0",

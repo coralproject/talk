@@ -47,6 +47,9 @@ export default {
   appEmbedAMPHTML: resolveSrc("core/client/embed/amp.html"),
   appEmbedStoryAMPHTML: resolveSrc("core/client/embed/storyAMP.html"),
 
+  appOEmbedIndex: resolveSrc("core/client/oembed/index.ts"),
+  appCommentEmbedHTML: resolveSrc("core/client/oembed/commentEmbed.html"),
+
   appDistStatic: resolveApp("dist/static"),
   appPublic: resolveApp("public"),
   appPackageJson: resolveApp("package.json"),
