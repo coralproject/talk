@@ -43,7 +43,7 @@
     "generate:schema": "node ./scripts/generateSchemaTypes.js",
     "generate:schema:v2": "graphql-codegen --config codegen.yml",
     "generate:supportedBrowsersRegExp": "ts-node --transpile-only ./scripts/generateSupportedBrowsersRegExp.ts ./src/core/client/framework/helpers/supportedBrowsersRegExp.ts",
-    "generate": "npm-run-all generate:css-types generate:relay && echo 'TODO: generate types as part of npm generate script'",
+    "generate": "npm-run-all generate:css-types generate:relay generate:schema:v2",
     "job-pods:up": "docker-compose up -d",
     "job-pods:down": "docker-compose down",
     "lint-fix": "npm run lint:server -- --fix && npm run lint:client -- --fix && npm run lint:scripts -- --fix",
