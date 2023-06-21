@@ -1,10 +1,16 @@
 import * as comment from "coral-server/models/comment";
 
-import { GQLCommentMediaResolvers } from "coral-server/graph/schema/__generated__/types";
+import { TypeResolveFn } from "coral-server/graph/schema/__generated__/types";
 
-import GraphContext from "../context";
+type CommentMediaType =
+  | "GiphyMedia"
+  | "YouTubeMedia"
+  | "TwitterMedia"
+  | "ExternalMedia";
 
-const resolveType: GQLCommentMediaResolvers<comment.CommentMedia> = (embed) => {
+const resolveType: TypeResolveFn<CommentMediaType, comment.CommentMedia> = (
+  embed
+) => {
   switch (embed.type) {
     case "giphy":
       return "GiphyMedia";
