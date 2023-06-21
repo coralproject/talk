@@ -214,7 +214,7 @@ configure-moderationPhases-noExternalModerationPhases =
   There are no external moderation phases configured, add one above.
 configure-moderationPhases-enabledModerationPhase = Enabled
 configure-moderationPhases-disableModerationPhase = Disabled
-configure-moderationPhases-detailsButton = Details <icon>keyboard_arrow_right</icon>
+configure-moderationPhases-detailsButton = Details <icon/>
 configure-moderationPhases-addExternalModerationPhase = Add external moderation phase
 configure-moderationPhases-updateExternalModerationPhaseButton = Update details
 configure-moderationPhases-cancelButton = Cancel
@@ -384,7 +384,7 @@ configure-webhooks-expiresOldSecretHoursFromNow =
     [1] 1 hour
     *[other] { $hours } hours
   }  from now
-configure-webhooks-detailsButton = Details <icon>keyboard_arrow_right</icon>
+configure-webhooks-detailsButton = Details <icon/>
 
 ### General
 configure-general-guidelines-title = Community guidelines summary
@@ -517,7 +517,7 @@ configure-organization-nameExplanation =
   Your organization name will appear on emails sent by { -product-name } to your community and organization members.
 configure-organization-sites-explanation =
   Add a new site to your organization or edit an existing site's details.
-configure-organization-sites-add-site = <icon>add</icon> Add site
+configure-organization-sites-add-site = <icon/> Add site
 configure-organization-email = Organization email
 configure-organization-emailExplanation =
   This email address will be used as in emails and across the platform
@@ -529,7 +529,7 @@ configure-organization-urlExplanation =
   Your organization url will appear on emails sent by { -product-name } to your community and organization members.
 
 ### Sites
-configure-sites-site-details = Details <icon>keyboard_arrow_right</icon>
+configure-sites-site-details = Details <icon/>
 configure-sites-add-new-site = Add a new site to { $site }
 configure-sites-add-success = { $site } has been added to { $org }
 configure-sites-edit-success = Changes to { $site } have been saved.
@@ -541,7 +541,7 @@ configure-sites-site-form-email = Site email address
 configure-sites-site-form-url-explanation = This email address is for community members to contact you with questions or if they need help. e.g. comments@yoursite.com
 configure-sites-site-form-domains = Site permitted domains
 configure-sites-site-form-domains-explanation = Domains where your Coral comment streams are allowed to be embedded (ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
-configure-sites-site-form-submit = <icon>add</icon> Add site
+configure-sites-site-form-submit = <icon/> Add site
 configure-sites-site-form-cancel = Cancel
 configure-sites-site-form-save = Save changes
 configure-sites-site-edit = Edit { $site } details
@@ -836,11 +836,11 @@ configure-moderation-emailDomains-header = Email domain
 configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain. Action only applies to newly created accounts.
 configure-moderation-emailDomains-add = Add email domain
 configure-moderation-emailDomains-edit = Edit email domain
-configure-moderation-emailDomains-addDomain = <icon>add</icon> Add domain
+configure-moderation-emailDomains-addDomain = <icon/> Add domain
 configure-moderation-emailDomains-table-domain = Domain
 configure-moderation-emailDomains-table-action = Action
-configure-moderation-emailDomains-table-edit = <icon>edit</icon> Edit
-configure-moderation-emailDomains-table-delete = <icon>delete</icon> Delete
+configure-moderation-emailDomains-table-edit = <icon/> Edit
+configure-moderation-emailDomains-table-delete = <icon/> Delete
 configure-moderation-emailDomains-form-label-domain = Domain
 configure-moderation-emailDomains-form-label-moderationAction = Moderation action
 configure-moderation-emailDomains-banAllUsers = Ban all new commenter accounts
@@ -1114,7 +1114,7 @@ moderate-user-drawer-username-not-available = Username not available
 moderate-user-drawer-username-not-available-tooltip-title = Username not available
 moderate-user-drawer-username-not-available-tooltip-body = User did not complete account setup process
 
-moderate-user-drawer-account-history-system = <icon>computer</icon> System
+moderate-user-drawer-account-history-system = <icon/> System
 moderate-user-drawer-account-history-suspension-ended = Suspension ended
 moderate-user-drawer-account-history-suspension-removed = Suspension removed
 moderate-user-drawer-account-history-banned = Banned

@@ -307,7 +307,7 @@ configure-moderationPhases-enabledModerationPhase = Diaktifkan
 
 configure-moderationPhases-disableModerationPhase = Nonaktifkan
 
-configure-moderationPhases-detailsButton = Detail <icon>keyboard_arrow_right</icon>
+configure-moderationPhases-detailsButton = Detail <icon/>
 
 configure-moderationPhases-addExternalModerationPhase = Tambahkan fase moderasi eksternal
 
@@ -545,7 +545,7 @@ configure-webhooks-expiresOldSecretHoursFromNow =
     *[other] { $hours } hours
   } dari sekarang
 
-configure-webhooks-detailsButton = Detail <icon>keyboard_arrow_right</icon>
+configure-webhooks-detailsButton = Detail <icon/>
 
 ### General
 
@@ -704,7 +704,7 @@ configure-organization-nameExplanation =
   Nama organisasi Anda akan muncul di email yang dikirim oleh { -product-name } ke komunitas dan anggota organisasi Anda.
 configure-organization-sites-explanation =
   Tambahkan situs baru ke organisasi Anda atau edit detail situs yang ada.
-configure-organization-sites-add-site = <icon>add</icon> Tambah situs
+configure-organization-sites-add-site = <icon/> Tambah situs
 configure-organization-email = Email organisasi
 configure-organization-emailExplanation =
   Alamat email ini akan digunakan seperti dalam email dan di seluruh platform
@@ -716,7 +716,7 @@ configure-organization-urlExplanation =
   URL organisasi Anda akan muncul di email yang dikirim oleh { -product-name } ke komunitas dan anggota organisasi Anda.
 
 ### Sites
-configure-sites-site-details = Detail <icon>keyboard_arrow_right</icon>
+configure-sites-site-details = Detail <icon/>
 configure-sites-add-new-site = Tambahkan situs baru ke { $site }
 configure-sites-add-success = { $site } telah ditambahkan ke { $org }
 configure-sites-edit-success = Perubahan ke { $site } telah disimpan.
@@ -728,7 +728,7 @@ configure-sites-site-form-email = Alamat Email Situs
 configure-sites-site-form-url-explanation = Alamat email ini adalah untuk anggota komunitas untuk menghubungi Anda dengan pertanyaan atau jika mereka membutuhkan bantuan, misalnya comments@yoursite.com
 configure-sites-site-form-domains = Domain yang diizinkan situs
 configure-sites-site-form-domains-explanation = Domain tempat aliran komentar Coral Anda diizinkan untuk disematkan (misal http://localhost:3000, https://staging.domain.com, https://domain.com).
-configure-sites-site-form-submit = <icon>add</icon> Tambah Situs
+configure-sites-site-form-submit = <icon/> Tambah Situs
 configure-sites-site-form-cancel = Batalkan
 configure-sites-site-form-save = Simpan Perubahan
 configure-sites-site-edit = Edit detail { $site }
@@ -1261,7 +1261,7 @@ moderate-user-drawer-username-not-available = Nama pengguna tidak tersedia
 moderate-user-drawer-username-not-available-tooltip-title = Nama pengguna tidak tersedia
 moderate-user-drawer-username-not-available-tooltip-body = Pengguna tidak menyelesaikan proses penyiapan akun
 
-moderate-user-drawer-account-history-system = <icon>computer</icon> Sistem
+moderate-user-drawer-account-history-system = <icon/> Sistem
 moderate-user-drawer-account-history-suspension-ended = Penangguhan berakhir
 moderate-user-drawer-account-history-suspension-removed = Penangguhan dihapus
 moderate-user-drawer-account-history-banned = Dilarang

@@ -432,7 +432,7 @@ moderate-user-drawer-rejected-no-comments = {$username} har ingen afviste kommen
 moderate-user-drawer-user-not-found = Bruger ikke fundet.
 moderate-user-drawer-status-label = Status:
 
-moderate-user-drawer-account-history-system = <icon>computer</icon> System
+moderate-user-drawer-account-history-system = <icon/> System
 moderate-user-drawer-account-history-suspension-ended = Suspension sluttede
 moderate-user-drawer-account-history-suspension-removed = Suspension removed
 moderate-user-drawer-account-history-banned = Forbudt

@@ -213,7 +213,7 @@ configure-moderationPhases-noExternalModerationPhases =
   Er zijn geen externe moderatiefases geconfigureerd, voeg er hierboven één toe.
 configure-moderationPhases-enabledModerationPhase = Ingeschakeld
 configure-moderationPhases-disableModerationPhase = Uitgeschakeld
-configure-moderationPhases-detailsButton = Details <icon>keyboard_arrow_right</icon>
+configure-moderationPhases-detailsButton = Details <icon/>
 configure-moderationPhases-addExternalModerationPhase = Externe moderatiefase toevoegen
 configure-moderationPhases-updateExternalModerationPhaseButton = Details bijwerken
 configure-moderationPhases-cancelButton = Annuleren
@@ -380,7 +380,7 @@ configure-webhooks-expiresOldSecretHoursFromNow =
     [1] 1 uur
     *[other] { $hours } uur
   }  vanaf nu
-configure-webhooks-detailsButton = Details <icon>keyboard_arrow_right</icon>
+configure-webhooks-detailsButton = Details <icon/>
 
 ### General
 configure-general-guidelines-title = Samenvatting van richtlijnen van de community
@@ -506,7 +506,7 @@ configure-organization-nameExplanation =
   De naam van je organisatie wordt weergegeven in e-mails die door { -product-name } naar je community- en organisatieleden worden verzonden.
 configure-organization-sites-explanation =
   Voeg een nieuwe site toe aan je organisatie of bewerk de details van een bestaande site.
-configure-organization-sites-add-site = <icon>add</icon> Site toevoegen
+configure-organization-sites-add-site = <icon/> Site toevoegen
 configure-organization-email = Organisatie e-mail
 configure-organization-emailExplanation =
   Dit e-mailadres wordt gebruikt in e-mails en op het hele platform
@@ -518,7 +518,7 @@ configure-organization-urlExplanation =
   De URL van je organisatie wordt weergegeven in e-mails die door { -product-name } naar je community- en organisatieleden worden verzonden.
 
 ### Sites
-configure-sites-site-details = Details <icon>keyboard_arrow_right</icon>
+configure-sites-site-details = Details <icon/>
 configure-sites-add-new-site = Voeg een nieuwe site toe aan { $site }
 configure-sites-add-success = { $site } is toegevoegd aan { $org }
 configure-sites-edit-success = Wijzigingen aan { $site } zijn opgeslagen.
@@ -530,7 +530,7 @@ configure-sites-site-form-email = E-mailadres van de site
 configure-sites-site-form-url-explanation = Dit e-mailadres is bedoeld voor gemeenschapsleden om contact met je op te nemen als ze vragen hebben of hulp nodig hebben, bijv. comments@yoursite.com
 configure-sites-site-form-domains = Toegestane domeinen van de site
 configure-sites-site-form-domains-explanation = Domeinen waarop je Coral commentaar streams mogen worden ingesloten (bijv. http://localhost:3000, https://staging.domain.com, https://domain.com).
-configure-sites-site-form-submit = <icon>add</icon> Site toevoegen
+configure-sites-site-form-submit = <icon/> Site toevoegen
 configure-sites-site-form-cancel = Annuleren
 configure-sites-site-form-save = Wijzigingen opslaan
 configure-sites-site-edit = Bewerk details van { $site }
@@ -817,11 +817,11 @@ configure-moderation-emailDomains-header = E-maildomein
 configure-moderation-emailDomains-description = Maak regels om actie te ondernemen op accounts of reacties op basis van het e-maildomein van de accounthouder. Actie is alleen van toepassing op nieuw aangemaakte accounts.
 configure-moderation-emailDomains-add = E-maildomein toevoegen
 configure-moderation-emailDomains-edit = E-maildomein bewerken
-configure-moderation-emailDomains-addDomain = <icon>toevoegen</icon> Domein toevoegen
+configure-moderation-emailDomains-addDomain = <icon/> Domein toevoegen
 configure-moderation-emailDomains-table-domain = Domein
 configure-moderation-emailDomains-table-action = Actie
-configure-moderation-emailDomains-table-edit = <icon>bewerken</icon> Bewerken
-configure-moderation-emailDomains-table-delete = <icon>verwijderen</icon> Verwijderen
+configure-moderation-emailDomains-table-edit = <icon/> Bewerken
+configure-moderation-emailDomains-table-delete = <icon/> Verwijderen
 configure-moderation-emailDomains-form-label-domain = Domein
 configure-moderation-emailDomains-form-label-moderationAction = Moderatieactie
 configure-moderation-emailDomains-banAllUsers = Blokkeer alle nieuwe commenter-accounts
@@ -1080,7 +1080,7 @@ moderate-user-drawer-username-not-available = Gebruikersnaam niet beschikbaar
 moderate-user-drawer-username-not-available-tooltip-title = Gebruikersnaam niet beschikbaar
 moderate-user-drawer-username-not-available-tooltip-body = De gebruiker heeft het accountconfiguratieproces niet voltooid
 
-moderate-user-drawer-account-history-system = <icon>computer</icon> Systeem
+moderate-user-drawer-account-history-system = <icon/> Systeem
 moderate-user-drawer-account-history-suspension-ended = De schorsing is beÃ«indigd
 moderate-user-drawer-account-history-suspension-removed = Schorsing verwijderd
 moderate-user-drawer-account-history-banned = Verbannen

@@ -200,7 +200,7 @@ configure-moderationPhases-noExternalModerationPhases =
   没有设定外部审核程序，在上面添加一个。
 configure-moderationPhases-enabledModerationPhase = 启用
 configure-moderationPhases-disableModerationPhase = 关闭
-configure-moderationPhases-detailsButton = 详情 <icon>keyboard_arrow_right</icon>
+configure-moderationPhases-detailsButton = 详情 <icon/>
 configure-moderationPhases-addExternalModerationPhase = 添加外部审核程序
 configure-moderationPhases-updateExternalModerationPhaseButton = 更新详情
 configure-moderationPhases-cancelButton = 取消
@@ -343,7 +343,7 @@ configure-webhooks-expiresOldSecretHoursFromNow =
     [1] 1小时
     *[other] { $hours } hours
   }  f从现在起
-configure-webhooks-detailsButton = 详情 <icon>键盘_箭头_右</icon>
+configure-webhooks-detailsButton = 详情 <icon/>
 
 ### General
 configure-general-guidelines-title = 社区指导综述
@@ -467,7 +467,7 @@ configure-organization-nameExplanation =
   您的机构名字将显示在{ -product-name }发送到您的社区和机构成员的电子邮件上。
 configure-organization-sites-explanation =
   为您的机构添加新网站或编辑已有网站的详情。
-configure-organization-sites-add-site = <icon>add</icon> 添加网站
+configure-organization-sites-add-site = <icon/> 添加网站
 configure-organization-email =机构电子邮件
 configure-organization-emailExplanation =
   这个电子邮件地址将被用于电子邮件和整个平台，以便社区成员在有任何关于其账户状态或审核问题的疑问时，与该机构取得联系。
@@ -476,7 +476,7 @@ configure-organization-urlExplanation = 您的机构地址将出现在{ -product
 
 
 ### Sites
-configure-sites-site-details = 详情 <icon>keyboard_arrow_right</icon>
+configure-sites-site-details = 详情 <icon/>
 configure-sites-add-new-site = 添加新网站至 { $site }
 configure-sites-add-success = { $site } 已经被添加至 { $org }
 configure-sites-edit-success = 对 { $site }的修改已经被保存。.
@@ -488,7 +488,7 @@ configure-sites-site-form-email = 网站电子邮箱
 configure-sites-site-form-url-explanation = 这个电子邮件地址是供社区成员在有问题或需要帮助时与你联系。例如：comments@yoursite.com
 configure-sites-site-form-domains =网站许可的域名
 configure-sites-site-form-domains-explanation =允许嵌入您的Coral留言流的域名 （例如：http://localhost:3000、https://staging.domain.com、 https://domain.com）。
-configure-sites-site-form-submit = <icon>添加</icon> 添加网站
+configure-sites-site-form-submit = <icon/> 添加网站
 configure-sites-site-form-cancel = 取消
 configure-sites-site-form-save = 保存修改
 configure-sites-site-edit = 编辑 { $site } 详情
@@ -971,7 +971,7 @@ moderate-user-drawer-username-not-available = 用户名不可用
 moderate-user-drawer-username-not-available-tooltip-title = 用户名 不可用
 moderate-user-drawer-username-not-available-tooltip-body = 用户没有完成账户设置程序
 
-moderate-user-drawer-account-history-system = <icon>电脑</icon> 系统
+moderate-user-drawer-account-history-system = <icon/> 系统
 moderate-user-drawer-account-history-suspension-ended = 暂停结束
 moderate-user-drawer-account-history-suspension-removed = 暂停取消
 moderate-user-drawer-account-history-banned = 被禁止
