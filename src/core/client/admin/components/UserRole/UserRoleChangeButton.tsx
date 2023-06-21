@@ -3,7 +3,8 @@ import React, { FunctionComponent } from "react";
 
 import TranslatedRole from "coral-admin/components/TranslatedRole";
 import { PropTypesOf } from "coral-framework/types";
-import { ButtonIcon, DropdownButton } from "coral-ui/components/v2";
+import { ButtonSvgIcon, SettingsIcon } from "coral-ui/components/icons";
+import { DropdownButton } from "coral-ui/components/v2";
 
 import styles from "./UserRoleChangeButton.css";
 
@@ -25,7 +26,7 @@ const UserRoleChangeButton: FunctionComponent<Props> = ({
           className={cn(active && styles.active)}
           onClick={onClick}
           adornment={
-            props.scoped && active && <ButtonIcon>settings</ButtonIcon>
+            props.scoped && active && <ButtonSvgIcon Icon={SettingsIcon} />
           }
           disabled={props.disabled}
         >

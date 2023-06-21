@@ -1,8 +1,8 @@
 import cn from "classnames";
 import React, { ComponentType, FunctionComponent } from "react";
 
-import { SvgIcon } from "coral-ui/components/icons";
-import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
+import { ButtonSvgIcon, CloseIcon, SvgIcon } from "coral-ui/components/icons";
+import { Button, Flex } from "coral-ui/components/v2";
 
 import styles from "./AppNotification.css";
 
@@ -36,7 +36,7 @@ const AppNotification: FunctionComponent<Props> = ({
         </Flex>
         {onClose && (
           <Button variant="text" color="mono" onClick={onClose}>
-            <ButtonIcon>close</ButtonIcon>
+            <ButtonSvgIcon Icon={CloseIcon} size="xs" />
           </Button>
         )}
       </Flex>

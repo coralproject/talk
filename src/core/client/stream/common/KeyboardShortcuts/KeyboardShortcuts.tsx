@@ -36,7 +36,13 @@ import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseComme
 import { useCommentSeenEnabled } from "coral-stream/tabs/Comments/commentSeen/";
 import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
-import { Button, ButtonIcon, Flex } from "coral-ui/components/v2";
+import {
+  ButtonSvgIcon,
+  CheckDoubleIcon,
+  CloseIcon,
+  ControlsNextIcon,
+} from "coral-ui/components/icons";
+import { Button, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
@@ -1362,7 +1368,8 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         (matches ||
           browserInfo.mobile ||
           browserInfo.tablet ||
-          browserInfo.iPadOS) && (
+          browserInfo.iPadOS ||
+          browserInfo.macOS) && (
           <MobileToolbar onKeyPress={handleKeypress}>
             <Flex className={styles.flexContainer} alignItems="center">
               <div className={styles.unmarkAllContainer}>
@@ -1378,7 +1385,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                     colorRegular: styles.buttonColor,
                   }}
                 >
-                  <ButtonIcon>done_all</ButtonIcon>
+                  <ButtonSvgIcon Icon={CheckDoubleIcon} />
                   <Localized id="comments-mobileToolbar-unmarkAll">
                     <span>Mark all as read</span>
                   </Localized>
@@ -1400,7 +1407,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   <Localized id="comments-mobileToolbar-nextUnread">
                     <span>Next unread</span>
                   </Localized>
-                  <ButtonIcon>skip_next</ButtonIcon>
+                  <ButtonSvgIcon Icon={ControlsNextIcon} />
                 </Button>
               </div>
               <div className={styles.closeContainer}>
@@ -1420,7 +1427,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                     onClick={handleCloseToolbarButton}
                     aria-label="Close"
                   >
-                    <ButtonIcon>close</ButtonIcon>
+                    <ButtonSvgIcon Icon={CloseIcon} />
                   </Button>
                 </Localized>
               </div>

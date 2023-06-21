@@ -1,10 +1,14 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { ButtonSvgIcon, ProfileCircleIcon } from "coral-ui/components/icons";
+import {
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  ButtonSvgIcon,
+  ProfileCircleIcon,
+} from "coral-ui/components/icons";
 import {
   Button,
-  ButtonIcon,
   ClickOutside,
   Dropdown,
   DropdownButton,
@@ -71,9 +75,11 @@ const UserMenu: FunctionComponent<Props> = (props) => (
           />
           <span className={styles.buttonText}>{props.username}</span>
           {
-            <ButtonIcon className={styles.icon} size="lg">
-              {visible ? "arrow_drop_up" : "arrow_drop_down"}
-            </ButtonIcon>
+            <ButtonSvgIcon
+              className={styles.icon}
+              Icon={visible ? ArrowsUpIcon : ArrowsDownIcon}
+              size="xs"
+            />
           }
         </Button>
       )}

@@ -45,11 +45,11 @@ import {
   CommentEnteredSubscription,
 } from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import {
-  Box,
-  ButtonIcon,
-  Flex,
-  HorizontalGutter,
-} from "coral-ui/components/v2";
+  ButtonRefreshArrowIcon,
+  ButtonSvgIcon,
+  CloseIcon,
+} from "coral-ui/components/icons";
+import { Box, Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
@@ -513,9 +513,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                     className={styles.refreshButton}
                     onClick={handleClickRefreshButton}
                   >
-                    <ButtonIcon className={styles.refreshButtonIcon}>
-                      refresh
-                    </ButtonIcon>
+                    <ButtonSvgIcon
+                      className={styles.refreshButtonIcon}
+                      Icon={ButtonRefreshArrowIcon}
+                      size="xs"
+                    />
                     {refreshCommentsLocalization.text}
                   </Button>
                 </Localized>
@@ -531,7 +533,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                   className={styles.closeButton}
                   paddingSize="extraSmall"
                 >
-                  <ButtonIcon>close</ButtonIcon>
+                  <ButtonSvgIcon
+                    Icon={CloseIcon}
+                    size="xs"
+                    className={styles.closeButtonIcon}
+                  />
                 </Button>
               </Localized>
             </Flex>

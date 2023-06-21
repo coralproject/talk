@@ -15,8 +15,12 @@ import { useGetMessage } from "coral-framework/lib/i18n";
 import { useMutation } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  ButtonSvgIcon,
+} from "coral-ui/components/icons";
+import {
   Button,
-  ButtonIcon,
   CheckBox,
   Flex,
   FormField,
@@ -438,9 +442,11 @@ const BanModal: FunctionComponent<Props> = ({
                       <Localized id="community-banModal-customize">
                         <>Customize ban email message </>
                       </Localized>
-                      <ButtonIcon size="lg">
-                        {customizeMessage ? "arrow_drop_up" : "arrow_drop_down"}
-                      </ButtonIcon>
+                      <ButtonSvgIcon
+                        Icon={customizeMessage ? ArrowsUpIcon : ArrowsDownIcon}
+                        size="xs"
+                        className={styles.customizeMessageArrowsIcon}
+                      />
                     </Button>
                   )}
                   {/* optional custom message field */}

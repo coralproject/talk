@@ -21,3 +21,8 @@ $moderateCardDetailsDividerColor: var(--palette-grey-100);
 .detailsText {
   margin: 0;
 }
+
+.detailsButtonIcon {
+  align-self: baseline;
+  padding-left: var(--spacing-1);
+}

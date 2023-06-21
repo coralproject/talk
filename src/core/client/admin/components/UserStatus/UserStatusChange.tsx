@@ -3,8 +3,12 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import {
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  ButtonSvgIcon,
+} from "coral-ui/components/icons";
+import {
   Button,
-  ButtonIcon,
   ClickOutside,
   Dropdown,
   DropdownButton,
@@ -212,9 +216,10 @@ const UserStatusChange: FunctionComponent<Props> = ({
           >
             {children}
             {
-              <ButtonIcon size="lg">
-                {visible ? "arrow_drop_up" : "arrow_drop_down"}
-              </ButtonIcon>
+              <ButtonSvgIcon
+                size="xxs"
+                Icon={visible ? ArrowsUpIcon : ArrowsDownIcon}
+              />
             }
           </Button>
         </Localized>

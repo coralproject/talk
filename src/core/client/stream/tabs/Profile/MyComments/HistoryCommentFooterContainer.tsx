@@ -12,13 +12,15 @@ import {
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
+  ArrowsDownIcon,
+  ArrowsUpIcon,
   ButtonSvgIcon,
   OpenInNewIcon,
   ReplyIcon,
   SvgIcon,
   ThumbsUpIcon,
 } from "coral-ui/components/icons";
-import { BaseButton, ButtonIcon, Flex } from "coral-ui/components/v2";
+import { BaseButton, Flex } from "coral-ui/components/v2";
 
 import { HistoryCommentFooterContainer_comment } from "coral-stream/__generated__/HistoryCommentFooterContainer_comment.graphql";
 import { HistoryCommentFooterContainer_settings } from "coral-stream/__generated__/HistoryCommentFooterContainer_settings.graphql";
@@ -61,14 +63,14 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
             )}
           >
             <ButtonSvgIcon Icon={ThumbsUpIcon} />
-            {/* <ButtonIcon>{settings.reaction.icon}</ButtonIcon> */}
             <span className={cn(styles.reactionsButtonText)}>
               {settings.reaction.label} {comment.actionCounts.reaction.total}
             </span>
-
-            <ButtonIcon className={styles.buttonCaret}>
-              {showDetails ? "expand_less" : "expand_more"}
-            </ButtonIcon>
+            <ButtonSvgIcon
+              className={styles.buttonCaret}
+              Icon={showDetails ? ArrowsUpIcon : ArrowsDownIcon}
+              size="xxs"
+            />
           </BaseButton>
         )}
         {hasReplies && (

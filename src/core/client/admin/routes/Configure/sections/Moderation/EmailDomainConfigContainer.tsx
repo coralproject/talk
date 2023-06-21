@@ -8,8 +8,13 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
+  AddIcon,
+  ButtonSvgIcon,
+  DeleteBinIcon,
+  EditIcon,
+} from "coral-ui/components/icons";
+import {
   Button,
-  ButtonIcon,
   Flex,
   FormFieldDescription,
   Table,
@@ -72,7 +77,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
       </Localized>
       <Localized
         id="configure-moderation-emailDomains-addDomain"
-        elems={{ icon: <ButtonIcon>add</ButtonIcon> }}
+        elems={{ icon: <ButtonSvgIcon size="xs" Icon={AddIcon} /> }}
       >
         <Button to="/admin/configure/moderation/domains/add" iconLeft>
           Add domain
@@ -119,7 +124,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                       <Flex className={styles.buttons}>
                         <Localized
                           id="configure-moderation-emailDomains-table-edit"
-                          elems={{ icon: <ButtonIcon>edit</ButtonIcon> }}
+                          elems={{ icon: <ButtonSvgIcon Icon={EditIcon} /> }}
                         >
                           <Button
                             variant="text"
@@ -132,7 +137,9 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                         </Localized>
                         <Localized
                           id="configure-moderation-emailDomains-table-delete"
-                          elems={{ icon: <ButtonIcon>delete</ButtonIcon> }}
+                          elems={{
+                            icon: <ButtonSvgIcon Icon={DeleteBinIcon} />,
+                          }}
                         >
                           <Button
                             variant="text"

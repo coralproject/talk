@@ -4,6 +4,14 @@ menu: UI Kit v2
 ---
 
 import { Playground } from "docz";
+
+import {
+  AddIcon,
+  ButtonSvgIcon,
+  CloseIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+
 import Popover from "./Popover";
 import Button from "../Button";
 import Flex from "../Flex";
@@ -19,10 +27,7 @@ import Icon from "../Icon";
 ## Basic usage
 
 <Playground>
-  <Popover
-    id="my-popover-1"
-    body={() => <h2>This is the body</h2>}
-  >
+  <Popover id="my-popover-1" body={() => <h2>This is the body</h2>}>
     {({ toggleVisibility, ref }) => (
       <Button
         onClick={toggleVisibility}
@@ -46,7 +51,7 @@ import Icon from "../Icon";
       <Flex itemGutter="half">
         <h2>This is the body</h2>
         <Button onClick={toggleVisibility} size="small">
-          <ButtonIcon>close</ButtonIcon>
+          <ButtonSvgIcon Icon={CloseIcon} />
         </Button>
       </Flex>
     )}
@@ -71,16 +76,14 @@ import Icon from "../Icon";
     id="my-popover-1"
     body={({ toggleVisibility }) => (
       <ClickOutside onClickOutside={toggleVisibility}>
-        <h2>
-          I am a Tooltip
-        </h2>
+        <h2>I am a Tooltip</h2>
       </ClickOutside>
     )}
     dark
   >
     {({ toggleVisibility, ref }) => (
       <BaseButton onClick={toggleVisibility} ref={ref}>
-        <Icon color="primary">info</Icon>
+        <SvgIcon color="primary" Icon={AddIcon} />
       </BaseButton>
     )}
   </Popover>

@@ -11,10 +11,14 @@ import React, {
 import { MediaContainer } from "coral-admin/components/MediaContainer";
 import { GQLWordlistMatch } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
-import { ArrowRightIcon, SvgIcon } from "coral-ui/components/icons";
+import {
+  ArrowRightIcon,
+  ButtonSvgIcon,
+  ConversationChatTextIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import {
   Button,
-  ButtonIcon,
   Card,
   Flex,
   HorizontalGutter,
@@ -233,7 +237,7 @@ const ModerateCard: FunctionComponent<Props> = ({
             {onConversationClick && (
               <div className={styles.viewContext}>
                 <Button iconLeft variant="text" onClick={onConversationClick}>
-                  <ButtonIcon>question_answer</ButtonIcon>
+                  <ButtonSvgIcon Icon={ConversationChatTextIcon} />
                   <Localized id="moderate-comment-viewConversation">
                     <span>View conversation</span>
                   </Localized>

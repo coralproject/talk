@@ -4,10 +4,13 @@ import React, { ComponentType, FunctionComponent } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
-import { ButtonSvgIcon } from "coral-ui/components/icons";
+import {
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  ButtonSvgIcon,
+} from "coral-ui/components/icons";
 import {
   Button,
-  ButtonIcon,
   ClickOutside,
   Dropdown,
   Flex,
@@ -83,14 +86,18 @@ const PaginatedSelect: FunctionComponent<Props> = ({
             {selected}
           </Flex>
           {!visible && (
-            <ButtonIcon className={styles.buttonIconRight}>
-              keyboard_arrow_down
-            </ButtonIcon>
+            <ButtonSvgIcon
+              className={styles.buttonIconRight}
+              Icon={ArrowsDownIcon}
+              size="xs"
+            />
           )}
           {visible && (
-            <ButtonIcon className={styles.buttonIconRight}>
-              keyboard_arrow_up
-            </ButtonIcon>
+            <ButtonSvgIcon
+              className={styles.buttonIconRight}
+              Icon={ArrowsUpIcon}
+              size="xs"
+            />
           )}
         </Button>
       )}
