@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Button } from "coral-ui/components/v2";
 import { ArrowRightIcon, ButtonSvgIcon } from "coral-ui/components/icons";
+import { Button } from "coral-ui/components/v2";
 
 export interface NextButtonProps {
   submitting: boolean;
