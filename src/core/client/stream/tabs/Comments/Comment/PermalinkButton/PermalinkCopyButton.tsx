@@ -93,14 +93,14 @@ const PermalinkCopyButton: FunctionComponent<Props> = ({
       >
         {copied ? (
           <Flex alignItems="center">
-            <SvgIcon size="sm" className={styles.icon} Icon={CheckCircleIcon} />
+            <SvgIcon className={styles.icon} Icon={CheckCircleIcon} />
             <Localized id="comments-permalink-linkCopied">
               <span>Link copied</span>
             </Localized>
           </Flex>
         ) : (
           <Flex alignItems="center">
-            <SvgIcon size="sm" className={styles.icon} Icon={HyperlinkIcon} />
+            <SvgIcon className={styles.icon} Icon={HyperlinkIcon} />
             <Localized id="comments-permalink-copyLink">
               <span>Copy link</span>
             </Localized>

@@ -67,7 +67,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
         {showSuccess && (
           <CallOut
             color="success"
-            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             titleWeight="semiBold"
             title={
               <Localized id="configure-disableQA-streamIsNowQA">
@@ -91,7 +91,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
         {showSuccess && (
           <CallOut
             color="success"
-            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             titleWeight="semiBold"
             title={
               <Localized id="configure-enableQA-streamIsNowComments">

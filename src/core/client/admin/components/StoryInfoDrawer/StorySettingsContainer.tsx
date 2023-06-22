@@ -71,7 +71,7 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
               [styles.activeTab]: activeTab === "CONFIGURE_STORY",
             })}
           >
-            <SvgIcon size="sm" className={styles.tabIcon} Icon={CogIcon} />
+            <SvgIcon className={styles.tabIcon} Icon={CogIcon} />
             <Localized id="storyInfoDrawer-configure">
               <span>Configure</span>
             </Localized>

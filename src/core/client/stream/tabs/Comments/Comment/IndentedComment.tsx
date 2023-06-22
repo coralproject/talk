@@ -79,6 +79,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
                     styles.icon,
                     CLASSES.comment.collapseToggle.icon
                   )}
+                  size="xs"
                   Icon={SubtractIcon}
                 />
               </BaseButton>

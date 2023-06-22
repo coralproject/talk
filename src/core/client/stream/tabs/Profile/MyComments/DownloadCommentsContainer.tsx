@@ -137,7 +137,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           )}
           visible={showSuccessMessage}
           onClose={onCloseSuccess}
-          icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+          icon={<SvgIcon Icon={CheckCircleIcon} />}
           titleWeight="semiBold"
           title={
             <Localized
@@ -162,7 +162,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           )}
           visible={showErrorMessage}
           onClose={onCloseError}
-          icon={<SvgIcon size="sm" Icon={AlertTriangleIcon} />}
+          icon={<SvgIcon Icon={AlertTriangleIcon} />}
           titleWeight="semiBold"
           title={
             <Localized

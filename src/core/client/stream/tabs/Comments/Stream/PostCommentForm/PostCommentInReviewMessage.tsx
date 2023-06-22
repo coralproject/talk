@@ -17,7 +17,7 @@ const PostCommentInReview: FunctionComponent<PostCommentInReviewProps> = (
       color="primary"
       className={CLASSES.createComment.inReview}
       onClose={props.onDismiss}
-      icon={<SvgIcon size="sm" Icon={CheckIcon} />}
+      icon={<SvgIcon Icon={CheckIcon} />}
       titleWeight="semiBold"
       title={
         <Localized id="comments-submitStatus-submittedAndWillBeReviewed">

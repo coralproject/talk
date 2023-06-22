@@ -17,7 +17,7 @@ const Warning: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
     <CallOut
       color="error"
       iconColor="none"
-      icon={<SvgIcon size="sm" Icon={FlagWarningIcon} />}
+      icon={<SvgIcon Icon={FlagWarningIcon} />}
       borderPosition="top"
       title={
         <Localized id="warning-heading">

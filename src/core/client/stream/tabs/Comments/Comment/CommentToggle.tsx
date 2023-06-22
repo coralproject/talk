@@ -42,10 +42,10 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
         aria-label={"Expand comment thread"}
       >
         <Flex alignItems="flex-start" spacing={1}>
-          {/* TODO: Should this be size xs? */}
           <SvgIcon
             className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}
             Icon={AddIcon}
+            size="xs"
           />
           <Flex
             direction="row"

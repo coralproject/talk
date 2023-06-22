@@ -60,7 +60,6 @@ const UserHistoryTabs: FunctionComponent<Props> = ({
             })}
           >
             <SvgIcon
-              size="sm"
               className={styles.tabIcon}
               Icon={MessagesBubbleSquareIcon}
             />
@@ -76,7 +75,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({
               [styles.activeTab]: currentTab === "REJECTED_COMMENTS",
             })}
           >
-            <SvgIcon size="sm" className={styles.tabIcon} Icon={RemoveIcon} />
+            <SvgIcon className={styles.tabIcon} Icon={RemoveIcon} />
             <Localized id="moderate-user-drawer-tab-rejected-comments">
               <span>Rejected</span>
             </Localized>
@@ -89,11 +88,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({
               [styles.activeTab]: currentTab === "NOTES",
             })}
           >
-            <SvgIcon
-              size="sm"
-              className={styles.tabIcon}
-              Icon={PaperWriteIcon}
-            />
+            <SvgIcon className={styles.tabIcon} Icon={PaperWriteIcon} />
             <Flex>
               <Localized id="moderate-user-drawer-tab-notes">
                 <span>Notes</span>
@@ -109,11 +104,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({
             })}
             alignItems="center"
           >
-            <SvgIcon
-              size="sm"
-              className={styles.tabIcon}
-              Icon={TimeReverseIcon}
-            />
+            <SvgIcon className={styles.tabIcon} Icon={TimeReverseIcon} />
             <Localized id="moderate-user-drawer-tab-account-history">
               <span>Account History</span>
             </Localized>

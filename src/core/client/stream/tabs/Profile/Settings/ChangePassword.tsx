@@ -143,7 +143,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
             color="success"
             onClose={onCloseSuccess}
             className={CLASSES.myPassword.form.successMessage}
-            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             titleWeight="semiBold"
             title={
               <Localized id="profile-account-changePassword-updated">
@@ -236,7 +236,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                       <CallOut
                         color="error"
                         className={CLASSES.myPassword.form.errorMessage}
-                        icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
+                        icon={<SvgIcon Icon={AlertCircleIcon} />}
                         titleWeight="semiBold"
                         title={submitError}
                         role="alert"

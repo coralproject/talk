@@ -60,7 +60,7 @@ const AddMessageContainer: FunctionComponent<Props> = ({ story }) => {
           {removed && (
             <CallOut
               color="success"
-              icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+              icon={<SvgIcon Icon={CheckCircleIcon} />}
               title={
                 <Localized id="config-addMessage-removed">
                   Message has been removed

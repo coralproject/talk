@@ -226,7 +226,7 @@ const ConfirmPage: FunctionComponent<Props> = ({
                 {submitError && (
                   <CallOut
                     color="error"
-                    icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
+                    icon={<SvgIcon Icon={AlertCircleIcon} />}
                     titleWeight="semiBold"
                     title={submitError}
                     role="alert"

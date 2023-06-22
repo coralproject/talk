@@ -71,11 +71,7 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
           <Localized id="comments-moderationRejectedTombstone-moderateLink">
             <span>Go to moderate to review this decision</span>
           </Localized>
-          <SvgIcon
-            size="sm"
-            className={styles.icon}
-            Icon={ShareExternalLinkIcon}
-          />
+          <SvgIcon className={styles.icon} Icon={ShareExternalLinkIcon} />
         </Flex>
       </Button>
     </Tombstone>

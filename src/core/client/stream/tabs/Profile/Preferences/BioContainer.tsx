@@ -123,7 +123,7 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
               {removed && (
                 <CallOut
                   color="success"
-                  icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+                  icon={<SvgIcon Icon={CheckCircleIcon} />}
                   title={
                     <Localized id="profile-bio-removed">
                       Your bio has been removed
@@ -135,7 +135,7 @@ const BioContainer: FunctionComponent<Props> = ({ viewer, settings }) => {
               {submitSucceeded && (
                 <CallOut
                   color="success"
-                  icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+                  icon={<SvgIcon Icon={CheckCircleIcon} />}
                   title={
                     <Localized id="profile-bio-success">
                       Your bio has been updated

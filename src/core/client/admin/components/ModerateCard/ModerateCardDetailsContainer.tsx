@@ -81,7 +81,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
       <TabBar variant="default" activeTab={activeTab} onTabClick={onTabClick}>
         <Tab tabID="INFO" classes={styles}>
           <Flex alignItems="center" itemGutter>
-            <SvgIcon Icon={ListBulletsIcon} size="sm" />
+            <SvgIcon Icon={ListBulletsIcon} />
             <Localized id="moderateCardDetails-tab-info">
               <span>Info</span>
             </Localized>
@@ -90,7 +90,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         {hasReactions && (
           <Tab tabID="REACTIONS" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              <SvgIcon Icon={LikeIcon} size="sm" />
+              <SvgIcon Icon={LikeIcon} />
               <Localized id="moderateCardDetails-tab-reactions">
                 <span>Reactions</span>
               </Localized>
@@ -100,7 +100,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         {hasRevisions && (
           <Tab tabID="HISTORY" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              <SvgIcon Icon={PencilIcon} size="sm" />
+              <SvgIcon Icon={PencilIcon} />
               <Localized id="moderateCardDetails-tab-edits">
                 <span>Edit history</span>
               </Localized>
@@ -110,7 +110,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         {hasAutomatedActions && (
           <Tab tabID="EXTERNAL_MOD" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              <SvgIcon Icon={CheckDoubleIcon} size="sm" />
+              <SvgIcon Icon={CheckDoubleIcon} />
               <Localized id="moderateCardDetails-tab-automatedActions">
                 <span>Automated actions</span>
               </Localized>

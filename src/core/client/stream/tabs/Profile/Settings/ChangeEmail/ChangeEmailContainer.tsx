@@ -323,7 +323,7 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
           <CallOut
             color="success"
             onClose={onCloseSuccess}
-            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             titleWeight="semiBold"
             title={
               <Localized id="profile-changeEmail-success">
@@ -443,7 +443,7 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
                     <CallOut
                       className={CLASSES.myEmail.form.errorMessage}
                       color="error"
-                      icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
+                      icon={<SvgIcon Icon={AlertCircleIcon} />}
                       titleWeight="semiBold"
                       title={<span>{submitError}</span>}
                       role="alert"

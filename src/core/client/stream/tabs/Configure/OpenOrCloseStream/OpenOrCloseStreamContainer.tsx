@@ -57,7 +57,7 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
         {showSuccess && (
           <CallOut
             color="success"
-            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             title={
               <Localized id="configure-openStream-theStreamIsNowClosed">
                 The stream is now closed
@@ -79,7 +79,7 @@ const OpenOrCloseStreamContainer: FunctionComponent<Props> = ({
         {showSuccess && (
           <CallOut
             color="success"
-            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             title={
               <Localized id="configure-closeStream-theStreamIsNowOpen">
                 The stream is now open

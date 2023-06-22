@@ -83,7 +83,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
         {showSuccess && (
           <CallOut
             color="success"
-            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             title={
               <Localized id="config-addMessage-messageHasBeenAdded">
                 The message has been added to the comment box

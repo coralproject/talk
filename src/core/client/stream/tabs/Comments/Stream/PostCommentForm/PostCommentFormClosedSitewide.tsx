@@ -22,7 +22,7 @@ const PostCommentFormClosedSitewide: FunctionComponent<Props> = (props) => (
   <HorizontalGutter size="double">
     <CallOut
       color="mono"
-      icon={<SvgIcon size="sm" Icon={MessagesBubbleSquareWarningIcon} />}
+      icon={<SvgIcon Icon={MessagesBubbleSquareWarningIcon} />}
       className={cn(CLASSES.createComment.closed)}
       title={<Markdown>{props.message}</Markdown>}
     />

@@ -156,11 +156,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 id="moderate-user-drawer-email"
                 attrs={{ title: true }}
               >
-                <SvgIcon
-                  size="sm"
-                  className={styles.icon}
-                  Icon={EmailActionUnreadIcon}
-                />
+                <SvgIcon className={styles.icon} Icon={EmailActionUnreadIcon} />
               </Localized>
               <span className={styles.userDetailValue}>{user.email}</span>
               <CopyButton text={user.email!} />
@@ -170,11 +166,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 id="moderate-user-drawer-created-at"
                 attrs={{ title: true }}
               >
-                <SvgIcon
-                  size="sm"
-                  className={styles.icon}
-                  Icon={CalendarIcon}
-                />
+                <SvgIcon className={styles.icon} Icon={CalendarIcon} />
               </Localized>
               <span className={styles.userDetailValue}>
                 {formatter(user.createdAt)}
@@ -185,11 +177,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 id="moderate-user-drawer-member-id"
                 attrs={{ title: true }}
               >
-                <SvgIcon
-                  size="sm"
-                  className={styles.icon}
-                  Icon={MultipleNeutralIcon}
-                />
+                <SvgIcon className={styles.icon} Icon={MultipleNeutralIcon} />
               </Localized>
               <span className={styles.userDetailValue}>{user.id}</span>
               <CopyButton text={user.id} />
@@ -204,7 +192,6 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                     attrs={{ title: true }}
                   >
                     <SvgIcon
-                      size="sm"
                       className={styles.icon}
                       Icon={SingleNeutralProfilePictureIcon}
                     />

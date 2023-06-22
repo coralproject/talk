@@ -108,11 +108,7 @@ const DeleteAccountContainer: FunctionComponent<Props> = ({
                 className={CLASSES.deleteMyAccount.cancelRequestButton}
               >
                 <Flex alignItems="center">
-                  <SvgIcon
-                    size="sm"
-                    className={styles.icon}
-                    Icon={DeleteIcon}
-                  />
+                  <SvgIcon className={styles.icon} Icon={DeleteIcon} />
                   <Localized id="profile-account-deleteAccount-cancelDelete">
                     <span>Cancel account deletion request</span>
                   </Localized>

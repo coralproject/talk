@@ -59,7 +59,6 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
         className={CLASSES.pendingAccountDeletion.$root}
         icon={
           <SvgIcon
-            size="sm"
             className={CLASSES.pendingAccountDeletion.icon}
             Icon={StopwatchIcon}
           />

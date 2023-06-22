@@ -31,7 +31,7 @@ const render = (
   return (
     <div className={rootClassName} role="alert">
       <Flex alignItems="center" justifyContent={justifyContent}>
-        <SvgIcon size="sm" className={classes.icon} Icon={AlertCircleIcon} />
+        <SvgIcon className={classes.icon} Icon={AlertCircleIcon} />
         {content}
       </Flex>
     </div>

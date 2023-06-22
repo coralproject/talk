@@ -27,7 +27,7 @@ function getMessage(
         <CallOut
           className={cn(inReviewClassName)}
           color="error"
-          icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
+          icon={<SvgIcon Icon={AlertCircleIcon} />}
           onClose={onDismiss}
           titleWeight="semiBold"
           title={
@@ -45,7 +45,7 @@ function getMessage(
         <CallOut
           className={cn(inReviewClassName)}
           color="primary"
-          icon={<SvgIcon size="sm" Icon={CheckIcon} />}
+          icon={<SvgIcon Icon={CheckIcon} />}
           onClose={onDismiss}
           titleWeight="semiBold"
           title={

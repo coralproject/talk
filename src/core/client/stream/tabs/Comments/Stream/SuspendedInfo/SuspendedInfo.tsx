@@ -26,7 +26,7 @@ const SuspendedInfo: FunctionComponent<Props> = ({ until, organization }) => {
     <CallOut
       color="error"
       iconColor="none"
-      icon={<SvgIcon size="sm" className={styles.icon} Icon={StopwatchIcon} />}
+      icon={<SvgIcon className={styles.icon} Icon={StopwatchIcon} />}
       borderPosition="top"
       title={
         <Localized id="suspendInfo-heading-yourAccountHasBeen">

@@ -230,7 +230,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
             color="success"
             onClose={closeSuccessMessage}
             className={cn(CLASSES.myUsername.form.successCallOut)}
-            icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             titleWeight="semiBold"
             title={
               <Localized id="profile-changeUsername-success">
@@ -368,7 +368,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                       <CallOut
                         color="error"
                         className={CLASSES.myUsername.form.errorMessage}
-                        icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
+                        icon={<SvgIcon Icon={AlertCircleIcon} />}
                         titleWeight="semiBold"
                         title={submitError}
                         role="alert"

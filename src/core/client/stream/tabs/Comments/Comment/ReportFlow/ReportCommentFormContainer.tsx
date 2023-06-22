@@ -112,7 +112,7 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
         <Localized id="comments-reportPopover-thankYou">Thank you!</Localized>
       }
       onClose={onClose}
-      icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+      icon={<SvgIcon Icon={CheckCircleIcon} />}
       aria-live="polite"
     >
       <Localized id="comments-reportPopover-receivedMessage">

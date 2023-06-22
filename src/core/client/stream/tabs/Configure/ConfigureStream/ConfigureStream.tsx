@@ -80,7 +80,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
                 <CallOut
                   className={CLASSES.configureCommentStream.successMessage}
                   color="success"
-                  icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+                  icon={<SvgIcon Icon={CheckCircleIcon} />}
                   title={
                     <Localized id="configure-stream-streamHasBeenUpdated">
                       This stream has been updated
@@ -93,7 +93,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
                 <CallOut
                   className={CLASSES.configureCommentStream.errorMessage}
                   color="error"
-                  icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
+                  icon={<SvgIcon Icon={AlertCircleIcon} />}
                   title={submitError}
                   role="alert"
                 />

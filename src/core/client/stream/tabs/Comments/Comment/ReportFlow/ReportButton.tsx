@@ -62,7 +62,6 @@ const ReportButton: FunctionComponent<Props> = ({
           <Flex alignItems="center">
             <SvgIcon
               strokeWidth="semibold"
-              size="sm"
               className={styles.icon}
               Icon={FlagPlainIcon}
             />
@@ -99,7 +98,7 @@ const ReportButton: FunctionComponent<Props> = ({
         data-testid="comment-report-button"
       >
         <Flex alignItems="center" container="span">
-          <SvgIcon size="sm" className={styles.icon} Icon={FlagPlainIcon} />
+          <SvgIcon className={styles.icon} Icon={FlagPlainIcon} />
           <Responsive minWidth={400}>
             <Localized id="comments-reportButton-report">
               <span>Report</span>

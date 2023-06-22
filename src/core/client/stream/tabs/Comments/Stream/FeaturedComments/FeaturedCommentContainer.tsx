@@ -178,7 +178,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
                   CLASSES.featuredComment.actionBar.replies
                 )}
               >
-                <SvgIcon size="sm" Icon={CommentBoxIcon} />
+                <SvgIcon Icon={CommentBoxIcon} />
                 <Localized id="comments-featured-replies">
                   <Box mx={1}>Replies</Box>
                 </Localized>
@@ -205,7 +205,6 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
                 >
                   <SvgIcon
                     Icon={ConversationChatIcon}
-                    size="sm"
                     className={styles.icon}
                   />
                   <Localized id="comments-featured-gotoConversation">

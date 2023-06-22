@@ -13,7 +13,7 @@ const BannedInfo: FunctionComponent = (props) => {
     <CallOut
       color="error"
       className={CLASSES.bannedInfo.$root}
-      icon={<SvgIcon size="sm" className={styles.icon} Icon={DeleteIcon} />}
+      icon={<SvgIcon className={styles.icon} Icon={DeleteIcon} />}
       iconColor="none"
       title={
         <Localized id="comments-bannedInfo-bannedFromCommenting">

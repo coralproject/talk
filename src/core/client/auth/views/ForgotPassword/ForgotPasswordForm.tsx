@@ -115,7 +115,7 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
                   <CallOut
                     className={CLASSES.login.error}
                     color="error"
-                    icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
+                    icon={<SvgIcon Icon={AlertCircleIcon} />}
                     title={submitError}
                   />
                 </div>

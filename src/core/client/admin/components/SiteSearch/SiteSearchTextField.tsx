@@ -69,7 +69,7 @@ const SiteSearchTextField: FunctionComponent<Props> = ({
                 aria-label="Search"
                 onClick={onSearch}
               >
-                <SvgIcon size="sm" Icon={SearchIcon} />
+                <SvgIcon Icon={SearchIcon} />
               </Button>
             </Localized>
           }

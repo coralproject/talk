@@ -70,9 +70,7 @@ const StreamDeletionRequestCalloutContainer: FunctionComponent<Props> = ({
           className={CLASSES.pendingAccountDeletion.$root}
           borderPosition="top"
           iconColor="inherit"
-          icon={
-            <SvgIcon size="sm" className={styles.icon} Icon={AlertCircleIcon} />
-          }
+          icon={<SvgIcon className={styles.icon} Icon={AlertCircleIcon} />}
           iconPosition="left"
           title={
             <Localized id="comments-stream-deleteAccount-callOut-title">

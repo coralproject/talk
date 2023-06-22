@@ -252,7 +252,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                     <CallOut
                       color="error"
                       onClose={closeError}
-                      icon={<SvgIcon size="sm" Icon={AlertTriangleIcon} />}
+                      icon={<SvgIcon Icon={AlertTriangleIcon} />}
                       titleWeight="semiBold"
                       title={<span>{submitError}</span>}
                       role="alert"
@@ -262,7 +262,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                     <CallOut
                       color="success"
                       onClose={closeSuccess}
-                      icon={<SvgIcon size="sm" Icon={CheckCircleIcon} />}
+                      icon={<SvgIcon Icon={CheckCircleIcon} />}
                       titleWeight="semiBold"
                       title={
                         <Localized id="profile-account-notifications-updated">

@@ -100,7 +100,6 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
         >
           <SvgIcon
             Icon={ShareExternalLinkIcon}
-            size="sm"
             className={styles.viewConversationIcon}
           />
           <Localized id="profile-historyComment-viewConversation">
@@ -112,11 +111,7 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
       </Flex>
       {showDetails && (
         <Flex className={styles.reacterUsernames} alignItems="flex-start">
-          <SvgIcon
-            size="sm"
-            className={styles.reacterUsernamesIcon}
-            Icon={LikeIcon}
-          />
+          <SvgIcon className={styles.reacterUsernamesIcon} Icon={LikeIcon} />
           <Flex spacing={1}>
             <span>
               {compact(

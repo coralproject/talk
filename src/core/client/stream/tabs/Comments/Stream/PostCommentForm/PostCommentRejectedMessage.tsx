@@ -17,7 +17,7 @@ const PostCommentRejected: FunctionComponent<PostCommentRejectedProps> = (
       className={CLASSES.createComment.rejected}
       color="error"
       titleWeight="semiBold"
-      icon={<SvgIcon size="sm" Icon={AlertCircleIcon} />}
+      icon={<SvgIcon Icon={AlertCircleIcon} />}
       title={
         <Localized id="comments-submitStatus-submittedAndRejected">
           <div>This comment has been rejected for violating our guidelines</div>

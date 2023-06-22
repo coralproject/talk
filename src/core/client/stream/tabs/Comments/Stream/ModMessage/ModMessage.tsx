@@ -19,7 +19,7 @@ const ModMessage: FunctionComponent<Props> = ({ message, onAcknowledge }) => {
       color="primary"
       iconColor="none"
       className={CLASSES.modMessage.$root}
-      icon={<SvgIcon size="sm" color="stream" Icon={CommentBoxIcon} />}
+      icon={<SvgIcon color="stream" Icon={CommentBoxIcon} />}
       borderPosition="top"
       title={
         <Localized id="modMessage-heading">

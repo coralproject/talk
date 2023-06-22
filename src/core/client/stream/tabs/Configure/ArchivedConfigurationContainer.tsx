@@ -38,7 +38,7 @@ const ArchivedConfigurationContainer: FunctionComponent<Props> = ({
             </div>
           </Localized>
         }
-        icon={<SvgIcon size="sm" className={styles.icon} Icon={ArchiveIcon} />}
+        icon={<SvgIcon className={styles.icon} Icon={ArchiveIcon} />}
       >
         <>
           <Localized id="configure-archived-onArchivedStream">
