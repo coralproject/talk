@@ -2,6 +2,7 @@ import { GQLQueuesResolvers } from "../schema/__generated__/types";
 
 import GraphContext from "../context";
 import { QueueInput } from "./Queue";
+import RequiredResolver from "./RequireResolver";
 
 /**
  * get produces a resolver that maps the context to a QueueInput.
@@ -13,7 +14,7 @@ const get =
   (parent: any, args: any, ctx: GraphContext) =>
     fn(ctx);
 
-export const Queues: Required<GQLQueuesResolvers> = {
+export const Queues: RequiredResolver<GQLQueuesResolvers> = {
   mailer: get((ctx) => ctx.mailerQueue),
   scraper: get((ctx) => ctx.scraperQueue),
   notifier: get((ctx) => ctx.notifierQueue),
