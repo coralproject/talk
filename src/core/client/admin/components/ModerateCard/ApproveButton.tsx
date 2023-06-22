@@ -28,7 +28,7 @@ const ApproveButton: FunctionComponent<Props> = ({
       })}
       aria-label="Approve"
     >
-      <SvgIcon size="lg" className={styles.icon} Icon={CheckIcon} />
+      <SvgIcon size="md" className={styles.icon} Icon={CheckIcon} />
     </BaseButton>
   </Localized>
 );

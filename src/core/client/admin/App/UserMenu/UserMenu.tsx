@@ -79,6 +79,7 @@ const UserMenu: FunctionComponent<Props> = (props) => (
               className={styles.icon}
               Icon={visible ? ArrowsUpIcon : ArrowsDownIcon}
               size="xs"
+              strokeWidth="semibold"
             />
           }
         </Button>

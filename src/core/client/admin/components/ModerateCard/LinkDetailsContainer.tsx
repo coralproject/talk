@@ -38,7 +38,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
           color="regular"
           innerCopied={
             <>
-              <SvgIcon size="md" Icon={CheckIcon} />
+              <SvgIcon size="xs" Icon={CheckIcon} />
               <Localized id="framework-copyButton-copied">
                 <span>Copied!</span>
               </Localized>
@@ -63,7 +63,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
           color="regular"
           innerCopied={
             <>
-              <SvgIcon size="md" Icon={CheckIcon} />
+              <SvgIcon size="xs" Icon={CheckIcon} />
               <Localized id="framework-copyButton-copied">
                 <span>Copied!</span>
               </Localized>
