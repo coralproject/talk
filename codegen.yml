@@ -14,14 +14,19 @@ generates:
           content: "import GraphContext from 'coral-server/graph/context';"
       # - "typescript-document-nodes"
     config:
-      defaultMapper: any
+      defaultMapper: any # TODO: document
       contextType: "GraphContext"
       allowParentTypeOverride: true
       importStatement: "import GraphContext from 'coral-server/graph/context';"
-      avoidOptionals: false
+      avoidOptionals:
+        inputValue: true
       customResolverFn: "(parent: TParent, args: TArgs, ctx: TContext, info: GraphQLResolveInfo) => ResolverTypeWrapper<any>"
       maybeValue: "T | null | undefined"
       useInstanceSignature: true
+      scalars: # TODO: check that this is indeed true
+        ID:
+          input: "string"
+          output: "string"
   # src/core/client/framework/schema/__generated__/types.ts:
   #   schema:
   #     - "src/core/client/framework/lib/relay/local.graphql"

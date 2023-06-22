@@ -17,11 +17,11 @@ import {
 import { requiredPropertyFilter, sectionFilter } from "./helpers";
 
 interface FilteredConnectionInput {
-  first?: number;
-  after?: Cursor;
-  storyID?: string;
-  siteID?: string;
-  section?: GQLSectionFilter;
+  first?: number | null;
+  after?: Cursor | null;
+  storyID?: string | null;
+  siteID?: string | null;
+  section?: GQLSectionFilter | null;
   orderBy: GQLCOMMENT_SORT;
   filter: {
     actionType?: ACTION_TYPE;
@@ -58,7 +58,7 @@ export default (ctx: Context) => ({
       after,
       filter: {
         ...filter,
-        ...sectionFilter(ctx.tenant, section),
+        ...sectionFilter(ctx.tenant, section ?? undefined), // type narrowing
         // If these properties are not provided or are null, remove them from
         // the filter because they do not exist in a nullable state on the
         // database model.

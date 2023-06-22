@@ -219,8 +219,8 @@ export async function upsertStory(
 }
 
 export interface FindStoryInput {
-  id?: string;
-  url?: string;
+  id?: string | null;
+  url?: string | null;
 }
 
 export async function findStory(
