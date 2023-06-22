@@ -1,8 +1,12 @@
 import {
   GQLCOMMENT_STATUS,
-  SubscriptionToCommentStatusUpdatedResolver,
+  GQLCommentStatusUpdatedPayload,
+  GQLSubscription,
+  GQLSubscriptionGQLcommentStatusUpdatedArgs,
+  Resolver,
 } from "coral-server/graph/schema/__generated__/types";
 
+import GraphContext from "coral-server/graph/context";
 import { createIterator } from "./helpers";
 import {
   SUBSCRIPTION_CHANNELS,
@@ -24,15 +28,19 @@ export type CommentStatusUpdatedSubscription = SubscriptionType<
   CommentStatusUpdatedInput
 >;
 
-export const commentStatusUpdated: SubscriptionToCommentStatusUpdatedResolver<CommentStatusUpdatedInput> =
-  createIterator(SUBSCRIPTION_CHANNELS.COMMENT_STATUS_UPDATED, {
-    filter: (source, { id }) => {
-      // If we're filtering by id, then only send back updates for the specified
-      // comment.
-      if (id && source.commentID !== id) {
-        return false;
-      }
+export const commentStatusUpdated: Resolver<
+  GQLCommentStatusUpdatedPayload,
+  GQLSubscription,
+  GraphContext,
+  GQLSubscriptionGQLcommentStatusUpdatedArgs
+> = createIterator(SUBSCRIPTION_CHANNELS.COMMENT_STATUS_UPDATED, {
+  filter: (source, { id }) => {
+    // If we're filtering by id, then only send back updates for the specified
+    // comment.
+    if (id && source.commentID !== id) {
+      return false;
+    }
 
-      return true;
-    },
-  });
+    return true;
+  },
+});

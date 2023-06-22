@@ -1,5 +1,12 @@
-import { SubscriptionToCommentEditedResolver } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLResolversTypes,
+  GQLSubscription,
+  GQLSubscriptionGQLcommentEditedArgs,
+  RequireFields,
+  SubscriptionResolver,
+} from "coral-server/graph/schema/__generated__/types";
 
+import GraphContext from "coral-server/graph/context";
 import { createIterator } from "./helpers";
 import {
   SUBSCRIPTION_CHANNELS,
@@ -17,13 +24,26 @@ export type CommentEditedSubscription = SubscriptionType<
   CommentEditedInput
 >;
 
-export const commentEdited: SubscriptionToCommentEditedResolver<CommentEditedInput> =
-  createIterator(SUBSCRIPTION_CHANNELS.COMMENT_EDITED, {
-    filter: (source, { storyID }) => {
-      if (source.storyID !== storyID) {
-        return false;
-      }
+type MyType = SubscriptionResolver<
+  GQLResolversTypes["CommentEditedPayload"],
+  "commentEdited",
+  GQLSubscription,
+  GraphContext,
+  RequireFields<GQLSubscriptionGQLcommentEditedArgs, "storyID">
+>;
 
-      return true;
-    },
-  });
+export const commentEdited = createIterator<
+  any,
+  "commentEdited",
+  GQLResolversTypes["CommentEditedPayload"],
+  GraphContext,
+  RequireFields<GQLSubscriptionGQLcommentEditedArgs, "storyID">
+>(SUBSCRIPTION_CHANNELS.COMMENT_EDITED, {
+  filter: (source, { storyID }) => {
+    if (source.storyID !== storyID) {
+      return false;
+    }
+
+    return true;
+  },
+});

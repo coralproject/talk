@@ -1,5 +1,11 @@
-import { SubscriptionToCommentFeaturedResolver } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCommentFeaturedPayload,
+  GQLSubscription,
+  GQLSubscriptionGQLcommentFeaturedArgs,
+  Resolver,
+} from "coral-server/graph/schema/__generated__/types";
 
+import GraphContext from "coral-server/graph/context";
 import { createIterator } from "./helpers";
 import {
   SUBSCRIPTION_CHANNELS,
@@ -17,13 +23,17 @@ export type CommentFeaturedSubscription = SubscriptionType<
   CommentFeaturedInput
 >;
 
-export const commentFeatured: SubscriptionToCommentFeaturedResolver<CommentFeaturedInput> =
-  createIterator(SUBSCRIPTION_CHANNELS.COMMENT_FEATURED, {
-    filter: (source, { storyID }) => {
-      if (source.storyID !== storyID) {
-        return false;
-      }
+export const commentFeatured: Resolver<
+  GQLCommentFeaturedPayload,
+  GQLSubscription,
+  GraphContext,
+  GQLSubscriptionGQLcommentFeaturedArgs
+> = createIterator(SUBSCRIPTION_CHANNELS.COMMENT_FEATURED, {
+  filter: (source, { storyID }) => {
+    if (source.storyID !== storyID) {
+      return false;
+    }
 
-      return true;
-    },
-  });
+    return true;
+  },
+});

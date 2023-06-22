@@ -1,6 +1,7 @@
 import { GraphQLResolveInfo } from "graphql";
 import { withFilter } from "graphql-subscriptions";
 
+import { SubscriptionResolver } from "coral-server/graph/schema/__generated__/types";
 import GraphContext from "../../context";
 import { SUBSCRIPTION_CHANNELS, SubscriptionPayload } from "./types";
 
@@ -17,11 +18,6 @@ type Resolver<TParent, TArgs, TResult> = (
   ctx: GraphContext,
   info: GraphQLResolveInfo
 ) => TResult;
-
-interface SubscriptionResolver<TParent, TArgs, TResult> {
-  subscribe: Resolver<TParent, TArgs, AsyncIterator<TResult>>;
-  resolve: Resolver<TParent, TArgs, TParent>;
-}
 
 function createTenantAsyncIterator<TParent, TArgs, TResult>(
   channel: SUBSCRIPTION_CHANNELS
@@ -82,18 +78,21 @@ export interface CreateIteratorInput<TParent, TArgs, TResult> {
 }
 
 export function createIterator<
+  TResult,
+  TKey extends string,
   TParent extends SubscriptionPayload,
-  TArgs,
-  TResult
+  TContext,
+  TArgs
 >(
   channel: SUBSCRIPTION_CHANNELS,
   { filter }: CreateIteratorInput<TParent, TArgs, TResult>
-): SubscriptionResolver<TParent, TArgs, TResult> {
+): SubscriptionResolver<TResult, TKey, TParent, TContext, TArgs> {
+  const subscribe = withFilter(
+    createTenantAsyncIterator(channel),
+    composeFilters(clientIDFilterFn, filter)
+  );
   return {
-    subscribe: withFilter(
-      createTenantAsyncIterator(channel),
-      composeFilters(clientIDFilterFn, filter)
-    ),
+    subscribe,
     resolve: (payload) => payload,
   };
 }

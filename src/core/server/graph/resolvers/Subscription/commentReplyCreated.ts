@@ -1,5 +1,11 @@
-import { SubscriptionToCommentReplyCreatedResolver } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCommentReplyCreatedPayload,
+  GQLSubscription,
+  GQLSubscriptionGQLcommentReplyCreatedArgs,
+  Resolver,
+} from "coral-server/graph/schema/__generated__/types";
 
+import GraphContext from "coral-server/graph/context";
 import { createIterator } from "./helpers";
 import {
   SUBSCRIPTION_CHANNELS,
@@ -19,13 +25,17 @@ export type CommentReplyCreatedSubscription = SubscriptionType<
   CommentReplyCreatedInput
 >;
 
-export const commentReplyCreated: SubscriptionToCommentReplyCreatedResolver<CommentReplyCreatedInput> =
-  createIterator(SUBSCRIPTION_CHANNELS.COMMENT_REPLY_CREATED, {
-    filter: (source, { ancestorID }) => {
-      if (!source.ancestorIDs.includes(ancestorID)) {
-        return false;
-      }
+export const commentReplyCreated: Resolver<
+  GQLCommentReplyCreatedPayload,
+  GQLSubscription,
+  GraphContext,
+  GQLSubscriptionGQLcommentReplyCreatedArgs
+> = createIterator(SUBSCRIPTION_CHANNELS.COMMENT_REPLY_CREATED, {
+  filter: (source, { ancestorID }) => {
+    if (!source.ancestorIDs.includes(ancestorID)) {
+      return false;
+    }
 
-      return true;
-    },
-  });
+    return true;
+  },
+});
