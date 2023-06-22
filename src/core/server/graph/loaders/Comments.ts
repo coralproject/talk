@@ -30,19 +30,19 @@ import {
 } from "coral-server/services/comments";
 
 import {
-  CommentToParentsArgs,
-  CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
+  GQLCommentGQLparentsArgs,
+  GQLCommentGQLrepliesArgs,
   GQLFEATURE_FLAG,
+  GQLQueryGQLcommentsArgs,
   GQLSTORY_MODE,
+  GQLStoryGQLcommentsArgs,
   GQLTAG,
   GQLUSER_ROLE,
-  QueryToCommentsArgs,
-  StoryToCommentsArgs,
-  UserToAllCommentsArgs,
-  UserToCommentsArgs,
-  UserToRejectedCommentsArgs,
+  GQLUserGQLallCommentsArgs,
+  GQLUserGQLcommentsArgs,
+  GQLUserGQLrejectedCommentsArgs,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { requiredPropertyFilter, sectionFilter } from "./helpers";
@@ -214,7 +214,7 @@ export default (ctx: GraphContext) => ({
     tag,
     query,
     orderBy,
-  }: QueryToCommentsArgs) => {
+  }: GQLQueryGQLcommentsArgs) => {
     let story: Readonly<Story> | null = null;
     if (storyID) {
       story = await ctx.loaders.Stories.story.load(storyID);
@@ -268,13 +268,16 @@ export default (ctx: GraphContext) => ({
       );
     }
   ),
-  forUser: (userID: string, { first, orderBy, after }: UserToCommentsArgs) =>
+  forUser: (
+    userID: string,
+    { first, orderBy, after }: GQLUserGQLcommentsArgs
+  ) =>
     retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
       first: defaultTo(first, 10),
       orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
       after,
     }).then(primeCommentsFromConnection(ctx)),
-  forUserAll: (userID: string, { first, after }: UserToAllCommentsArgs) =>
+  forUserAll: (userID: string, { first, after }: GQLUserGQLallCommentsArgs) =>
     retrieveAllCommentsUserConnection(ctx.mongo, ctx.tenant.id, userID, {
       first: defaultTo(first, 10),
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
@@ -282,7 +285,7 @@ export default (ctx: GraphContext) => ({
     }).then(primeCommentsFromConnection(ctx)),
   forUserRejected: (
     userID: string,
-    { first, after }: UserToRejectedCommentsArgs
+    { first, after }: GQLUserGQLrejectedCommentsArgs
   ) =>
     retrieveRejectedCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
       first: defaultTo(first, 10),
@@ -292,7 +295,7 @@ export default (ctx: GraphContext) => ({
   taggedForStory: async (
     storyID: string,
     tag: GQLTAG,
-    { first, orderBy, after }: StoryToCommentsArgs
+    { first, orderBy, after }: GQLStoryGQLcommentsArgs
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
@@ -318,7 +321,14 @@ export default (ctx: GraphContext) => ({
   },
   forStory: async (
     storyID: string,
-    { first, orderBy, after, tag, rating, refreshStream }: StoryToCommentsArgs
+    {
+      first,
+      orderBy,
+      after,
+      tag,
+      rating,
+      refreshStream,
+    }: GQLStoryGQLcommentsArgs
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
@@ -381,7 +391,7 @@ export default (ctx: GraphContext) => ({
   forParent: async (
     storyID: string,
     parentID: string,
-    { first, orderBy, after, flatten, refreshStream }: CommentToRepliesArgs
+    { first, orderBy, after, flatten, refreshStream }: GQLCommentGQLrepliesArgs
   ) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
@@ -434,7 +444,10 @@ export default (ctx: GraphContext) => ({
 
     return conn;
   },
-  parents: async (comment: Comment, { last, before }: CommentToParentsArgs) => {
+  parents: async (
+    comment: Comment,
+    { last, before }: GQLCommentGQLparentsArgs
+  ) => {
     const story = await ctx.loaders.Stories.story.load(comment.storyID);
     if (!story) {
       throw new StoryNotFoundError(comment.storyID);
@@ -454,7 +467,7 @@ export default (ctx: GraphContext) => ({
   },
   allChildComments: async (
     comment: Comment,
-    { orderBy }: CommentToRepliesArgs
+    { orderBy }: GQLCommentGQLrepliesArgs
   ) => {
     const story = await ctx.loaders.Stories.story.load(comment.storyID);
     if (!story) {

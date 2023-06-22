@@ -4,13 +4,13 @@ import GraphContext from "coral-server/graph/context";
 import { retrieveCommentModerationActionConnection } from "coral-server/models/action/moderation/comment";
 
 import {
-  CommentToStatusHistoryArgs,
-  UserToCommentModerationActionHistoryArgs,
+  GQLCommentGQLstatusHistoryArgs,
+  GQLUserGQLcommentModerationActionHistoryArgs,
 } from "coral-server/graph/schema/__generated__/types";
 
 export default (ctx: GraphContext) => ({
   forModerator: (
-    { first, after }: UserToCommentModerationActionHistoryArgs,
+    { first, after }: GQLUserGQLcommentModerationActionHistoryArgs,
     moderatorID: string
   ) =>
     retrieveCommentModerationActionConnection(ctx.mongo, ctx.tenant.id, {
@@ -21,7 +21,7 @@ export default (ctx: GraphContext) => ({
       },
     }),
   forComment: (
-    { first, after }: CommentToStatusHistoryArgs,
+    { first, after }: GQLCommentGQLstatusHistoryArgs,
     commentID: string
   ) =>
     retrieveCommentModerationActionConnection(ctx.mongo, ctx.tenant.id, {

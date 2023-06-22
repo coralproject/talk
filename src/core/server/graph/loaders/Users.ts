@@ -11,9 +11,9 @@ import {
 } from "coral-server/models/user";
 
 import {
+  GQLQueryGQLusersArgs,
   GQLUSER_ROLE,
   GQLUSER_STATUS_FILTER,
-  QueryToUsersArgs,
 } from "coral-server/graph/schema/__generated__/types";
 
 type UserConnectionFilterInput = UserConnectionInput["filter"];
@@ -115,7 +115,7 @@ export default (ctx: Context) => {
 
   return {
     user,
-    connection: ({ first, after, role, query, status }: QueryToUsersArgs) =>
+    connection: ({ first, after, role, query, status }: GQLQueryGQLusersArgs) =>
       retrieveUserConnection(ctx.mongo, ctx.tenant.id, {
         first: defaultTo(first, 10),
         after,

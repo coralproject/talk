@@ -30,10 +30,10 @@ import {
 import { scraper } from "coral-server/services/stories/scraper";
 
 import {
+  GQLQueryGQLstoriesArgs,
+  GQLSiteGQLtopStoriesArgs,
   GQLSTORY_STATUS,
-  QueryToStoriesArgs,
-  SiteToTopStoriesArgs,
-  UserToOngoingDiscussionsArgs,
+  GQLUserGQLongoingDiscussionsArgs,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { createManyBatchLoadFn } from "./util";
@@ -215,7 +215,13 @@ export default (ctx: GraphContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  connection: ({ first, after, status, query, siteIDs }: QueryToStoriesArgs) =>
+  connection: ({
+    first,
+    after,
+    status,
+    query,
+    siteIDs,
+  }: GQLQueryGQLstoriesArgs) =>
     retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 10),
       after,
@@ -229,7 +235,7 @@ export default (ctx: GraphContext) => ({
         ...queryFilter(query),
       },
     }).then(primeStoriesFromConnection(ctx)),
-  topStories: (siteID: string, { limit }: SiteToTopStoriesArgs) => {
+  topStories: (siteID: string, { limit }: GQLSiteGQLtopStoriesArgs) => {
     // Find top active stories in the last 24 hours.
     const start = DateTime.fromJSDate(ctx.now).minus({ hours: 24 }).toJSDate();
 
@@ -266,7 +272,7 @@ export default (ctx: GraphContext) => ({
   ),
   ongoingDiscussions: (
     authorID: string,
-    { limit }: UserToOngoingDiscussionsArgs
+    { limit }: GQLUserGQLongoingDiscussionsArgs
   ) =>
     retrieveOngoingDiscussions(
       ctx.mongo,
