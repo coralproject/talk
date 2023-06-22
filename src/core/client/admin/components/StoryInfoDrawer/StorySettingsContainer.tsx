@@ -6,7 +6,7 @@ import { graphql } from "relay-runtime";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import ExpertSelectionQuery from "coral-stream/tabs/Configure/Q&A/ExpertSelectionQuery";
-import { SettingsIcon, SvgIcon } from "coral-ui/components/icons";
+import { CogIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   CheckBox,
   Divider,
@@ -71,7 +71,7 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
               [styles.activeTab]: activeTab === "CONFIGURE_STORY",
             })}
           >
-            <SvgIcon size="sm" className={styles.tabIcon} Icon={SettingsIcon} />
+            <SvgIcon size="sm" className={styles.tabIcon} Icon={CogIcon} />
             <Localized id="storyInfoDrawer-configure">
               <span>Configure</span>
             </Localized>

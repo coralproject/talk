@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { useModerationLink } from "coral-framework/hooks";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { OpenInNewIcon, SvgIcon } from "coral-ui/components/icons";
+import { ShareExternalLinkIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 import { Button, Tombstone } from "coral-ui/components/v3";
 
@@ -71,7 +71,11 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
           <Localized id="comments-moderationRejectedTombstone-moderateLink">
             <span>Go to moderate to review this decision</span>
           </Localized>
-          <SvgIcon size="sm" className={styles.icon} Icon={OpenInNewIcon} />
+          <SvgIcon
+            size="sm"
+            className={styles.icon}
+            Icon={ShareExternalLinkIcon}
+          />
         </Flex>
       </Button>
     </Tombstone>

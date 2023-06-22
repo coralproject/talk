@@ -11,7 +11,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useLocal } from "coral-framework/lib/relay";
 import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
 import { AddACommentButtonEvent } from "coral-stream/events";
-import { EditIcon, SvgIcon } from "coral-ui/components/icons";
+import { PencilIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
@@ -166,7 +166,7 @@ const AddACommentButton: FunctionComponent<Props> = ({
         >
           <Flex alignItems="center">
             {/* NOTE: Maybe rename to Pencil Icon? */}
-            <SvgIcon className={styles.icon} Icon={EditIcon} />
+            <SvgIcon className={styles.icon} Icon={PencilIcon} />
             {isQA ? <span>Ask a Question</span> : <span>Add a Comment</span>}
           </Flex>
         </Button>

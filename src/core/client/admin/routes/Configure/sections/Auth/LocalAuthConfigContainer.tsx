@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { useLocal } from "coral-framework/lib/relay";
-import { InfoCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { InformationCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 import { LocalAuthConfigContainerLocal } from "coral-admin/__generated__/LocalAuthConfigContainerLocal.graphql";
@@ -69,7 +69,9 @@ const LocalAuthConfigContainer: FunctionComponent<Props> = ({ disabled }) => {
           />
           {forceAdminLocalAuth && (
             <CallOut
-              icon={<SvgIcon className={styles.icon} Icon={InfoCircleIcon} />}
+              icon={
+                <SvgIcon className={styles.icon} Icon={InformationCircleIcon} />
+              }
               color="warning"
             >
               <Localized id="configure-auth-local-forceAdminLocalAuth">

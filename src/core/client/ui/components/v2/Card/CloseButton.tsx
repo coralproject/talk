@@ -1,6 +1,6 @@
 import React, { FunctionComponent, Ref } from "react";
 
-import { CloseIcon, SvgIcon } from "coral-ui/components/icons";
+import { RemoveIcon, SvgIcon } from "coral-ui/components/icons";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -29,7 +29,7 @@ const CloseButton: FunctionComponent<CloseButtonProps> = (props) => {
   return (
     <Flex justifyContent="flex-end">
       <BaseButton classes={restClasses} ref={forwardRef} {...rest}>
-        <SvgIcon className={iconClassName} Icon={CloseIcon} />
+        <SvgIcon className={iconClassName} Icon={RemoveIcon} />
       </BaseButton>
     </Flex>
   );

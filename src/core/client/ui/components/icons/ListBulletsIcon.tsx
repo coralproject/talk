@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 const ListBulletsIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/lists/list-bullets
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.25 -0.25 24.5 24.5">
       <g>

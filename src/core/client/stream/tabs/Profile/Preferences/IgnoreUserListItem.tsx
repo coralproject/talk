@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { CloseIcon, SvgIcon } from "coral-ui/components/icons";
+import { RemoveIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -62,7 +62,7 @@ const IgnoreUserListItem: FunctionComponent<Props> = ({
         aria-controls="profile-account-ignoredCommenters-log"
       >
         <Flex justifyContent="center" alignItems="center">
-          <SvgIcon size="xs" className={styles.icon} Icon={CloseIcon} />
+          <SvgIcon size="xs" className={styles.icon} Icon={RemoveIcon} />
           <Localized id="profile-account-ignoredCommenters-stopIgnoring">
             <span>Stop ignoring</span>
           </Localized>

@@ -39,8 +39,8 @@ import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
 import {
   ButtonSvgIcon,
   CheckDoubleIcon,
-  CloseIcon,
   ControlsNextIcon,
+  RemoveIcon,
 } from "coral-ui/components/icons";
 import { Button, Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
@@ -1427,7 +1427,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                     onClick={handleCloseToolbarButton}
                     aria-label="Close"
                   >
-                    <ButtonSvgIcon Icon={CloseIcon} />
+                    <ButtonSvgIcon Icon={RemoveIcon} />
                   </Button>
                 </Localized>
               </div>

@@ -2,10 +2,10 @@ import cn from "classnames";
 import React, { ComponentType, FunctionComponent } from "react";
 
 import {
-  CloseIcon,
   DeleteIcon,
   MessagesBubbleSquareIcon,
   MultipleActionsChatIcon,
+  RemoveIcon,
   SingleNeutralActionsAddIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
@@ -36,7 +36,7 @@ const TodayDashboardBox: FunctionComponent<Props> = ({
           <div
             className={cn(styles.icon, {
               [styles.tealIcon]: Icon === MessagesBubbleSquareIcon,
-              [styles.redIcon]: Icon === DeleteIcon || Icon === CloseIcon,
+              [styles.redIcon]: Icon === DeleteIcon || Icon === RemoveIcon,
               [styles.greyIcon]: Icon === MultipleActionsChatIcon,
               [styles.blueIcon]: Icon === SingleNeutralActionsAddIcon,
             })}

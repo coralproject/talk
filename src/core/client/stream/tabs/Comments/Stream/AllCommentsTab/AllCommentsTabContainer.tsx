@@ -47,7 +47,7 @@ import {
 import {
   ButtonRefreshArrowIcon,
   ButtonSvgIcon,
-  CloseIcon,
+  RemoveIcon,
 } from "coral-ui/components/icons";
 import { Box, Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -534,7 +534,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                   paddingSize="extraSmall"
                 >
                   <ButtonSvgIcon
-                    Icon={CloseIcon}
+                    Icon={RemoveIcon}
                     size="xs"
                     className={styles.closeButtonIcon}
                   />

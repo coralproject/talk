@@ -8,10 +8,10 @@ import { TodayMetricsJSON } from "coral-common/types/dashboard";
 import { useLocal } from "coral-framework/lib/relay";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import {
-  CloseIcon,
   DeleteIcon,
   MessagesBubbleSquareIcon,
   MultipleActionsChatIcon,
+  RemoveIcon,
   SingleNeutralActionsAddIcon,
 } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
@@ -101,7 +101,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             )}
           </TodayCompareValue>
         </TodayDashboardBox>
-        <TodayDashboardBox Icon={CloseIcon} loading={loading || totalLoading}>
+        <TodayDashboardBox Icon={RemoveIcon} loading={loading || totalLoading}>
           <TodayValue
             value={
               today

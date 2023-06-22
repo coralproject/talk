@@ -15,10 +15,10 @@ import {
   ArrowsDownIcon,
   ArrowsUpIcon,
   ButtonSvgIcon,
-  OpenInNewIcon,
-  ReplyIcon,
+  EmailActionReplyIcon,
+  LikeIcon,
+  ShareExternalLinkIcon,
   SvgIcon,
-  ThumbsUpIcon,
 } from "coral-ui/components/icons";
 import { BaseButton, Flex } from "coral-ui/components/v2";
 
@@ -62,7 +62,7 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
               CLASSES.myComment.reactions
             )}
           >
-            <ButtonSvgIcon Icon={ThumbsUpIcon} />
+            <ButtonSvgIcon Icon={LikeIcon} />
             <span className={cn(styles.reactionsButtonText)}>
               {settings.reaction.label} {comment.actionCounts.reaction.total}
             </span>
@@ -75,7 +75,10 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
         )}
         {hasReplies && (
           <div className={cn(styles.replies, CLASSES.myComment.replies)}>
-            <SvgIcon className={styles.repliesIcon} Icon={ReplyIcon} />
+            <SvgIcon
+              className={styles.repliesIcon}
+              Icon={EmailActionReplyIcon}
+            />
             <Localized
               id="profile-historyComment-replies"
               vars={{ replyCount: comment.replyCount }}
@@ -96,7 +99,7 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
           )}
         >
           <SvgIcon
-            Icon={OpenInNewIcon}
+            Icon={ShareExternalLinkIcon}
             size="sm"
             className={styles.viewConversationIcon}
           />
@@ -112,7 +115,7 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
           <SvgIcon
             size="sm"
             className={styles.reacterUsernamesIcon}
-            Icon={ThumbsUpIcon}
+            Icon={LikeIcon}
           />
           <Flex spacing={1}>
             <span>

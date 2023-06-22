@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { ReplyIcon, SvgIcon } from "coral-ui/components/icons";
+import { EmailActionReplyIcon, SvgIcon } from "coral-ui/components/icons";
 import { BaseButton, Flex } from "coral-ui/components/v2";
 
 import styles from "./InReplyTo.css";
@@ -26,7 +26,7 @@ const InReplyTo: FunctionComponent<Props> = ({ children, onUsernameClick }) => {
 
   return (
     <Flex alignItems="center">
-      <SvgIcon className={styles.icon} Icon={ReplyIcon} />{" "}
+      <SvgIcon className={styles.icon} Icon={EmailActionReplyIcon} />{" "}
       <Localized
         id="moderate-comment-inReplyTo"
         elems={{ Username: <Username /> }}

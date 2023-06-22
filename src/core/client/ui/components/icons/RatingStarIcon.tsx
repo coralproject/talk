@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-const StarIcon: FunctionComponent = () => {
+const RatingStarIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/social-medias-rewards-rating/rating/rating-star
   return (
     <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -13,4 +14,4 @@ const StarIcon: FunctionComponent = () => {
   );
 };
 
-export default StarIcon;
+export default RatingStarIcon;

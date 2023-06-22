@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-const FormatQuoteIcon: FunctionComponent = () => {
+const CloseQuoteIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/text-formating/close-quote
   return (
     <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -33,4 +34,4 @@ const FormatQuoteIcon: FunctionComponent = () => {
   );
 };
 
-export default FormatQuoteIcon;
+export default CloseQuoteIcon;

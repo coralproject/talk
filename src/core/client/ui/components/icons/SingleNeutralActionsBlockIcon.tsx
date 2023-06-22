@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 const SingleNeutralActionsBlockIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/users/geomertic-close-up-single-user-actions-neutral/single-neutral-actions-block
   return (
     <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path

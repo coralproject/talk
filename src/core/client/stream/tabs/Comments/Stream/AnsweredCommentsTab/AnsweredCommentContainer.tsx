@@ -13,7 +13,7 @@ import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { ReplyIcon, SvgIcon } from "coral-ui/components/icons";
+import { EmailActionReplyIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex, Hidden, RelativeTime, TextLink } from "coral-ui/components/v2";
 
 import { AnsweredCommentContainer_comment as CommentData } from "coral-stream/__generated__/AnsweredCommentContainer_comment.graphql";
@@ -162,7 +162,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
                   alignItems="center"
                   className={CLASSES.featuredComment.actionBar.replies}
                 >
-                  <SvgIcon size="md" Icon={ReplyIcon} />
+                  <SvgIcon size="md" Icon={EmailActionReplyIcon} />
                   <Localized id="qa-answered-replies">
                     <span className={styles.repliesText}>Replies</span>
                   </Localized>

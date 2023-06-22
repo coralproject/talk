@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-const ReplyIcon: FunctionComponent = () => {
+const EmailActionReplyIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/emails/email-actions/email-action-reply
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <defs></defs>
@@ -16,4 +17,4 @@ const ReplyIcon: FunctionComponent = () => {
   );
 };
 
-export default ReplyIcon;
+export default EmailActionReplyIcon;

@@ -6,11 +6,11 @@ menu: UI Kit v2
 import { Playground } from "docz";
 
 import {
-  CloseCircleIcon,
-  FlagIcon,
+  FlagPlainIcon,
   MessagesBubbleSquareIcon,
+  RemoveCircleIcon,
   SvgIcon,
-  TimeClockIcon,
+  TimeClockCircleIcon,
 } from "coral-ui/components/icons";
 
 import { SubBar, Navigation, NavigationItem, Divider } from "./";
@@ -24,12 +24,12 @@ import Counter from "../Counter";
   <SubBar>
     <Navigation>
       <NavigationItem active>
-        <SvgIcon Icon={FlagIcon} />
+        <SvgIcon Icon={FlagPlainIcon} />
         <span>Reported</span>
         <Counter color="primary">20</Counter>
       </NavigationItem>
       <NavigationItem>
-        <SvgIcon Icon={TimeClockIcon} />
+        <SvgIcon Icon={TimeClockCircleIcon} />
         <span>Pending</span>
         <Counter>100</Counter>
       </NavigationItem>
@@ -39,7 +39,7 @@ import Counter from "../Counter";
         <Counter>2.3k</Counter>
       </NavigationItem>
       <NavigationItem>
-        <SvgIcon Icon={CloseCircleIcon} />
+        <SvgIcon Icon={RemoveCircleIcon} />
         <span>Rejected</span>
       </NavigationItem>
     </Navigation>

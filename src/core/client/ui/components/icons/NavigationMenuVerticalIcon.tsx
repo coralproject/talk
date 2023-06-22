@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 const NavigationMenuVerticalIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/menu/navigation-menu-vertical
   return (
     <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path

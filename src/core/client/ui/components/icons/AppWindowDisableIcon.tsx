@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 const AppWindowDisableIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/programing-apps-websites/apps-window/app-window-disable
   return (
     <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path

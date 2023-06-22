@@ -10,7 +10,7 @@ import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/common/AuthPopup";
-import { FlagIcon, SvgIcon } from "coral-ui/components/icons";
+import { FlagPlainIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -64,7 +64,7 @@ const ReportButton: FunctionComponent<Props> = ({
               strokeWidth="semibold"
               size="sm"
               className={styles.icon}
-              Icon={FlagIcon}
+              Icon={FlagPlainIcon}
             />
             <MatchMedia gteWidth="mobile">
               {(matches) =>
@@ -99,7 +99,7 @@ const ReportButton: FunctionComponent<Props> = ({
         data-testid="comment-report-button"
       >
         <Flex alignItems="center" container="span">
-          <SvgIcon size="sm" className={styles.icon} Icon={FlagIcon} />
+          <SvgIcon size="sm" className={styles.icon} Icon={FlagPlainIcon} />
           <Responsive minWidth={400}>
             <Localized id="comments-reportButton-report">
               <span>Report</span>

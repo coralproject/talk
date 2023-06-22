@@ -11,7 +11,7 @@ import {
 } from "coral-framework/lib/form";
 import { composeValidators, required } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
-import { EmailIcon, SvgIcon } from "coral-ui/components/icons";
+import { EmailActionUnreadIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Flex,
   FormField,
@@ -112,7 +112,11 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = (props) => {
                 upperCase
               >
                 <Flex alignItems="center" justifyContent="center">
-                  <SvgIcon size="md" className={styles.icon} Icon={EmailIcon} />
+                  <SvgIcon
+                    size="md"
+                    className={styles.icon}
+                    Icon={EmailActionUnreadIcon}
+                  />
                   <Localized id="signIn-signInWithEmail">
                     <span>Sign in with Email</span>
                   </Localized>

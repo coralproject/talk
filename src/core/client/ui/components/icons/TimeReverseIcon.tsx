@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-const HistoryIcon: FunctionComponent = () => {
+const TimeReverseIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/time/time-reverse
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.25 -0.25 24.5 24.5">
       <defs></defs>
@@ -44,4 +45,4 @@ const HistoryIcon: FunctionComponent = () => {
   );
 };
 
-export default HistoryIcon;
+export default TimeReverseIcon;

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-const EmailIcon: FunctionComponent = () => {
+const EmailActionUnreadIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/emails/email-actions/email-action-unread
   return (
     <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -21,4 +22,4 @@ const EmailIcon: FunctionComponent = () => {
   );
 };
 
-export default EmailIcon;
+export default EmailActionUnreadIcon;

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-const ThumbsUpIcon: FunctionComponent = () => {
+const LikeIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/social-medias-rewards-rating/likes/like-1
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path
@@ -19,4 +20,4 @@ const ThumbsUpIcon: FunctionComponent = () => {
   );
 };
 
-export default ThumbsUpIcon;
+export default LikeIcon;

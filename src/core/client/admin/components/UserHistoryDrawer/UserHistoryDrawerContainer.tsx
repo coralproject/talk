@@ -9,9 +9,9 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import {
   CalendarIcon,
-  CloseIcon,
-  EmailIcon,
-  MultiplePeopleNeutralIcon,
+  EmailActionUnreadIcon,
+  MultipleNeutralIcon,
+  RemoveIcon,
   SingleNeutralProfilePictureIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
@@ -85,7 +85,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
   return (
     <>
       <Button variant="text" className={styles.close} onClick={onClose}>
-        <SvgIcon Icon={CloseIcon} />
+        <SvgIcon Icon={RemoveIcon} />
       </Button>
       <HorizontalGutter spacing={4}>
         <HorizontalGutter spacing={3}>
@@ -156,7 +156,11 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 id="moderate-user-drawer-email"
                 attrs={{ title: true }}
               >
-                <SvgIcon size="sm" className={styles.icon} Icon={EmailIcon} />
+                <SvgIcon
+                  size="sm"
+                  className={styles.icon}
+                  Icon={EmailActionUnreadIcon}
+                />
               </Localized>
               <span className={styles.userDetailValue}>{user.email}</span>
               <CopyButton text={user.email!} />
@@ -184,7 +188,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 <SvgIcon
                   size="sm"
                   className={styles.icon}
-                  Icon={MultiplePeopleNeutralIcon}
+                  Icon={MultipleNeutralIcon}
                 />
               </Localized>
               <span className={styles.userDetailValue}>{user.id}</span>

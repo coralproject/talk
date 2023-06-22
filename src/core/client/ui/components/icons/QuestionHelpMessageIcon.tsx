@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 const QuestionHelpMessageIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/help/question-help-message
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.25 -0.25 24.5 24.5">
       <path

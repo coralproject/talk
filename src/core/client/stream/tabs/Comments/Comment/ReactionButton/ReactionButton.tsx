@@ -5,8 +5,8 @@ import Responsive from "react-responsive";
 
 import {
   ArrowUpWithTailIcon,
+  LikeIcon,
   SvgIcon,
-  ThumbsUpIcon,
 } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -64,7 +64,7 @@ function render(props: ReactionButtonProps) {
           <SvgIcon
             strokeWidth={reacted ? "semibold" : "regular"}
             className={styles.icon}
-            Icon={ThumbsUpIcon}
+            Icon={LikeIcon}
           />
         )}
         <Responsive minWidth={400}>

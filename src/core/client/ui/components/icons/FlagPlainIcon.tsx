@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-const FlagIcon: FunctionComponent = () => {
+const FlagPlainIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/social-medias-rewards-rating/flags/flag-plain-3
   return (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -19,4 +20,4 @@ const FlagIcon: FunctionComponent = () => {
   );
 };
 
-export default FlagIcon;
+export default FlagPlainIcon;

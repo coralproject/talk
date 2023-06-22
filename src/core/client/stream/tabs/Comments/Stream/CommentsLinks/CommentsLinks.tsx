@@ -14,9 +14,9 @@ import CLASSES from "coral-stream/classes";
 import scrollToBeginning from "coral-stream/common/scrollToBeginning";
 import {
   ButtonSvgIcon,
+  CommonFileTextIcon,
   ConversationChatIcon,
-  FileTextIcon,
-  ProfileCircleIcon,
+  SingleNeutralCircleIcon,
 } from "coral-ui/components/icons";
 import { Button } from "coral-ui/components/v2";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
@@ -99,7 +99,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
               title="Go to profile and replies"
               onClick={onGoToProfile}
               classes={classes}
-              Icon={ProfileCircleIcon}
+              Icon={SingleNeutralCircleIcon}
             >
               Profile and replies
             </FooterButton>
@@ -144,7 +144,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
             title="Go to top of article"
             onClick={onGoToArticleTop}
             classes={classes}
-            Icon={FileTextIcon}
+            Icon={CommonFileTextIcon}
           >
             Top of article
           </FooterButton>

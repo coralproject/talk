@@ -15,8 +15,8 @@ import CLASSES from "coral-stream/classes";
 import { GotoModerationEvent } from "coral-stream/events";
 import {
   CheckIcon,
-  CloseIcon,
-  StarIcon,
+  RatingStarIcon,
+  RemoveIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
 import { DropdownButton, DropdownDivider } from "coral-ui/components/v2";
@@ -152,7 +152,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
         <Localized id="comments-moderationDropdown-unfeature">
           <DropdownButton
             icon={
-              <SvgIcon className={styles.featured} filled Icon={StarIcon} />
+              <SvgIcon
+                className={styles.featured}
+                filled
+                Icon={RatingStarIcon}
+              />
             }
             className={cn(CLASSES.moderationDropdown.unfeatureButton)}
             classes={{
@@ -173,7 +177,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
               root: styles.label,
               mouseHover: styles.mouseHover,
             }}
-            icon={<SvgIcon Icon={StarIcon} />}
+            icon={<SvgIcon Icon={RatingStarIcon} />}
             onClick={onFeature}
             disabled={isQA}
           >
@@ -220,7 +224,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
           <DropdownButton
             icon={
               <SvgIcon
-                Icon={CloseIcon}
+                Icon={RemoveIcon}
                 className={cn(styles.rejectIcon, styles.rejected)}
               />
             }
@@ -240,7 +244,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       ) : (
         <Localized id="comments-moderationDropdown-reject">
           <DropdownButton
-            icon={<SvgIcon Icon={CloseIcon} className={styles.rejectIcon} />}
+            icon={<SvgIcon Icon={RemoveIcon} className={styles.rejectIcon} />}
             onClick={onReject}
             className={cn(
               styles.label,

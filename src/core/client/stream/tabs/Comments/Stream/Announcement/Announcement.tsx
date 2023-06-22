@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { AlarmBellIcon, CloseIcon, SvgIcon } from "coral-ui/components/icons";
+import { AlarmBellIcon, RemoveIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -43,7 +43,7 @@ const Announcement: FunctionComponent<Props> = (props) => {
                 className={styles.closeButton}
                 aria-label="Close announcement"
               >
-                <SvgIcon Icon={CloseIcon} />
+                <SvgIcon Icon={RemoveIcon} />
               </Button>
             </Localized>
           </div>

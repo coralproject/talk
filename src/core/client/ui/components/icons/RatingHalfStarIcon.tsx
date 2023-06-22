@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-const StarHalfIcon: FunctionComponent = () => {
+const RatingHalfStarIcon: FunctionComponent = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.25 -0.25 24.5 24.5">
       <path
@@ -48,4 +48,4 @@ const StarHalfIcon: FunctionComponent = () => {
   );
 };
 
-export default StarHalfIcon;
+export default RatingHalfStarIcon;

@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { HistoryIcon } from "coral-ui/components/icons";
+import { TimeReverseIcon } from "coral-ui/components/icons";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { MyOngoingDiscussionsContainer_settings } from "coral-stream/__generated__/MyOngoingDiscussionsContainer_settings.graphql";
@@ -50,7 +50,7 @@ const MyOngoingDiscussionsContainer: FunctionComponent<Props> = ({
             <>Where you’ve commented across {settings.organization.name}</>
           </Localized>
         }
-        Icon={HistoryIcon}
+        Icon={TimeReverseIcon}
       />
       {viewer.ongoingDiscussions.length === 0 && (
         <Localized id="discussions-mostActiveDiscussions-empty">

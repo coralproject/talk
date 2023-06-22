@@ -37,7 +37,7 @@ import {
   ViewConversationEvent,
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { EditIcon, SvgIcon } from "coral-ui/components/icons";
+import { PencilIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Flex,
@@ -612,7 +612,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                         >
                           <Flex alignItems="center" justifyContent="center">
                             <SvgIcon
-                              Icon={EditIcon}
+                              Icon={PencilIcon}
                               className={styles.editIcon}
                             />
                             <Localized id="comments-commentContainer-editButton">

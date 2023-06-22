@@ -10,10 +10,10 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   CheckDoubleIcon,
-  EditIcon,
+  LikeIcon,
   ListBulletsIcon,
+  PencilIcon,
   SvgIcon,
-  ThumbsUpIcon,
 } from "coral-ui/components/icons";
 import { Flex, HorizontalGutter, Tab, TabBar } from "coral-ui/components/v2";
 
@@ -90,7 +90,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         {hasReactions && (
           <Tab tabID="REACTIONS" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              <SvgIcon Icon={ThumbsUpIcon} size="sm" />
+              <SvgIcon Icon={LikeIcon} size="sm" />
               <Localized id="moderateCardDetails-tab-reactions">
                 <span>Reactions</span>
               </Localized>
@@ -100,7 +100,7 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         {hasRevisions && (
           <Tab tabID="HISTORY" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              <SvgIcon Icon={EditIcon} size="sm" />
+              <SvgIcon Icon={PencilIcon} size="sm" />
               <Localized id="moderateCardDetails-tab-edits">
                 <span>Edit history</span>
               </Localized>

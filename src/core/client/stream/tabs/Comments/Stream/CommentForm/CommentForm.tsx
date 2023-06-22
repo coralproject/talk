@@ -21,7 +21,7 @@ import {
   AddIcon,
   AlarmClockIcon,
   AlertCircleIcon,
-  ImageAddIcon,
+  ImageFileAddIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
 import {
@@ -353,7 +353,10 @@ const CommentForm: FunctionComponent<Props> = ({
                                     aria-pressed={showExternalImageInput}
                                     onClick={toggleExternalImageInput}
                                   >
-                                    <SvgIcon Icon={ImageAddIcon} size="md" />
+                                    <SvgIcon
+                                      Icon={ImageFileAddIcon}
+                                      size="md"
+                                    />
                                   </RTEButton>
                                 </RTELocalized>
                               ) : null}

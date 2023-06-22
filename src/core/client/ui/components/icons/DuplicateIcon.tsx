@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 const DuplicateIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/copy-paste/duplicate
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

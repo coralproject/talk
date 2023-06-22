@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-const OpenInNewIcon: FunctionComponent = () => {
+const ShareExternalLinkIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/share/share-external-link-1
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.25 -0.25 24.5 24.5">
       <defs></defs>
@@ -33,4 +34,4 @@ const OpenInNewIcon: FunctionComponent = () => {
   );
 };
 
-export default OpenInNewIcon;
+export default ShareExternalLinkIcon;

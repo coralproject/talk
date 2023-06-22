@@ -6,7 +6,7 @@ import EmailField from "coral-auth/components/EmailField";
 import SetPasswordField from "coral-auth/components/SetPasswordField";
 import UsernameField from "coral-auth/components/UsernameField";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
-import { EmailIcon, SvgIcon } from "coral-ui/components/icons";
+import { EmailActionUnreadIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
@@ -52,7 +52,11 @@ const SignUp: FunctionComponent<Props> = (props) => {
               upperCase
             >
               <Flex alignItems="center" justifyContent="center">
-                <SvgIcon size="md" className={styles.icon} Icon={EmailIcon} />
+                <SvgIcon
+                  size="md"
+                  className={styles.icon}
+                  Icon={EmailActionUnreadIcon}
+                />
                 <Localized id="signUp-signUpWithEmail">
                   <span>Sign up with Email</span>
                 </Localized>

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-const StrikethroughIcon: FunctionComponent = () => {
+const TextStrikethroughIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/text-formating/text-strike-through
   return (
     <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -21,4 +22,4 @@ const StrikethroughIcon: FunctionComponent = () => {
   );
 };
 
-export default StrikethroughIcon;
+export default TextStrikethroughIcon;

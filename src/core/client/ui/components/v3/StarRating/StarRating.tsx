@@ -14,7 +14,7 @@ import React, {
 import { roundRating } from "coral-common/utils";
 import { useUUID } from "coral-framework/hooks";
 import CLASSES from "coral-stream/classes";
-import { StarHalfIcon, StarIcon } from "coral-ui/components/icons";
+import { RatingHalfStarIcon, RatingStarIcon } from "coral-ui/components/icons";
 
 import StarRatingIcon from "./StarRatingIcon";
 
@@ -116,8 +116,8 @@ const StarRating: FunctionComponent<Props> = ({
           size={size}
           Icon={
             starType === "full" || starType === "empty"
-              ? StarIcon
-              : StarHalfIcon
+              ? RatingStarIcon
+              : RatingHalfStarIcon
           }
           filled={starType === "full" || starType === "half"}
           value={star}

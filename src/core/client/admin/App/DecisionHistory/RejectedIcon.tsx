@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { CloseCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { RemoveCircleIcon, SvgIcon } from "coral-ui/components/icons";
 
 import styles from "./RejectedIcon.css";
 
@@ -9,7 +9,7 @@ const RejectedIcon: FunctionComponent = () => (
     size="md"
     className={styles.root}
     data-testid="rejected-icon"
-    Icon={CloseCircleIcon}
+    Icon={RemoveCircleIcon}
   />
 );
 

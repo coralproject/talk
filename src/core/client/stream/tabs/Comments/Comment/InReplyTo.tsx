@@ -5,7 +5,7 @@ import React, { FunctionComponent, useCallback } from "react";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import CLASSES from "coral-stream/classes";
 import computeCommentElementID from "coral-stream/tabs/Comments/Comment/computeCommentElementID";
-import { ReplyIcon, SvgIcon } from "coral-ui/components/icons";
+import { EmailActionReplyIcon, SvgIcon } from "coral-ui/components/icons";
 import { BaseButton, Flex } from "coral-ui/components/v2";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
@@ -53,7 +53,7 @@ const InReplyTo: FunctionComponent<Props> = ({
       className={CLASSES.comment.inReplyTo.$root}
       container="span"
     >
-      <SvgIcon className={styles.icon} Icon={ReplyIcon} />{" "}
+      <SvgIcon className={styles.icon} Icon={EmailActionReplyIcon} />{" "}
       <Localized id="comments-inReplyTo" elems={{ Username: <Username /> }}>
         <span className={cn(styles.inReplyTo, CLASSES.comment.inReplyTo.text)}>
           {"In reply to <Username></Username>"}

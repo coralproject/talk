@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { InfoCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { InformationCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { BaseButton, Box, ClickOutside, Popover } from "coral-ui/components/v2";
 
 import { UserStatusDetailsContainer_user as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
@@ -190,7 +190,7 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
             <SvgIcon
               size="md"
               className={styles.infoIcon}
-              Icon={InfoCircleIcon}
+              Icon={InformationCircleIcon}
             />
           </BaseButton>
         )}

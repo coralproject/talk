@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 const ArrowsUpIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/arrows-diagrams/arrows/arrow-up-1
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
       <path

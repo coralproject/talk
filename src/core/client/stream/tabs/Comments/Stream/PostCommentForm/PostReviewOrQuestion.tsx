@@ -4,7 +4,7 @@ import React, { FunctionComponent } from "react";
 
 import {
   QuestionCircleIcon,
-  StarIcon,
+  RatingStarIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
@@ -76,7 +76,7 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
           disabled={tab === "RATE_AND_REVIEW"}
           onClick={() => onChangeTab("RATE_AND_REVIEW")}
         >
-          <SvgIcon size="lg" className={styles.icon} Icon={StarIcon} />
+          <SvgIcon size="lg" className={styles.icon} Icon={RatingStarIcon} />
           <Localized id="ratingsAndReviews-rateAndReview">
             <span>Rate and Review</span>
           </Localized>

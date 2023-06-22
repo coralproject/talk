@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { DeleteBinIcon, SvgIcon } from "coral-ui/components/icons";
+import { BinIcon, SvgIcon } from "coral-ui/components/icons";
 import { Button, Flex, Timestamp } from "coral-ui/components/v2";
 
 import styles from "./ModeratorNote.css";
@@ -48,7 +48,7 @@ const ModeratorNote: FunctionComponent<Props> = ({
             variant="flat"
             onClick={deleteNote}
           >
-            <SvgIcon Icon={DeleteBinIcon} />
+            <SvgIcon Icon={BinIcon} />
             <Localized id="moderatorNote-delete">Delete</Localized>
           </Button>
         )}

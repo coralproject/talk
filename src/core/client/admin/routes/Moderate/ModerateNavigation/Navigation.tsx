@@ -10,11 +10,11 @@ import { getModerationLink } from "coral-framework/helpers";
 import {
   CheckCircleIcon,
   CheckDoubleIcon,
-  CloseCircleIcon,
-  FlagIcon,
+  FlagPlainIcon,
   MessagesBubbleSquareIcon,
+  RemoveCircleIcon,
   SvgIcon,
-  TimeClockIcon,
+  TimeClockCircleIcon,
 } from "coral-ui/components/icons";
 import { Counter, SubBarNavigation } from "coral-ui/components/v2";
 
@@ -84,7 +84,7 @@ const Navigation: FunctionComponent<Props> = ({
     <SubBarNavigation>
       {(mode === "POST" || (isNumber(reportedCount) && reportedCount > 0)) && (
         <NavigationLink to={moderationLinks[0]}>
-          <SvgIcon className={styles.icon} Icon={FlagIcon} />
+          <SvgIcon className={styles.icon} Icon={FlagPlainIcon} />
           <Localized id="moderate-navigation-reported">
             <span>Reported</span>
           </Localized>
@@ -101,7 +101,7 @@ const Navigation: FunctionComponent<Props> = ({
         </NavigationLink>
       )}
       <NavigationLink to={moderationLinks[1]}>
-        <SvgIcon className={styles.icon} Icon={TimeClockIcon} />
+        <SvgIcon className={styles.icon} Icon={TimeClockCircleIcon} />
         <Localized id="moderate-navigation-pending">
           <span>Pending</span>
         </Localized>
@@ -139,7 +139,7 @@ const Navigation: FunctionComponent<Props> = ({
         </Localized>
       </NavigationLink>
       <NavigationLink to={moderationLinks[4]}>
-        <SvgIcon Icon={CloseCircleIcon} className={styles.icon} />
+        <SvgIcon Icon={RemoveCircleIcon} className={styles.icon} />
         <Localized id="moderate-navigation-rejected">
           <span>Rejected</span>
         </Localized>

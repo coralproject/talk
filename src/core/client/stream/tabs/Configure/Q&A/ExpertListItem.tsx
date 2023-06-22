@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { CloseIcon, SvgIcon } from "coral-ui/components/icons";
+import { RemoveIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -54,7 +54,7 @@ const ExpertListItem: FunctionComponent<Props> = ({
             size="xs"
             className={styles.removeIcon}
             strokeWidth="semibold"
-            Icon={CloseIcon}
+            Icon={RemoveIcon}
           />
           <Localized id="configure-experts-remove-button">Remove</Localized>
         </Flex>

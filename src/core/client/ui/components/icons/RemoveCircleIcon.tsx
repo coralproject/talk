@@ -1,17 +1,18 @@
 import React, { FunctionComponent } from "react";
 
-const ProfileCircleIcon: FunctionComponent = () => {
+const RemoveCircleIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/remove-add/remove-circle
   return (
     <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path
-        d="M6.750 9.750 A5.250 5.250 0 1 0 17.250 9.750 A5.250 5.250 0 1 0 6.750 9.750 Z"
+        d="M15.182 8.818L8.818 15.181"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
       ></path>
       <path
-        d="M18.913,20.876a9.746,9.746,0,0,0-13.826,0"
+        d="M8.818 8.818L15.182 15.181"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
@@ -28,4 +29,4 @@ const ProfileCircleIcon: FunctionComponent = () => {
   );
 };
 
-export default ProfileCircleIcon;
+export default RemoveCircleIcon;

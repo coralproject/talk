@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { ReplyIcon, SvgIcon } from "coral-ui/components/icons";
+import { EmailActionReplyIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 
 import styles from "./ReplyingTo.css";
@@ -29,7 +29,7 @@ const ReplyingTo: FunctionComponent<Props> = ({ username }) => {
       alignItems="center"
       className={cn(styles.root, CLASSES.createReplyComment.replyTo.$root)}
     >
-      <SvgIcon Icon={ReplyIcon} />{" "}
+      <SvgIcon Icon={EmailActionReplyIcon} />{" "}
       <Localized id="comments-replyingTo" elems={{ Username: <Username /> }}>
         <span
           className={cn(styles.text, CLASSES.createReplyComment.replyTo.text)}

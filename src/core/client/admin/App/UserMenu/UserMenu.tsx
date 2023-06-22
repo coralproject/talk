@@ -5,7 +5,7 @@ import {
   ArrowsDownIcon,
   ArrowsUpIcon,
   ButtonSvgIcon,
-  ProfileCircleIcon,
+  SingleNeutralCircleIcon,
 } from "coral-ui/components/icons";
 import {
   Button,
@@ -71,7 +71,7 @@ const UserMenu: FunctionComponent<Props> = (props) => (
           <ButtonSvgIcon
             className={styles.icon}
             size="lg"
-            Icon={ProfileCircleIcon}
+            Icon={SingleNeutralCircleIcon}
           />
           <span className={styles.buttonText}>{props.username}</span>
           {

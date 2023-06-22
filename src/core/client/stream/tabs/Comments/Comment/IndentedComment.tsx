@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { RemoveIcon, SvgIcon } from "coral-ui/components/icons";
+import { SubtractIcon, SvgIcon } from "coral-ui/components/icons";
 import { BaseButton, Flex } from "coral-ui/components/v2";
 
 import Indent from "../Indent";
@@ -79,7 +79,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
                     styles.icon,
                     CLASSES.comment.collapseToggle.icon
                   )}
-                  Icon={RemoveIcon}
+                  Icon={SubtractIcon}
                 />
               </BaseButton>
             </Localized>

@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { HistoryIcon, SvgIcon } from "coral-ui/components/icons";
+import { SvgIcon, TimeReverseIcon } from "coral-ui/components/icons";
 import { BaseButton, ClickOutside, Popover } from "coral-ui/components/v2";
 
 import DecisionHistoryQuery from "./DecisionHistoryQuery";
@@ -35,7 +35,7 @@ const DecisionHistoryButton: FunctionComponent = () => (
           className={styles.historyIcon}
           data-testid="decisionHistory-toggle"
         >
-          <SvgIcon size="lg" Icon={HistoryIcon} />
+          <SvgIcon size="lg" Icon={TimeReverseIcon} />
         </BaseButton>
       )}
     </Popover>

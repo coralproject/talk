@@ -3,11 +3,11 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import {
-  CloseIcon,
-  HistoryIcon,
   MessagesBubbleSquareIcon,
   PaperWriteIcon,
+  RemoveIcon,
   SvgIcon,
+  TimeReverseIcon,
 } from "coral-ui/components/icons";
 import { Flex, Tab, TabBar, TabContent, TabPane } from "coral-ui/components/v2";
 
@@ -76,7 +76,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({
               [styles.activeTab]: currentTab === "REJECTED_COMMENTS",
             })}
           >
-            <SvgIcon size="sm" className={styles.tabIcon} Icon={CloseIcon} />
+            <SvgIcon size="sm" className={styles.tabIcon} Icon={RemoveIcon} />
             <Localized id="moderate-user-drawer-tab-rejected-comments">
               <span>Rejected</span>
             </Localized>
@@ -109,7 +109,11 @@ const UserHistoryTabs: FunctionComponent<Props> = ({
             })}
             alignItems="center"
           >
-            <SvgIcon size="sm" className={styles.tabIcon} Icon={HistoryIcon} />
+            <SvgIcon
+              size="sm"
+              className={styles.tabIcon}
+              Icon={TimeReverseIcon}
+            />
             <Localized id="moderate-user-drawer-tab-account-history">
               <span>Account History</span>
             </Localized>

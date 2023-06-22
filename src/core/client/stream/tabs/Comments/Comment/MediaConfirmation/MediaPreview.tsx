@@ -7,7 +7,7 @@ import {
   TwitterMedia,
   YouTubeMedia,
 } from "coral-stream/common/Media";
-import { CloseIcon, SvgIcon } from "coral-ui/components/icons";
+import { RemoveIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -30,7 +30,7 @@ const RemoveButton: FunctionComponent<Pick<Props, "onRemove">> = ({
     variant="flat"
     paddingSize="extraSmall"
   >
-    <SvgIcon size="xs" Icon={CloseIcon} />
+    <SvgIcon size="xs" Icon={RemoveIcon} />
     <Localized id="comments-postComment-confirmMedia-remove">
       <span>Remove</span>
     </Localized>

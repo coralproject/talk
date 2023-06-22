@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 const TradingConversationIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/business-products/trading/trading-conversation
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.25 -0.25 24.5 24.5">
       <path

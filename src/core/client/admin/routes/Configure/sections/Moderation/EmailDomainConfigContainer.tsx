@@ -9,9 +9,9 @@ import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   AddIcon,
+  BinIcon,
   ButtonSvgIcon,
-  DeleteBinIcon,
-  EditIcon,
+  PencilIcon,
 } from "coral-ui/components/icons";
 import {
   Button,
@@ -124,7 +124,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                       <Flex className={styles.buttons}>
                         <Localized
                           id="configure-moderation-emailDomains-table-edit"
-                          elems={{ icon: <ButtonSvgIcon Icon={EditIcon} /> }}
+                          elems={{ icon: <ButtonSvgIcon Icon={PencilIcon} /> }}
                         >
                           <Button
                             variant="text"
@@ -138,7 +138,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
                         <Localized
                           id="configure-moderation-emailDomains-table-delete"
                           elems={{
-                            icon: <ButtonSvgIcon Icon={DeleteBinIcon} />,
+                            icon: <ButtonSvgIcon Icon={BinIcon} />,
                           }}
                         >
                           <Button

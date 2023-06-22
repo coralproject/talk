@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { LabFlaskIcon, SvgIcon } from "coral-ui/components/icons";
+import { LabFlaskExperimentIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut, Flex } from "coral-ui/components/v2";
 
 import styles from "./ExperimentalCallOut.css";
@@ -15,7 +15,11 @@ const ExperimentalCallOut: FunctionComponent<ExperimentalCallOutProps> = ({
 }) => (
   <CallOut color="primary" fullWidth>
     <Flex>
-      <SvgIcon className={styles.icon} size="md" Icon={LabFlaskIcon} />
+      <SvgIcon
+        className={styles.icon}
+        size="md"
+        Icon={LabFlaskExperimentIcon}
+      />
       <Localized id="configure-experimentalFeature">
         <span className={styles.title}>Experimental Feature</span>
       </Localized>

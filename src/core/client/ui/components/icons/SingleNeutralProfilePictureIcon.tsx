@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 const SingleNeutralProfilePictureIcon: FunctionComponent = () => {
+  // https://www.streamlinehq.com/icons/streamline-regular/users/geomertic-close-up-single-user-neutral/single-neutral-profile-picture
   return (
     <svg
       id="Regular"

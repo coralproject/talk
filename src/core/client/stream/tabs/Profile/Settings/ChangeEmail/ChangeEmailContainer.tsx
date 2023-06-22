@@ -37,7 +37,7 @@ import {
 import {
   AlertCircleIcon,
   CheckCircleIcon,
-  EmailIcon,
+  EmailActionUnreadIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
 import {
@@ -243,7 +243,7 @@ const ChangeEmailContainer: FunctionComponent<Props> = ({
           >
             <Flex itemGutter>
               <div>
-                <SvgIcon Icon={EmailIcon} size="lg" />
+                <SvgIcon Icon={EmailActionUnreadIcon} size="lg" />
               </div>
               <div>
                 <div

@@ -24,12 +24,12 @@ import IframeEncapsulation from "coral-framework/lib/encapsulation/IframeEncapsu
 import CLASSES from "coral-stream/classes";
 import { RTE_ELEMENT_ID } from "coral-stream/constants";
 import {
-  FormatQuoteIcon,
+  CloseQuoteIcon,
   ListBulletsIcon,
-  StrikethroughIcon,
   SvgIcon,
   TextBoldIcon,
   TextItalicIcon,
+  TextStrikethroughIcon,
 } from "coral-ui/components/icons";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -231,7 +231,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           attrs={{ title: true }}
         >
           <Blockquote>
-            <SvgIcon size="md" filled Icon={FormatQuoteIcon} />
+            <SvgIcon size="md" filled Icon={CloseQuoteIcon} />
           </Blockquote>
         </RTELocalized>
       );
@@ -257,7 +257,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           attrs={{ title: true }}
         >
           <Strike>
-            <SvgIcon size="md" Icon={StrikethroughIcon} />
+            <SvgIcon size="md" Icon={TextStrikethroughIcon} />
           </Strike>
         </RTELocalized>
       );
