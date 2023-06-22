@@ -21,7 +21,7 @@ generates:
       avoidOptionals:
         inputValue: true
       customResolverFn: "(parent: TParent, args: TArgs, ctx: TContext, info: GraphQLResolveInfo) => ResolverTypeWrapper<any>"
-      maybeValue: "T | null | undefined"
+      maybeValue: "T | undefined"
       useInstanceSignature: true
       scalars: # TODO: check that this is indeed true
         ID:

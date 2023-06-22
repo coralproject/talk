@@ -115,7 +115,10 @@ export const calculateTags = (
   };
 
   let total = 0;
-  for (const [, value] of Object.entries(tags)) {
+  const values = Object.values(tags).filter(
+    (v) => typeof v !== "number"
+  ) as number[];
+  for (const value of values) {
     total += value;
   }
 
