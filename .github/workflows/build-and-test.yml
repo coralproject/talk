@@ -43,10 +43,10 @@ jobs:
         name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       -
-        name: Setup Node14.x
+        name: Setup Node18.x
         uses: actions/setup-node@v3
         with:
-          node-version: '14.x'
+          node-version: '18.16.x'
       -
         name: Install npm 8
         run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
