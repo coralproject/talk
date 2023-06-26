@@ -110,7 +110,13 @@ const UserRow: FunctionComponent<Props> = (props) => (
             variant="text"
             uppercase={false}
           >
-            {<ButtonSvgIcon size="lg" Icon={NavigationMenuHorizontalIcon} />}
+            {
+              <ButtonSvgIcon
+                size="xs"
+                filled
+                Icon={NavigationMenuHorizontalIcon}
+              />
+            }
           </Button>
         </Localized>
       )}

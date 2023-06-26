@@ -217,6 +217,8 @@ const UserStatusChange: FunctionComponent<Props> = ({
             {children}
             {
               <ButtonSvgIcon
+                className={styles.changeButtonIcon}
+                strokeWidth="semibold"
                 size="xxs"
                 Icon={visible ? ArrowsUpIcon : ArrowsDownIcon}
               />

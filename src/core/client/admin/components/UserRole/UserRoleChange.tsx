@@ -243,6 +243,7 @@ const UserRoleChange: FunctionComponent<Props> = ({
                 />
                 <ButtonSvgIcon
                   size="xxs"
+                  strokeWidth="semibold"
                   Icon={isPopoverVisible ? ArrowsUpIcon : ArrowsDownIcon}
                   className={styles.arrowsIcon}
                 />

@@ -8,11 +8,11 @@ import { HOTKEYS } from "coral-admin/constants";
 import { SectionFilter } from "coral-common/section";
 import { getModerationLink } from "coral-framework/helpers";
 import {
-  CheckCircleIcon,
   CheckDoubleIcon,
+  CheckIcon,
   FlagPlainIcon,
   MessagesBubbleSquareIcon,
-  RemoveCircleIcon,
+  RemoveIcon,
   SvgIcon,
   TimeClockCircleIcon,
 } from "coral-ui/components/icons";
@@ -133,13 +133,13 @@ const Navigation: FunctionComponent<Props> = ({
         )}
       </NavigationLink>
       <NavigationLink to={moderationLinks[3]}>
-        <SvgIcon Icon={CheckCircleIcon} className={styles.icon} />
+        <SvgIcon Icon={CheckIcon} size="xs" className={styles.icon} />
         <Localized id="moderate-navigation-approved">
           <span>Approved</span>
         </Localized>
       </NavigationLink>
       <NavigationLink to={moderationLinks[4]}>
-        <SvgIcon Icon={RemoveCircleIcon} className={styles.icon} />
+        <SvgIcon Icon={RemoveIcon} className={styles.icon} />
         <Localized id="moderate-navigation-rejected">
           <span>Rejected</span>
         </Localized>

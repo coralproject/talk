@@ -23,6 +23,6 @@ $moderateCardDetailsDividerColor: var(--palette-grey-100);
 }
 
 .detailsButtonIcon {
-  align-self: baseline;
+  padding-bottom: var(--spacing-1);
   padding-left: var(--spacing-1);
 }

@@ -504,6 +504,15 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                 <Localized
                   id={refreshCommentsLocalization.id}
                   attrs={{ "aria-label": true }}
+                  elems={{
+                    icon: (
+                      <ButtonSvgIcon
+                        className={styles.refreshButtonIcon}
+                        Icon={ButtonRefreshArrowIcon}
+                        size="xs"
+                      />
+                    ),
+                  }}
                 >
                   <Button
                     aria-label={refreshCommentsLocalization.text}
@@ -526,6 +535,15 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
               <Localized
                 id="comments-refreshComments-closeButton"
                 attrs={{ "aria-label": true }}
+                elems={{
+                  icon: (
+                    <ButtonSvgIcon
+                      Icon={RemoveIcon}
+                      size="xs"
+                      className={styles.closeButtonIcon}
+                    />
+                  ),
+                }}
               >
                 <Button
                   onClick={handleClickCloseRefreshButton}

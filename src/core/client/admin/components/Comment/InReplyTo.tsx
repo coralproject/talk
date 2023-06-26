@@ -26,7 +26,12 @@ const InReplyTo: FunctionComponent<Props> = ({ children, onUsernameClick }) => {
 
   return (
     <Flex alignItems="center">
-      <SvgIcon className={styles.icon} Icon={EmailActionReplyIcon} />{" "}
+      <SvgIcon
+        className={styles.icon}
+        size="xs"
+        filled
+        Icon={EmailActionReplyIcon}
+      />{" "}
       <Localized
         id="moderate-comment-inReplyTo"
         elems={{ Username: <Username /> }}
