@@ -12,6 +12,20 @@ Add the `commentEmbed.js` script to your `html` tree. On a page that includes th
 ></script>
 ```
 
+If you are manually including the embed script, and you want to set a `customCSSURL` and a `customFontsCSSURL` to use instead or in place of tenant settings for these values, include these as data attributes on the script for the single comment embed to use. If the script is automatically added by the _Stream Embed_, these values will be grabbed and set for you.
+
+Example of how to manually add them:
+
+```html
+<script
+  class="coral-script"
+  src="//{{ CORAL_DOMAIN_NAME }}/assets/js/commentEmbed.js"
+  data-customCSSURL="{{ CUSTOM_CSS_URL }}"
+  data-customFontsCSSURL="{{ CUSTOM_FONTS_CSS_URL }}"
+  defer
+></script>
+```
+
 > **NOTE:** Replace the value of `{{ CORAL_DOMAIN_NAME }}` with the location of your running instance of Coral.
 
 ### Embed code
