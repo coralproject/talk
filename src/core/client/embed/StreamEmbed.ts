@@ -132,7 +132,7 @@ export class StreamEmbed {
     injectCountScriptIfNeeded(config.rootURL, this.ts);
 
     // Detect if comment embed injection is needed and add the comment embed script.
-    injectCommentEmbedScriptIfNeeded(config.rootURL, this.ts);
+    injectCommentEmbedScriptIfNeeded(config, this.ts);
 
     if (config.commentID) {
       // Delay emit of `showPermalink` event to allow user enough time to setup
