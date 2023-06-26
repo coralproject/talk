@@ -10,6 +10,8 @@ interface CommentEmbedQueryArgs {
   commentID?: string;
   allowReplies?: string;
   reactionLabel?: string;
+  customFontsCSSURL?: string | null;
+  customCSSURL?: string | null;
 }
 
 /** createCommentEmbedQueryRef creates a unique reference from the query args */
@@ -34,9 +36,22 @@ function detectAndInject(opts: DetectAndInjectArgs = {}) {
     const commentID = element.dataset.commentid;
     const allowReplies = element.dataset.allowreplies;
     const reactionLabel = element.dataset.reactionlabel;
+    const embedScript = document.querySelector(
+      "#coralSingleCommentEmbedScript"
+    );
+    const customCSSURL = embedScript?.getAttribute("data-customCSSURL");
+    const customFontsCSSURL = embedScript?.getAttribute(
+      "data-customFontsCSSURL"
+    );
 
     // Construct the args for generating the ref.
-    const args = { commentID, allowReplies, reactionLabel };
+    const args = {
+      commentID,
+      allowReplies,
+      reactionLabel,
+      customCSSURL,
+      customFontsCSSURL,
+    };
 
     // Get or create a ref.
     let ref = element.dataset.coralRef;
@@ -59,7 +74,13 @@ function detectAndInject(opts: DetectAndInjectArgs = {}) {
 
   // Call server using JSONP.
   Object.keys(queryMap).forEach((ref) => {
-    const { commentID, allowReplies, reactionLabel } = queryMap[ref];
+    const {
+      commentID,
+      allowReplies,
+      reactionLabel,
+      customCSSURL,
+      customFontsCSSURL,
+    } = queryMap[ref];
 
     // Compile the arguments used to generate the
     const args: Record<string, string | undefined> = {
@@ -67,6 +88,8 @@ function detectAndInject(opts: DetectAndInjectArgs = {}) {
       commentID,
       ref,
       reactionLabel,
+      customCSSURL: customCSSURL ?? undefined,
+      customFontsCSSURL: customFontsCSSURL ?? undefined,
     };
 
     // Add the script element with the specified options to the page.
