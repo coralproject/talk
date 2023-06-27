@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from "graphql";
-import { withFilter } from "graphql-subscriptions";
+import { ResolverFn, withFilter } from "graphql-subscriptions";
 
 import { SubscriptionResolver } from "coral-server/graph/schema/__generated__/types";
 import GraphContext from "../../context";
@@ -77,6 +77,16 @@ export interface CreateIteratorInput<TParent, TArgs, TResult> {
   filter: FilterFn<TParent, TArgs, GraphContext>;
 }
 
+// NOTE (marcushaddon): if the createIterator function is in fact actually
+// returning an iterable, this might break
+const iteratorToIterable = <T extends any>(
+  itor: AsyncIterator<T>
+): AsyncIterable<T> => ({
+  [Symbol.asyncIterator]() {
+    return itor;
+  },
+});
+
 export function createIterator<
   TResult,
   TKey extends string,
@@ -87,12 +97,16 @@ export function createIterator<
   channel: SUBSCRIPTION_CHANNELS,
   { filter }: CreateIteratorInput<TParent, TArgs, TResult>
 ): SubscriptionResolver<TResult, TKey, TParent, TContext, TArgs> {
-  const subscribe = withFilter(
+  const subscribeInner: ResolverFn = withFilter(
     createTenantAsyncIterator(channel),
     composeFilters(clientIDFilterFn, filter)
   );
+  const wrapped = (rootValue?: any, args?: any, context?: any, info?: any) => {
+    const inner = subscribeInner(rootValue, args, context, info);
+    return iteratorToIterable(inner);
+  };
   return {
-    subscribe,
-    resolve: (payload) => payload,
+    subscribe: wrapped,
+    resolve: (payload: TResult) => payload,
   };
 }

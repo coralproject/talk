@@ -1,8 +1,7 @@
 import {
-  GQLCommentCreatedPayload,
-  GQLSubscription,
+  GQLResolversTypes,
   GQLSubscriptionGQLcommentCreatedArgs,
-  Resolver,
+  RequireFields,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "coral-server/graph/context";
@@ -24,12 +23,13 @@ export type CommentCreatedSubscription = SubscriptionType<
   CommentCreatedInput
 >;
 
-export const commentCreated: Resolver<
-  GQLCommentCreatedPayload,
-  GQLSubscription,
+export const commentCreated = createIterator<
+  any,
+  "commentCreated",
+  GQLResolversTypes["CommentCreatedPayload"],
   GraphContext,
-  GQLSubscriptionGQLcommentCreatedArgs
-> = createIterator(SUBSCRIPTION_CHANNELS.COMMENT_CREATED, {
+  RequireFields<GQLSubscriptionGQLcommentCreatedArgs, "storyID">
+>(SUBSCRIPTION_CHANNELS.COMMENT_CREATED, {
   filter: (source, { storyID }) => {
     if (source.storyID !== storyID) {
       return false;

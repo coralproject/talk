@@ -1,12 +1,11 @@
 import { hasFeatureFlag } from "coral-server/models/tenant";
 
 import {
-  GQLCommentEnteredModerationQueuePayload,
   GQLFEATURE_FLAG,
   GQLMODERATION_QUEUE,
-  GQLSubscription,
+  GQLResolversTypes,
   GQLSubscriptionGQLcommentEnteredModerationQueueArgs,
-  Resolver,
+  RequireFields,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "coral-server/graph/context";
@@ -31,12 +30,13 @@ export type CommentEnteredModerationQueueSubscription = SubscriptionType<
   CommentEnteredModerationQueueInput
 >;
 
-export const commentEnteredModerationQueue: Resolver<
-  GQLCommentEnteredModerationQueuePayload,
-  GQLSubscription,
+export const commentEnteredModerationQueue = createIterator<
+  any,
+  "commentEnteredModerationQueue", // TODO (marcushaddon): where does this come from and is it true? do we need to upate our enum?
+  GQLResolversTypes["CommentEnteredModerationQueuePayload"],
   GraphContext,
-  GQLSubscriptionGQLcommentEnteredModerationQueueArgs
-> = createIterator(SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE, {
+  RequireFields<GQLSubscriptionGQLcommentEnteredModerationQueueArgs, "storyID">
+>(SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE, {
   filter: (source, { storyID, siteID, section, queue }, ctx) => {
     // If we're filtering by storyID, then only send back comments with the
     // specific storyID.

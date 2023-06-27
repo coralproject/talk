@@ -1,9 +1,8 @@
 import {
   GQLCOMMENT_STATUS,
-  GQLCommentStatusUpdatedPayload,
-  GQLSubscription,
+  GQLResolversTypes,
   GQLSubscriptionGQLcommentStatusUpdatedArgs,
-  Resolver,
+  RequireFields,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "coral-server/graph/context";
@@ -28,12 +27,13 @@ export type CommentStatusUpdatedSubscription = SubscriptionType<
   CommentStatusUpdatedInput
 >;
 
-export const commentStatusUpdated: Resolver<
-  GQLCommentStatusUpdatedPayload,
-  GQLSubscription,
+export const commentStatusUpdated = createIterator<
+  any,
+  "commentStatusUpdated", // TODO (marcushaddon): where does this come from and is it true? do we need to upate our enum?
+  GQLResolversTypes["CommentStatusUpdatedPayload"],
   GraphContext,
-  GQLSubscriptionGQLcommentStatusUpdatedArgs
-> = createIterator(SUBSCRIPTION_CHANNELS.COMMENT_STATUS_UPDATED, {
+  RequireFields<GQLSubscriptionGQLcommentStatusUpdatedArgs, "id">
+>(SUBSCRIPTION_CHANNELS.COMMENT_STATUS_UPDATED, {
   filter: (source, { id }) => {
     // If we're filtering by id, then only send back updates for the specified
     // comment.

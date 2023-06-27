@@ -26,7 +26,7 @@ export type CommentEditedSubscription = SubscriptionType<
 
 type MyType = SubscriptionResolver<
   GQLResolversTypes["CommentEditedPayload"],
-  "commentEdited",
+  SUBSCRIPTION_CHANNELS.COMMENT_EDITED,
   GQLSubscription,
   GraphContext,
   RequireFields<GQLSubscriptionGQLcommentEditedArgs, "storyID">
@@ -34,7 +34,7 @@ type MyType = SubscriptionResolver<
 
 export const commentEdited = createIterator<
   any,
-  "commentEdited",
+  "commentEdited", // TODO (marcushaddon): where does this come from and is it true? do we need to upate our enum?
   GQLResolversTypes["CommentEditedPayload"],
   GraphContext,
   RequireFields<GQLSubscriptionGQLcommentEditedArgs, "storyID">

@@ -1,8 +1,7 @@
 import {
-  GQLCommentReplyCreatedPayload,
-  GQLSubscription,
+  GQLResolversTypes,
   GQLSubscriptionGQLcommentReplyCreatedArgs,
-  Resolver,
+  RequireFields,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "coral-server/graph/context";
@@ -25,12 +24,13 @@ export type CommentReplyCreatedSubscription = SubscriptionType<
   CommentReplyCreatedInput
 >;
 
-export const commentReplyCreated: Resolver<
-  GQLCommentReplyCreatedPayload,
-  GQLSubscription,
+export const commentReplyCreated = createIterator<
+  any,
+  "commentReplyCreated", // TODO (marcushaddon): where does this come from and is it true? do we need to upate our enum?
+  GQLResolversTypes["CommentReplyCreatedPayload"],
   GraphContext,
-  GQLSubscriptionGQLcommentReplyCreatedArgs
-> = createIterator(SUBSCRIPTION_CHANNELS.COMMENT_REPLY_CREATED, {
+  RequireFields<GQLSubscriptionGQLcommentReplyCreatedArgs, "ancestorID">
+>(SUBSCRIPTION_CHANNELS.COMMENT_REPLY_CREATED, {
   filter: (source, { ancestorID }) => {
     if (!source.ancestorIDs.includes(ancestorID)) {
       return false;
