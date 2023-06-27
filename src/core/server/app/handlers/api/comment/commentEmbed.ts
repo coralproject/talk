@@ -37,6 +37,8 @@ const CommentEmbedJSONPQuerySchema = Joi.object().keys({
   commentID: Joi.string().required(),
   allowReplies: Joi.string().optional(),
   reactionLabel: Joi.string().optional(),
+  customCSSURL: Joi.string().optional(),
+  customFontsCSSURL: Joi.string().optional(),
   ref: Joi.string().required(),
 });
 
@@ -46,6 +48,8 @@ interface CommentEmbedJSONPQuery {
   ref: string;
   allowReplies?: string;
   reactionLabel?: string;
+  customCSSURL?: string;
+  customFontsCSSURL?: string;
 }
 
 /**
@@ -78,6 +82,8 @@ export const commentEmbedJSONPHandler =
         ref,
         allowReplies,
         reactionLabel,
+        customCSSURL: customCSSURLEmbed,
+        customFontsCSSURL: customFontsCSSURLEmbed,
       }: CommentEmbedJSONPQuery = validate(
         CommentEmbedJSONPQuerySchema,
         req.query
@@ -147,7 +153,7 @@ export const commentEmbedJSONPHandler =
           mediaUrl,
           includeReplies,
           streamCSS,
-          customCSSURL,
+          customCSSURL: customCSSURLEmbed || customCSSURL,
           staticRoot: staticURI || tenantURL,
           giphyMedia,
           tenantURL,
@@ -164,7 +170,7 @@ export const commentEmbedJSONPHandler =
       const data: CommentEmbedJSONPData = {
         ref,
         html,
-        customFontsCSSURL,
+        customFontsCSSURL: customFontsCSSURLEmbed || customFontsCSSURL,
         defaultFontsCSSURL,
         commentID,
         staticRoot: staticURI || tenantURL,
