@@ -1169,10 +1169,7 @@ export async function initializeCommentTagCountsForStory(
   }
 
   let total = 0;
-  const numberValues = Object.values(tagCounts[0]).filter(
-    (v) => typeof v === "number"
-  ) as number[];
-  for (const value of numberValues) {
+  for (const [, value] of Object.entries(tagCounts[0])) {
     total += value;
   }
 

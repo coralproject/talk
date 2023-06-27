@@ -1143,10 +1143,7 @@ function enabledAuthenticationIntegrations(
 
   return integrations.filter((key) => {
     // Get the filter and enabled status for the integration.
-    const { enabled, targetFilter } =
-      tenant.auth.integrations[
-        key as Exclude<keyof GQLAuthIntegrations, "__typename">
-      ];
+    const { enabled, targetFilter } = tenant.auth.integrations[key];
     if (!enabled) {
       return false;
     }

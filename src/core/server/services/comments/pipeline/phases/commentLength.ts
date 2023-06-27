@@ -13,9 +13,9 @@ import { GQLCharCount } from "coral-server/graph/schema/__generated__/types";
 
 function resolveBound(
   charCount: GQLCharCount,
-  key: keyof Omit<GQLCharCount, "enabled" | "__typename">,
+  key: keyof Omit<GQLCharCount, "enabled">,
   defaultBound = 0
-): number {
+) {
   const bound = charCount[key];
   if (charCount.enabled && !isNil(bound)) {
     return bound;
