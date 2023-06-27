@@ -15,6 +15,7 @@ generates:
       # - "typescript-document-nodes"
     config:
       defaultMapper: any # TODO: document
+      skipTypename: true
       contextType: "GraphContext"
       allowParentTypeOverride: true
       importStatement: "import GraphContext from 'coral-server/graph/context';"

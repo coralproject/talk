@@ -5,27 +5,11 @@ const fs = require("fs");
 
 async function main() {
   /* eslint-disable */
-  console.log("SKIPPING OLD GENERATE SCHEMA TYPES script");
-  return;
+  console.log("NOTE: temporarily using old generateSchemaTypes to generate frontend types");
   const config = loadConfigSync({});
   const projects = config.projects;
 
   const files = [
-    {
-      name: "tenant",
-      fileName: path.join(
-        __dirname,
-        "../src/core/server/graph/schema/__generated__/types.ts"
-      ),
-      config: {
-        contextType: "GraphContext",
-        importStatements: [
-          'import GraphContext from "coral-server/graph/context";',
-          'import { Cursor } from "coral-server/models/helpers";',
-        ],
-        customScalarType: { Cursor: "Cursor", Time: "Date" },
-      },
-    },
     {
       name: "tenant",
       fileName: path.join(

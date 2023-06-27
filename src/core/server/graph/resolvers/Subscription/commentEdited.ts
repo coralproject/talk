@@ -1,9 +1,7 @@
 import {
   GQLResolversTypes,
-  GQLSubscription,
   GQLSubscriptionGQLcommentEditedArgs,
   RequireFields,
-  SubscriptionResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "coral-server/graph/context";
@@ -22,14 +20,6 @@ export interface CommentEditedInput extends SubscriptionPayload {
 export type CommentEditedSubscription = SubscriptionType<
   SUBSCRIPTION_CHANNELS.COMMENT_EDITED,
   CommentEditedInput
->;
-
-type MyType = SubscriptionResolver<
-  GQLResolversTypes["CommentEditedPayload"],
-  SUBSCRIPTION_CHANNELS.COMMENT_EDITED,
-  GQLSubscription,
-  GraphContext,
-  RequireFields<GQLSubscriptionGQLcommentEditedArgs, "storyID">
 >;
 
 export const commentEdited = createIterator<
