@@ -180,6 +180,7 @@
     "@giphy/react-components": "^5.4.0",
     "@graphql-codegen/cli": "^1.21.8",
     "@graphql-codegen/introspection": "^1.18.1",
+    "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-resolvers": "^4.0.0",
     "@intervolga/optimize-cssnano-plugin": "^1.0.6",
     "@sentry/react": "^6.19.7",
