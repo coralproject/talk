@@ -36,8 +36,6 @@ function render(props: ReactionButtonProps) {
     onClick,
     labelActive,
     label,
-    // icon,
-    // iconActive,
   } = props;
 
   return (

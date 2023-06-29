@@ -77,7 +77,6 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ autoFocus }) => {
                   >
                     {iconInput.value && (
                       <MessageBoxIcon icon={iconInput.value} />
-                      // <MessageBoxIcon>{iconInput.value}</MessageBoxIcon>
                     )}
                     {/* Using a zero width join character to ensure that the space is used */}
                     <MessageBoxContent
