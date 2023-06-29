@@ -166,7 +166,7 @@ const rejectLiveComments = async (
         cache,
         null,
         tenant,
-        comment,
+        comment.id,
         revision.id,
         moderatorID,
         now

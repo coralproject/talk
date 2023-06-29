@@ -68,14 +68,12 @@ const rejectComment = async (
   cache: DataCache,
   broker: CoralEventPublisherBroker | null,
   tenant: Tenant,
-  comment: Readonly<Comment>,
+  commentID: string,
   commentRevisionID: string,
   moderatorID: string,
   now: Date,
   request?: Request | undefined
 ) => {
-  const { id: commentID } = comment;
-
   const updateAllCommentCountsArgs = {
     actionCounts: {},
   };
