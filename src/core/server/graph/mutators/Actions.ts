@@ -1,3 +1,4 @@
+import { CommentNotFoundError } from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { approveComment, rejectComment } from "coral-server/stacks";
 import reviewCommentAction from "coral-server/stacks/reviewCommentAction";
@@ -32,13 +33,18 @@ export const Actions = (ctx: GraphContext) => ({
     // Validate that this user is allowed to moderate this comment
     await validateUserModerationScopes(ctx, ctx.user!, input);
 
+    const comment = await ctx.loaders.Comments.comment.load(input.commentID);
+    if (!comment) {
+      throw new CommentNotFoundError(input.commentID);
+    }
+
     return rejectComment(
       ctx.mongo,
       ctx.redis,
       ctx.cache,
       ctx.broker,
       ctx.tenant,
-      input.commentID,
+      comment,
       input.commentRevisionID,
       ctx.user!.id,
       ctx.now
