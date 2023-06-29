@@ -119,7 +119,7 @@ const StarRating: FunctionComponent<Props> = ({
               ? RatingStarIcon
               : RatingHalfStarIcon
           }
-          filled={starType === "full" || starType === "half"}
+          filled={starType === "full"}
           value={star}
           {...props}
         />
