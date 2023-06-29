@@ -9,8 +9,6 @@ import React, {
 import { SvgIcon } from "coral-ui/components/icons";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 
-import { IconProps } from "../Icon";
-
 import styles from "./MessageIcon.css";
 
 interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
@@ -18,9 +16,9 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
    */
-  classes: typeof styles & IconProps["classes"];
+  classes: typeof styles;
 
-  size?: IconProps["size"];
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
 
   Icon: ComponentType;
 

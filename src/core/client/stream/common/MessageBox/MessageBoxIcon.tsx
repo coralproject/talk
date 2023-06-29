@@ -14,7 +14,6 @@ import {
   QuestionHelpMessageIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
-import { IconProps } from "coral-ui/components/v2/Icon";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 
 import styles from "./MessageBoxIcon.css";
@@ -24,9 +23,9 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
    */
-  classes: typeof styles & IconProps["classes"];
+  classes: typeof styles;
 
-  size?: IconProps["size"];
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
 
   /** The name of the icon to render */
   icon: string;
