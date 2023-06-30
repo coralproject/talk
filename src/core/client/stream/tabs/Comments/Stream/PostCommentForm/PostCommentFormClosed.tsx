@@ -29,7 +29,12 @@ const PostCommentFormClosed: FunctionComponent<Props> = (props) => (
     )}
     <CallOut
       color="mono"
-      icon={<SvgIcon Icon={MessagesBubbleSquareWarningIcon} />}
+      icon={
+        <SvgIcon
+          className={styles.icon}
+          Icon={MessagesBubbleSquareWarningIcon}
+        />
+      }
       className={cn(CLASSES.createComment.closed)}
       titleWeight="semiBold"
       title={<Markdown>{props.message}</Markdown>}
