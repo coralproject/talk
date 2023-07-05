@@ -10,8 +10,36 @@
   line-height: 1;
 
   color: var(--palette-text-500);
+}
 
-  margin-bottom: var(--spacing-3);
+.header {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-2);
+  color: var(--palette-text-500);
+  margin-bottom: var(--spacing-1);
+  margin-top: var(--spacing-3);
+}
+
+.orderedList {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.callOut {
+  padding: var(--spacing-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+  margin-top: var(--spacing-3);
+  font-size: var(--font-size-1);
+}
+
+.confirmationInput {
+  box-sizing: border-box;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+  line-height: 2.25;
+  padding-left: var(--spacing-2);
+  width: 100%;
 }
 
 .description {

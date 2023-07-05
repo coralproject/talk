@@ -59,13 +59,14 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
       <DropdownDivider />
       {settings?.multisite ? (
         <>
-          <ModerationActionBanButton
-            disabled={!user || !!userIsSiteBanned || userIsAllSiteBanned}
-            allSiteBan={false}
-            onClick={!user ? undefined : onSiteBan}
-            showSpinner={!user}
-          />
-          {!viewerScoped && (
+          {viewerScoped ? (
+            <ModerationActionBanButton
+              disabled={!user || !!userIsSiteBanned || userIsAllSiteBanned}
+              allSiteBan={false}
+              onClick={!user ? undefined : onSiteBan}
+              showSpinner={!user}
+            />
+          ) : (
             <ModerationActionBanButton
               disabled={!user || userIsAllSiteBanned}
               allSiteBan={true}

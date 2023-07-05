@@ -41,6 +41,7 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
 }) => {
   const emitShowEvent = useViewerEvent(ShowModerationPopoverEvent);
   const [view, setView] = useState<View>("MODERATE");
+
   const onBan = useCallback(() => {
     setView("BAN");
     scheduleUpdate();
@@ -72,6 +73,7 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
       ) : (
         <UserBanPopoverContainer
           comment={comment}
+          settings={settings}
           story={story}
           onDismiss={onDismiss}
           siteBan={view === "SITE_BAN"}
@@ -110,6 +112,7 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ModerationDropdownContainer_settings on Settings {
       ...ModerationActionsContainer_settings
+      ...UserBanPopoverContainer_settings
     }
   `,
   viewer: graphql`

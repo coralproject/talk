@@ -255,6 +255,14 @@ comments-userIgnorePopover-description =
 comments-userIgnorePopover-ignore = Ignore
 comments-userIgnorePopover-cancel = Cancel
 
+comments-userSpamBanPopover-title = Spam ban
+comments-userSpamBanPopover-header-username = Username
+comments-userSpamBanPopover-header-description = Spam ban will
+comments-userSpamBanPopover-callout = Only for use on obvious spam accounts
+comments-userSpamBanPopover-description-list-banFromComments = Ban this account from the comments
+comments-userSpamBanPopover-description-list-rejectAllComments = Reject all comments written by this account
+comments-userSpamBanPopover-confirmation = Type in "spam ban" to confirm
+
 comments-userBanPopover-title = Ban {$username}?
 comments-userSiteBanPopover-title = Ban {$username} from this site?
 comments-userBanPopover-description =
@@ -272,8 +280,9 @@ comments-moderationDropdown-approve = Approve
 comments-moderationDropdown-approved = Approved
 comments-moderationDropdown-reject = Reject
 comments-moderationDropdown-rejected = Rejected
-comments-moderationDropdown-ban = Ban User
-comments-moderationDropdown-siteBan = Site Ban
+comments-moderationDropdown-spam-ban = Spam ban
+comments-moderationDropdown-ban = Ban user
+comments-moderationDropdown-siteBan = Site ban
 comments-moderationDropdown-banned = Banned
 comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Moderation view

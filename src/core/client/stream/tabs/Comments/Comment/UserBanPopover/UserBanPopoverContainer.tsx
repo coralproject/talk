@@ -1,15 +1,27 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
+import { useModerationLink } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  useLocal,
+  useMutation,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Box, Button, Flex } from "coral-ui/components/v2";
+import { Box, Button, CallOut, Divider, Flex } from "coral-ui/components/v2";
 
 import { UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
+import { UserBanPopoverContainer_local } from "coral-stream/__generated__/UserBanPopoverContainer_local.graphql";
+import { UserBanPopoverContainer_settings } from "coral-stream/__generated__/UserBanPopoverContainer_settings.graphql";
 import { UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
 
 import RejectCommentMutation from "../ModerationDropdown/RejectCommentMutation";
@@ -20,27 +32,52 @@ import styles from "./UserBanPopoverContainer.css";
 interface Props {
   onDismiss: () => void;
   comment: UserBanPopoverContainer_comment;
+  settings: UserBanPopoverContainer_settings;
   story: UserBanPopoverContainer_story;
   siteBan: boolean;
 }
 
 const UserBanPopoverContainer: FunctionComponent<Props> = ({
   comment,
+  settings,
   story,
   onDismiss,
   siteBan,
 }) => {
+  const [{ accessToken }] = useLocal<UserBanPopoverContainer_local>(graphql`
+    fragment UserBanPopoverContainer_local on Local {
+      accessToken
+    }
+  `);
+
   const user = comment.author!;
   const rejected = comment.status === "REJECTED";
   const reject = useMutation(RejectCommentMutation);
   const banUser = useMutation(BanUserMutation);
   const { localeBundles } = useCoralContext();
+  const [spamBanConfirmation, setSpamBanConfirmation] = useState("");
+
+  const linkModerateComment = useModerationLink({ commentID: comment.id });
+  const moderationLinkSuffix =
+    !!accessToken &&
+    settings.auth.integrations.sso.enabled &&
+    settings.auth.integrations.sso.targetFilter.admin &&
+    `#accessToken=${accessToken}`;
+
+  const gotoModerateCommentHref = useMemo(() => {
+    let ret = linkModerateComment;
+    if (moderationLinkSuffix) {
+      ret += moderationLinkSuffix;
+    }
+
+    return ret;
+  }, [linkModerateComment, moderationLinkSuffix]);
 
   const onBan = useCallback(() => {
     void banUser({
       userID: user.id,
       commentID: comment.id,
-      rejectExistingComments: false,
+      rejectExistingComments: siteBan ? false : true,
       message: getMessage(
         localeBundles,
         "common-banEmailTemplate",
@@ -85,19 +122,49 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
           </div>
         </Localized>
       ) : (
-        <Localized
-          id="comments-userBanPopover-title"
-          vars={{ username: user.username }}
-        >
-          <div className={styles.title}>Ban {user.username}?</div>
-        </Localized>
+        <>
+          <Localized id="comments-userSpamBanPopover-title">
+            <div className={styles.title}>Spam ban</div>
+          </Localized>
+          <Localized id="comments-userSpamBanPopover-header-username">
+            <div className={styles.header}>Username</div>
+          </Localized>
+          <div>{user.username}</div>
+          <Localized id="comments-userSpamBanPopover-header-description">
+            <div className={styles.header}>Spam ban will</div>
+          </Localized>
+          <div>
+            <ol className={styles.orderedList}>
+              <Localized id="comments-userSpamBanPopover-description-list-banFromComments">
+                <li>Ban this account from the comments</li>
+              </Localized>
+              <Localized id="comments-userSpamBanPopover-description-list-rejectAllComments">
+                <li>Reject all comments written by this account</li>
+              </Localized>
+            </ol>
+          </div>
+          <Localized id="comments-userSpamBanPopover-callout">
+            <CallOut
+              className={styles.callOut}
+              color="error"
+              fullWidth
+              borderless
+            >
+              {/* TODO: Add icon */}
+              Only for use on obvious spam accounts
+            </CallOut>
+          </Localized>
+          <Localized id="comments-userSpamBanPopover-confirmation">
+            <div className={styles.header}>Type in "spam ban" to confirm</div>
+          </Localized>
+          <input
+            className={styles.confirmationInput}
+            type="text"
+            placeholder=""
+            onChange={(e) => setSpamBanConfirmation(e.target.value)}
+          ></input>
+        </>
       )}
-      <Localized id="comments-userBanPopover-description">
-        <span className={styles.description}>
-          Once banned, this user will no longer be able to comment, use
-          reactions, or report comments.
-        </span>
-      </Localized>
       <Flex
         justifyContent="flex-end"
         itemGutter="half"
@@ -116,6 +183,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         </Localized>
         <Localized id="comments-userBanPopover-ban">
           <Button
+            disabled={siteBan ? false : !(spamBanConfirmation === "spam ban")}
             className={CLASSES.banUserPopover.banButton}
             variant="regular"
             size="regular"
@@ -126,6 +194,28 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
           </Button>
         </Localized>
       </Flex>
+      {!siteBan && (
+        <>
+          <Divider />
+          <Localized id="">
+            <Flex alignItems="baseline">
+              For more context, go to{" "}
+              <Button
+                href={gotoModerateCommentHref}
+                variant="text"
+                uppercase={false}
+                color="stream"
+                underline
+                size="large"
+                target="_blank"
+                anchor
+              >
+                Moderation view
+              </Button>
+            </Flex>
+          </Localized>
+        </>
+      )}
     </Box>
   );
 };
@@ -150,6 +240,20 @@ const enhanced = withFragmentContainer<Props>({
       site {
         id
         name
+      }
+    }
+  `,
+  settings: graphql`
+    fragment UserBanPopoverContainer_settings on Settings {
+      auth {
+        integrations {
+          sso {
+            enabled
+            targetFilter {
+              admin
+            }
+          }
+        }
       }
     }
   `,
