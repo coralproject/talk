@@ -323,66 +323,58 @@ const BanModal: FunctionComponent<Props> = ({
                   {/* BAN FROM/REJECT COMMENTS */}
                   <Flex direction="column">
                     {/* ban from header */}
-                    {isMultisite && (
-                      <>
-                        <Localized id="community-banModal-banFrom">
-                          <Label className={styles.banFromHeader}>
-                            Ban from
-                          </Label>
+                    <Localized id="community-banModal-banFrom">
+                      <Label className={styles.banFromHeader}>Ban from</Label>
+                    </Localized>
+                    <Flex
+                      direction="row"
+                      className={styles.sitesOptions}
+                      justifyContent="flex-start"
+                      spacing={5}
+                    >
+                      {/* sites options */}
+                      {showAllSitesOption && (
+                        <FormField>
+                          <Localized id="community-banModal-allSites">
+                            <RadioButton
+                              checked={updateType === UpdateType.ALL_SITES}
+                              onChange={() =>
+                                setUpdateType(UpdateType.ALL_SITES)
+                              }
+                              disabled={userBanStatus?.active}
+                            >
+                              All sites
+                            </RadioButton>
+                          </Localized>
+                        </FormField>
+                      )}
+                      <FormField>
+                        <Localized id="community-banModal-specificSites">
+                          <RadioButton
+                            checked={updateType === UpdateType.SPECIFIC_SITES}
+                            onChange={() =>
+                              setUpdateType(UpdateType.SPECIFIC_SITES)
+                            }
+                          >
+                            Specific Sites
+                          </RadioButton>
                         </Localized>
-                        <Flex
-                          direction="row"
-                          className={styles.sitesOptions}
-                          justifyContent="flex-start"
-                          spacing={5}
-                        >
-                          {/* sites options */}
-                          {showAllSitesOption && (
-                            <FormField>
-                              <Localized id="community-banModal-allSites">
-                                <RadioButton
-                                  checked={updateType === UpdateType.ALL_SITES}
-                                  onChange={() =>
-                                    setUpdateType(UpdateType.ALL_SITES)
-                                  }
-                                  disabled={userBanStatus?.active}
-                                >
-                                  All sites
-                                </RadioButton>
-                              </Localized>
-                            </FormField>
-                          )}
-                          <FormField>
-                            <Localized id="community-banModal-specificSites">
-                              <RadioButton
-                                checked={
-                                  updateType === UpdateType.SPECIFIC_SITES
-                                }
-                                onChange={() =>
-                                  setUpdateType(UpdateType.SPECIFIC_SITES)
-                                }
-                              >
-                                Specific Sites
-                              </RadioButton>
-                            </Localized>
-                          </FormField>
-                          {!viewerIsScoped && userHasAnyBan && (
-                            <FormField>
-                              <Localized id="community-banModal-noSites">
-                                <RadioButton
-                                  checked={updateType === UpdateType.NO_SITES}
-                                  onChange={() =>
-                                    setUpdateType(UpdateType.NO_SITES)
-                                  }
-                                >
-                                  No Sites
-                                </RadioButton>
-                              </Localized>
-                            </FormField>
-                          )}
-                        </Flex>
-                      </>
-                    )}
+                      </FormField>
+                      {!viewerIsScoped && userHasAnyBan && (
+                        <FormField>
+                          <Localized id="community-banModal-noSites">
+                            <RadioButton
+                              checked={updateType === UpdateType.NO_SITES}
+                              onChange={() =>
+                                setUpdateType(UpdateType.NO_SITES)
+                              }
+                            >
+                              No Sites
+                            </RadioButton>
+                          </Localized>
+                        </FormField>
+                      )}
+                    </Flex>
                     {/* reject comments option */}
                     {updateType !== UpdateType.NO_SITES && (
                       <Localized
