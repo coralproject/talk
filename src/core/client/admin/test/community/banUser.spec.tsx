@@ -314,6 +314,39 @@ it("ban user across specific sites", async () => {
   expect(resolvers.Mutation!.updateUserBan!.called).toBe(true);
 });
 
+it.only("displays limited options for single site tenants", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () => settings, // base settings has multisite: false
+    },
+  });
+
+  const { container } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByRole("row", {
+    name: "Isabelle isabelle@test.com 07/06/18, 06:24 PM Commenter Active",
+  });
+  userEvent.click(
+    within(userRow).getByRole("button", { name: "Change user status" })
+  );
+
+  const dropdown = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+  fireEvent.click(within(dropdown).getByRole("button", { name: "Manage Ban" }));
+
+  // MARCUS: why is this passing?
+  const modal = screen.getByLabelText("Are you sure you want to ban Isabelle?");
+  expect(modal).toBeInTheDocument();
+  expect(screen.queryByText("All sites")).not.toBeInTheDocument();
+  expect(screen.queryByText("Specific sites")).not.toBeInTheDocument();
+  expect(
+    screen.queryByText("Are you sure you want to ban Isabelle?")
+  ).not.toBeInTheDocument();
+});
+
 it("site moderators can unban users on their sites but not sites out of their scope", async () => {
   const user = users.siteBannedCommenter;
   const resolvers = createResolversStub<GQLResolver>({
