@@ -340,7 +340,6 @@ it.only("displays limited options for single site tenants", async () => {
   // MARCUS: why is this passing?
   const modal = screen.getByLabelText("Are you sure you want to ban Isabelle?");
   expect(modal).toBeInTheDocument();
-  // userEvent.click(within(modal).getByLabelText("All sites"));
   expect(screen.queryByText("All sites")).not.toBeInTheDocument();
   expect(screen.queryByText("Specific sites")).not.toBeInTheDocument();
   expect(
