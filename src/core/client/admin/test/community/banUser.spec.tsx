@@ -314,7 +314,7 @@ it("ban user across specific sites", async () => {
   expect(resolvers.Mutation!.updateUserBan!.called).toBe(true);
 });
 
-it.only("displays limited options for single site tenants", async () => {
+it("displays limited options for single site tenants", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Query: {
       settings: () => settings, // base settings has multisite: false
