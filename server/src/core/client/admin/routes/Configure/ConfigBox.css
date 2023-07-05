@@ -1,0 +1,14 @@
+$configureHeadingBackgroundColor: $colors-teal-900;
+
+.root {
+}
+
+.title {
+  background: $configureHeadingBackgroundColor;
+  width: calc(100% - 2 * var(--spacing-2));
+  padding: var(--spacing-2);
+}
+
+.content {
+  padding: var(--spacing-3) var(--spacing-2) 0 var(--spacing-2);
+}

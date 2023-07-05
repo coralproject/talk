@@ -1,0 +1,26 @@
+.button {
+  border-style: solid;
+  border-width: 1px;
+
+  color: var(--palette-text-000);
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    background-color: var(--palette-grey-500);
+    border-color: var(--palette-grey-500);
+  }
+
+  &:hover, &.mouseHover {
+    background-color: var(--palette-grey-400);
+    border-color: var(--palette-grey-400);
+  }
+  &:active, &.active {
+    background-color: var(--palette-grey-300);
+    border-color: var(--palette-grey-300);
+  }
+  &.disabled {
+    color: var(--palette-grey-400);
+    background-color: var(--palette-grey-200);
+    border-color: var(--palette-grey-200);
+  }
+}

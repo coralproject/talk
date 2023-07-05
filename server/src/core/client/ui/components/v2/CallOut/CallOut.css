@@ -1,0 +1,55 @@
+$callout-regular-bg: var(--palette-grey-100);
+$callout-regular-text: var(--palette-text-500);
+$callout-regular-border: var(--palette-grey-300);
+
+.root {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-4);
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  word-break: break-word;
+}
+
+.borderless {
+  border-style: none;
+}
+
+.colorRegular {
+  background-color: $callout-regular-bg;
+  border-color: $callout-regular-border;
+  color: $callout-regular-text;
+}
+
+.colorPrimary {
+  background-color: $colors-teal-100;
+  border-color: $colors-teal-300;
+  color: var(--palette-text-500);
+}
+
+.colorError {
+  background-color: var(--palette-error-100);
+  border-color: var(--palette-error-300);
+  color: var(--palette-text-500);
+}
+
+.colorSuccess {
+  background-color: var(--palette-success-100);
+  border-color: var(--palette-success-300);
+  color: var(--palette-text-500);
+}
+
+.fullWidth {
+  display: flex;
+  width: 100%;
+}
+
+.inner {
+  width: 100%;
+}

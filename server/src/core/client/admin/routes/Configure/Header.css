@@ -1,0 +1,11 @@
+$configureHeadingForegroundColor: var(--palette-text-000);
+
+.root {
+  border-style: none;
+  margin: 0;
+  color: $configureHeadingForegroundColor;
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-bold);
+  line-height: 1;
+  font-family: var(--font-family-primary);
+}

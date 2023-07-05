@@ -1,0 +1,8 @@
+{% extends "layouts/account-notification.html" %}
+
+{% block content %}
+  <div data-l10n-id="email-template-accountNotificationInvite" data-l10n-args="{{ context | dump }}">
+    You have been invited to join the {{ context.organizationName }} team on Coral. Finish
+    setting up your account <a data-l10n-name="invite" href="{{ context.inviteURL }}">here</a>.
+  </div>
+{% endblock %}

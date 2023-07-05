@@ -1,0 +1,6 @@
+.root {
+  width: 100%;
+  position: relative;
+  display: block;
+  padding: calc(2 * var(--mini-unit)) 0;
+}

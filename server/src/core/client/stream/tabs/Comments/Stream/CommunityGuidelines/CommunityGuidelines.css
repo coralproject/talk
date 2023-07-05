@@ -1,0 +1,10 @@
+.root {
+  background-color: var(--palette-primary-100);
+  border-radius: var(--round-corners);
+  color: var(--palette-text-500);
+
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+  padding-top: var(--spacing-3);
+  padding-bottom: var(--spacing-3);
+}

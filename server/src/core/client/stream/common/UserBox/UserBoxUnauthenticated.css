@@ -1,0 +1,19 @@
+.joinText {
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-4);
+  line-height: 1;
+
+  color: var(--palette-text-500);
+
+  margin-right: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+}
+
+.actions {
+  margin-bottom: var(--spacing-3);
+}
+
+.register {
+  margin-right: var(--spacing-1);
+}

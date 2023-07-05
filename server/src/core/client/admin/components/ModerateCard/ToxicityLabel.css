@@ -1,0 +1,18 @@
+$moderateCardCounterBadgeBackgroundAlert: var(--palette-error-500);
+$moderateCardToxicityColor: var(--palette-text-500);
+
+.root {
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: 1.285;
+  color: $moderateCardToxicityColor;
+
+  padding-left: var(--spacing-2);
+  padding-bottom: var(--spacing-1);
+  padding-top: var(--spacing-1);
+}
+
+.likely {
+  color: $moderateCardCounterBadgeBackgroundAlert;
+}

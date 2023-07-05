@@ -1,0 +1,7 @@
+.icon {
+  color: var(--palette-text-500);
+}
+
+.gutter {
+  margin-bottom: var(--spacing-3);
+}

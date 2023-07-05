@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "commonjs",
+    "allowJs": true,
+    "noEmit": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noErrorTruncation": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "es6", "esnext.asynciterable"],
+    "plugins": [
+      {
+        "name": "typescript-snapshots-plugin"
+      }
+    ]
+  },
+  "include": [
+    "./src/**/.*.js",
+    "./src/types/**/*.d.ts",
+    "./scripts/**/*",
+    "./config/**/*",
+    "*.js"
+  ],
+  "exclude": ["node_modules"]
+}

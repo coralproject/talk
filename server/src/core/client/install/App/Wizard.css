@@ -1,0 +1,13 @@
+.root {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.section {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.stepBar {
+  padding: var(--mini-unit) 0 calc(8 * var(--mini-unit));
+}

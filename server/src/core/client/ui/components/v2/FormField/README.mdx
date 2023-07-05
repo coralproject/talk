@@ -1,0 +1,76 @@
+---
+name: FormField
+menu: UI Kit v2
+---
+
+import { Playground } from 'docz'
+import { Field, Form } from "react-final-form";
+import { noop } from 'lodash'
+
+
+import { Label, FormFieldHeader, TextField, FormFieldDescription, HelperText, FormField, DurationField, ValidationMessage, DURATION_UNIT } from '../'
+import HorizontalGutter from "../HorizontalGutter";
+
+# FormField
+
+`FormField` is to be used with Form Components: `FormFieldDescription`, `FormFieldHeader`, `TextField`, `HelperText`, etc.
+These components manage the gutters between inner elements to ensure consistent spacing.
+
+- `FormField` should wrap a form input and its label, along with any field descriptions or helper text
+- `FormFieldHeader` wraps a form label and its helper text. Not necessary if there's only a label
+- `FormFieldDescription` is a general description or explanation of the field or series of fields
+- `HelperText` is clarifying information or instructions, that follows a label
+
+## Justify content
+<Playground>
+  <Form onSubmit={noop}>
+    {() => (
+      <>
+        <FormField>
+          <Label htmlFor="simple.field">A simple form field</Label>
+          <Field name="simple.field">
+            {({ input, meta }) => (
+              <TextField
+                meta={meta}
+                {...input}
+              />
+            )}
+          </Field>
+        </FormField>
+        <FormField>
+          <FormFieldDescription>This is a description of this form field</FormFieldDescription>
+          <FormFieldHeader>
+            <Label htmlFor="simple.field">A form field with helper text</Label>
+            <HelperText>This is some helper text or instructions</HelperText>
+          </FormFieldHeader>
+          <Field name="simple.field">
+            {({ input, meta }) => (
+              <>
+                <TextField
+                  meta={meta}
+                  {...input}
+                />
+                <ValidationMessage meta={meta} fullWidth />
+              </>
+            )}
+          </Field>
+        </FormField>
+        <FormField>
+          <Label htmlFor="simple.field">A form field with a different input type</Label>
+          <Field name="simple.field">
+            {({ input, meta }) => (
+              <HorizontalGutter spacing={2}>
+                <DurationField
+                  units={[DURATION_UNIT.WEEKS]}
+                  disabled={false}
+                  {...input}
+                />
+                <ValidationMessage meta={meta} fullWidth />
+              </HorizontalGutter>
+            )}
+          </Field>
+        </FormField>
+      </>
+    )}
+  </Form>
+</Playground>

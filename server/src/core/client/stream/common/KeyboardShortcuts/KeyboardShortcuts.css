@@ -1,0 +1,30 @@
+.flexContainer {
+  height: 100%;
+}
+
+.unmarkAllContainer {
+  flex-grow: 1;
+  border-right: 1px solid currentColor;
+}
+
+.nextActionContainer {
+  flex-grow: 1;
+  border-right: 1px solid currentColor;
+}
+
+.closeContainer {
+  flex-shrink: 0;
+}
+
+.button {
+  padding: 9px 16px;
+  width: 100%;
+}
+.buttonColor {}
+.buttonDisabled {}
+.button.buttonColor, .button:not(:disabled).buttonColor, .button:not(.buttonDisabled).buttonColor {
+  &:hover {
+    color: currentColor;
+  }
+  color: currentColor;
+}

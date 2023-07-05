@@ -1,0 +1,4 @@
+.container {
+  padding: var(--mini-unit);
+  min-height: 30px;
+}

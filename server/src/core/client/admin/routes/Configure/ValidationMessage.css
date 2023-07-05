@@ -1,0 +1,3 @@
+.root {
+  min-width: calc(29 * var(--mini-unit));
+}

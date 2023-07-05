@@ -1,0 +1,75 @@
+.root {
+  position: relative;
+  display: inline-block;
+}
+
+.afterWrapper {
+  position: absolute;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  right: var(--spacing-2);
+  height: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+
+.keyboardFocus:focus {
+  @mixin outline;
+}
+
+.selectFont {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.3;
+}
+
+.selectFont option {
+  font-weight: normal;
+}
+
+.selectColor {
+  color: var(--palette-text-500);
+}
+
+.select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  appearance: none;
+  outline: none;
+  width: 100%;
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+  }
+
+  &:disabled {
+    background-color: var(--palette-background-input-disabled);
+    color: var(--palette-text-input-disabled);
+  }
+
+  border-radius: var(--round-corners);
+  background-color: var(--palette-background-input);
+  border: 1px solid var(--palette-grey-500);
+  padding: calc(var(--spacing-1) - 0.8px) var(--spacing-6)
+    var(--spacing-1) var(--spacing-2);
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.afterWrapperDisabled {
+  color: var(--palette-text-500);
+}

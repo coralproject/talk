@@ -1,0 +1,55 @@
+.root {
+  font-size: var(--font-size-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2);
+  width: 100%;
+  text-align: left;
+  line-height: 1;
+}
+
+.anchor {
+  color: $colors-teal-700;
+  text-decoration: underline;
+  &:visited {
+    color: $colors-teal-700;
+  }
+}
+
+.root:disabled {
+  opacity: 0.6;
+}
+
+.root:not(:disabled):active {
+  background-color: $colors-teal-100;
+}
+
+.mouseHover {
+  background-color: $colors-teal-100;
+}
+
+.iconBefore {
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+  color: var(--palette-grey-500);
+  margin-right: var(--spacing-2);
+}
+.iconAfter {
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  margin-left: var(--spacing-2);
+  text-decoration: unset;
+}
+.iconOpenInNew {
+  padding-top: 1px;
+  color: $colors-teal-700;
+}
+
+.blankAdornment {
+  padding-right: var(--spacing-6);
+}

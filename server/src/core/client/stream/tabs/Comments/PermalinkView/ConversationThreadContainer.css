@@ -1,0 +1,33 @@
+.root {
+}
+
+.rootParent {
+  padding-bottom: var(--spacing-2);
+}
+
+.parentList {
+  padding-bottom: var(--spacing-2);
+}
+
+.parentContainer {
+  margin-bottom: var(--spacing-2);
+}
+
+.targetComment {
+  margin-left: calc(var(--spacing-4) - 1.5px);
+}
+
+.loadMore {
+  padding-left: var(--spacing-2);
+  padding-bottom: var(--spacing-2);
+}
+
+.showMoreContainer {
+  margin-left: -7px;
+
+  padding-bottom: var(--spacing-2);
+}
+
+.showMoreIcon {
+  color: var(--palette-text-100);
+}

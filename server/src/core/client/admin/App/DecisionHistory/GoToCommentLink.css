@@ -1,0 +1,10 @@
+$moderateCardDecisionHistoryLinkTextColor: $colors-teal-700;
+
+.root {
+  font-weight: var(--font-weight-primary-bold);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-1);
+  line-height: 1.33;
+  color: $moderateCardDecisionHistoryLinkTextColor;
+  font-style: var(--font-style-underline);
+}

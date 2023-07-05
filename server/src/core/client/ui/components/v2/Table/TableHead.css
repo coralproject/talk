@@ -1,0 +1,6 @@
+$tableHeaderBackgroundColor: var(--palette-grey-200);
+
+.root {
+  background: $tableHeaderBackgroundColor;
+  box-sizing: border-box;
+}

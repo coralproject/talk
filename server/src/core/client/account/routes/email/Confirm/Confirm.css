@@ -1,0 +1,52 @@
+.title {
+  font-family: var(--font-family-secondary);
+  font-style: normal;
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-6);
+  line-height: 1.17;
+
+  color: var(--palette-text-500);
+
+  margin-bottom: var(--spacing-2);
+}
+
+.description {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-500);
+
+  margin-bottom: var(--spacing-3);
+}
+
+.label {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+
+  color: var(--palette-text-500);
+
+  margin-bottom: var(--spacing-1);
+}
+
+.labelDescription {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: 1.285;
+
+  color: var(--palette-text-100);
+
+  margin-bottom: var(--spacing-2);
+}
+
+.submit {
+  margin-top: var(--spacing-5);
+  margin-bottom: var(--spacing-1);
+}

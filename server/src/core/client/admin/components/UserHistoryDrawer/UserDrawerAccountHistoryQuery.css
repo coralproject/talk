@@ -1,0 +1,10 @@
+.spinner {
+  text-align: center;
+}
+
+.callout {
+  width: 100%;
+  font-family: var(--font-family-primary);
+  align-content: center;
+  text-align: center;
+}

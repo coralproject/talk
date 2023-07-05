@@ -1,0 +1,18 @@
+.root {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-1);
+  color: var(--palette-text-500);
+  line-height: 1.33;
+  display: block;
+  text-decoration: none;
+  padding: var(--spacing-2) var(--spacing-4);
+}
+
+.root:hover {
+  background: $colors-teal-100;
+}
+
+.active {
+  font-weight: var(--font-weight-primary-bold);
+}

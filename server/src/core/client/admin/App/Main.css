@@ -1,0 +1,16 @@
+:global {
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  input::-ms-clear, input::-ms-reveal {
+    display: none;
+  }
+}
+
+.root {
+}
+
+.logoContainer {
+  position: relative;
+}

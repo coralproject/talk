@@ -1,0 +1,18 @@
+.root {
+  padding: calc(4 * var(--mini-unit)) 0;
+}
+
+.headline {
+  font-weight: var(--font-weight-primary-regular);
+}
+
+.headlineMain {
+  font-size: var(--font-size-7);
+  line-height: 1;
+}
+
+.subHeadlineMain {
+  font-size: var(--font-size-8);
+  line-height: 1;
+  font-weight: var(--font-weight-primary-bold);
+}

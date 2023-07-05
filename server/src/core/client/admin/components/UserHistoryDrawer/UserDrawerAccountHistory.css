@@ -1,0 +1,55 @@
+.tableHeader {
+  border-width: 0px;
+  border-style: none;
+  background-color: var(--palette-grey-200);
+}
+
+.row:first-child:hover {
+  border-top: none;
+}
+
+.row:nth-child(even) {
+  /* NOTE: differs from pallate colors */
+  background-color: rgba(242, 242, 242, 0.4);
+}
+
+.row:nth-child(even):hover {
+  /* NOTE: differs from pallate colors */
+  background-color: rgba(242, 242, 242, 0.4);
+  box-shadow: none;
+}
+
+.row:nth-child(odd):hover {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.rowBanned {
+  background-color: var(--palette-error-100);
+}
+
+.rowBanned:hover {
+  background-color: var(--palette-error-100);
+}
+
+.date {
+  min-width: 80px;
+}
+
+.action {
+  min-width: 150px;
+  font-weight: 600;
+}
+
+.user {
+  min-width: 125px;
+  max-width: 125px;
+}
+
+.description {
+  min-width: 150px;
+}
+
+.user > * {
+  vertical-align: sub;
+}

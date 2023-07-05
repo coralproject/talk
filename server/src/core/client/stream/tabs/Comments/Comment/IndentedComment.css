@@ -1,0 +1,19 @@
+.blur {
+  filter: blur(2px);
+  user-select: none;
+  pointer-events: none;
+}
+
+.toggleButton {
+  padding: calc(var(--spacing-1) / 2) var(--spacing-1) var(--spacing-1);
+
+  &.mouseHover,
+  &:hover {
+    background: var(--palette-grey-100);
+    border-radius: var(--border-radius);
+  }
+}
+
+.icon {
+  color: var(--palette-grey-400);
+}

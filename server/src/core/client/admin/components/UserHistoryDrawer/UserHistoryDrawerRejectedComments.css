@@ -1,0 +1,15 @@
+.footer {
+  text-align: center;
+}
+
+.loadMore {
+  width: 100%;
+  background-color: $colors-pure-white;
+
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--palette-grey-300);
+  border-radius: var(--round-corners);
+
+  margin-top: var(--spacing-1);
+}

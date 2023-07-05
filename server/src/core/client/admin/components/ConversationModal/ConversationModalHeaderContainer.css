@@ -1,0 +1,17 @@
+$modal-header-text: var(--palette-text-900);
+
+.title {
+  font-size: var(--font-size-4);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  line-height: 1.11;
+  color: $modal-header-text;
+  margin: 0;
+}
+
+.conversationTitle {
+  font-weight: var(--font-weight-primary-semi-bold);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: var(--spacing-2);
+}

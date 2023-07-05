@@ -1,0 +1,46 @@
+$messageErrorBackgroundColor: var(--palette-error-500);
+$messageErrorForegroundColor: var(--palette-text-000);
+
+.root {
+  position: relative;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-2);
+  box-sizing: border-box;
+  border-radius: var(--round-corners);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+}
+
+.colorGrey {
+  background-color: inherit;
+  border-color: var(--palette-grey-500);
+  color: var(--palette-grey-500);
+}
+
+.colorDark {
+  background-color: var(--palette-text-500);
+  border-width: 0px;
+  color: var(--palette-text-000);
+}
+
+.colorError {
+  background-color: $messageErrorBackgroundColor;
+  color: $messageErrorForegroundColor;
+}
+
+.colorPrimary {
+  background-color: $colors-teal-300;
+  border-color: $colors-teal-900;
+  border-width: 0px;
+  border-left-width: calc(0.5 * var(--mini-unit));
+  color: var(--palette-text-000);
+}
+
+.fullWidth {
+  display: flex;
+  width: 100%;
+}

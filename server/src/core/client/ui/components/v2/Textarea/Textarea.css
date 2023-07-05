@@ -1,0 +1,29 @@
+.root {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.3;
+  padding: var(--spacing-2);
+  box-sizing: border-box;
+  border-radius: var(--round-corners);
+  color: var(--palette-text-500);
+  background-color: var(--palette-background-input);
+  border: 1px solid var(--palette-grey-500);
+  &:read-only {
+    background-color: var(--palette-background-input-disabled);
+  }
+  &:disabled {
+    background-color: var(--palette-background-input-disabled);
+    border-color: var(--palette-text-input-disabled);
+    color: var(--palette-text-input-disabled);
+  }
+  &:focus {
+    outline: none;
+    border: 1px solid $colors-teal-500;
+    box-shadow: inset 0px 0px 0px 1px $colors-teal-500;
+  }
+}
+
+.fullwidth {
+  width: 100%;
+}

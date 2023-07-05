@@ -1,0 +1,43 @@
+---
+name: TextField
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+
+import TextField from "./TextField";
+import Button from "../Button";
+import Icon from "../Icon";
+import Flex from "../Flex";
+import HorizontalGutter from "../HorizontalGutter";
+
+# TextField
+
+## Basic Use
+
+<Playground>
+  <HorizontalGutter>
+    <Flex>
+      <TextField
+        placeholder="This is a placeholder"
+        variant="seamlessAdornment"
+        adornment={
+          <Button variant="adornment" color="dark">
+            <Icon size="md">search</Icon>
+          </Button>
+        }
+      />
+    </Flex>
+    <TextField defaultValue="This is an input field" />
+    <TextField color="error" defaultValue="A TextField with an error" />
+    <TextField
+      color="error"
+      defaultValue="A TextField with an error"
+      fullWidth
+    />
+    <TextField
+      placeholder="This is a placeholder"
+      adornment={<span>Seconds</span>}
+    />
+  </HorizontalGutter>
+</Playground>

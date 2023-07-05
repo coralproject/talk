@@ -1,0 +1,43 @@
+{% import "macros.html" as macros %}
+{% extends "templates/base.html" %}
+
+{% block title %}Coral AMP{% endblock %}
+
+{% set id = "coral" %}
+
+{% block css %}
+  {# Reset the styles so the div can be inserted without margin #}
+  <style type="text/css">body { margin: 0; }</style>
+{% endblock %}
+
+{% block meta %}
+  {% if entrypoint.js %}
+    {% for asset in entrypoint.js %}
+      {{ macros.preload(asset.src, "script", prefix = staticURI) }}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
+{% block body %}
+  {# The Stream Embed will be rendered here. #}
+  <div id="{{ id }}"></div>
+
+  {% if entrypoint.js %}
+    {% for asset in entrypoint.js %}
+      {{ macros.js(asset.src, asset.integrity, staticURI) }}
+    {% endfor %}
+  {% endif %}
+
+  <script type="text/javascript">
+    window.addEventListener("DOMContentLoaded", function() {
+      var CoralStreamEmbed = Coral.createStreamEmbed({
+        id: "{{ id }}",
+        rootURL: "{{ rootURL }}",
+        amp: true,
+      });
+      window.CoralStreamEmbed = CoralStreamEmbed;
+      
+      CoralStreamEmbed.render();
+    });
+  </script>
+{% endblock %}

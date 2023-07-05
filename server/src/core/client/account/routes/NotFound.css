@@ -1,0 +1,11 @@
+.content {
+  font-family: var(--font-family-secondary);
+  font-style: normal;
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-6);
+  line-height: 1.17;
+
+  color: var(--palette-text-500);
+
+  text-align: center;
+}

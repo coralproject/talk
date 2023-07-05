@@ -1,0 +1,38 @@
+---
+name: Message
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import Message from "./Message";
+import MessageIcon from "./MessageIcon";
+import HorizontalGutter from "../HorizontalGutter";
+
+# Message
+
+## Basic Use
+
+<Playground>
+  <HorizontalGutter>
+    <Message>This is a message</Message>
+    <Message fullWidth>
+      Contrary to popular belief, Lorem Ipsum is not simply random text.
+    </Message>
+    <Message fullWidth color="error">
+      Contrary to popular belief, Lorem Ipsum is not simply random text.
+    </Message>
+    <Message fullWidth color="primary">
+      Contrary to popular belief, Lorem Ipsum is not simply random text.
+    </Message>
+  </HorizontalGutter>
+</Playground>
+
+## Usage with icon
+
+<Playground>
+  <HorizontalGutter>
+    <Message>
+      <MessageIcon size="sm">alarm</MessageIcon>Edit: 1 min 23 secs Remaining
+    </Message>
+  </HorizontalGutter>
+</Playground>

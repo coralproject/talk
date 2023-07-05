@@ -1,0 +1,6 @@
+.root {
+  min-height: calc(var(--mini-unit) * 8);
+  padding: var(--mini-unit);
+  background-color: var(--palette-text-500);
+  box-sizing: border-box;
+}

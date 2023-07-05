@@ -1,0 +1,67 @@
+---
+name: Typography
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import Typography from "./Typography";
+import HorizontalGutter from "../HorizontalGutter";
+
+# Typography
+
+## Basic Use
+
+<Playground>
+  <HorizontalGutter>
+    <Typography variant="heading1">Heading1</Typography>
+    <Typography variant="heading2">Heading2</Typography>
+    <Typography variant="heading3">Heading3</Typography>
+    <Typography variant="heading4">Heading4</Typography>
+    <Typography variant="bodyCopy">BodyCopy</Typography>
+    <Typography variant="bodyCopyBold">bodyCopyBold</Typography>
+    <Typography variant="timestamp">timestamp</Typography>
+  </HorizontalGutter>
+</Playground>
+
+## Using different colors
+
+<Playground>
+  <HorizontalGutter>
+    <Typography color="textPrimary">textPrimary</Typography>
+    <Typography color="textSecondary">textSecondary</Typography>
+    <Typography color="success">success</Typography>
+    <Typography color="error">error</Typography>
+  </HorizontalGutter>
+</Playground>
+
+## Set align
+
+<Playground>
+  <HorizontalGutter style={{ width: "200px" }}>
+    <Typography align="left">left</Typography>
+    <Typography align="center">center</Typography>
+    <Typography align="right">right</Typography>
+    <Typography align="justify">
+      {" "}
+      No hay nadie que ame el dolor mismo, que lo busque, lo encuentre y lo
+      quiera, simplemente porque es el dolor.
+    </Typography>
+  </HorizontalGutter>
+</Playground>
+
+## Cut off long text
+
+<Playground>
+  <Typography noWrap style={{ width: "200px" }}>
+    No hay nadie que ame el dolor mismo, que lo busque, lo encuentre y lo
+    quiera, simplemente porque es el dolor.
+  </Typography>
+</Playground>
+
+## Gutters
+
+<Playground>
+  <Typography gutterBottom>I have a bottom gutter</Typography>
+  <Typography paragraph>I have a paragraph gutter</Typography>
+  <Typography>Just a normal text</Typography>
+</Playground>

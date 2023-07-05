@@ -1,0 +1,37 @@
+.root {
+  width: 100%;
+  min-height: 400px;
+}
+
+.replyList {
+  padding-left: calc(2 * var(--mini-unit));
+}
+
+.header {
+  padding-top: var(--spacing-2);
+  padding-bottom: var(--spacing-2);
+}
+
+.title {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+
+  color: var(--palette-text-500);
+
+  text-align: center;
+}
+
+:global(.coral-width-gte-xs) {
+  .title {
+    font-family: var(--font-family-primary);
+    font-style: normal;
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-size: var(--font-size-3);
+    line-height: 1;
+
+    color: var(--palette-text-500);
+  }
+}

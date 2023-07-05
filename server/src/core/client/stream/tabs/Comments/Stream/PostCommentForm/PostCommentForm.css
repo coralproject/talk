@@ -1,0 +1,24 @@
+$commentsBorder: var(--palette-grey-300);
+
+.messageBox {
+  margin-bottom: -1px;
+}
+
+.commentFormBox {
+  border: 1px solid $commentsBorder;
+  border-radius: var(--round-corners);
+}
+
+.poweredBy {
+  margin-top: calc(-0.5 * var(--mini-unit));
+}
+
+.rteBorderless {
+  border-top-width: 0;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.warnIcon {
+  color: var(--palette-text-500);
+}

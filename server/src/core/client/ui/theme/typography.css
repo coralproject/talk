@@ -1,0 +1,147 @@
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  src: url("~material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff2")
+      format("woff2"),
+    url("~material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-display: block;
+  font-weight: 300;
+  src: url("~typeface-source-sans-pro/files/source-sans-pro-latin-300.woff2")
+      format("woff2"),
+    url("~typeface-source-sans-pro/files/source-sans-pro-latin-300.woff")
+      format("woff");
+}
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: italic;
+  font-display: block;
+  font-weight: 300;
+  src: url("~typeface-source-sans-pro/files/source-sans-pro-latin-300italic.woff2")
+      format("woff2"),
+    url("~typeface-source-sans-pro/files/source-sans-pro-latin-300italic.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-display: block;
+  font-weight: 400;
+  src: url("~typeface-source-sans-pro/files/source-sans-pro-latin-400.woff2")
+      format("woff2"),
+    url("~typeface-source-sans-pro/files/source-sans-pro-latin-400.woff")
+      format("woff");
+}
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: italic;
+  font-display: block;
+  font-weight: 400;
+  src: url("~typeface-source-sans-pro/files/source-sans-pro-latin-400italic.woff2")
+      format("woff2"),
+    url("~typeface-source-sans-pro/files/source-sans-pro-latin-400italic.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-display: block;
+  font-weight: 600;
+  src: url("~typeface-source-sans-pro/files/source-sans-pro-latin-600.woff2")
+      format("woff2"),
+    url("~typeface-source-sans-pro/files/source-sans-pro-latin-600.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-display: block;
+  font-weight: 700;
+  src: url("~typeface-source-sans-pro/files/source-sans-pro-latin-700.woff2")
+      format("woff2"),
+    url("~typeface-source-sans-pro/files/source-sans-pro-latin-700.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Manuale";
+  font-style: normal;
+  font-display: block;
+  font-weight: 400;
+  src: url("~typeface-manuale/files/manuale-latin-400.woff2") format("woff2"),
+    url("~typeface-manuale/files/manuale-latin-400.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Manuale";
+  font-style: normal;
+  font-display: block;
+  font-weight: 600;
+  src: url("~typeface-manuale/files/manuale-latin-600.woff2") format("woff2"),
+    url("~typeface-manuale/files/manuale-latin-600.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Manuale";
+  font-style: normal;
+  font-display: block;
+  font-weight: 700;
+  src: url("~typeface-manuale/files/manuale-latin-700.woff2") format("woff2"),
+    url("~typeface-manuale/files/manuale-latin-700.woff") format("woff");
+}
+
+/* V2 Font Faces */
+
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-display: block;
+  font-weight: 400;
+  src: url("~typeface-nunito/files/nunito-latin-400.woff2") format("woff2"),
+    url("~typeface-nunito/files/nunito-latin-400.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-display: block;
+  font-weight: 700;
+  src: url("~typeface-nunito/files/nunito-latin-700.woff2") format("woff2"),
+    url("~typeface-nunito/files/nunito-latin-700.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-display: block;
+  font-weight: 400;
+  src: url("~typeface-open-sans/files/open-sans-latin-400.woff2") format("woff2"),
+    url("~typeface-open-sans/files/open-sans-latin-400.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-display: block;
+  font-weight: 600;
+  src: url("~typeface-open-sans/files/open-sans-latin-600.woff2") format("woff2"),
+    url("~typeface-open-sans/files/open-sans-latin-600.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-display: block;
+  font-weight: 700;
+  src: url("~typeface-open-sans/files/open-sans-latin-700.woff2") format("woff2"),
+    url("~typeface-open-sans/files/open-sans-latin-700.woff") format("woff");
+}

@@ -1,0 +1,52 @@
+$recent-history-title: var(--palette-text-500);
+$recent-history-subtitle: var(--palette-text-100);
+$recent-history-info: var(--palette-text-500);
+$recent-history-triggered: var(--palette-error-500);
+
+.title {
+  text-transform: uppercase;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-3);
+  margin: 0;
+  line-height: 1.3;
+  color: $recent-history-title;
+}
+
+.subTitle {
+  color: $recent-history-subtitle;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  margin: 0;
+  line-height: 1.285;
+}
+
+.info {
+}
+
+.amount {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-6);
+  line-height: 1;
+  color: $recent-history-info;
+  margin: 0;
+}
+
+.amountLabel {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  color: $recent-history-info;
+  margin: 0;
+}
+
+.triggered {
+  color: $recent-history-triggered;
+}
+
+.tooltip {
+  color: $recent-history-info;
+  padding: 3px;
+}

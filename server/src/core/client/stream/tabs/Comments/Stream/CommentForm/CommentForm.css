@@ -1,0 +1,18 @@
+$commentsBorder: var(--palette-grey-300);
+$rteButtonActive: #ddd;
+
+.commentFormBox {
+  border: 1px solid $commentsBorder;
+  border-radius: var(--round-corners);
+  overflow: hidden;
+}
+
+.noTopBorder {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.icon {
+  margin-right: 2px;
+}

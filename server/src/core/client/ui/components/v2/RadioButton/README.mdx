@@ -1,0 +1,20 @@
+---
+name: RadioButton
+menu: UI Kit v2
+---
+
+import { Playground } from 'docz'
+import RadioButton from './RadioButton.tsx'
+import HorizontalGutter from '../HorizontalGutter'
+
+# RadioButton
+
+## Basic Use
+<Playground>
+  <HorizontalGutter>
+    <RadioButton name="key" value="true">Yes I agree</RadioButton>
+    <RadioButton name="key" value="false">I don't agree</RadioButton>
+    <RadioButton name="key" value="disabled" disabled>Disabled</RadioButton>
+    <RadioButton name="another" value="undefined" disabled checked>Disabled + Checked</RadioButton>
+  </HorizontalGutter>
+</Playground>

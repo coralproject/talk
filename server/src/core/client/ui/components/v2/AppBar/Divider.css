@@ -1,0 +1,6 @@
+$mainNavDividerColor: var(--palette-grey-400);
+
+.root {
+  height: 32px;
+  border-right: 2px solid $mainNavDividerColor;
+}

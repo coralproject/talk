@@ -1,0 +1,22 @@
+$invite-modal-text: var(--palette-text-500);
+
+.root {
+  width: 400px;
+  padding: var(--spacing-2) var(--spacing-3) var(--spacing-3)
+    var(--spacing-3);
+}
+
+.title {
+  font-size: var(--font-size-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: 1.2;
+  color: $invite-modal-text;
+  margin: 0;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}

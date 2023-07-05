@@ -1,0 +1,206 @@
+---
+name: Button
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import Button from "./Button";
+import ButtonIcon from "./ButtonIcon";
+import Icon from "../Icon";
+import TextField from "../TextField";
+import Flex from "../Flex";
+
+# Button
+
+## Regular Button
+
+<Playground>
+  <Flex itemGutter wrap>
+    <Button>Push Me</Button>
+    <Button size="small">Push Me</Button>
+    <Button size="large">Push Me</Button>
+    <Button color="primary">Push Me</Button>
+    <Button color="error">Push Me</Button>
+    <Button color="success">Push Me</Button>
+    <Button color="dark">Push Me</Button>
+    <Button disabled>Push Me</Button>
+    <Button active>Push Me</Button>
+    <Button>
+      <ButtonIcon>face</ButtonIcon>
+      <span>Push Me</span>
+    </Button>
+    <Button fullWidth>Push Me</Button>
+  </Flex>
+</Playground>
+
+## Filled Button
+
+<Playground>
+  <Flex itemGutter wrap>
+    <Button variant="filled">Push Me</Button>
+    <Button variant="filled" size="small">
+      Push Me
+    </Button>
+    <Button variant="filled" size="large">
+      Push Me
+    </Button>
+    <Button variant="filled" color="primary">
+      Push Me
+    </Button>
+    <Button variant="filled" color="error">
+      Push Me
+    </Button>
+    <Button variant="filled" color="success">
+      Push Me
+    </Button>
+    <Button variant="filled" color="dark">
+      Push Me
+    </Button>
+    <Button variant="filled" disabled>
+      Push Me
+    </Button>
+    <Button variant="filled" active>
+      Push Me
+    </Button>
+    <Button variant="filled">
+      <ButtonIcon>face</ButtonIcon>
+      <span>Push Me</span>
+    </Button>
+    <Button variant="filled" fullWidth>
+      Push Me
+    </Button>
+  </Flex>
+</Playground>
+
+## Outlined Button
+
+<Playground>
+  <Flex itemGutter wrap>
+    <Button variant="outlined">Push Me</Button>
+    <Button variant="outlined" size="small">
+      Push Me
+    </Button>
+    <Button variant="outlined" size="large">
+      Push Me
+    </Button>
+    <Button variant="outlined" color="primary">
+      Push Me
+    </Button>
+    <Button variant="outlined" color="error">
+      Push Me
+    </Button>
+    <Button variant="outlined" color="success">
+      Push Me
+    </Button>
+    <Button variant="outlined" color="dark">
+      Push Me
+    </Button>
+    <Button variant="outlined" disabled>
+      Push Me
+    </Button>
+    <Button variant="outlined" active>
+      Push Me
+    </Button>
+    <Button variant="outlined">
+      <ButtonIcon>face</ButtonIcon>
+      <span>Push Me</span>
+    </Button>
+    <Button variant="outlined" fullWidth>
+      Push Me
+    </Button>
+  </Flex>
+</Playground>
+
+## Ghost Button
+
+<Playground>
+  <Flex itemGutter wrap>
+    <Button variant="ghost">Push Me</Button>
+    <Button variant="ghost" size="small">
+      Push Me
+    </Button>
+    <Button variant="ghost" size="large">
+      Push Me
+    </Button>
+    <Button variant="ghost" color="primary">
+      Push Me
+    </Button>
+    <Button variant="ghost" color="error">
+      Push Me
+    </Button>
+    <Button variant="ghost" color="success">
+      Push Me
+    </Button>
+    <Button variant="ghost" color="dark">
+      Push Me
+    </Button>
+    <Button variant="ghost" disabled>
+      Push Me
+    </Button>
+    <Button variant="ghost" active>
+      Push Me
+    </Button>
+    <Button variant="ghost">
+      <ButtonIcon>face</ButtonIcon>
+      <span>Push Me</span>
+    </Button>
+    <Button variant="ghost" fullWidth>
+      Push Me
+    </Button>
+  </Flex>
+</Playground>
+
+## Underlined Button
+
+<Playground>
+  <Flex itemGutter wrap>
+    <Button variant="underlined">Push Me</Button>
+    <Button variant="underlined" size="small">
+      Push Me
+    </Button>
+    <Button variant="underlined" size="large">
+      Push Me
+    </Button>
+    <Button variant="underlined" color="primary">
+      Push Me
+    </Button>
+    <Button variant="underlined" color="error">
+      Push Me
+    </Button>
+    <Button variant="underlined" color="success">
+      Push Me
+    </Button>
+    <Button variant="underlined" color="dark">
+      Push Me
+    </Button>
+    <Button variant="underlined" disabled>
+      Push Me
+    </Button>
+    <Button variant="underlined" active>
+      Push Me
+    </Button>
+    <Button variant="underlined">
+      <Icon>face</Icon>
+      <span>Push Me</span>
+    </Button>
+    <Button variant="underlined" fullWidth>
+      Push Me
+    </Button>
+  </Flex>
+</Playground>
+
+## TextField Adornment
+
+<Playground>
+  <Flex itemGutter wrap>
+    <TextField
+      placeholder="This is a placeholder"
+      variant="seamlessAdornment"
+      adornment={
+        <Button variant="adornment" color="dark">
+          <Icon size="md">search</Icon>
+        </Button>
+      }
+    />
+  </Flex>
+</Playground>

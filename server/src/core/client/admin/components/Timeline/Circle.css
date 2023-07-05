@@ -1,0 +1,29 @@
+.sizeReg {
+  width: 8px;
+  height: 8px;
+}
+
+.sizeSmall {
+  width: 4px;
+  height: 4px;
+}
+
+.colorReg {
+  color: var(--palette-grey-500);
+}
+
+.colorLight {
+  color: var(--palette-grey-400);
+}
+
+.root {
+  position: relative;
+}
+
+.circle {
+  fill: currentColor;
+  stroke: currentColor;
+  position: absolute;
+  left: 0;
+  top: 0;
+}

@@ -1,0 +1,15 @@
+.root {
+  line-height: 1;
+
+  font-family: var(--font-family-secondary);
+  font-style: normal;
+  font-weight: bold;
+  font-size: var(--font-size-4);
+  line-height: 1;
+}
+
+.popover {
+  width: 232px;
+  max-width: 80%;
+  padding: var(--spacing-3);
+}

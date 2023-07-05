@@ -1,0 +1,102 @@
+$commentsHistoryReactionsColor: var(--palette-text-900);
+$commentsHistoryReactionsHoverColor: var(--palette-text-500);
+$commentsHistoryActiveReactionsBackground: var(--palette-grey-500);
+
+$commentsHistoryViewConversationColor: var(--palette-primary-500);
+$commentsHistoryViewConversationHoverColor: var(--palette-primary-300);
+$commentsHistoryViewConversationActiveColor: var(--palette-primary-200);
+
+$commentsHistoryReactionsUsernamesBackground: var(--palette-grey-100);
+$commentsHistoryReactionsUsernamesColor: var(--palette-text-500);
+
+.button {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  padding: var(--spacing-1);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+}
+
+.reactionsButton {
+  color: $commentsHistoryReactionsColor;
+  &:hover {
+    color: $commentsHistoryReactionsHoverColor;
+  }
+}
+
+.activeReactionsButton {
+  background-color: $commentsHistoryActiveReactionsBackground;
+  color: white;
+  &:hover {
+    color: white;
+  }
+}
+
+.reactionsButtonText {
+  padding: 0 var(--spacing-1);
+}
+
+.buttonCaret {
+  padding-right: 0;
+}
+
+.viewConversation {
+  color: $commentsHistoryViewConversationColor;
+  &:hover {
+    color: $commentsHistoryViewConversationHoverColor;
+  }
+  &:active {
+    color: $commentsHistoryViewConversationActiveColor;
+  }
+}
+
+.viewConversationText {
+  text-decoration: underline;
+}
+
+.viewConversationIcon {
+  padding-right: var(--spacing-1);
+}
+
+.replies {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1;
+  color: $commentsHistoryReactionsColor;
+
+  display: inline-flex;
+  align-items: center;
+}
+
+.repliesIcon {
+  padding-right: var(--spacing-1);
+}
+
+.footer {
+  padding-top: var(--spacing-1);
+}
+
+.reacterUsernames {
+  background-color: $commentsHistoryReactionsUsernamesBackground;
+  color: $commentsHistoryReactionsUsernamesColor;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  padding: var(--spacing-2);
+}
+
+.reacterUsernamesIcon {
+  padding-right: var(--spacing-3);
+  padding-top: 2px;
+}
+
+.loadMoreReactions {
+  color: $commentsHistoryReactionsUsernamesColor;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  text-decoration: underline;
+}

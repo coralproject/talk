@@ -1,0 +1,74 @@
+$user-drawer-background: $colors-pure-white;
+$user-drawer-account-info: var(--palette-text-500);
+$user-drawer-divider: var(--palette-grey-300);
+$user-drawer-status-label: var(--palette-text-500);
+
+.comments {
+  flex: auto;
+  overflow: auto;
+}
+
+.close {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: -40px;
+
+  padding: 0px;
+
+  background-color: $user-drawer-background;
+
+  border-width: 1px;
+  border-right-width: 0px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.25);
+  border-radius: 4px 0px 0px 4px;
+}
+
+.username {
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-6);
+  line-height: 0.67;
+}
+
+.userDetail {
+}
+
+.userDetailValue {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1;
+  color: $user-drawer-account-info;
+}
+
+.icon {
+  padding-top: 2px;
+}
+
+.copy {
+}
+
+.divider {
+  border-bottom: 1px solid $user-drawer-divider;
+}
+
+.userStatus {
+}
+
+.userStatusLabel {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+  color: $user-drawer-status-label;
+  margin-right: var(--spacing-1);
+}
+
+.userStatusChange {
+}
+
+.notAvailable {
+  color: var(--palette-text-100);
+}

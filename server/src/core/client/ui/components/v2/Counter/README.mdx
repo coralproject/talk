@@ -1,0 +1,34 @@
+---
+name: Counter
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+
+import Flex from "../Flex";
+import Counter from "./Counter";
+
+# Counter
+
+## Basic usage
+
+<Playground>
+  <Flex alignItems="center">
+    <span>Comments</span> <Counter>23</Counter>
+  </Flex>
+</Playground>
+
+<Playground>
+  <Flex itemGutter>
+    <Counter size="sm">23</Counter>
+    <Counter size="sm" color="primary">
+      15
+    </Counter>
+    <Counter size="sm" color="grey">
+      10
+    </Counter>
+    <Counter size="sm" color="dark">
+      20
+    </Counter>
+  </Flex>
+</Playground>

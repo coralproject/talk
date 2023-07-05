@@ -1,0 +1,7 @@
+$tooltip-button: var(--palette-text-500);
+
+.button {
+  line-height: 0;
+  color: $tooltip-button;
+  padding: 6px;
+}

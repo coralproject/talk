@@ -1,0 +1,7 @@
+.withIcon {
+  width: calc(100% - 18px - var(--spacing-3));
+}
+
+.withoutIcon {
+  width: 100%;
+}

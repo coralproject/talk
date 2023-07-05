@@ -1,0 +1,37 @@
+.root {
+
+  margin: 0;
+
+  font-weight: var(--font-weight-secondary-bold);
+  font-family: var(--font-family-secondary);
+  color: $colors-coral-500;
+
+  font-size: 1.15rem;
+  line-height: 1.15rem;
+}
+
+.md {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+}
+
+.lg {
+  font-size: 2.625rem;
+  line-height: 2.625rem;
+}
+
+.alignLeft {
+  text-align: left;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.alignJustify {
+  text-align: justify;
+}

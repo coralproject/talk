@@ -1,0 +1,13 @@
+$configureHeadingForegroundColor: var(--palette-text-500);
+$configureSubHeadingBorderColor: var(--palette-grey-300);
+
+.root {
+  border-bottom: 1px solid $configureSubHeadingBorderColor;
+  color: $configureHeadingForegroundColor;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-bold);
+  padding-bottom: var(--spacing-2);
+  margin: 0;
+  line-height: var(--lh-reset);
+}

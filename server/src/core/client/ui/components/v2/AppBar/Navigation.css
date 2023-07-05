@@ -1,0 +1,11 @@
+.root {
+  height: 100%;
+}
+
+.ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  height: 100%;
+  margin: 0;
+}

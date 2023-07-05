@@ -1,0 +1,110 @@
+.header {
+  background: var(--palette-grey-600);
+
+  border-top-left-radius: var(--round-corners);
+  border-top-right-radius: var(--round-corners);
+
+  min-height: 88px;
+}
+
+.headerContent {
+  text-align: center;
+}
+
+.headerText {
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-6);
+  line-height: 1.33;
+
+  color: var(--palette-text-000);
+}
+
+.subHeaderText {
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-4);
+  line-height: 1.33;
+
+  color: var(--palette-text-000);
+}
+
+.body {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-500);
+
+  background: $colors-pure-white;
+
+  padding: var(--spacing-5) var(--spacing-5) var(--spacing-5) var(--spacing-5);
+
+  border-bottom-left-radius: var(--round-corners);
+  border-bottom-right-radius: var(--round-corners);
+}
+
+.sectionHeader {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.43;
+
+  color: var(--palette-text-500);
+
+  margin-bottom: var(--spacing-2);
+}
+
+.sectionContent {
+  margin-bottom: var(--spacing-3);
+}
+
+.ul {
+  list-style: none;
+  margin-left: -2em;
+}
+
+.ul p {
+  display: inline;
+}
+
+.ul li {
+  padding-left: 1.3em;
+  margin-bottom: var(--spacing-2);
+}
+
+.ul li:before {
+  display: inline-block;
+
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: bold;
+  font-variant: normal;
+  font-size: 1.125rem;
+  line-height: 1.25rem;
+
+  vertical-align: top;
+
+  margin-left: -1.5rem;
+  width: 1.5rem;
+
+  content: 'check';
+}
+
+.controls {
+  width: 100%;
+  min-height: 36px;
+}
+
+.cancelButton {
+  margin-right: var(--spacing-2);
+
+  float: right;
+}
+
+.proceedButton {
+  border: 1px solid var(--palette-primary-500);
+
+  float: right;
+}

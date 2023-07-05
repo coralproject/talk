@@ -1,0 +1,38 @@
+.content {
+  max-width: 495px;
+}
+
+.root {
+  margin-top: var(--spacing-2);
+}
+
+.icon {
+  margin-right: var(--spacing-2);
+}
+
+.title {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-4);
+  line-height: 1.11;
+
+  color: var(--palette-text-900);
+
+  margin-top: var(--spacing-3);
+  margin-bottom: var(--spacing-2);
+}
+
+.section {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-500);
+
+  margin-bottom: var(--spacing-3);
+}
+
+.requestButton {
+  margin-bottom: var(--spacing-3);
+}

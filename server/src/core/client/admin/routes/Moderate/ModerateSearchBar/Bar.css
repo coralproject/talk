@@ -1,0 +1,35 @@
+@import "./variables.css";
+
+.root {
+  height: calc(6 * var(--mini-unit));
+  background-color: $story-search-background;
+  margin-top: -1px;
+  border-bottom: 0;
+}
+
+.bumpZIndex {
+  z-index: 100;
+}
+
+.popover,
+.popoverNarrow {
+  border: 0;
+}
+
+.popover {
+  width: calc(94 * var(--mini-unit));
+}
+
+.popoverNarrow {
+  width: calc(84 * var(--mini-unit));
+}
+
+.listBox {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.groupIcon {
+  margin-right: var(--spacing-2);
+}

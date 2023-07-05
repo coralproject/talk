@@ -1,0 +1,36 @@
+$tableHeaderAltTextColor: var(--palette-text-100);
+
+.titleColumn {
+  width: 60%;
+}
+.titleColumnNarrow {
+  width: 42.5%;
+}
+.statusColumn {
+  width: 14%;
+}
+.reportedCountColumn {
+  width: 8%;
+}
+.pendingCountColumn {
+  width: 8%;
+}
+.totalCountColumn {
+  width: 8%;
+}
+
+.actionsColumn {
+  width: 8%;
+}
+
+.clickToModerate {
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+  color: $tableHeaderAltTextColor;
+}
+
+.reportedCountColumn,
+.pendingCountColumn,
+.totalCountColumn {
+  text-align: center;
+}

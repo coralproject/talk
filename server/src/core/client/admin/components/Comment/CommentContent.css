@@ -1,0 +1,56 @@
+$comment-content: var(--palette-text-900);
+$comment-blockquote-bg: var(--palette-grey-100);
+$comment-highlight-bg: var(--palette-warning-500);
+$comment-link: $colors-teal-700;
+$comment-link-active: $colors-teal-900;
+
+.root {
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+  line-height: 1.45;
+  color: $comment-content;
+  overflow-wrap: break-word;
+
+  b,
+  strong {
+    font-weight: var(--font-weight-primary-bold);
+  }
+  i,
+  em {
+    font-style: italic;
+  }
+  blockquote {
+    background-color: $comment-blockquote-bg;
+    padding: var(--mini-unit);
+    margin: calc(2 * var(--mini-unit)) 0 calc(2 * var(--mini-unit))
+      var(--mini-unit);
+    border-radius: var(--round-corners);
+    &::after {
+      content: none;
+    }
+    &::before {
+      content: none;
+    }
+  }
+
+  mark {
+    background-color: $comment-highlight-bg;
+    padding: 0 2px;
+    a {
+      color: $comment-link;
+    }
+  }
+  a {
+    color: $comment-link;
+    background-color: $comment-highlight-bg;
+    padding: 0 2px;
+    &:hover {
+      color: $comment-link-active;
+    }
+  }
+}
+
+.highlight {
+  white-space: pre-wrap;
+}

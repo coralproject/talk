@@ -1,0 +1,20 @@
+.textLink {
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  color: $colors-teal-700;
+  font-size: var(--font-size-1);
+  line-height: 1.33;
+  text-decoration: underline;
+}
+
+.container {
+  padding-bottom: var(--spacing-5);
+}
+
+.field {
+  padding-bottom: var(--spacing-4);
+}
+
+.field {
+  padding-bottom: var(--spacing-4);
+}

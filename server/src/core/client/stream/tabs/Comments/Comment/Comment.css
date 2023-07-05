@@ -1,0 +1,44 @@
+$commentTimestampColor: var(--palette-grey-500);
+
+.root {
+  flex: 1;
+  overflow: hidden;
+}
+
+.highlight {
+  background-color: var(--palette-primary-100);
+  padding: var(--mini-unit);
+}
+.subBar {
+  margin-bottom: calc(0.5 * var(--mini-unit));
+}
+.footer:not(:empty) {
+  margin-top: var(--mini-unit);
+}
+
+.timestamp {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  color: $commentTimestampColor;
+
+  margin-right: var(--spacing-1);
+}
+
+.tags {
+  margin-right: var(--spacing-1);
+}
+
+.badges {
+  margin-right: var(--spacing-1);
+}
+
+.username {
+  margin-right: var(--spacing-2);
+}
+
+.usernameFullRow {
+  flex-basis: 100%;
+  max-width: 190px;
+}

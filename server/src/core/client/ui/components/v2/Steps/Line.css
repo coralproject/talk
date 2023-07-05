@@ -1,0 +1,12 @@
+.root {
+  display: inline-block;
+  width: 200px;
+  height: 0px;
+  border: 1px solid var(--palette-grey-400);
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.completed {
+  border-color: var(--palette-success-400);
+}

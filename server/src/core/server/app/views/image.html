@@ -1,0 +1,48 @@
+{% import "macros.html" as macros %} {% extends "templates/base.html" %} {%
+block meta %}
+<base href="/" />
+{# Insert the link preload tags here. #} {% if entrypoint.css %} {% for asset in
+entrypoint.css %} {{ macros.preload(asset.src, "style", prefix = staticURI) }}
+{% endfor %} {% endif %} {% if entrypoint.js %} {% for asset in entrypoint.js %}
+{{ macros.preload(asset.src, "script", prefix = staticURI) }} {% endfor %} {%
+endif %} {% endblock %} {% block css %} {% if entrypoint.css %} {% for asset in
+entrypoint.css %} {{ macros.css(asset.src, asset.integrity, staticURI) }} {%
+endfor %} {% endif %}
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+  }
+
+  .container * {
+    margin: 0 !important;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+</style>
+{% endblock %} {% block body %}
+<img src="{{ url }}" referrerpolicy="no-referrer" />
+{% if commentID %}
+<script>
+  // This supports the single comment embed setting the correct height for the image
+  new ResizeObserver((entries) => {
+    const entry = entries[0];
+    const contentBoxSize = entry.contentBoxSize[0];
+    if (contentBoxSize === null) {
+      // eslint-disable-next-line no-console
+      console.warn("ResizeObserver contains invalid `contentBoxSize`", entries);
+    }
+    const msg = {
+      height: contentBoxSize.blockSize,
+      commentID: "{{ commentID }}",
+    };
+    window.parent.postMessage(msg, "*");
+  }).observe(window.document.body);
+</script>
+{% endif %} {% endblock %} {# Include all the scripts from the entrypoint #} {%
+if entrypoint.js %} {% block js %} {% for asset in entrypoint.js %} {{
+macros.js(asset.src, asset.integrity, staticURI) }} {% endfor %} {% endblock %}
+{% endif %}

@@ -1,0 +1,11 @@
+$tableBodyDisabledColor: var(--palette-text-100);
+
+.root {
+  font-weight: var(--font-weight-primary-regular);
+  color: $tableBodyDisabledColor;
+}
+
+.open {
+  font-weight: var(--font-weight-primary-regular);
+  color: var(--palette-success-500);
+}

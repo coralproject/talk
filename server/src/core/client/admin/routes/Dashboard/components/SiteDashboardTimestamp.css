@@ -1,0 +1,11 @@
+.timestamp {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-1);
+  color: var(--palette-text-500);
+  margin-top: var(--spacing-1);
+}
+
+.root {
+  text-align: left;
+}

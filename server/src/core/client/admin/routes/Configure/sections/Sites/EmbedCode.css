@@ -1,0 +1,11 @@
+.textArea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: calc(0.5 * var(--mini-unit));
+  min-height: 400px;
+  font-family: monospace;
+}
+
+.copyArea {
+  text-align: right;
+}

@@ -1,0 +1,9 @@
+$timestampColor: var(--palette-text-100);
+
+.root {
+  color: $timestampColor;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-1);
+  line-height: 1.33;
+}

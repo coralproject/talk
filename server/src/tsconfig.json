@@ -1,0 +1,22 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "target": "es2018",
+    "allowJs": false,
+    "sourceMap": true,
+    "pretty": false,
+    "removeComments": true,
+    "noEmit": false,
+    "outDir": "../dist",
+    // See https://github.com/prismagraphql/graphql-request/issues/26 for why we
+    // have to include "dom" here.
+    "lib": ["dom", "es2018", "esnext.asynciterable"],
+    "baseUrl": "./",
+    "paths": {
+      "coral-server/*": ["./core/server/*"],
+      "coral-common/*": ["./core/common/*"]
+    }
+  },
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "./core/client"]
+}

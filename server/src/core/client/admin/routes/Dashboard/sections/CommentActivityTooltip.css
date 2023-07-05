@@ -1,0 +1,27 @@
+.root {
+  background: $colors-pure-white;
+  border-radius: 4px;
+  border: 1px solid var(--palette-grey-300);
+  padding: var(--spacing-3);
+}
+
+.time {
+  color: var(--palette-text-100);
+  font-size: var(--font-size-2);
+  margin: 0;
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.count {
+  color: $colors-teal-600;
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-primary-bold);
+  margin: 0;
+}
+
+.comments {
+  color: var(--palette-text-500);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+  margin: 0;
+}

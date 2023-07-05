@@ -1,0 +1,10 @@
+.urlColumn {
+  width: 100%;
+}
+
+.detailsButton {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+}

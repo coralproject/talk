@@ -1,0 +1,35 @@
+---
+name: NoScroll
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import { useState } from "react";
+
+import Button from "../Button";
+import NoScroll from "./NoScroll";
+
+# NoScroll
+
+Disables scrolling of `<body>`.
+
+## Basic usage
+
+<Playground>
+  {() => {
+    const [value, setValue] = useState(false);
+    return (
+      <div>
+        <NoScroll active={value} />
+        <Button
+          variant="ghost"
+          color="primary"
+          active={value}
+          onClick={() => setValue(!value)}
+        >
+          Disable Scrolling
+        </Button>
+      </div>
+    );
+  }}
+</Playground>

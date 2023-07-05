@@ -1,0 +1,47 @@
+---
+name: TileSelector
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import { useState } from "react";
+
+import TileSelector from "./TileSelector";
+import TileOption from "./TileOption";
+import HorizontalGutter from "../HorizontalGutter";
+import Icon from "../Icon";
+
+# TileSelector
+
+## Basic Use
+
+<Playground>
+  {() => {
+    const [value, setValue] = useState(null);
+    return (
+      <TileSelector
+        id="icon"
+        name="icon"
+        onChange={val => setValue(val)}
+        value={value}
+      >
+        <TileOption value="question_answer">
+          <Icon size="md">question_answer</Icon>
+        </TileOption>
+        <TileOption value="today">
+          <Icon size="md">today</Icon>
+        </TileOption>
+        <TileOption value="help_outline">
+          <Icon size="md">help_outline</Icon>
+        </TileOption>
+        <TileOption value="warning">
+          <Icon size="md">warning</Icon>
+        </TileOption>
+        <TileOption value="chat_bubble_outline">
+          <Icon size="md">chat_bubble_outline</Icon>
+        </TileOption>
+        <TileOption value="">No Icon</TileOption>
+      </TileSelector>
+    );
+  }}
+</Playground>

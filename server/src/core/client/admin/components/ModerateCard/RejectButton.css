@@ -1,0 +1,47 @@
+$moderateCardButtonOutlineRejectColor: var(--palette-error-500);
+
+.root {
+  border: 1px solid $moderateCardButtonOutlineRejectColor;
+  box-sizing: border-box;
+  border-radius: var(--round-corners);
+  width: 65px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $moderateCardButtonOutlineRejectColor;
+  &:not(:disabled):active {
+    background-color: $moderateCardButtonOutlineRejectColor;
+    color: var(--palette-text-000);
+  }
+}
+
+.readOnly {
+  background-color: transparent;
+  border-color: $colors-grey-300);
+  color: $colors-grey-300);
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+.readOnly {
+  background-color: transparent;
+  border-color: $colors-grey-300;
+  color: $colors-grey-300;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+.invert {
+  background-color: $moderateCardButtonOutlineRejectColor;
+  color: var(--palette-text-000);
+  border-color: $moderateCardButtonOutlineRejectColor;
+}
+
+.icon {
+  color: inherit;
+}

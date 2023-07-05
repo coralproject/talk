@@ -1,0 +1,43 @@
+---
+name: Marker
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import Marker from "./Marker";
+import Count from "./Count";
+import HorizontalGutter from "../HorizontalGutter";
+import Flex from "../Flex";
+
+# Marker
+
+## Basic Use
+
+<Playground>
+  <HorizontalGutter>
+    <Flex itemGutter>
+      <Marker color="reported">Toxic</Marker>
+      <Marker color="reported">Karma</Marker>
+      <Marker color="reported">Spam</Marker>
+      <Marker color="reported">Banned Word</Marker>
+      <Marker color="reported">
+        With a count <Count>1</Count>
+      </Marker>
+    </Flex>
+    <Flex itemGutter>
+      <Marker color="pending">Premod</Marker>
+      <Marker color="pending">Link</Marker>
+    </Flex>
+    <Flex itemGutter>
+      <Marker color="reported" variant="filled">
+        Spam <Count>2</Count>
+      </Marker>
+      <Marker color="reported" variant="filled">
+        Suspect Word
+      </Marker>
+      <Marker color="reported" variant="filled">
+        Offensive <Count>1</Count>
+      </Marker>
+    </Flex>
+  </HorizontalGutter>
+</Playground>

@@ -1,0 +1,17 @@
+.root {
+  margin-top: var(--spacing-4);
+}
+
+.icon {
+  color: var(--palette-text-100);
+  margin-top: var(--spacing-1);
+  margin-left: var(--spacing-1);
+}
+
+.header {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-6);
+  color: $colors-teal-600;
+  margin: 0;
+}

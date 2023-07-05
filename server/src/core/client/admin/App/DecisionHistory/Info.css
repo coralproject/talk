@@ -1,0 +1,16 @@
+.root {
+  /*
+    Fallback begin
+
+    Unfortunately Firefox / IE does not support
+    `word-break: break-word` yet.
+  */
+  word-break: break-all;
+  /* Fallback end */
+  word-break: break-word;
+  color: var(--palette-text-500);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+  line-height: 1.285;
+}

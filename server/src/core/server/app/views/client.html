@@ -1,0 +1,86 @@
+{% import "macros.html" as macros %}
+{% extends "templates/base.html" %}
+
+{% block title %}{{title if title else "Coral"}}{% endblock %}
+
+{% block meta %}
+  {# Insert the link preload tags here. #}
+  {% if entrypoint.css %}
+    {% for asset in entrypoint.css %}
+      {{ macros.preload(asset.src, "style", prefix = staticURI) }}
+    {% endfor %}
+  {% endif %}
+  {% if enableCustomCSS and tenant and tenant.customFontsCSSURL %}
+    {{ macros.preload(tenant.customFontsCSSURL, "style") }}
+  {% endif %}
+  {% if enableCustomCSS and tenant and tenant.customCSSURL %}
+    {{ macros.preload(tenant.customCSSURL, "style") }}
+  {% endif %}
+  {% if analytics and analytics.key and analytics.url and analytics.sdk %}
+    {# If analytics is enabled and available, configure the rudderstack analytics to load #}
+    <script type="text/javascript">
+      try {
+        rudderanalytics = window.rudderanalytics = [];
+        var methods = ["load", "page", "track", "alias", "group", "identify", "ready", "reset"];
+        for (var i = 0; i < methods.length; i++) {
+          var method = methods[i];
+          rudderanalytics[method] = function(d) {
+            return function() {
+              rudderanalytics.push([d, ...arguments])
+            }
+          }(method);
+        }
+
+        rudderanalytics.load("{{ analytics.key }}", "{{ analytics.url }}");
+        rudderanalytics.page();
+      } catch (err) {
+        console.error(err);
+      }
+    </script>
+    <script src="{{ analytics.sdk }}"></script>
+  {% endif %}
+  {% if entrypoint.js %}
+    {% for asset in entrypoint.js %}
+      {{ macros.preload(asset.src, "script", prefix = staticURI) }}
+    {% endfor %}
+  {% endif %}
+
+  {# Insert the staticURI via the configuration object during insertion. #}
+  <script type="application/json" id="coral-static-config">
+    {{ config | dump | safe }}
+  </script>
+{% endblock %}
+
+{# Include all the styles from the entrypoint #}
+{% if entrypoint.css or enableCustomCSS %}
+  {% block css %}
+    {% if entrypoint.css %}
+      {% for asset in entrypoint.css %}
+        {{ macros.css(asset.src, asset.integrity, staticURI) }}
+      {% endfor %}
+    {% endif %}
+
+    {# Custom CSS is included after the CSS block so that its overrides will apply #}
+    {% if enableCustomCSS %}
+      {% if tenant and tenant.customFontsCSSURL %}
+        {{ macros.css(tenant.customFontsCSSURL) }}
+      {% endif %}
+      {% if tenant and tenant.customCSSURL %}
+        {{ macros.css(tenant.customCSSURL) }}
+      {% endif %}
+    {% endif %}
+  {% endblock %}
+{% endif %}
+
+{% block html %}
+  <div id="app"></div>
+{% endblock %}
+
+{# Include all the scripts from the entrypoint #}
+{% if entrypoint.js %}
+  {% block js %}
+    {% for asset in entrypoint.js %}
+      {{ macros.js(asset.src, asset.integrity, staticURI) }}
+    {% endfor %}
+  {% endblock %}
+{% endif %}

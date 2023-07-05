@@ -1,0 +1,10 @@
+.bar {
+  height: calc(6 * var(--mini-unit));
+  background-color: var(--palette-text-500);
+}
+
+.centered {
+  margin: 10% auto;
+  padding: 0 calc(0.5 * var(--mini-unit));
+  box-sizing: border-box;
+}

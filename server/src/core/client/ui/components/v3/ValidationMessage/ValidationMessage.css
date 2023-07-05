@@ -1,0 +1,15 @@
+.root {
+  font-family: var(--font-family-primary);
+
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+
+  color: var(--palette-error-500);
+}
+
+.icon {
+  margin-right: var(--spacing-1);
+
+  min-width: 16px;
+}

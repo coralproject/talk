@@ -1,0 +1,46 @@
+.description {
+  padding-bottom: var(--spacing-1);
+}
+
+.enabledCheckbox {
+  margin-right: var(--spacing-1);
+}
+
+.trigger {
+  padding-left: var(--spacing-1);
+  padding-bottom: var(--spacing-2);
+}
+
+.triggerHelp {
+  padding-left: 26px;
+  margin: 0;
+}
+
+.button {
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+}
+
+.removeButton {
+  margin-bottom: var(--spacing-1);
+}
+
+.buttonIcon {
+  padding-right: var(--spacing-1);
+}
+
+.content {
+  padding: 0 var(--spacing-2);
+}
+
+.textField {
+  padding-bottom: var(--spacing-4);
+}
+
+.notificationsLabel {
+  padding-bottom: var(--spacing-1);
+}
+
+.notificationToggles {
+  padding-bottom: var(--spacing-3);
+}

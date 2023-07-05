@@ -1,0 +1,23 @@
+{% macro preload(src, htmlAs, prefix = "") %}
+  <link rel="preload" href="{{ prefix }}{{ src }}" as="{{ htmlAs }}">
+{% endmacro %}
+
+{% macro css(src, integrity = "", prefix = "") %}
+  <link type="text/css" rel="stylesheet" href="{{ prefix }}{{ src }}"/>
+  {# TODO: evaluate when to enable SRI, non-SSL connections cause issues #}
+  {# {% if integrity %}
+    <link type="text/css" rel="stylesheet" href="{{ prefix }}{{ src }}" integrity="{{ integrity }}" crossorigin="anonymous"/>
+  {% else %}
+    <link type="text/css" rel="stylesheet" href="{{ prefix }}{{ src }}"/>
+  {% endif %} #}
+{% endmacro %}
+
+{% macro js(src, integrity = "", prefix = "") %}
+  <script type="application/javascript" src="{{ prefix }}{{ src }}"></script>
+  {# TODO: evaluate when to enable SRI, non-SSL connections cause issues #}
+  {# {% if false %}
+    <script type="application/javascript" src="{{ prefix }}{{ src }}" integrity="{{ integrity }}" crossorigin="anonymous"></script>
+  {% else %}
+    <script type="application/javascript" src="{{ prefix }}{{ src }}"></script>
+  {% endif %} #}
+{% endmacro %}

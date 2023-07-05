@@ -1,0 +1,186 @@
+$moderateCardTimestampColor: var(--palette-text-100);
+$moderateCardEditedColor: var(--palette-text-100);
+$moderateCardAuthorStatusColor: var(--palette-text-100);
+$moderateCardDecisionColor: var(--palette-text-500);
+$moderateCardStoryTitleColor: var(--palette-text-500);
+$moderateCardUsernameBackgroundHover: var(--palette-grey-200);
+$moderateCardLinkTextColor: $colors-teal-700;
+
+.topBar {
+  position: relative;
+  margin-bottom: var(--spacing-1);
+}
+
+.topBarMini {
+  margin-bottom: var(--spacing-4);
+}
+
+.footer {
+  margin-top: calc(2 * var(--mini-unit));
+}
+
+.mainContainer {
+  flex-grow: 1;
+
+  margin-right: calc(2 * var(--spacing-5));
+}
+
+.ratingsArea {
+  margin-bottom: var(--spacing-1);
+}
+
+.contentArea {
+  position: relative;
+}
+
+.content {
+  min-height: 3em;
+}
+
+.aside {
+  flex-shrink: 0;
+  flex-grow: 0;
+  box-sizing: border-box;
+  padding-top: 25px;
+}
+
+.asideWithoutReplyTo {
+  padding-top: 10px;
+}
+
+.asideMini {
+  /*
+    No reply to field, so we align below the fattest element
+    which is the feature button.
+  */
+  padding-top: calc(var(--font-size-2) + 7px + var(--spacing-4));
+}
+
+.asideMiniWithReplyTo {
+  /*
+    We have reply to field, so we align below the fattest
+    element plus the reply to field.
+  */
+  padding-top: calc(2 * var(--font-size-2) + 5px + var(--spacing-4));
+}
+
+.decision {
+  color: $moderateCardDecisionColor;
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-bold);
+  font-family: var(--font-family-primary);
+  line-height: 1.14;
+  text-transform: uppercase;
+}
+
+.separator {
+  position: absolute;
+  top: 0;
+  right: calc(-1 * var(--spacing-5));
+  bottom: 0;
+  width: 2px;
+}
+
+.ruledSeparator {
+  border-right: 1px solid var(--palette-grey-400);
+}
+
+.root {
+  transition: background 100ms, box-shadow 100ms;
+}
+
+.root:focus {
+  outline: none;
+}
+
+.dangling {
+  background-color: var(--palette-grey-200);
+  box-shadow: none;
+}
+
+.link {
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: 1.33;
+  color: $moderateCardLinkTextColor;
+  text-transform: uppercase;
+}
+
+.viewContext {
+  padding-bottom: var(--spacing-1);
+}
+
+.storyLabel {
+  color: var(--palette-grey-500);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: 1.33;
+  margin-bottom: var(--spacing-1);
+  text-transform: uppercase;
+}
+
+.commentOn {
+  font-size: var(--font-size-2);
+  font-family: var(--font-family-primary);
+  line-height: 1.14;
+  margin-bottom: var(--spacing-1);
+}
+
+.siteName {
+  font-weight: var(--font-weight-primary-regular);
+}
+
+.storyTitle {
+  font-weight: var(--font-weight-primary-semi-bold);
+  color: $moderateCardStoryTitleColor;
+}
+
+.borderless {
+  border-width: 0px;
+  box-shadow: none;
+  padding: var(--spacing-2) 0;
+}
+
+.miniButton {
+  width: 40px;
+  height: 40px;
+}
+
+.timestamp {
+  padding-right: var(--spacing-2);
+  font-size: var(--font-size-1);
+  line-height: 1.33;
+}
+
+.edited {
+  color: $moderateCardEditedColor;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-1);
+  line-height: 1.33;
+  padding-left: var(--spacing-2);
+}
+
+.selected {
+  box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.authorStatus {
+  padding-right: var(--spacing-2);
+  color: $moderateCardAuthorStatusColor;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-1);
+  line-height: 1.33;
+  padding-left: var(--spacing-2);
+}
+
+.deleted {
+  background: var(--palette-grey-200);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: 1.285;
+}

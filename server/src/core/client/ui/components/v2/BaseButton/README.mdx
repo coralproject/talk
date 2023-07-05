@@ -1,0 +1,28 @@
+---
+name: BaseButton
+menu: UI Kit v2
+---
+
+import { Playground } from 'docz'
+import BaseButton from './BaseButton'
+
+# BaseButton
+
+`BaseButton` strips away browser specific styling and unifies the look of the `button` and the `a` tag.
+It detects a focus that came from the keyboard rather than mouse or touch and styles the button using
+the `className` provided in the `classes.keyboardFocus` property.
+
+When used as a `button` tag the default `type` is set to `button` instead of the standard `submit` in order
+to avoid unintended form submissions.
+
+## Basic usage
+<Playground>
+  <BaseButton>Push Me</BaseButton>
+</Playground>
+
+Instead of an `button` tag, we can render an `a` tag instead:
+
+<Playground>
+  <BaseButton anchor>Push Me</BaseButton>
+</Playground>
+

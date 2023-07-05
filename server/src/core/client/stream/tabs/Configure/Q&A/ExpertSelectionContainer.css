@@ -1,0 +1,75 @@
+.subHeading {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-900);
+
+  margin-top: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+}
+
+.description {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-500);
+
+  margin-bottom: var(--spacing-3);
+}
+
+.searchField {
+  width: 100%;
+
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+
+  margin-bottom: var(--spacing-1);
+}
+
+.searchButton {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.expertSearchTitle {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+
+  color: var(--palette-text-500);
+
+  margin-bottom: var(--spacing-2);
+}
+
+.expertListTitle {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-500);
+
+  margin-top: var(--spacing-3);
+}
+
+.noExperts {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-100);
+
+  margin-top: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+}
+
+.list {
+  padding: 0;
+  list-style-type: none;
+}

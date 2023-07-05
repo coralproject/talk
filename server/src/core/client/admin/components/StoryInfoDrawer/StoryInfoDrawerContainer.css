@@ -1,0 +1,62 @@
+.root {
+  overflow-y: scroll;
+  font-family: var(--font-family-primary);
+}
+
+.sectionTitle {
+  margin: var(--spacing-2) 0;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-3);
+  line-height: 0.67;
+  color: var(--palette-grey-500);
+}
+
+.icon {
+  margin: 0 var(--spacing-2) 0 0;
+}
+
+.storyTitle {
+  font-size: var(--font-size-8);
+  margin: var(--spacing-1) 0;
+}
+
+.status {
+  margin: var(--spacing-4) 0;
+}
+
+.flexSizeToContentWidth {
+  width: min-content;
+}
+
+.publishInfoSection {
+  margin: var(--spacing-2) 0;
+}
+
+.publishInfo {
+  margin-bottom: var(--spacing-1);
+}
+
+.metaData {
+  margin-bottom: var(--spacing-3);
+}
+
+.metaDataItem > div {
+  margin-right: var(--spacing-2);
+  padding: 0;
+}
+
+.archivedLabel {
+  margin: 0 var(--spacing-2) 0 0;
+  font-weight: var(--font-weight-primary-bold);
+  color: var(--palette-text-500);
+  font-size: var(--font-size-2);
+}
+
+.storyLink {
+  font-weight: var(--font-weight-primary-regular);
+}
+
+.storyDrawerAction {
+  margin-bottom: var(--spacing-2);
+}

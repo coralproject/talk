@@ -1,0 +1,29 @@
+$tooltip-contents: var(--palette-text-000);
+
+.root {
+  align-items: center;
+  display: flex;
+}
+
+.tooltip {
+  width: max-content;
+  max-width: 220px;
+}
+
+.title {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  color: $tooltip-contents;
+  margin: 0 0 var(--spacing-1) 0;
+  font-size: var(--font-size-2);
+  line-height: 1.285;
+}
+
+.contents {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  color: $tooltip-contents;
+  margin: 0;
+  font-size: var(--font-size-2);
+  line-height: 1.285;
+}

@@ -1,0 +1,12 @@
+.root {
+  text-align: center;
+}
+
+.button {
+  color: var(--palette-primary-500);
+  margin: var(--spacing-4) auto;
+}
+
+.icon {
+  margin-right: var(--spacing-1);
+}

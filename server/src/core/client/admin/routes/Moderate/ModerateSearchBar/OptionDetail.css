@@ -1,0 +1,8 @@
+.bold {
+  font-weight: var(--font-weight-primary-bold);
+}
+
+.muted {
+  font-weight: var(--font-weight-primary-bold);
+  color: var(--palette-grey-400);
+}

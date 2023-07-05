@@ -1,0 +1,48 @@
+.root {
+  margin-top: var(--spacing-2);
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: var(--spacing-2);
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-4);
+  line-height: 1.11;
+
+  color: var(--palette-text-900);
+}
+
+.description {
+  margin-bottom: var(--spacing-3);
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-500);
+}
+
+.requestContainer {
+  margin-bottom: var(--spacing-2);
+}
+
+.recentRequest {
+  margin-bottom: var(--spacing-3);
+
+  color: #808080;
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+
+  color: var(--palette-text-100);
+}
+
+.callout {
+  margin-top: var(--spacing-1);
+  margin-bottom: var(--spacing-5);
+}

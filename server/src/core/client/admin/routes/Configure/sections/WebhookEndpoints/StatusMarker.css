@@ -1,0 +1,12 @@
+.success {
+  background-color: var(--palette-success-500);
+  border-color: var(--palette-success-500);
+  color: var(--palette-text-000);
+}
+
+.error {
+  background-color: var(--palette-error-700);
+  border-color: var(--palette-error-700);
+  color: var(--palette-text-000);
+  font-weight: var(--font-weight-primary-semi-bold);
+}

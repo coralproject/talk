@@ -1,0 +1,25 @@
+.icon {
+  font-family: "Material Icons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  overflow: hidden;
+  vertical-align: middle;
+  display: inline-block;
+  letter-spacing: 0;
+
+  /* Enable Ligatures */
+  font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-variant-ligatures: "discretionary-ligatures";
+
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Better Font Rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

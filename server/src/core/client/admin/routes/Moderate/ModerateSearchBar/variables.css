@@ -1,0 +1,25 @@
+$story-search-background: $colors-teal-600;
+
+$story-search-story-title: var(--palette-text-900);
+$story-search-story-detail: var(--palette-text-100);
+$story-search-story-background: var(--palette-background-input);
+$story-search-story-hover: var(--palette-grey-100);
+
+$story-search-input-text: var(--palette-text-100);
+$story-search-input-label: var(--palette-text-500);
+$story-search-input-background: var(--palette-background-input);
+
+$story-search-button-background: $colors-teal-900;
+$story-search-button-foreground: var(--palette-text-000);
+
+$story-search-group-background: $colors-teal-900;
+$story-search-group-foreground: var(--palette-text-000);
+
+$story-search-results-heading: $colors-white-500;
+$story-search-results-heading-background: var(--palette-grey-500);
+
+$story-search-results-see-all-label: $colors-white-500;
+$story-search-results-see-all-background: $colors-teal-900;
+$story-search-results-see-all-hover: $colors-teal-700;
+$story-search-results-see-all-border: var(--palette-grey-400);
+$story-search-results-see-all-divider: var(--palette-grey-300);

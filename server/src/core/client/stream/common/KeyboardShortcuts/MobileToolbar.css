@@ -1,0 +1,18 @@
+.root {
+  position: fixed;
+  z-index: 999999;
+  left: 0;
+  bottom: 0;
+  height: 52px;
+  width: 100%;
+}
+.bar {
+  width: 100%;
+  max-width: $breakpoints-mobile-max;
+  background: var(--palette-primary-500);
+  color: white;
+
+  :global(.coral-width-gte-mobileMax) & {
+    border-radius: 4px 4px 0 0;
+  }
+}

@@ -1,0 +1,14 @@
+$commentsMessageBoxColor: var(--palette-text-000);
+
+.root {
+  composes: root from "~coral-stream/shared/htmlContent.css";
+
+  color: $commentsMessageBoxColor;
+  font-weight: var(--font-weight-primary-semi-bold);
+  a {
+    color: $commentsMessageBoxColor;
+    &:hover {
+      color: $commentsMessageBoxColor;
+    }
+  }
+}

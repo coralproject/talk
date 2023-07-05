@@ -1,0 +1,45 @@
+$main-nav-text: var(--palette-text-100);
+$main-nav-background: $colors-pure-white;
+$main-nav-hover-background: $colors-coral-200;
+$main-nav-active-background: $colors-coral-500;
+$main-nav-active-text: $colors-pure-white;
+$main-nav-hover-text: var(--palette-text-500);
+
+.root {
+}
+
+.anchor {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  text-transform: uppercase;
+
+  color: $main-nav-text;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--mini-unit);
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    color: $main-nav-hover-text;
+    background-color: $main-nav-hover-background;
+  }
+}
+
+.active {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-3);
+  text-transform: uppercase;
+
+  background-color: $main-nav-active-background;
+  text-decoration: none;
+  color: $main-nav-active-text;
+
+  &:hover {
+    color: $main-nav-active-text;
+    background-color: $main-nav-active-background;
+  }
+}

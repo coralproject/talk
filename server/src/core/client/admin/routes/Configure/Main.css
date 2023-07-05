@@ -1,0 +1,4 @@
+.root {
+  width: 100%;
+  max-width: calc(84 * var(--mini-unit));
+}

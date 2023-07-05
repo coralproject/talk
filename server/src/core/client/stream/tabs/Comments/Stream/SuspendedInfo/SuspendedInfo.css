@@ -1,0 +1,12 @@
+.icon {
+  color: var(--palette-text-500);
+}
+
+.description {
+  margin-bottom: var(--spacing-2);
+}
+
+.until {
+  margin-bottom: var(--spacing-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+}

@@ -1,0 +1,21 @@
+.root {
+  padding: var(--spacing-2);
+  padding-top: 0;
+}
+
+.imageWrapper {
+  padding-top: var(--spacing-2);
+  border-top: 1px solid var(--palette-grey-200);
+  position: relative;
+  display: inline-block;
+}
+
+.button {
+  position: absolute;
+  top: 16px;
+  right: 8px;
+}
+
+.image {
+  max-width: 100%;
+}

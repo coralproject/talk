@@ -1,0 +1,36 @@
+.list {
+  position: absolute;
+  z-index: 99;
+
+  width: 100%;
+  max-height: 120px;
+  overflow-y: auto;
+
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: var(--spacing-1);
+
+  margin-bottom: var(--spacing-2);
+}
+
+.loadMore {
+  margin-top: var(--spacing-1);
+
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+
+  width: 100%;
+}
+
+.noneFound {
+  width: 100%;
+  padding-top: var(--spacing-2);
+
+  text-align: center;
+
+  color: var(--palette-text-900);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: 1.375em;
+}

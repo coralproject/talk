@@ -1,0 +1,8 @@
+.valueBoxCompareValue {
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.valueBoxCompareName {
+  font-size: var(--font-size-1);
+}

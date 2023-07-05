@@ -1,0 +1,11 @@
+.icon {
+  flex-basis: calc(var(--spacing-3) + var(--spacing-1) + 8px);
+}
+
+.title {
+  color: var(--palette-text-500);
+}
+
+.container {
+  align-items: baseline;
+}

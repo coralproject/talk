@@ -1,0 +1,7 @@
+.comment {
+  padding-left: calc(var(--spacing-4));
+}
+
+.footer {
+  padding-left: calc(var(--spacing-4));
+}

@@ -1,0 +1,42 @@
+.titleColumn {
+  vertical-align: top;
+  word-break: break-word;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.statusColumn {
+}
+.siteColumn {
+}
+
+.meta {
+  color: var(--palette-text-100);
+}
+
+.metaElement {
+  margin-right: var(--spacing-1);
+}
+
+.authorName {
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.readingNow {
+  color: var(--palette-success-500);
+}
+
+.reportedCountColumn,
+.pendingCountColumn,
+.totalCountColumn,
+.actionsColumn {
+  text-align: center;
+}
+
+.boldColumn {
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.infoDrawerButton {
+  margin-left: var(--spacing-1);
+  cursor: pointer;
+}

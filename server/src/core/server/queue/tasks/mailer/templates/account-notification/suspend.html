@@ -1,0 +1,15 @@
+{% extends "layouts/account-notification.html" %}
+
+{% block content %}
+  <div data-l10n-id="email-template-accountNotificationSuspend" data-l10n-args="{{ context | dump }}">
+    Hello {{ context.username }},<br/><br/>
+
+    In accordance with {{ context.organizationName }}'s community guidelines, your
+    account has been temporarily suspended. During the suspension, you will be
+    unable to comment, flag or engage with fellow commenters. Please rejoin the
+    conversation {{ context.until }}.<br/><br/>
+
+    If you think this has been done in error, please contact our community team at
+    <a data-l10n-name="organizationContactEmail" href="mailto:{{ context.organizationContactEmail }}">{{ context.organizationContactEmail }}</a>.
+  </div>
+{% endblock %}

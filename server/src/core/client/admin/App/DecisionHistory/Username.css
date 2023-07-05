@@ -1,0 +1,9 @@
+$moderateCardDecisionHistoryColor: var(--palette-text-900);
+
+.root {
+  color: $moderateCardDecisionHistoryColor;
+  font-weight: var(--font-weight-secondary-bold);
+  font-family: var(--font-family-secondary);
+  line-height: 1.3;
+  font-size: var(--font-size-3);
+}

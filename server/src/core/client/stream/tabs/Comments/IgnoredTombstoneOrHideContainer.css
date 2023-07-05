@@ -1,0 +1,29 @@
+.outlined {
+  &.colorSecondary {
+    border-style: solid;
+    border-width: 1px;
+
+    &:not(.disabled),
+    &:not(:disabled) {
+      background-color: transparent;
+      border-color: var(--palette-grey-500);
+      color: var(--palette-grey-500);
+    }
+
+    &:hover, &.mouseHover {
+      background-color: var(--palette-grey-500);
+      border-color: var(--palette-grey-500);
+      color: var(--palette-text-000);
+    }
+    &:active, &.active {
+      background-color: var(--palette-grey-600);
+      border-color: var(--palette-grey-600);
+      color: var(--palette-text-000);
+    }
+    &.disabled {
+      background-color: inherit;
+      border-color: var(--palette-grey-400);
+      color: var(--palette-grey-400);
+    }
+  }
+}

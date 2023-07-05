@@ -1,0 +1,30 @@
+# tests are not run in the docker container.
+__tests__
+coverage
+
+# we won't use the .git folder in production.
+.git
+
+# don't include the dependancies
+node_modules
+
+# don't include any logs
+npm-debug.log*
+
+# don't include any yarn files
+yarn-error.log
+yarn.lock
+
+# don't include any OS/editor files
+.env
+.idea/
+.vs
+.docz
+*.swp
+*.DS_STORE
+
+# don't include any generated files
+dist
+*.css.d.ts
+__generated__
+docs/.next

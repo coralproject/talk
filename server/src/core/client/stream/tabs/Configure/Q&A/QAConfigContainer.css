@@ -1,0 +1,8 @@
+.calloutVisible {
+  padding-top: var(--spacing-2);
+  padding-bottom: var(--spacing-5);
+}
+
+.calloutHidden {
+  padding-bottom: var(--spacing-5);
+}

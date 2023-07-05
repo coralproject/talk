@@ -1,0 +1,30 @@
+$moderateCardTabDefaultColor: var(--palette-grey-100);
+$moderateCardTabPrimaryColor: var(--palette-grey-300);
+$moderateCardTabSecondaryColor: var(--palette-divider);
+
+.root {
+  display: flex;
+  align-items: flex-end;
+  padding: 0;
+  margin: 0;
+}
+
+.default {
+  border-bottom: 1px solid $moderateCardTabDefaultColor;
+}
+
+.primary {
+  border-bottom: 1px solid $moderateCardTabPrimaryColor;
+}
+
+.secondary {
+  border-bottom: 1px solid $moderateCardTabSecondaryColor;
+}
+
+.streamSecondary {
+  border-bottom: 1px solid $moderateCardTabSecondaryColor;
+}
+
+.streamPrimary {
+  border-bottom: 1px solid $moderateCardTabPrimaryColor;
+}

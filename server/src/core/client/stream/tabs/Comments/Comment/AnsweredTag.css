@@ -1,0 +1,16 @@
+.answeredTag {
+  color: #03ab61;
+  background: #e6faf1;
+
+  border-color: #03ab61;
+  border-style: solid;
+  border-radius: 2px;
+  border-width: 1px;
+
+  text-transform: uppercase;
+}
+
+.tagIcon {
+  margin-right: var(--spacing-1);
+  color: var(--palette-success-500);
+}

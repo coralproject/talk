@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {# Meta tags #}
+    <meta charset="utf-8" />
+    {% block meta %}{% endblock %}
+
+    {# CSS #}
+    <link href="assets/main.css" rel="stylesheet">
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td class="content">
+          {% block content %}{% endblock %}
+        </td>
+      </tr>
+      <tr>
+        <td class="footer">
+          {% block footer %}{% endblock %}
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

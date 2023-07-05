@@ -1,0 +1,19 @@
+# This extends ./src/core/client/framework/lib/relay/local.graphql
+# with additional local types.
+
+enum View {
+  SIGN_UP
+  SIGN_IN
+  FORGOT_PASSWORD
+  CREATE_USERNAME
+  CREATE_PASSWORD
+  ADD_EMAIL_ADDRESS
+  LINK_ACCOUNT
+}
+
+extend type Local {
+  view: View!
+  error: String
+  # Duplicate email found when adding email.
+  duplicateEmail: String
+}

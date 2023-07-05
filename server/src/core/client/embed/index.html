@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Coral – Embed Stream</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0 20px 50px 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <p style="text-align: center;">
+      <a href="/admin">Admin</a> | <a href="/story.html">Story</a> |
+      <a href="/storyButton.html">Story With Button</a> |
+      <a href="http://127.0.0.1:8080/storyAMP.html"> AMP</a>
+    </p>
+    <h1 style="text-align: center">Coral – Embed Stream</h1>
+    <div id="coralStreamEmbed" style="max-width: 640px; margin: 0 auto"></div>
+    <script>
+      const CoralStreamEmbed = Coral.createStreamEmbed({
+        id: "coralStreamEmbed",
+        rootURL: "http://localhost:8080",
+        /**
+         *  You can listen to events.
+         *  The argument passed is the event emitter from
+         *  https://github.com/asyncly/EventEmitter2
+         */
+        events: function(events) {
+          events.onAny(function(eventName, data) {
+            console.debug(eventName, data);
+          });
+        },
+      });
+      window.CoralStreamEmbed = CoralStreamEmbed;
+      CoralStreamEmbed.render();
+    </script>
+  </body>
+</html>

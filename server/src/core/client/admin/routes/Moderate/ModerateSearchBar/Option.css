@@ -1,0 +1,45 @@
+@import "./variables.css";
+
+.root {
+  &:not(:first-child) {
+    border-top: 1px solid var(--palette-divider);
+  }
+  &[aria-selected="true"] .container {
+    @mixin outline;
+  }
+}
+
+.container {
+  min-height: calc(4 * var(--mini-unit));
+  padding: var(--mini-unit) calc(2.5 * var(--mini-unit));
+  box-sizing: border-box;
+  &:hover {
+    background: $story-search-story-hover;
+  }
+}
+
+.title {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: 1;
+  color: $story-search-story-title;
+}
+
+.titleWithDetails {
+  font-size: var(--font-size-3);
+}
+
+.details {
+  padding-top: 8px;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+  color: $story-search-story-detail;
+}
+
+.link {
+  display: block;
+  text-decoration: none;
+}

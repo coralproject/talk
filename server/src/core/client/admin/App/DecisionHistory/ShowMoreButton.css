@@ -1,0 +1,20 @@
+$moderateCardDecisionHistoryLinkTextColor: $colors-teal-700;
+$moderateCardDecisionHistoryBorderColor: var(--palette-grey-300);
+
+.root {
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-bold);
+  font-family: var(--font-family-primary);
+  line-height: 1.14;
+  text-transform: uppercase;
+  color: $moderateCardDecisionHistoryLinkTextColor;
+  width: 100%;
+  border-top: 1px solid $moderateCardDecisionHistoryBorderColor;
+  text-align: center;
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+
+  &:disabled {
+    color: var(--palette-grey-300);
+  }
+}

@@ -1,0 +1,19 @@
+.smallTab {
+  padding-top: var(--spacing-3);
+  padding-bottom: var(--spacing-3);
+  padding-left: var(--spacing-3);
+  padding-right: var(--spacing-3);
+}
+
+.configureTab {
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+}
+
+.smallText {
+  font-family: var(--font-family-secondary);
+  font-size: var(--font-size-1);
+  line-height: 1;
+
+  padding-top: var(--spacing-1);
+}

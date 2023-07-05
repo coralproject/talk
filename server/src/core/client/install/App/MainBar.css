@@ -1,0 +1,26 @@
+.root {
+  width: 100%;
+  border-bottom: 2px solid var(--palette-grey-500);
+  padding: var(--mini-unit);
+  box-sizing: border-box;
+  background: var(--palette-text-500);
+  background: linear-gradient(
+    to right,
+    var(--palette-text-500) 0%,
+    var(--palette-grey-500) 100%
+  );
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.title {
+  color: var(--palette-text-000);
+}

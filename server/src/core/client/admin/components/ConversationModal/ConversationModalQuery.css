@@ -1,0 +1,8 @@
+.root {
+  padding: 0;
+  width: 635px;
+}
+
+.body {
+  padding: var(--spacing-4);
+}

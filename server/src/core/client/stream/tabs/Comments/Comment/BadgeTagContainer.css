@@ -1,0 +1,8 @@
+.icon {
+  margin-right: var(--spacing-1);
+}
+
+.tag {
+  margin-right: var(--spacing-1);
+  font-weight: var(--font-weight-primary-bold);
+}

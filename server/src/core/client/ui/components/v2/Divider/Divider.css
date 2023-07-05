@@ -1,0 +1,23 @@
+$divider-border-color: var(--palette-grey-300);
+
+.root {
+  border-top: 0;
+  border-bottom: 1px solid $divider-border-color;
+  padding: 0;
+}
+
+.spacing1 {
+  margin: var(--spacing-1) 0;
+}
+
+.spacing2 {
+  margin: var(--spacing-2) 0;
+}
+
+.spacing3 {
+  margin: var(--spacing-3) 0;
+}
+
+.spacing4 {
+  margin: var(--spacing-4) 0;
+}

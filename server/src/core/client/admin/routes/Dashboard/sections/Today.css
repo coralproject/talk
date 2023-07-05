@@ -1,0 +1,39 @@
+.heading {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-4);
+}
+
+.valueBoxValue {
+  font-size: var(--font-size-7);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: 0.57;
+}
+
+.valueBoxName {
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.valueBoxCompareValue {
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.valueBoxCompareName {
+  font-size: var(--font-size-1);
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.forumIcon {
+  background-color: $colors-teal-100;
+  color: $colors-teal-600;
+}

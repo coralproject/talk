@@ -1,0 +1,104 @@
+.root {
+  position: relative;
+}
+
+.input {
+  cursor: pointer;
+  position: absolute; /* take it out of document flow */
+  opacity: 0; /* hide it */
+  top: 0;
+}
+
+.label {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+  padding-left: calc(var(--spacing-3) + 14px);
+  color: var(--palette-text-500);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+  line-height: 1;
+}
+
+.labelSpan {
+  padding-bottom: 1px;
+}
+
+.labelLight {
+  color: var(--palette-text-000);
+}
+
+/* Box. */
+.input + .label:before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: var(--palette-background-input);
+  border: 1px solid var(--palette-text-500);
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+/* Box focus */
+.label.focus:before {
+  @mixin outline;
+}
+
+/* Box checked */
+
+input:checked.default + .label:before {
+  background: $colors-teal-700;
+  border: 1px solid $colors-teal-700;
+}
+
+.input:checked.streamBlue + .label:before {
+  background: var(--palette-primary-500);
+  border: 1px solid var(--palette-primary-500);
+}
+
+input:checked + .label {
+  font-weight: var(--font-weight-primary-bold);
+}
+
+/* Disabled state label. */
+.input:disabled + .label {
+  cursor: auto;
+  opacity: 0.6;
+}
+
+/* Disabled box. */
+.input:disabled + .label:before {
+  box-shadow: none;
+  border: 1px solid var(--palette-text-input-disabled);
+  background: var(--palette-background-input-disabled);
+}
+
+/* Checkmark. Could be replaced with an image */
+.input:checked + .label:after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  margin-top: -1px;
+  transform: translateY(-50%);
+  color: var(--palette-background-input);
+  background: currentColor;
+  width: 2px;
+  height: 2px;
+  box-shadow: 2px 0 0 currentColor, 4px 0 0 currentColor,
+    4px -2px 0 currentColor, 4px -4px 0 currentColor, 4px -6px 0 currentColor,
+    4px -8px 0 currentColor;
+  transform: rotate(45deg);
+  box-sizing: border-box;
+}
+
+.input:checked:disabled + .label:after {
+  color: var(--palette-text-input-disabled);
+}

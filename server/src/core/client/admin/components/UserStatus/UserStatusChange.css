@@ -1,0 +1,19 @@
+$status-change-button-border: var(--palette-grey-400);
+
+.button {
+  justify-content: space-between;
+  display: flex;
+}
+
+.bordered {
+  padding: 0 var(--spacing-2);
+  border: 1px solid $status-change-button-border;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.dropdownButton {
+  min-width: 80px;
+}

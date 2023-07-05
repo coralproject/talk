@@ -1,0 +1,8 @@
+:global {
+  body {
+    margin: 0;
+  }
+  input::-ms-clear, input::-ms-reveal {
+    display: none;
+  }
+}

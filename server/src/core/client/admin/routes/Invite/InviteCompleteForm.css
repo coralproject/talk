@@ -1,0 +1,4 @@
+.root {
+  max-width: calc(42 * var(--mini-unit));
+  margin: calc(3 * var(--mini-unit)) auto 0;
+}

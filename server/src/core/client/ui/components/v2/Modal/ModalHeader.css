@@ -1,0 +1,6 @@
+$modal-header-background: $colors-white-500;
+
+.root {
+  background-color: $modal-header-background;
+  padding: var(--spacing-4);
+}

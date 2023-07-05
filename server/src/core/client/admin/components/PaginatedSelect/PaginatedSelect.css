@@ -1,0 +1,46 @@
+.root {
+  margin-top: var(--spacing-2);
+}
+
+.dropdown {
+  max-height: 15em;
+  width: calc(20 * var(--mini-unit));
+  overflow: auto;
+}
+
+.wrapper {
+  overflow: hidden;
+  /* adjust for button line-height being > 1 */
+  margin-top: -2px;
+}
+
+.button {
+  color: var(--palette-text-500) !important;
+  border-width: 0;
+  width: calc(20 * var(--mini-unit));
+  margin-right: calc(var(--spacing-1) / 2);
+  font-size: var(--font-size-3);
+  line-height: 1.2;
+  justify-content: space-between;
+  background: var(--palette-background-input);
+}
+
+.buttonIconLeft {
+  width: 20px;
+  margin-right: calc(var(--spacing-1) / 2);
+}
+
+.buttonIconRight {
+  width: 16px;
+}
+
+.buttonIconLeft,
+.buttonIconRight {
+  /* adjust for button line-height being > 1 */
+  margin-top: -2px;
+}
+
+.buttonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

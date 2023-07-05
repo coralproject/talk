@@ -1,0 +1,60 @@
+---
+name: Flex
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import Flex from "./Flex";
+import HorizontalGutter from "../HorizontalGutter";
+import Button from "../Button";
+
+# Flex
+
+`Flex` is a wrapper around `flexbox`.
+
+## Justify content
+
+<Playground>
+  <Flex justifyContent="center">I'm centered</Flex>
+</Playground>
+
+## Align items
+
+<Playground>
+  <Flex alignItems="center" spacing={2}>
+    <Button variant="filled">Push Me</Button>
+    <Button variant="filled" size="small">
+      Push Me
+    </Button>
+    <Button variant="filled" size="large">
+      Push Me
+    </Button>
+  </Flex>
+</Playground>
+
+## Direction
+
+<Playground>
+  <Flex direction="column" spacing={2}>
+    <Button variant="filled">Push Me</Button>
+    <Button variant="filled">Push Me</Button>
+    <Button variant="filled">Push Me</Button>
+  </Flex>
+</Playground>
+
+## Item Gutter
+
+<Playground>
+  <HorizontalGutter>
+    <Flex direction="row" spacing={2}>
+      <Button variant="filled">Push Me</Button>
+      <Button variant="filled">Push Me</Button>
+      <Button variant="filled">Push Me</Button>
+    </Flex>
+    <Flex direction="row" spacing={8}>
+      <Button variant="filled">Push Me</Button>
+      <Button variant="filled">Push Me</Button>
+      <Button variant="filled">Push Me</Button>
+    </Flex>
+  </HorizontalGutter>
+</Playground>

@@ -1,0 +1,29 @@
+$moderate-background: var(--palette-grey-100);
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background-color: $moderate-background;
+}
+
+.main {
+  margin: var(--spacing-5) 0 var(--spacing-7) 0;
+  display: flex;
+  justify-content: center;
+}
+
+.subBar {
+  background-color: $moderate-background;
+}
+
+.calloutText {
+  margin-bottom: var(--spacing-3);
+}
+
+.icon {
+  color: var(--palette-text-500);
+}

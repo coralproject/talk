@@ -1,0 +1,22 @@
+---
+name: Delay
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import Delay from "./Delay.tsx";
+import HorizontalGutter from "../HorizontalGutter";
+import Spinner from "../Spinner";
+
+# Delay
+
+## Basic Use
+
+<Playground>
+  <HorizontalGutter size="double">
+    <div>Spinner will show up in 3 seconds</div>
+    <Delay>
+      <Spinner />
+    </Delay>
+  </HorizontalGutter>
+</Playground>

@@ -1,0 +1,10 @@
+$editedTextDefaultColor: var(--palette-grey-500);
+
+.root {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+  color: $editedTextDefaultColor;
+}

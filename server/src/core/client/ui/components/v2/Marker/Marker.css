@@ -1,0 +1,50 @@
+$markerReportedColor: var(--palette-error-500);
+$markerPendingColor: $colors-teal-700;
+
+.root {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: 0.8125rem;
+  letter-spacing: calc(-0.35em / 13);
+
+  color: $markerReportedColor;
+  border: 1px solid currentColor;
+  border-radius: 20px;
+  padding: 1px var(--mini-unit);
+  white-space: nowrap;
+}
+
+.colorReported {
+  color: $markerReportedColor;
+}
+
+.colorPending {
+  color: $markerPendingColor;
+}
+
+.colorWarning {
+  color: var(--palette-warning-900);
+}
+
+.variantRegular {
+}
+
+.variantFilled {
+  color: var(--palette-text-000);
+
+  &.colorReported {
+    background-color: $markerReportedColor;
+    border-color: $markerReportedColor;
+  }
+
+  &.colorPending {
+    background-color: $markerPendingColor;
+    border-color: $markerPendingColor;
+  }
+
+  &.colorWarning {
+    background-color: var(--palette-warning-100);
+    border-color: var(--palette-warning-900);
+    color: var(--palette-text-500);
+  }
+}

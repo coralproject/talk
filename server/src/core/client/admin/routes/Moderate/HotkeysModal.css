@@ -1,0 +1,52 @@
+$hotkeys-modal-text: var(--palette-text-500);
+$hotkeys-modal-snippet-background: $colors-white-500;
+$hotkeys-modal-snippet-border: var(--palette-grey-400);
+
+.root {
+  min-width: 475px;
+  padding: var(--spacing-2) var(--spacing-3) var(--spacing-6)
+    var(--spacing-3);
+}
+
+.hotKeyContainer {
+  width: 65px;
+}
+
+.title {
+  font-size: var(--font-size-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  line-height: 1.2;
+  color: $hotkeys-modal-text;
+  margin: 0;
+}
+
+.subTitle {
+  font-size: var(--font-size-4);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: 1.11;
+  color: $hotkeys-modal-text;
+  margin: 0;
+}
+
+.hotKeyAction {
+  font-size: var(--font-size-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  line-height: 1.3;
+  color: $hotkeys-modal-text;
+  margin: 0;
+}
+
+.hotKey {
+  background-color: $hotkeys-modal-snippet-background;
+  border: 1px solid $hotkeys-modal-snippet-border;
+  color: $hotkeys-modal-text;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  border-radius: 3px;
+  padding: var(--spacing-1);
+  display: inline-block;
+  line-height: 1;
+}

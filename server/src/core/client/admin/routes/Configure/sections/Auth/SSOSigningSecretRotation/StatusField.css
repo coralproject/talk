@@ -1,0 +1,35 @@
+.status {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+
+  border-radius: 2px;
+  padding-left: var(--spacing-1);
+  padding-right: var(--spacing-1);
+}
+
+.active {
+  background-color: var(--palette-success-500);
+  color: var(--palette-text-000);
+}
+
+.expiring {
+  background-color: var(--palette-warning-500);
+  color: var(--palette-text-500);
+
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+}
+
+.expired {
+  background-color: var(--palette-error-500);
+  color: var(--palette-text-000);
+
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+}
+
+.icon {
+  padding-right: var(--spacing-1);
+}

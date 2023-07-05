@@ -1,0 +1,9 @@
+$configureDescriptionColor: var(--palette-text-500);
+
+.root {
+  color: $configureDescriptionColor;
+  font-size: var(--font-size-3);
+  line-height: 1.3;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+}

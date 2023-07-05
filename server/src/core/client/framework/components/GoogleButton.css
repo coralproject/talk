@@ -1,0 +1,34 @@
+.icon {
+  margin-right: var(--spacing-2);
+
+  height: 1rem;
+  overflow: hidden;
+}
+
+.button {
+  border-style: solid;
+  border-width: 1px;
+
+  color: var(--palette-text-000);
+
+  &:not(.disabled),
+  &:not(:disabled) {
+    background-color: #db4437;
+    border-color: #db4437;
+  }
+
+  &:hover, &.mouseHover {
+    background-color: #e05f54;
+    border-color: #e05f54;
+  }
+  &:active, &.active {
+    background-color: #e57a71;
+    border-color: #e57a71;
+  }
+  &.disabled {
+    color: var(--palette-grey-400);
+    background-color: var(--palette-grey-200);
+    border-color: var(--palette-grey-200);
+  }
+}
+

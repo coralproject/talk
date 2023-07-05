@@ -1,0 +1,59 @@
+$indicator-dot: $colors-teal-500;
+
+.root {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+.tabBar {
+  flex: none;
+  border-bottom: 0px;
+}
+
+.tab {
+}
+
+.activeTab {
+}
+
+.tabIcon {
+  margin-right: var(--spacing-1);
+}
+
+.tabContent {
+  flex: auto;
+  overflow: hidden;
+}
+
+.container {
+  height: calc(100% - var(--spacing-2) - var(--spacing-3));
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+
+  overflow: hidden;
+
+  margin-bottom: var(--spacing-2);
+  margin-top: var(--spacing-3);
+}
+
+.scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.redDot {
+  background-color: $indicator-dot;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-left: 2px;
+}

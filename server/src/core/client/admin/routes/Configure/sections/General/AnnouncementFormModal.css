@@ -1,0 +1,15 @@
+$announcement-modal-text: var(--palette-text-500);
+
+.root {
+  min-width: 500px;
+  padding: var(--spacing-2) var(--spacing-3) var(--spacing-3)
+    var(--spacing-3);
+}
+.title {
+  font-size: var(--font-size-5);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: 1.2;
+  color: $announcement-modal-text;
+  margin: 0;
+}

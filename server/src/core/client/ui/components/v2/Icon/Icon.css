@@ -1,0 +1,63 @@
+.root {
+  font-family: "Material Icons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  overflow: hidden;
+  vertical-align: middle;
+  display: inline-block;
+  letter-spacing: 0;
+  word-break: initial;
+
+  /* Enable Ligatures */
+  font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-variant-ligatures: "discretionary-ligatures";
+
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Better Font Rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.xs {
+  font-size: var(--font-size-icon-xs);
+  width: var(--font-size-icon-xs);
+}
+
+.sm {
+  font-size: var(--font-size-icon-sm);
+  width: var(--font-size-icon-sm);
+}
+.md {
+  font-size: var(--font-size-icon-md);
+  width: var(--font-size-icon-md);
+}
+.lg {
+  font-size: var(--font-size-icon-lg);
+  width: var(--font-size-icon-lg);
+}
+.xl {
+  font-size: var(--font-size-icon-xl);
+  width: var(--font-size-icon-xl);
+}
+
+.colorPrimary {
+  color: $colors-teal-700;
+}
+.colorError {
+  color: var(--palette-error-500);
+}
+
+.colorSuccess {
+  color: var(--palette-success-500);
+}
+
+.colorStream {
+  color: var(--palette-primary-500);
+}

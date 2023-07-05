@@ -1,0 +1,126 @@
+# This extends ./src/core/client/framework/lib/relay/local.graphql
+# with additional local types.
+
+enum VIEW {
+  SIGN_UP
+  SIGN_IN
+  FORGOT_PASSWORD
+}
+
+enum TAB {
+  COMMENTS
+  PROFILE
+}
+
+enum PROFILE_TAB {
+  MY_COMMENTS
+  ACCOUNT
+  PREFERENCES
+}
+
+enum COMMENTS_TAB {
+  """
+  NONE is used before the active tab can be determined. The active tab is
+  determined after we count how many featured comments there are.
+  """
+  NONE
+  FEATURED_COMMENTS
+  ALL_COMMENTS
+  UNANSWERED_COMMENTS
+  REVIEWS
+  QUESTIONS
+}
+
+enum COMMENT_VIEWER_ACTION {
+  CREATE
+  EDIT
+  APPROVE
+  REJECT
+}
+
+type AuthPopup {
+  open: Boolean!
+  focus: Boolean!
+  view: VIEW
+}
+
+type KeyboardShortcutsConfig {
+  source: String!
+  key: String!
+  reverse: Boolean!
+}
+
+type ExpandedMediaSettings {
+  commentIDs: [String!]!
+}
+
+extend type Comment {
+  # pending is true during the optimistic response.
+  pending: Boolean
+  # localReplies contains only comments created by the user
+  # on the ultimate threading level.
+  localReplies: [Comment!]
+
+  # Remember last viewer action that could have caused a status change.
+  lastViewerAction: COMMENT_VIEWER_ACTION
+
+  # If true then Comment came in live.
+  enteredLive: Boolean
+
+  # True if traversal cursor is currently on this comment (Currently a feature of COMMENT_SEEN)
+  hasTraversalFocus: Boolean
+}
+
+extend type CommentsConnection {
+  # Contains comment that came in live and is still behind the `View New` button.
+  viewNewEdges: [CommentEdge!]
+}
+extend type Local {
+  customCSSURL: String
+  activeTab: TAB!
+  authPopup: AuthPopup!
+  storyID: String
+  storyURL: String
+  storyMode: STORY_MODE
+  # Version as reported by the embed.js
+  embedVersion: String
+  amp: Boolean!
+  # If set, then we are in single comment view.
+  commentID: String
+  siteID: String
+  commentsOrderBy: COMMENT_SORT!
+
+  # ratingFilter is the filter used to filter for a specific rating
+  ratingFilter: Int
+
+  profileTab: PROFILE_TAB!
+  commentsTab: COMMENTS_TAB!
+  flattenReplies: Boolean!
+  enableCommentSeen: Boolean!
+  enableZKey: Boolean!
+
+  # Current comment with traversal focus (Currently a feature of COMMENT_SEEN)
+  commentWithTraversalFocus: String
+  # Current keyboard shortcuts config that the user last used to go through comments
+  keyboardShortcutsConfig: KeyboardShortcutsConfig
+
+  # Whether the load all button has been clicked, could be by the user, Z key, or
+  # the Add a comment button in alternate oldest view
+  loadAllButtonHasBeenClicked: Boolean
+  # Whether all comments have finished loading for the stream yet or not.
+  commentsFullyLoaded: Boolean
+  # If new comments have been added while in alternate oldest first view that need to
+  # be displayed.
+  oldestFirstNewCommentsToShow: String
+  # Keeps track of comments that have been expanded/collapsed (opposite of the user's default
+  # media settings)
+  expandedMediaSettings: ExpandedMediaSettings
+
+  archivingEnabled: Boolean!
+  autoArchiveOlderThanMs: Int!
+
+  showCommentIDs: Boolean
+
+  # Refreshes stream for refresh comments button
+  refreshStream: Boolean
+}

@@ -1,0 +1,13 @@
+$timestampColor: var(--palette-text-100);
+
+.root {
+  cursor: default;
+}
+
+.text {
+  color: $timestampColor;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+}

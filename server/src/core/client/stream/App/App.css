@@ -1,0 +1,23 @@
+.disableTransitions {
+  & * {
+    transition: none !important;
+  }
+}
+
+.root {
+  width: 100%;
+  background: var(--palette-background-body);
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  input::-ms-clear, input::-ms-reveal {
+    display: none;
+  }
+}
+
+.tabContent {
+  padding-top: var(--mini-unit);
+}

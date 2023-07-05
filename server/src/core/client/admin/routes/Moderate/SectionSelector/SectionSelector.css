@@ -1,0 +1,8 @@
+.button {
+  height: calc(4 * var(--mini-unit));
+}
+
+.buttonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

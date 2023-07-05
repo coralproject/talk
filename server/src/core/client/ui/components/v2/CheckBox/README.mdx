@@ -1,0 +1,19 @@
+---
+name: CheckBox
+menu: UI Kit v2
+---
+
+import { Playground } from 'docz'
+import CheckBox from './CheckBox.tsx'
+import HorizontalGutter from '../HorizontalGutter'
+
+# CheckBox
+
+## Basic Use
+<Playground>
+  <HorizontalGutter>
+    <CheckBox value="true">Yes I agree</CheckBox>
+    <CheckBox value="false" disabled>No I don't agree</CheckBox>
+    <CheckBox value="undefined" disabled checked>I don't know</CheckBox>
+  </HorizontalGutter>
+</Playground>

@@ -1,0 +1,112 @@
+$input-value: var(--palette-text-500);
+$input-border: var(--palette-grey-500);
+$input-background: var(--palette-background-input);
+$input-placeholder: var(--palette-text-placeholder);
+$input-regular-focused-border: $colors-teal-500;
+$input-streamBlue-focused-border: var(--palette-primary-500);
+$input-disabled-background: var(--palette-background-input-disabled);
+$input-disabled-value: var(--palette-text-input-disabled);
+$input-disabled-border: var(--palette-grey-400);
+$input-error-border: var(--palette-error-500);
+$input-dark-focused-border: $colors-teal-900;
+
+.root {
+  display: flex;
+  width: calc(29 * var(--mini-unit));
+  align-items: center;
+  height: 34px;
+}
+
+.input {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1;
+  position: relative;
+  display: block;
+  padding: var(--spacing-2);
+  box-sizing: border-box;
+  background-color: $input-background;
+  border-radius: var(--round-corners);
+  border-style: solid;
+  width: 100%;
+  align-self: stretch;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: $input-value;
+
+  &:read-only,
+  &:disabled {
+    background-color: $input-disabled-background;
+    border-color: $input-disabled-border;
+    color: $input-disabled-value;
+  }
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: $input-placeholder;
+  }
+}
+
+.adornment {
+  margin-left: var(--spacing-2);
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1;
+}
+
+.colorRegular {
+  border: 1px solid $input-border;
+  &:focus {
+    border: 1px solid $input-regular-focused-border;
+    box-shadow: inset 0px 0px 0px 1px $input-regular-focused-border;
+  }
+}
+
+.colorStreamBlue {
+  border: 1px solid $input-border;
+  &:focus {
+    border: 1px solid $input-streamBlue-focused-border;
+    box-shadow: inset 0px 0px 0px 1px $input-streamBlue-focused-border;
+  }
+}
+
+.colorDark {
+  border: 1px solid $input-border;
+  &:focus {
+    border: 1px solid $input-dark-focused-border;
+    box-shadow: inset 0px 0px 0px 1px $input-dark-focused-border;
+  }
+}
+
+.colorError {
+  border: 2px solid $input-error-border;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.textAlignCenter {
+  text-align: center;
+}
+
+.seamlessAdornment {
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+
+  &:focus {
+    border-right: 0;
+  }
+
+  & + .adornment {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: stretch;
+  }
+}

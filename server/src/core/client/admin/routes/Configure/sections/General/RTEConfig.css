@@ -1,0 +1,10 @@
+.disabledLabel {
+  color: var(--palette-grey-400);
+}
+.spoilerDesc {
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+  color: var(--palette-grey-400);
+  padding-left: 26px;
+}

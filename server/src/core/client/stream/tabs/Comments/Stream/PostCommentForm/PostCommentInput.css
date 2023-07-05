@@ -1,0 +1,7 @@
+$commentsRTEBorder: var(--palette-grey-300);
+$commentsRTEContentBackground: var(--palette-background-input);
+
+.root {
+  border: 1px solid $commentsRTEBorder;
+  border-radius: var(--round-corners);
+}

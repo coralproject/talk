@@ -1,0 +1,3 @@
+.description {
+  width: calc(30 * var(--mini-unit));
+}

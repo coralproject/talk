@@ -1,0 +1,23 @@
+$moderateCardDetailsHeaderColor: var(--palette-text-500);
+$moderateCardDetailsDividerColor: var(--palette-grey-100);
+
+.detailsButton {
+  font-size: var(--font-size-1);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  line-height: 1.28;
+  height: 100%;
+  padding: 2px 0px;
+  margin-left: var(--mini-unit);
+
+  align-self: flex-end;
+  text-transform: uppercase;
+}
+
+.detailsButtonColorRegular {
+  border-color: $moderateCardDetailsHeaderColor;
+}
+
+.detailsText {
+  margin: 0;
+}

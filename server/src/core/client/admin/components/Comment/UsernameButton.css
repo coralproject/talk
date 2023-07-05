@@ -1,0 +1,21 @@
+$moderateCardUsernameBackgroundHover: var(--palette-grey-200);
+
+.root {
+  margin-right: var(--mini-unit);
+  padding: var(--spacing-1);
+  margin-left: calc(-1 * var(--spacing-1));
+
+  line-height: 1;
+
+  &:hover {
+    background-color: $moderateCardUsernameBackgroundHover;
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+
+  &:active {
+    background-color: $moderateCardUsernameBackgroundHover;
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+}

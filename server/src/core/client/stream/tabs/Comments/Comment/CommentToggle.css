@@ -1,0 +1,32 @@
+.root {
+  padding: var(--spacing-2);
+  width: 100%;
+  background: var(--palette-grey-100);
+
+  &.mouseHover,
+  &:hover {
+    background: var(--palette-grey-200);
+  }
+}
+
+.icon {
+  color: var(--palette-grey-500);
+  padding-top: 3px;
+}
+
+.timestamp {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+  color: var(--palette-grey-500);
+}
+
+.username {
+  margin-right: var(--spacing-1);
+}
+
+.inner {
+  flex: 1;
+}

@@ -1,0 +1,28 @@
+/* Here we add global stylings for body and document */
+:global {
+  body {
+    margin: 0;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--palette-background-body);
+    color: var(--palette-text-500);
+  }
+  input::-ms-clear, input::-ms-reveal {
+    display: none;
+  }
+}
+
+.root {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: var(--mini-unit) var(--mini-unit) calc(2 * var(--mini-unit))
+    var(--mini-unit);
+  max-width: 1080px;
+  margin: 0 auto;
+}

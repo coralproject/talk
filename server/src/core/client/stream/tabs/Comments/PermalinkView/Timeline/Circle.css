@@ -1,0 +1,31 @@
+.circleContainer {
+  position: relative;
+}
+
+.circleSubContainer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: calc(-1 * var(--spacing-2) - var(--spacing-2) - 1px);
+  background-color: var(--palette-background-body);
+  width: calc(2 * var(--spacing-2));
+  height: 23px;
+  color: var(--palette-grey-500);
+}
+
+.end {
+  align-items: flex-start;
+  padding-top: 8px;
+  height: 100%;
+  :global(.coral-width-gte-xs) & {
+    padding-top: 6px;
+  }
+}
+
+.circle {
+  width: var(--spacing-2);
+  height: var(--spacing-2);
+  fill: currentColor;
+  stroke: currentColor;
+}

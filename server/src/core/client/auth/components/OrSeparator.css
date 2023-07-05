@@ -1,0 +1,14 @@
+.or {
+  font-family: var(--font-family-secondary);
+  font-style: normal;
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+
+  color: var(--palette-text-500);
+
+  margin-top: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+
+  text-align: center;
+}

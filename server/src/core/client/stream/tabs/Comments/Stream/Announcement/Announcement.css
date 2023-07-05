@@ -1,0 +1,18 @@
+.root {
+  background-color: var(--palette-primary-500);
+  color: white;
+  padding: var(--spacing-3);
+  border-radius: 2px;
+}
+
+.text {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: 1.125;
+  color: var(--common-white)
+}
+
+.closeButton {
+  color: var(--common-white)
+}

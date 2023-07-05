@@ -1,0 +1,110 @@
+@import "./variables.css";
+
+.root {
+  width: calc(94 * var(--mini-unit));
+  height: calc(4 * var(--mini-unit));
+}
+
+.hasSiteSelector {
+  width: calc(84 * var(--mini-unit));
+}
+
+.begin {
+  background-color: $story-search-input-background;
+  min-width: calc(4 * var(--mini-unit));
+  border-top-left-radius: var(--round-corners);
+  border-bottom-left-radius: var(--round-corners);
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.adornmentLeft {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.beginStories {
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: 1.5;
+  color: $story-search-input-label;
+  text-transform: uppercase;
+  padding-right: calc(0.25 * var(--mini-unit));
+}
+
+.searchIcon {
+  padding: 0 calc(0.5 * var(--mini-unit)) 0 calc(0.75 * var(--mini-unit));
+  font-weight: var(--font-weight-primary-semi-bold);
+  color: $story-search-input-label;
+}
+
+.end {
+  min-width: calc(5 * var(--mini-unit));
+  background-color: $story-search-input-background;
+  border-top-right-radius: var(--round-corners);
+  border-bottom-right-radius: var(--round-corners);
+  flex-shrink: 0;
+}
+
+.searchButton {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.28;
+
+  background-color: $story-search-button-background;
+  color: $story-search-button-foreground;
+  border-left: 1px solid $story-search-button-background;
+  border-radius: var(--round-corners);
+
+  padding: 0 calc(1 * var(--mini-unit));
+  height: calc(4 * var(--mini-unit) - 4px);
+  margin-right: var(--spacing-1);
+
+  &:disabled {
+    cursor: pointer;
+  }
+}
+
+.input {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  position: relative;
+  display: block;
+  padding: calc(0.5 * var(--mini-unit));
+  box-sizing: border-box;
+  width: 100%;
+  align-self: stretch;
+  color: $story-search-input-text;
+  border: 0;
+  background-color: $story-search-input-background;
+  margin: 0;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: $story-search-input-text;
+    opacity: 0.5;
+  }
+
+  &:read-only {
+    opacity: 0.5;
+  }
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.inputWithTitle {
+  &::placeholder {
+    font-weight: var(--font-weight-primary-bold);
+    color: var(--palette-text-500);
+    opacity: 1;
+  }
+}

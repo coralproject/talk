@@ -1,0 +1,121 @@
+$commenterActionEditColor: var(--palette-primary-500);
+$commenterActionEditColorActive: var(--palette-primary-300);
+
+.root {
+  &:focus {
+    outline: none;
+  }
+}
+.tagIcon {
+  margin-right: var(--spacing-1);
+}
+
+.answeredTag {
+  color: #03ab61;
+  background: #e6faf1;
+
+  border-color: #03ab61;
+  border-style: solid;
+  border-radius: 2px;
+  border-width: 1px;
+
+  text-transform: uppercase;
+}
+
+.editButton {
+  color: $commenterActionEditColor;
+  &:hover,
+  &.mouseHover {
+    color: $commenterActionEditColorActive;
+  }
+  &:active,
+  &.active {
+    color: $commenterActionEditColorActive;
+  }
+}
+
+.editIcon {
+  margin-right: var(--spacing-1);
+}
+
+.actionBar {
+  min-width: 100px;
+  :global(.coral-width-gte-xs) & {
+    min-width: 150px;
+  }
+}
+
+.actionButton {
+  padding: var(--spacing-1);
+}
+
+.staticUsername {
+  color: var(--palette-text-100);
+
+  margin-right: var(--spacing-2);
+}
+
+.avatarContainer {
+  width: 24px;
+  height: 24px;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
+
+.usernameButton {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  max-width: 100%;
+}
+
+.indentedCommentRoot {
+  padding-top: 9px;
+  padding-bottom: 7px;
+}
+
+.commentSeenEnabled {
+  padding-left: 2px;
+  padding-right: 2px;
+  transition: background 600ms ease-out;
+
+  &.indented {
+    padding-left: 0px;
+    padding-right: 2px;
+  }
+
+  &.flattenedPadding {
+    padding-left: 18px;
+  }
+}
+
+.traversalFocus {
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+  border-color: var(--palette-primary-500);
+  padding-top: 7px;
+  padding-bottom: 5px;
+  padding-left: 0px;
+  padding-right: 0px;
+
+  &:not(.indented) {
+    border-left: 2px solid;
+    border-color: var(--palette-primary-500);
+  }
+  &.flattenedPadding {
+    padding-left: 18px;
+  }
+}
+
+.notSeen {
+  background-color: $colors-yellow-100;
+}
+
+.flattenedPadding {
+  padding-left: 18px;
+}

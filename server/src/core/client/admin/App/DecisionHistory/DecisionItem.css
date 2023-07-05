@@ -1,0 +1,12 @@
+.root {
+  padding: var(--spacing-2) var(--spacing-1);
+}
+
+.leftCol {
+  display: flex;
+  justify-content: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding-top: 3px;
+  margin-right: var(--spacing-2);
+}

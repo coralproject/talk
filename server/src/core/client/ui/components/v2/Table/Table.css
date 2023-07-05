@@ -1,0 +1,8 @@
+.root {
+  border-collapse: collapse;
+  box-sizing: border-box;
+}
+
+.fullWidth {
+  width: 100%;
+}

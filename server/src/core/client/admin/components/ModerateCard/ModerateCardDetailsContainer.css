@@ -1,0 +1,4 @@
+.button {
+  text-transform: uppercase;
+  font-size: var(--font-size-2);
+}

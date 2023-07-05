@@ -1,0 +1,22 @@
+.root {
+  background-color: var(--palette-grey-100);
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+  color: var(--palette-text-500);
+
+  padding: var(--spacing-2);
+
+  text-align: center;
+
+  :global(.coral-width-gte-xs) & {
+    padding: var(--spacing-4);
+  }
+}
+
+.fullWidth {
+  width: 100%;
+  box-sizing: border-box;
+}

@@ -1,0 +1,27 @@
+.root {
+  border-radius: var(--round-corners);
+  padding: var(--spacing-1);
+  background-color: var(--palette-grey-100);
+
+  margin-bottom: var(--spacing-2);
+}
+
+.body {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-500);
+}
+
+.username {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-500);
+
+  margin-right: var(--spacing-1);
+}

@@ -1,0 +1,45 @@
+$commentsRTEBorder: var(--palette-grey-300);
+$commentsRTEContentBackground: var(--palette-background-input);
+$commentsRTEPlaceholder: var(--palette-text-placeholder);
+
+.container {
+  background-color: transparent;
+}
+
+.content {
+  composes: root from "~coral-stream/shared/htmlContent.css";
+
+  border: 0;
+
+  & :global(.coral-rte-spoiler) {
+    background-color: black;
+    color: white;
+    padding: 0 2px;
+    cursor: text;
+  }
+}
+
+.toolbar {
+  background-color: $commentsRTEContentBackground;
+
+  border: 0;
+}
+
+.toolbarHidden {
+  display: none;
+}
+
+.placeholder {
+  margin: 10px 0 0 calc(10px);
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.5;
+  color: $commentsRTEPlaceholder;
+}
+
+.disabled {
+  background: var(--palette-background-input-disabled);
+  color: var(--palette-text-input-disabled);
+}

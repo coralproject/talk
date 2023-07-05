@@ -1,0 +1,42 @@
+.root {
+  margin-left: auto;
+
+  border: 1px solid var(--palette-grey-500);
+  box-sizing: border-box;
+  border-radius: var(--round-corners);
+  padding: 2px var(--spacing-2) 2px var(--spacing-2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--palette-grey-500);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+  line-height: 1.2;
+
+  &:active {
+    background-color: $colors-teal-100;
+    border-color: $colors-teal-700;
+    color: $colors-teal-700;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: transparent;
+    border-color: var(--palette-grey-300);
+    color: var(--palette-grey-300);
+  }
+}
+
+.invert {
+  background-color: $colors-teal-700;
+  border-color: $colors-teal-700;
+  color: var(--palette-text-000);
+
+  &:disabled {
+    color: var(--palette-text-000);
+    border-color: var(--palette-grey-300);
+    background-color: var(--palette-grey-300);
+  }
+}

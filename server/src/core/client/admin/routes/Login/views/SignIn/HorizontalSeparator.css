@@ -1,0 +1,21 @@
+.root {
+  position: relative;
+}
+.hr {
+  position: absolute;
+  border: 0;
+  border-top: 1px solid var(--palette-divider);
+  width: 100%;
+  margin: 0;
+}
+.text {
+  position: relative;
+  background-color: #f5f5f5;
+  padding: 0 var(--mini-unit);
+
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-primary);
+  line-height: 1.11;
+  color: var(--palette-text-100);
+}

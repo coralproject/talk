@@ -1,0 +1,30 @@
+$commentsConversationLinkColor: var(--palette-primary-500);
+$commentsConversationLinkColorHovered: var(--palette-primary-700);
+$commentsConversationLinkColorActive: var(--palette-primary-800);
+
+.conversationLink {
+  overflow: hidden;
+  display: block;
+  text-align: left;
+  white-space: break-spaces;
+  line-height: 1rem;
+
+  &.sizeRegular {
+    padding: 0;
+  }
+  &.colorRegular {
+    color: $commentsConversationLinkColor;
+  }
+
+  &:not(.disabled) {
+    &.colorRegular {
+      &.mouseHover {
+        color: $commentsConversationLinkColorHovered;
+      }
+      &.active,
+      &:active {
+        color: $commentsConversationLinkColorActive;
+      }
+    }
+  }
+}

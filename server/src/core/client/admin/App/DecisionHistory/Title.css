@@ -1,0 +1,23 @@
+$decisionHistoryBorderColor: var(--palette-grey-300);
+$decisionHistoryTitleBackgroundColor: var(--palette-grey-200);
+
+.root {
+  background: $decisionHistoryTitleBackgroundColor;
+  padding: var(--spacing-1);
+  color: var(--palette-text-500);
+  border-bottom: 1px solid $decisionHistoryBorderColor;
+}
+
+.icon {
+  font-size: var(--font-size-icon-md);
+  margin-right: var(--spacing-2);
+}
+
+.text {
+  text-transform: uppercase;
+  font-weight: var(--font-weight-primary-bold);
+  color: var(--palette-text-500);
+  font-size: var(--font-size-2);
+  line-height: 1;
+  font-family: var(--font-family-primary);
+}

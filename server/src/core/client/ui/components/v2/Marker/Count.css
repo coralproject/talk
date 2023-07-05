@@ -1,0 +1,14 @@
+.root {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: 0.8125rem;
+  letter-spacing: calc(-0.35em / 13);
+
+  border-left: 1px solid currentColor;
+  margin-left: calc(0.5 * var(--mini-unit));
+  margin-right: calc(-0.25 * var(--mini-unit));
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: calc(0.5 * var(--mini-unit));
+  white-space: nowrap;
+}

@@ -1,0 +1,4 @@
+.root {
+  composes: root from "~coral-stream/shared/htmlContent.css";
+  word-break: break-word;
+}

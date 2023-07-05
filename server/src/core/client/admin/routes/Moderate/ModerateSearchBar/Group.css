@@ -1,0 +1,26 @@
+@import "./variables.css";
+
+.root {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  height: calc(5 * var(--mini-unit));
+  padding-left: calc(1.5 * var(--mini-unit));
+  background: $story-search-group-background;
+  color: $story-search-group-foreground;
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.light {
+  background: $story-search-results-heading-background;
+}

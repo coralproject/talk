@@ -1,0 +1,58 @@
+$commentsQuoteBackground: var(--palette-grey-200);
+$commentsLinkColor: var(--palette-primary-500);
+$commentsLinkColorHovered: var(--palette-primary-700);
+
+.root {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.45;
+  color: var(--palette-text-500);
+
+  overflow-wrap: break-word;
+
+  b,
+  strong {
+    font-weight: var(--font-weight-primary-semi-bold);
+  }
+
+  i em {
+    font-style: italic;
+  }
+  blockquote {
+    background-color: $commentsQuoteBackground;
+    padding: var(--mini-unit);
+    margin: calc(2 * var(--mini-unit)) 0 calc(2 * var(--mini-unit))
+      var(--mini-unit);
+    border-radius: var(--round-corners);
+    &::after {
+      content: none;
+    }
+    &::before {
+      content: none;
+    }
+  }
+  a {
+    color: $commentsLinkColor;
+    &:hover {
+      color: $commentsLinkColorHovered;
+    }
+  }
+  & :global(.coral-rte-spoiler) {
+    background-color: var(--palette-text-900);
+    transition: background 300ms;
+    border-radius: var(--round-corners);
+    color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+  }
+  & :global(.coral-rte-spoiler-reveal) {
+    opacity: 1;
+    color: var(--palette-text-900);
+    background-color: transparent;
+    cursor: inherit;
+  }
+  & :global(.coral-rte-sarcasm) {
+    font-family: monospace;
+  }
+}

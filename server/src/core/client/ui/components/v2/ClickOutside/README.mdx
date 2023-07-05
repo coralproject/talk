@@ -1,0 +1,30 @@
+---
+name: ClickOutside
+menu: UI Kit v2
+---
+
+import { Playground } from 'docz'
+import ClickOutside from './ClickOutside'
+import Button from '../Button/Button'
+
+# ClickOutside
+
+A Component to handle click events outside the children components.
+
+## Basic usage
+Wrap a Component with `<ClickOutside>` and pass a function to `onClickOutside`. This function will trigger when the user
+clicks outside the component.
+
+### Test
+Click the blue background. It should trigger an alert. Nothing should happen if you click the button.
+
+<Playground>
+  <div id="outside" style={{background: 'blue', padding: '10px'}}>
+    <ClickOutside onClickOutside={e => {
+      if (e.srcElement.id === "outside") {
+        alert('You clicked outside!');
+      }}}>
+      <Button variant="filled">Push Me</Button>
+    </ClickOutside>
+  </div>
+</Playground>

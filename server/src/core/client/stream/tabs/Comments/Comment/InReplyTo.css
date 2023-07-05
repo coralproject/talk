@@ -1,0 +1,29 @@
+$commentsInReplyToUsernameColor: var(--palette-text-500);
+$commentsInReplyToLabelColor: var(--palette-text-100);
+$commentsInReplyToIconColor: var(--palette-text-100);
+
+.icon {
+  color: $commentsInReplyToIconColor;
+}
+
+.username {
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-3);
+  line-height: 1;
+  color: $commentsInReplyToUsernameColor;
+}
+
+.inReplyTo {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1;
+  color: $commentsInReplyToLabelColor;
+  pointer-events: none;
+}
+
+.button {
+  display: block;
+  vertical-align: baseline;
+}

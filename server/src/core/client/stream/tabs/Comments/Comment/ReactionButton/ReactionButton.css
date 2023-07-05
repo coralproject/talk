@@ -1,0 +1,21 @@
+.readOnly {
+  cursor: not-allowed !important;
+  color: var(--palette-text-500) !important;
+  opacity: 1 !important;
+}
+
+.button {
+  padding-left: 0;
+}
+
+.reacted {
+  font-weight: var(--font-weight-primary-bold);
+}
+
+.icon {
+  margin-right: var(--spacing-1);
+}
+
+.totalReactions {
+  margin-left: var(--spacing-1);
+}

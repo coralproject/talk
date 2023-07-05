@@ -1,0 +1,38 @@
+
+.button {
+  background-color: transparent;
+  border: none;
+
+  margin-right: var(--spacing-1);
+  padding: var(--spacing-1);
+  border-radius: var(--round-corners);
+  color: var(--palette-grey-500);
+  letter-spacing: .042em;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-1);
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: var(--palette-grey-200)
+}
+
+.button[aria-pressed=true] {
+  background-color: var(--palette-grey-300)
+}
+
+.button:disabled {
+  color: var(--palette-text-input-disabled);
+  cursor: default;
+  background: none;
+}
+
+@media (-moz-touch-enabled: 1), (pointer: coarse) {
+  .button:hover {
+    background-color: transparent;
+  }
+  .button[aria-pressed=true]:hover {
+    background-color: var(--palette-grey-300)
+  }
+}

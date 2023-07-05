@@ -1,0 +1,16 @@
+.root {
+}
+
+.textArea {
+  width: 100%;
+  margin-bottom: var(--spacing-2);
+}
+
+.textArea:focus {
+  outline: none;
+}
+
+.form {
+  padding: var(--spacing-2) 0;
+  margin-bottom: var(--spacing-4);
+}

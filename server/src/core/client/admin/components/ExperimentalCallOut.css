@@ -1,0 +1,10 @@
+.icon {
+  margin-right: var(--spacing-1);
+}
+
+.title {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+

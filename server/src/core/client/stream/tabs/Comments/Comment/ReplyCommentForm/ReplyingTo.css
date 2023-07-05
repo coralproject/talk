@@ -1,0 +1,34 @@
+$commentsReplyToBackground: var(--palette-grey-500);
+$commentsReplyToColor: var(--palette-text-000);
+$commentsReplyToBorderColor: var(--palette-grey-500);
+
+.root {
+  padding: calc(0.5 * var(--mini-unit));
+
+  border-bottom: 0;
+  border: 1px solid $commentsReplyToBorderColor;
+
+  background-color: $commentsReplyToBackground;
+  color: $commentsReplyToColor;
+
+  border-top-left-radius: var(--round-corners);
+  border-top-right-radius: var(--round-corners);
+}
+
+.text {
+  color: $commentsReplyToColor;
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1;
+}
+
+.username {
+  color: $commentsReplyToColor;
+
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight-secondary-bold);
+  font-size: var(--font-size-2);
+  line-height: 1;
+}

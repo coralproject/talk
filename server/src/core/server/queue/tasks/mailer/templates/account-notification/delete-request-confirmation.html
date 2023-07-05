@@ -1,0 +1,9 @@
+{% extends "layouts/account-notification.html" %}
+
+{% block content %}
+  A request to delete your commenter account was received. Your account is scheduled for deletion on {{ context.requestDate }}.
+
+  After that time all of your comments will be removed from the site, all of your comments will be removed from our database, and your username and email address will be removed from our system.
+
+  If you change your mind you can sign into your account and cancel the request before your scheduled account deletion time.
+{% endblock %}

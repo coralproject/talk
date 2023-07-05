@@ -1,0 +1,17 @@
+.root {
+  min-width: 192px;
+  max-width: 45vw;
+  padding: var(--spacing-3);
+}
+
+.memberSince {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: 1;
+  color: var(--palette-text-500);
+}
+
+.username {
+  line-break: anywhere;
+}

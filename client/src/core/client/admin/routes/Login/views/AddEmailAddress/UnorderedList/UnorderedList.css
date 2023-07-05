@@ -1,0 +1,11 @@
+.root {
+  margin: 0;
+  padding: 0;
+
+  & > * {
+    margin: 0 0 calc(1 * var(--mini-unit)) 0 !important;
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}

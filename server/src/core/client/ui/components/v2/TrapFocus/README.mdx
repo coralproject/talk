@@ -1,0 +1,27 @@
+---
+name: TrapFocus
+menu: UI Kit v2
+---
+
+import { Playground } from 'docz'
+import TrapFocus from './TrapFocus'
+import Button from '../Button'
+
+# TrapFocus
+
+Traps focus inside component when using keyboard navigation for accessibility purposes.
+
+## Basic usage
+
+<Playground>
+  <div>
+    <TrapFocus>
+    {({firstFocusableRef, lastFocusableRef}) =>
+      <div>
+        <Button forwardRef={firstFocusableRef} autoFocus>Cancel</Button>
+        <Button forwardRef={lastFocusableRef}>Send</Button>
+      </div>
+    }
+    </TrapFocus>
+  </div>
+</Playground>

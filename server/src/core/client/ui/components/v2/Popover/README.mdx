@@ -1,0 +1,87 @@
+---
+name: Popover
+menu: UI Kit v2
+---
+
+import { Playground } from "docz";
+import Popover from "./Popover";
+import Button from "../Button";
+import Flex from "../Flex";
+import ButtonIcon from "../Button/ButtonIcon";
+import BaseButton from "../BaseButton";
+import ClickOutside from "../ClickOutside";
+import Icon from "../Icon";
+
+# Popover
+
+`Popover` renders a popover dialog attached to another `Element`.
+
+## Basic usage
+
+<Playground>
+  <Popover
+    id="my-popover-1"
+    body={() => <h2>This is the body</h2>}
+  >
+    {({ toggleVisibility, ref }) => (
+      <Button
+        onClick={toggleVisibility}
+        ref={ref}
+        variant="filled"
+        color="primary"
+      >
+        Click me!
+      </Button>
+    )}
+  </Popover>
+</Playground>
+
+#### Example with `placement=top`
+
+<Playground>
+  <Popover
+    id="my-popover-2"
+    placement="top"
+    body={({ toggleVisibility }) => (
+      <Flex itemGutter="half">
+        <h2>This is the body</h2>
+        <Button onClick={toggleVisibility} size="small">
+          <ButtonIcon>close</ButtonIcon>
+        </Button>
+      </Flex>
+    )}
+  >
+    {({ toggleVisibility, ref }) => (
+      <Button
+        onClick={toggleVisibility}
+        ref={ref}
+        variant="filled"
+        color="primary"
+      >
+        Click me!
+      </Button>
+    )}
+  </Popover>
+</Playground>
+
+## Tooltip
+
+<Playground>
+  <Popover
+    id="my-popover-1"
+    body={({ toggleVisibility }) => (
+      <ClickOutside onClickOutside={toggleVisibility}>
+        <h2>
+          I am a Tooltip
+        </h2>
+      </ClickOutside>
+    )}
+    dark
+  >
+    {({ toggleVisibility, ref }) => (
+      <BaseButton onClick={toggleVisibility} ref={ref}>
+        <Icon color="primary">info</Icon>
+      </BaseButton>
+    )}
+  </Popover>
+</Playground>

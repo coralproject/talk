@@ -1,0 +1,8 @@
+.radioButtons {
+  display: flex;
+  padding-left: var(--spacing-4);
+  align-items: flex-start;
+  & > *:not(:last-child) {
+    margin-right: var(--spacing-5);
+  }
+}

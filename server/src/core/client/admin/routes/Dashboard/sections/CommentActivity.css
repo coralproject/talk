@@ -1,0 +1,31 @@
+.heading {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+}
+
+.chart {
+  font-family: var(--font-family-primary);
+}
+
+.loader {
+  height: 300px;
+}
+
+.legend {
+  color: $colors-coral-600;
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+  margin-bottom: 0;
+  position: relative;
+  padding-left: var(--spacing-6);
+  &:before {
+    width: 24px;
+    height: 1px;
+    background: $colors-coral-600;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+  }
+}

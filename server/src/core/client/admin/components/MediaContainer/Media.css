@@ -1,0 +1,34 @@
+.embed {
+  margin: var(--spacing-2) 0;
+}
+
+.toggle {
+  position: relative;
+}
+
+.toggleTrigger {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(101, 105, 107, 0.6);
+}
+
+.playIcon {
+  color: var(--palette-text-000);
+}
+
+.playText {
+  color: var(--palette-text-000);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-bold);
+  font-family: var(--font-family-primary);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.image {
+  display: block;
+  max-width: 100%;
+}

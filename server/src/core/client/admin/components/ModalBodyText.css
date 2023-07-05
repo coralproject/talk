@@ -1,0 +1,9 @@
+$modal-body-text: $colors-mono-500;
+
+.root {
+  font-size: var(--font-size-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  line-height: 1.3;
+  color: $modal-body-text;
+}

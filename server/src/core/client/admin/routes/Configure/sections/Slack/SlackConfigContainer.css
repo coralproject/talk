@@ -1,0 +1,8 @@
+.icon {
+  padding-right: var(--spacing-2);
+}
+
+.button {
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+}

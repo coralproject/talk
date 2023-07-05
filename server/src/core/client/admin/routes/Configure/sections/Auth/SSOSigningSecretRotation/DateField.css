@@ -1,0 +1,10 @@
+.label {
+  padding-bottom: var(--spacing-2);
+}
+
+.date {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+}

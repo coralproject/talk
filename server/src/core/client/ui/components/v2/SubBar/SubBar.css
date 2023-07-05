@@ -1,0 +1,22 @@
+$sub-bar-background: inherit;
+$sub-bar-border: var(--palette-grey-300);
+
+.root {
+  background-color: $sub-bar-background;
+  border-bottom: 1px solid $sub-bar-border;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.gutterBegin {
+  padding-left: calc(2 * var(--mini-unit));
+}
+.gutterEnd {
+  padding-right: calc(2 * var(--mini-unit));
+}

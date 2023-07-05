@@ -1,0 +1,8 @@
+.popover {
+  width: 350px;
+}
+
+.historyIcon {
+  color: var(--palette-text-100);
+  margin-right: 10px;
+}

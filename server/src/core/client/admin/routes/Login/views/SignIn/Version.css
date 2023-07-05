@@ -1,0 +1,18 @@
+.container {
+  width: 385px;
+  background-color: var(--palette-grey-100);
+  border: 1px solid var(--palette-grey-300);
+  border-top: 0;
+  padding-top: var(--spacing-3);
+  padding-bottom: var(--spacing-3);
+  padding-left: var(--spacing-6);
+  padding-right: var(--spacing-6);
+  box-sizing: border-box;
+
+  text-align: center;
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-bold);
+  font-family: var(--font-family-primary);
+  line-height: 1.33;
+  color: var(--palette-text-100);
+}

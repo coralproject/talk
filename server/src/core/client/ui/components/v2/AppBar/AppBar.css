@@ -1,0 +1,20 @@
+$mainNavBackgroundDefaultColor: $colors-pure-white;
+
+.root {
+  background-color: $mainNavBackgroundDefaultColor;
+  border-bottom: 1px solid var(--palette-divider);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: calc(8 * var(--mini-unit));
+  box-sizing: border-box;
+}
+
+.gutterBegin {
+  padding-left: calc(2 * var(--mini-unit));
+}
+.gutterEnd {
+  padding-right: calc(2 * var(--mini-unit));
+}

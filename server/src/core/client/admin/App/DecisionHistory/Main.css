@@ -1,0 +1,5 @@
+.root {
+  max-height: calc(26 * var(--mini-unit));
+  overflow: hidden;
+  overflow-y: scroll;
+}

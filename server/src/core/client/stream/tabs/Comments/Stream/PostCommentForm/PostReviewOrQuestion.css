@@ -1,0 +1,61 @@
+.button {
+  border-radius: var(--round-corners);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+  border: 1px solid var(--palette-primary-500);
+  color: var(--palette-primary-500);
+  border-width: 1px;
+  padding: var(--spacing-4);
+  width: 46%;
+  margin: 0 2%;
+  text-transform: uppercase;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.button:hover:not(:disabled):not(.showReviewButton) {
+  color: white;
+  background-color: var(--palette-primary-500);
+}
+
+.showReviewButton {
+  padding: var(--spacing-2);
+}
+
+.ratedThis {
+  margin-bottom: var(--spacing-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-1);
+}
+
+.showReview {
+  color: var(--palette-primary-500);
+  font-weight: var(--font-weight-primary-semi-bold);
+  text-decoration: underline;
+  padding: 0;
+}
+
+.icon {
+  margin-bottom: var(--spacing-1);
+}
+
+.rated {
+  text-transform: inherit;
+  background-color: var(--palette-grey-100);
+  border-color: var(--palette-grey-100);
+  color: var(--palette-text-900);
+}
+
+.selected {
+  background-color: var(--palette-primary-100);
+  border-width: 2px;
+}
+
+.unselected {
+  border-color: var(--palette-grey-400);
+  color: var(--palette-grey-400);
+}

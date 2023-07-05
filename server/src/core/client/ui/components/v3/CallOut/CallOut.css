@@ -1,0 +1,110 @@
+.root {
+  position: relative;
+
+  padding: var(--spacing-2);
+}
+
+.topBorder {
+  border-top: 4px solid;
+}
+
+.leftBorder {
+  border-left: 4px solid;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.leftIcon {
+  flex-basis: calc(var(--spacing-3) + var(--spacing-1) + 14px);
+  margin-left: var(--spacing-1);
+  margin-top: 0.5px;
+}
+
+.content {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  flex-basis: calc(var(--spacing-2) + 14px);
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.title {
+  font-family: var(--font-family-primary);
+}
+
+.titleBold {
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+}
+
+.titleSemiBold {
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.43;
+}
+
+.titleMargin {
+  margin-bottom: var(--spacing-2);
+}
+
+.body {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+}
+
+.icon {
+  &.mono {
+    color: var(--palette-text-500);
+  }
+  &.success {
+    color: var(--palette-success-500);
+  }
+  &.error {
+    color: var(--palette-error-500);
+  }
+  &.primary {
+    color: var(--palette-primary-500);
+  }
+  &.warning {
+    color: var(--palette-warning-500);
+  }
+}
+
+.mono {
+  background-color: var(--palette-grey-100);
+  border-color: var(--palette-grey-500);
+  color: var(--palette-text-500);
+}
+
+.success {
+  background-color: var(--palette-success-100);
+  border-color: var(--palette-success-500);
+  color: var(--palette-text-500);
+}
+
+.error {
+  background-color: $colors-stream-red-100;
+  border-color: $colors-stream-red-500;
+  color: var(--palette-text-500);
+}
+
+.primary {
+  background-color: var(--palette-primary-100);
+  border-color: var(--palette-primary-500);
+  color: var(--palette-text-500);
+}
+
+.warning {
+  background-color: var(--palette-warning-100);
+  border-color: var(--palette-warning-500);
+  color: var(--palette-text-500);
+}

@@ -1,0 +1,24 @@
+.heading {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-4);
+  line-height: 1.11;
+
+  color: var(--palette-text-500);
+
+  margin-top: var(--spacing-5);
+  margin-bottom: var(--spacing-3);
+}
+
+.configureItems {
+  margin-bottom: var(--spacing-4);
+}
+
+.footer {
+  margin-bottom: var(--spacing-6);
+}
+
+.footerWithMessage {
+  margin-top: var(--spacing-3);
+  margin-bottom: var(--spacing-6);
+}

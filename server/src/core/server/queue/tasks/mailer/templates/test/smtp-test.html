@@ -1,0 +1,8 @@
+{% extends "layouts/base.html" %} {% block content %}
+<div
+  data-l10n-id="email-template-testSmtpTest"
+  data-l10n-args="{{ context | dump }}"
+>
+  This is a test email sent to {{ context.email }}
+</div>
+{% endblock %}

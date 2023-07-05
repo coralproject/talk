@@ -1,0 +1,39 @@
+$moderateCardFlagUsernameColor: var(--palette-text-900);
+$moderateCardReasonTextColor: var(--palette-text-500);
+
+.user {
+  color: $moderateCardFlagUsernameColor;
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-secondary-bold);
+  font-family: var(--font-family-secondary);
+  line-height: 1.14;
+  padding-right: calc(0.5 * var(--mini-unit));
+}
+
+.details {
+  color: $moderateCardReasonTextColor;
+
+  display: block;
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+  line-height: 1.14;
+}
+
+.flagger {
+  margin-right: var(--mini-unit);
+  padding: var(--spacing-1);
+  margin-left: calc(-1 * var(--spacing-1));
+
+  &:hover {
+    background-color: var(--palette-grey-200);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+
+  &:active {
+    background-color: var(--palette-grey-300);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+}

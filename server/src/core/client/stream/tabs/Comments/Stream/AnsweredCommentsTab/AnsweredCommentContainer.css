@@ -1,0 +1,45 @@
+.root {
+  color: var(--palette-text-500);
+  padding-left: var(--spacing-4);
+  box-sizing: border-box;
+
+  border-left-width: 2px;
+  border-left-style: solid;
+  border-left-color: var(--palette-primary-400);
+
+  margin-left: var(--spacing-2);
+}
+
+.replies,
+.gotoConversation {
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-family: var(--font-family-primary);
+  line-height: 0;
+}
+
+.gotoArrow {
+  display: inline-block;
+  text-decoration: none;
+  margin-left: var(--spacing-1);
+}
+
+.username {
+  margin-right: var(--spacing-1);
+}
+
+.timestamp {
+  margin-left: var(--spacing-2);
+}
+
+.replies {
+  color: var(--palette-grey-500);
+}
+
+.repliesText {
+  margin: var(--spacing-2);
+}
+
+.repliesDivider {
+  margin: var(--spacing-2);
+}

@@ -1,0 +1,10 @@
+{% extends "layouts/account-notification.html" %}
+
+{% block content %}
+  Your commenter account for {{ context.organizationName }} is now deleted. We're sorry to see you go!
+
+If you'd like to re-join the discussion in the future, you can sign up for a new account.
+
+If you'd like to give us feedback on why you left and what we can do to make the commenting experience better, please email us at {{ context.organizationContactEmail }}.
+
+{% endblock %}

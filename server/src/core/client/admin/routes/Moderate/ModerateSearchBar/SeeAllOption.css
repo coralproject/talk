@@ -1,0 +1,39 @@
+
+@import "./variables.css";
+
+.root {
+  &[aria-selected="true"] {
+    @mixin outline;
+  }
+}
+
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: $story-search-results-see-all-background;
+  min-height: calc(3 * var(--mini-unit));
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+  line-height: 1;
+  color: $story-search-results-see-all-label;
+
+  text-decoration: none;
+  text-transform: uppercase;
+
+  &:hover {
+    background: $story-search-results-see-all-hover;
+  }
+}
+
+.icon {
+  font-weight: var(--font-weight-primary-semi-bold);
+  padding-left: calc(0.5 * var(--mini-unit));
+  line-height: calc(16em / 13);
+  margin-top: -2px;
+
+  color: $story-search-results-see-all-label;
+}

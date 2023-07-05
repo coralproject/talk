@@ -1,0 +1,58 @@
+{
+  "files.associations": {
+    "*.css": "postcss"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    ".vs": true
+  },
+  "tslint.enable": false,
+  "eslint.validate": [
+    { "language": "javascript", "autoFix": true },
+    { "language": "typescript", "autoFix": true },
+    { "language": "typescriptreact", "autoFix": true }
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "postcss.validate": false,
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "importSorter.importStringConfiguration.quoteMark": "double",
+  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 80,
+  "importSorter.sortConfiguration.customOrderingRules.rules": [
+    {
+      "type": "importMember",
+      "regex": "^$",
+      "orderLevel": 70,
+      "disableSort": true
+    },
+    {
+      "regex": "__generated__",
+      "orderLevel": 40
+    },
+    {
+      "regex": "^coral-",
+      "orderLevel": 30
+    },
+    {
+      "regex": "\\.css$",
+      "orderLevel": 60,
+      "disableSort": true
+    },
+    {
+      "regex": "^[.]",
+      "orderLevel": 50
+    }
+  ],
+  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "newLineEachExpressionAfterCountLimitExceptIfOnlyOne",
+  "importSorter.importStringConfiguration.trailingComma": "multiLine",
+  "importSorter.importStringConfiguration.tabSize": 2,
+  "eslint.enable": true,
+  "importSorter.generalConfiguration.exclude": ["d\\.ts$", "__generated__"],
+  "search.exclude": {
+    "package-lock.json": true
+  },
+  "debug.node.autoAttach": "off"
+}

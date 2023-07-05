@@ -1,0 +1,22 @@
+.heading {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-4);
+  line-height: 1.11;
+
+  color: var(--palette-text-900);
+
+  margin-top: var(--spacing-5);
+  margin-bottom: var(--spacing-1);
+}
+
+.description {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.25;
+
+  color: var(--palette-text-500);
+
+  margin-bottom: var(--spacing-3);
+}

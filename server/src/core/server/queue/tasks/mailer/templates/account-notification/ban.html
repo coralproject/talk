@@ -1,0 +1,11 @@
+{% extends "layouts/account-notification.html" %}
+
+{% block content %}
+  <div data-l10n-id="email-template-accountNotificationBan" data-l10n-args="{{ context | dump }}">
+    Hello {{ context.username }},<br/><br/>
+    Someone with access to your account has violated our community guidelines.
+    As a result, your account has been banned. You will no longer be able to
+    comment, react or report comments. If you think this has been done in error,
+    please contact our community team at <a data-l10n-name="organizationContactEmail" href="mailto:{{ context.organizationContactEmail }}">{{ context.organizationContactEmail }}</a>.
+  </div>
+{% endblock %}

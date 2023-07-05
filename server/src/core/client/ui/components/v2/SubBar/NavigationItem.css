@@ -1,0 +1,36 @@
+$navigation-item-selected: $colors-teal-600;
+$navigation-item-default: var(--palette-text-100);
+
+.root {
+  height: 100%;
+}
+
+.anchor {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  text-transform: uppercase;
+  color: $navigation-item-default;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  padding: var(--spacing-3) 0;
+  border-bottom: 3px solid transparent;
+  &:hover {
+    cursor: pointer;
+  }
+  & > * {
+    margin: 0 calc(0.5 * var(--mini-unit)) 0 0;
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+}
+
+.active {
+  font-weight: var(--font-weight-primary-bold);
+  border-bottom: 3px solid $navigation-item-selected;
+  color: $navigation-item-selected;
+}

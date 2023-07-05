@@ -1,0 +1,5 @@
+.root {
+  border: 1px solid var(--palette-grey-300);
+  border-radius: var(--round-corners);
+  overflow-y: auto;
+}

@@ -1,0 +1,5 @@
+.root {
+  width: 100%;
+  padding: calc(2.5 * var(--mini-unit)) calc(1.5 * var(--mini-unit));
+  box-sizing: border-box;
+}
