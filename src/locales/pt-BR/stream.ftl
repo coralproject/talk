@@ -8,6 +8,9 @@ general-userBoxUnauthenticated-joinTheConversation = Participe da conversa
 general-userBoxUnauthenticated-signIn = Entrar
 general-userBoxUnauthenticated-register = Cadastre-se
 
+general-authenticationSection =
+  .aria-label = Autenticação
+
 general-userBoxAuthenticated-signedIn =
   Logado como
 general-userBoxAuthenticated-notYou =
@@ -19,7 +22,13 @@ general-userBox-youHaveBeenSuccessfullySignedOut =
 general-tabBar-commentsTab = Comentários
 general-tabBar-myProfileTab = Meu Perfil
 general-tabBar-discussionsTab = Discussões
+general-tabBar-reviewsTab = Análises
 general-tabBar-configure = Configurações
+
+general-mainTablist =
+  .aria-label = Lista de tabulação principal
+general-secondaryTablist =
+  .aria-label = Lista de tabulação secundária
 
 ## Comment Count
 
@@ -29,12 +38,33 @@ comment-count-text =
     *[other] Comentários
   }
 
+comment-count-text-ratings =
+  { $count  ->
+    [one] classificação
+    *[other] classificações
+  }
+
 ## Comments Tab
+addACommentButton =
+  .aria-label = Adicione um comentário. Esse botão vai mover o foco para o fim dos comentários.
 
 comments-allCommentsTab = Todos os comentários
 comments-featuredTab = Destaques
 comments-counter-shortNum = { SHORT_NUMBER($count) }
-comments-watchers = { SHORT_NUMBER($count) } online
+comments-watchers =
+  { $count  ->
+    [one] 1 pessoa vendo essa discussão
+    *[other] { SHORT_NUMBER($count) } pessoas vendo essa discussão
+  }
+
+comments-announcement-section =
+  .aria-label = Anúncio
+comments-announcement-closeButton =
+  .aria-label = Fechar anuncio
+
+comments-accountStatus-section =
+  .aria-label = Status da conta
+
 
 comments-featuredCommentTooltip-how = Como um comentário é destacado?
 comments-featuredCommentTooltip-handSelectedComments =
@@ -45,6 +75,14 @@ comments-featuredCommentTooltip-toggleButton =
 
 comments-collapse-toggle =
   .aria-label = Recolher tópico de comentários
+comments-collapse-toggle-with-username =
+  .aria-label = Esconder comentário feito por { $username } e suas respostas
+comments-collapse-toggle-without-username =
+  .aria-label = Esconder comentários e respostas
+comments-expand-toggle-with-username =
+  .aria-label = Exibir comentário feito por { $username } e suas respostas
+comments-expand-toggle-without-username =
+  .aria-label = Exibir comentário e suas respostas
 comments-bannedInfo-bannedFromCommenting = Sua conta foi banida de comentar.
 comments-bannedInfo-violatedCommunityGuidelines =
   Alguém com acesso à sua conta violou nossas diretrizes da comunidade.
@@ -57,10 +95,15 @@ comments-noCommentsYet = Ainda não há comentários. Seja o primeiro a comentar
 
 comments-streamQuery-storyNotFound = História não encontrada
 
+comments-communityGuidelines-section =
+  .aria-label = Diretrizes da comunidade
+
 comments-commentForm-cancel = Cancelar
 comments-commentForm-saveChanges = Salvar alterações
 comments-commentForm-submit = Enviar
 
+comments-postCommentForm-section =
+  .aria-label = Escreva um comentário
 comments-postCommentForm-submit = Enviar
 comments-replyList-showAll = Mostrar Tudo
 comments-replyList-showMoreReplies = Carregar Mais
@@ -83,12 +126,15 @@ comments-postComment-confirmMedia-add-tweet = Adicionar Tweet
 comments-postComment-confirmMedia-add-video = Adicionar vídeo
 comments-postComment-confirmMedia-remove = Remover
 comments-commentForm-gifPreview-remove = Remover
+comments-viewNew-loading = Carregando...
 comments-viewNew =
   { $count ->
     [1] Visualizar {$count} Novo Comentário
     *[other] Visualizar {$count} Novos Comentários
   }
 comments-loadMore = Carregar Mais
+comments-loadAll = Carregar todos os comentários
+comments-loadAll-loading = Carregando...
 
 comments-permalinkPopover =
   .description = Uma caixa de diálogo mostrando um link permanente para o comentário
@@ -97,6 +143,8 @@ comments-permalinkPopover-permalinkToComment =
 comments-permalinkButton-share = Compartilhar
 comments-permalinkButton =
   .aria-label = Compartilhar
+comments-permalinkView-section =
+  .aria-label = Conversa Única
 comments-permalinkView-viewFullDiscussion = Ver discussão completa
 comments-permalinkView-commentRemovedOrDoesNotExist = Este comentário foi removido ou não existe.
 
@@ -149,6 +197,15 @@ comments-replyCommentForm-rteLabel = Escrever uma resposta
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
+comments-commentContainer-threadLevelLabel = Nível da thread { $level }:
+comments-commentContainer-highlightedLabel = Destacado:
+comments-commentContainer-ancestorLabel = Antecessor:
+comments-commentContainer-replyLabel =
+  Resposta do { $username } <RelativeTime></RelativeTime>
+comments-commentContainer-questionLabel =
+  Pergunta do { $username } <RelativeTime></RelativeTime>
+comments-commentContainer-commentLabel =
+  Comentário do { $username } <RelativeTime></RelativeTime>
 comments-commentContainer-editButton = Editar
 
 comments-commentContainer-avatar =
@@ -200,6 +257,7 @@ comments-userIgnorePopover-ignore = Ignorar
 comments-userIgnorePopover-cancel = Cancelar
 
 comments-userBanPopover-title = Banir {$username}?
+comments-userSiteBanPopover-title = Banir {$username} desse site?
 comments-userBanPopover-description =
   Depois de banido, este usuário não poderá mais
   comentar, usar reações ou relatar comentários.
@@ -216,6 +274,7 @@ comments-moderationDropdown-approved = Aprovado
 comments-moderationDropdown-reject = Rejeitar
 comments-moderationDropdown-rejected = Rejeitado
 comments-moderationDropdown-ban = Banir Usuário
+comments-moderationDropdown-siteBan = Banir do site
 comments-moderationDropdown-banned = Banido
 comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Visão de moderação
@@ -229,11 +288,14 @@ comments-moderationRejectedTombstone-moderateLink =
 
 comments-featuredTag = Destaques
 
+# $reaction could be "Respect" as an example. Be careful when translating to other languages with different grammar cases.
 comments-react =
   .aria-label = {$count ->
     [0] {$reaction} comentário feito por {$username}
-    *[other] {$reaction} ({$count}) comentário feito por {$username}
+    *[other] {$reaction} ({$count}) comentário feito por {$username} (Total: {$count})
   }
+
+# $reaction could be "Respected" as an example. Be careful when translating to other languages with different grammar cases.
 comments-reacted =
   .aria-label = {$count ->
     [0] {$reaction} comentário feito por {$username}
@@ -241,18 +303,38 @@ comments-reacted =
     *[other] {$reaction} ({$count}) comentário feito por {$username}
   }
 
+comments-jumpToComment-title = Sua resposta foi postada abaixo
+comments-jumpToComment-GoToReply = Ir para resposta
+
+comments-mobileToolbar-closeButton =
+  .aria-label = Fechar
+comments-mobileToolbar-unmarkAll = Marcar tudo como lido
+comments-mobileToolbar-nextUnread = Próximo não lido
+
+comments-replyChangedWarning-theCommentHasJust =
+  Esse comentário foi editado. A versão mais recente está sendo exibida acima.
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A
+
+qa-postCommentForm-section =
+  .aria-label = Poste uma pergunta
 
 qa-answeredTab = Respondidos
 qa-unansweredTab = Não-Respondidos
 qa-allCommentsTab = Todos
 
+qa-answered-answerLabel =
+  Respostas de {$username} <RelativeTime></RelativeTime>
+qa-answered-gotoConversation = Ir para a conversa
+qa-answered-replies = Respostas
+
 qa-noQuestionsAtAll =
   Não há perguntas nesta história.
 qa-noQuestionsYet =
   Não há perguntas ainda. Por que você não pergunta uma?
+qa-viewNew-loading = Carregando...
 qa-viewNew =
   { $count ->
     [1] Ver {$count} Nova Pergunta
@@ -310,6 +392,9 @@ comments-stream-deleteAccount-callOut-cancel =
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
   Cancelar exclusão de conta
 
+comments-permalink-copyLink = Copiar link
+comments-permalink-linkCopied = Link copiado
+
 ### Embed Links
 
 comments-embedLinks-showEmbeds = Mostrar conteúdo embutido
@@ -327,9 +412,16 @@ comments-embedLinks-hide-twitter = Esconder Tweet
 comments-embedLinks-show-external = Mostrar imagem
 comments-embedLinks-hide-external = Esconder imagem
 
+comments-embedLinks-expand = Expand
 
 ### Featured Comments
+comments-featured-label =
+  Featured Comment from {$username} <RelativeTime></RelativeTime>
 comments-featured-gotoConversation = Ir para a conversa
+comments-featured-gotoConversation-label-with-username =
+  .aria-label = Ir para o comentário em destaque do usuário { $username } no fluxo de comentários principal
+comments-featured-gotoConversation-label-without-username =
+  .aria-label = Ir para o comentário destacado no fluxo principal de comentários
 comments-featured-replies = Respostas
 
 ## Profile Tab
@@ -360,6 +452,10 @@ profile-accountDeletion-cancelAccountDeletion =
   Cancelar exclusão de conta
 
 ### Comment History
+profile-commentHistory-section =
+  .aria-label = Comment History
+profile-historyComment-commentLabel =
+  Comente <RelativeTime></RelativeTime> em { $storyTitle }
 profile-historyComment-viewConversation = Ver conversa
 profile-historyComment-replies = Respostas {$replyCount}
 profile-historyComment-commentHistory = Histórico de Comentários
@@ -370,6 +466,40 @@ profile-profileQuery-storyNotFound = História não encontrada
 profile-commentHistory-loadMore = Carregar Mais
 profile-commentHistory-empty = Você não escreveu nenhum comentário
 profile-commentHistory-empty-subheading = Um histórico dos seus comentários aparecerá aqui
+
+profile-commentHistory-archived-thisIsAllYourComments =
+  Esses são todos os seus comentários há{ $value } { $unit ->
+    [second] { $value ->
+      [1] segundo
+      *[other] segundos
+    }
+    [minute] { $value ->
+      [1] minuto
+      *[other] minutos
+    }
+    [hour] { $value ->
+      [1] hora
+      *[other] horas
+    }
+    [day] { $value ->
+      [1] dia
+      *[other] dias
+    }
+    [week] { $value ->
+      [1] semana
+      *[other] semanas
+    }
+    [month] { $value ->
+      [1] mês
+      *[other] meses
+    }
+    [year] { $value ->
+      [1] ano
+      *[other] anos
+    }
+    *[other] unidade desconhecida
+  }. Para ver todos os comentários, nos contate por favor.
+
 
 ### Preferences
 
@@ -392,6 +522,7 @@ profile-account-ignoredCommenters-stopIgnoring = Parar de ignorar
 profile-account-ignoredCommenters-youAreNoLonger =
   Você não está mais ignorando
 profile-account-ignoredCommenters-manage = Gerenciar
+  .aria-label = Manage ignored commenters
 profile-account-ignoredCommenters-cancel = Cancelar
 profile-account-ignoredCommenters-close = Fechar
 
@@ -560,6 +691,26 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dispensar
 
+## Archived Report Comment Popover
+
+comments-archivedReportPopover-reportThisComment = Reportar esse comentário
+comments-archivedReportPopover-doesThisComment =
+  Esse comentário viola as diretrizes dessa comunidade? É ofensivo ou um Spam?
+  Envie um email para o nosso time de moderação na <a>{ $orgName }</a> com um link para
+  o comentário e com detalhes.
+comments-archivedReportPopover-needALink =
+  Precisa de um link para esse comentário?
+comments-archivedReportPopover-copyLink = Copiar link
+
+comments-archivedReportPopover-emailSubject = Reportar comentário
+comments-archivedReportPopover-emailBody =
+  Eu gostaria de reportar o seguinte comentário:
+  %0A
+  { $permalinkURL }
+  %0A
+  %0A
+  Pelos motivos abaixo:
+
 ## Submit Status
 comments-submitStatus-dismiss = Dispensar
 comments-submitStatus-submittedAndWillBeReviewed =
@@ -570,6 +721,15 @@ comments-submitStatus-submittedAndRejected =
 # Configure
 configure-configureQuery-errorLoadingProfile = Erro ao carregar o configure
 configure-configureQuery-storyNotFound = História não encontrada
+
+## Archive
+configure-archived-title = Este fluxo de comentários foi arquivado
+configure-archived-onArchivedStream =
+  Em fluxos arquivados, novos comentários, reações ou relatórios não podem ser enviados. 
+  Além disso, os comentários não podem ser moderados.
+configure-archived-toAllowTheseActions =
+  Para permitir essas ações, desarquive o fluxo.
+configure-archived-unarchiveStream = Desarquivar fluxo
 
 ## Change username
 profile-changeUsername-username = Usuário
@@ -707,10 +867,13 @@ configure-experts-none-yet = Não existem especialistas para estas Peguntas & Re
 configure-experts-search-title = Procurar por um especialista
 configure-experts-assigned-title = Especialistas
 configure-experts-noLongerAnExpert = Não é mais um especialista
+comments-tombstone-ignore-user = Este comentário está oculto porque você ignorou {$username}
 comments-tombstone-ignore = Este comentário está oculto porque você ignorou {$username}
 comments-tombstone-showComment = Mostrar comentário
 comments-tombstone-deleted =
   Este comentário não está mais disponível. O usuário excluiu sua conta.
+comments-tombstone-rejected =
+  Esse comentário foi removido por violar as diretrizes da comunidade.
 
 suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
@@ -732,6 +895,9 @@ warning-instructions =
 warning-acknowledge = Reconhecer
 
 warning-notice = Sua conta recebeu uma advertência. Para continuar comentando, <a>verifique a mensagem de aviso</a>.
+
+modMessage-heading = Sua conta recebeu uma mensagem de um moderador
+modMessage-acknowledge = Autorizar
 
 profile-changeEmail-unverified = (Não verificado)
 profile-changeEmail-edit = Editar
@@ -759,6 +925,9 @@ profile-changeEmail-title = Endereço de email
 profile-changeEmail-success = Seu e-mail foi atualizado com sucesso
 
 ## Ratings and Reviews
+
+ratingsAndReviews-postCommentForm-section =
+  .aria-label = Submeter uma análise or Fazer uma pergunta
 
 ratingsAndReviews-reviewsTab = Reviews
 ratingsAndReviews-questionsTab = Perguntas
@@ -793,6 +962,12 @@ comments-addAReviewFormFake-rte =
   .placeholder = { comments-addAReviewForm-rteLabel }
 
 stream-footer-links-top-of-article = Topo do artigo
+  .title = Ir para o topo do artigo
 stream-footer-links-top-of-comments = Topo dos comentários
+  .title = Ir para o topo dos comentários
 stream-footer-links-profile = Perfil & Respostas
+  .title = Ir para perfil & Respostas
 stream-footer-links-discussions = Mais discussões
+  .title = Ir para mais discussões
+stream-footer-navigation =
+  .aria-label = Rodapé dos comentários
