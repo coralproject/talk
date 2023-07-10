@@ -1389,8 +1389,6 @@ export async function ban(
   siteIDs?: string[] | null,
   now = new Date()
 ) {
-  /* eslint-disable */
-  console.log("BANNING USER");
   // site moderators must provide at least one site ID to ban the user on
   // otherwise, they would be performing an organization wide ban.
   if (
@@ -1426,7 +1424,6 @@ export async function ban(
       now
     );
     if (rejectExistingComments) {
-      console.log("REJECT THEM ALL");
       await rejector.add({
         tenantID: tenant.id,
         authorID: userID,
@@ -1487,7 +1484,6 @@ export async function ban(
     }
 
     if (rejectExistingComments) {
-      console.log("REJECTING EXISTING COMMENTS");
       await rejector.add({
         tenantID: tenant.id,
         authorID: userID,
