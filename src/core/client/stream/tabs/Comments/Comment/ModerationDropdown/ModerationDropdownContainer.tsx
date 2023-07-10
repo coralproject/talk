@@ -20,7 +20,7 @@ import { ModerationDropdownContainer_viewer } from "coral-stream/__generated__/M
 import UserBanPopoverContainer from "../UserBanPopover/UserBanPopoverContainer";
 import ModerationActionsContainer from "./ModerationActionsContainer";
 
-type View = "MODERATE" | "BAN" | "SITE_BAN";
+type View = "MODERATE" | "BAN" | "SITE_BAN" | "CONFIRM_BAN";
 
 interface Props {
   comment: ModerationDropdownContainer_comment;
@@ -29,6 +29,7 @@ interface Props {
   settings: ModerationDropdownContainer_settings;
   onDismiss: () => void;
   scheduleUpdate: () => void;
+  view?: View;
 }
 
 const ModerationDropdownContainer: FunctionComponent<Props> = ({
@@ -38,9 +39,10 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
   settings,
   onDismiss,
   scheduleUpdate,
+  view: viewProp,
 }) => {
   const emitShowEvent = useViewerEvent(ShowModerationPopoverEvent);
-  const [view, setView] = useState<View>("MODERATE");
+  const [view, setView] = useState<View>(viewProp ?? "MODERATE");
 
   const onBan = useCallback(() => {
     setView("BAN");
@@ -75,8 +77,10 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
           comment={comment}
           settings={settings}
           story={story}
+          viewer={viewer}
           onDismiss={onDismiss}
           siteBan={view === "SITE_BAN"}
+          view={view}
         />
       )}
     </div>
@@ -118,6 +122,7 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment ModerationDropdownContainer_viewer on User {
       ...ModerationActionsContainer_viewer
+      ...UserBanPopoverContainer_viewer
     }
   `,
 })(ModerationDropdownContainer);

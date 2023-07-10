@@ -28,7 +28,7 @@ import {
   ModeratorCannotBeBannedOnSiteError,
   PasswordIncorrect,
   TokenNotFoundError,
-  UserAlreadyBannedError,
+  // UserAlreadyBannedError,
   UserAlreadyPremoderated,
   UserAlreadySuspendedError,
   UserBioTooLongError,
@@ -1441,7 +1441,15 @@ export async function ban(
     // Check to see if the User is currently banned.
     const banStatus = consolidateUserBanStatus(targetUser.status.ban);
     if (banStatus.active) {
-      throw new UserAlreadyBannedError();
+      if (rejectExistingComments) {
+        await rejector.add({
+          tenantID: tenant.id,
+          authorID: userID,
+          moderatorID: banner.id,
+        });
+      }
+      return targetUser;
+      // throw new UserAlreadyBannedError();
     }
 
     // Ban the user.

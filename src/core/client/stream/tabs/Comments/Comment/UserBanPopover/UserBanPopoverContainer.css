@@ -1,6 +1,7 @@
 .root {
   width: 280px;
   max-width: 80vw;
+  text-align: left;
 }
 
 .title {
@@ -53,4 +54,14 @@
 
 .actions {
   padding-top: var(--spacing-3);
+}
+
+.link {
+  display: inline;
+  vertical-align: baseline;
+  white-space: break-spaces;
+}
+
+.container {
+  margin-top: var(--spacing-2);
 }

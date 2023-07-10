@@ -11,19 +11,26 @@ import { Button, Tombstone } from "coral-ui/components/v3";
 import { ModerationRejectedTombstoneContainer_comment as CommentData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_comment.graphql";
 import { ModerationRejectedTombstoneContainer_local } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_local.graphql";
 import { ModerationRejectedTombstoneContainer_settings as SettingsData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_settings.graphql";
+import { ModerationRejectedTombstoneContainer_story as StoryData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_story.graphql";
+import { ModerationRejectedTombstoneContainer_viewer as ViewerData } from "coral-stream/__generated__/ModerationRejectedTombstoneContainer_viewer.graphql";
 
 import computeCommentElementID from "../computeCommentElementID";
+import CaretContainer from "./CaretContainer";
 
 import styles from "./ModerationRejectedTombstoneContainer.css";
 
 interface Props {
   comment: CommentData;
   settings: SettingsData;
+  story: StoryData;
+  viewer: ViewerData;
 }
 
 const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
   comment,
   settings,
+  story,
+  viewer,
 }) => {
   const [{ accessToken }] =
     useLocal<ModerationRejectedTombstoneContainer_local>(graphql`
@@ -55,26 +62,44 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
       fullWidth
       noBottomBorder
     >
-      <Localized id="comments-moderationRejectedTombstone-title">
-        <div>You have rejected this comment.</div>
-      </Localized>
-      <Button
-        variant="flat"
-        color="primary"
-        underline
-        className={CLASSES.moderationRejectedTombstone.goToModerateButton}
-        href={gotoModerateCommentHref}
-        target="_blank"
-      >
-        <Flex alignItems="center">
-          <Localized id="comments-moderationRejectedTombstone-moderateLink">
-            <span>Go to moderate to review this decision</span>
+      <Flex>
+        <Flex
+          alignItems="center"
+          direction="column"
+          className={styles.rejectedContainer}
+        >
+          <Localized id="comments-moderationRejectedTombstone-title">
+            <div>You have rejected this comment.</div>
           </Localized>
-          <Icon size="sm" className={styles.icon}>
-            open_in_new
-          </Icon>
+          <Button
+            variant="flat"
+            color="primary"
+            underline
+            className={CLASSES.moderationRejectedTombstone.goToModerateButton}
+            href={gotoModerateCommentHref}
+            target="_blank"
+          >
+            <Localized id="comments-moderationRejectedTombstone-moderateLink">
+              <span>Go to moderate to review this decision</span>
+            </Localized>
+            <Icon size="sm" className={styles.icon}>
+              open_in_new
+            </Icon>
+          </Button>
         </Flex>
-      </Button>
+        {comment.spamBanned && (
+          <Flex>
+            <CaretContainer
+              comment={comment}
+              story={story}
+              viewer={viewer!}
+              settings={settings}
+              view="CONFIRM_BAN"
+              open
+            />
+          </Flex>
+        )}
+      </Flex>
     </Tombstone>
   );
 };
@@ -83,6 +108,8 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerationRejectedTombstoneContainer_comment on Comment {
       id
+      spamBanned
+      ...CaretContainer_comment
     }
   `,
   settings: graphql`
@@ -97,6 +124,17 @@ const enhanced = withFragmentContainer<Props>({
           }
         }
       }
+      ...CaretContainer_settings
+    }
+  `,
+  viewer: graphql`
+    fragment ModerationRejectedTombstoneContainer_viewer on User {
+      ...CaretContainer_viewer
+    }
+  `,
+  story: graphql`
+    fragment ModerationRejectedTombstoneContainer_story on Story {
+      ...CaretContainer_story
     }
   `,
 })(ModerationRejectedTombstoneContainer);

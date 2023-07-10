@@ -399,6 +399,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
       <ModerationRejectedTombstoneContainer
         comment={comment}
         settings={settings}
+        story={story}
+        viewer={viewer!}
       />
     );
   }
@@ -805,6 +807,7 @@ const enhanced = withShowAuthPopupMutation(
         ...ReportFlowContainer_viewer
         ...ReportButton_viewer
         ...CaretContainer_viewer
+        ...ModerationRejectedTombstoneContainer_viewer
       }
     `,
     story: graphql`
@@ -826,6 +829,7 @@ const enhanced = withShowAuthPopupMutation(
         ...PermalinkButtonContainer_story
         ...ReplyCommentFormContainer_story
         ...UserTagsContainer_story
+        ...ModerationRejectedTombstoneContainer_story
       }
     `,
     comment: graphql`

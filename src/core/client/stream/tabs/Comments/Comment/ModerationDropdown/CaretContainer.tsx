@@ -26,6 +26,8 @@ interface Props {
   story: CaretContainer_story;
   viewer: CaretContainer_viewer;
   settings: CaretContainer_settings;
+  view?: "MODERATE" | "BAN" | "SITE_BAN" | "CONFIRM_BAN";
+  open?: boolean;
 }
 
 const CaretContainer: FunctionComponent<Props> = (props) => {
@@ -37,6 +39,7 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
     >
       <Popover
         id={popoverID}
+        visible={props.open}
         placement="bottom-end"
         description="A popover menu to moderate the comment"
         body={({ toggleVisibility, scheduleUpdate }) => (
@@ -48,6 +51,7 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
               settings={props.settings}
               onDismiss={toggleVisibility}
               scheduleUpdate={scheduleUpdate}
+              view={props.view}
             />
           </ClickOutside>
         )}
