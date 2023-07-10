@@ -20,7 +20,6 @@ const BanUserMutation = createMutation(
   (environment: Environment, input: MutationInput<MutationTypes>) => {
     const viewer = getViewer(environment)!;
     if (input.rejectExistingComments) {
-      // BOOKMARCUS
       commitLocalUpdate(environment, (store) => {
         const record = store.get(input.userID);
         record?.setValue(true, "allCommentsRejected");
