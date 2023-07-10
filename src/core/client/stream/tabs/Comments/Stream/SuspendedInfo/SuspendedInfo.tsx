@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { Icon } from "coral-ui/components/v2";
+import { StopwatchIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 import styles from "./SuspendedInfo.css";
@@ -26,11 +26,7 @@ const SuspendedInfo: FunctionComponent<Props> = ({ until, organization }) => {
     <CallOut
       color="error"
       iconColor="none"
-      icon={
-        <Icon size="sm" className={styles.icon}>
-          timer
-        </Icon>
-      }
+      icon={<SvgIcon className={styles.icon} Icon={StopwatchIcon} />}
       borderPosition="top"
       title={
         <Localized id="suspendInfo-heading-yourAccountHasBeen">

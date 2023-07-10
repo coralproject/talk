@@ -1,13 +1,24 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FC, FunctionComponent, useCallback } from "react";
+import React, {
+  ComponentType,
+  FC,
+  FunctionComponent,
+  useCallback,
+} from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation } from "coral-framework/lib/relay";
 import { Mutation as SetActiveTabMutation } from "coral-stream/App/SetActiveTabMutation";
 import CLASSES from "coral-stream/classes";
 import scrollToBeginning from "coral-stream/common/scrollToBeginning";
-import { Button, ButtonIcon } from "coral-ui/components/v2";
+import {
+  ButtonSvgIcon,
+  CommonFileTextIcon,
+  ConversationChatIcon,
+  SingleNeutralCircleIcon,
+} from "coral-ui/components/icons";
+import { Button } from "coral-ui/components/v2";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -23,7 +34,7 @@ const FooterButton: FC<
     PropTypesOf<typeof Button>,
     "onClick" | "title" | "className" | "children" | "classes"
   > & {
-    icon: string;
+    Icon: ComponentType;
   }
 > = (props) => (
   <Button
@@ -36,7 +47,7 @@ const FooterButton: FC<
     classes={props.classes}
     uppercase={false}
   >
-    <ButtonIcon className={styles.icon}>{props.icon}</ButtonIcon>
+    <ButtonSvgIcon className={styles.icon} Icon={props.Icon} />
     <span>{props.children}</span>
   </Button>
 );
@@ -88,7 +99,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
               title="Go to profile and replies"
               onClick={onGoToProfile}
               classes={classes}
-              icon="account_box"
+              Icon={SingleNeutralCircleIcon}
             >
               Profile and replies
             </FooterButton>
@@ -104,7 +115,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
               title="Go to more discussions"
               onClick={onGoToDiscussions}
               classes={classes}
-              icon="list_alt"
+              Icon={ConversationChatIcon}
             >
               More discussions
             </FooterButton>
@@ -119,7 +130,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
             title="Go to top of comments"
             onClick={onGoToCommentsTop}
             classes={classes}
-            icon="forum"
+            Icon={ConversationChatIcon}
           >
             Top of comments
           </FooterButton>
@@ -133,7 +144,7 @@ const CommentsLinks: FunctionComponent<Props> = ({
             title="Go to top of article"
             onClick={onGoToArticleTop}
             classes={classes}
-            icon="description"
+            Icon={CommonFileTextIcon}
           >
             Top of article
           </FooterButton>

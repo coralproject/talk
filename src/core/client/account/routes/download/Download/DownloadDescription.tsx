@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { CheckIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import styles from "./DownloadDescription.css";
 
@@ -33,9 +34,7 @@ const DownloadDescription: FunctionComponent = () => {
           <ul className={styles.list}>
             <li>
               <Flex alignItems="flex-start">
-                <Icon size="md" className={styles.bullet}>
-                  check
-                </Icon>
+                <SvgIcon Icon={CheckIcon} className={styles.bullet} />
                 <Localized id="download-landingPage-contentsDate">
                   <div className={cn(styles.sectionText, styles.listContent)}>
                     When you wrote the comment
@@ -45,9 +44,7 @@ const DownloadDescription: FunctionComponent = () => {
             </li>
             <li>
               <Flex alignItems="flex-start">
-                <Icon size="md" className={styles.bullet}>
-                  check
-                </Icon>
+                <SvgIcon Icon={CheckIcon} className={styles.bullet} />
                 <Localized id="download-landingPage-contentsUrl">
                   <div className={cn(styles.sectionText, styles.listContent)}>
                     The permalink URL for the comment
@@ -57,9 +54,7 @@ const DownloadDescription: FunctionComponent = () => {
             </li>
             <li>
               <Flex alignItems="flex-start">
-                <Icon size="md" className={styles.bullet}>
-                  check
-                </Icon>
+                <SvgIcon Icon={CheckIcon} className={styles.bullet} />
                 <Localized id="download-landingPage-contentsText">
                   <div className={cn(styles.sectionText, styles.listContent)}>
                     The comment text
@@ -69,9 +64,7 @@ const DownloadDescription: FunctionComponent = () => {
             </li>
             <li>
               <Flex alignItems="flex-start">
-                <Icon size="md" className={styles.bullet}>
-                  check
-                </Icon>
+                <SvgIcon Icon={CheckIcon} className={styles.bullet} />
                 <Localized id="download-landingPage-contentsStoryUrl">
                   <div className={cn(styles.sectionText, styles.listContent)}>
                     The URL on the article or story where the comment appears

@@ -1,9 +1,9 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
+import { ShareExternalLinkIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 import BaseButton, { BaseButtonProps } from "coral-ui/components/v2/BaseButton";
-import Icon from "coral-ui/components/v2/Icon";
 import useStyles from "coral-ui/hooks/useStyles";
 
 import styles from "./Button.css";
@@ -68,7 +68,7 @@ const Button: FunctionComponent<Props> = ({
       {adornment && <div className={css.iconAfter}>{adornment}</div>}
       {!adornment && rest.target === "_blank" && (
         <div className={css.iconAfter}>
-          <Icon className={css.iconOpenInNew}>open_in_new</Icon>
+          <SvgIcon className={css.iconOpenInNew} Icon={ShareExternalLinkIcon} />
         </div>
       )}
     </BaseButton>

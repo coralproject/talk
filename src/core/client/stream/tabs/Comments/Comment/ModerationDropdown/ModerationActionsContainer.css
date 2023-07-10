@@ -12,7 +12,7 @@ $commentsModerationFeaturedColor: var(--palette-primary-500);
   text-align: left;
 }
 
-.featured {
+.featured svg {
   color: $commentsModerationFeaturedColor;
   font-weight: var(--font-weight-primary-bold);
 }

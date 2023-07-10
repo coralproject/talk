@@ -1,3 +1,7 @@
 .button {
   background-color: transparent;
 }
+
+.icon {
+  align-self: baseline;
+}

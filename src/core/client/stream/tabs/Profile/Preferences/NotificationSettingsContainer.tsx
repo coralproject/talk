@@ -10,12 +10,16 @@ import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLDIGEST_FREQUENCY } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import {
+  AlertTriangleIcon,
+  CheckCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
   CheckBox,
   FieldSet,
   FormField,
   HorizontalGutter,
   HorizontalRule,
-  Icon,
   Option,
   SelectField,
 } from "coral-ui/components/v2";
@@ -248,7 +252,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                     <CallOut
                       color="error"
                       onClose={closeError}
-                      icon={<Icon size="sm">warning</Icon>}
+                      icon={<SvgIcon Icon={AlertTriangleIcon} />}
                       titleWeight="semiBold"
                       title={<span>{submitError}</span>}
                       role="alert"
@@ -258,7 +262,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                     <CallOut
                       color="success"
                       onClose={closeSuccess}
-                      icon={<Icon size="sm">check_circle</Icon>}
+                      icon={<SvgIcon Icon={CheckCircleIcon} />}
                       titleWeight="semiBold"
                       title={
                         <Localized id="profile-account-notifications-updated">

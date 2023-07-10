@@ -4,6 +4,7 @@ import React, { FunctionComponent } from "react";
 import PaginatedSelect from "coral-admin/components/PaginatedSelect";
 import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
+import { AppWindowIcon } from "coral-ui/components/icons";
 
 import SiteSelectorCurrentSiteQuery from "./SiteSelectorCurrentSiteQuery";
 import SiteSelectorSite from "./SiteSelectorSite";
@@ -35,7 +36,7 @@ const SiteSelector: FunctionComponent<Props> = ({
 }) => {
   return (
     <PaginatedSelect
-      icon="web_asset"
+      Icon={AppWindowIcon}
       loading={loading}
       onLoadMore={onLoadMore}
       disableLoadMore={disableLoadMore}

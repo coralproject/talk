@@ -3,7 +3,8 @@ import React, { FunctionComponent } from "react";
 import Responsive from "react-responsive";
 
 import CLASSES from "coral-stream/classes";
-import { ClickOutside, Flex, Icon, Popover } from "coral-ui/components/v2";
+import { ShareIcon, SvgIcon } from "coral-ui/components/icons";
+import { ClickOutside, Flex, Popover } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import PermalinkPopover from "./PermalinkPopover";
@@ -64,7 +65,7 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
               className={CLASSES.comment.actionBar.shareButton}
             >
               <Flex alignItems="center" container="span">
-                <Icon className={styles.icon}>share</Icon>
+                <SvgIcon className={styles.icon} Icon={ShareIcon} />
                 <Responsive minWidth={400}>
                   <Localized id="comments-permalinkButton-share">
                     <span>Share</span>

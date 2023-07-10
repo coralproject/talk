@@ -252,13 +252,13 @@ comments-jumpToComment-GoToReply = Aller à la réponse
 comments-permalink-copyLink = Copier le lien
 comments-permalink-linkCopied = Lien copié
 
-comments-refreshComments-closeButton = Fermer
+comments-refreshComments-closeButton = Fermer <icon></icon>
   .aria-label = Fermer
-comments-refreshComments-refreshButton = Rafraîchir les commentaires
+comments-refreshComments-refreshButton = <icon></icon> Rafraîchir les commentaires
   .aria-label = Rafraîchir les commentaires
-comments-refreshQuestions-refreshButton = Rafraîchir les questions
+comments-refreshQuestions-refreshButton = <icon></icon> Rafraîchir les questions
   .aria-label = Rafraîchir les questions
-comments-refreshReviews-refreshButton = Rafraîchir les avis
+comments-refreshReviews-refreshButton = <icon></icon> Rafraîchir les avis
   .aria-label = Rafraîchir les avis
 
 ### Q&A

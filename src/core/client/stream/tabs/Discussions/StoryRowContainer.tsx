@@ -4,12 +4,8 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import {
-  Flex,
-  HorizontalGutter,
-  Icon,
-  RelativeTime,
-} from "coral-ui/components/v2";
+import { MessagesBubbleSquareIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex, HorizontalGutter, RelativeTime } from "coral-ui/components/v2";
 
 import { StoryRowContainer_story } from "coral-stream/__generated__/StoryRowContainer_story.graphql";
 
@@ -49,14 +45,13 @@ const StoryRowContainer: FunctionComponent<Props> = ({
             />
           )}
           <Flex spacing={1} alignItems="center">
-            <Icon
+            <SvgIcon
               className={cn(
                 styles.commentsCountIcon,
                 CLASSES.discussions.story.commentsCountIcon
               )}
-            >
-              mode_comment
-            </Icon>
+              Icon={MessagesBubbleSquareIcon}
+            />
             <span
               className={cn(
                 styles.commentsCount,

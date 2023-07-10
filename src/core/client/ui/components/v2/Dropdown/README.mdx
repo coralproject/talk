@@ -6,11 +6,19 @@ menu: UI Kit v2
 import { Playground } from "docz";
 
 import {
+  AddIcon,
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  ButtonSvgIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+
+import {
   Dropdown,
   Divider as DropdownDivider,
   Button as DropdownButton,
 } from "./";
-import { Button, ButtonIcon } from "../Button";
+import { Button } from "../Button";
 import ClickOutside from "../ClickOutside";
 import Popover from "../Popover";
 
@@ -47,11 +55,7 @@ import Popover from "../Popover";
         color="primary"
       >
         <span>Click me!</span>
-        {
-          <ButtonIcon size="md">
-            {visible ? "arrow_drop_up" : "arrow_drop_down"}
-          </ButtonIcon>
-        }
+        {<ButtonSvgIcon Icon={visible ? ArrowsUpIcon : ArrowsDownIcon} />}
       </Button>
     )}
   </Popover>

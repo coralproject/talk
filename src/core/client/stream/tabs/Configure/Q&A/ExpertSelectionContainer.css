@@ -35,6 +35,10 @@
   border-bottom-left-radius: 0;
 }
 
+.searchButton span {
+  display: block;
+}
+
 .expertSearchTitle {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-bold);

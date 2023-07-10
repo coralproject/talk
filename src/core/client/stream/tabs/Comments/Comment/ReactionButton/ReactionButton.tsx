@@ -3,7 +3,12 @@ import cn from "classnames";
 import React from "react";
 import Responsive from "react-responsive";
 
-import { Flex, Icon } from "coral-ui/components/v2";
+import {
+  ArrowUpWithTailIcon,
+  LikeIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./ReactionButton.css";
@@ -31,8 +36,6 @@ function render(props: ReactionButtonProps) {
     onClick,
     labelActive,
     label,
-    icon,
-    iconActive,
   } = props;
 
   return (
@@ -54,11 +57,13 @@ function render(props: ReactionButtonProps) {
     >
       <Flex alignItems="center" container="span">
         {props.isQA ? (
-          <Icon className={styles.icon}>arrow_upward</Icon>
+          <SvgIcon className={styles.icon} Icon={ArrowUpWithTailIcon} />
         ) : (
-          <Icon className={styles.icon}>
-            {reacted ? (iconActive ? iconActive : icon) : icon}
-          </Icon>
+          <SvgIcon
+            strokeWidth={reacted ? "semibold" : "regular"}
+            className={styles.icon}
+            Icon={LikeIcon}
+          />
         )}
         <Responsive minWidth={400}>
           {props.isQA ? (

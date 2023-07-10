@@ -4,13 +4,8 @@ import { graphql } from "react-relay";
 
 import getEndpointLink from "coral-admin/helpers/getEndpointLink";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  Button,
-  Flex,
-  Icon,
-  TableCell,
-  TableRow,
-} from "coral-ui/components/v2";
+import { ArrowRightIcon, SvgIcon } from "coral-ui/components/icons";
+import { Button, Flex, TableCell, TableRow } from "coral-ui/components/v2";
 
 import { WebhookEndpointRow_webhookEndpoint } from "coral-admin/__generated__/WebhookEndpointRow_webhookEndpoint.graphql";
 
@@ -32,11 +27,23 @@ const WebhookEndpointRow: FunctionComponent<Props> = ({ endpoint }) => (
       <Flex justifyContent="flex-end">
         <Localized
           id="configure-webhooks-detailsButton"
-          elems={{ icon: <Icon>keyboard_arrow_right</Icon> }}
+          elems={{
+            icon: (
+              <SvgIcon
+                Icon={ArrowRightIcon}
+                size="xxs"
+                className={styles.detailsIcon}
+              />
+            ),
+          }}
         >
           <Button variant="text" to={getEndpointLink(endpoint.id)} iconRight>
             Details
-            <Icon>keyboard_arrow_right</Icon>
+            <SvgIcon
+              Icon={ArrowRightIcon}
+              size="xxs"
+              className={styles.detailsIcon}
+            />
           </Button>
         </Localized>
       </Flex>

@@ -4,7 +4,8 @@ import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
-import { HorizontalRule, Icon } from "coral-ui/components/v2";
+import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { HorizontalRule } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
 import { QAConfigContainer_settings } from "coral-stream/__generated__/QAConfigContainer_settings.graphql";
@@ -66,7 +67,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
         {showSuccess && (
           <CallOut
             color="success"
-            icon={<Icon size="sm">check_circle</Icon>}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             titleWeight="semiBold"
             title={
               <Localized id="configure-disableQA-streamIsNowQA">
@@ -90,7 +91,7 @@ const QAConfigContainer: FunctionComponent<Props> = ({ story, settings }) => {
         {showSuccess && (
           <CallOut
             color="success"
-            icon={<Icon size="sm">check_circle</Icon>}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             titleWeight="semiBold"
             title={
               <Localized id="configure-enableQA-streamIsNowComments">

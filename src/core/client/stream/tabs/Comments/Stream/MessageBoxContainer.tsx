@@ -24,7 +24,7 @@ const MessageBoxContainer: FunctionComponent<Props> = ({
   return (
     <MessageBox className={className}>
       {story.settings.messageBox.icon && (
-        <MessageBoxIcon>{story.settings.messageBox.icon}</MessageBoxIcon>
+        <MessageBoxIcon icon={story.settings.messageBox.icon} />
       )}
       <MessageBoxContent
         className={

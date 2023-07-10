@@ -7,4 +7,10 @@ $moderateCardDecisionHistoryLinkTextColor: $colors-teal-700;
   line-height: 1.33;
   color: $moderateCardDecisionHistoryLinkTextColor;
   font-style: var(--font-style-underline);
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  margin-left: var(--spacing-1);
 }

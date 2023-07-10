@@ -8,12 +8,12 @@ import {
   GQLUSER_STATUS_FILTER,
   GQLUSER_STATUS_FILTER_RL,
 } from "coral-framework/schema";
+import { SearchIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   FieldSet,
   Flex,
   HorizontalGutter,
-  Icon,
   Label,
   OptGroup,
   Option,
@@ -82,7 +82,7 @@ const UserTableFilter: FunctionComponent<Props> = (props) => (
                               color="dark"
                               aria-label="Search"
                             >
-                              <Icon size="md">search</Icon>
+                              <SvgIcon Icon={SearchIcon} />
                             </Button>
                           </Localized>
                         }

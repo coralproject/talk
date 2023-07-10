@@ -9,7 +9,8 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE_RL, GQLUSER_STATUS_RL } from "coral-framework/schema";
-import { ClickOutside, Flex, Icon, TextField } from "coral-ui/components/v2";
+import { SearchIcon, SvgIcon } from "coral-ui/components/icons";
+import { ClickOutside, Flex, TextField } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ExpertSelectionContainer_query as QueryData } from "coral-stream/__generated__/ExpertSelectionContainer_query.graphql";
@@ -216,7 +217,7 @@ const ExpertSelectionContainer: FunctionComponent<Props> = ({
                     aria-label="Search"
                     onClick={onSubmitSearch}
                   >
-                    <Icon size="md">search</Icon>
+                    <SvgIcon Icon={SearchIcon} />
                   </Button>
                 </Localized>
               }

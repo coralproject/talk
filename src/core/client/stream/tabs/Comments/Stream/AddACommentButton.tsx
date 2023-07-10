@@ -11,7 +11,8 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useLocal } from "coral-framework/lib/relay";
 import { POST_COMMENT_FORM_ID } from "coral-stream/constants";
 import { AddACommentButtonEvent } from "coral-stream/events";
-import { Flex, Icon } from "coral-ui/components/v2";
+import { PencilIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
@@ -164,7 +165,8 @@ const AddACommentButton: FunctionComponent<Props> = ({
           aria-label="Add a comment. This button will move focus to the bottom of the comments."
         >
           <Flex alignItems="center">
-            <Icon className={styles.icon}>create</Icon>
+            {/* NOTE: Maybe rename to Pencil Icon? */}
+            <SvgIcon className={styles.icon} Icon={PencilIcon} />
             {isQA ? <span>Ask a Question</span> : <span>Add a Comment</span>}
           </Flex>
         </Button>

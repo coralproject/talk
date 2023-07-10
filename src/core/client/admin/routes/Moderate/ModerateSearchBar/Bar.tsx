@@ -9,7 +9,8 @@ import React, {
 import { Form } from "react-final-form";
 
 import { HOTKEYS } from "coral-admin/constants";
-import { Backdrop, Icon, Popover, SubBar } from "coral-ui/components/v2";
+import { SearchIcon, SvgIcon } from "coral-ui/components/icons";
+import { Backdrop, Popover, SubBar } from "coral-ui/components/v2";
 import { combineEventHandlers } from "coral-ui/helpers";
 import {
   useBlurOnEsc,
@@ -140,9 +141,10 @@ const Bar: FunctionComponent<Props> = ({
                         <Group
                           title={
                             <>
-                              <Icon size="md" className={styles.groupIcon}>
-                                search
-                              </Icon>{" "}
+                              <SvgIcon
+                                Icon={SearchIcon}
+                                className={styles.groupIcon}
+                              />{" "}
                               <Localized id="moderate-searchBar-searchResults">
                                 <span>Search results</span>
                               </Localized>
@@ -158,9 +160,10 @@ const Bar: FunctionComponent<Props> = ({
                         <Group
                           title={
                             <>
-                              <Icon size="md" className={styles.groupIcon}>
-                                search
-                              </Icon>{" "}
+                              <SvgIcon
+                                Icon={SearchIcon}
+                                className={styles.groupIcon}
+                              />{" "}
                               <Localized id="moderate-searchBar-searchResultsMostRelevantFirst">
                                 <span>
                                   Search results (Most relevant first)
