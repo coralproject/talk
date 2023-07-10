@@ -271,6 +271,15 @@ comments-userBanPopover-description =
   This comment will also be rejected.
 comments-userBanPopover-cancel = Cancel
 comments-userBanPopover-ban = Ban
+comments-userBanPopover-moreContext = For more context, go to
+comments-userBanPopover-moderationView = Moderation view
+
+comments-userSiteBanPopover-confirm-title = {$username} is now banned
+comments-userSiteBanPopover-confirm-spam-banned = This account can no longer comment, use reactions, or report comments
+comments-userSiteBanPopover-confirm-comments-rejected = All comments by this account have been rejected
+comments-userSiteBanPopover-confirm-closeButton = Close
+comments-userSiteBanPopover-confirm-reviewAccountHistory = You can still review this account's history by searching in Coral's
+comments-userSiteBanPopover-confirm-communitySection = Community section
 
 comments-moderationDropdown-popover =
   .description = A popover menu to moderate the comment

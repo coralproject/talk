@@ -230,7 +230,7 @@ it("reject comment", async () => {
   );
 });
 
-it("ban user", async () => {
+it("spam ban user", async () => {
   await act(async () => {
     await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
@@ -244,7 +244,7 @@ it("ban user", async () => {
           banUser: ({ variables }) => {
             expectAndFail(variables).toMatchObject({
               userID: firstComment.author!.id,
-              rejectExistingComments: false,
+              rejectExistingComments: true,
               siteIDs: [],
             });
             return {
@@ -280,15 +280,25 @@ it("ban user", async () => {
   });
   await waitFor(() => {
     expect(
-      within(comment).getByRole("button", { name: "Ban User" })
+      within(comment).getByRole("button", { name: "Spam ban" })
     ).not.toBeDisabled();
   });
   // this is not multisite, so there should be no Site Ban option
   expect(
-    within(comment).queryByRole("button", { name: "Site Ban" })
+    within(comment).queryByRole("button", { name: "Site ban" })
   ).not.toBeInTheDocument();
-  fireEvent.click(within(comment).getByRole("button", { name: "Ban User" }));
+  fireEvent.click(within(comment).getByRole("button", { name: "Spam ban" }));
+
   const banButtonDialog = await screen.findByRole("button", { name: "Ban" });
+  expect(banButtonDialog).toBeDisabled();
+
+  const input = screen.getByTestId("userSpamBanConfirmation");
+  fireEvent.change(input, { target: { value: "spam" } });
+
+  await waitFor(() => {
+    expect(banButtonDialog).toBeEnabled();
+  });
+
   fireEvent.click(banButtonDialog);
   expect(
     await within(tabPane).findByText("You have rejected this comment.")
@@ -315,10 +325,10 @@ it("cancel ban user", async () => {
   });
   await waitFor(() => {
     expect(
-      within(comment).getByRole("button", { name: "Ban User" })
+      within(comment).getByRole("button", { name: "Spam ban" })
     ).not.toBeDisabled();
   });
-  fireEvent.click(within(comment).getByRole("button", { name: "Ban User" }));
+  fireEvent.click(within(comment).getByRole("button", { name: "Spam ban" }));
   const cancelButtonDialog = await screen.findByRole("button", {
     name: "Cancel",
   });
@@ -382,14 +392,14 @@ it("site moderator can site ban commenter", async () => {
   });
   // Site moderator has Site Ban option but not Ban User option
   const siteBanButton = await within(comment).findByRole("button", {
-    name: "Site Ban",
+    name: "Site ban",
   });
   await waitFor(() => {
     expect(siteBanButton).not.toBeDisabled();
   });
   expect(
-    within(comment).queryByRole("button", { name: "Ban User" })
-  ).not.toBeInTheDocument();
+    within(comment).queryByRole("button", { name: "Spam ban" })
+  ).toBeInTheDocument();
   fireEvent.click(siteBanButton);
   expect(
     await screen.findByText("Ban Markus from this site?")
@@ -397,10 +407,13 @@ it("site moderator can site ban commenter", async () => {
 
   const banButtonDialog = screen.getByRole("button", { name: "Ban" });
   fireEvent.click(banButtonDialog);
-  expect(
-    within(tabPane).getByText("You have rejected this comment.")
-  ).toBeVisible();
-  const link = within(tabPane).getByRole("link", {
+  await waitFor(() => {
+    expect(
+      within(tabPane).getByText("You have rejected this comment.")
+    ).toBeVisible();
+  });
+
+  const link = await within(tabPane).findByRole("link", {
     name: "Go to moderate to review this decision",
   });
   expect(link).toHaveAttribute(

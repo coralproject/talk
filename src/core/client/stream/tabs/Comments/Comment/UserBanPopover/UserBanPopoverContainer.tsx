@@ -140,17 +140,20 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   if (view === "CONFIRM_BAN") {
     return (
       <Box className={cn(styles.root, CLASSES.banUserPopover.$root)} p={3}>
-        <Localized id="" vars={{ username: user.username }}>
+        <Localized
+          id="comments-userSiteBanPopover-confirm-title"
+          vars={{ username: user.username }}
+        >
           <div className={styles.title}>{user.username} is now banned</div>
         </Localized>
         <Flex className={styles.container} spacing={2} direction="column">
-          <Localized id="">
+          <Localized id="comments-userSiteBanPopover-confirm-spam-banned">
             <div>
               This account can no longer comment, use reactions, or report
               comments
             </div>
           </Localized>
-          <Localized id="">
+          <Localized id="comments-userSiteBanPopover-confirm-comments-rejected">
             <div>All comments by this account have been rejected</div>
           </Localized>
         </Flex>
@@ -159,7 +162,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
           itemGutter="half"
           className={styles.actions}
         >
-          <Localized id="">
+          <Localized id="comments-userSiteBanPopover-confirm-closeButton">
             <Button
               variant="regular"
               size="regular"
@@ -172,10 +175,14 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         </Flex>
         <Divider />
         <Flex alignItems="baseline" direction="column">
-          <Localized id="">
-            <div>
-              You can still review this account's history by searching in
-              Coral's{" "}
+          <div>
+            <Localized id="comments-userSiteBanPopover-confirm-reviewAccountHistory">
+              <span>
+                You can still review this account's history by searching in
+                Coral's
+              </span>
+            </Localized>{" "}
+            <Localized id="comments-userSiteBanPopover-confirm-communitySection">
               <Button
                 className={styles.link}
                 href={gotoCommunitySectionHref}
@@ -189,8 +196,8 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
               >
                 Community section
               </Button>
-            </div>
-          </Localized>
+            </Localized>
+          </div>
         </Flex>
       </Box>
     );
@@ -243,16 +250,15 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
                 </CallOut>
               </Localized>
               <Localized id="comments-userSpamBanPopover-confirmation">
-                <div className={styles.header}>
-                  Type in "spam ban" to confirm
-                </div>
+                <div className={styles.header}>Type in "spam" to confirm</div>
               </Localized>
               <input
+                data-testid="userSpamBanConfirmation"
                 className={styles.confirmationInput}
                 type="text"
                 placeholder=""
                 onChange={(e) => setSpamBanConfirmation(e.target.value)}
-              ></input>
+              />
             </>
           )}
           <Flex
@@ -273,9 +279,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
             </Localized>
             <Localized id="comments-userBanPopover-ban">
               <Button
-                disabled={
-                  siteBan ? false : !(spamBanConfirmation === "spam ban")
-                }
+                disabled={siteBan ? false : !(spamBanConfirmation === "spam")}
                 className={CLASSES.banUserPopover.banButton}
                 variant="regular"
                 size="regular"
@@ -289,9 +293,11 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
           {!siteBan && (
             <>
               <Divider />
-              <Localized id="">
-                <Flex alignItems="baseline">
-                  For more context, go to{" "}
+              <Flex alignItems="baseline">
+                <Localized id="comments-userBanPopover-moreContext">
+                  <span>For more context, go to</span>
+                </Localized>{" "}
+                <Localized id="comments-userBanPopover-moderationView">
                   <Button
                     href={gotoModerateCommentHref}
                     variant="text"
@@ -304,8 +310,8 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
                   >
                     Moderation view
                   </Button>
-                </Flex>
-              </Localized>
+                </Localized>
+              </Flex>
             </>
           )}
         </>
