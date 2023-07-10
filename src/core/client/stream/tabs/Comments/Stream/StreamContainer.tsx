@@ -249,6 +249,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   return (
     <>
       <StoryClosedTimeoutContainer story={props.story} />
+      "HERES THIS STUPID BULLSHIT"
       <PreviousCountSpyContainer
         story={props.story}
         settings={props.settings}

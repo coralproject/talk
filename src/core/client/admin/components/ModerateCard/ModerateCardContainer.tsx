@@ -390,6 +390,7 @@ const enhanced = withFragmentContainer<Props>({
         id
         email
         username
+        allCommentsRejected
         status {
           current
           ban {

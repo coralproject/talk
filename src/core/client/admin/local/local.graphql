@@ -25,6 +25,10 @@ extend type CommentsConnection {
   viewNewEdges: [CommentEdge!]
 }
 
+extend type User {
+  allCommentsRejected: Boolean
+}
+
 extend type Local {
   redirectPath: String
   authView: View

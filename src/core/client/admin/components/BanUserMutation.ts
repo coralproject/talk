@@ -1,5 +1,6 @@
+/* eslint-disable */
 import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
+import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { getViewer } from "coral-framework/helpers";
 import {
@@ -18,6 +19,14 @@ const BanUserMutation = createMutation(
   "banUser",
   (environment: Environment, input: MutationInput<MutationTypes>) => {
     const viewer = getViewer(environment)!;
+    if (input.rejectExistingComments) {
+      // BOOKMARCUS
+      commitLocalUpdate(environment, (store) => {
+        const record = store.get(input.userID);
+        record?.setValue(true, "allCommentsRejected");
+      });
+    }
+
     return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation BanUserMutation($input: BanUserInput!) {
