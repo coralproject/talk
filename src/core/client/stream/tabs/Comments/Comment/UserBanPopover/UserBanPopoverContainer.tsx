@@ -25,6 +25,7 @@ import { UserBanPopoverContainer_settings } from "coral-stream/__generated__/Use
 import { UserBanPopoverContainer_story } from "coral-stream/__generated__/UserBanPopoverContainer_story.graphql";
 import { UserBanPopoverContainer_viewer } from "coral-stream/__generated__/UserBanPopoverContainer_viewer.graphql";
 
+import { ModerationDropdownView } from "../ModerationDropdown/ModerationDropdownContainer";
 import RejectCommentMutation from "../ModerationDropdown/RejectCommentMutation";
 import { SetSpamBanned } from "../setSpamBanned";
 import BanUserMutation from "./BanUserMutation";
@@ -37,8 +38,7 @@ interface Props {
   settings: UserBanPopoverContainer_settings;
   story: UserBanPopoverContainer_story;
   viewer: UserBanPopoverContainer_viewer;
-  siteBan: boolean;
-  view: "MODERATE" | "BAN" | "SITE_BAN" | "CONFIRM_BAN";
+  view: ModerationDropdownView;
 }
 
 const UserBanPopoverContainer: FunctionComponent<Props> = ({
@@ -47,7 +47,6 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   story,
   viewer,
   onDismiss,
-  siteBan,
   view,
 }) => {
   const [{ accessToken }] = useLocal<UserBanPopoverContainer_local>(graphql`
@@ -56,6 +55,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
     }
   `);
   const setSpamBanned = useMutation(SetSpamBanned);
+  const siteBan = view === "SITE_BAN";
 
   const user = comment.author!;
   const viewerScoped =

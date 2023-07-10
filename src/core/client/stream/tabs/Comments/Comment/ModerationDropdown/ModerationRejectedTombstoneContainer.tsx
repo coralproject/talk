@@ -92,7 +92,7 @@ const ModerationRejectedTombstoneContainer: FunctionComponent<Props> = ({
             <CaretContainer
               comment={comment}
               story={story}
-              viewer={viewer!}
+              viewer={viewer}
               settings={settings}
               view="CONFIRM_BAN"
               open

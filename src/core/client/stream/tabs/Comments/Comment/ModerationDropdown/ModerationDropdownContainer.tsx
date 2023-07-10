@@ -20,7 +20,11 @@ import { ModerationDropdownContainer_viewer } from "coral-stream/__generated__/M
 import UserBanPopoverContainer from "../UserBanPopover/UserBanPopoverContainer";
 import ModerationActionsContainer from "./ModerationActionsContainer";
 
-type View = "MODERATE" | "BAN" | "SITE_BAN" | "CONFIRM_BAN";
+export type ModerationDropdownView =
+  | "MODERATE"
+  | "BAN"
+  | "SITE_BAN"
+  | "CONFIRM_BAN";
 
 interface Props {
   comment: ModerationDropdownContainer_comment;
@@ -29,7 +33,7 @@ interface Props {
   settings: ModerationDropdownContainer_settings;
   onDismiss: () => void;
   scheduleUpdate: () => void;
-  view?: View;
+  view?: ModerationDropdownView;
 }
 
 const ModerationDropdownContainer: FunctionComponent<Props> = ({
@@ -42,7 +46,9 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
   view: viewProp,
 }) => {
   const emitShowEvent = useViewerEvent(ShowModerationPopoverEvent);
-  const [view, setView] = useState<View>(viewProp ?? "MODERATE");
+  const [view, setView] = useState<ModerationDropdownView>(
+    viewProp ?? "MODERATE"
+  );
 
   const onBan = useCallback(() => {
     setView("BAN");
@@ -79,7 +85,6 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
           story={story}
           viewer={viewer}
           onDismiss={onDismiss}
-          siteBan={view === "SITE_BAN"}
           view={view}
         />
       )}

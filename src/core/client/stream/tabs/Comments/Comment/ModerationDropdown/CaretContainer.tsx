@@ -3,7 +3,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
   BaseButton,
@@ -17,7 +17,10 @@ import { CaretContainer_settings } from "coral-stream/__generated__/CaretContain
 import { CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
 import { CaretContainer_viewer } from "coral-stream/__generated__/CaretContainer_viewer.graphql";
 
-import ModerationDropdownContainer from "./ModerationDropdownContainer";
+import { SetSpamBanned } from "../setSpamBanned";
+import ModerationDropdownContainer, {
+  ModerationDropdownView,
+} from "./ModerationDropdownContainer";
 
 import styles from "./CaretContainer.css";
 
@@ -26,12 +29,14 @@ interface Props {
   story: CaretContainer_story;
   viewer: CaretContainer_viewer;
   settings: CaretContainer_settings;
-  view?: "MODERATE" | "BAN" | "SITE_BAN" | "CONFIRM_BAN";
+  view?: ModerationDropdownView;
   open?: boolean;
 }
 
 const CaretContainer: FunctionComponent<Props> = (props) => {
   const popoverID = `comments-moderationMenu-${props.comment.id}`;
+  const setSpamBanned = useMutation(SetSpamBanned);
+
   return (
     <Localized
       id="comments-moderationDropdown-popover"
@@ -43,7 +48,14 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
         placement="bottom-end"
         description="A popover menu to moderate the comment"
         body={({ toggleVisibility, scheduleUpdate }) => (
-          <ClickOutside onClickOutside={toggleVisibility}>
+          <ClickOutside
+            onClickOutside={() => {
+              if (props.comment.spamBanned) {
+                void setSpamBanned({ commentID: props.comment.id });
+              }
+              toggleVisibility();
+            }}
+          >
             <ModerationDropdownContainer
               comment={props.comment}
               story={props.story}
@@ -85,6 +97,7 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment CaretContainer_comment on Comment {
       id
+      spamBanned
       ...ModerationDropdownContainer_comment
     }
   `,
