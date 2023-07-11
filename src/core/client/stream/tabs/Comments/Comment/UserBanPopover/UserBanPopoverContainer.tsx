@@ -17,6 +17,11 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import {
+  AlertCircleIcon,
+  AlertTriangleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import { Box, Button, CallOut, Divider, Flex } from "coral-ui/components/v2";
 
 import { UserBanPopoverContainer_comment } from "coral-stream/__generated__/UserBanPopoverContainer_comment.graphql";
@@ -248,17 +253,21 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
                   </Localized>
                 </ol>
               </div>
-              <Localized id="comments-userSpamBanPopover-callout">
-                <CallOut
-                  className={styles.callOut}
-                  color="error"
-                  fullWidth
-                  borderless
-                >
-                  {/* TODO: Add icon */}
-                  Only for use on obvious spam accounts
-                </CallOut>
-              </Localized>
+              <CallOut
+                className={styles.callOut}
+                color="error"
+                fullWidth
+                borderless
+              >
+                <SvgIcon
+                  size="xs"
+                  className={styles.icon}
+                  Icon={AlertTriangleIcon}
+                />
+                <Localized id="comments-userSpamBanPopover-callout">
+                  <span>Only for use on obvious spam accounts</span>
+                </Localized>
+              </CallOut>
               <Localized
                 id="comments-userSpamBanPopover-confirmation"
                 vars={{ text: spamConfirmationText }}
@@ -274,8 +283,12 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
                 placeholder=""
                 onChange={(e) => setSpamBanConfirmation(e.target.value)}
               />
-              {/* TODO: Add icon */}
-              {banError && <div className={styles.error}>{banError}</div>}
+              {banError && (
+                <div className={styles.error}>
+                  <SvgIcon Icon={AlertCircleIcon} className={styles.icon} />
+                  {banError}
+                </div>
+              )}
             </>
           )}
           <Flex
