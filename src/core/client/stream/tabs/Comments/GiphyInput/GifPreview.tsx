@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Button, ButtonIcon } from "coral-ui/components/v2";
+import { ButtonSvgIcon, RemoveCircleIcon } from "coral-ui/components/icons";
+import { Button } from "coral-ui/components/v2";
 
 import styles from "./GifPreview.css";
 
@@ -24,7 +25,7 @@ const GifPreview: FunctionComponent<Props> = ({ onRemove, url, title }) => {
           color="mono"
           className={styles.button}
         >
-          <ButtonIcon>cancel</ButtonIcon>
+          <ButtonSvgIcon Icon={RemoveCircleIcon} />
           <Localized id="comments-commentForm-gifPreview-remove">
             Remove
           </Localized>

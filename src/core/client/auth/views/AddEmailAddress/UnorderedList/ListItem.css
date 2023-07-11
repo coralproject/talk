@@ -7,4 +7,6 @@
   flex-grow: 0;
   flex-shrink: 0;
   width: 20px;
+  display: flex;
+  margin-top: var(--spacing-1);
 }

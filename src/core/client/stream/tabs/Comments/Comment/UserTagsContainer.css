@@ -1,4 +1,5 @@
 .icon {
+  display: flex;
   margin-right: var(--spacing-1);
 }
 

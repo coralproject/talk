@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import Icon from "../Icon";
+import { CheckIcon, SvgIcon } from "coral-ui/components/icons";
 
 import styles from "./Circle.css";
 
@@ -17,7 +17,9 @@ const Circle: FunctionComponent<CircleProps> = ({ active, completed }) => {
   });
   return (
     <span className={rootClassName}>
-      {completed && <Icon className={styles.icon}>done</Icon>}
+      {completed && (
+        <SvgIcon className={styles.icon} size="xs" Icon={CheckIcon} />
+      )}
     </span>
   );
 };

@@ -200,7 +200,7 @@ configure-moderationPhases-noExternalModerationPhases =
   Não há fases de moderação externa configuradas, adicione uma acima.
 configure-moderationPhases-enabledModerationPhase = Ativado
 configure-moderationPhases-disableModerationPhase = Desativado
-configure-moderationPhases-detailsButton = Detalhes <icon>keyboard_arrow_right</icon>
+configure-moderationPhases-detailsButton = Detalhes <icon></icon>
 configure-moderationPhases-addExternalModerationPhase = Adicionar fase de moderação externa
 configure-moderationPhases-updateExternalModerationPhaseButton = Atualizar detalhes
 configure-moderationPhases-cancelButton = Cancelar
@@ -370,7 +370,7 @@ configure-webhooks-expiresOldSecretHoursFromNow =
     [1] 1 hora
     *[other] { $hours } horas
   }  a partir de agora
-configure-webhooks-detailsButton = Detalhes <icon>keyboard_arrow_right</icon>
+configure-webhooks-detailsButton = Detalhes <icon></icon>
 
 ### General
 configure-general-guidelines-title = Resumo das Diretrizes da Comunidade
@@ -491,7 +491,7 @@ configure-organization-nameExplanation =
   O nome da sua organização aparecerá nos e-mails enviados pelo Coral para sua comunidade e membros da organização.
 configure-organization-sites-explanation =
   Adicione um novo site para sua Organização ou edite os detalhes de um site existente.
-configure-organization-sites-add-site = <icon>add</icon> Adicionar site
+configure-organization-sites-add-site = <icon></icon> Adicionar site
 configure-organization-email = E-mail organizacional
 configure-organization-emailExplanation =
   Este endereço de e-mail será usado nos e-mails
@@ -503,7 +503,7 @@ configure-organization-urlExplanation =
   A url da sua organização aparecerá nos e-mails enviados pelo Coral para sua comunidade e membros da organização.
 
 ### Sites
-configure-sites-site-details = Detalhes <icon>keyboard_arrow_right</icon>
+configure-sites-site-details = Detalhes <icon></icon>
 configure-sites-add-new-site = Adicionar um novo site a { $site }
 configure-sites-add-success = { $site } foi adicionado a { $org }
 configure-sites-edit-success = Mudanças para { $site } foram salvas.
@@ -515,7 +515,7 @@ configure-sites-site-form-email = Endereço de email do site
 configure-sites-site-form-url-explanation = Este endereço de email serve para os membros da comunidade entrarem em contato com você com perguntas ou se eles precisarem de ajuda. Ex: comentarios@seusite.com
 configure-sites-site-form-domains = Domínios permitidos do site
 configure-sites-site-form-domains-explanation = Domínios onde os fluxos de comentários são permitidos para serem embutidos ((ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
-configure-sites-site-form-submit = <icon>adicionar</icon> Adicionar site
+configure-sites-site-form-submit = <icon></icon> Adicionar site
 configure-sites-site-form-cancel = Cancelar
 configure-sites-site-form-save = Salvar mudanças
 configure-sites-site-edit = Editar detalhes do { $site }
@@ -997,7 +997,7 @@ moderate-user-drawer-username-not-available = Nome de usuário indisponível
 moderate-user-drawer-username-not-available-tooltip-title = Nome de usuário indisponível
 moderate-user-drawer-username-not-available-tooltip-body = Usuário não completou o processo de criação de conta
 
-moderate-user-drawer-account-history-system = <icon>computer</icon> Sistema
+moderate-user-drawer-account-history-system = <icon></icon> Sistema
 moderate-user-drawer-account-history-suspension-ended = Suspensão terminada
 moderate-user-drawer-account-history-suspension-removed = Suspensão removida
 moderate-user-drawer-account-history-banned = Banida

@@ -8,11 +8,18 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import {
+  CalendarIcon,
+  EmailActionUnreadIcon,
+  MultipleNeutralIcon,
+  RemoveIcon,
+  SingleNeutralProfilePictureIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
   Button,
   Divider,
   Flex,
   HorizontalGutter,
-  Icon,
   TextLink,
   Tooltip,
   TooltipButton,
@@ -78,7 +85,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
   return (
     <>
       <Button variant="text" className={styles.close} onClick={onClose}>
-        <Icon size="md">close</Icon>
+        <SvgIcon Icon={RemoveIcon} />
       </Button>
       <HorizontalGutter spacing={4}>
         <HorizontalGutter spacing={3}>
@@ -149,9 +156,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 id="moderate-user-drawer-email"
                 attrs={{ title: true }}
               >
-                <Icon size="sm" className={styles.icon} title="Email address">
-                  mail_outline
-                </Icon>
+                <SvgIcon className={styles.icon} Icon={EmailActionUnreadIcon} />
               </Localized>
               <span className={styles.userDetailValue}>{user.email}</span>
               <CopyButton text={user.email!} />
@@ -161,13 +166,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 id="moderate-user-drawer-created-at"
                 attrs={{ title: true }}
               >
-                <Icon
-                  size="sm"
-                  className={styles.icon}
-                  title="Account creation date"
-                >
-                  date_range
-                </Icon>
+                <SvgIcon className={styles.icon} Icon={CalendarIcon} />
               </Localized>
               <span className={styles.userDetailValue}>
                 {formatter(user.createdAt)}
@@ -178,9 +177,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                 id="moderate-user-drawer-member-id"
                 attrs={{ title: true }}
               >
-                <Icon size="sm" className={styles.icon} title="Member ID">
-                  people_outline
-                </Icon>
+                <SvgIcon className={styles.icon} Icon={MultipleNeutralIcon} />
               </Localized>
               <span className={styles.userDetailValue}>{user.id}</span>
               <CopyButton text={user.id} />
@@ -194,13 +191,10 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                     id="moderate-user-drawer-external-profile-URL"
                     attrs={{ title: true }}
                   >
-                    <Icon
-                      size="sm"
+                    <SvgIcon
                       className={styles.icon}
-                      title="External profile URL"
-                    >
-                      people_outline
-                    </Icon>
+                      Icon={SingleNeutralProfilePictureIcon}
+                    />
                   </Localized>
                   <span className={styles.userDetailValue}>
                     <TextLink

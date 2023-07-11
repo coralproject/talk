@@ -7,6 +7,7 @@ import { useNotification } from "coral-admin/App/GlobalNotification";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation } from "coral-framework/lib/relay";
+import { CheckCircleIcon } from "coral-ui/components/icons";
 import {
   Button,
   CallOut,
@@ -58,7 +59,7 @@ const RotateWebhookEndpointSigningSecretModal: FunctionComponent<Props> = ({
         // Post a notification about the successful change.
         setMessage(
           <Localized id="configure-moderationPhases-rotateSigningSecretSuccessUseNewSecret">
-            <AppNotification icon="check_circle_outline" onClose={clearMessage}>
+            <AppNotification Icon={CheckCircleIcon} onClose={clearMessage}>
               External moderation phase signing secret has been rotated. Please
               ensure you update your integrations to use the new secret below.
             </AppNotification>

@@ -5,6 +5,7 @@ import { graphql } from "react-relay";
 
 import { useNotification } from "coral-admin/App/GlobalNotification";
 import { withRouteConfig } from "coral-framework/lib/router";
+import { CheckCircleIcon } from "coral-ui/components/icons";
 import { AppNotification } from "coral-ui/components/v2";
 
 import { AddSiteRouteQueryResponse } from "coral-admin/__generated__/AddSiteRouteQuery.graphql";
@@ -31,7 +32,7 @@ const AddSiteRoute: FunctionComponent<Props> = (props) => {
             org: (props.data && props.data.settings.organization.name) ?? "",
           }}
         >
-          <AppNotification icon="check_circle_outline" onClose={clearMessage}>
+          <AppNotification Icon={CheckCircleIcon} onClose={clearMessage}>
             {name} has been added to{" "}
             {props.data && props.data.settings.organization.name}
           </AppNotification>

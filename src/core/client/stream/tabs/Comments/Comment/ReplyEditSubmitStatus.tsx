@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
 
-import { Icon } from "coral-ui/components/v2";
+import { AlertCircleIcon, CheckIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 import { SubmitStatus } from "../helpers/getSubmitStatus";
@@ -27,7 +27,7 @@ function getMessage(
         <CallOut
           className={cn(inReviewClassName)}
           color="error"
-          icon={<Icon size="sm">error</Icon>}
+          icon={<SvgIcon Icon={AlertCircleIcon} />}
           onClose={onDismiss}
           titleWeight="semiBold"
           title={
@@ -45,7 +45,7 @@ function getMessage(
         <CallOut
           className={cn(inReviewClassName)}
           color="primary"
-          icon={<Icon size="sm">check</Icon>}
+          icon={<SvgIcon Icon={CheckIcon} />}
           onClose={onDismiss}
           titleWeight="semiBold"
           title={

@@ -12,7 +12,12 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useViewerEvent } from "coral-framework/lib/events";
 import { CopyPermalinkEvent } from "coral-stream/events";
-import { Flex, Icon } from "coral-ui/components/v2";
+import {
+  CheckCircleIcon,
+  HyperlinkIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./PermalinkCopyButton.css";
@@ -88,18 +93,14 @@ const PermalinkCopyButton: FunctionComponent<Props> = ({
       >
         {copied ? (
           <Flex alignItems="center">
-            <Icon size="sm" className={styles.icon}>
-              check_circle_outline
-            </Icon>
+            <SvgIcon className={styles.icon} Icon={CheckCircleIcon} />
             <Localized id="comments-permalink-linkCopied">
               <span>Link copied</span>
             </Localized>
           </Flex>
         ) : (
           <Flex alignItems="center">
-            <Icon size="sm" className={styles.icon}>
-              link
-            </Icon>
+            <SvgIcon className={styles.icon} Icon={HyperlinkIcon} />
             <Localized id="comments-permalink-copyLink">
               <span>Copy link</span>
             </Localized>

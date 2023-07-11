@@ -12,6 +12,10 @@
   border-radius: 50%;
 }
 
+.icon svg {
+  vertical-align: top;
+}
+
 .tealIcon {
   background-color: $colors-teal-100;
   color: $colors-teal-600;

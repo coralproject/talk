@@ -5,6 +5,8 @@ menu: UI Kit v2
 
 import { Playground } from "docz";
 
+import { SearchIcon, SvgIcon } from "coral-ui/components/icons";
+
 import TextField from "./TextField";
 import Button from "../Button";
 import Icon from "../Icon";
@@ -23,7 +25,7 @@ import HorizontalGutter from "../HorizontalGutter";
         variant="seamlessAdornment"
         adornment={
           <Button variant="adornment" color="dark">
-            <Icon size="md">search</Icon>
+            <SvgIcon Icon={SearchIcon} />
           </Button>
         }
       />
