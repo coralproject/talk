@@ -7,7 +7,9 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+import { ERROR_CODES } from "coral-common/errors";
 import { pureMerge } from "coral-common/utils";
+import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLCOMMENT_STATUS, GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
@@ -37,10 +39,12 @@ function createStory() {
 
 const story = createStory();
 const firstComment = story.comments.edges[0].node;
+const thirdComment = story.comments.edges[2].node;
 const viewer = moderators[0];
 
 async function createTestRenderer(
-  params: CreateTestRendererParams<GQLResolver> = {}
+  params: CreateTestRendererParams<GQLResolver> = {},
+  options: { muteNetworkErrors?: boolean } = {}
 ) {
   const { context } = createContext({
     ...params,
@@ -54,6 +58,7 @@ async function createTestRenderer(
       }),
       params.resolvers
     ),
+    muteNetworkErrors: options.muteNetworkErrors,
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(story.id, "storyID");
 
@@ -548,6 +553,70 @@ it("site moderator can spam ban commenter", async () => {
     "href",
     `/admin/moderate/comment/${firstComment.id}`
   );
+});
+
+it("site moderator cannot ban another moderator with site privileges", async () => {
+  await act(async () => {
+    await createTestRenderer(
+      {
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            user: () => {
+              return moderators[2];
+            },
+            settings: () => settingsWithMultisite,
+            viewer: () => moderators[1],
+          },
+          Mutation: {
+            banUser: ({ variables }) => {
+              expectAndFail(variables).toMatchObject({
+                userID: thirdComment.author?.id,
+                rejectExistingComments: true,
+                siteIDs: ["site-id"],
+              });
+              throw new InvalidRequestError({
+                code: ERROR_CODES.CANNOT_BAN_ACCOUNT_WITH_MOD_PRIVILEGES,
+                param: "input.body",
+                traceID: "traceID",
+              });
+            },
+            rejectComment: ({ variables }) => {
+              expectAndFail(variables).toMatchObject({
+                commentID: thirdComment.id,
+                commentRevisionID: thirdComment.revision?.id,
+              });
+              return {
+                comment: pureMerge<typeof thirdComment>(thirdComment, {
+                  status: GQLCOMMENT_STATUS.REJECTED,
+                }),
+              };
+            },
+          },
+        }),
+      },
+      { muteNetworkErrors: true }
+    );
+  });
+
+  const comment = screen.getByTestId(`comment-${thirdComment.id}`);
+  const caretButton = within(comment).getByLabelText("Moderate");
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
+  // Site moderator has Spam ban option
+  const spamBanButton = await within(comment).findByRole("button", {
+    name: "Spam ban",
+  });
+  fireEvent.click(spamBanButton);
+
+  const input = screen.getByTestId("userSpamBanConfirmation");
+  fireEvent.change(input, { target: { value: "spam" } });
+
+  const banButtonDialog = screen.getByRole("button", { name: "Ban" });
+  fireEvent.click(banButtonDialog);
+  expect(
+    await screen.findByText("Cannot ban accounts with moderator privileges")
+  ).toBeInTheDocument();
 });
 
 it("can copy comment embed code", async () => {
