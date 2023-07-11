@@ -471,6 +471,85 @@ it("site moderator can site ban commenter", async () => {
   );
 });
 
+it("site moderator can spam ban commenter", async () => {
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          user: ({ variables }) => {
+            expectAndFail(variables.id).toBe(firstComment.author!.id);
+            return firstComment.author!;
+          },
+          settings: () => settingsWithMultisite,
+          viewer: () => moderators[1],
+        },
+        Mutation: {
+          banUser: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              userID: firstComment.author!.id,
+              rejectExistingComments: true,
+              siteIDs: ["site-id"],
+            });
+            return {
+              user: pureMerge<typeof firstComment.author>(firstComment.author, {
+                status: {
+                  ban: {
+                    active: true,
+                  },
+                },
+              }),
+            };
+          },
+          rejectComment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              commentID: firstComment.id,
+              commentRevisionID: firstComment.revision!.id,
+            });
+            return {
+              comment: pureMerge<typeof firstComment>(firstComment, {
+                status: GQLCOMMENT_STATUS.REJECTED,
+              }),
+            };
+          },
+        },
+      }),
+    });
+  });
+  const tabPane = await screen.findByTestId("current-tab-pane");
+
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
+  const caretButton = within(comment).getByLabelText("Moderate");
+  await act(async () => {
+    userEvent.click(caretButton);
+  });
+  // Site moderator has Spam ban option
+  const spamBanButton = await within(comment).findByRole("button", {
+    name: "Spam ban",
+  });
+  fireEvent.click(spamBanButton);
+
+  const input = screen.getByTestId("userSpamBanConfirmation");
+  fireEvent.change(input, { target: { value: "spam" } });
+
+  const banButtonDialog = screen.getByRole("button", { name: "Ban" });
+  fireEvent.click(banButtonDialog);
+  await waitFor(() => {
+    expect(
+      within(tabPane).getByText("You have rejected this comment.")
+    ).toBeVisible();
+  });
+
+  expect(screen.getByText("Markus is now banned")).toBeInTheDocument();
+
+  const link = await within(tabPane).findByRole("link", {
+    name: "Go to moderate to review this decision",
+  });
+  expect(link).toHaveAttribute(
+    "href",
+    `/admin/moderate/comment/${firstComment.id}`
+  );
+});
+
 it("can copy comment embed code", async () => {
   const jsdomPrompt = window.prompt;
   window.prompt = jest.fn(() => null);
