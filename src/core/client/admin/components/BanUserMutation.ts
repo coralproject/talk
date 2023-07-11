@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { graphql } from "react-relay";
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
@@ -22,7 +21,7 @@ const BanUserMutation = createMutation(
     if (input.rejectExistingComments) {
       commitLocalUpdate(environment, (store) => {
         const record = store.get(input.userID);
-        record?.setValue(true, "allCommentsRejected");
+        return record?.setValue(true, "allCommentsRejected");
       });
     }
 
