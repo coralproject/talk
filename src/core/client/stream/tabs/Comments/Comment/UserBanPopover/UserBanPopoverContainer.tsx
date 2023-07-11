@@ -56,6 +56,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   `);
   const setSpamBanned = useMutation(SetSpamBanned);
   const siteBan = view === "SITE_BAN";
+  const spamConfirmationText = "spam";
 
   const user = comment.author!;
   const viewerScoped =
@@ -258,8 +259,13 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
                   Only for use on obvious spam accounts
                 </CallOut>
               </Localized>
-              <Localized id="comments-userSpamBanPopover-confirmation">
-                <div className={styles.header}>Type in "spam" to confirm</div>
+              <Localized
+                id="comments-userSpamBanPopover-confirmation"
+                vars={{ text: spamConfirmationText }}
+              >
+                <div className={styles.header}>
+                  Type in "{spamConfirmationText}" to confirm
+                </div>
               </Localized>
               <input
                 data-testid="userSpamBanConfirmation"
@@ -290,7 +296,11 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
             </Localized>
             <Localized id="comments-userBanPopover-ban">
               <Button
-                disabled={siteBan ? false : !(spamBanConfirmation === "spam")}
+                disabled={
+                  siteBan
+                    ? false
+                    : !(spamBanConfirmation === spamConfirmationText)
+                }
                 className={CLASSES.banUserPopover.banButton}
                 variant="regular"
                 size="regular"

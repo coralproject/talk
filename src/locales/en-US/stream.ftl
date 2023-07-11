@@ -261,7 +261,7 @@ comments-userSpamBanPopover-header-description = Spam ban will
 comments-userSpamBanPopover-callout = Only for use on obvious spam accounts
 comments-userSpamBanPopover-description-list-banFromComments = Ban this account from the comments
 comments-userSpamBanPopover-description-list-rejectAllComments = Reject all comments written by this account
-comments-userSpamBanPopover-confirmation = Type in "spam" to confirm
+comments-userSpamBanPopover-confirmation = Type in "{$text}" to confirm
 
 comments-userBanPopover-title = Ban {$username}?
 comments-userSiteBanPopover-title = Ban {$username} from this site?
