@@ -813,7 +813,7 @@ it("rejects comment in reported queue", async () => {
   expect(within(reportedCount).getByText("1")).toBeVisible();
 });
 
-it.only("doesnt show comments from banned users whose commens have been rejected", async () => {
+it("doesnt show comments from banned users whose commens have been rejected", async () => {
   const { context } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
