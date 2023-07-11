@@ -499,12 +499,12 @@ export const comments = denormalizeComments(
       },
       {
         id: "comment-4",
-        author: commenters[2],
+        author: moderators[2],
         body: "Comment Body 4",
       },
       {
         id: "comment-5",
-        author: moderators[2],
+        author: commenters[2],
         body: "Comment Body 5",
       },
       {
@@ -807,7 +807,7 @@ export const stories = denormalizeStories(
           edges: [
             { node: comments[0], cursor: comments[0].createdAt },
             { node: comments[1], cursor: comments[1].createdAt },
-            { node: comments[5], cursor: comments[5].createdAt },
+            { node: comments[4], cursor: comments[4].createdAt },
           ],
         },
       },
