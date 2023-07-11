@@ -312,7 +312,10 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
                 disabled={
                   siteBan
                     ? false
-                    : !(spamBanConfirmation === spamConfirmationText)
+                    : !(
+                        spamBanConfirmation.toLowerCase() ===
+                        spamConfirmationText
+                      )
                 }
                 className={CLASSES.banUserPopover.banButton}
                 variant="regular"
