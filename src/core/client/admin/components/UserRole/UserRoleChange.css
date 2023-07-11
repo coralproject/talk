@@ -3,3 +3,7 @@
   justify-content: space-between;
   padding: 0;
 }
+
+.arrowsIcon {
+  align-self: baseline;
+}

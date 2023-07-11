@@ -4,7 +4,16 @@ import React, { FunctionComponent } from "react";
 import useGetMessage from "coral-framework/lib/i18n/useGetMessage";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
-import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
+import {
+  CogIcon,
+  ConversationChatIcon,
+  ConversationQuestionWarningIcon,
+  MessagesBubbleSquareIcon,
+  RatingStarIcon,
+  SingleNeutralCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import { MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
 
 import styles from "./TabBar.css";
 
@@ -69,19 +78,19 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 {!props.mode ||
                   (props.mode === GQLSTORY_MODE.COMMENTS && (
                     <>
-                      <Icon size="lg">forum</Icon>
+                      <SvgIcon size="lg" Icon={MessagesBubbleSquareIcon} />
                       <div className={styles.smallText}>{commentsTabText}</div>
                     </>
                   ))}
                 {props.mode === GQLSTORY_MODE.QA && (
                   <>
-                    <Icon size="lg">live_help</Icon>
+                    <SvgIcon size="lg" Icon={ConversationQuestionWarningIcon} />
                     <div className={styles.smallText}>{commentsTabText}</div>
                   </>
                 )}
                 {props.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS && (
                   <>
-                    <Icon size="lg">star</Icon>
+                    <SvgIcon size="lg" Icon={RatingStarIcon} />
                     <div className={styles.smallText}>{commentsTabText}</div>
                   </>
                 )}
@@ -102,7 +111,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 <span>{discussionsText}</span>
               ) : (
                 <div>
-                  <Icon size="lg">list_alt</Icon>
+                  <SvgIcon size="lg" Icon={ConversationChatIcon} />
                   <div className={styles.smallText}>{discussionsText}</div>
                 </div>
               )}
@@ -122,7 +131,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 <span>{myProfileText}</span>
               ) : (
                 <div>
-                  <Icon size="lg">account_circle</Icon>
+                  <SvgIcon size="lg" Icon={SingleNeutralCircleIcon} />
                   <div className={styles.smallText}>{myProfileText}</div>
                 </div>
               )}
@@ -141,7 +150,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 <span>{configureText}</span>
               ) : (
                 <div>
-                  <Icon size="md">settings</Icon>
+                  <SvgIcon size="md" Icon={CogIcon} />
                 </div>
               )}
             </Tab>

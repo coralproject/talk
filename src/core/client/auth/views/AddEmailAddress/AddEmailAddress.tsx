@@ -16,7 +16,7 @@ import { InvalidRequestError } from "coral-framework/lib/errors";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Icon } from "coral-ui/components/v2";
+import { AlertCircleIcon, CheckIcon, SvgIcon } from "coral-ui/components/icons";
 import { Button, CallOut } from "coral-ui/components/v3";
 
 import SetEmailMutation from "./SetEmailMutation";
@@ -75,7 +75,7 @@ const AddEmailAddressContainer: FunctionComponent = () => {
                 </div>
               </Localized>
               <UnorderedList>
-                <ListItem icon={<Icon>done</Icon>}>
+                <ListItem icon={<SvgIcon Icon={CheckIcon} size="xs" />}>
                   <Localized id="addEmailAddress-receiveUpdates">
                     <div className={styles.description}>
                       Receive updates regarding any changes to your account
@@ -83,14 +83,14 @@ const AddEmailAddressContainer: FunctionComponent = () => {
                     </div>
                   </Localized>
                 </ListItem>
-                <ListItem icon={<Icon>done</Icon>}>
+                <ListItem icon={<SvgIcon Icon={CheckIcon} size="xs" />}>
                   <Localized id="addEmailAddress-allowDownload">
                     <div className={styles.description}>
                       Allow you to download your comments.
                     </div>
                   </Localized>
                 </ListItem>
-                <ListItem icon={<Icon>done</Icon>}>
+                <ListItem icon={<SvgIcon Icon={CheckIcon} size="xs" />}>
                   <Localized id="addEmailAddress-sendNotifications">
                     <div className={styles.description}>
                       Send comment notifications that you have chosen to
@@ -104,7 +104,7 @@ const AddEmailAddressContainer: FunctionComponent = () => {
                   <CallOut
                     className={CLASSES.login.error}
                     color="error"
-                    icon={<Icon size="sm">error</Icon>}
+                    icon={<SvgIcon Icon={AlertCircleIcon} />}
                     title={submitError}
                   />
                 </div>

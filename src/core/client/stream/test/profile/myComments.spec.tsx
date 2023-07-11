@@ -106,7 +106,9 @@ it("renders profile with comment history", async () => {
   expect(commentOneHistory).toBeVisible();
   expect(within(commentOneHistory).getByText("Joining Too")).toBeVisible();
   expect(
-    within(commentOneHistory).getByRole("link", { name: "View Conversation" })
+    within(commentOneHistory).getByRole("link", {
+      name: "share-external-link-1 View Conversation",
+    })
   ).toBeVisible();
   expect(
     within(commentOneHistory).getByRole("button", {
@@ -125,7 +127,9 @@ it("renders profile with comment history", async () => {
   expect(commentTwoHistory).toBeVisible();
   expect(within(commentTwoHistory).getByText("What's up?")).toBeVisible();
   expect(
-    within(commentTwoHistory).getByRole("link", { name: "View Conversation" })
+    within(commentTwoHistory).getByRole("link", {
+      name: "share-external-link-1 View Conversation",
+    })
   ).toBeVisible();
   expect(
     within(commentTwoHistory).getByRole("button", {

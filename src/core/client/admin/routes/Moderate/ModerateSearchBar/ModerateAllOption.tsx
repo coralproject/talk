@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
-import { Button, Icon } from "coral-ui/components/v2";
+import { ArrowRightIcon, SvgIcon } from "coral-ui/components/icons";
+import { Button } from "coral-ui/components/v2";
 
 import styles from "./ModerateAllOption.css";
 
@@ -38,9 +39,7 @@ const ModerateAllOption: FunctionComponent<Props> = ({
           <span>Moderate all stories</span>
         </Localized>
         <span>
-          <Icon className={styles.icon} size="md">
-            keyboard_arrow_right
-          </Icon>
+          <SvgIcon Icon={ArrowRightIcon} size="xs" className={styles.icon} />
         </span>
       </Button>
     </li>

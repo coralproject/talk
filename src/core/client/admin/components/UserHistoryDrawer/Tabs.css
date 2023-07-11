@@ -23,6 +23,7 @@ $indicator-dot: $colors-teal-500;
 }
 
 .tabIcon {
+  display: flex;
   margin-right: var(--spacing-1);
 }
 

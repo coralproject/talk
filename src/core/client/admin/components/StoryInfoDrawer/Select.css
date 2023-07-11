@@ -12,4 +12,10 @@
 
 .buttonText {
   margin-right: var(--spacing-4);
+  padding: 6px;
+}
+
+.buttonIcon {
+  padding-bottom: var(--spacing-1);
+  padding-right: var(--spacing-1);
 }

@@ -16,9 +16,9 @@ import React, {
 import useDebounce from "react-use/lib/useDebounce";
 import useResizeObserver from "use-resize-observer";
 
+import { ButtonSvgIcon, SearchIcon } from "coral-ui/components/icons";
 import {
   Button,
-  ButtonIcon,
   HorizontalGutter,
   InputLabel,
   TextField,
@@ -131,7 +131,7 @@ const GiphyInput: FunctionComponent<Props> = ({
                   className={styles.searchButton}
                   aria-label="Search"
                 >
-                  <ButtonIcon>search</ButtonIcon>
+                  <ButtonSvgIcon Icon={SearchIcon} />
                 </Button>
               </Localized>
             }

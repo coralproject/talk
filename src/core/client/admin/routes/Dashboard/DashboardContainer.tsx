@@ -8,9 +8,14 @@ import {
   withPaginationContainer,
 } from "coral-framework/lib/relay";
 import {
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  ButtonRefreshArrowIcon,
+  ButtonSvgIcon,
+} from "coral-ui/components/icons";
+import {
   BaseButton,
   Button,
-  ButtonIcon,
   ClickOutside,
   Dropdown,
   Flex,
@@ -87,9 +92,11 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
                   {props.site && props.site.name}
                 </h2>
                 {
-                  <ButtonIcon className={styles.icon} size="lg">
-                    {visible ? "arrow_drop_up" : "arrow_drop_down"}
-                  </ButtonIcon>
+                  <ButtonSvgIcon
+                    className={styles.icon}
+                    size="xxs"
+                    Icon={visible ? ArrowsUpIcon : ArrowsDownIcon}
+                  />
                 }
               </Flex>
             </BaseButton>
@@ -101,7 +108,7 @@ const DashboardContainer: React.FunctionComponent<Props> = (props) => {
       <Flex alignItems="center" spacing={2}>
         <SiteDashboardTimestamp />
         <Button variant="text" onClick={onRefetch} iconLeft>
-          <ButtonIcon>refresh</ButtonIcon>
+          <ButtonSvgIcon size="xs" Icon={ButtonRefreshArrowIcon} />
           Refresh
         </Button>
       </Flex>

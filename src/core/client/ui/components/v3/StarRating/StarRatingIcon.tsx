@@ -2,25 +2,25 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, {
   ChangeEventHandler,
+  ComponentType,
   FocusEventHandler,
   FunctionComponent,
   MouseEventHandler,
 } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Icon } from "coral-ui/components/v2";
+import { SvgIcon } from "coral-ui/components/icons";
 
 import styles from "./StarRatingIcon.css";
-
-type Fill = "star" | "star_half" | "star_border";
 
 interface Props {
   id?: string;
   value: number;
   checked: boolean;
-  fill: Fill;
+  Icon: ComponentType;
   name?: string;
   readOnly?: boolean;
+  filled?: boolean;
   size?: "xl" | "lg";
   onFocus?: FocusEventHandler<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
@@ -31,9 +31,10 @@ interface Props {
 const StarRatingIcon: FunctionComponent<Props> = ({
   id,
   value,
-  fill,
   readOnly = false,
   size = "lg",
+  Icon,
+  filled,
   ...props
 }) => {
   const container = (
@@ -42,18 +43,18 @@ const StarRatingIcon: FunctionComponent<Props> = ({
       vars={{ value }}
       attrs={{ "aria-label": true }}
     >
-      <Icon
+      <SvgIcon
+        Icon={Icon}
+        filled={filled}
         className={cn(
           styles.icons,
           !readOnly && styles.interactive,
           CLASSES.ratingsAndReview.stars.icon
         )}
-        tabIndex={value}
+        tab-index={value}
         aria-label={`${value} Star`}
         size={size}
-      >
-        {fill}
-      </Icon>
+      />
     </Localized>
   );
 

@@ -12,3 +12,7 @@ $user-status-details: var(--palette-text-500);
 .root strong {
   font-weight: var(--font-weight-primary-bold);
 }
+
+.infoIcon {
+  display: flex;
+}

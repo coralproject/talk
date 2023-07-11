@@ -22,11 +22,15 @@ import {
 import CLASSES from "coral-stream/classes";
 import { ShowEditPasswordDialogEvent } from "coral-stream/events";
 import {
+  AlertCircleIcon,
+  CheckCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
   FieldSet,
   Flex,
   FormField,
   HorizontalGutter,
-  Icon,
   InputLabel,
   PasswordField,
 } from "coral-ui/components/v2";
@@ -139,7 +143,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
             color="success"
             onClose={onCloseSuccess}
             className={CLASSES.myPassword.form.successMessage}
-            icon={<Icon size="sm">check_circle</Icon>}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             titleWeight="semiBold"
             title={
               <Localized id="profile-account-changePassword-updated">
@@ -232,7 +236,7 @@ const ChangePassword: FunctionComponent<Props> = ({ onResetPassword }) => {
                       <CallOut
                         color="error"
                         className={CLASSES.myPassword.form.errorMessage}
-                        icon={<Icon size="sm">error</Icon>}
+                        icon={<SvgIcon Icon={AlertCircleIcon} />}
                         titleWeight="semiBold"
                         title={submitError}
                         role="alert"

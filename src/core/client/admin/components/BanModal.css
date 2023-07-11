@@ -35,3 +35,7 @@ $ban-modal-text: var(--palette-text-500);
 .customizeMessage {
   align-self: flex-start;
 }
+
+.customizeMessageArrowsIcon {
+  padding-left: var(--spacing-1);
+}

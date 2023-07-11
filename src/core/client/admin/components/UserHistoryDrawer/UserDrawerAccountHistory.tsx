@@ -4,10 +4,10 @@ import { graphql } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { CoralMarkIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   CallOut,
   HorizontalGutter,
-  Icon,
   Table,
   TableBody,
   TableCell,
@@ -43,10 +43,19 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
   const system = (
     <Localized
       id="moderate-user-drawer-account-history-system"
-      elems={{ icon: <Icon size="md">computer</Icon> }}
+      elems={{
+        icon: (
+          <SvgIcon
+            size="md"
+            className={styles.coralIcon}
+            Icon={CoralMarkIcon}
+          />
+        ),
+      }}
     >
       <span>
-        <Icon size="md">computer</Icon> System
+        <SvgIcon size="md" className={styles.coralIcon} Icon={CoralMarkIcon} />{" "}
+        System
       </span>
     </Localized>
   );

@@ -26,4 +26,5 @@ $moderate-background: var(--palette-grey-100);
 
 .icon {
   color: var(--palette-text-500);
+  padding-top: 3px;
 }

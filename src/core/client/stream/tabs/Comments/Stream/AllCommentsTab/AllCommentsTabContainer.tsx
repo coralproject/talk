@@ -45,11 +45,11 @@ import {
   CommentEnteredSubscription,
 } from "coral-stream/tabs/Comments/Stream/Subscriptions";
 import {
-  Box,
-  ButtonIcon,
-  Flex,
-  HorizontalGutter,
-} from "coral-ui/components/v2";
+  ButtonRefreshArrowIcon,
+  ButtonSvgIcon,
+  RemoveIcon,
+} from "coral-ui/components/icons";
+import { Box, Flex, HorizontalGutter } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { AllCommentsTabContainer_settings } from "coral-stream/__generated__/AllCommentsTabContainer_settings.graphql";
@@ -504,6 +504,15 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                 <Localized
                   id={refreshCommentsLocalization.id}
                   attrs={{ "aria-label": true }}
+                  elems={{
+                    icon: (
+                      <ButtonSvgIcon
+                        className={styles.refreshButtonIcon}
+                        Icon={ButtonRefreshArrowIcon}
+                        size="xs"
+                      />
+                    ),
+                  }}
                 >
                   <Button
                     aria-label={refreshCommentsLocalization.text}
@@ -513,9 +522,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                     className={styles.refreshButton}
                     onClick={handleClickRefreshButton}
                   >
-                    <ButtonIcon className={styles.refreshButtonIcon}>
-                      refresh
-                    </ButtonIcon>
+                    <ButtonSvgIcon
+                      className={styles.refreshButtonIcon}
+                      Icon={ButtonRefreshArrowIcon}
+                      size="xs"
+                    />
                     {refreshCommentsLocalization.text}
                   </Button>
                 </Localized>
@@ -524,6 +535,15 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
               <Localized
                 id="comments-refreshComments-closeButton"
                 attrs={{ "aria-label": true }}
+                elems={{
+                  icon: (
+                    <ButtonSvgIcon
+                      Icon={RemoveIcon}
+                      size="xs"
+                      className={styles.closeButtonIcon}
+                    />
+                  ),
+                }}
               >
                 <Button
                   onClick={handleClickCloseRefreshButton}
@@ -531,7 +551,11 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                   className={styles.closeButton}
                   paddingSize="extraSmall"
                 >
-                  <ButtonIcon>close</ButtonIcon>
+                  <ButtonSvgIcon
+                    Icon={RemoveIcon}
+                    size="xs"
+                    className={styles.closeButtonIcon}
+                  />
                 </Button>
               </Localized>
             </Flex>

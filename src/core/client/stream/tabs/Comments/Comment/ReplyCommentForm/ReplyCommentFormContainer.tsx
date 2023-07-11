@@ -19,7 +19,7 @@ import {
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import WarningError from "coral-stream/common/WarningError";
-import { Icon } from "coral-ui/components/v2";
+import { ConversationChatTextIcon, SvgIcon } from "coral-ui/components/icons";
 import { Button, CallOut } from "coral-ui/components/v3";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
@@ -280,7 +280,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
             Your reply has posted below
           </Localized>
         }
-        icon={<Icon>question_answer</Icon>}
+        icon={<SvgIcon Icon={ConversationChatTextIcon} />}
         iconColor="none"
         color="primary"
         aria-live="polite"

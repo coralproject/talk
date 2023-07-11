@@ -5,12 +5,12 @@ import { graphql } from "react-relay";
 import { urls } from "coral-framework/helpers";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { AddIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   CallOut,
   FormFieldDescription,
   HorizontalGutter,
-  Icon,
   Table,
   TableBody,
   TableCell,
@@ -66,7 +66,7 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
           iconLeft
           data-testid="add-webhook-endpoint"
         >
-          <Icon size="md">add</Icon>
+          <SvgIcon Icon={AddIcon} size="xs" />
           <Localized id="configure-webhooks-addEndpointButton">
             Add webhook endpoint
           </Localized>

@@ -5,6 +5,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { TradingConversationIcon } from "coral-ui/components/icons";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { MostActiveDiscussionsContainer_site } from "coral-stream/__generated__/MostActiveDiscussionsContainer_site.graphql";
@@ -45,7 +46,7 @@ const MostActiveDiscussionsContainer: FunctionComponent<Props> = ({ site }) => {
             </>
           </Localized>
         }
-        icon="show_chart"
+        Icon={TradingConversationIcon}
       />
       <ol className={cn(styles.list, CLASSES.discussions.discussionsList)}>
         {site.topStories.map((story) => (

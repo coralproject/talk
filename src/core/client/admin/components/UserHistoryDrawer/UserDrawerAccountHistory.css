@@ -53,3 +53,9 @@
 .user > * {
   vertical-align: sub;
 }
+
+.coralIcon {
+  display: inline-block;
+  padding-right: var(--spacing-1);
+  vertical-align: middle;
+}
