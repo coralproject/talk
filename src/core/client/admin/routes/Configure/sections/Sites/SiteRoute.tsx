@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import { useNotification } from "coral-admin/App/GlobalNotification";
 import { withRouteConfig } from "coral-framework/lib/router";
+import { CheckCircleIcon } from "coral-ui/components/icons";
 import { AppNotification } from "coral-ui/components/v2";
 
 import { SiteRouteQueryResponse } from "coral-admin/__generated__/SiteRouteQuery.graphql";
@@ -22,7 +23,7 @@ const AddSiteRoute: FunctionComponent<Props> = ({ data }) => {
     (name: string) => {
       setMessage(
         <Localized id="configure-sites-edit-success" vars={{ site: name }}>
-          <AppNotification icon="check_circle_outline" onClose={clearMessage}>
+          <AppNotification Icon={CheckCircleIcon} onClose={clearMessage}>
             Changes to {name} have been saved
           </AppNotification>
         </Localized>

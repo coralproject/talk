@@ -51,6 +51,8 @@ const RejectCommentMutation = createMutation(
                     commentCounts {
                       tags {
                         FEATURED
+                        UNANSWERED
+                        QUESTION
                       }
                     }
                   }
@@ -83,6 +85,8 @@ const RejectCommentMutation = createMutation(
                   commentCounts: {
                     tags: {
                       FEATURED: 0,
+                      UNANSWERED: 0,
+                      QUESTION: 0,
                     },
                   },
                 },

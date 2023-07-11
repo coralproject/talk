@@ -6,7 +6,7 @@ $status-change-button-border: var(--palette-grey-400);
 }
 
 .bordered {
-  padding: 0 var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-2);
   border: 1px solid $status-change-button-border;
 }
 
@@ -16,4 +16,8 @@ $status-change-button-border: var(--palette-grey-400);
 
 .dropdownButton {
   min-width: 80px;
+}
+
+.changeButtonIcon {
+  padding-bottom: var(--spacing-1);
 }

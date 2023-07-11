@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { BaseButton, Icon } from "coral-ui/components/v2";
+import { CheckIcon, SvgIcon } from "coral-ui/components/icons";
+import { BaseButton } from "coral-ui/components/v2";
 
 import styles from "./ReviewButton.css";
 
@@ -34,9 +35,12 @@ const ReviewButton: FunctionComponent<Props> = ({
         attrs={{ "aria-label": true }}
       >
         <BaseButton {...props} aria-label="Reviewed">
-          <Icon size="xs" className={styles.icon}>
-            done
-          </Icon>
+          <SvgIcon
+            Icon={CheckIcon}
+            size="xxs"
+            className={styles.icon}
+            strokeWidth="bold"
+          />
         </BaseButton>
       </Localized>
     );

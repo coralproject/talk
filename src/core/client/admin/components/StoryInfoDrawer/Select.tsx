@@ -3,8 +3,12 @@ import React, { FunctionComponent, useState } from "react";
 import { Field } from "react-final-form";
 
 import {
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  ButtonSvgIcon,
+} from "coral-ui/components/icons";
+import {
   Button,
-  ButtonIcon,
   ClickOutside,
   Dropdown,
   DropdownButton,
@@ -88,9 +92,11 @@ const Select: FunctionComponent<Props> = ({
                 {current.value}
               </Localized>
             </span>
-            <ButtonIcon size="lg">
-              {visible ? "arrow_drop_up" : "arrow_drop_down"}
-            </ButtonIcon>
+            <ButtonSvgIcon
+              size="xxs"
+              Icon={visible ? ArrowsUpIcon : ArrowsDownIcon}
+              className={styles.buttonIcon}
+            />
           </Button>
         )}
       </Popover>

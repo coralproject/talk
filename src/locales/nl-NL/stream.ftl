@@ -312,13 +312,13 @@ comments-mobileToolbar-closeButton =
 comments-mobileToolbar-unmarkAll = Markeer alle als gelezen
 comments-mobileToolbar-nextUnread = Volgende ongelezen
 
-comments-refreshComments-closeButton = Sluiten
+comments-refreshComments-closeButton = Sluiten <icon></icon>
   .aria-label = Sluiten
-comments-refreshComments-refreshButton = Herlaad reacties
+comments-refreshComments-refreshButton = <icon></icon> Herlaad reacties
   .aria-label = Herlaad reacties
-comments-refreshQuestions-refreshButton = Herlaad vragen
+comments-refreshQuestions-refreshButton = <icon></icon> Herlaad vragen
   .aria-label = Herlaad vragen
-comments-refreshReviews-refreshButton = Herlaad reviews
+comments-refreshReviews-refreshButton = <icon></icon> Herlaad reviews
   .aria-label = Herlaad reviews
 
 comments-replyChangedWarning-theCommentHasJust =

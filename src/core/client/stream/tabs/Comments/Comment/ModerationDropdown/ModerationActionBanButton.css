@@ -19,10 +19,8 @@ $commentsModerationBannedColor: var(--palette-error-500);
 }
 
 .banIcon {
-  width: 18px;
-  height: 14px;
   text-align: center;
-  line-height: 12px;
+  display: flex;
 }
 
 .spinner {

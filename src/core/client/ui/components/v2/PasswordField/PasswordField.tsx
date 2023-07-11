@@ -10,7 +10,7 @@ import React, {
   useState,
 } from "react";
 
-import Icon from "coral-ui/components/v2/Icon";
+import { SvgIcon, ViewIcon, ViewOffIcon } from "coral-ui/components/icons";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 
 import styles from "./PasswordField.css";
@@ -141,7 +141,7 @@ const PasswordField: FunctionComponent<PasswordFieldProps> = ({
           onKeyUp={handleVisibilityKeyUp}
           tabIndex={0}
         >
-          <Icon>{reveal ? "visibility_off" : "visibility"}</Icon>
+          <SvgIcon Icon={reveal ? ViewOffIcon : ViewIcon} />
         </div>
       </div>
     </div>

@@ -23,7 +23,14 @@ import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import IframeEncapsulation from "coral-framework/lib/encapsulation/IframeEncapsulation";
 import CLASSES from "coral-stream/classes";
 import { RTE_ELEMENT_ID } from "coral-stream/constants";
-import { Icon } from "coral-ui/components/v2";
+import {
+  CloseQuoteIcon,
+  ListBulletsIcon,
+  SvgIcon,
+  TextBoldIcon,
+  TextItalicIcon,
+  TextStrikethroughIcon,
+} from "coral-ui/components/icons";
 import { PropTypesOf } from "coral-ui/types";
 
 import RTEButton from "./RTEButton";
@@ -198,7 +205,7 @@ const RTE: FunctionComponent<Props> = (props) => {
       x.push(
         <RTELocalized key="bold" id="comments-rte-bold" attrs={{ title: true }}>
           <Bold>
-            <Icon size="md">format_bold</Icon>
+            <SvgIcon size="md" strokeWidth="bold" Icon={TextBoldIcon} />
           </Bold>
         </RTELocalized>
       );
@@ -211,7 +218,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           attrs={{ title: true }}
         >
           <Italic>
-            <Icon size="md">format_italic</Icon>
+            <SvgIcon size="md" Icon={TextItalicIcon} />
           </Italic>
         </RTELocalized>
       );
@@ -224,7 +231,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           attrs={{ title: true }}
         >
           <Blockquote>
-            <Icon size="md">format_quote</Icon>
+            <SvgIcon size="md" filled Icon={CloseQuoteIcon} />
           </Blockquote>
         </RTELocalized>
       );
@@ -237,7 +244,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           attrs={{ title: true }}
         >
           <UnorderedList>
-            <Icon size="md">format_list_bulleted</Icon>
+            <SvgIcon size="md" Icon={ListBulletsIcon} />
           </UnorderedList>
         </RTELocalized>
       );
@@ -250,7 +257,7 @@ const RTE: FunctionComponent<Props> = (props) => {
           attrs={{ title: true }}
         >
           <Strike>
-            <Icon size="md">strikethrough_s</Icon>
+            <SvgIcon size="md" Icon={TextStrikethroughIcon} />
           </Strike>
         </RTELocalized>
       );

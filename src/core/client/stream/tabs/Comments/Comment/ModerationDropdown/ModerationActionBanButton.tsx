@@ -2,7 +2,12 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { DropdownButton, Icon, Spinner } from "coral-ui/components/v2";
+import {
+  AppWindowDisableIcon,
+  SingleNeutralActionsBlockIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import { DropdownButton, Spinner } from "coral-ui/components/v2";
 
 import styles from "./ModerationActionBanButton.css";
 
@@ -23,12 +28,15 @@ const ModerationActionBanButton: FunctionComponent<Props> = ({
     ? "comments-moderationDropdown-spam-ban"
     : "comments-moderationDropdown-siteBan";
   const defaultText = allSiteBan ? "Spam ban" : "Site ban";
+  const icon = allSiteBan
+    ? SingleNeutralActionsBlockIcon
+    : AppWindowDisableIcon;
   return (
     <Localized id={localizationId}>
       <DropdownButton
         icon={
           <div className={styles.banIcon}>
-            <Icon size="sm">block</Icon>
+            <SvgIcon Icon={icon} />
           </div>
         }
         adornment={

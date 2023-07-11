@@ -204,7 +204,7 @@ configure-moderationPhases-noExternalModerationPhases =
   Non ci sono fasi di moderazione esterna configurate, aggiungine una sopra.
 configure-moderationPhases-enabledModerationPhase = Attivato
 configure-moderationPhases-disableModerationPhase = Disattivato
-configure-moderationPhases-detailsButton = Details <icon>keyboard_arrow_right</icon>
+configure-moderationPhases-detailsButton = Details <icon></icon>
 configure-moderationPhases-addExternalModerationPhase = Aggiungi fase di moderazione esterna
 configure-moderationPhases-updateExternalModerationPhaseButton = Aggiorna dettagli
 configure-moderationPhases-cancelButton = Cancella
@@ -347,7 +347,7 @@ configure-webhooks-expiresOldSecretHoursFromNow =
     [1] 1 ora
     *[other] { $hours } ore
   }  da ora
-configure-webhooks-detailsButton = Details <icon>keyboard_arrow_right</icon>
+configure-webhooks-detailsButton = Details <icon></icon>
 
 ### General
 configure-general-guidelines-title = Riassunto delle linee guida della community
@@ -473,7 +473,7 @@ configure-organization-nameExplanation =
   Il nome della tua organizzazione apparirà nelle e-mail inviate da { -product-name } ai membri della tua comunità e organizzazione.
 configure-organization-sites-explanation =
   Aggiungi un nuovo sito alla tua organizzazione o modifica i dettagli di un sito esistente.
-configure-organization-sites-add-site = <icon>add</icon> Aggiungi sito
+configure-organization-sites-add-site = <icon></icon> Aggiungi sito
 configure-organization-email = Organizzazione e-mail
 configure-organization-emailExplanation =
  Questo indirizzo e-mail sarà utilizzato come nelle e-mail e in tutta la piattaforma
@@ -485,7 +485,7 @@ configure-organization-urlExplanation =
   L'url della tua organizzazione apparirà nelle e-mail inviate da { -product-name } ai membri della tua comunità e organizzazione.
 
 ### Sites
-configure-sites-site-details = Dettagli <icon>keyboard_arrow_right</icon>
+configure-sites-site-details = Dettagli <icon></icon>
 configure-sites-add-new-site = Aggiungi un nuovo sito a { $site }
 configure-sites-add-success = { $site } è stato aggiunto a { $org }
 configure-sites-edit-success = Le modifiche a { $site } sono state salvate.
@@ -497,7 +497,7 @@ configure-sites-site-form-email = Indirizzo e-mail del sito
 configure-sites-site-form-url-explanation = Questo indirizzo e-mail serve ai membri della comunità per contattarti con domande o se hanno bisogno di aiuto. Esempio: comments@yoursite.com
 configure-sites-site-form-domains = I domini consentiti del sito
 configure-sites-site-form-domains-explanation = Domini in cui i tuoi flussi di commenti Coral possono essere incorporati (ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
-configure-sites-site-form-submit = <icon>add</icon> Aggiungi sito
+configure-sites-site-form-submit = <icon></icon> Aggiungi sito
 configure-sites-site-form-cancel = Cancella
 configure-sites-site-form-save = Salva modifiche
 configure-sites-site-edit = Edit { $site } dettagli

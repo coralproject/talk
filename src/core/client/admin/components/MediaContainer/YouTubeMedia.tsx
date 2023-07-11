@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import Frame from "coral-framework/components/Frame";
-import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
+import { ButtonPlayIcon, SvgIcon } from "coral-ui/components/icons";
+import { BaseButton, Flex } from "coral-ui/components/v2";
 
 import styles from "./Media.css";
 
@@ -45,9 +46,11 @@ const YouTubeMedia: FunctionComponent<Props> = ({
             justifyContent="center"
             className={styles.toggleTrigger}
           >
-            <Icon size="xl" className={styles.playIcon}>
-              play_circle_outline
-            </Icon>
+            <SvgIcon
+              size="xl"
+              className={styles.playIcon}
+              Icon={ButtonPlayIcon}
+            />
             <Localized id="moderate-comment-load-video">
               <p className={styles.playText}>Load Video</p>
             </Localized>

@@ -11,6 +11,6 @@
 }
 
 .tagIcon {
+  display: flex;
   margin-right: var(--spacing-1);
-  color: var(--palette-success-500);
 }

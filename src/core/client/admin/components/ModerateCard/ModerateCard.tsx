@@ -15,12 +15,16 @@ import { HOTKEYS } from "coral-admin/constants";
 import { GQLWordlistMatch } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import {
+  ArrowRightIcon,
+  ButtonSvgIcon,
+  ConversationChatTextIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
   Button,
-  ButtonIcon,
   Card,
   Flex,
   HorizontalGutter,
-  Icon,
   TextLink,
   Timestamp,
 } from "coral-ui/components/v2";
@@ -263,7 +267,7 @@ const ModerateCard: FunctionComponent<Props> = ({
             {onConversationClick && (
               <div className={styles.viewContext}>
                 <Button iconLeft variant="text" onClick={onConversationClick}>
-                  <ButtonIcon>question_answer</ButtonIcon>
+                  <ButtonSvgIcon Icon={ConversationChatTextIcon} />
                   <Localized id="moderate-comment-viewConversation">
                     <span>View conversation</span>
                   </Localized>
@@ -290,7 +294,11 @@ const ModerateCard: FunctionComponent<Props> = ({
                     {siteName && (
                       <span className={styles.siteName}>
                         {siteName}
-                        <Icon>keyboard_arrow_right</Icon>
+                        <SvgIcon
+                          Icon={ArrowRightIcon}
+                          className={styles.siteNameArrow}
+                          size="xxs"
+                        />
                       </span>
                     )}
                     <span className={styles.storyTitle}>{storyTitle}</span>

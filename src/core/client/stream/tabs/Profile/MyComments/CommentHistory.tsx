@@ -3,7 +3,8 @@ import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
-import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { MessagesBubbleSquareIcon, SvgIcon } from "coral-ui/components/icons";
+import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import { ArchivedCommentsThresholdNotification } from "./ArchivedCommentsThresholdNotification";
 import HistoryCommentContainer from "./HistoryCommentContainer";
@@ -45,7 +46,7 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = (props) => {
               className={styles.emptyHistory}
             >
               <div className={styles.emptyHistoryIcon}>
-                <Icon size="xl">chat_bubble_outline</Icon>
+                <SvgIcon size="xl" Icon={MessagesBubbleSquareIcon} />
               </div>
               <Localized id="profile-commentHistory-empty">
                 <span className={styles.emptyHistoryHeader}>

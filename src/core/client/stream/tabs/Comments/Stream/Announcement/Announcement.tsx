@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Flex, Icon } from "coral-ui/components/v2";
+import { AlarmBellIcon, RemoveIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./Announcement.css";
@@ -26,7 +27,7 @@ const Announcement: FunctionComponent<Props> = (props) => {
         <Flex justifyContent="space-between" alignItems="center">
           <Flex itemGutter="double" alignItems="center">
             <div>
-              <Icon size="lg">notifications</Icon>
+              <SvgIcon size="lg" Icon={AlarmBellIcon} />
             </div>
             <span className={styles.text}>{props.children}</span>
           </Flex>
@@ -42,7 +43,7 @@ const Announcement: FunctionComponent<Props> = (props) => {
                 className={styles.closeButton}
                 aria-label="Close announcement"
               >
-                <Icon>close</Icon>
+                <SvgIcon Icon={RemoveIcon} />
               </Button>
             </Localized>
           </div>

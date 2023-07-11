@@ -1,4 +1,4 @@
-.twitterIcon {
-  width: 14px;
-  height: 12px;
+.twitterIcon svg {
+  color: #00acee;
+  fill: #00acee;
 }

@@ -2,9 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { Icon, Tag } from "coral-ui/components/v2";
-
-import styles from "./FeaturedTag.css";
+import { RatingStarIcon, SvgIcon } from "coral-ui/components/icons";
+import { Tag } from "coral-ui/components/v2";
 
 interface Props {
   collapsed?: boolean;
@@ -12,7 +11,7 @@ interface Props {
 
 const FeaturedTag: FunctionComponent<Props> = ({ collapsed }) => {
   return collapsed ? (
-    <Icon className={styles.root}>star</Icon>
+    <SvgIcon color="stream" filled Icon={RatingStarIcon} />
   ) : (
     <div>
       <Tag

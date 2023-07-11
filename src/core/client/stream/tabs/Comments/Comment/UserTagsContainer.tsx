@@ -5,7 +5,8 @@ import { graphql } from "react-relay";
 
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
 import { GQLSTORY_MODE, GQLTAG, GQLTAG_RL } from "coral-framework/schema";
-import { Flex, Icon, Tag } from "coral-ui/components/v2";
+import { RatingStarIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex, Tag } from "coral-ui/components/v2";
 
 import { UserTagsContainer_comment } from "coral-stream/__generated__/UserTagsContainer_comment.graphql";
 import { UserTagsContainer_settings } from "coral-stream/__generated__/UserTagsContainer_settings.graphql";
@@ -83,9 +84,12 @@ const UserTagsContainer: FunctionComponent<Props> = ({
       {expertTag && (
         <Tag variant="regular" color="primary" className={styles.tag}>
           <Flex alignItems="center">
-            <Icon size="xs" className={styles.icon}>
-              star
-            </Icon>
+            <SvgIcon
+              size="xs"
+              className={styles.icon}
+              filled
+              Icon={RatingStarIcon}
+            />
             <Localized id="qa-expert-tag">expert</Localized>
           </Flex>
         </Tag>

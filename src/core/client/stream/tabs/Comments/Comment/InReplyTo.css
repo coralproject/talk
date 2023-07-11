@@ -2,7 +2,7 @@ $commentsInReplyToUsernameColor: var(--palette-text-500);
 $commentsInReplyToLabelColor: var(--palette-text-100);
 $commentsInReplyToIconColor: var(--palette-text-100);
 
-.icon {
+.icon svg {
   color: $commentsInReplyToIconColor;
 }
 

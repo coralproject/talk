@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Flex, Icon } from "coral-ui/components/v2";
+import { RemoveIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import styles from "./ExpertListItem.css";
@@ -49,9 +50,12 @@ const ExpertListItem: FunctionComponent<Props> = ({
         className={styles.removeButton}
       >
         <Flex alignItems="center" justifyContent="center">
-          <Icon size="sm" className={styles.removeIcon}>
-            clear
-          </Icon>
+          <SvgIcon
+            size="xs"
+            className={styles.removeIcon}
+            strokeWidth="semibold"
+            Icon={RemoveIcon}
+          />
           <Localized id="configure-experts-remove-button">Remove</Localized>
         </Flex>
       </Button>

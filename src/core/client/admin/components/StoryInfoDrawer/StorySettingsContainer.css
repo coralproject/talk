@@ -11,6 +11,7 @@
 
 .tabIcon {
   margin-right: var(--spacing-1);
+  display: flex;
 }
 
 .configureStory {

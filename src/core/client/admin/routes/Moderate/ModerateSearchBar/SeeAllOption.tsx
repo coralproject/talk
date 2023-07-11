@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
-import { Icon } from "coral-ui/components/v2";
+import { ArrowRightIcon, SvgIcon } from "coral-ui/components/icons";
 
 import styles from "./SeeAllOption.css";
 
@@ -30,9 +30,7 @@ const SeeAllOption: FunctionComponent<Props> = ({
         <Localized id="moderate-searchBar-seeAllResults">
           <span>See all results</span>
         </Localized>
-        <Icon className={styles.icon} size="md">
-          keyboard_arrow_right
-        </Icon>
+        <SvgIcon Icon={ArrowRightIcon} size="xs" className={styles.icon} />
       </a>
     </li>
   );

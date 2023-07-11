@@ -1,4 +1,3 @@
-
 @import "./variables.css";
 
 .root {
@@ -33,7 +32,7 @@
   font-weight: var(--font-weight-primary-semi-bold);
   padding-left: calc(0.5 * var(--mini-unit));
   line-height: calc(16em / 13);
-  margin-top: -2px;
 
   color: $story-search-results-see-all-label;
+  display: flex;
 }

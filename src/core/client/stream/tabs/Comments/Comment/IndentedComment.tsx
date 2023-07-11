@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { BaseButton, ButtonIcon, Flex } from "coral-ui/components/v2";
+import { SubtractIcon, SvgIcon } from "coral-ui/components/icons";
+import { BaseButton, Flex } from "coral-ui/components/v2";
 
 import Indent from "../Indent";
 import Comment, { CommentProps } from "./Comment";
@@ -73,14 +74,14 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
                   CLASSES.comment.collapseToggle.$root
                 )}
               >
-                <ButtonIcon
+                <SvgIcon
                   className={cn(
                     styles.icon,
                     CLASSES.comment.collapseToggle.icon
                   )}
-                >
-                  remove
-                </ButtonIcon>
+                  size="xs"
+                  Icon={SubtractIcon}
+                />
               </BaseButton>
             </Localized>
           )}

@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Button, ButtonIcon } from "coral-ui/components/v2";
+import { ArrowRightIcon, ButtonSvgIcon } from "coral-ui/components/icons";
+import { Button } from "coral-ui/components/v2";
 
 export interface NextButtonProps {
   submitting: boolean;
@@ -18,7 +19,7 @@ const NextButton: FunctionComponent<NextButtonProps> = (props) => {
       <Localized id="install-nextButton-next">
         <span>Next</span>
       </Localized>
-      <ButtonIcon>arrow_forward</ButtonIcon>
+      <ButtonSvgIcon size="xs" Icon={ArrowRightIcon} />
     </Button>
   );
 };
