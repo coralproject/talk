@@ -867,7 +867,7 @@ it("doesnt show comments from banned users whose commens have been rejected", as
 
   act(() => {
     commitLocalUpdate(context.relayEnvironment, (store) => {
-      const user = store.get(reportedComments[0]?.author!.id);
+      const user = store.get(reportedComments[0].author!.id);
       return user?.setValue(true, "allCommentsRejected");
     });
   });
