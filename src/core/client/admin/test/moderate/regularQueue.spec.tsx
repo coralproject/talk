@@ -578,6 +578,12 @@ it("renders reported queue with comments and load more", async () => {
     expect(screen.queryByRole("button", { name: "Load More" })).toBeNull();
   });
 
+  await waitFor(() => {
+    expect(
+      screen.getByTestId(`moderate-comment-card-${reportedComments[2].id}`)
+    ).toBeInTheDocument();
+  });
+
   // Verify we have one more item now.
   const comments = screen.getAllByTestId(/^moderate-comment-card-.*$/);
   expect(comments.length).toBe(previousCount + 1);
