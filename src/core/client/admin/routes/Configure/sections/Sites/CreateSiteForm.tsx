@@ -4,9 +4,9 @@ import { Field, Form } from "react-final-form";
 
 import { useMutation } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
+import { AddIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
-  ButtonIcon,
   CallOut,
   Flex,
   FormField,
@@ -104,7 +104,7 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
                 </Localized>
                 <Localized
                   id="configure-sites-site-form-submit"
-                  elems={{ icon: <ButtonIcon>add</ButtonIcon> }}
+                  elems={{ icon: <ButtonSvgIcon Icon={AddIcon} /> }}
                 >
                   <Button
                     disabled={submitting}

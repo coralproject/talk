@@ -2,6 +2,10 @@
   margin-right: var(--spacing-1);
 }
 
+.icon svg {
+  display: block;
+}
+
 .reported {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);

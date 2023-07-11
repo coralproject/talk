@@ -132,6 +132,10 @@ $moderateCardLinkTextColor: $colors-teal-700;
   font-weight: var(--font-weight-primary-regular);
 }
 
+.siteNameArrow {
+  padding: 0 2px 0 4px;
+}
+
 .storyTitle {
   font-weight: var(--font-weight-primary-semi-bold);
   color: $moderateCardStoryTitleColor;

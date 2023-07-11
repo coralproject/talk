@@ -6,7 +6,7 @@ import React, {
   FunctionComponent,
 } from "react";
 
-import Icon from "coral-ui/components/v2/Icon";
+import { ArrowsDownIcon, SvgIcon } from "coral-ui/components/icons";
 import { withKeyboardFocus, withStyles } from "coral-ui/hocs";
 
 import styles from "./SelectField.css";
@@ -94,7 +94,7 @@ const SelectField: FunctionComponent<SelectFieldProps> = (props) => {
 };
 
 SelectField.defaultProps = {
-  afterWrapper: <Icon>expand_more</Icon>,
+  afterWrapper: <SvgIcon size="xs" Icon={ArrowsDownIcon} />,
 };
 
 const enhanced = withStyles(styles)(withKeyboardFocus(SelectField));

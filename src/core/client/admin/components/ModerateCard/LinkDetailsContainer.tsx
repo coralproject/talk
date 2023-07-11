@@ -7,7 +7,7 @@ import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { getLocationOrigin } from "coral-framework/utils";
-import { Icon } from "coral-ui/components/v2";
+import { CheckIcon, HyperlinkIcon, SvgIcon } from "coral-ui/components/icons";
 
 import { LinkDetailsContainer_comment } from "coral-admin/__generated__/LinkDetailsContainer_comment.graphql";
 import { LinkDetailsContainer_settings } from "coral-admin/__generated__/LinkDetailsContainer_settings.graphql";
@@ -38,7 +38,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
           color="regular"
           innerCopied={
             <>
-              <Icon size="md">check</Icon>
+              <SvgIcon size="xs" Icon={CheckIcon} />
               <Localized id="framework-copyButton-copied">
                 <span>Copied!</span>
               </Localized>
@@ -46,7 +46,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
           }
           inner={
             <>
-              <Icon size="md">link</Icon>
+              <SvgIcon size="md" Icon={HyperlinkIcon} />
               <Localized id="moderate-in-stream-link-copy">
                 <span>In Stream</span>
               </Localized>
@@ -63,7 +63,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
           color="regular"
           innerCopied={
             <>
-              <Icon size="md">check</Icon>
+              <SvgIcon size="xs" Icon={CheckIcon} />
               <Localized id="framework-copyButton-copied">
                 <span>Copied!</span>
               </Localized>
@@ -71,7 +71,7 @@ const LinkDetailsContainer: FunctionComponent<Props> = ({
           }
           inner={
             <>
-              <Icon size="md">link</Icon>
+              <SvgIcon size="md" Icon={HyperlinkIcon} />
               <Localized id="moderate-in-moderation-link-copy">
                 <span>In Moderation</span>
               </Localized>

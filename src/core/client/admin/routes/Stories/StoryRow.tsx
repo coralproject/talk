@@ -7,8 +7,11 @@ import NotAvailable from "coral-admin/components/NotAvailable";
 import { getModerationLink } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import {
+  ButtonSvgIcon,
+  NavigationMenuHorizontalIcon,
+} from "coral-ui/components/icons";
+import {
   Button,
-  ButtonIcon,
   HorizontalGutter,
   TableCell,
   TableRow,
@@ -107,7 +110,13 @@ const UserRow: FunctionComponent<Props> = (props) => (
             variant="text"
             uppercase={false}
           >
-            {<ButtonIcon size="lg">more_horiz</ButtonIcon>}
+            {
+              <ButtonSvgIcon
+                size="xs"
+                filled
+                Icon={NavigationMenuHorizontalIcon}
+              />
+            }
           </Button>
         </Localized>
       )}

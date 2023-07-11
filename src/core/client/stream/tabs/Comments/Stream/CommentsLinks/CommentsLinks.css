@@ -44,7 +44,7 @@ $linkColorActive: var(--palette-primary-800);
     margin-bottom: var(--spacing-3);
   }
 
-  .icon {
+  .icon svg {
     padding-bottom: var(--spacing-1);
     font-size: var(--font-size-icon-lg);
     width: var(--font-size-icon-lg);

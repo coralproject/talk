@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 import { Field as FormField } from "react-final-form";
 
-import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
+import { SearchIcon, SvgIcon } from "coral-ui/components/icons";
+import { BaseButton, Flex } from "coral-ui/components/v2";
 import { withForwardRef } from "coral-ui/hocs";
 
 import styles from "./Field.css";
@@ -45,9 +46,7 @@ const Field: FunctionComponent<Props> = ({
             })}
             alignItems="center"
           >
-            <Icon className={styles.searchIcon} size="md">
-              search
-            </Icon>
+            <SvgIcon className={styles.searchIcon} Icon={SearchIcon} />
             {focused && (
               <Localized id="moderate-searchBar-stories">
                 <div className={styles.beginStories}>Stories:</div>

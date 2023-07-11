@@ -1,0 +1,74 @@
+.root svg {
+}
+
+.xxs,
+.xxs svg {
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
+.xs,
+.xs svg {
+  height: var(--font-size-icon-xs);
+  width: var(--font-size-icon-xs);
+}
+
+.sm,
+.sm svg {
+  height: var(--font-size-icon-sm);
+  width: var(--font-size-icon-sm);
+}
+.md,
+.md svg {
+  height: var(--font-size-icon-md);
+  width: var(--font-size-icon-md);
+}
+.lg,
+.lg svg {
+  height: var(--font-size-icon-lg);
+  width: var(--font-size-icon-lg);
+}
+.xl,
+.xl svg {
+  height: var(--font-size-icon-xl);
+  width: var(--font-size-icon-xl);
+}
+
+.colorPrimary svg {
+  color: $colors-teal-700;
+  stroke: $colors-teal-700;
+}
+.colorError svg {
+  color: var(--palette-error-500);
+  stroke: var(--palette-error-500);
+}
+
+.colorSuccess svg {
+  color: var(--palette-success-500);
+  stroke: var(--palette-success-500);
+}
+
+.colorStream svg {
+  color: var(--palette-primary-500);
+  stroke: var(--palette-primary-500);
+}
+
+.strokeWidthRegular svg {
+  stroke-width: 2;
+}
+
+.strokeWidthSemiBold svg {
+  stroke-width: 3;
+}
+
+.strokeWidthBold svg {
+  stroke-width: 4;
+}
+
+.noFill svg {
+  fill: none;
+}
+
+.filled svg {
+  fill: currentColor;
+}

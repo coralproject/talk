@@ -16,6 +16,10 @@
   margin-right: var(--spacing-1);
 }
 
+.icon svg {
+  display: block;
+}
+
 .totalReactions {
   margin-left: var(--spacing-1);
 }

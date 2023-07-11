@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { AnchorHTMLAttributes, FunctionComponent } from "react";
 
-import { Icon } from "coral-ui/components/v2";
+import { ShareExternalLinkIcon, SvgIcon } from "coral-ui/components/icons";
 import { withStyles } from "coral-ui/hocs";
 
 import styles from "./TextLink.css";
@@ -26,9 +26,11 @@ const TextLinkProps: FunctionComponent<Props> = (props) => {
     >
       {children}
       {props.target === "_blank" && (
-        <Icon className={classes.icon} size="xs">
-          open_in_new
-        </Icon>
+        <SvgIcon
+          className={classes.icon}
+          size="xs"
+          Icon={ShareExternalLinkIcon}
+        />
       )}
     </a>
   );

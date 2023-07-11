@@ -7,7 +7,7 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import CancelAccountDeletionMutation from "coral-stream/mutations/CancelAccountDeletionMutation";
-import { Icon } from "coral-ui/components/v2";
+import { StopwatchIcon, SvgIcon } from "coral-ui/components/icons";
 import { Button, CallOut } from "coral-ui/components/v3";
 
 import { DeletionRequestCalloutContainer_viewer } from "coral-stream/__generated__/DeletionRequestCalloutContainer_viewer.graphql";
@@ -58,9 +58,10 @@ const DeletionRequestCalloutContainer: FunctionComponent<Props> = ({
         borderPosition="top"
         className={CLASSES.pendingAccountDeletion.$root}
         icon={
-          <Icon size="sm" className={CLASSES.pendingAccountDeletion.icon}>
-            timer
-          </Icon>
+          <SvgIcon
+            className={CLASSES.pendingAccountDeletion.icon}
+            Icon={StopwatchIcon}
+          />
         }
         iconColor="none"
         title={

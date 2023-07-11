@@ -3,13 +3,13 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import {
-  Flex,
-  Icon,
-  Tab,
-  TabBar,
-  TabContent,
-  TabPane,
-} from "coral-ui/components/v2";
+  MessagesBubbleSquareIcon,
+  PaperWriteIcon,
+  RemoveIcon,
+  SvgIcon,
+  TimeReverseIcon,
+} from "coral-ui/components/icons";
+import { Flex, Tab, TabBar, TabContent, TabPane } from "coral-ui/components/v2";
 
 import UserDrawerAccountHistoryQuery from "./UserDrawerAccountHistoryQuery";
 import UserDrawerNotesQuery from "./UserDrawerNotesQuery";
@@ -59,9 +59,10 @@ const UserHistoryTabs: FunctionComponent<Props> = ({
               [styles.activeTab]: currentTab === "ALL_COMMENTS",
             })}
           >
-            <Icon size="sm" className={styles.tabIcon}>
-              forum
-            </Icon>
+            <SvgIcon
+              className={styles.tabIcon}
+              Icon={MessagesBubbleSquareIcon}
+            />
             <Localized id="moderate-user-drawer-tab-all-comments">
               <span>All Comments</span>
             </Localized>
@@ -74,9 +75,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({
               [styles.activeTab]: currentTab === "REJECTED_COMMENTS",
             })}
           >
-            <Icon size="sm" className={styles.tabIcon}>
-              close
-            </Icon>
+            <SvgIcon className={styles.tabIcon} Icon={RemoveIcon} />
             <Localized id="moderate-user-drawer-tab-rejected-comments">
               <span>Rejected</span>
             </Localized>
@@ -89,9 +88,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({
               [styles.activeTab]: currentTab === "NOTES",
             })}
           >
-            <Icon size="sm" className={styles.tabIcon}>
-              subject
-            </Icon>
+            <SvgIcon className={styles.tabIcon} Icon={PaperWriteIcon} />
             <Flex>
               <Localized id="moderate-user-drawer-tab-notes">
                 <span>Notes</span>
@@ -107,9 +104,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({
             })}
             alignItems="center"
           >
-            <Icon size="sm" className={styles.tabIcon}>
-              history
-            </Icon>
+            <SvgIcon className={styles.tabIcon} Icon={TimeReverseIcon} />
             <Localized id="moderate-user-drawer-tab-account-history">
               <span>Account History</span>
             </Localized>

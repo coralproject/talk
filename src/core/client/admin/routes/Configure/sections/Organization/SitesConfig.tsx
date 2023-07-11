@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Button, FormFieldDescription, Icon } from "coral-ui/components/v2";
+import { AddIcon, SvgIcon } from "coral-ui/components/icons";
+import { Button, FormFieldDescription } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -42,10 +43,10 @@ const SitesConfig: FunctionComponent<Props> = ({
       </Localized>
       <Localized
         id="configure-organization-sites-add-site"
-        elems={{ icon: <Icon>add</Icon> }}
+        elems={{ icon: <SvgIcon size="xs" Icon={AddIcon} /> }}
       >
         <Button to="/admin/configure/organization/sites/new" iconLeft>
-          <Icon>add</Icon>
+          <SvgIcon size="xs" Icon={AddIcon} />
           Add a site
         </Button>
       </Localized>

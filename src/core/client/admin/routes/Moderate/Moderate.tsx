@@ -12,7 +12,7 @@ import { HOTKEYS } from "coral-admin/constants";
 import { SectionFilter } from "coral-common/section";
 import { QUEUE_NAME } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
-import { Icon } from "coral-ui/components/v2";
+import { ArchiveIcon, SvgIcon } from "coral-ui/components/icons";
 import { SubBar } from "coral-ui/components/v2/SubBar";
 import { CallOut } from "coral-ui/components/v3";
 
@@ -133,11 +133,7 @@ const Moderate: FunctionComponent<Props> = ({
                   </div>
                 </Localized>
               }
-              icon={
-                <Icon size="sm" className={styles.icon}>
-                  archive
-                </Icon>
-              }
+              icon={<SvgIcon Icon={ArchiveIcon} className={styles.icon} />}
             >
               <>
                 <Localized id="moderate-archived-queue-noModerationActions">

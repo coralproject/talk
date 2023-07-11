@@ -1,3 +1,4 @@
+import { AlertTriangleIcon } from "coral-ui/components/icons";
 import React, { FunctionComponent, ReactNode } from "react";
 
 import Message from "../Message";
@@ -30,7 +31,7 @@ const ValidationMessage: FunctionComponent<ValidationMessageProps> = (
       fullWidth={fullWidth}
       {...rest}
     >
-      <MessageIcon>warning</MessageIcon>
+      <MessageIcon Icon={AlertTriangleIcon} />
       {children}
     </Message>
   );

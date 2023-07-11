@@ -3,10 +3,13 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Button, Flex, Icon } from "coral-ui/components/v2";
+import { ArrowRightIcon, SvgIcon } from "coral-ui/components/icons";
+import { Button, Flex } from "coral-ui/components/v2";
 import { TableCell, TableRow } from "coral-ui/components/v2/Table";
 
 import { SiteRowContainer_site } from "coral-admin/__generated__/SiteRowContainer_site.graphql";
+
+import styles from "./SiteRowContainer.css";
 
 interface Props {
   site: SiteRowContainer_site;
@@ -20,7 +23,15 @@ const SiteRowContainer: FunctionComponent<Props> = ({ site }) => {
         <Flex justifyContent="flex-end">
           <Localized
             id="configure-sites-site-details"
-            elems={{ icon: <Icon>keyboard_arrow_right</Icon> }}
+            elems={{
+              icon: (
+                <SvgIcon
+                  Icon={ArrowRightIcon}
+                  size="xxs"
+                  className={styles.detailsIcon}
+                />
+              ),
+            }}
           >
             <Button
               variant="text"
@@ -28,7 +39,11 @@ const SiteRowContainer: FunctionComponent<Props> = ({ site }) => {
               iconRight
             >
               Details
-              <Icon>keyboard_arrow_right</Icon>
+              <SvgIcon
+                Icon={ArrowRightIcon}
+                size="xxs"
+                className={styles.detailsIcon}
+              />
             </Button>
           </Localized>
         </Flex>

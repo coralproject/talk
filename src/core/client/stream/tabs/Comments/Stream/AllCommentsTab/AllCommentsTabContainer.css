@@ -26,6 +26,11 @@
 
 .refreshButtonIcon {
   padding-right: 0.2rem;
+  display: inline-block;
+}
+
+.refreshButtonIcon svg {
+  vertical-align: middle;
 }
 
 .divider {
@@ -35,6 +40,15 @@
 .closeButton {
   border-radius: 0 var(--spacing-4) var(--spacing-4) 0;
   border-width: 0;
+  padding-left: var(--spacing-1);
+}
+
+.closeButtonIcon {
+  display: inline-block;
+}
+
+.closeButtonIcon svg {
+  vertical-align: middle;
 }
 
 .flexContainer {

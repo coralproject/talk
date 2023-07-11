@@ -3,12 +3,12 @@ import React, { FunctionComponent, useCallback } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 import { useMutation } from "coral-framework/lib/relay";
+import { DuplicateIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Card,
   Flex,
   HorizontalGutter,
-  Icon,
   Label,
   PasswordField,
   TextField,
@@ -150,9 +150,7 @@ const SSOSigningSecretCard: FunctionComponent<Props> = ({
                     id="configure-auth-sso-rotate-copySecret"
                     attrs={{ "aria-label": true }}
                   >
-                    <Icon size="md" aria-label="Copy Secret">
-                      content_copy
-                    </Icon>
+                    <SvgIcon size="md" Icon={DuplicateIcon} />
                   </Localized>
                 </Button>
               </CopyToClipboard>

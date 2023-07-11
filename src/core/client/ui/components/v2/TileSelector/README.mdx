@@ -6,10 +6,18 @@ menu: UI Kit v2
 import { Playground } from "docz";
 import { useState } from "react";
 
+import {
+  AlertTriangleIcon,
+  CalendarInformationIcon,
+  ConversationChatTextIcon,
+  MessagesBubbleSquareIcon,
+  QuestionHelpMessageIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+
 import TileSelector from "./TileSelector";
 import TileOption from "./TileOption";
 import HorizontalGutter from "../HorizontalGutter";
-import Icon from "../Icon";
 
 # TileSelector
 
@@ -22,23 +30,23 @@ import Icon from "../Icon";
       <TileSelector
         id="icon"
         name="icon"
-        onChange={val => setValue(val)}
+        onChange={(val) => setValue(val)}
         value={value}
       >
         <TileOption value="question_answer">
-          <Icon size="md">question_answer</Icon>
+          <SvgIcon Icon={ConversationChatTextIcon} />
         </TileOption>
         <TileOption value="today">
-          <Icon size="md">today</Icon>
+          <SvgIcon Icon={CalendarInformationIcon} />
         </TileOption>
         <TileOption value="help_outline">
-          <Icon size="md">help_outline</Icon>
+          <SvgIcon Icon={QuestionHelpMessageIcon} />
         </TileOption>
         <TileOption value="warning">
-          <Icon size="md">warning</Icon>
+          <SvgIcon Icon={AlertTriangleIcon} />
         </TileOption>
         <TileOption value="chat_bubble_outline">
-          <Icon size="md">chat_bubble_outline</Icon>
+          <SvgIcon Icon={MessagesBubbleSquareIcon} />
         </TileOption>
         <TileOption value="">No Icon</TileOption>
       </TileSelector>

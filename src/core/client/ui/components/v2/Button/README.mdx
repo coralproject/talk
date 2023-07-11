@@ -5,8 +5,6 @@ menu: UI Kit v2
 
 import { Playground } from "docz";
 import Button from "./Button";
-import ButtonIcon from "./ButtonIcon";
-import Icon from "../Icon";
 import TextField from "../TextField";
 import Flex from "../Flex";
 
@@ -26,7 +24,7 @@ import Flex from "../Flex";
     <Button disabled>Push Me</Button>
     <Button active>Push Me</Button>
     <Button>
-      <ButtonIcon>face</ButtonIcon>
+      <ButtonSvgIcon Icon={AddIcon} />
       <span>Push Me</span>
     </Button>
     <Button fullWidth>Push Me</Button>
@@ -63,7 +61,7 @@ import Flex from "../Flex";
       Push Me
     </Button>
     <Button variant="filled">
-      <ButtonIcon>face</ButtonIcon>
+      <ButtonSvgIcon Icon={AddIcon} />
       <span>Push Me</span>
     </Button>
     <Button variant="filled" fullWidth>
@@ -102,7 +100,7 @@ import Flex from "../Flex";
       Push Me
     </Button>
     <Button variant="outlined">
-      <ButtonIcon>face</ButtonIcon>
+      <ButtonSvgIcon Icon={AddIcon} />
       <span>Push Me</span>
     </Button>
     <Button variant="outlined" fullWidth>
@@ -141,7 +139,7 @@ import Flex from "../Flex";
       Push Me
     </Button>
     <Button variant="ghost">
-      <ButtonIcon>face</ButtonIcon>
+      <ButtonSvgIcon Icon={AddIcon} />
       <span>Push Me</span>
     </Button>
     <Button variant="ghost" fullWidth>
@@ -180,7 +178,7 @@ import Flex from "../Flex";
       Push Me
     </Button>
     <Button variant="underlined">
-      <Icon>face</Icon>
+      <SvgIcon Icon={AddIcon} />
       <span>Push Me</span>
     </Button>
     <Button variant="underlined" fullWidth>
@@ -198,7 +196,7 @@ import Flex from "../Flex";
       variant="seamlessAdornment"
       adornment={
         <Button variant="adornment" color="dark">
-          <Icon size="md">search</Icon>
+          <SvgIcon Icon={AddIcon} />
         </Button>
       }
     />

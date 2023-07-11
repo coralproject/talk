@@ -39,6 +39,7 @@ $commentsHistoryReactionsUsernamesColor: var(--palette-text-500);
 }
 
 .buttonCaret {
+  align-self: baseline;
   padding-right: 0;
 }
 

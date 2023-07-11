@@ -2,7 +2,12 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Icon } from "coral-ui/components/v2";
+import {
+  QuestionCircleIcon,
+  RatingStarIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import { Flex } from "coral-ui/components/v2";
 import { Button, StarRating } from "coral-ui/components/v3";
 
 import styles from "./PostReviewOrQuestion.css";
@@ -71,9 +76,7 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
           disabled={tab === "RATE_AND_REVIEW"}
           onClick={() => onChangeTab("RATE_AND_REVIEW")}
         >
-          <Icon size="lg" className={styles.icon}>
-            star_border
-          </Icon>
+          <SvgIcon size="lg" className={styles.icon} Icon={RatingStarIcon} />
           <Localized id="ratingsAndReviews-rateAndReview">
             <span>Rate and Review</span>
           </Localized>
@@ -89,9 +92,7 @@ const PostReviewOrQuestion: FunctionComponent<Props> = ({
         disabled={tab === "ASK_A_QUESTION"}
         onClick={() => onChangeTab("ASK_A_QUESTION")}
       >
-        <Icon size="lg" className={styles.icon}>
-          help_outline
-        </Icon>
+        <SvgIcon size="lg" className={styles.icon} Icon={QuestionCircleIcon} />
         <Localized id="ratingsAndReviews-askAQuestion">
           <span>Ask a Question</span>
         </Localized>

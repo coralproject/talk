@@ -34,3 +34,7 @@ $navigation-item-default: var(--palette-text-100);
   border-bottom: 3px solid $navigation-item-selected;
   color: $navigation-item-selected;
 }
+
+.active svg {
+  stroke-width: 3;
+}

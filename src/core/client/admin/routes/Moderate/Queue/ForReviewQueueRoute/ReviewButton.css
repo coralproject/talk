@@ -11,7 +11,7 @@ $disabledColor: var(--palette-grey-400);
   display: inline-flex;
   justify-content: center;
   align-items: center;
-    color: var(--palette-text-000);
+  color: var(--palette-text-000);
   &:not(:disabled):active {
     background-color: $activeColor;
   }
@@ -44,4 +44,5 @@ $disabledColor: var(--palette-grey-400);
 .icon {
   font-weight: var(--font-weight-primary-semi-bold);
   color: inherit;
+  display: flex;
 }

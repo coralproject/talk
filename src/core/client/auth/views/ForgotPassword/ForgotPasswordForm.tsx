@@ -18,13 +18,8 @@ import {
   validateEmail,
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
-import {
-  Flex,
-  FormField,
-  Icon,
-  InputLabel,
-  TextField,
-} from "coral-ui/components/v2";
+import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex, FormField, InputLabel, TextField } from "coral-ui/components/v2";
 import { Button, CallOut, ValidationMessage } from "coral-ui/components/v3";
 
 import ForgotPasswordMutation from "./ForgotPasswordMutation";
@@ -120,7 +115,7 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
                   <CallOut
                     className={CLASSES.login.error}
                     color="error"
-                    icon={<Icon size="sm">error</Icon>}
+                    icon={<SvgIcon Icon={AlertCircleIcon} />}
                     title={submitError}
                   />
                 </div>
