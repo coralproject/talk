@@ -18,6 +18,7 @@ import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import {
+  CannotBanAccountWithModPrivilegesError,
   DuplicateEmailError,
   DuplicateUserError,
   EmailAlreadySetError,
@@ -1389,25 +1390,45 @@ export async function ban(
   siteIDs?: string[] | null,
   now = new Date()
 ) {
-  // site moderators must provide at least one site ID to ban the user on
-  // otherwise, they would be performing an organization wide ban.
-  if (
-    // check if they are a site moderator
-    banner.role === GQLUSER_ROLE.MODERATOR &&
-    banner.moderationScopes &&
-    banner.moderationScopes.siteIDs &&
-    banner.moderationScopes.siteIDs.length !== 0 &&
-    // ensure they've provided at least one site ID
-    (!siteIDs || siteIDs.length === 0)
-  ) {
-    throw new Error("site moderators must provide at least one site ID to ban");
-  }
-
   // Get the user being banned to check to see if the user already has an
   // existing ban.
   const targetUser = await retrieveUser(mongo, tenant.id, userID);
   if (!targetUser) {
     throw new UserNotFoundError(userID);
+  }
+
+  // site moderators must provide at least one site ID to ban the user on
+  // otherwise, they would be performing an organization wide ban.
+  const bannerIsSiteMod =
+    banner.role === GQLUSER_ROLE.MODERATOR &&
+    banner.moderationScopes &&
+    banner.moderationScopes.siteIDs &&
+    banner.moderationScopes.siteIDs.length !== 0;
+
+  if (bannerIsSiteMod) {
+    // ensure they've provided at least one site ID
+    if (!siteIDs || siteIDs.length === 0) {
+      throw new Error(
+        "site moderators must provide at least one site ID to ban"
+      );
+    }
+    if (
+      targetUser.role === GQLUSER_ROLE.MODERATOR &&
+      targetUser.moderationScopes &&
+      targetUser.moderationScopes.siteIDs &&
+      targetUser.moderationScopes.siteIDs.length !== 0
+    ) {
+      // a site moderator cannot ban another site moderator with privilegs for one of
+      // the site ids they are trying to ban against.
+      const siteIDInModScopes = targetUser.moderationScopes.siteIDs.some(
+        (site) => {
+          return siteIDs.includes(site);
+        }
+      );
+      if (siteIDInModScopes) {
+        throw new CannotBanAccountWithModPrivilegesError();
+      }
+    }
   }
 
   let user: Readonly<User>;

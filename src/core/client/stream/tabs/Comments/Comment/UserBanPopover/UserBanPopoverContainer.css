@@ -65,3 +65,9 @@
 .container {
   margin-top: var(--spacing-2);
 }
+
+.error {
+  color: var(--palette-error-500);
+  margin-top: var(--spacing-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+}

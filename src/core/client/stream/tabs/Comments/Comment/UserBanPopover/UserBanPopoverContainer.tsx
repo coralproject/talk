@@ -65,6 +65,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const banUser = useMutation(BanUserMutation);
   const { localeBundles, rootURL } = useCoralContext();
   const [spamBanConfirmation, setSpamBanConfirmation] = useState("");
+  const [banError, setBanError] = useState<string | null>(null);
 
   const linkModerateComment = useModerationLink({ commentID: comment.id });
   const linkCommunitySection = rootURL + "/admin/community";
@@ -117,7 +118,14 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         });
       }
     } catch (e) {
-      // error
+      if (e.message === "CANNOT_BAN_ACCOUNT_WITH_MOD_PRIVILEGES") {
+        const errorMessage = getMessage(
+          localeBundles,
+          "comments-userBanPopover-moderator-ban-error",
+          "Cannot ban accounts with moderator privileges"
+        );
+        setBanError(errorMessage);
+      }
     }
     if (siteBan) {
       onDismiss();
@@ -135,6 +143,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
     story.id,
     reject,
     viewerScoped,
+    setBanError,
   ]);
 
   if (view === "CONFIRM_BAN") {
@@ -259,6 +268,8 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
                 placeholder=""
                 onChange={(e) => setSpamBanConfirmation(e.target.value)}
               />
+              {/* TODO: Add icon */}
+              {banError && <div className={styles.error}>{banError}</div>}
             </>
           )}
           <Flex
