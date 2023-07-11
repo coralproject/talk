@@ -290,11 +290,34 @@ it("spam ban user", async () => {
   fireEvent.click(within(comment).getByRole("button", { name: "Spam ban" }));
 
   const banButtonDialog = await screen.findByRole("button", { name: "Ban" });
+
+  // Ban button should be disabled at first
   expect(banButtonDialog).toBeDisabled();
+
+  // Spam ban option includes all details
+  expect(
+    screen.getByText("Ban this account from the comments")
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText("Reject all comments written by this account")
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText("Only for use on obvious spam accounts")
+  ).toBeInTheDocument();
+  expect(screen.getByText("For more context, go to")).toBeInTheDocument();
+  const moderationViewLink = screen.getByRole("link", {
+    name: "Moderation view",
+  });
+  expect(moderationViewLink).toBeInTheDocument();
+  expect(moderationViewLink).toHaveAttribute(
+    "href",
+    `/admin/moderate/comment/${firstComment.id}`
+  );
 
   const input = screen.getByTestId("userSpamBanConfirmation");
   fireEvent.change(input, { target: { value: "spam" } });
 
+  // After "spam" is typed in, Ban button should be enabled
   await waitFor(() => {
     expect(banButtonDialog).toBeEnabled();
   });
@@ -303,6 +326,31 @@ it("spam ban user", async () => {
   expect(
     await within(tabPane).findByText("You have rejected this comment.")
   ).toBeVisible();
+
+  // spam ban confirmation should be shown
+  expect(screen.getByText("Markus is now banned")).toBeInTheDocument();
+  expect(
+    screen.getByText(
+      "This account can no longer comment, use reactions, or report comments"
+    )
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText("All comments by this account have been rejected")
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText(
+      "You can still review this account's history by searching in Coral's"
+    )
+  ).toBeInTheDocument();
+  const communityLink = screen.getByRole("link", { name: "Community section" });
+  expect(communityLink).toBeInTheDocument();
+  expect(communityLink).toHaveAttribute("href", "/admin/community");
+  const closeButton = screen.getByRole("button", { name: "Close" });
+  fireEvent.click(closeButton);
+
+  // spam ban comfirmation should no longer be shown after Close button clicked
+  expect(screen.queryByText("Markus is now banned")).toBeNull();
+  expect(screen.queryByText("You have rejected this comment.")).toBeDefined();
 });
 
 it("cancel ban user", async () => {
@@ -390,13 +438,14 @@ it("site moderator can site ban commenter", async () => {
   await act(async () => {
     userEvent.click(caretButton);
   });
-  // Site moderator has Site Ban option but not Ban User option
+  // Site moderator has Site Ban option
   const siteBanButton = await within(comment).findByRole("button", {
     name: "Site ban",
   });
   await waitFor(() => {
     expect(siteBanButton).not.toBeDisabled();
   });
+  // Site moderator also has Spam ban option
   expect(
     within(comment).queryByRole("button", { name: "Spam ban" })
   ).toBeInTheDocument();
