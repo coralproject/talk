@@ -135,9 +135,3 @@ framework-starRating =
     [1] 1 Estrela
     *[other] {$value} Estrelas
   }
-
-### Relay Network Request Error
-
-framework-error-relayNetworkRequestError-anUnexpectedNetworkError =
-  Ocorreu um erro de rede inesperado. Tente novamente mais tarde.
-framework-error-relayNetworkRequestError-code = Code

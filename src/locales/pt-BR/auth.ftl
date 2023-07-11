@@ -50,8 +50,6 @@ signUp-signUpWithOIDC = Cadastre-se como { $name }
 
 signUp-accountAvailableSignIn = Já tem uma conta? <textlink>Entre</textlink>
 
-signUp-usernameAlreadyExists = Esse usuário já existe. Por favor escolher outro.
-
 ## Forgot Password
 
 forgotPassword-forgotPasswordHeader = Esqueceu sua senha?
