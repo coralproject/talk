@@ -598,3 +598,40 @@ it("change rte config", async () => {
   });
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
+
+it("add announcement", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      createAnnouncement: ({ variables }) => {
+        expectAndFail(variables.content).toEqual("hello");
+        expectAndFail(variables.duration).toEqual(86400);
+        return {
+          settings: pureMerge(settings, {
+            announcement: {
+              id: "123456",
+              createdAt: "2020-01-01T01:00:00.000Z",
+              ...variables,
+            },
+          }),
+        };
+      },
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+  const addAnnouncementButton = screen.getByRole("button", {
+    name: "Add announcement",
+  });
+  userEvent.click(addAnnouncementButton);
+  const announcementContent = screen.getByRole("textbox", {
+    name: "Community announcement",
+  });
+  userEvent.type(announcementContent, "hello");
+  const startAnnouncementButton = screen.getByRole("button", {
+    name: "Start announcement",
+  });
+  userEvent.click(startAnnouncementButton);
+
+  expect(resolvers.Mutation!.createAnnouncement!.called).toBe(true);
+});
