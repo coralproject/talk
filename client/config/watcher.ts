@@ -106,51 +106,20 @@ const config: Config = {
         runOnInit: true,
       }),
     },
-    runServer: {
-      paths: ["core/server/locales/**/*.ftl"],
-      ignore: ["core/client/**/*"],
-      executor: new LongRunningExecutor("npm run --silent start:development"),
-    },
-    runServerWithWebpackDevServerSupport: {
-      paths: ["core/server/locales/**/*.ftl"],
-      ignore: ["core/client/**/*"],
-      executor: new LongRunningExecutor(
-        "WEBPACK_DEV_SERVER=true npm run --silent start:development"
-      ),
-    },
-    runServerLint: {
-      paths: ["core/**/*.ts"],
-      ignore: ["core/client/**/*"],
-      executor: new LongRunningExecutor("npm run --silent lint:server"),
-    },
-    runServerSyntaxCheck: {
-      paths: ["core/**/*.ts"],
-      ignore: ["core/client/**/*"],
-      executor: new LongRunningExecutor("npm run --silent tscheck:server"),
-    },
     runWebpackDevServer: {
       paths: [],
       executor: new LongRunningExecutor(
         "npm run --silent start:webpackDevServer"
       ),
     },
-    runDocz: {
-      paths: [],
-      executor: new LongRunningExecutor("npm run --silent docz -- dev"),
-    },
+    // runDocz: {
+    //   paths: [],
+    //   executor: new LongRunningExecutor("npm run --silent docz -- dev"),
+    // },
   },
   defaultSet: "client",
   sets: {
-    server: [
-      "generateSchemaTypes",
-      "runServer",
-      "runServerLint",
-      "runServerSyntaxCheck",
-    ],
     client: [
-      "runServerWithWebpackDevServerSupport",
-      "runServerLint",
-      "runServerSyntaxCheck",
       "runWebpackDevServer",
       "generateCSSTypes",
       "generateRelayStream",
@@ -158,11 +127,9 @@ const config: Config = {
       "generateRelayInstall",
       "generateRelayAccount",
       "generateRelayAdmin",
-      "generateSchemaTypes",
     ],
     docz: ["runDocz", "generate"],
     generate: [
-      "generateSchemaTypes",
       "generateCSSTypes",
       "generateRelayStream",
       "generateRelayAuth",

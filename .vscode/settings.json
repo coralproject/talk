@@ -54,5 +54,9 @@
   "search.exclude": {
     "package-lock.json": true
   },
-  "debug.node.autoAttach": "off"
+  "debug.node.autoAttach": "off",
+  "eslint.workingDirectories": [
+    "./client/src",
+    "./server/src",
+  ]
 }

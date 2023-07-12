@@ -86,6 +86,7 @@
     "@sentry/types": "^6.19.7",
     "@types/url-regex-safe": "^1.0.0",
     "abort-controller": "^3.0.0",
+    "address": "^1.2.2",
     "akismet-api": "^5.0.0",
     "apollo-server-express": "^2.18.1",
     "apollo-server-plugin-base": "^0.10.1",

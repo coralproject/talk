@@ -1,4 +1,4 @@
-import Server, { ServerOptions } from "./server";
+import Server, { ServerOptions } from "coral-server/index";
 
 /**
  * Create a Coral Server.

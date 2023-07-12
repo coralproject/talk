@@ -1,15 +1,8 @@
-#!/usr/bin/env ts-node
-
 import program from "commander";
 import spawn from "cross-spawn";
 import fs from "fs-extra";
-import { loadConfigSync } from "graphql-config";
 
 const CLIENT_ROOT = "./src/core/client";
-const SCHEMA_NAME = "tenant";
-
-// Load the configuration from the provided `graphql-config` configuration file.
-const config = loadConfigSync({});
 
 program
   .version("0.1.0")
@@ -19,36 +12,11 @@ program
   .description("Compile relay gql data")
   .parse(process.argv);
 
-// Get the GraphQLSchema from the configuration.
-const schemaConfig = config.getProject(SCHEMA_NAME).schema as
-  | string[]
-  | undefined;
-
-if (!schemaConfig) {
-  // eslint-disable-next-line no-console
-  console.error(
-    `SchemaPath for project ${program.schema} not found in graphql config`
-  );
-  process.exit(1);
-}
-
-if (schemaConfig.length > 1) {
-  // eslint-disable-next-line no-console
-  console.error(`Multiple schemas provided, but we expected only one`);
-  process.exit(1);
-}
-
-const schema = schemaConfig[0];
+const schema = "../server/src/core/server/graph/schema/schema.graphql";
 
 if (!program.bundle) {
   // eslint-disable-next-line no-console
   console.error("bundle not provided");
-  process.exit(1);
-}
-
-if (!config.projects) {
-  // eslint-disable-next-line no-console
-  console.error("Missing projects key in .graphqconfig");
   process.exit(1);
 }
 

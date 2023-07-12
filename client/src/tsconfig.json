@@ -13,7 +13,7 @@
     "lib": ["dom", "es2018", "esnext.asynciterable"],
     "baseUrl": "./",
     "paths": {
-      "coral-server/*": ["./core/server/*"],
+      "coral-server/*": ["../../server/src/core/server/*"],
       "coral-common/*": ["./core/common/*"]
     }
   },

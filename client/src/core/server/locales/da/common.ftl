@@ -1,1 +1,0 @@
-staff-label = Personale

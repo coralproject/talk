@@ -1,9 +1,0 @@
-{% extends "layouts/notification.html" %}
-
-{% block content %}
-  {% for digest in context.digests %}
-    {% for context in digest.contexts %}
-      {% include "notification/partials/" + digest.partial + ".html" %}
-    {% endfor %}
-  {% endfor %}
-{% endblock %}
