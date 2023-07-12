@@ -47,9 +47,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   USER_ALREADY_BANNED: "error-userAlreadyBanned",
   USER_BANNED: "error-userBanned",
   USER_SITE_BANNED: "error-userSiteBanned",
-  MODERATOR_CANNOT_BE_BANNED_ON_SITE: "error-moderatorCannotBeBannedOnSite",
-  CANNOT_BAN_ACCOUNT_WITH_MOD_PRIVILEGES:
-    "error-cannotBanAccountWithModPrivileges",
+  MODERATOR_CANNOT_BE_BANNED_ON_SITE: "error-cannotBanAccountWithModPrivileges",
   USER_SUSPENDED: "error-userSuspended",
   USER_WARNED: "error-userWarned",
   INTEGRATION_DISABLED: "error-integrationDisabled",

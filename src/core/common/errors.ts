@@ -268,12 +268,6 @@ export enum ERROR_CODES {
   USER_ALREADY_BANNED = "USER_ALREADY_BANNED",
 
   /**
-   * CANNOT_BAN_ACCOUNT_WITH_MOD_PRIVILEGES is returned when a moderator attempts
-   * to ban another moderator with site privileges.
-   */
-  CANNOT_BAN_ACCOUNT_WITH_MOD_PRIVILEGES = "CANNOT_BAN_ACCOUNT_WITH_MOD_PRIVILEGES",
-
-  /**
    * USER_SUSPENDED is returned when the user attempts to perform an action that
    * is not permitted if they are suspended.
    */

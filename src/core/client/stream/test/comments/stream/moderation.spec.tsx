@@ -579,7 +579,7 @@ it("site moderator cannot ban another moderator with site privileges", async () 
                 siteIDs: ["site-id"],
               });
               throw new InvalidRequestError({
-                code: ERROR_CODES.CANNOT_BAN_ACCOUNT_WITH_MOD_PRIVILEGES,
+                code: ERROR_CODES.MODERATOR_CANNOT_BE_BANNED_ON_SITE,
                 param: "input.body",
                 traceID: "traceID",
               });

@@ -124,13 +124,8 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         });
       }
     } catch (e) {
-      if (e.message === "CANNOT_BAN_ACCOUNT_WITH_MOD_PRIVILEGES") {
-        const errorMessage = getMessage(
-          localeBundles,
-          "comments-userBanPopover-moderator-ban-error",
-          "Cannot ban accounts with moderator privileges"
-        );
-        setBanError(errorMessage);
+      if (e.message) {
+        setBanError(e.message);
       }
     }
     if (siteBan) {

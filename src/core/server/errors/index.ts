@@ -783,14 +783,6 @@ export class UserAlreadyBannedError extends CoralError {
   }
 }
 
-export class CannotBanAccountWithModPrivilegesError extends CoralError {
-  constructor() {
-    super({
-      code: ERROR_CODES.CANNOT_BAN_ACCOUNT_WITH_MOD_PRIVILEGES,
-    });
-  }
-}
-
 export class UserBanned extends CoralError {
   constructor(userID: string, resource?: string, operation?: string) {
     super({
