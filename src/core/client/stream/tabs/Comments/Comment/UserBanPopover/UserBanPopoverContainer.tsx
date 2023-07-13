@@ -61,7 +61,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   `);
   const setSpamBanned = useMutation(SetSpamBanned);
   const siteBan = view === "SITE_BAN";
-  const spamConfirmationText = "spam";
+  const spamBanConfirmationText = "spam";
 
   const user = comment.author!;
   const viewerScoped =
@@ -70,7 +70,8 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const reject = useMutation(RejectCommentMutation);
   const banUser = useMutation(BanUserMutation);
   const { localeBundles, rootURL } = useCoralContext();
-  const [spamBanConfirmation, setSpamBanConfirmation] = useState("");
+  const [spamBanConfirmationTextInput, setSpamBanConfirmationTextInput] =
+    useState("");
   const [banError, setBanError] = useState<string | null>(null);
 
   const linkModerateComment = useModerationLink({ commentID: comment.id });
@@ -99,6 +100,25 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
 
     return ret;
   }, [linkCommunitySection, adminLinkSuffix]);
+
+  const onCloseConfirm = useCallback(() => {
+    void setSpamBanned({ commentID: comment.id, spamBanned: false });
+  }, [setSpamBanned, comment.id]);
+
+  const onSpamBanConfirmationTextInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSpamBanConfirmationTextInput(e.target.value);
+    },
+    [setSpamBanConfirmationTextInput]
+  );
+
+  const banButtonDisabled = useMemo(() => {
+    return siteBan
+      ? false
+      : !(
+          spamBanConfirmationTextInput.toLowerCase() === spamBanConfirmationText
+        );
+  }, [siteBan, spamBanConfirmationText, spamBanConfirmationTextInput]);
 
   const onBan = useCallback(async () => {
     try {
@@ -145,6 +165,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
     reject,
     viewerScoped,
     setBanError,
+    siteBan,
   ]);
 
   if (view === "CONFIRM_BAN") {
@@ -177,7 +198,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
               variant="regular"
               size="regular"
               color="stream"
-              onClick={() => setSpamBanned({ commentID: comment.id })}
+              onClick={onCloseConfirm}
             >
               Close
             </Button>
@@ -265,10 +286,10 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
               </CallOut>
               <Localized
                 id="comments-userSpamBanPopover-confirmation"
-                vars={{ text: spamConfirmationText }}
+                vars={{ text: spamBanConfirmationText }}
               >
                 <div className={styles.header}>
-                  Type in "{spamConfirmationText}" to confirm
+                  Type in "{spamBanConfirmationText}" to confirm
                 </div>
               </Localized>
               <input
@@ -276,7 +297,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
                 className={styles.confirmationInput}
                 type="text"
                 placeholder=""
-                onChange={(e) => setSpamBanConfirmation(e.target.value)}
+                onChange={onSpamBanConfirmationTextInputChange}
               />
               {banError && (
                 <div className={styles.error}>
@@ -304,14 +325,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
             </Localized>
             <Localized id="comments-userBanPopover-ban">
               <Button
-                disabled={
-                  siteBan
-                    ? false
-                    : !(
-                        spamBanConfirmation.toLowerCase() ===
-                        spamConfirmationText
-                      )
-                }
+                disabled={banButtonDisabled}
                 className={CLASSES.banUserPopover.banButton}
                 variant="regular"
                 size="regular"

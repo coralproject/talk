@@ -24,7 +24,7 @@
 
 .orderedList {
   margin: 0;
-  padding-left: 16px;
+  padding-left: var(--spacing-4);
 }
 
 .callOut {

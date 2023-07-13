@@ -1,6 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -36,6 +36,11 @@ interface Props {
 const CaretContainer: FunctionComponent<Props> = (props) => {
   const popoverID = `comments-moderationMenu-${props.comment.id}`;
   const setSpamBanned = useMutation(SetSpamBanned);
+  const setSpamBannedOnClickOutside = useCallback(() => {
+    if (props.comment.spamBanned) {
+      void setSpamBanned({ commentID: props.comment.id, spamBanned: false });
+    }
+  }, [props.comment.spamBanned, setSpamBanned, props.comment.id]);
 
   return (
     <Localized
@@ -50,9 +55,7 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
         body={({ toggleVisibility, scheduleUpdate }) => (
           <ClickOutside
             onClickOutside={() => {
-              if (props.comment.spamBanned) {
-                void setSpamBanned({ commentID: props.comment.id });
-              }
+              setSpamBannedOnClickOutside();
               toggleVisibility();
             }}
           >
