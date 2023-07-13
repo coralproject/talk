@@ -560,6 +560,7 @@ it("site moderator can spam ban commenter", async () => {
 });
 
 it("site moderator cannot ban another moderator with site privileges", async () => {
+  const errorCode = ERROR_CODES.MODERATOR_CANNOT_BE_BANNED_ON_SITE;
   await act(async () => {
     await createTestRenderer(
       {
@@ -579,7 +580,7 @@ it("site moderator cannot ban another moderator with site privileges", async () 
                 siteIDs: ["site-id"],
               });
               throw new InvalidRequestError({
-                code: ERROR_CODES.MODERATOR_CANNOT_BE_BANNED_ON_SITE,
+                code: errorCode,
                 param: "input.body",
                 traceID: "traceID",
               });
@@ -618,9 +619,7 @@ it("site moderator cannot ban another moderator with site privileges", async () 
 
   const banButtonDialog = screen.getByRole("button", { name: "Ban" });
   fireEvent.click(banButtonDialog);
-  expect(
-    await screen.findByText("Cannot ban accounts with moderator privileges")
-  ).toBeInTheDocument();
+  expect(await screen.findByText(errorCode)).toBeInTheDocument();
 });
 
 it("can copy comment embed code", async () => {
