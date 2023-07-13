@@ -115,7 +115,6 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
       storyID: story.id,
-      spamBan: false,
     });
   }, [approve, comment, story]);
   const onFeature = useCallback(() => {

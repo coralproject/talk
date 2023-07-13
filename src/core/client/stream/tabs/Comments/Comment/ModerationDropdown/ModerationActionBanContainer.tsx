@@ -67,7 +67,6 @@ const ModerationActionBanContainer: FunctionComponent<Props> = ({
               showSpinner={!user}
             />
           )}
-
           <ModerationActionBanButton
             disabled={!user}
             allSiteBan={true}

@@ -22,7 +22,6 @@ const RejectCommentMutation = createMutation(
     input: MutationInput<MutationTypes> & {
       storyID: string;
       noEmit?: boolean;
-      spamBan: boolean;
     },
     { eventEmitter }: CoralContext
   ) => {
@@ -100,9 +99,6 @@ const RejectCommentMutation = createMutation(
               .getRootField("rejectComment")!
               .getLinkedRecord("comment")!;
             comment.setValue("REJECT", "lastViewerAction");
-            if (input.spamBan) {
-              comment.setValue(true, "spamBanned");
-            }
           },
         }
       );

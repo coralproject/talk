@@ -59,7 +59,11 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       accessToken
     }
   `);
+  const { localeBundles, rootURL } = useCoralContext();
   const setSpamBanned = useMutation(SetSpamBanned);
+  const reject = useMutation(RejectCommentMutation);
+  const banUser = useMutation(BanUserMutation);
+
   const siteBan = view === "SITE_BAN";
   const spamBanConfirmationText = "spam";
 
@@ -67,9 +71,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const viewerScoped =
     viewer?.moderationScopes && viewer.moderationScopes.scoped;
   const rejected = comment.status === "REJECTED";
-  const reject = useMutation(RejectCommentMutation);
-  const banUser = useMutation(BanUserMutation);
-  const { localeBundles, rootURL } = useCoralContext();
+
   const [spamBanConfirmationTextInput, setSpamBanConfirmationTextInput] =
     useState("");
   const [banError, setBanError] = useState<string | null>(null);
@@ -140,7 +142,6 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
           commentRevisionID: comment.revision.id,
           storyID: story.id,
           noEmit: true,
-          spamBan: !siteBan,
         });
       }
     } catch (e) {
@@ -150,6 +151,9 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
     }
     if (siteBan) {
       onDismiss();
+    } else {
+      // this will trigger the spam ban confirmation view to show for this comment
+      setSpamBanned({ commentID: comment.id, spamBanned: true });
     }
   }, [
     user.id,
@@ -166,6 +170,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
     viewerScoped,
     setBanError,
     siteBan,
+    setSpamBanned,
   ]);
 
   if (view === "CONFIRM_BAN") {
