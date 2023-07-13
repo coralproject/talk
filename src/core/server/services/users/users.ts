@@ -1412,17 +1412,19 @@ export async function ban(
     alreadyBanned = true;
   }
 
-  // check if user is already banned on all of the siteIDs
+  // check if user is already banned on all of the siteIDs provided
   if (
     targetUser.status.ban.siteIDs &&
-    targetUser.status.ban.siteIDs.length > 0
+    targetUser.status.ban.siteIDs.length > 0 &&
+    siteIDs &&
+    siteIDs.length > 0
   ) {
-    const siteIDsAlreadyBanned = targetUser.status.ban.siteIDs?.filter(
+    const siteIDsAlreadyBanned = targetUser.status.ban.siteIDs.filter(
       (siteID) => {
-        return siteIDs?.includes(siteID);
+        return siteIDs.includes(siteID);
       }
     );
-    if (siteIDsAlreadyBanned.length === siteIDs?.length) {
+    if (siteIDsAlreadyBanned.length === siteIDs.length) {
       alreadyBanned = true;
     }
   }

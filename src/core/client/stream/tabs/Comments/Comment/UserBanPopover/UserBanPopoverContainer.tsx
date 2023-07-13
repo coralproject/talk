@@ -153,7 +153,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       onDismiss();
     } else {
       // this will trigger the spam ban confirmation view to show for this comment
-      setSpamBanned({ commentID: comment.id, spamBanned: true });
+      void setSpamBanned({ commentID: comment.id, spamBanned: true });
     }
   }, [
     user.id,
