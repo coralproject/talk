@@ -26,6 +26,9 @@ extend type CommentsConnection {
 }
 
 extend type User {
+  # Set to true when this user has had all of their comments
+  # rejected as part of the ban process, since it may take
+  # some time to take effect on the backend
   allCommentsRejected: Boolean
 }
 

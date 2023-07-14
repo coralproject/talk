@@ -1,5 +1,6 @@
 import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { commitLocalUpdate } from "relay-runtime";
 
 import { pureMerge } from "coral-common/utils";
 import {
@@ -19,7 +20,6 @@ import {
   replaceHistoryLocation,
 } from "coral-framework/testHelpers";
 
-import { commitLocalUpdate } from "relay-runtime";
 import { createContext } from "../create";
 import customRenderAppWithContext from "../customRenderAppWithContext";
 import {
