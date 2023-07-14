@@ -2,12 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 
-import { formatStringList, parseStringList } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
-import {
-  required,
-  validateStrictURLList,
-} from "coral-framework/lib/validation";
+import { required } from "coral-framework/lib/validation";
 import { AddIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
@@ -23,6 +19,7 @@ import { CreateSite } from "coral-admin/__generated__/CreateSiteMutation.graphql
 
 import HelperText from "../../HelperText";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
+import AllowedOriginsTextarea from "./AllowedOriginsTextarea";
 import CreateSiteMutation from "./CreateSiteMutation";
 
 interface Props {
@@ -87,25 +84,7 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
                     </HelperText>
                   </Localized>
                 </FormFieldHeader>
-                <Field
-                  name="allowedOrigins"
-                  parse={parseStringList}
-                  format={formatStringList}
-                  validate={validateStrictURLList}
-                >
-                  {({ input, meta }) => (
-                    <TextFieldWithValidation
-                      {...input}
-                      id={`configure-advanced-${input.name}`}
-                      autoComplete="off"
-                      autoCorrect="off"
-                      autoCapitalize="off"
-                      spellCheck={false}
-                      meta={meta}
-                      fullWidth
-                    />
-                  )}
-                </Field>
+                <AllowedOriginsTextarea />
               </FormField>
               {submitError && (
                 <CallOut fullWidth color="error">

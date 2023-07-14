@@ -3,12 +3,8 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { formatStringList, parseStringList } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  required,
-  validateStrictURLList,
-} from "coral-framework/lib/validation";
+import { required } from "coral-framework/lib/validation";
 import {
   Button,
   CallOut,
@@ -25,6 +21,7 @@ import { UpdateSite } from "coral-admin/__generated__/UpdateSiteMutation.graphql
 
 import HelperText from "../../HelperText";
 import TextFieldWithValidation from "../../TextFieldWithValidation";
+import AllowedOriginsTextarea from "./AllowedOriginsTextarea";
 import EmbedCode from "./EmbedCode";
 import UpdateSiteMutation from "./UpdateSiteMutation";
 
@@ -93,26 +90,7 @@ const EditSiteForm: FunctionComponent<Props> = ({
                     </HelperText>
                   </Localized>
                 </FormFieldHeader>
-                <Field
-                  name="allowedOrigins"
-                  defaultValue={site.allowedOrigins}
-                  parse={parseStringList}
-                  format={formatStringList}
-                  validate={validateStrictURLList}
-                >
-                  {({ input, meta }) => (
-                    <TextFieldWithValidation
-                      {...input}
-                      id={`configure-advanced-${input.name}`}
-                      autoComplete="off"
-                      autoCorrect="off"
-                      autoCapitalize="off"
-                      spellCheck={false}
-                      meta={meta}
-                      fullWidth
-                    />
-                  )}
-                </Field>
+                <AllowedOriginsTextarea defaultValue={site.allowedOrigins} />
               </FormField>
               <FormField>
                 <FormFieldHeader>

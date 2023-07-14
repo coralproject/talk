@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "8.4.0",
+  "version": "8.4.1",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -266,6 +266,7 @@
     "@typescript-eslint/eslint-plugin": "^3.4.0",
     "@typescript-eslint/eslint-plugin-tslint": "^3.4.0",
     "@typescript-eslint/parser": "^3.4.0",
+    "address": "^1.2.2",
     "autoprefixer": "^9.8.6",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^26.3.0",
