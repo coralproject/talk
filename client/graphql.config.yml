@@ -1,10 +1,10 @@
 projects:
   tenant:
     schema:
-      - './src/core/server/graph/schema/schema.graphql'
+      - '../server/src/core/server/graph/schema/schema.graphql'
   stream:
     schema:
-      - './src/core/server/graph/schema/schema.graphql'
+      - '../server/src/core/server/graph/schema/schema.graphql'
       - './src/core/client/framework/lib/relay/local.graphql'
       - './src/core/client/stream/local/local.graphql'
       - './relay-compiler-directives-v10.0.1.graphql'
@@ -16,7 +16,7 @@ projects:
         useSchemaFileDefinitions: true
   admin:
     schema:
-      - './src/core/server/graph/schema/schema.graphql'
+      - '../server/src/core/server/graph/schema/schema.graphql'
       - './src/core/client/framework/lib/relay/local.graphql'
       - './src/core/client/admin/local/local.graphql'
       - './relay-compiler-directives-v10.0.1.graphql'
@@ -28,7 +28,7 @@ projects:
         useSchemaFileDefinitions: true
   auth:
     schema:
-      - './src/core/server/graph/schema/schema.graphql'
+      - '../server/src/core/server/graph/schema/schema.graphql'
       - './src/core/client/framework/lib/relay/local.graphql'
       - './src/core/client/auth/local/local.graphql'
       - './relay-compiler-directives-v10.0.1.graphql'
