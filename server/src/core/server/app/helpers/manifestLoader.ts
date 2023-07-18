@@ -55,10 +55,15 @@ function loadManifestFromFile(manifestFilename: string): Manifest | null {
     "..",
     "..",
     "..",
+    "..",
+    "client",
     "dist",
     "static",
     manifestFilename
   );
+
+  logger.info({ path: manifestFilepath }, "attempting to load manifest");
+
   try {
     // Load the manifest.
     const manifest = JSON.parse(
@@ -68,7 +73,7 @@ function loadManifestFromFile(manifestFilename: string): Manifest | null {
   } catch (err) {
     logger.error(
       { err },
-      "could not load the manifest, maybe you need to run `npm run build`"
+      "could not load the manifest, maybe you need to run `npm run build` on the client?"
     );
   }
   return null;
