@@ -27,7 +27,8 @@ async function main() {
       name: "tenant",
       fileName: path.join(
         __dirname,
-        "../src/core/client/framework/schema/__generated__/types.ts"
+        "../../client",
+        "src/core/client/framework/schema/__generated__/types.ts"
       ),
       config: {
         smartTResult: true,

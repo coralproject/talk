@@ -8,7 +8,7 @@ import {
 
 // TODO: Reaching directly into coral-framework for the types. Maybe having
 // types in coral-common instead? 🤔
-import { GQLRTEConfiguration } from "../../client/framework/schema/__generated__/types";
+import { GQLRTEConfiguration } from "../../server/graph/schema/__generated__/types";
 
 /** Tags that we remove before looking for suspect/banned words */
 export const WORDLIST_FORBID_TAGS = [
