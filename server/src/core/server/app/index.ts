@@ -144,6 +144,8 @@ export async function createApp(options: AppOptions): Promise<Express> {
         "..",
         "..",
         "..",
+        "..",
+        "client",
         "dist",
         "static",
         "assets"
