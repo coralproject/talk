@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import passport from "passport";
 
@@ -95,6 +96,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.get("/oembed", cspSiteMiddleware(app), oembedHandler(app));
   router.get(
     "/services/oembed",
+    cors(),
     commentEmbedWhitelisted(app),
     oembedProviderHandler(app)
   );
