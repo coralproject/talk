@@ -1,7 +1,0 @@
-.textField {
-  width: calc(45 * var(--mini-unit));
-}
-
-.adornment {
-  padding: 0 var(--mini-unit);
-}

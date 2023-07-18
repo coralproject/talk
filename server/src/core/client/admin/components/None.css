@@ -1,5 +1,0 @@
-$tableBodyDisabledColor: var(--palette-text-100);
-
-.root {
-  color: $tableBodyDisabledColor;
-}

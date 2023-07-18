@@ -1,9 +1,0 @@
-.root {
-  align-self: flex-start;
-  margin-top: 1px;
-  flex-shrink: 0;
-  color: var(--palette-text-000);
-  &:first-child {
-    margin-right: var(--spacing-3);
-  }
-}

@@ -1,9 +1,0 @@
-.root {
-  text-align: center;
-}
-
-.link {
-  display: block;
-  font-size: var(--font-size-6);
-  font-family: var(--font-family-primary);
-}
