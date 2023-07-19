@@ -13,6 +13,7 @@ import {
   authenticate,
   commentEmbedWhitelisted,
   corsWhitelisted,
+  createCommentEmbedCorsOptionsDelegate,
   cspSiteMiddleware,
   JSONErrorHandler,
   jsonMiddleware,
@@ -96,8 +97,8 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.get("/oembed", cspSiteMiddleware(app), oembedHandler(app));
   router.get(
     "/services/oembed",
-    cors(),
     commentEmbedWhitelisted(app),
+    cors(createCommentEmbedCorsOptionsDelegate(app.mongo)),
     oembedProviderHandler(app)
   );
   router.get(
