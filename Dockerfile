@@ -32,7 +32,8 @@ RUN git config --global url."https://github.com/".insteadOf ssh://git@github.com
 RUN cd client && \
   npm ci && \
   npm run build && \
-  npm prune --production
+  npm prune --production && \
+  cd ..
 
 # Install, build server, prune static assets
 RUN cd server && \
