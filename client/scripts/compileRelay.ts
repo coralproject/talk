@@ -52,7 +52,7 @@ spawn.sync("relay-compiler", args, { stdio: "inherit" });
 if (persist) {
   if (fs.existsSync(persist)) {
     // Create the new filename.
-    const generated = "./src/core/server/graph/persisted/__generated__";
+    const generated = "../server/src/core/server/graph/persisted/__generated__";
 
     // Create the generated directory if it doesn't exist.
     fs.ensureDirSync(generated);
