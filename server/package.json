@@ -24,7 +24,7 @@
     "build:development": "NODE_ENV=development npm-run-all generate --parallel build:server",
     "build:server": "gulp server",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true npm-run-all generate --parallel build:server",
-    "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:client build:server",
+    "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:server",
     "clean": "gulp clean",
     "generate-persist": "npm-run-all generate:schema",
     "generate:schema": "node ./scripts/generateSchemaTypes.js",
