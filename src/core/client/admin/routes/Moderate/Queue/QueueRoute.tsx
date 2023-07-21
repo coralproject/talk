@@ -281,7 +281,11 @@ const createQueueRoute = (
                 cursor
                 node {
                   id
+                  site {
+                    id
+                  }
                   author {
+                    commentsRejectedOnSites
                     allCommentsRejected
                   }
                   ...ModerateCardContainer_comment
@@ -290,7 +294,11 @@ const createQueueRoute = (
               edges {
                 node {
                   id
+                  site {
+                    id
+                  }
                   author {
+                    commentsRejectedOnSites
                     allCommentsRejected
                   }
                   ...ModerateCardContainer_comment

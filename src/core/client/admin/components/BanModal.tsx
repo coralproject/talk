@@ -236,6 +236,7 @@ const BanModal: FunctionComponent<Props> = ({
           message: customizeMessage ? emailMessage : getDefaultMessage,
           banSiteIDs,
           unbanSiteIDs,
+          rejectExistingComments,
         });
         break;
       case UpdateType.NO_SITES:

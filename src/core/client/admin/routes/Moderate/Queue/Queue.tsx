@@ -27,7 +27,11 @@ interface Props {
   comments: Array<
     {
       id: string;
-      author: { allCommentsRejected: boolean | null } | null;
+      site: { id: string };
+      author: {
+        allCommentsRejected: boolean | null;
+        commentsRejectedOnSites: string[] | null;
+      } | null;
     } & PropTypesOf<typeof ModerateCardContainer>["comment"]
   >;
   settings: PropTypesOf<typeof ModerateCardContainer>["settings"];
@@ -69,7 +73,9 @@ const Queue: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const filteredComments = unfilteredComments.filter(
-      (comment) => !comment.author?.allCommentsRejected
+      (comment) =>
+        !comment.author?.allCommentsRejected &&
+        !comment.author?.commentsRejectedOnSites?.includes(comment.site.id)
     );
     setComments(filteredComments);
   }, [unfilteredComments]);

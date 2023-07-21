@@ -60,6 +60,7 @@ const enhanced = withRouteConfig<Props, SingleModerateRouteQueryResponse>({
       comment(id: $commentID) {
         id
         author {
+          commentsRejectedOnSites
           allCommentsRejected
         }
         ...ModerateCardContainer_comment
