@@ -20,6 +20,6 @@
       "coral-test/*": ["./test/*"],
     }
   },
-  "include": ["./**/*", "../../types/**/*.d.ts", "../../../../common/src/**/*"],
+  "include": ["./**/*", "../../types/**/*.d.ts"],
   "exclude": ["node_modules"]
 }

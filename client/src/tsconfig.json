@@ -16,6 +16,6 @@
       "coral-server/*": ["../../server/src/core/server/*"],
     }
   },
-  "include": ["./**/*", "../../common/src/**/*"],
+  "include": ["./**/*"],
   "exclude": ["node_modules", "./core/client"]
 }

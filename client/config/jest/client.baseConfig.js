@@ -72,7 +72,6 @@ const createConfig = () => {
       "^coral-ui/(.*)$": "<rootDir>/src/core/client/ui/$1",
       "^coral-stream/(.*)$": "<rootDir>/src/core/client/stream/$1",
       "^coral-framework/(.*)$": "<rootDir>/src/core/client/framework/$1",
-      "^coral-common/(.*)$": "<rootDir>/src/core/common/$1",
       "^coral-test/(.*)$": "<rootDir>/src/core/client/test/$1",
     },
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node", "ftl"],

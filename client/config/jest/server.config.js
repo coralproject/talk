@@ -20,7 +20,6 @@ module.exports = {
   },
   moduleNameMapper: {
     "^coral-server/(.*)$": "<rootDir>/src/core/server/$1",
-    "^coral-common/(.*)$": "<rootDir>/src/core/common/$1",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   globals: {
