@@ -11,6 +11,12 @@ echo "running \`npm install\` for sub-directories"
 
 sh npm-i.sh
 
+echo "generating schema types for client, common"
+
+cd server
+npm run generate
+cd ..
+
 echo "creating a \`client\` build to generate manifests"
 
 cd client

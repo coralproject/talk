@@ -28,18 +28,34 @@ USER node
 RUN git config --global url."https://github.com/".insteadOf ssh://git@github.com/ && \
     git config --global url."https://".insteadOf ssh://
 
-# Install, build client, prune static assets
+# Initialize sub packages
+RUN cd common && npm ci && \
+  cd ../client && npm ci && \
+  cd ../server && npm ci && \
+  cd ..
+
+# Generate schema types for common/ to use
+RUN cd server && \
+  npm run generate && \
+  cd ..
+
+# Build common, prune static assets
+RUN cd common && \
+  npm run build && \
+  npm prune --production && \
+  cd ..
+
+# Build client, prune static assets
 RUN cd client && \
-  npm ci && \
   npm run build && \
   npm prune --production && \
   cd ..
 
 # Install, build server, prune static assets
 RUN cd server && \
-  npm ci && \
   npm run build && \
-  npm prune --production
+  npm prune --production && \
+  cd ..
 
 # Setup the environment
 ENV NODE_ENV production
