@@ -1,8 +1,11 @@
-import { AppOptions } from "coral-server/app";
+import { CorsOptionsDelegate } from "cors";
+
+import { MongoContext } from "coral-server/data/context";
 import { retrieveComment } from "coral-server/models/comment";
 import { retrieveSite } from "coral-server/models/site";
-import { RequestHandler } from "coral-server/types/express";
+import { Request, RequestHandler } from "coral-server/types/express";
 
+import { AppOptions } from "..";
 import { getRequesterOrigin } from "../helpers";
 
 export const commentEmbedWhitelisted =
@@ -29,7 +32,10 @@ export const commentEmbedWhitelisted =
       if (siteID) {
         const site = await retrieveSite(mongo, tenant.id, siteID);
         if (site) {
-          const origin = getRequesterOrigin(req);
+          let origin: string | null | undefined = getRequesterOrigin(req);
+          if (!origin) {
+            origin = req.header("Origin");
+          }
           if (origin) {
             if (site.allowedOrigins.includes(origin)) {
               return next();
@@ -40,3 +46,24 @@ export const commentEmbedWhitelisted =
     }
     res.sendStatus(401);
   };
+
+/**
+ * Creates the options for the "cors" middleware which whitelists
+ * site origins for the single comment embed.
+ *
+ * @param mongo the database connection
+ * @returns CorsOptionsDelegate
+ */
+export function createCommentEmbedCorsOptionsDelegate(
+  mongo: MongoContext
+): CorsOptionsDelegate {
+  return async (req: Request, callback) => {
+    const originHeader = req.header("Origin");
+    const tenantID = req.coral.tenant?.id;
+    if (!originHeader || !tenantID) {
+      callback(null, { origin: false }); // disable CORS for this request
+      return;
+    }
+    callback(null, { origin: true });
+  };
+}
