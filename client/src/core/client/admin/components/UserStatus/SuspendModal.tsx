@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { ScaledUnit } from "coral-common/helpers/i18n";
+import { ScaledUnit } from "coral-common/common/lib/helpers/i18n";
 import { useGetMessage } from "coral-framework/lib/i18n";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 

@@ -18,7 +18,7 @@ import React, {
   useMemo,
 } from "react";
 
-import { createSanitize } from "coral-common/helpers/sanitize";
+import { createSanitize } from "coral-common/common/lib/helpers/sanitize";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import IframeEncapsulation from "coral-framework/lib/encapsulation/IframeEncapsulation";
 import CLASSES from "coral-stream/classes";

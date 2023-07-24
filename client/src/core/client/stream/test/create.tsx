@@ -1,7 +1,7 @@
 import React from "react";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 
-import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/common/lib/constants";
 import { createAndRetain } from "coral-framework/lib/relay";
 import { GQLResolver } from "coral-framework/schema";
 import {

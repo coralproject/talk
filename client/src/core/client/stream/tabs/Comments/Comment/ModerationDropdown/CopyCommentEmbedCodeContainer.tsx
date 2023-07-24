@@ -4,7 +4,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { graphql } from "react-relay";
 
-import { sanitizeAndFindFormattingTags } from "coral-common/helpers/sanitize";
+import { sanitizeAndFindFormattingTags } from "coral-common/common/lib/helpers/sanitize";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";

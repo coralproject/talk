@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import PaginatedSelect from "coral-admin/components/PaginatedSelect";
-import { SectionFilter } from "coral-common/section";
+import { SectionFilter } from "coral-common/common/lib/section";
 import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import { Divider } from "coral-ui/components/v2/Dropdown";
 

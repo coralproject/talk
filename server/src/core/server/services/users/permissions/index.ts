@@ -2,7 +2,7 @@ import {
   isSiteMember,
   isSiteModerator,
   PermissionsAction,
-} from "coral-common/permissions/types";
+} from "coral-common/common/lib/permissions/types";
 import { MongoContext } from "coral-server/data/context";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import {

@@ -1,7 +1,7 @@
 import { Response } from "express";
 import Joi from "joi";
 
-import { roundRating } from "coral-common/utils";
+import { roundRating } from "coral-common/common/lib/utils";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { retrieveStoryRatings } from "coral-server/models/comment";

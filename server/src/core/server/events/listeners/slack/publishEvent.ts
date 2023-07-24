@@ -1,4 +1,4 @@
-import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
+import getHTMLPlainText from "coral-common/common/lib/helpers/getHTMLPlainText";
 import { reconstructTenantURL } from "coral-server/app/url";
 import GraphContext from "coral-server/graph/context";
 import { Comment, getLatestRevision } from "coral-server/models/comment";

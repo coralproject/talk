@@ -19,7 +19,7 @@ import {
   Variables,
 } from "relay-runtime";
 
-import { loadSchema } from "coral-common/graphql";
+import { loadSchema } from "coral-common/common/lib/graphql";
 import {
   InvalidRequestError,
   ModerationNudgeError,

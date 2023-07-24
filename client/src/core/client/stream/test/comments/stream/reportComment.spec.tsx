@@ -1,6 +1,6 @@
 import sinon from "sinon";
 
-import { ERROR_CODES } from "coral-common/errors";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { act, waitForElement, within } from "coral-framework/testHelpers";
 

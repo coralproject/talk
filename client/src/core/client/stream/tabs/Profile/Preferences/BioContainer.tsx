@@ -6,7 +6,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { MAX_BIO_LENGTH } from "coral-common/constants";
+import { MAX_BIO_LENGTH } from "coral-common/common/lib/constants";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { parseEmptyAsNull } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";

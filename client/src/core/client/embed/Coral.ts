@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
 
-import { parseQuery } from "coral-common/utils";
+import { parseQuery } from "coral-common/common/lib/utils";
 import { getCurrentScriptOrigin } from "coral-framework/helpers";
 import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
 

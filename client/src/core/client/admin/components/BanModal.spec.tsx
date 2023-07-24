@@ -6,8 +6,8 @@ import {
   replaceHistoryLocation,
 } from "coral-framework/testHelpers";
 
-import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
-import { pureMerge } from "coral-common/utils";
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
+import { pureMerge } from "coral-common/common/lib/utils";
 import {
   GQLNEW_USER_MODERATION,
   GQLResolver,
@@ -23,7 +23,7 @@ import customRenderAppWithContext from "../test/customRenderAppWithContext";
 import {
   isOrgModerator,
   isSiteModerator,
-} from "coral-common/permissions/types";
+} from "coral-common/common/lib/permissions/types";
 import {
   communityUsers,
   settings,

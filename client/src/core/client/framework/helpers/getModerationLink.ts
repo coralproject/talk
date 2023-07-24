@@ -1,4 +1,4 @@
-import { SectionFilter } from "coral-common/section";
+import { SectionFilter } from "coral-common/common/lib/section";
 
 import urls from "./urls";
 

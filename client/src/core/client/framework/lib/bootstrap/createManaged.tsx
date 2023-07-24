@@ -8,10 +8,10 @@ import { Formatter } from "react-timeago";
 import { Environment, RecordSource, Store } from "relay-runtime";
 import { v1 as uuid } from "uuid";
 
-import { StaticConfig } from "coral-common/config";
-import { LanguageCode } from "coral-common/helpers/i18n";
-import ensureEndSlash from "coral-common/utils/ensureEndSlash";
-import getHost from "coral-common/utils/getHost";
+import { StaticConfig } from "coral-common/common/lib/config";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n";
+import ensureEndSlash from "coral-common/common/lib/utils/ensureEndSlash";
+import getHost from "coral-common/common/lib/utils/getHost";
 import {
   injectConditionalPolyfills,
   potentiallyInjectAxe,

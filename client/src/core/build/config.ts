@@ -1,7 +1,7 @@
 import convict from "convict";
 import os from "os";
 
-import { LOCALES } from "../common/helpers/i18n/locales";
+import { LOCALES } from "coral-common/common/lib/helpers/i18n/locales";
 
 const config = convict({
   env: {

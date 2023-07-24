@@ -6,7 +6,7 @@ import path from "path";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 import sinon from "sinon";
 
-import { RequireProperty } from "coral-common/types";
+import { RequireProperty } from "coral-common/common/lib/types";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   CONNECTION_STATUS,

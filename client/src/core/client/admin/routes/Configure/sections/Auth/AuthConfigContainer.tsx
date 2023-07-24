@@ -4,7 +4,7 @@ import React, { FunctionComponent, useEffect, useMemo } from "react";
 import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { DeepNullable, DeepPartial } from "coral-common/types";
+import { DeepNullable, DeepPartial } from "coral-common/common/lib/types";
 import {
   AddSubmitHook,
   SubmitHook,

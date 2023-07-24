@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
-import { ERROR_CODES } from "coral-common/errors";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 import { usePersistedSessionState } from "coral-framework/hooks";
 import {
   InvalidRequestError,

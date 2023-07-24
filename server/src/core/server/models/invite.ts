@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { Sub } from "coral-common/types";
+import { Sub } from "coral-common/common/lib/types";
 import { MongoContext } from "coral-server/data/context";
 import { TenantResource } from "coral-server/models/tenant";
 

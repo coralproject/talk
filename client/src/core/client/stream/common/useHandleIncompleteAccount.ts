@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { ERROR_CODES } from "coral-common/errors";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation } from "coral-framework/lib/relay";
 import { SignOutMutation } from "coral-stream/mutations";

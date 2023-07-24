@@ -1,12 +1,12 @@
 import Joi from "joi";
 import { URL } from "url";
 
-import { GIPHY_FETCH, GIPHY_SEARCH } from "coral-common/constants";
-import { LanguageCode } from "coral-common/helpers";
+import { GIPHY_FETCH, GIPHY_SEARCH } from "coral-common/common/lib/constants";
+import { LanguageCode } from "coral-common/common/lib/helpers";
 import {
   GiphyGifRetrieveResponse,
   GiphyGifSearchResponse,
-} from "coral-common/types/giphy";
+} from "coral-common/common/lib/types/giphy";
 import { InternalError } from "coral-server/errors";
 import { validateSchema } from "coral-server/helpers";
 import { supportsMediaType, Tenant } from "coral-server/models/tenant";

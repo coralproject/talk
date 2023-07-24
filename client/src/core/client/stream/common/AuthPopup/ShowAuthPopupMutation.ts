@@ -1,6 +1,6 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { waitFor } from "coral-common/helpers";
+import { waitFor } from "coral-common/common/lib/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   createMutation,

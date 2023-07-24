@@ -1,4 +1,4 @@
-import { DeepPartial } from "coral-common/types";
+import { DeepPartial } from "coral-common/common/lib/types";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { RevisionMetadata } from "coral-server/models/comment";
 import { GlobalModerationSettings } from "coral-server/models/settings";

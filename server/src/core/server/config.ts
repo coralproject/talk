@@ -6,9 +6,9 @@ import { compact } from "lodash";
 import { parseConnectionString } from "mongodb-core";
 import ms from "ms";
 
-import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
-import { LOCALES } from "coral-common/helpers/i18n/locales";
-import { ensureEndSlash } from "coral-common/utils";
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/common/lib/constants";
+import { LOCALES } from "coral-common/common/lib/helpers/i18n/locales";
+import { ensureEndSlash } from "coral-common/common/lib/utils";
 
 import { WrappedInternalError } from "./errors";
 

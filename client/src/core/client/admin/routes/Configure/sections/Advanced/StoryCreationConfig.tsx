@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { DeepNullable } from "coral-common/types";
+import { DeepNullable } from "coral-common/common/lib/types";
 import {
   colorFromMeta,
   parseEmptyAsNull,

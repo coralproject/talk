@@ -4,7 +4,7 @@ import React, { FunctionComponent, useCallback, useMemo, useRef } from "react";
 import { FieldArray } from "react-final-form-arrays";
 import { graphql } from "react-relay";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {

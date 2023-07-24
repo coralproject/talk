@@ -1,7 +1,7 @@
 import RE2 from "re2";
 import { isMainThread, parentPort } from "worker_threads";
 
-import { LanguageCode } from "coral-common/helpers";
+import { LanguageCode } from "coral-common/common/lib/helpers";
 import logger from "coral-server/logger";
 import { WordlistMatch } from "coral-server/models/comment";
 

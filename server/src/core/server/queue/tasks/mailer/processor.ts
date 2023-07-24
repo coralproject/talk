@@ -15,7 +15,7 @@ import { juiceResources } from "juice";
 import { camelCase, isNil } from "lodash";
 import timeoutPromiseAfter from "p-timeout";
 
-import { LanguageCode } from "coral-common/helpers";
+import { LanguageCode } from "coral-common/common/lib/helpers";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { WrappedInternalError } from "coral-server/errors";

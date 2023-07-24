@@ -4,7 +4,7 @@ import { useForm } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { useNotification } from "coral-admin/App/GlobalNotification";
-import { DeepNullable } from "coral-common/types";
+import { DeepNullable } from "coral-common/common/lib/types";
 import {
   purgeMetadata,
   useMutation,

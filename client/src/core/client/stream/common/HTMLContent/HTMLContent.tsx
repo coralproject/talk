@@ -1,8 +1,8 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { SPOILER_CLASSNAME } from "coral-common/constants";
-import { sanitizeAndFindFormattingTags } from "coral-common/helpers/sanitize";
+import { SPOILER_CLASSNAME } from "coral-common/common/lib/constants";
+import { sanitizeAndFindFormattingTags } from "coral-common/common/lib/helpers/sanitize";
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 
 import styles from "./HTMLContent.css";

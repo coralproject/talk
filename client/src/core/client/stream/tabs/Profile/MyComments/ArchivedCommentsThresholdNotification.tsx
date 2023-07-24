@@ -1,8 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { reduceSeconds } from "coral-common/helpers";
-import TIME from "coral-common/time";
+import { reduceSeconds } from "coral-common/common/lib/helpers";
+import TIME from "coral-common/common/lib/time";
 
 import styles from "./ArchivedCommentsThresholdNotification.css";
 

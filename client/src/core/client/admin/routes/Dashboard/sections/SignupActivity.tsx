@@ -10,7 +10,7 @@ import {
   YAxis,
 } from "recharts";
 
-import { TimeSeriesMetricsJSON } from "coral-common/types/dashboard";
+import { TimeSeriesMetricsJSON } from "coral-common/common/lib/types/dashboard";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 
 import { DashboardBox, DashboardComponentHeading, Loader } from "../components";

@@ -1,4 +1,4 @@
-import { ReporterConfig } from "coral-common/config";
+import { ReporterConfig } from "coral-common/common/lib/config";
 
 import { ErrorReporter } from "./reporter";
 import { SentryErrorReporter } from "./sentry";

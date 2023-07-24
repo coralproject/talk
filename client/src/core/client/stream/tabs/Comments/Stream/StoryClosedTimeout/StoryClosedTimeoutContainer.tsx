@@ -2,7 +2,7 @@ import { clearLongTimeout } from "long-settimeout";
 import { FunctionComponent, useEffect } from "react";
 import { graphql } from "react-relay";
 
-import { createTimeoutAt } from "coral-common/utils";
+import { createTimeoutAt } from "coral-common/common/lib/utils";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 
 import { StoryClosedTimeoutContainer_story as StoryData } from "coral-stream/__generated__/StoryClosedTimeoutContainer_story.graphql";

@@ -8,7 +8,7 @@ import {
 import userEvent from "@testing-library/user-event";
 
 import customRenderAppWithContext from "coral-admin/test/customRenderAppWithContext";
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import {
   GQLResolver,
   GQLUSER_ROLE,

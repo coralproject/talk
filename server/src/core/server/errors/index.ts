@@ -5,11 +5,11 @@ import { MongoError } from "mongodb";
 import { v1 as uuid } from "uuid";
 import { VError } from "verror";
 
-import { ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION } from "coral-common/constants";
-import { ERROR_CODES, ERROR_TYPES } from "coral-common/errors";
-import { reduceSeconds } from "coral-common/helpers/i18n";
-import TIME from "coral-common/time";
-import { Writable } from "coral-common/types";
+import { ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION } from "coral-common/common/lib/constants";
+import { ERROR_CODES, ERROR_TYPES } from "coral-common/common/lib/errors";
+import { reduceSeconds } from "coral-common/common/lib/helpers/i18n";
+import TIME from "coral-common/common/lib/time";
+import { Writable } from "coral-common/common/lib/types";
 import { translate } from "coral-server/services/i18n";
 
 import { GQLUSER_AUTH_CONDITIONS } from "coral-server/graph/schema/__generated__/types";

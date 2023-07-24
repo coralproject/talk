@@ -1,4 +1,4 @@
-import { LanguageCode } from "coral-common/helpers/i18n";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n";
 
 import { RestClient } from "../lib/rest";
 

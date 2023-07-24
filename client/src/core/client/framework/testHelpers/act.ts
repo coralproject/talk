@@ -1,6 +1,6 @@
 import TestRenderer from "react-test-renderer";
 
-import { isPromiseLike } from "coral-common/utils";
+import { isPromiseLike } from "coral-common/common/lib/utils";
 
 export default function act<T>(callback: () => T): T {
   let callbackResult: T;

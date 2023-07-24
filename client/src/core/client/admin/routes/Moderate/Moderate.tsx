@@ -9,7 +9,7 @@ import React, {
 
 import MainLayout from "coral-admin/components/MainLayout";
 import { HOTKEYS } from "coral-admin/constants";
-import { SectionFilter } from "coral-common/section";
+import { SectionFilter } from "coral-common/common/lib/section";
 import { QUEUE_NAME } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import { Icon } from "coral-ui/components/v2";

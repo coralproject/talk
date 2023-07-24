@@ -1,6 +1,6 @@
 import ResizeObserver from "resize-observer-polyfill";
 
-import { parseQuery } from "coral-common/utils";
+import { parseQuery } from "coral-common/common/lib/utils";
 import { FrameHeightMessage } from "coral-framework/components/Frame";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { PostMessageService } from "coral-framework/lib/postMessage";

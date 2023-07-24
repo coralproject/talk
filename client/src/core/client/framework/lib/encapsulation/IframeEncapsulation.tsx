@@ -10,7 +10,7 @@ import ReactDOM from "react-dom";
 
 import waitAndRequestIdleCallback, {
   Cancel,
-} from "coral-common/utils/waitAndRequestIdleCallback";
+} from "coral-common/common/lib/utils/waitAndRequestIdleCallback";
 import {
   CoralReactContext,
   useCoralContext,

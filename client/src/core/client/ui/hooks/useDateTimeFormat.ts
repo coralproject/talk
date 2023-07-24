@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { createDateFormatter } from "coral-common/date";
+import { createDateFormatter } from "coral-common/common/lib/date";
 import { useUIContext } from "coral-ui/components/v2";
 
 export default function useDateTimeFormat(options: Intl.DateTimeFormatOptions) {

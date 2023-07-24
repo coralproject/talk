@@ -1,4 +1,4 @@
-import { parseQuery } from "coral-common/utils";
+import { parseQuery } from "coral-common/common/lib/utils";
 import { globalErrorReporter } from "coral-framework/lib/errors/reporter";
 
 export default function getParamsFromHash(window: Window) {

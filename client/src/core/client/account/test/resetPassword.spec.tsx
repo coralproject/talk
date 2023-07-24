@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import sinon from "sinon";
 
-import { ERROR_CODES } from "coral-common/errors";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLResolver } from "coral-framework/schema";
 import {

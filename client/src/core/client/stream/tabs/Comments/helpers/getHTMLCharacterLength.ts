@@ -1,4 +1,4 @@
-import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
+import getHTMLPlainText from "coral-common/common/lib/helpers/getHTMLPlainText";
 
 /**
  * getHTMLCharacterLength will return current character length.

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { CountJSONPData } from "coral-common/types/count";
+import { CountJSONPData } from "coral-common/common/lib/types/count";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { MongoContext } from "coral-server/data/context";

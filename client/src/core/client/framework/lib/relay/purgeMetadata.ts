@@ -1,4 +1,4 @@
-import startsWith from "coral-common/utils/startsWith";
+import startsWith from "coral-common/common/lib/utils/startsWith";
 
 /**
  * Purges relay metadata from response e.g. information about fragments.

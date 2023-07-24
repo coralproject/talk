@@ -2,7 +2,7 @@ import { pick } from "lodash";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { DeepWritable } from "coral-common/types";
+import { DeepWritable } from "coral-common/common/lib/types";
 import {
   commitMutationPromiseNormalized,
   createMutation,

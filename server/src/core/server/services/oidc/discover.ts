@@ -1,6 +1,6 @@
 import { URL } from "url";
 
-import { ensureNoEndSlash } from "coral-common/utils";
+import { ensureNoEndSlash } from "coral-common/common/lib/utils";
 import { createFetch } from "coral-server/services/fetch";
 
 /**

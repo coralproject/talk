@@ -18,9 +18,8 @@
       "coral-oembed/*": ["./oembed/*"],
       "coral-ui/*": ["./ui/*"],
       "coral-test/*": ["./test/*"],
-      "coral-common/*": ["../common/*"]
     }
   },
-  "include": ["./**/*", "../../types/**/*.d.ts"],
+  "include": ["./**/*", "../../types/**/*.d.ts", "../../../../common/src/**/*"],
   "exclude": ["node_modules"]
 }

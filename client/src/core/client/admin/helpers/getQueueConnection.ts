@@ -5,7 +5,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { SectionFilter } from "coral-common/section";
+import { SectionFilter } from "coral-common/common/lib/section";
 import {
   GQLCOMMENT_SORT_RL,
   GQLMODERATION_QUEUE_RL,

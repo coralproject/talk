@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
-import { parseQuery } from "coral-common/utils";
+import { parseQuery } from "coral-common/common/lib/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {

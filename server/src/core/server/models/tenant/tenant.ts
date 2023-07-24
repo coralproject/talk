@@ -2,12 +2,12 @@ import { isEmpty } from "lodash";
 import { DateTime } from "luxon";
 import { v4 as uuid } from "uuid";
 
-import { DEFAULT_SESSION_DURATION } from "coral-common/constants";
-import { LanguageCode } from "coral-common/helpers/i18n/locales";
-import TIME from "coral-common/time";
-import { DeepPartial, Sub } from "coral-common/types";
-import { isBeforeDate } from "coral-common/utils";
-import { dotize } from "coral-common/utils/dotize";
+import { DEFAULT_SESSION_DURATION } from "coral-common/common/lib/constants";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
+import TIME from "coral-common/common/lib/time";
+import { DeepPartial, Sub } from "coral-common/common/lib/types";
+import { isBeforeDate } from "coral-common/common/lib/utils";
+import { dotize } from "coral-common/common/lib/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import { DuplicateEmailDomainError } from "coral-server/errors";
 import {

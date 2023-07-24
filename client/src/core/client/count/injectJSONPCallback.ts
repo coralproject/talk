@@ -1,4 +1,4 @@
-import { CountJSONPData } from "coral-common/types/count";
+import { CountJSONPData } from "coral-common/common/lib/types/count";
 import { COUNT_SELECTOR } from "coral-framework/constants";
 import getPreviousCountStorageKey from "coral-framework/helpers/getPreviousCountStorageKey";
 

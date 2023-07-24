@@ -2,7 +2,7 @@ import fs from "fs-extra";
 import { parse } from "graphql";
 import path from "path";
 
-import { version } from "coral-common/version";
+import { version } from "coral-common/common/lib/version";
 import { getOperationMetadata } from "coral-server/graph/plugins";
 import logger from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";

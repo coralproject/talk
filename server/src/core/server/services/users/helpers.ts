@@ -4,7 +4,7 @@ import {
   USERNAME_MAX_LENGTH,
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
-} from "coral-common/helpers/validate";
+} from "coral-common/common/lib/helpers/validate";
 import {
   EmailExceedsMaxLengthError,
   EmailInvalidFormatError,

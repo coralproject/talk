@@ -1,4 +1,4 @@
-import { SPOILER_CLASSNAME } from "coral-common/constants";
+import { SPOILER_CLASSNAME } from "coral-common/common/lib/constants";
 
 import { transform } from "./HTMLContent";
 

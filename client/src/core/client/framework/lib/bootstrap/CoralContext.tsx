@@ -6,7 +6,7 @@ import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
 
-import { LanguageCode } from "coral-common/helpers/i18n";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n";
 import { BrowserInfo } from "coral-framework/lib/browserInfo";
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";

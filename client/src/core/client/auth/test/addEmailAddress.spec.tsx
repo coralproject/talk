@@ -1,8 +1,8 @@
 import { get } from "lodash";
 import sinon from "sinon";
 
-import { ERROR_CODES } from "coral-common/errors";
-import { pureMerge } from "coral-common/utils";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { act, wait, waitForElement, within } from "coral-framework/testHelpers";
 

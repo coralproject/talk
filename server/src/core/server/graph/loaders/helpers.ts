@@ -1,6 +1,6 @@
 import { isNil, omitBy } from "lodash";
 
-import { SectionFilter } from "coral-common/section";
+import { SectionFilter } from "coral-common/common/lib/section";
 import { CommentConnectionInput } from "coral-server/models/comment";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 

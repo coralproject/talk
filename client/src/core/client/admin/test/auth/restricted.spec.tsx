@@ -1,6 +1,6 @@
 import sinon from "sinon";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { LOCAL_ID, lookup } from "coral-framework/lib/relay";
 import { GQLResolver, GQLUSER_ROLE } from "coral-framework/schema";
 import {

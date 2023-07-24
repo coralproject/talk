@@ -12,9 +12,9 @@ import React, {
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION } from "coral-common/constants";
-import { reduceSeconds } from "coral-common/helpers/i18n";
-import TIME from "coral-common/time";
+import { ALLOWED_USERNAME_CHANGE_TIMEFRAME_DURATION } from "coral-common/common/lib/constants";
+import { reduceSeconds } from "coral-common/common/lib/helpers/i18n";
+import TIME from "coral-common/common/lib/time";
 import getAuthenticationIntegrations from "coral-framework/helpers/getAuthenticationIntegrations";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";

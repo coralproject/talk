@@ -16,8 +16,8 @@ import {
   BUNDLE_CONFIG_PARAM,
   BUNDLE_ID_PARAM,
   CLIENT_ID_PARAM,
-} from "coral-common/constants";
-import { ERROR_CODES } from "coral-common/errors";
+} from "coral-common/common/lib/constants";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 
 /** Time after an inactive client is closed */
 const STALE_CLIENT_TIMEOUT = 10 * 1000;

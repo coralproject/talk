@@ -1,7 +1,7 @@
 import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { GQLFEATURE_FLAG, GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,

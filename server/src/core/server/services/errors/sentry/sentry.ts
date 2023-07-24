@@ -2,7 +2,7 @@ import { RewriteFrames, Transaction } from "@sentry/integrations";
 import * as Sentry from "@sentry/node";
 import path from "path";
 
-import { version } from "coral-common/version";
+import { version } from "coral-common/common/lib/version";
 import { CoralError } from "coral-server/errors";
 import logger from "coral-server/logger";
 

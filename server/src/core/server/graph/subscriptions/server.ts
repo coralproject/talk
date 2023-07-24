@@ -19,8 +19,8 @@ import {
   BUNDLE_CONFIG_PARAM,
   BUNDLE_ID_PARAM,
   CLIENT_ID_PARAM,
-} from "coral-common/constants";
-import { RequireProperty } from "coral-common/types";
+} from "coral-common/common/lib/constants";
+import { RequireProperty } from "coral-common/common/lib/types";
 import { AppOptions } from "coral-server/app";
 import { getHostname } from "coral-server/app/helpers/hostname";
 import {

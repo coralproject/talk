@@ -1,7 +1,7 @@
 import { commitLocalUpdate, Environment, graphql } from "relay-runtime";
 
-import { StaticConfig } from "coral-common/config";
-import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
+import { StaticConfig } from "coral-common/common/lib/config";
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/common/lib/constants";
 import { isStoryMode } from "coral-framework/helpers";
 import { parseAccessToken } from "coral-framework/lib/auth";
 import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";

@@ -2,13 +2,13 @@ import { JSDOM } from "jsdom";
 import { v4 as uuid } from "uuid";
 import { Worker } from "worker_threads";
 
-import { LanguageCode } from "coral-common/helpers";
+import { LanguageCode } from "coral-common/common/lib/helpers";
 import {
   ALL_FEATURES,
   createSanitize,
   Sanitize,
   WORDLIST_FORBID_TAGS,
-} from "coral-common/helpers/sanitize";
+} from "coral-common/common/lib/helpers/sanitize";
 import { Logger } from "coral-server/logger";
 
 import {

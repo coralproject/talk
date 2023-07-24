@@ -3,9 +3,9 @@ import cn from "classnames";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import { DOWNLOAD_LIMIT_TIMEFRAME_DURATION } from "coral-common/constants";
-import { reduceSeconds } from "coral-common/helpers/i18n";
-import TIME from "coral-common/time";
+import { DOWNLOAD_LIMIT_TIMEFRAME_DURATION } from "coral-common/common/lib/constants";
+import { reduceSeconds } from "coral-common/common/lib/helpers/i18n";
+import TIME from "coral-common/common/lib/time";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";

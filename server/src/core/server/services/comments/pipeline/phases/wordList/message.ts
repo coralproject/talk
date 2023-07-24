@@ -1,4 +1,4 @@
-import { LanguageCode } from "coral-common/helpers";
+import { LanguageCode } from "coral-common/common/lib/helpers";
 import { WordlistMatch } from "coral-server/models/comment";
 
 export enum MessageType {

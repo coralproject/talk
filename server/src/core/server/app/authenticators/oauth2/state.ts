@@ -2,7 +2,7 @@ import cookie from "cookie";
 import crypto from "crypto";
 import { Request, Response } from "express";
 
-import { REDIRECT_TO_PARAM } from "coral-common/constants";
+import { REDIRECT_TO_PARAM } from "coral-common/common/lib/constants";
 
 const COOKIE_NAME = "oauth2:state";
 

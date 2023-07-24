@@ -1,4 +1,4 @@
-import { dotize } from "coral-common/utils/dotize";
+import { dotize } from "coral-common/common/lib/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import {
   ACTION_TYPE,

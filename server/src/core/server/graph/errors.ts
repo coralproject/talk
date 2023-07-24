@@ -1,4 +1,4 @@
-import { ERROR_CODES } from "coral-common/errors";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 import { CoralError } from "coral-server/errors";
 
 /**

@@ -1,7 +1,7 @@
 import { FormApi, FormState } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { LanguageCode } from "coral-common/helpers/i18n";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { SubmitHookHandler } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";

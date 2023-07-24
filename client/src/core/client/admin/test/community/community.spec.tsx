@@ -1,6 +1,6 @@
 import { v1 as uuid } from "uuid";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { GQLResolver, GQLUSER_STATUS } from "coral-framework/schema";
 import {
   act,

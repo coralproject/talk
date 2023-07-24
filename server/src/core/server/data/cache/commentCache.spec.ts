@@ -1,6 +1,6 @@
 import RedisClient from "ioredis";
 
-import { waitFor } from "coral-common/helpers";
+import { waitFor } from "coral-common/common/lib/helpers";
 import { CommentCache } from "coral-server/data/cache/commentCache";
 import { MongoContext, MongoContextImpl } from "coral-server/data/context";
 import logger from "coral-server/logger";

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
-import { ERROR_CODES } from "coral-common/errors";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useFetch } from "coral-framework/lib/relay";
 import { CallOut, Flex, Typography } from "coral-ui/components/v2";

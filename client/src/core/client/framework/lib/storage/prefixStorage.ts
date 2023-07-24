@@ -1,4 +1,4 @@
-import startsWith from "coral-common/utils/startsWith";
+import startsWith from "coral-common/common/lib/utils/startsWith";
 
 /**
  * PrefixedStorage decorates a Storage and prefixes keys in

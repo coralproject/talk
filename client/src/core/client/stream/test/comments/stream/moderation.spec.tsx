@@ -7,7 +7,7 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { GQLCOMMENT_STATUS, GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,

@@ -30,7 +30,7 @@ const environment =
     : { targets: { node: "current" }, modules: "commonjs" };
 
 module.exports = {
-  babelrcRoots: ["./src/core/client/*"],
+  babelrcRoots: ["./src/core/client/*", "../common/src/*"],
   plugins,
   presets: [["@babel/env", environment]],
   sourceType: "unambiguous",

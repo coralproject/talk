@@ -4,7 +4,7 @@ import { throttle } from "lodash";
 import { DateTime } from "luxon";
 import { URL } from "url";
 
-import validateImagePathname from "coral-common/helpers/validateImagePathname";
+import validateImagePathname from "coral-common/common/lib/helpers/validateImagePathname";
 import { validate } from "coral-server/app/request/body";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";

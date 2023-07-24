@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { graphql } from "react-relay";
 
-import { SectionFilter } from "coral-common/section";
+import { SectionFilter } from "coral-common/common/lib/section";
 import {
   combineDisposables,
   useSubscription,

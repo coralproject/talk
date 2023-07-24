@@ -27,7 +27,10 @@
     "./src/types/**/*.d.ts",
     "./scripts/**/*",
     "./config/**/*",
-    "*.js"
+    "*.js",
+    "../common/src/**/*.ts",
+    "../common/src/**/.*.js",
+    "../common/src/types/**/*.d.ts",
   ],
   "exclude": ["node_modules"]
 }

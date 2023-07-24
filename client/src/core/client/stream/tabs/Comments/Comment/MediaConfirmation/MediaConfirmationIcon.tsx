@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import { Icon } from "coral-ui/components/v2";
 
-import { MediaLink } from "coral-common/helpers/findMediaLinks";
+import { MediaLink } from "coral-common/common/lib/helpers/findMediaLinks";
 import styles from "./MediaConfirmationIcon.css";
 import twitterImg from "./twitter.png";
 

@@ -1,7 +1,7 @@
 import { OperationTypeNode } from "graphql";
 import { MongoError } from "mongodb";
 
-import { waitFor } from "coral-common/helpers";
+import { waitFor } from "coral-common/common/lib/helpers";
 import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
 

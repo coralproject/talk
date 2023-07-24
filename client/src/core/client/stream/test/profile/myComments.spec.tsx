@@ -2,7 +2,7 @@ import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
-import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/common/lib/constants";
 import { createSinonStub } from "coral-framework/testHelpers";
 
 import customRenderAppWithContext from "../customRenderAppWithContext";

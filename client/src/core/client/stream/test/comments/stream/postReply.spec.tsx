@@ -2,7 +2,7 @@ import RTE from "@coralproject/rte";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
-import { ERROR_CODES } from "coral-common/errors";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 import {
   InvalidRequestError,
   ModerationNudgeError,

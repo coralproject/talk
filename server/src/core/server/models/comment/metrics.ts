@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 
-import { isSiteModerator } from "coral-common/permissions/types";
+import { isSiteModerator } from "coral-common/common/lib/permissions/types";
 import { MongoContext } from "coral-server/data/context";
 import {
   formatTimeRangeSeries,

@@ -1,7 +1,7 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/constants";
+import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/common/lib/constants";
 import { getViewer } from "coral-framework/helpers";
 import {
   commitMutationPromiseNormalized,

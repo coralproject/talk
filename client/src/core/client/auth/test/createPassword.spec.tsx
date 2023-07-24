@@ -1,7 +1,7 @@
 import { get } from "lodash";
 import sinon from "sinon";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { act, wait, waitForElement, within } from "coral-framework/testHelpers";
 
 import create from "./create";

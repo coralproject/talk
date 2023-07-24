@@ -2,7 +2,6 @@ import { CacheScope } from "apollo-cache-control";
 import { GraphQLResolveInfo } from "graphql";
 import { defaultTo } from "lodash";
 
-import { setCacheHint } from "coral-common/graphql";
 import { StoryNotFoundError } from "coral-server/errors";
 import { getRequestedFields } from "coral-server/graph/resolvers/util";
 import {
@@ -33,6 +32,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
+import { setCacheHint } from "../setCacheHint";
 
 export const maybeLoadOnlyID = async (
   ctx: GraphContext,

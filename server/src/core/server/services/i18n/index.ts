@@ -2,7 +2,7 @@ import { FluentBundle, FluentResource } from "@fluent/bundle/compat";
 import fs from "fs-extra";
 import path from "path";
 
-import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";
+import { LanguageCode, LOCALES } from "coral-common/common/lib/helpers/i18n/locales";
 import config from "coral-server/config";
 import logger from "coral-server/logger";
 

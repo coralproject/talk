@@ -1,5 +1,5 @@
-import { EmbedBootstrapConfig } from "coral-common/config";
-import ensureEndSlash from "coral-common/utils/ensureEndSlash";
+import { EmbedBootstrapConfig } from "coral-common/common/lib/config";
+import ensureEndSlash from "coral-common/common/lib/utils/ensureEndSlash";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { EventEmitter2 } from "eventemitter2";
 

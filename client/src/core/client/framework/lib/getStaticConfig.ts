@@ -1,4 +1,4 @@
-import { StaticConfig } from "coral-common/config";
+import { StaticConfig } from "coral-common/common/lib/config";
 
 export default function getStaticConfig(window: Window) {
   // Parse and load the reporter configuration from the config element on the

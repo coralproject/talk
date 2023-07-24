@@ -1,6 +1,6 @@
 import { noop } from "lodash";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
   act,

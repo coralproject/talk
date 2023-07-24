@@ -12,7 +12,7 @@ import {
   isOrgModerator,
   isSiteMember,
   isSiteModerator,
-} from "coral-common/permissions/types";
+} from "coral-common/common/lib/permissions/types";
 
 import ButtonPadding from "../ButtonPadding";
 import SiteRoleActions from "./SiteRoleActions";

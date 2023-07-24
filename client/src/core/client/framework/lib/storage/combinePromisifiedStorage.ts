@@ -1,6 +1,6 @@
 import { PromisifiedStorage } from "./PromisifiedStorage";
 
-import getFirstResolvingPromise from "coral-common/utils/getFirstResolvingPromise";
+import getFirstResolvingPromise from "coral-common/common/lib/utils/getFirstResolvingPromise";
 
 /**
  * CombinedPromisfiedStorage.

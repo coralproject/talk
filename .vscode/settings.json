@@ -56,7 +56,8 @@
   },
   "debug.node.autoAttach": "off",
   "eslint.workingDirectories": [
-    "./client/src",
-    "./server/src",
+    "./client/",
+    "./server/",
+    "./common/",
   ]
 }

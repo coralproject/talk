@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 
-import { StaticConfig } from "coral-common/config";
-import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import { StaticConfig } from "coral-common/common/lib/config";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
 import { AppOptions } from "coral-server/app";
 import { RouterOptions } from "coral-server/app/router/types";
 import { isArchivingEnabled } from "coral-server/data/context";

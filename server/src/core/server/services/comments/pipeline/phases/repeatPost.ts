@@ -1,4 +1,4 @@
-import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
+import getHTMLPlainText from "coral-common/common/lib/helpers/getHTMLPlainText";
 import { RepeatPostCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";

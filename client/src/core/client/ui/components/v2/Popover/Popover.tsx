@@ -2,7 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Manager, Popper, Reference } from "react-popper";
 
-import { oncePerFrame } from "coral-common/utils";
+import { oncePerFrame } from "coral-common/common/lib/utils";
 import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 

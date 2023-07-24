@@ -1,7 +1,7 @@
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import { v1 as uuid } from "uuid";
 
-import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
 import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";

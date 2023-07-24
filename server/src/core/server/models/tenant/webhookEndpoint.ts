@@ -2,7 +2,7 @@ import { Redis } from "ioredis";
 import { isEmpty } from "lodash";
 import uuid from "uuid/v4";
 
-import { dotize } from "coral-common/utils/dotize";
+import { dotize } from "coral-common/common/lib/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 
 import { GQLWEBHOOK_EVENT_NAME } from "coral-server/graph/schema/__generated__/types";

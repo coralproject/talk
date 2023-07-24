@@ -5,7 +5,7 @@ import { Form } from "react-final-form";
 import useCommonTranslation, {
   COMMON_TRANSLATION,
 } from "coral-admin/helpers/useCommonTranslation";
-import { isOrgModerator } from "coral-common/permissions/types";
+import { isOrgModerator } from "coral-common/common/lib/permissions/types";
 import {
   Button,
   CallOut,

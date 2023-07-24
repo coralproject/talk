@@ -1,11 +1,11 @@
 import { JSDOM } from "jsdom";
 
-import { LanguageCode } from "coral-common/helpers";
+import { LanguageCode } from "coral-common/common/lib/helpers";
 import {
   ALL_FEATURES,
   createSanitize,
   WORDLIST_FORBID_TAGS,
-} from "coral-common/helpers/sanitize";
+} from "coral-common/common/lib/helpers/sanitize";
 import { createTimer } from "coral-server/helpers";
 import createTesterWithTimeout, {
   MatchResult,

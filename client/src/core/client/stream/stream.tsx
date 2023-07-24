@@ -8,9 +8,9 @@ import React, {
 } from "react";
 import ReactDOM from "react-dom";
 
-import { StaticConfig } from "coral-common/config";
-import { LanguageCode } from "coral-common/helpers/i18n/locales";
-import { parseQuery } from "coral-common/utils";
+import { StaticConfig } from "coral-common/common/lib/config";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
+import { parseQuery } from "coral-common/common/lib/utils";
 import { RefreshAccessTokenCallback } from "coral-embed/Coral";
 import { createManaged } from "coral-framework/lib/bootstrap";
 import { RefreshAccessTokenPromise } from "coral-framework/lib/bootstrap/createManaged";

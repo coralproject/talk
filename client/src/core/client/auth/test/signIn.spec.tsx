@@ -1,7 +1,7 @@
 import { get } from "lodash";
 import sinon, { SinonStub } from "sinon";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import {
   act,
   createAccessToken,

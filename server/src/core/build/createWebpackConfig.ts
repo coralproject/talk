@@ -17,7 +17,7 @@ import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 // TODO: import form coral-common/version, for some reason this fails currently.
 // Try again when we have a chance to upgrade typescript.
-import { version } from "../common/version";
+import { version } from "coral-common/common/lib/version";
 import { Config, createClientEnv } from "./config";
 import paths from "./paths";
 

@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
 
-import startsWith from "coral-common/utils/startsWith";
+import startsWith from "coral-common/common/lib/utils/startsWith";
 
 const withEventEmitter = (
   streamEventEmitter: EventEmitter2,

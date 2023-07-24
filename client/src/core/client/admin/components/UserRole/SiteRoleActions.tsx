@@ -3,7 +3,6 @@ import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import { validatePermissionsAction } from "coral-common/permissions";
 import { useToggleState } from "coral-framework/hooks";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -19,17 +18,17 @@ import {
 import { SiteRoleActions_user } from "coral-admin/__generated__/SiteRoleActions_user.graphql";
 import { SiteRoleActions_viewer } from "coral-admin/__generated__/SiteRoleActions_viewer.graphql";
 
-import SiteModeratorActionsModal from "./SiteModeratorActionsModal";
-import UserRoleChangeButton from "./UserRoleChangeButton";
-import UserRoleText from "./UserRoleText";
-
-import styles from "./SiteRoleActions.css";
-
+import { validatePermissionsAction } from "coral-common/common/lib/permissions";
 import DemoteMemberMutation from "./DemoteMemberMutation";
 import DemoteModeratorMutation from "./DemoteModeratorMutation";
 import PromoteMemberMutation from "./PromoteMemberMutation";
 import PromoteModeratorMutation from "./PromoteModeratorMutation";
+import SiteModeratorActionsModal from "./SiteModeratorActionsModal";
 import UpdateUserRoleMutation from "./UpdateUserRoleMutation";
+import UserRoleChangeButton from "./UserRoleChangeButton";
+import UserRoleText from "./UserRoleText";
+
+import styles from "./SiteRoleActions.css";
 
 interface Props {
   viewer: SiteRoleActions_viewer;

@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect } from "react";
 import { graphql } from "react-relay";
 
-import waitFor from "coral-common/helpers/waitFor";
+import waitFor from "coral-common/common/lib/helpers/waitFor";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   LOCAL_ID,

@@ -1,6 +1,6 @@
 import { commitLocalUpdate } from "relay-runtime";
 
-import { parseQuery } from "coral-common/utils";
+import { parseQuery } from "coral-common/common/lib/utils";
 import { getParamsFromHashAndClearIt } from "coral-framework/helpers";
 import { parseAccessToken } from "coral-framework/lib/auth";
 import { InitLocalState } from "coral-framework/lib/bootstrap/createManaged";

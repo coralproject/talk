@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 
-import TIME from "coral-common/time";
+import TIME from "coral-common/common/lib/time";
 import {
   Flex,
   Option,

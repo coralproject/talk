@@ -1,6 +1,6 @@
 import { Environment } from "relay-runtime";
 
-import { GiphyGifSearchResponse } from "coral-common/types/giphy";
+import { GiphyGifSearchResponse } from "coral-common/common/lib/types/giphy";
 import { createFetch, FetchVariables } from "coral-framework/lib/relay";
 
 export const GIF_RESULTS_LIMIT = 10;

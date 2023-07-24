@@ -6,7 +6,7 @@ import http from "http";
 import { collectDefaultMetrics } from "prom-client";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 
-import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
 import createMetricsServer, {
   AppOptions,
   createApp,

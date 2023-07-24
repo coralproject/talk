@@ -2,7 +2,7 @@ import React from "react";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 
 import App from "coral-admin/App";
-import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/constants";
+import { DEFAULT_AUTO_ARCHIVE_OLDER_THAN } from "coral-common/common/lib/constants";
 import { GQLCOMMENT_SORT, GQLResolver } from "coral-framework/schema";
 import {
   createTestContext,

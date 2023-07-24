@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent, Ref } from "react";
 
-import { pascalCase } from "coral-common/utils";
+import { pascalCase } from "coral-common/common/lib/utils";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { Spacing } from "coral-ui/theme/sharedVariables";
 import { PropTypesOf } from "coral-ui/types";

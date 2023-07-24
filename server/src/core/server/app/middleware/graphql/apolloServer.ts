@@ -2,7 +2,7 @@ import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPlugin } from "apollo-server-plugin-base";
 import ResponseCachePlugin from "apollo-server-plugin-response-cache";
 
-import { CLIENT_ID_HEADER } from "coral-common/constants";
+import { CLIENT_ID_HEADER } from "coral-common/common/lib/constants";
 import { AppOptions } from "coral-server/app";
 import GraphContext, { GraphContextOptions } from "coral-server/graph/context";
 import {

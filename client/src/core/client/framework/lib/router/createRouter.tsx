@@ -8,7 +8,7 @@ import {
 import React, { ComponentType } from "react";
 import { Environment } from "relay-runtime";
 
-import { Overwrite, RequireProperty } from "coral-common/types";
+import { Overwrite, RequireProperty } from "coral-common/common/lib/types";
 import TransitionControl from "coral-framework/testHelpers/TransitionControl";
 
 export interface MatchContext {

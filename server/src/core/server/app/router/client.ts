@@ -1,8 +1,8 @@
 import cors from "cors";
 import express, { Router } from "express";
 
-import { EmbedBootstrapConfig, StaticConfig } from "coral-common/config";
-import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import { EmbedBootstrapConfig, StaticConfig } from "coral-common/common/lib/config";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
 import { cacheHeadersMiddleware } from "coral-server/app/middleware/cacheHeaders";
 import { cspSiteMiddleware } from "coral-server/app/middleware/csp";
 import { installedMiddleware } from "coral-server/app/middleware/installed";

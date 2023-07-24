@@ -6,7 +6,7 @@ import { graphql } from "react-relay";
 import None from "coral-admin/components/None";
 import NotAvailable from "coral-admin/components/NotAvailable";
 import NoTextContent from "coral-admin/components/NoTextContent";
-import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
+import getHTMLPlainText from "coral-common/common/lib/helpers/getHTMLPlainText";
 import getModerationLink from "coral-framework/helpers/getModerationLink";
 import useDateTimeFormatter from "coral-framework/hooks/useDateTimeFormatter";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";

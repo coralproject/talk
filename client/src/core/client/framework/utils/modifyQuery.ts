@@ -1,4 +1,4 @@
-import { parseQuery, stringifyQuery } from "coral-common/utils";
+import { parseQuery, stringifyQuery } from "coral-common/common/lib/utils";
 
 import buildURL from "./buildURL";
 import parseURL from "./parseURL";

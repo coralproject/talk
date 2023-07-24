@@ -1,8 +1,8 @@
 import path from "path";
 import { URL } from "url";
 
-import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/constants";
-import { LanguageCode } from "coral-common/helpers";
+import { TOXICITY_ENDPOINT_DEFAULT } from "coral-common/common/lib/constants";
+import { LanguageCode } from "coral-common/common/lib/helpers";
 import { getURLWithCommentID } from "coral-server/models/story";
 
 import { createAxios } from "../fetch";

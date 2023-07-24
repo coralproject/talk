@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { LanguageCode } from "coral-common/helpers/i18n";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n";
 import { InstallInput } from "coral-framework/rest";
 
 import { InstallMutation, withInstallMutation } from "./InstallMutation";

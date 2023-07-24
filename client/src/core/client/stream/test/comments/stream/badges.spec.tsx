@@ -1,6 +1,6 @@
 import { act, screen } from "@testing-library/react";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { GQLResolver, GQLSettings, GQLStory } from "coral-framework/schema";
 
 import {

@@ -1,7 +1,7 @@
 import { noop } from "lodash";
 import { ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
   act,

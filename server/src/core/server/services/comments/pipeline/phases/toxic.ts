@@ -3,7 +3,7 @@ import { isNil } from "lodash";
 import {
   TOXICITY_MODEL_DEFAULT,
   TOXICITY_THRESHOLD_DEFAULT,
-} from "coral-common/constants";
+} from "coral-common/common/lib/constants";
 import { ToxicCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { hasFeatureFlag } from "coral-server/models/tenant";

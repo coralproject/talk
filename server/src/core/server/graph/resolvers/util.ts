@@ -3,10 +3,10 @@ import { GraphQLResolveInfo } from "graphql";
 import graphqlFields from "graphql-fields";
 import { pull } from "lodash";
 
-import { setCacheHint } from "coral-common/graphql";
 import { reconstructTenantURL } from "coral-server/app/url";
 
 import GraphContext from "../context";
+import { setCacheHint } from "../setCacheHint";
 
 /**
  * getRequestedFields returns the fields in an array that are being queried for.

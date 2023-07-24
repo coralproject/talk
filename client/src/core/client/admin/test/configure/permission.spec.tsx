@@ -1,6 +1,6 @@
 import { screen, waitFor } from "@testing-library/react";
 
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { GQLResolver, GQLUSER_ROLE } from "coral-framework/schema";
 import {
   createResolversStub,

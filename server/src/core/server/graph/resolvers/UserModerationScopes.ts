@@ -1,4 +1,4 @@
-import { isSiteModerationScoped } from "coral-common/permissions";
+import { isSiteModerationScoped } from "coral-common/common/lib/permissions";
 import * as user from "coral-server/models/user";
 
 import { GQLUserModerationScopesTypeResolver } from "coral-server/graph/schema/__generated__/types";

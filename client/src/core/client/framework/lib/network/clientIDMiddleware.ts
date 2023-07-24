@@ -1,6 +1,6 @@
 import { Middleware } from "react-relay-network-modern/es";
 
-import { CLIENT_ID_HEADER } from "coral-common/constants";
+import { CLIENT_ID_HEADER } from "coral-common/common/lib/constants";
 
 /**
  * Sets clientID on the header.

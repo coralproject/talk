@@ -2,8 +2,8 @@ import { isEmpty } from "lodash";
 import { Collection } from "mongodb";
 import * as uuid from "uuid";
 
-import { RequireProperty, Sub } from "coral-common/types";
-import { dotize } from "coral-common/utils/dotize";
+import { RequireProperty, Sub } from "coral-common/common/lib/types";
+import { dotize } from "coral-common/common/lib/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import {
   CommentEditWindowExpiredError,

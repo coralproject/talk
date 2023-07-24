@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import { LanguageCode } from "coral-common/helpers/i18n";
+import { LanguageCode } from "coral-common/common/lib/helpers/i18n";
 import { LocaleField } from "coral-framework/components";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { OnSubmit, ValidationMessage } from "coral-framework/lib/form";

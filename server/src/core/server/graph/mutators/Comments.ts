@@ -1,5 +1,5 @@
-import { ERROR_CODES } from "coral-common/errors";
-import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
+import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/common/lib/helpers/validate";
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { hasTag } from "coral-server/models/comment";

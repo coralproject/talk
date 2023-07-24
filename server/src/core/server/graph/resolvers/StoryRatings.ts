@@ -1,4 +1,4 @@
-import { roundRating } from "coral-common/utils";
+import { roundRating } from "coral-common/common/lib/utils";
 
 import {
   GQLStoryRatings,

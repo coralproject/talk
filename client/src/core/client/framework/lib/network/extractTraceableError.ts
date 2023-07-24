@@ -1,4 +1,4 @@
-import { ERROR_TYPES } from "coral-common/errors";
+import { ERROR_TYPES } from "coral-common/common/lib/errors";
 
 import {
   InvalidRequestError,

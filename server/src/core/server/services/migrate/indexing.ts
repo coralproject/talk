@@ -1,7 +1,7 @@
 import { merge } from "lodash";
 import { Collection, IndexOptions } from "mongodb";
 
-import { Writable } from "coral-common/types";
+import { Writable } from "coral-common/common/lib/types";
 import { MongoContext } from "coral-server/data/context";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";

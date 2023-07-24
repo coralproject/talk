@@ -2,7 +2,7 @@ import fs from "fs";
 import fetch from "node-fetch";
 import path from "path";
 
-import { waitFor } from "coral-common/helpers";
+import { waitFor } from "coral-common/common/lib/helpers";
 import { Config } from "coral-server/config";
 import logger from "coral-server/logger";
 

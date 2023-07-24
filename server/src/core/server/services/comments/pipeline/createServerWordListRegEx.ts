@@ -1,8 +1,8 @@
 import { defaults } from "lodash";
 import RE2 from "re2";
 
-import { LanguageCode } from "coral-common/helpers";
-import { DeepPartial } from "coral-common/types";
+import { LanguageCode } from "coral-common/common/lib/helpers";
+import { DeepPartial } from "coral-common/common/lib/types";
 
 export interface WordListRule {
   boundary: string;

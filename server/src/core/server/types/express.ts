@@ -1,6 +1,6 @@
 import { NextFunction, Request as ExpressRequest, Response } from "express";
 
-import { RequireProperty } from "coral-common/types";
+import { RequireProperty } from "coral-common/common/lib/types";
 import { Logger } from "coral-server/logger";
 import { PersistedQuery } from "coral-server/models/queries";
 import { Site } from "coral-server/models/site";

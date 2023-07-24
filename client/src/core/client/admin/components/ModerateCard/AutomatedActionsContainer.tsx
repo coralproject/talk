@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/constants";
+import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/common/lib/constants";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import { Flex, Marker, Tag } from "coral-ui/components/v2";

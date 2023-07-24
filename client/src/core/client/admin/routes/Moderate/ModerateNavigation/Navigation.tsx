@@ -5,7 +5,7 @@ import { isNumber } from "lodash";
 import React, { FunctionComponent, useEffect, useMemo } from "react";
 
 import { HOTKEYS } from "coral-admin/constants";
-import { SectionFilter } from "coral-common/section";
+import { SectionFilter } from "coral-common/common/lib/section";
 import { getModerationLink } from "coral-framework/helpers";
 import { Counter, Icon, SubBarNavigation } from "coral-ui/components/v2";
 

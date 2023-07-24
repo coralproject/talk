@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 
-import { validateRoleChange } from "coral-common/permissions";
+import { validateRoleChange } from "coral-common/common/lib/permissions";
 import { useToggleState } from "coral-framework/hooks";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import {

@@ -1,4 +1,4 @@
-import TIME from "coral-common/time";
+import TIME from "coral-common/common/lib/time";
 import {
   GQLComment,
   GQLCOMMENT_STATUS,

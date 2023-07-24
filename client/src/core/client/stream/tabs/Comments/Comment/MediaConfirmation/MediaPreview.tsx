@@ -1,7 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { MediaLink } from "coral-common/helpers/findMediaLinks";
+import { MediaLink } from "coral-common/common/lib/helpers/findMediaLinks";
 import {
   ExternalMedia,
   TwitterMedia,

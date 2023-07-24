@@ -2,7 +2,7 @@ import Joi from "joi";
 import { camelCase, isEqual, omit, pick, uniqWith } from "lodash";
 import { v4 as uuid } from "uuid";
 
-import { Sub } from "coral-common/types";
+import { Sub } from "coral-common/common/lib/types";
 import { CommentActionsCache } from "coral-server/data/cache/commentActionsCache";
 import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";

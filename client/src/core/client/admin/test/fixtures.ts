@@ -1,9 +1,9 @@
 import {
   DEFAULT_SESSION_DURATION,
   TOXICITY_THRESHOLD_DEFAULT,
-} from "coral-common/constants";
-import TIME from "coral-common/time";
-import { pureMerge } from "coral-common/utils";
+} from "coral-common/common/lib/constants";
+import TIME from "coral-common/common/lib/time";
+import { pureMerge } from "coral-common/common/lib/utils";
 import {
   GQLComment,
   GQLCOMMENT_FLAG_REASON,

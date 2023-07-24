@@ -2,7 +2,7 @@ import {
   TimeSeriesMetricsJSON,
   TodayMetricsJSON,
   TodayStoriesMetricsJSON,
-} from "coral-common/types/dashboard";
+} from "coral-common/common/lib/types/dashboard";
 import { AppOptions } from "coral-server/app";
 import { calculateTotalCommentCount } from "coral-server/models/comment";
 import {

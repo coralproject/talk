@@ -1,6 +1,6 @@
 import { merge } from "lodash";
 
-import { CLIENT_ID_HEADER } from "coral-common/constants";
+import { CLIENT_ID_HEADER } from "coral-common/common/lib/constants";
 import { Overwrite } from "coral-framework/types";
 
 import { AccessTokenProvider } from "./auth";

@@ -8,9 +8,9 @@ import {
   USERNAME_MAX_LENGTH,
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
-} from "coral-common/helpers/validate";
-import validateImagePathname from "coral-common/helpers/validateImagePathname";
-import startsWith from "coral-common/utils/startsWith";
+} from "coral-common/common/lib/helpers/validate";
+import validateImagePathname from "coral-common/common/lib/helpers/validateImagePathname";
+import startsWith from "coral-common/common/lib/utils/startsWith";
 import { parseURL } from "coral-framework/utils";
 
 import {

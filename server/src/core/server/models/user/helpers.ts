@@ -3,7 +3,7 @@ import { isEqual } from "lodash";
 import { SSOUserProfile } from "coral-server/app/middleware/passport/strategies/verifiers/sso";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
-import { isSiteModerationScoped } from "coral-common/permissions";
+import { isSiteModerationScoped } from "coral-common/common/lib/permissions";
 
 import { MODERATOR_ROLES, STAFF_ROLES } from "./constants";
 import { LocalProfile, Profile, SSOProfile, User } from "./user";

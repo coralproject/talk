@@ -1,4 +1,4 @@
-import { parseQuery, stringifyQuery } from "coral-common/utils";
+import { parseQuery, stringifyQuery } from "coral-common/common/lib/utils";
 import { buildURL } from "coral-framework/utils";
 import { EventEmitter2 } from "eventemitter2";
 

@@ -1,4 +1,4 @@
-import { DeepPartial } from "coral-common/types";
+import { DeepPartial } from "coral-common/common/lib/types";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import {
   IntermediateModerationPhase,

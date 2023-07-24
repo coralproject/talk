@@ -1,5 +1,5 @@
-import getHTMLPlainText from "coral-common/helpers/getHTMLPlainText";
-import { Promiseable, RequireProperty } from "coral-common/types";
+import getHTMLPlainText from "coral-common/common/lib/helpers/getHTMLPlainText";
+import { Promiseable, RequireProperty } from "coral-common/common/lib/types";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { Logger } from "coral-server/logger";

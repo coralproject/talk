@@ -1,4 +1,4 @@
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { DeepPartial } from "coral-framework/types";
 
 /**

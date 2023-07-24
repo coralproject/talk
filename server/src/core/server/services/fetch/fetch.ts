@@ -5,7 +5,7 @@ import { clearLongTimeout } from "long-settimeout";
 import fetch, { RequestInit, Response } from "node-fetch";
 import { URL } from "url";
 
-import { version } from "coral-common/version";
+import { version } from "coral-common/common/lib/version";
 import {
   generateSignatures,
   SigningSecret,

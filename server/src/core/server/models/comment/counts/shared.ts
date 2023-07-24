@@ -1,7 +1,7 @@
 import { flatten, flattenDeep, identity, isEmpty, pickBy } from "lodash";
 import ms from "ms";
 
-import { FirstDeepPartial } from "coral-common/types";
+import { FirstDeepPartial } from "coral-common/common/lib/types";
 import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";
 import {

@@ -3,7 +3,7 @@ import React from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { LOCALES_MAP } from "coral-common/helpers/i18n/locales";
+import { LOCALES_MAP } from "coral-common/common/lib/helpers/i18n/locales";
 import { required } from "coral-framework/lib/validation";
 import {
   CallOut,

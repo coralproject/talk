@@ -2,7 +2,7 @@ import { createEmailDomain } from "./tenant";
 jest.mock("coral-server/models/user");
 jest.mock("coral-server/models/site");
 
-import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import { UserNotFoundError } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import {

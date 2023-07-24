@@ -9,8 +9,8 @@ import React, {
 import { Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
-import { extractDomain } from "coral-common/email";
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
+import { extractDomain } from "coral-common/common/lib/email";
 import { useGetMessage } from "coral-framework/lib/i18n";
 import { useMutation } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
@@ -44,7 +44,7 @@ import UserStatusSitesList from "./UserStatus/UserStatusSitesList";
 import {
   isOrgModerator,
   isSiteModerator,
-} from "coral-common/permissions/types";
+} from "coral-common/common/lib/permissions/types";
 import styles from "./BanModal.css";
 
 export enum UpdateType {

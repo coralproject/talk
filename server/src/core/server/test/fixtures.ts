@@ -1,7 +1,7 @@
 import { merge } from "lodash";
 import { v4 as uuid } from "uuid";
 
-import TIME from "coral-common/time";
+import TIME from "coral-common/common/lib/time";
 import { Comment } from "coral-server/models/comment";
 import { Site } from "coral-server/models/site";
 import { Story } from "coral-server/models/story";

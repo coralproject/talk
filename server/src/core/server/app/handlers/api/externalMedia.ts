@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import validateImagePathname from "coral-common/helpers/validateImagePathname";
+import validateImagePathname from "coral-common/common/lib/helpers/validateImagePathname";
 import { AppOptions } from "coral-server/app";
 import { createManifestLoader } from "coral-server/app/helpers/manifestLoader";
 import { validate } from "coral-server/app/request/body";

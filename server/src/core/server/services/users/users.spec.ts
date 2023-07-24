@@ -1,4 +1,4 @@
-import { pureMerge } from "coral-common/utils";
+import { pureMerge } from "coral-common/common/lib/utils";
 jest.mock("coral-server/models/user");
 
 import { UserForbiddenError, ValidationError } from "coral-server/errors";

@@ -7,13 +7,13 @@ import {
   DOWNLOAD_LIMIT_TIMEFRAME_DURATION,
   MAX_BIO_LENGTH,
   SCHEDULED_DELETION_WINDOW_DURATION,
-} from "coral-common/constants";
-import { formatDate } from "coral-common/date";
+} from "coral-common/common/lib/constants";
+import { formatDate } from "coral-common/common/lib/date";
 import {
   isSiteModerationScoped,
   validatePermissionsAction,
-} from "coral-common/permissions";
-import { PermissionsAction } from "coral-common/permissions/types";
+} from "coral-common/common/lib/permissions";
+import { PermissionsAction } from "coral-common/common/lib/permissions/types";
 import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";

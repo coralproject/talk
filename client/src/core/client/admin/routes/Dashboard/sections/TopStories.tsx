@@ -3,7 +3,7 @@ import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { TodayStoriesMetricsJSON } from "coral-common/types/dashboard";
+import { TodayStoriesMetricsJSON } from "coral-common/common/lib/types/dashboard";
 import { getModerationLink } from "coral-framework/helpers";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import {

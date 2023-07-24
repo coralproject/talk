@@ -7,7 +7,7 @@ import {
   TOXICITY_ENDPOINT_DEFAULT,
   TOXICITY_MODEL_DEFAULT,
   TOXICITY_THRESHOLD_DEFAULT,
-} from "coral-common/constants";
+} from "coral-common/common/lib/constants";
 import {
   formatPercentage,
   parseEmptyAsNull,

@@ -3,7 +3,7 @@ import { clearLongTimeout, LongTimeout, setLongTimeout } from "long-settimeout";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { graphql } from "react-relay";
 
-import { isBeforeDate } from "coral-common/utils";
+import { isBeforeDate } from "coral-common/common/lib/utils";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";

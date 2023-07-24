@@ -3,7 +3,7 @@ import cn from "classnames";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
-import { SectionFilter } from "coral-common/section";
+import { SectionFilter } from "coral-common/common/lib/section";
 
 import styles from "./SectionSelectorSection.css";
 

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { LanguageCode, LOCALES_MAP } from "coral-common/helpers/i18n";
+import { LanguageCode, LOCALES_MAP } from "coral-common/common/lib/helpers/i18n";
 import { PropTypesOf } from "coral-framework/types";
 import { Option, SelectField } from "coral-ui/components/v2";
 

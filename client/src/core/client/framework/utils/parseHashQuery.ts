@@ -1,5 +1,5 @@
-import { parseQuery } from "coral-common/utils";
-import startsWith from "coral-common/utils/startsWith";
+import { parseQuery } from "coral-common/common/lib/utils";
+import startsWith from "coral-common/common/lib/utils/startsWith";
 
 export default function parseQueryHash(
   hash: string

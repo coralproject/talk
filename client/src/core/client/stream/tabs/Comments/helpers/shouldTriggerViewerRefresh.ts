@@ -1,4 +1,4 @@
-import { ERROR_CODES } from "coral-common/errors";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 
 const triggers = [
   ERROR_CODES.USER_BANNED,

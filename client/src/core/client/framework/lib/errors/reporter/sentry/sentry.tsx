@@ -2,7 +2,7 @@ import { Dedupe, RewriteFrames, Transaction } from "@sentry/integrations";
 import * as Sentry from "@sentry/react";
 import React, { FunctionComponent } from "react";
 
-import { ensureNoStartSlash, getOrigin } from "coral-common/utils";
+import { ensureNoStartSlash, getOrigin } from "coral-common/common/lib/utils";
 import supportedBrowsersRegExp from "coral-framework/helpers/supportedBrowsersRegExp";
 
 import {

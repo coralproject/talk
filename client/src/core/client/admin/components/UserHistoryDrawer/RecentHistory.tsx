@@ -2,8 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { reduceSeconds } from "coral-common/helpers/i18n";
-import TIME from "coral-common/time";
+import { reduceSeconds } from "coral-common/common/lib/helpers/i18n";
+import TIME from "coral-common/common/lib/time";
 import {
   Flex,
   HorizontalGutter,

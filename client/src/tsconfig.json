@@ -14,9 +14,8 @@
     "baseUrl": "./",
     "paths": {
       "coral-server/*": ["../../server/src/core/server/*"],
-      "coral-common/*": ["./core/common/*"]
     }
   },
-  "include": ["./**/*"],
+  "include": ["./**/*", "../../common/src/**/*"],
   "exclude": ["node_modules", "./core/client"]
 }

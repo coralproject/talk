@@ -2,7 +2,6 @@ import { DirectiveResolverFn } from "@graphql-tools/utils";
 import { CacheScope } from "apollo-cache-control";
 import { memoize } from "lodash";
 
-import { setCacheHint } from "coral-common/graphql";
 import {
   UserBanned,
   UserForbiddenError,
@@ -24,6 +23,7 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { setCacheHint } from "../setCacheHint";
 import { calculateLocationKey } from "./helpers";
 
 // Replace `memoize.Cache`.

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { graphql } from "react-relay";
 
 import { SetRedirectPathMutation } from "coral-admin/mutations";
-import { waitFor } from "coral-common/helpers";
+import { waitFor } from "coral-common/common/lib/helpers";
 import {
   MutationProp,
   withFragmentContainer,

@@ -2,7 +2,7 @@ import { CoralRTE } from "@coralproject/rte";
 import React, { Ref } from "react";
 import { graphql } from "react-relay";
 
-import { convertGQLRTEConfigToRTEFeatures } from "coral-common/helpers/sanitize";
+import { convertGQLRTEConfigToRTEFeatures } from "coral-common/common/lib/helpers/sanitize";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { withForwardRef } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";

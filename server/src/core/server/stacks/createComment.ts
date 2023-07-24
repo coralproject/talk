@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { isNumber } from "lodash";
 
-import { ERROR_TYPES } from "coral-common/errors";
+import { ERROR_TYPES } from "coral-common/common/lib/errors";
 import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";

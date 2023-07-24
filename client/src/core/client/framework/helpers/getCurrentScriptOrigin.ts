@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import getOrigin from "coral-common/utils/getOrigin";
+import getOrigin from "coral-common/common/lib/utils/getOrigin";
 import { ORIGIN_FALLBACK_ID } from "coral-framework/constants";
 
 /**

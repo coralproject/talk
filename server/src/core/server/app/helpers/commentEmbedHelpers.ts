@@ -1,5 +1,5 @@
-import { createDateFormatter } from "coral-common/date";
-import { sanitizeAndFindFormattingTags } from "coral-common/helpers/sanitize";
+import { createDateFormatter } from "coral-common/common/lib/date";
+import { sanitizeAndFindFormattingTags } from "coral-common/common/lib/helpers/sanitize";
 import { MongoContext } from "coral-server/data/context";
 import { Comment } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";

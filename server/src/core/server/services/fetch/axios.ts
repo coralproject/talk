@@ -3,7 +3,7 @@ import http from "http";
 import https from "https";
 import { capitalize } from "lodash";
 
-import { version } from "coral-common/version";
+import { version } from "coral-common/common/lib/version";
 
 export type Axios = (
   url: string,

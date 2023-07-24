@@ -1,5 +1,5 @@
-import { findMediaLinks } from "coral-common/helpers/findMediaLinks";
-import validateImagePathname from "coral-common/helpers/validateImagePathname";
+import { findMediaLinks } from "coral-common/common/lib/helpers/findMediaLinks";
+import validateImagePathname from "coral-common/common/lib/helpers/validateImagePathname";
 import { WrappedInternalError } from "coral-server/errors";
 import {
   ExternalMedia,

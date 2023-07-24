@@ -3,7 +3,7 @@ import { Mutator } from "final-form";
 import React, { FunctionComponent, RefObject, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import { ScaledUnit } from "coral-common/helpers/i18n";
+import { ScaledUnit } from "coral-common/common/lib/helpers/i18n";
 import { useGetMessage } from "coral-framework/lib/i18n";
 import {
   Button,

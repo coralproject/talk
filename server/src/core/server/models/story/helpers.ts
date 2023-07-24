@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { URL } from "url";
 
-import { parseQuery, stringifyQuery } from "coral-common/utils";
+import { parseQuery, stringifyQuery } from "coral-common/common/lib/utils";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 
 import {

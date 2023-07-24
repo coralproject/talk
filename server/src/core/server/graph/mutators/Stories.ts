@@ -1,6 +1,6 @@
 import { isNull, omitBy } from "lodash";
 
-import { ERROR_CODES } from "coral-common/errors";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 import {
   DataCachingNotAvailableError,
   StoryNotFoundError,

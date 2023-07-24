@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import startsWith from "coral-common/utils/startsWith";
+import startsWith from "coral-common/common/lib/utils/startsWith";
 
 export default function buildURL({
   protocol = window.location.protocol,

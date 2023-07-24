@@ -2,7 +2,7 @@ import { Response } from "express";
 import { merge } from "lodash";
 import { OAuth2 } from "oauth";
 
-import { stringifyQuery } from "coral-common/utils";
+import { stringifyQuery } from "coral-common/common/lib/utils";
 import { reconstructURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { WrappedInternalError } from "coral-server/errors";

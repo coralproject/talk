@@ -1,11 +1,11 @@
 import { JSDOM } from "jsdom";
 import { memoize } from "lodash";
 
-import removeTrailingEmptyLines from "coral-common/helpers/removeTrailingEmptyLines";
+import removeTrailingEmptyLines from "coral-common/common/lib/helpers/removeTrailingEmptyLines";
 import {
   convertGQLRTEConfigToRTEFeatures,
   createSanitize,
-} from "coral-common/helpers/sanitize";
+} from "coral-common/common/lib/helpers/sanitize";
 import { defaultRTEConfiguration } from "coral-server/models/settings";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import {

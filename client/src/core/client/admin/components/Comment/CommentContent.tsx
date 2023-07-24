@@ -7,7 +7,7 @@ import {
   createSanitize,
   Sanitize,
   WORDLIST_FORBID_TAGS,
-} from "coral-common/helpers/sanitize";
+} from "coral-common/common/lib/helpers/sanitize";
 import { GQLWordlistMatch } from "coral-framework/schema";
 
 import styles from "./CommentContent.css";

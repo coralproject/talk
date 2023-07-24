@@ -1,7 +1,7 @@
 import { defaultTo, uniq } from "lodash";
 import { DateTime } from "luxon";
 
-import isNonNullArray from "coral-common/helpers/isNonNullArray";
+import isNonNullArray from "coral-common/common/lib/helpers/isNonNullArray";
 import { Config } from "coral-server/config";
 import { CommentCache } from "coral-server/data/cache/commentCache";
 import { MongoContext } from "coral-server/data/context";

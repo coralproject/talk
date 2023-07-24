@@ -2,9 +2,9 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { reduceSeconds } from "coral-common/helpers";
-import TIME from "coral-common/time";
-import { TodayMetricsJSON } from "coral-common/types/dashboard";
+import { reduceSeconds } from "coral-common/common/lib/helpers";
+import TIME from "coral-common/common/lib/time";
+import { TodayMetricsJSON } from "coral-common/common/lib/types/dashboard";
 import { useLocal } from "coral-framework/lib/relay";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { Flex } from "coral-ui/components/v2";

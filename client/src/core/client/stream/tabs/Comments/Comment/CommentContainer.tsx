@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
-import { isBeforeDate } from "coral-common/utils";
+import { isBeforeDate } from "coral-common/common/lib/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useToggleState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";

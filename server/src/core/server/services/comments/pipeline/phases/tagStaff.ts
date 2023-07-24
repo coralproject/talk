@@ -1,4 +1,4 @@
-import { isSiteModerationScoped } from "coral-common/permissions";
+import { isSiteModerationScoped } from "coral-common/common/lib/permissions";
 import { canModerate } from "coral-server/models/user/helpers";
 import {
   IntermediateModerationPhase,

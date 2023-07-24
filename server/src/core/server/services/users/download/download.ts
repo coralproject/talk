@@ -5,7 +5,7 @@ import { Response } from "express";
 import htmlToText from "html-to-text";
 import { kebabCase } from "lodash";
 
-import { createDateFormatter } from "coral-common/date";
+import { createDateFormatter } from "coral-common/common/lib/date";
 import { MongoContext } from "coral-server/data/context";
 import { mapErrorsToNull } from "coral-server/helpers/dataloader";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
