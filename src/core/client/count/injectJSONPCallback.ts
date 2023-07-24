@@ -2,8 +2,6 @@ import { CountJSONPData } from "coral-common/types/count";
 import { COUNT_SELECTOR } from "coral-framework/constants";
 import getPreviousCountStorageKey from "coral-framework/helpers/getPreviousCountStorageKey";
 
-const TEXT_CLASS_NAME = "coral-count-text";
-
 type GetCountFunction = (opts?: { reset?: boolean }) => void;
 
 /**
@@ -44,57 +42,62 @@ interface CountElementDataset {
 }
 
 function createCountElementEnhancer({
-  html,
+  countHtml,
+  textHtml,
   count: currentCount,
   id: storyID,
 }: CountJSONPData) {
-  // Get the dataset together for setting properties on the enhancer.
-  const dataset: CountElementDataset = {
-    coralCount: currentCount.toString(),
-  };
-
-  // Create the root element we're using for this.
-  const element = document.createElement("span");
-
-  const showText = html.includes(TEXT_CLASS_NAME);
-
-  // Update the innerHTML which contains the count and new value..
-  element.innerHTML = html;
-
-  if (storyID) {
-    const previousCount = getPreviousCount(storyID) ?? 0;
-
-    // The new count is the current count subtracted from the previous
-    // count if the counts are different, otherwise, zero.
-    const newCount =
-      previousCount < currentCount ? currentCount - previousCount : 0;
-
-    // Add the counts to the dataset so it can be targeted by CSS if you want.
-    dataset.coralPreviousCount = previousCount.toString();
-    dataset.coralNewCount = newCount.toString();
-
-    if (showText) {
-      // Insert the divider " / "
-      const dividerElement = document.createElement("span");
-      dividerElement.className = "coral-new-count-divider";
-      dividerElement.innerText = " / ";
-      element.appendChild(dividerElement);
-
-      // Add the number of new comments to that.
-      const newCountNumber = document.createElement("span");
-      newCountNumber.className = "coral-new-count-number";
-      newCountNumber.innerText = newCount.toString();
-      element.appendChild(newCountNumber);
-
-      // Add the number of new comments to that.
-      const newCountText = document.createElement("span");
-      newCountText.className = "coral-new-count-text";
-      newCountText.innerText = " New";
-      element.appendChild(newCountText);
-    }
-  }
-
   return (target: HTMLElement) => {
+    // Get the dataset together for setting properties on the enhancer.
+    const dataset: CountElementDataset = {
+      coralCount: currentCount.toString(),
+    };
+
+    // Create the root element we're using for this.
+    const element = document.createElement("span");
+
+    const showText = !(target.dataset.coralNotext === "true");
+
+    // Update the innerHTML which contains the count and new value..
+    if (showText) {
+      element.innerHTML = `${countHtml} ${textHtml}`;
+    } else {
+      element.innerHTML = countHtml;
+    }
+
+    if (storyID) {
+      const previousCount = getPreviousCount(storyID) ?? 0;
+
+      // The new count is the current count subtracted from the previous
+      // count if the counts are different, otherwise, zero.
+      const newCount =
+        previousCount < currentCount ? currentCount - previousCount : 0;
+
+      // Add the counts to the dataset so it can be targeted by CSS if you want.
+      dataset.coralPreviousCount = previousCount.toString();
+      dataset.coralNewCount = newCount.toString();
+
+      if (showText) {
+        // Insert the divider " / "
+        const dividerElement = document.createElement("span");
+        dividerElement.className = "coral-new-count-divider";
+        dividerElement.innerText = " / ";
+        element.appendChild(dividerElement);
+
+        // Add the number of new comments to that.
+        const newCountNumber = document.createElement("span");
+        newCountNumber.className = "coral-new-count-number";
+        newCountNumber.innerText = newCount.toString();
+        element.appendChild(newCountNumber);
+
+        // Add the number of new comments to that.
+        const newCountText = document.createElement("span");
+        newCountText.className = "coral-new-count-text";
+        newCountText.innerText = " New";
+        element.appendChild(newCountText);
+      }
+    }
+
     // Add the innerHTML from the element to the target element. This will
     // include any optional children that were appended related to new comment
     // counts.

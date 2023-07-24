@@ -6,14 +6,12 @@ reaction-labelActiveRespected = Gerespecteerd
 reaction-sortLabelMostRespected = Meest Gerespecteerd
 
 comment-count =
-  <span class="{ $numberClass }">{ $number }</span>
   <span class="{ $textClass }">{ $number  ->
     [one] Reactie
     *[other] Reacties
   }</span>
 
 comment-counts-ratings-and-reviews =
-  <span class="{ $numberClass }">{ $number }</span>
   <span class="{ $textClass }">{ $number  ->
     [one] Rating
     *[other] Ratings

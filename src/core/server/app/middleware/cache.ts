@@ -40,7 +40,10 @@ const cacheMiddleware =
   (redis: Redis, ttl: number): RequestHandler =>
   async (req, res, next) => {
     // Compute the cache key.
-    const key = `rmc:${req.hostname}:${req.originalUrl}`;
+    const url = new URL(`${req.hostname}:${req.originalUrl}`);
+    const params = new URLSearchParams(url.search);
+
+    const key = `rmc:CoralCount&url=${params.get("url")}`;
     const log = logger.child({ key }, true);
 
     // Try to lookup the entry in the cache.
