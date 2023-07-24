@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import passport from "passport";
 
@@ -12,6 +13,7 @@ import {
   authenticate,
   commentEmbedWhitelisted,
   corsWhitelisted,
+  createCommentEmbedCorsOptionsDelegate,
   cspSiteMiddleware,
   JSONErrorHandler,
   jsonMiddleware,
@@ -96,6 +98,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.get(
     "/services/oembed",
     commentEmbedWhitelisted(app),
+    cors(createCommentEmbedCorsOptionsDelegate(app.mongo)),
     oembedProviderHandler(app)
   );
   router.get(
