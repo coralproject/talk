@@ -30,6 +30,9 @@ extend type User {
   # rejected as part of the ban process, since it may take
   # some time to take effect on the backend
   allCommentsRejected: Boolean
+  # Contains ids of sites on which a user has had all of their
+  # comments rejected in the course of being banned on specific
+  # sites
   commentsRejectedOnSites: [ID!]
 }
 
