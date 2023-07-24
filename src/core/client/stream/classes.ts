@@ -414,11 +414,6 @@ const CLASSES = {
        */
       shareButton: "coral coral-comment-shareButton",
       /**
-       * goToConversationButton is the button that links to the permalink
-       * view for the comment in single comment embeds
-       */
-      goToConversationButton: "coral coral-comment-goToConversationButton",
-      /**
        * reportButton is the button that triggers the report feature.
        */
       reportButton: "coral coral-reportButton coral-comment-reportButton",

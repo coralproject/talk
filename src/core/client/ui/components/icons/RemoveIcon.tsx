@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-const RemoveIcon: FunctionComponent = () => {
-  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/remove-add/remove
+const CloseIcon: FunctionComponent = () => {
+  // NOte: Using Streamline Remove icon here
   return (
     <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -22,4 +22,4 @@ const RemoveIcon: FunctionComponent = () => {
   );
 };
 
-export default RemoveIcon;
+export default CloseIcon;
