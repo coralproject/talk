@@ -1,7 +1,10 @@
 import Joi from "joi";
 import { v4 as uuid } from "uuid";
 
-import { LanguageCode, LOCALES } from "coral-common/common/lib/helpers/i18n/locales";
+import {
+  LanguageCode,
+  LOCALES,
+} from "coral-common/common/lib/helpers/i18n/locales";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";

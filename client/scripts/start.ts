@@ -94,7 +94,9 @@ devServer.listen(PORT, HOST, (err: Error) => {
     return console.log(err);
   }
   console.log(chalk.cyan("Starting the development server...\n"));
-  console.log(chalk.yellow(`devPort: ${PORT}, serverPort: ${serverConfig.port}`));
+  console.log(
+    chalk.yellow(`devPort: ${PORT}, serverPort: ${serverConfig.port}`)
+  );
 });
 
 ["SIGINT", "SIGTERM"].forEach((sig: any) => {

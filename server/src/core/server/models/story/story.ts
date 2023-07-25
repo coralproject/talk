@@ -2,7 +2,6 @@ import { MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, FirstDeepPartial } from "coral-common/common/lib/types";
-import { dotize } from "coral-server/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import {
   DuplicateStoryIDError,
@@ -20,6 +19,7 @@ import {
 } from "coral-server/models/helpers";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
+import { dotize } from "coral-server/utils/dotize";
 
 import {
   GQLSTORY_MODE,

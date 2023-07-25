@@ -3,7 +3,6 @@ import { Collection } from "mongodb";
 import * as uuid from "uuid";
 
 import { RequireProperty, Sub } from "coral-common/common/lib/types";
-import { dotize } from "coral-server/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import {
   CommentEditWindowExpiredError,
@@ -29,6 +28,7 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
+import { dotize } from "coral-server/utils/dotize";
 
 import {
   GQLCOMMENT_SORT,

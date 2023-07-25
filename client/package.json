@@ -47,7 +47,6 @@
     "lint:client": "eslint 'src/core/client/**/*.{js,ts,tsx}'",
     "lint:docs": "eslint 'docs/**/*.{js,ts,tsx}'",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
-    "lint:imports": "ts-node --transpile-only ./scripts/importBlocker.ts",
     "lint": "npm-run-all --parallel lint:* tscheck:*",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "start:webpackDevServer": "ts-node --transpile-only ./scripts/start.ts",
@@ -436,9 +435,6 @@
     ],
     "{package.json,src/core/client/framework/helpers/supportedBrowsersRegExp.ts,scripts/generateSupportedBrowsersRegExp.ts}": [
       "npm run generate:supportedBrowsersRegExp -- --verify"
-    ],
-    "src/core/server/graph/schema/schema.graphql": [
-      "graphql-schema-linter"
     ],
     "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,CLIENT_EVENTS.md}": [
       "npm run docs:events -- --verify"

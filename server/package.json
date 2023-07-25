@@ -34,9 +34,8 @@
     "lint-fix": "npm run lint:server -- --fix && npm run lint:scripts -- --fix",
     "lint:graphql": "graphql-schema-linter src/core/server/graph/schema/schema.graphql",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
-    "lint:server": "eslint 'src/**/*.{js,ts,tsx}' --ignore-pattern 'src/core/client/**'",
-    "lint:imports": "ts-node --transpile-only ./scripts/importBlocker.ts",
-    "lint": "npm-run-all --parallel lint:* tscheck:*",
+    "lint:server": "eslint 'src/**/*.{js,ts,tsx}'",
+    "lint": "npm-run-all lint:* tscheck:*",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "start:development": "NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
     "start:development:withJobs": "NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
@@ -423,17 +422,8 @@
     "*.{j,t}s{,x}": [
       "eslint"
     ],
-    "{package.json,src/core/client/framework/helpers/supportedBrowsersRegExp.ts,scripts/generateSupportedBrowsersRegExp.ts}": [
-      "npm run generate:supportedBrowsersRegExp -- --verify"
-    ],
     "src/core/server/graph/schema/schema.graphql": [
       "graphql-schema-linter"
-    ],
-    "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,CLIENT_EVENTS.md}": [
-      "npm run docs:events -- --verify"
-    ],
-    "{src/core/client/ui/theme/sharedVariables.ts,src/core/client/ui/theme/streamVariables.ts,scripts/generateCSSVariablesDocs.ts,CSS_VARIABLES.md}": [
-      "npm run docs:css-variables -- --verify"
     ],
     "{CLIENT_EVENTS,CONTRIBUTING,WEBHOOKS,EXTERNAL_MODERATION_PHASES}.md": [
       "npm run doctoc"

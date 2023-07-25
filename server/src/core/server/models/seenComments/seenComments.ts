@@ -1,10 +1,10 @@
 import { v4 as uuid } from "uuid";
 
-import { dotize } from "coral-server/utils/dotize";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { FindSeenCommentsInput } from "coral-server/graph/loaders/SeenComments";
 import SeenCommentsCollection from "coral-server/graph/seenCommentsCollection";
+import { dotize } from "coral-server/utils/dotize";
 
 import { TenantResource } from "../tenant";
 

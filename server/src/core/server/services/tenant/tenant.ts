@@ -4,7 +4,10 @@ import { URL } from "url";
 
 import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import { ERROR_CODES } from "coral-common/common/lib/errors";
-import { isModerator, isOrgModerator } from "coral-common/common/lib/permissions/types";
+import {
+  isModerator,
+  isOrgModerator,
+} from "coral-common/common/lib/permissions/types";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {

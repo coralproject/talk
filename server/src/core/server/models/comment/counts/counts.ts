@@ -2,10 +2,10 @@ import { identity, isEmpty, pickBy } from "lodash";
 import { Collection } from "mongodb";
 
 import { DeepPartial } from "coral-common/common/lib/types";
-import { dotize } from "coral-server/utils/dotize";
 import logger from "coral-server/logger";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
+import { dotize } from "coral-server/utils/dotize";
 
 import {
   GQLCOMMENT_STATUS,

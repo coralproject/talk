@@ -1,8 +1,8 @@
 import { isEmpty } from "lodash";
 import uuid from "uuid/v4";
 
-import { dotize } from "coral-server/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
+import { dotize } from "coral-server/utils/dotize";
 
 import { GQLCOMMENT_BODY_FORMAT } from "coral-server/graph/schema/__generated__/types";
 

@@ -2,7 +2,10 @@ import { IGif } from "@giphy/js-types";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { useField } from "react-final-form";
 
-import { isMediaLink, MediaLink } from "coral-common/common/lib/helpers/findMediaLinks";
+import {
+  isMediaLink,
+  MediaLink,
+} from "coral-common/common/lib/helpers/findMediaLinks";
 import { Icon } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 

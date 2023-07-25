@@ -4,7 +4,6 @@ import { MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, Sub } from "coral-common/common/lib/types";
-import { dotize } from "coral-server/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import {
   ConfirmEmailTokenExpired,
@@ -31,6 +30,7 @@ import {
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
+import { dotize } from "coral-server/utils/dotize";
 
 import {
   GQLBanStatus,

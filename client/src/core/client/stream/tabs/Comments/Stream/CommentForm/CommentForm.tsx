@@ -13,7 +13,10 @@ import React, {
 } from "react";
 import { Field, Form } from "react-final-form";
 
-import { findMediaLinks, MediaLink } from "coral-common/common/lib/helpers/findMediaLinks";
+import {
+  findMediaLinks,
+  MediaLink,
+} from "coral-common/common/lib/helpers/findMediaLinks";
 import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";

@@ -1,4 +1,3 @@
-import { dotize } from "coral-server/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import {
   ACTION_TYPE,
@@ -22,6 +21,7 @@ import {
 } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import Migration from "coral-server/services/migrate/migration";
+import { dotize } from "coral-server/utils/dotize";
 
 import { MigrationError } from "../error";
 import { createIndexesFactory } from "../indexing";
