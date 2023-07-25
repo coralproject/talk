@@ -7,9 +7,9 @@ import { graphql } from "react-relay";
 import { pureMerge } from "coral-common/common/lib/utils";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { AddIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
-  ButtonIcon,
   FormFieldDescription,
   HorizontalGutter,
 } from "coral-ui/components/v2";
@@ -118,9 +118,7 @@ const SlackConfigContainer: FunctionComponent<Props> = ({ form, settings }) => {
           </FormFieldDescription>
         </Localized>
         <Button iconLeft onClick={onAddChannel}>
-          <ButtonIcon size="md" className={styles.icon}>
-            add
-          </ButtonIcon>
+          <ButtonSvgIcon size="xs" className={styles.icon} Icon={AddIcon} />
           <Localized id="configure-slack-addChannel">Add Channel</Localized>
         </Button>
         <FieldArray name="slack.channels">

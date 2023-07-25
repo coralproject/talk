@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Icon } from "coral-ui/components/v2";
+import { CheckIcon, SvgIcon } from "coral-ui/components/icons";
 
 import styles from "./ListItem.css";
 
@@ -17,7 +17,7 @@ const ListItem: FunctionComponent<Props> = (props) => (
 );
 
 ListItem.defaultProps = {
-  icon: <Icon>keyboard_arrow_right</Icon>,
+  icon: <SvgIcon Icon={CheckIcon} size="xs" />,
 };
 
 export default ListItem;

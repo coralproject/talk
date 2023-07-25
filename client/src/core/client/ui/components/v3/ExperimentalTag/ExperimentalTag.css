@@ -20,3 +20,7 @@
 .button {
   color: var(--palette-text-100);
 }
+
+.button span {
+  display: block;
+}

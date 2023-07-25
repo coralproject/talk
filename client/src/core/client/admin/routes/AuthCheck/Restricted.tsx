@@ -3,7 +3,8 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import AuthBox from "coral-admin/components/AuthBox";
-import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components/v2";
+import { LockIcon, SvgIcon } from "coral-ui/components/icons";
+import { Button, Flex, HorizontalGutter } from "coral-ui/components/v2";
 
 import styles from "./Restricted.css";
 
@@ -26,9 +27,7 @@ const SignIn: FunctionComponent<Props> = ({ username, onSignInAs }) => {
       <HorizontalGutter size="double">
         <div>
           <Flex justifyContent="center">
-            <Icon size="lg" className={styles.lockIcon}>
-              lock
-            </Icon>
+            <SvgIcon size="lg" className={styles.lockIcon} Icon={LockIcon} />
           </Flex>
           <Localized id="restricted-noPermissionInfo">
             <div className={styles.noPermission}>

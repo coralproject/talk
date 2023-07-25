@@ -44,7 +44,7 @@ it("emit commentCount events", (done) => {
     eventEmitter.on("commentCount", (args) => {
       expect(args).toMatchInlineSnapshot(`
         Object {
-          "number": 2,
+          "number": 3,
           "storyID": "story-1",
           "storyURL": "http://localhost/stories/story-1",
           "text": "Comments",

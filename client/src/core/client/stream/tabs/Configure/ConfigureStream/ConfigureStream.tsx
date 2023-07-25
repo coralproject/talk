@@ -5,7 +5,11 @@ import { Form } from "react-final-form";
 
 import { purgeMetadata } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Icon } from "coral-ui/components/v2";
+import {
+  AlertCircleIcon,
+  CheckCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import { Button, CallOut } from "coral-ui/components/v3";
 
 import PremodConfigContainer from "./PremodConfig";
@@ -76,7 +80,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
                 <CallOut
                   className={CLASSES.configureCommentStream.successMessage}
                   color="success"
-                  icon={<Icon size="sm">check_circle</Icon>}
+                  icon={<SvgIcon Icon={CheckCircleIcon} />}
                   title={
                     <Localized id="configure-stream-streamHasBeenUpdated">
                       This stream has been updated
@@ -89,7 +93,7 @@ const ConfigureStream: FunctionComponent<Props> = ({
                 <CallOut
                   className={CLASSES.configureCommentStream.errorMessage}
                   color="error"
-                  icon={<Icon size="sm">error</Icon>}
+                  icon={<SvgIcon Icon={AlertCircleIcon} />}
                   title={submitError}
                   role="alert"
                 />

@@ -3,12 +3,12 @@ import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
+import { SearchIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   FieldSet,
   Flex,
   HorizontalGutter,
-  Icon,
   Label,
   Option,
   SelectField,
@@ -68,7 +68,7 @@ const StoryTableFilter: FunctionComponent<Props> = (props) => (
                             adornmentRight
                             aria-label="Search"
                           >
-                            <Icon size="md">search</Icon>
+                            <SvgIcon Icon={SearchIcon} />
                           </Button>
                         </Localized>
                       }

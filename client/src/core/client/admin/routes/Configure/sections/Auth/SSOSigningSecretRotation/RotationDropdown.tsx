@@ -1,12 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
+import { ArrowsDownIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   ClickOutside,
   Dropdown,
   DropdownButton,
-  Icon,
   Popover,
 } from "coral-ui/components/v2";
 
@@ -61,7 +61,7 @@ const RotationDropDown: FunctionComponent<Props> = ({
             <Localized id="configure-auth-sso-rotate-rotate">
               <span className={styles.rotate}>Rotate</span>
             </Localized>
-            <Icon>arrow_drop_down</Icon>
+            <SvgIcon size="xs" Icon={ArrowsDownIcon} />
           </Button>
         )}
       </Popover>

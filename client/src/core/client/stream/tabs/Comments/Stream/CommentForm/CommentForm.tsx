@@ -21,9 +21,15 @@ import { FormError, OnSubmit } from "coral-framework/lib/form";
 import { PropTypesOf } from "coral-framework/types";
 import CLASSES from "coral-stream/classes";
 import {
+  AddIcon,
+  AlarmClockIcon,
+  AlertCircleIcon,
+  ImageFileAddIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
   Flex,
   HorizontalGutter,
-  Icon,
   MatchMedia,
   Message,
   MessageIcon,
@@ -350,7 +356,10 @@ const CommentForm: FunctionComponent<Props> = ({
                                     aria-pressed={showExternalImageInput}
                                     onClick={toggleExternalImageInput}
                                   >
-                                    <Icon size="md">add_photo_alternate</Icon>
+                                    <SvgIcon
+                                      Icon={ImageFileAddIcon}
+                                      size="md"
+                                    />
                                   </RTEButton>
                                 </RTELocalized>
                               ) : null}
@@ -368,7 +377,11 @@ const CommentForm: FunctionComponent<Props> = ({
                                   onClick={toggleGIFSelector}
                                 >
                                   <Flex alignItems="center" container="span">
-                                    <Icon className={styles.icon}>add</Icon>
+                                    <SvgIcon
+                                      className={styles.icon}
+                                      size="xs"
+                                      Icon={AddIcon}
+                                    />
                                     GIF
                                   </Flex>
                                 </RTEButton>
@@ -394,7 +407,7 @@ const CommentForm: FunctionComponent<Props> = ({
                   className={CLASSES.editComment.remainingTime}
                   fullWidth
                 >
-                  <MessageIcon>alarm</MessageIcon>
+                  <MessageIcon Icon={AlarmClockIcon} />
                   <Localized
                     id="comments-editCommentForm-editRemainingTime"
                     elems={{ time: <RelativeTime date={editableUntil} live /> }}
@@ -411,7 +424,7 @@ const CommentForm: FunctionComponent<Props> = ({
                       color="error"
                       title={disabledMessage}
                       titleWeight="semiBold"
-                      icon={<Icon>error</Icon>}
+                      icon={<SvgIcon Icon={AlertCircleIcon} />}
                       role="alert"
                     />
                   )}
@@ -444,7 +457,7 @@ const CommentForm: FunctionComponent<Props> = ({
                             color="error"
                             title={error || localSubmitError}
                             titleWeight="semiBold"
-                            icon={<Icon>error</Icon>}
+                            icon={<SvgIcon Icon={AlertCircleIcon} />}
                             role="alert"
                           />
                         )}
@@ -461,7 +474,7 @@ const CommentForm: FunctionComponent<Props> = ({
                   color="error"
                   title={submitError}
                   titleWeight="semiBold"
-                  icon={<Icon>error</Icon>}
+                  icon={<SvgIcon Icon={AlertCircleIcon} />}
                   role="alert"
                 />
               )}

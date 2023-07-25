@@ -1,14 +1,16 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Icon } from "coral-ui/components/v2";
+import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
+
+import styles from "./Sorry.css";
 
 const Sorry: FunctionComponent = () => {
   return (
     <CallOut
       color="error"
-      icon={<Icon>error</Icon>}
+      icon={<SvgIcon Icon={AlertCircleIcon} className={styles.alertIcon} />}
       titleWeight="semiBold"
       title={
         <Localized id="download-landingPage-sorry">

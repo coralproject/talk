@@ -14,7 +14,12 @@ import {
   TwitterMedia,
   YouTubeMedia,
 } from "coral-stream/common/Media";
-import { Button, ButtonIcon, HorizontalGutter } from "coral-ui/components/v2";
+import {
+  AddIcon,
+  ButtonSvgIcon,
+  SubtractIcon,
+} from "coral-ui/components/icons";
+import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
 import { MediaSectionContainer_comment } from "coral-stream/__generated__/MediaSectionContainer_comment.graphql";
 import { MediaSectionContainer_settings } from "coral-stream/__generated__/MediaSectionContainer_settings.graphql";
@@ -92,7 +97,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
         size="small"
         className={styles.button}
       >
-        <ButtonIcon>add</ButtonIcon>
+        <ButtonSvgIcon Icon={AddIcon} size="xxs" className={styles.icon} />
         {media.__typename === "TwitterMedia" && (
           <Localized id="comments-embedLinks-show-twitter">
             Show Tweet
@@ -125,7 +130,11 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           iconLeft
           className={styles.button}
         >
-          <ButtonIcon>remove</ButtonIcon>
+          <ButtonSvgIcon
+            Icon={SubtractIcon}
+            size="xxs"
+            className={styles.icon}
+          />
           {media.__typename === "TwitterMedia" && (
             <Localized id="comments-embedLinks-hide-twitter">
               Hide Tweet

@@ -2,7 +2,8 @@ import cn from "classnames";
 import React, { FunctionComponent, ReactNode } from "react";
 
 import { FieldMeta, hasError } from "coral-framework/lib/form";
-import { Flex, Icon } from "coral-ui/components/v2";
+import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex } from "coral-ui/components/v2";
 import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -30,9 +31,7 @@ const render = (
   return (
     <div className={rootClassName} role="alert">
       <Flex alignItems="center" justifyContent={justifyContent}>
-        <Icon size="sm" className={classes.icon}>
-          error
-        </Icon>
+        <SvgIcon className={classes.icon} Icon={AlertCircleIcon} />
         {content}
       </Flex>
     </div>

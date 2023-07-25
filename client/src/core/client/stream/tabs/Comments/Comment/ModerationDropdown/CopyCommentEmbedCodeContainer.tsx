@@ -8,7 +8,12 @@ import { sanitizeAndFindFormattingTags } from "coral-common/common/lib/helpers/s
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components/v2";
+import {
+  AngleBracketsIcon,
+  CheckCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import { DropdownButton, DropdownDivider } from "coral-ui/components/v2";
 
 import { CopyCommentEmbedCodeContainer_comment } from "coral-stream/__generated__/CopyCommentEmbedCodeContainer_comment.graphql";
 import { CopyCommentEmbedCodeContainer_settings } from "coral-stream/__generated__/CopyCommentEmbedCodeContainer_settings.graphql";
@@ -118,11 +123,7 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
         {embedCodeCopied ? (
           <DropdownButton
             className={cn(styles.label, styles.embedCodeCopied)}
-            icon={
-              <Icon color="success" size="md">
-                check_circle_outline
-              </Icon>
-            }
+            icon={<SvgIcon color="success" size="md" Icon={CheckCircleIcon} />}
           >
             <Localized id="comments-moderationDropdown-embedCodeCopied">
               <span>Code copied</span>
@@ -131,7 +132,7 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
         ) : (
           <DropdownButton
             className={styles.label}
-            icon={<Icon size="md">code</Icon>}
+            icon={<SvgIcon size="md" Icon={AngleBracketsIcon} />}
           >
             <Localized id="comments-moderationDropdown-embedCode">
               <span>Embed comment</span>

@@ -13,3 +13,7 @@
 .success {
   background-color: var(--palette-success-300);
 }
+
+.icon {
+  display: flex;
+}

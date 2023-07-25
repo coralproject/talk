@@ -7,6 +7,13 @@ import TIME from "coral-common/common/lib/time";
 import { TodayMetricsJSON } from "coral-common/common/lib/types/dashboard";
 import { useLocal } from "coral-framework/lib/relay";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
+import {
+  DeleteIcon,
+  MessagesBubbleSquareIcon,
+  MultipleActionsChatIcon,
+  RemoveIcon,
+  SingleNeutralActionsAddIcon,
+} from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 
 import { TodayTotalsLocal } from "coral-admin/__generated__/TodayTotalsLocal.graphql";
@@ -68,7 +75,10 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
         <h3 className={styles.heading}>Today's activity</h3>
       </Localized>
       <Flex justifyContent="space-between" spacing={3}>
-        <TodayDashboardBox icon="forum" loading={loading || totalLoading}>
+        <TodayDashboardBox
+          Icon={MessagesBubbleSquareIcon}
+          loading={loading || totalLoading}
+        >
           <TodayValue value={today?.comments.total.toString()}>
             <Localized id="dashboard-today-new-comments-archived">
               New comments
@@ -91,7 +101,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             )}
           </TodayCompareValue>
         </TodayDashboardBox>
-        <TodayDashboardBox icon="close" loading={loading || totalLoading}>
+        <TodayDashboardBox Icon={RemoveIcon} loading={loading || totalLoading}>
           <TodayValue
             value={
               today
@@ -133,7 +143,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
           </TodayCompareValue>
         </TodayDashboardBox>
         <TodayDashboardBox
-          icon="recent_actors"
+          Icon={MultipleActionsChatIcon}
           loading={loading || totalLoading}
         >
           <TodayValue value={today?.comments.staff.toString()}>
@@ -158,7 +168,10 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             )}
           </TodayCompareValue>
         </TodayDashboardBox>
-        <TodayDashboardBox icon="person_add" loading={loading || totalLoading}>
+        <TodayDashboardBox
+          Icon={SingleNeutralActionsAddIcon}
+          loading={loading || totalLoading}
+        >
           <TodayValue value={today?.users.total.toString()}>
             <Localized id="dashboard-today-signups">
               New community members
@@ -168,7 +181,7 @@ const TodayTotals: FunctionComponent<Props> = ({ siteID, lastUpdated }) => {
             <Localized id="dashboard-alltime-signups">Total members</Localized>
           </TodayCompareValue>
         </TodayDashboardBox>
-        <TodayDashboardBox icon="block" loading={loading || totalLoading}>
+        <TodayDashboardBox Icon={DeleteIcon} loading={loading || totalLoading}>
           <TodayValue value={today?.users.bans.toString()}>
             <Localized id="dashboard-today-bans">Banned members</Localized>
           </TodayValue>

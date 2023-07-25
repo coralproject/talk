@@ -14,6 +14,7 @@ import React, {
 import { roundRating } from "coral-common/common/lib/utils";
 import { useUUID } from "coral-framework/hooks";
 import CLASSES from "coral-stream/classes";
+import { RatingHalfStarIcon, RatingStarIcon } from "coral-ui/components/icons";
 
 import StarRatingIcon from "./StarRatingIcon";
 
@@ -96,6 +97,7 @@ const StarRating: FunctionComponent<Props> = ({
   const stars = useMemo(() => {
     const props = {
       readOnly,
+
       name,
       onFocus: !readOnly ? onFocus : undefined,
       onBlur: !readOnly ? onBlur : undefined,
@@ -104,19 +106,20 @@ const StarRating: FunctionComponent<Props> = ({
     };
 
     return STARS.map((star) => {
+      const starType =
+        rating >= star ? "full" : rating + 0.5 >= star ? "half" : "empty";
       return (
         <StarRatingIcon
           id={`${uuid}-${star}`}
           key={star}
           checked={star === rating}
           size={size}
-          fill={
-            rating >= star
-              ? "star"
-              : rating + 0.5 >= star
-              ? "star_half"
-              : "star_border"
+          Icon={
+            starType === "full" || starType === "empty"
+              ? RatingStarIcon
+              : RatingHalfStarIcon
           }
+          filled={starType === "full"}
           value={star}
           {...props}
         />

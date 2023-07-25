@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Icon, Typography } from "coral-ui/components/v2";
+import { AlertTriangleIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex, Typography } from "coral-ui/components/v2";
 
 interface Props {
   className?: string;
@@ -18,7 +19,7 @@ const RemainingCharacters: FunctionComponent<Props> = (props) => {
       justifyContent="flex-end"
       itemGutter="half"
     >
-      {belowZero && <Icon color="error">warning</Icon>}
+      {belowZero && <SvgIcon color="error" Icon={AlertTriangleIcon} />}
       <Localized
         id="comments-remainingCharacters"
         vars={{ remaining: props.remaining }}

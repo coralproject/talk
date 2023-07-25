@@ -64,6 +64,10 @@ extend type Comment {
   # Remember last viewer action that could have caused a status change.
   lastViewerAction: COMMENT_VIEWER_ACTION
 
+  # If the comment was spam banned and rejected. Used for showing spam banned
+  # confirmation in moderation rejected tombstone container.
+  spamBanned: Boolean
+
   # If true then Comment came in live.
   enteredLive: Boolean
 

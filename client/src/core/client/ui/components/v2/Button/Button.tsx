@@ -44,10 +44,10 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   /* button is attached to the RIGHT of an input element */
   adornmentRight?: boolean;
 
-  /* button has a ButtonIcon to the left of the text */
+  /* button has a ButtonSvgIcon to the left of the text */
   iconLeft?: boolean;
 
-  /* button has a ButtonIcon to the right of the text */
+  /* button has a ButtonSvgIcon to the right of the text */
   iconRight?: boolean;
 
   /** If set renders a full width button */

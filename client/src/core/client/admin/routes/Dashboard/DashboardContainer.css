@@ -6,6 +6,7 @@
   color: var(--palette-text-100);
   margin-top: var(--spacing-1);
   margin-left: var(--spacing-1);
+  padding-top: var(--spacing-1);
 }
 
 .header {

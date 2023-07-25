@@ -8,8 +8,12 @@ import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  ButtonSvgIcon,
+} from "coral-ui/components/icons";
+import {
   Button,
-  ButtonIcon,
   ClickOutside,
   Dropdown,
   Popover,
@@ -334,9 +338,11 @@ const SiteRoleActions: FunctionComponent<Props> = ({ viewer, user }) => {
                   scoped={!!user.moderationScopes?.scoped}
                   role={user.role}
                 />
-                <ButtonIcon size="lg">
-                  {isPopoverVisible ? "arrow_drop_up" : "arrow_drop_down"}
-                </ButtonIcon>
+                <ButtonSvgIcon
+                  size="xxs"
+                  Icon={isPopoverVisible ? ArrowsUpIcon : ArrowsDownIcon}
+                  className={styles.arrowsIcon}
+                />
               </Button>
             </Localized>
           )}

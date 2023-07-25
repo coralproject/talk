@@ -30,9 +30,13 @@ import {
 import CLASSES from "coral-stream/classes";
 import { ShowEditUsernameDialogEvent } from "coral-stream/events";
 import {
+  AlertCircleIcon,
+  CheckCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
   FormField,
   HorizontalGutter,
-  Icon,
   InputLabel,
   TextField,
 } from "coral-ui/components/v2";
@@ -226,7 +230,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
             color="success"
             onClose={closeSuccessMessage}
             className={cn(CLASSES.myUsername.form.successCallOut)}
-            icon={<Icon size="sm">check_circle</Icon>}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             titleWeight="semiBold"
             title={
               <Localized id="profile-changeUsername-success">
@@ -364,7 +368,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({
                       <CallOut
                         color="error"
                         className={CLASSES.myUsername.form.errorMessage}
-                        icon={<Icon size="sm">error</Icon>}
+                        icon={<SvgIcon Icon={AlertCircleIcon} />}
                         titleWeight="semiBold"
                         title={submitError}
                         role="alert"

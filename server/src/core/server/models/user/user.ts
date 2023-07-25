@@ -15,7 +15,6 @@ import {
   PasswordResetTokenExpired,
   SSOProfileNotSetError,
   TokenNotFoundError,
-  UserAlreadyBannedError,
   UserAlreadyPremoderated,
   UserAlreadySuspendedError,
   UsernameAlreadySetError,
@@ -1992,12 +1991,6 @@ export async function siteBanUser(
       throw new UserNotFoundError(id);
     }
 
-    // Check to see if the user is already banned.
-    const ban = consolidateUserBanStatus(user.status.ban);
-    if (ban.active) {
-      throw new UserAlreadyBannedError();
-    }
-
     throw new Error("an unexpected error occurred");
   }
 
@@ -2037,9 +2030,6 @@ export async function banUser(
     {
       id,
       tenantID,
-      "status.ban.active": {
-        $ne: true,
-      },
     },
     {
       $set: {
@@ -2061,12 +2051,6 @@ export async function banUser(
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
-    }
-
-    // Check to see if the user is already banned.
-    const ban = consolidateUserBanStatus(user.status.ban);
-    if (ban.active) {
-      throw new UserAlreadyBannedError();
     }
 
     throw new Error("an unexpected error occurred");

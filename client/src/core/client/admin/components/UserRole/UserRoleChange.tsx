@@ -10,8 +10,12 @@ import { validateRoleChange } from "coral-common/common/lib/permissions";
 import { useToggleState } from "coral-framework/hooks";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import {
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  ButtonSvgIcon,
+} from "coral-ui/components/icons";
+import {
   Button,
-  ButtonIcon,
   ClickOutside,
   Dropdown,
   Popover,
@@ -237,9 +241,12 @@ const UserRoleChange: FunctionComponent<Props> = ({
                   scoped={moderationScoped || membershipScoped}
                   role={user.role}
                 />
-                <ButtonIcon size="lg">
-                  {isPopoverVisible ? "arrow_drop_up" : "arrow_drop_down"}
-                </ButtonIcon>
+                <ButtonSvgIcon
+                  size="xxs"
+                  strokeWidth="semibold"
+                  Icon={isPopoverVisible ? ArrowsUpIcon : ArrowsDownIcon}
+                  className={styles.arrowsIcon}
+                />
               </Button>
             </Localized>
           )}

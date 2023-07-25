@@ -2,7 +2,8 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Icon, Tooltip, TooltipButton } from "coral-ui/components/v2";
+import { AlarmClockIcon, SvgIcon } from "coral-ui/components/icons";
+import { Flex, Tooltip, TooltipButton } from "coral-ui/components/v2";
 
 import styles from "./StatusField.css";
 
@@ -37,7 +38,7 @@ const StatusField: FunctionComponent<Props> = ({ status }) => {
             justifyContent="center"
             className={cn(styles.status, styles.expiring)}
           >
-            <Icon className={styles.icon}>alarm</Icon>
+            <SvgIcon className={styles.icon} Icon={AlarmClockIcon} />
             <Localized id="configure-auth-sso-rotate-statusExpiring">
               <span data-testid="SSO-Key-Status">Expiring</span>
             </Localized>

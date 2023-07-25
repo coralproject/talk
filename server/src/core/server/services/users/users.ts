@@ -28,7 +28,6 @@ import {
   ModeratorCannotBeBannedOnSiteError,
   PasswordIncorrect,
   TokenNotFoundError,
-  UserAlreadyBannedError,
   UserAlreadyPremoderated,
   UserAlreadySuspendedError,
   UserBioTooLongError,
@@ -1389,25 +1388,79 @@ export async function ban(
   siteIDs?: string[] | null,
   now = new Date()
 ) {
-  // site moderators must provide at least one site ID to ban the user on
-  // otherwise, they would be performing an organization wide ban.
-  if (
-    // check if they are a site moderator
-    banner.role === GQLUSER_ROLE.MODERATOR &&
-    banner.moderationScopes &&
-    banner.moderationScopes.siteIDs &&
-    banner.moderationScopes.siteIDs.length !== 0 &&
-    // ensure they've provided at least one site ID
-    (!siteIDs || siteIDs.length === 0)
-  ) {
-    throw new Error("site moderators must provide at least one site ID to ban");
-  }
-
   // Get the user being banned to check to see if the user already has an
   // existing ban.
   const targetUser = await retrieveUser(mongo, tenant.id, userID);
   if (!targetUser) {
     throw new UserNotFoundError(userID);
+  }
+
+  // site moderators must provide at least one site ID to ban the user on
+  // otherwise, they would be performing an organization wide ban.
+  const bannerIsSiteMod =
+    banner.role === GQLUSER_ROLE.MODERATOR &&
+    banner.moderationScopes &&
+    banner.moderationScopes.siteIDs &&
+    banner.moderationScopes.siteIDs.length !== 0;
+
+  // used to determine whether to send another ban email notification or not
+  let alreadyBanned = false;
+
+  // Check to see if the User is currently banned.
+  const banStatus = consolidateUserBanStatus(targetUser.status.ban);
+  if (banStatus.active) {
+    alreadyBanned = true;
+  }
+
+  // check if user is already banned on all of the siteIDs provided
+  if (
+    targetUser.status.ban.siteIDs &&
+    targetUser.status.ban.siteIDs.length > 0 &&
+    siteIDs &&
+    siteIDs.length > 0
+  ) {
+    const siteIDsAlreadyBanned = targetUser.status.ban.siteIDs.filter(
+      (siteID) => {
+        return siteIDs.includes(siteID);
+      }
+    );
+    if (siteIDsAlreadyBanned.length === siteIDs.length) {
+      alreadyBanned = true;
+    }
+  }
+
+  if (bannerIsSiteMod) {
+    // ensure they've provided at least one site ID
+    if (!siteIDs || siteIDs.length === 0) {
+      throw new Error(
+        "site moderators must provide at least one site ID to ban"
+      );
+    }
+    // make sure org moderators aren't site banned
+    if (
+      targetUser.role === GQLUSER_ROLE.MODERATOR &&
+      !targetUser.moderationScopes?.scoped
+    ) {
+      throw new ModeratorCannotBeBannedOnSiteError();
+    }
+
+    // a site moderator cannot ban another site moderator with privileges for one of
+    // the site ids they are trying to ban against.
+    if (
+      targetUser.role === GQLUSER_ROLE.MODERATOR &&
+      targetUser.moderationScopes &&
+      targetUser.moderationScopes.siteIDs &&
+      targetUser.moderationScopes.siteIDs.length !== 0
+    ) {
+      const siteIDInModScopes = targetUser.moderationScopes.siteIDs.some(
+        (site) => {
+          return siteIDs.includes(site);
+        }
+      );
+      if (siteIDInModScopes) {
+        throw new ModeratorCannotBeBannedOnSiteError();
+      }
+    }
   }
 
   let user: Readonly<User>;
@@ -1438,12 +1491,10 @@ export async function ban(
   }
   // Otherwise, perform a regular ban
   else {
-    // Check to see if the User is currently banned.
-    const banStatus = consolidateUserBanStatus(targetUser.status.ban);
-    if (banStatus.active) {
-      throw new UserAlreadyBannedError();
+    // moderators can't be generally banned
+    if (targetUser.role === GQLUSER_ROLE.MODERATOR) {
+      throw new ModeratorCannotBeBannedOnSiteError();
     }
-
     // Ban the user.
     user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
@@ -1492,27 +1543,29 @@ export async function ban(
     }
   }
 
-  // If the user has an email address associated with their account, send them
-  // a ban notification email.
-  if (user?.email) {
-    // Send the ban user email.
-    await mailer.add({
-      tenantID: tenant.id,
-      message: {
-        to: user.email,
-      },
-      template: {
-        name: "account-notification/ban",
-        context: {
-          // TODO: (wyattjoh) possibly reevaluate the use of a required username.
-          username: user.username!,
-          organizationName: tenant.organization.name,
-          organizationURL: tenant.organization.url,
-          organizationContactEmail: tenant.organization.contactEmail,
-          customMessage: (message || "").replace(/\n/g, "<br />"),
+  if (!alreadyBanned) {
+    // If the user has an email address associated with their account, send them
+    // a ban notification email.
+    if (user?.email) {
+      // Send the ban user email.
+      await mailer.add({
+        tenantID: tenant.id,
+        message: {
+          to: user.email,
         },
-      },
-    });
+        template: {
+          name: "account-notification/ban",
+          context: {
+            // TODO: (wyattjoh) possibly reevaluate the use of a required username.
+            username: user.username!,
+            organizationName: tenant.organization.name,
+            organizationURL: tenant.organization.url,
+            organizationContactEmail: tenant.organization.contactEmail,
+            customMessage: (message || "").replace(/\n/g, "<br />"),
+          },
+        },
+      });
+    }
   }
 
   return user;

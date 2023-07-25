@@ -14,6 +14,10 @@
   pointer-events: none;
 }
 
+.afterWrapper span {
+  display: flex;
+}
+
 .keyboardFocus:focus {
   @mixin outline;
 }
@@ -58,8 +62,8 @@
   border-radius: var(--round-corners);
   background-color: var(--palette-background-input);
   border: 1px solid var(--palette-grey-500);
-  padding: calc(var(--spacing-1) - 0.8px) var(--spacing-6)
-    var(--spacing-1) var(--spacing-2);
+  padding: calc(var(--spacing-1) - 0.8px) var(--spacing-6) var(--spacing-1)
+    var(--spacing-2);
 
   &::-ms-expand {
     display: none;

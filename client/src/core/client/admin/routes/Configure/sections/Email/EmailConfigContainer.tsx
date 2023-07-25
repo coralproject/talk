@@ -11,6 +11,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLSettings } from "coral-framework/schema";
+import { CheckCircleIcon } from "coral-ui/components/icons";
 import { AppNotification, Button, CallOut, Flex } from "coral-ui/components/v2";
 
 import { EmailConfigContainer_email } from "coral-admin/__generated__/EmailConfigContainer_email.graphql";
@@ -54,7 +55,7 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
           id="configure-smtp-test-success"
           vars={{ email: viewer.email }}
         >
-          <AppNotification icon="check_circle_outline" onClose={clearMessage}>
+          <AppNotification Icon={CheckCircleIcon} onClose={clearMessage}>
             Test email has been sent to {viewer.email}
           </AppNotification>
         </Localized>,

@@ -13,7 +13,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import { useInView } from "coral-framework/lib/intersection";
 import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
-import { Icon } from "coral-ui/components/v2";
+import { MultipleNeutralIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 import { ViewersWatchingContainer_settings } from "coral-stream/__generated__/ViewersWatchingContainer_settings.graphql";
@@ -132,7 +132,7 @@ const ViewersWatchingContainer: FunctionComponent<Props> = ({
           title: styles.title,
           container: styles.container,
         }}
-        icon={<Icon size="md">people_alt</Icon>}
+        icon={<SvgIcon size="md" Icon={MultipleNeutralIcon} />}
         color="primary"
         title={
           <Localized id="comments-watchers" vars={{ count: viewerCount }}>

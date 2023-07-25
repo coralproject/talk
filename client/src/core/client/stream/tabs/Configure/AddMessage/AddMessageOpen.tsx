@@ -10,7 +10,7 @@ import { Form } from "react-final-form";
 
 import { purgeMetadata, useMutation } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
-import { Icon } from "coral-ui/components/v2";
+import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { Button, CallOut } from "coral-ui/components/v3";
 
 import MessageBoxConfig from "./MessageBoxConfig";
@@ -83,7 +83,7 @@ const AddMessageOpen: FunctionComponent<Props> = ({
         {showSuccess && (
           <CallOut
             color="success"
-            icon={<Icon size="sm">check_circle</Icon>}
+            icon={<SvgIcon Icon={CheckCircleIcon} />}
             title={
               <Localized id="config-addMessage-messageHasBeenAdded">
                 The message has been added to the comment box

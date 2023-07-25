@@ -177,7 +177,7 @@ it("change message box", async () => {
 
   // Select icon
   const conversationRadio = within(tabPane!).getByRole("radio", {
-    name: "Conversation",
+    name: "conversation-chat-text Conversation",
   });
   userEvent.click(conversationRadio);
 

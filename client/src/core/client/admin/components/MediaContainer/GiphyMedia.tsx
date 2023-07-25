@@ -1,7 +1,8 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { BaseButton, Flex, Icon } from "coral-ui/components/v2";
+import { ButtonPlayIcon, SvgIcon } from "coral-ui/components/icons";
+import { BaseButton, Flex } from "coral-ui/components/v2";
 
 import styles from "./Media.css";
 
@@ -43,9 +44,11 @@ const GiphyMedia: FunctionComponent<Props> = ({
             justifyContent="center"
             className={styles.toggleTrigger}
           >
-            <Icon size="xl" className={styles.playIcon}>
-              play_circle_outline
-            </Icon>
+            <SvgIcon
+              size="xl"
+              className={styles.playIcon}
+              Icon={ButtonPlayIcon}
+            />
             <Localized id="moderate-comment-play-gif">
               <p className={styles.playText}>Play GIF</p>
             </Localized>

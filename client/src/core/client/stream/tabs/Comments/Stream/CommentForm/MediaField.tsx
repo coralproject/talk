@@ -6,7 +6,7 @@ import {
   isMediaLink,
   MediaLink,
 } from "coral-common/common/lib/helpers/findMediaLinks";
-import { Icon } from "coral-ui/components/v2";
+import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
 import {
@@ -176,7 +176,7 @@ const MediaField: FunctionComponent<Props> = ({
           color="error"
           title={error}
           titleWeight="semiBold"
-          icon={<Icon>error</Icon>}
+          icon={<SvgIcon Icon={AlertCircleIcon} />}
           role="alert"
         />
       )}
