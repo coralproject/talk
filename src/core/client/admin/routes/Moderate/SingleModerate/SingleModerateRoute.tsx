@@ -59,6 +59,9 @@ const enhanced = withRouteConfig<Props, SingleModerateRouteQueryResponse>({
     query SingleModerateRouteQuery($commentID: ID!) {
       comment(id: $commentID) {
         id
+        site {
+          id
+        }
         author {
           commentsRejectedOnSites
           allCommentsRejected

@@ -30,7 +30,7 @@ interface Props {
       site: { id: string };
       author: {
         allCommentsRejected: boolean | null;
-        commentsRejectedOnSites: string[] | null;
+        commentsRejectedOnSites: ReadonlyArray<string> | null;
       } | null;
     } & PropTypesOf<typeof ModerateCardContainer>["comment"]
   >;
