@@ -7,7 +7,7 @@ import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
 import TIME from "coral-common/common/lib/time";
 import { DeepPartial, Sub } from "coral-common/common/lib/types";
 import { isBeforeDate } from "coral-common/common/lib/utils";
-import { dotize } from "coral-common/common/lib/utils/dotize";
+import { dotize } from "coral-server/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import { DuplicateEmailDomainError } from "coral-server/errors";
 import {

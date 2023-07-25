@@ -4,7 +4,7 @@ import { MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, Sub } from "coral-common/common/lib/types";
-import { dotize } from "coral-common/common/lib/utils/dotize";
+import { dotize } from "coral-server/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import {
   ConfirmEmailTokenExpired,

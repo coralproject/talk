@@ -1,4 +1,4 @@
-import { dotize } from "../utils/dotize";
+import { dotize } from "./dotize";
 
 it("converts nested properties", () => {
   const input = {

@@ -3,7 +3,7 @@ import { Collection } from "mongodb";
 import * as uuid from "uuid";
 
 import { RequireProperty, Sub } from "coral-common/common/lib/types";
-import { dotize } from "coral-common/common/lib/utils/dotize";
+import { dotize } from "coral-server/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
 import {
   CommentEditWindowExpiredError,

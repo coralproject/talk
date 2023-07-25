@@ -19,7 +19,6 @@ import {
   Variables,
 } from "relay-runtime";
 
-import { loadSchema } from "coral-common/common/lib/graphql";
 import {
   InvalidRequestError,
   ModerationNudgeError,
@@ -32,6 +31,7 @@ import {
 } from "coral-framework/lib/relay";
 
 import { SubscriptionHandler } from "./createSubscriptionHandler";
+import { loadSchema } from "./loadSchema";
 
 export interface CreateRelayEnvironmentNetworkParams {
   /** graphql resolvers */
