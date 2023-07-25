@@ -14,6 +14,16 @@
     "baseUrl": "./",
     "paths": {
       "coral-server/*": ["../../server/src/core/server/*"],
+      "coral-account/*": ["./client/account/*"],
+      "coral-admin/*": ["./client/admin/*"],
+      "coral-auth/*": ["./client/auth/*"],
+      "coral-count/*": ["./client/count/*"],
+      "coral-embed/*": ["./client/embed/*"],
+      "coral-stream/*": ["./client/stream/*"],
+      "coral-framework/*": ["./client/framework/*"],
+      "coral-oembed/*": ["./client/oembed/*"],
+      "coral-ui/*": ["./client/ui/*"],
+      "coral-test/*": ["./client/test/*"],
     }
   },
   "include": ["./**/*"],
