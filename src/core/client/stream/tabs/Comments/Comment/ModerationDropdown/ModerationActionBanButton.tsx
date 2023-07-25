@@ -25,9 +25,9 @@ const ModerationActionBanButton: FunctionComponent<Props> = ({
   showSpinner = false,
 }) => {
   const localizationId = allSiteBan
-    ? "comments-moderationDropdown-ban"
+    ? "comments-moderationDropdown-spam-ban"
     : "comments-moderationDropdown-siteBan";
-  const defaultText = allSiteBan ? "Ban User" : "Site Ban";
+  const defaultText = allSiteBan ? "Spam ban" : "Site ban";
   const icon = allSiteBan
     ? SingleNeutralActionsBlockIcon
     : AppWindowDisableIcon;

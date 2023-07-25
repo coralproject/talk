@@ -303,6 +303,7 @@ export const CreateCommentMutation = createMutation(
                   pending: false,
                   lastViewerAction: "CREATE",
                   hasTraversalFocus: false,
+                  spamBanned: false,
                   author: {
                     id: viewer.id,
                     username: viewer.username || null,

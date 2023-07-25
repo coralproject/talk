@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import { FORM_ERROR } from "final-form";
 import React, {
   FunctionComponent,
   useCallback,
@@ -221,27 +222,39 @@ const BanModal: FunctionComponent<Props> = ({
   const onFormSubmit = useCallback(async () => {
     switch (updateType) {
       case UpdateType.ALL_SITES:
-        await banUser({
-          userID, // Should be defined because the modal shouldn't open if author is null
-          message: customizeMessage ? emailMessage : getDefaultMessage,
-          rejectExistingComments,
-          siteIDs: viewerIsScoped
-            ? viewer?.moderationScopes?.sites?.map(({ id }) => id)
-            : [],
-        });
+        try {
+          await banUser({
+            userID, // Should be defined because the modal shouldn't open if author is null
+            message: customizeMessage ? emailMessage : getDefaultMessage,
+            rejectExistingComments,
+            siteIDs: viewerIsScoped
+              ? viewer?.moderationScopes?.sites?.map(({ id }) => id)
+              : [],
+          });
+        } catch (err) {
+          return { [FORM_ERROR]: err.message };
+        }
         break;
       case UpdateType.SPECIFIC_SITES:
-        await updateUserBan({
-          userID,
-          message: customizeMessage ? emailMessage : getDefaultMessage,
-          banSiteIDs,
-          unbanSiteIDs,
-        });
+        try {
+          await updateUserBan({
+            userID,
+            message: customizeMessage ? emailMessage : getDefaultMessage,
+            banSiteIDs,
+            unbanSiteIDs,
+          });
+        } catch (err) {
+          return { [FORM_ERROR]: err.message };
+        }
         break;
       case UpdateType.NO_SITES:
-        await removeUserBan({
-          userID,
-        });
+        try {
+          await removeUserBan({
+            userID,
+          });
+        } catch (err) {
+          return { [FORM_ERROR]: err.message };
+        }
     }
     if (banDomain) {
       void createDomainBan({

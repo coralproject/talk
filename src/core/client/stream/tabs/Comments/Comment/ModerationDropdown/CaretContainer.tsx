@@ -1,9 +1,9 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
   ArrowsDownIcon,
@@ -17,7 +17,10 @@ import { CaretContainer_settings } from "coral-stream/__generated__/CaretContain
 import { CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
 import { CaretContainer_viewer } from "coral-stream/__generated__/CaretContainer_viewer.graphql";
 
-import ModerationDropdownContainer from "./ModerationDropdownContainer";
+import { SetSpamBanned } from "../setSpamBanned";
+import ModerationDropdownContainer, {
+  ModerationDropdownView,
+} from "./ModerationDropdownContainer";
 
 import styles from "./CaretContainer.css";
 
@@ -26,10 +29,19 @@ interface Props {
   story: CaretContainer_story;
   viewer: CaretContainer_viewer;
   settings: CaretContainer_settings;
+  view?: ModerationDropdownView;
+  open?: boolean;
 }
 
 const CaretContainer: FunctionComponent<Props> = (props) => {
   const popoverID = `comments-moderationMenu-${props.comment.id}`;
+  const setSpamBanned = useMutation(SetSpamBanned);
+  const setSpamBannedOnClickOutside = useCallback(() => {
+    if (props.comment.spamBanned) {
+      void setSpamBanned({ commentID: props.comment.id, spamBanned: false });
+    }
+  }, [props.comment.spamBanned, setSpamBanned, props.comment.id]);
+
   return (
     <Localized
       id="comments-moderationDropdown-popover"
@@ -37,10 +49,16 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
     >
       <Popover
         id={popoverID}
+        visible={props.open}
         placement="bottom-end"
         description="A popover menu to moderate the comment"
         body={({ toggleVisibility, scheduleUpdate }) => (
-          <ClickOutside onClickOutside={toggleVisibility}>
+          <ClickOutside
+            onClickOutside={() => {
+              setSpamBannedOnClickOutside();
+              toggleVisibility();
+            }}
+          >
             <ModerationDropdownContainer
               comment={props.comment}
               story={props.story}
@@ -48,6 +66,7 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
               settings={props.settings}
               onDismiss={toggleVisibility}
               scheduleUpdate={scheduleUpdate}
+              view={props.view}
             />
           </ClickOutside>
         )}
@@ -81,6 +100,7 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment CaretContainer_comment on Comment {
       id
+      spamBanned
       ...ModerationDropdownContainer_comment
     }
   `,

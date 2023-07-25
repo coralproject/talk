@@ -1,3 +1,8 @@
 .icon {
   margin-left: var(--spacing-1);
 }
+
+.rejectedContainer {
+  margin-right: auto;
+  width: 100%;
+}
