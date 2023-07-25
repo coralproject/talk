@@ -255,6 +255,14 @@ comments-userIgnorePopover-description =
 comments-userIgnorePopover-ignore = Ignore
 comments-userIgnorePopover-cancel = Cancel
 
+comments-userSpamBanPopover-title = Spam ban
+comments-userSpamBanPopover-header-username = Username
+comments-userSpamBanPopover-header-description = Spam ban will
+comments-userSpamBanPopover-callout = Only for use on obvious spam accounts
+comments-userSpamBanPopover-description-list-banFromComments = Ban this account from the comments
+comments-userSpamBanPopover-description-list-rejectAllComments = Reject all comments written by this account
+comments-userSpamBanPopover-confirmation = Type in "{$text}" to confirm
+
 comments-userBanPopover-title = Ban {$username}?
 comments-userSiteBanPopover-title = Ban {$username} from this site?
 comments-userBanPopover-description =
@@ -263,6 +271,16 @@ comments-userBanPopover-description =
   This comment will also be rejected.
 comments-userBanPopover-cancel = Cancel
 comments-userBanPopover-ban = Ban
+comments-userBanPopover-moderator-ban-error = Cannot ban accounts with moderator privileges
+comments-userBanPopover-moreContext = For more context, go to
+comments-userBanPopover-moderationView = Moderation view
+
+comments-userSiteBanPopover-confirm-title = {$username} is now banned
+comments-userSiteBanPopover-confirm-spam-banned = This account can no longer comment, use reactions, or report comments
+comments-userSiteBanPopover-confirm-comments-rejected = All comments by this account have been rejected
+comments-userSiteBanPopover-confirm-closeButton = Close
+comments-userSiteBanPopover-confirm-reviewAccountHistory = You can still review this account's history by searching in Coral's
+comments-userSiteBanPopover-confirm-communitySection = Community section
 
 comments-moderationDropdown-popover =
   .description = A popover menu to moderate the comment
@@ -272,8 +290,9 @@ comments-moderationDropdown-approve = Approve
 comments-moderationDropdown-approved = Approved
 comments-moderationDropdown-reject = Reject
 comments-moderationDropdown-rejected = Rejected
-comments-moderationDropdown-ban = Ban User
-comments-moderationDropdown-siteBan = Site Ban
+comments-moderationDropdown-spam-ban = Spam ban
+comments-moderationDropdown-ban = Ban user
+comments-moderationDropdown-siteBan = Site ban
 comments-moderationDropdown-banned = Banned
 comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Moderation view
