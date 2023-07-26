@@ -54,19 +54,19 @@ jobs:
         name: npm Lockfile Version (client)
         uses: mansona/npm-lockfile-version@v1
         with:
-          path: ./client
+          entryPoint: ./client
           version: 2
       -
         name: npm Lockfile Version (common)
         uses: mansona/npm-lockfile-version@v1
         with:
-          path: ./common
+          entryPoint: ./common
           version: 2
       -
         name: npm Lockfile Version (server)
         uses: mansona/npm-lockfile-version@v1
         with:
-          path: ./server
+          entryPoint: ./server
           version: 2
       -
         name: Cache Dependencies
