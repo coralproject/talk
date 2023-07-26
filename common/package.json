@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/babel__core": "7.1.18",
+    "@babel/runtime-corejs3": "^7.10.3",
     "@types/babel__traverse": "7.14.2",
     "@types/dompurify": "^2.0.1",
     "@types/he": "^1.1.1",
