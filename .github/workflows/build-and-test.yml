@@ -57,7 +57,7 @@ jobs:
           version: 2
       -
         name: Cache Dependencies
-        id: cache
+        id: cache-client
         uses: actions/cache@v3
         with:
           path: ./client/node_modules
@@ -65,7 +65,7 @@ jobs:
           restore-keys: npm-
       -
         name: Cache Dependencies
-        id: cache
+        id: cache-common
         uses: actions/cache@v3
         with:
           path: ./common/node_modules
@@ -73,7 +73,7 @@ jobs:
           restore-keys: npm-
       -
         name: Cache Dependencies
-        id: cache
+        id: cache-server
         uses: actions/cache@v3
         with:
           path: ./server/node_modules
