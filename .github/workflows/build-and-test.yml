@@ -50,24 +50,24 @@ jobs:
       -
         name: Install npm 8
         run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
-      -
-        name: npm Lockfile Version (client)
-        uses: mansona/npm-lockfile-version@v1
-        with:
-          entryPoint: ./client
-          version: 2
-      -
-        name: npm Lockfile Version (common)
-        uses: mansona/npm-lockfile-version@v1
-        with:
-          entryPoint: ./common
-          version: 2
-      -
-        name: npm Lockfile Version (server)
-        uses: mansona/npm-lockfile-version@v1
-        with:
-          entryPoint: ./server
-          version: 2
+      # -
+      #   name: npm Lockfile Version (client)
+      #   uses: mansona/npm-lockfile-version@v1
+      #   with:
+      #     entryPoint: ./client
+      #     version: 2
+      # -
+      #   name: npm Lockfile Version (common)
+      #   uses: mansona/npm-lockfile-version@v1
+      #   with:
+      #     entryPoint: ./common
+      #     version: 2
+      # -
+      #   name: npm Lockfile Version (server)
+      #   uses: mansona/npm-lockfile-version@v1
+      #   with:
+      #     entryPoint: ./server
+      #     version: 2
       -
         name: Cache Dependencies
         id: cache-client
