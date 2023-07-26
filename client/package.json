@@ -450,7 +450,7 @@
   "bundlesize": [
     {
       "path": "./dist/static/assets/js/embed.js",
-      "maxSize": "50 kB",
+      "maxSize": "30 kB",
       "maxSizeOld": "17 kB"
     },
     {
