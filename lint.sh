@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 echo "linting \`client\`"
 
 cd client

@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 echo "running \`npm install\` for \`common\`"
 cd common
 npm ci
