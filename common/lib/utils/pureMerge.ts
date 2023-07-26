@@ -1,9 +1,9 @@
-import { isArray, mergeWith } from "lodash";
+import mergeWith from "lodash.mergewith";
 
 import { DeepPartial } from "../types";
 
 function mergeCopyArrays(objValue: any, srcValue: any) {
-  if (isArray(objValue)) {
+  if (Array.isArray(objValue)) {
     return srcValue;
   }
 }
