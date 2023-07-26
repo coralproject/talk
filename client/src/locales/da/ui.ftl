@@ -1,1 +1,0 @@
-ui-brandName = { -product-name }

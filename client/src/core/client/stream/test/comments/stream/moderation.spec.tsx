@@ -7,8 +7,8 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { ERROR_CODES } from "coral-common/errors";
-import { pureMerge } from "coral-common/utils";
+import { ERROR_CODES } from "coral-common/common/lib/errors";
+import { pureMerge } from "coral-common/common/lib/utils";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { GQLCOMMENT_STATUS, GQLResolver } from "coral-framework/schema";
 import {

@@ -107,12 +107,12 @@ const config: Config = {
       }),
     },
     runServer: {
-      paths: ["core/server/locales/**/*.ftl"],
+      paths: ["../../locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
       executor: new LongRunningExecutor("npm run --silent start:development"),
     },
     runServerWithWebpackDevServerSupport: {
-      paths: ["core/server/locales/**/*.ftl"],
+      paths: ["../../locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
       executor: new LongRunningExecutor(
         "WEBPACK_DEV_SERVER=true npm run --silent start:development"
@@ -153,9 +153,7 @@ const config: Config = {
       "runServerSyntaxCheck",
     ],
     docz: ["runDocz", "generate"],
-    generate: [
-      "generateSchemaTypes",
-    ],
+    generate: ["generateSchemaTypes"],
   },
 };
 

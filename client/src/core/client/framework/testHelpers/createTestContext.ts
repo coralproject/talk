@@ -81,7 +81,7 @@ export default function createTestContext<
     localeBundles: [
       createFluentBundle(
         target,
-        path.resolve(__dirname, "../../../../locales/en-US")
+        path.resolve(__dirname, "../../../../../../locales/en-US")
       ),
     ],
     subscriptionClient: {

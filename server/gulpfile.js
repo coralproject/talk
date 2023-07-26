@@ -69,7 +69,7 @@ gulp.task("server:static", () =>
 
 gulp.task("locales", () =>
   gulp
-    .src(["./src/locales/**/*"])
+    .src(["../locales/**/*"])
     .pipe(gulp.dest(resolveDistFolder() + "/locales"))
 );
 

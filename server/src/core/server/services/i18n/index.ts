@@ -20,8 +20,8 @@ function isLanguageCode(locale: string): locale is LanguageCode {
 
 // pathsToLocales is the paths where to find the locales.
 const pathsToLocales = [
-  // Client locales.
-  path.join(__dirname, "..", "..", "..", "..", "locales"),
+  // Shared locales.
+  path.join(__dirname, "..", "..", "..", "..", "..", "..", "locales"),
   // Server locales.
   path.join(__dirname, "..", "..", "locales"),
 ];
