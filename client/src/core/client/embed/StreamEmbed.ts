@@ -1,5 +1,4 @@
-import { EmbedBootstrapConfig } from "coral-common/common/lib/config";
-import ensureEndSlash from "coral-common/common/lib/utils/ensureEndSlash";
+import { EmbedBootstrapConfig } from "coral-config/config";
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { EventEmitter2 } from "eventemitter2";
 
@@ -31,6 +30,12 @@ const LOAD_BOOTSTRAP_RETRY_DELAY = 2000;
 const LOAD_BOOTSTRAP_RETRY_DELAY_MULTIPLIER =
   process.env.NODE_ENV === "production" ? 2000 : 0;
 
+const END_SLASH_REGEX = /\/$/;
+
+export default function ensureEndSlash(p: string) {
+  return END_SLASH_REGEX.exec(p) ? p : `${p}/`;
+}
+
 export interface StreamEmbedConfig {
   storyID?: string;
   storyURL?: string;
@@ -51,6 +56,7 @@ export interface StreamEmbedConfig {
   graphQLSubscriptionURI?: string;
   customScrollContainer?: HTMLElement;
 }
+
 export class StreamEmbed {
   /**
    * Every interval rounded to this value in ms will be passed when loading

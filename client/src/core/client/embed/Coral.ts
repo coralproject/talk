@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
+import { parse } from "querystringify";
 
-import { parseQuery } from "coral-common/common/lib/utils";
 import { getCurrentScriptOrigin } from "coral-framework/helpers";
 import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
 
@@ -43,7 +43,7 @@ export interface Config {
 
 export function createStreamEmbed(config: Config): StreamEmbed {
   // Parse query params
-  const query = parseQuery(location.search);
+  const query = parse(location.search);
   const embedEventEmitter = new EventEmitter2({
     wildcard: true,
     delimiter: ".",

@@ -14,11 +14,9 @@ echo "running \`npm install\` for sub-directories"
 
 sh npm-i.sh
 
-echo "generating schema types for client, common"
+echo "running generation steps for sub-directories"
 
-cd server
-npm run generate
-cd ..
+sh generate.sh
 
 echo "creating a \`client\` build to generate manifests"
 

@@ -7,6 +7,11 @@ cd server
 npm run generate
 cd ..
 
+echo "running \`npm run build\` for \`config\`"
+cd config
+npm run build
+cd ..
+
 echo "running \`npm run build\` for \`common\`"
 cd common
 npm run build

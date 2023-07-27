@@ -27,6 +27,7 @@
     "@types/url-regex-safe": "^1.0.0"
   },
   "dependencies": {
+    "coral-config": "../config/dist",
     "dompurify": "^2.0.17",
     "he": "^1.2.0",
     "jest": "^26.4.2",

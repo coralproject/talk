@@ -1,6 +1,9 @@
 import { EventEmitter2 } from "eventemitter2";
 
-import startsWith from "coral-common/common/lib/utils/startsWith";
+/** A substitute for string.startsWith */
+function startsWith(str: string, search: string, pos?: number) {
+  return str.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
+}
 
 const withEventEmitter = (
   streamEventEmitter: EventEmitter2,

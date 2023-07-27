@@ -1,0 +1,17 @@
+{
+  "name": "common",
+  "version": "8.3.1",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --project tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {},
+  "dependencies": {
+    "typescript": "^3.9.5"
+  }
+}

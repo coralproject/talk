@@ -62,6 +62,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "coral-common": "../common/dist",
+    "coral-config": "../config/dist",
     "@ampproject/toolbox-cache-url": "^2.9.0",
     "@coralproject/bunyan-prettystream": "^0.1.4",
     "@fluent/bundle": "^0.15.1",
@@ -450,7 +451,7 @@
   "bundlesize": [
     {
       "path": "./dist/static/assets/js/embed.js",
-      "maxSize": "30 kB",
+      "maxSize": "30.05 kB",
       "maxSizeOld": "17 kB"
     },
     {
