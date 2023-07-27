@@ -29,7 +29,8 @@ RUN git config --global url."https://github.com/".insteadOf ssh://git@github.com
     git config --global url."https://".insteadOf ssh://
 
 # Initialize sub packages
-RUN cd common && npm ci && \
+RUN cd config && npm ci && \
+  cd ../common && npm ci && \
   cd ../client && npm ci && \
   cd ../server && npm ci && \
   cd ..
@@ -39,10 +40,14 @@ RUN cd server && \
   npm run generate && \
   cd ..
 
+# Build config, prune static assets
+RUN cd config && \
+  npm run build && \
+  cd ..
+
 # Build common, prune static assets
 RUN cd common && \
   npm run build && \
-  npm prune --production && \
   cd ..
 
 # Build client, prune static assets
