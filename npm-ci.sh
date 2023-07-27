@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+echo "running \`npm install\` for \`config\`"
+cd config
+npm ci
+cd ..
+
 echo "running \`npm install\` for \`common\`"
 cd common
 npm ci
