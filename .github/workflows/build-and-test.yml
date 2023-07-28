@@ -125,26 +125,26 @@ jobs:
         name: Verify Bundle Size
         run: cd client && ./node_modules/.bin/bundlesize --enable-github-checks
 # Build tag push the image after a merge to develop
-      # -
-      #   name: Build, Tag, Push
-      #   uses: docker/build-push-action@v4
-      #   if: github.ref == 'refs/heads/develop'
-      #   with:
-      #     push: true
-      #     tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
-      #     build-args: |
-      #         REVISION_HASH=${GITHUB_SHA}
-      #     cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop
-      #     cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop
+      -
+        name: Build, Tag, Push
+        uses: docker/build-push-action@v4
+        if: github.ref == 'refs/heads/develop'
+        with:
+          push: true
+          tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
+          build-args: |
+              REVISION_HASH=${GITHUB_SHA}
+          cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop
+          cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop
 # Build tag push the release candidate image when the branch name begins with release-
-      # -
-      #   name: Build, Tag, Push RC
-      #   uses: docker/build-push-action@v4
-      #   if: startsWith( github.ref, 'refs/heads/release-')
-      #   with:
-      #     push: true
-      #     tags: ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
-      #     build-args: |
-      #         REVISION_HASH=${GITHUB_SHA}
-      #     cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release
-      #     cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release
+      -
+        name: Build, Tag, Push RC
+        uses: docker/build-push-action@v4
+        if: startsWith( github.ref, 'refs/heads/release-')
+        with:
+          push: true
+          tags: ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
+          build-args: |
+              REVISION_HASH=${GITHUB_SHA}
+          cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release
+          cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release

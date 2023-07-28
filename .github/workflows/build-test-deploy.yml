@@ -58,58 +58,81 @@ jobs:
       -
         name: Install npm 8
         run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
-      - name: npm Lockfile Version
-        uses: mansona/npm-lockfile-version@v1
-        with:
-          version: 2
+      # - name: npm Lockfile Version
+      #   uses: mansona/npm-lockfile-version@v1
+      #   with:
+      #     version: 2
       -
         name: Cache Dependencies
-        id: cache
+        id: cache-client
         uses: actions/cache@v3
         with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
+          path: ./client/node_modules
+          key: modules-client-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+      -
+        name: Cache Dependencies
+        id: cache-common
+        uses: actions/cache@v3
+        with:
+          path: ./common/node_modules
+          key: modules-common-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+      -
+        name: Cache Dependencies
+        id: cache-server
+        uses: actions/cache@v3
+        with:
+          path: ./server/node_modules
+          key: modules-server-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
       -
         name: npm ci
-        run: npm ci
+        run: sh npm-ci.sh
       -
         name: Generate schemas and types
-        run: npm run generate
+        run: sh generate.sh
       -
         name: Lint Source Code
-        run: npm run lint
+        run: sh lint.sh
       -
         name: Lint Markdown
         run: |
+          cd client
           npm run doctoc
           git diff --exit-code
       -
         name: Lint Versions
-        run: npx @coralproject/package-version-lint
+        run: |
+          cd client
+          npx @coralproject/package-version-lint
       -
         name: Run Server Unit Tests
-        run: npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
+        run: cd server && npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Run Client Stream Unit Tests
-        run: npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
+        run: cd client && npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Run Client Admin Unit Tests
-        run: npm run test:client:admin -- --ci --runInBand --reporters=default --reporters=jest-junit
+        run: cd client && npm run test:client:admin -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Run Client Other Unit Tests
-        run: npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
+        run: cd client && npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Build
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
-        run: npm run build
+        run: sh build.sh
       -
         name: Verify Bundle Size
-        run: ./node_modules/.bin/bundlesize --enable-github-checks
+        run: cd client && ./node_modules/.bin/bundlesize --enable-github-checks
       -
         name: Verify Release Version
-        run: npx @coralproject/package-version-lint --expect ${RC_TAG/#v}
+        run: |
+          cd client
+          npx @coralproject/package-version-lint --expect ${RC_TAG/#v}
+          cd ../server
+          npx @coralproject/package-version-lint --expect ${RC_TAG/#v}
       -
         name: Create the Pre-Tag Names
         run: |
