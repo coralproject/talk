@@ -805,7 +805,7 @@ const CLASSES = {
   },
 
   /**
-   * myUsername is the email part of my profile.
+   * myEmail is the email part of my profile.
    */
   myEmail: {
     email: "coral coral-myEmail",
