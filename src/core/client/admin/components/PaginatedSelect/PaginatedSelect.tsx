@@ -1,7 +1,7 @@
 /* eslint-disable */
 import cn from "classnames";
 import { noop } from "lodash";
-import React, { ComponentType, FunctionComponent, useCallback, useState } from "react";
+import React, { ComponentType, FunctionComponent, useCallback, useRef, useState } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
@@ -48,25 +48,35 @@ const PaginatedSelect: FunctionComponent<Props> = ({
   selected,
   className,
 }) => {
+  const buttonRef = useRef<HTMLDivElement>();
+  const dropdownRef = useRef(null);
   const [mode, setMode] = useState<Mode>(Mode.SELECT);
   const [visible, setVisible] = useState(false);
 
-  const handleClick = useCallback((inside: boolean) => {
-    console.log("HANDLE CLICK", { mode, visible, inside });
-    if (inside) {
-      if (!visible) {
-        console.log("setting visibility");
-        setVisible(true);
-      } else {
-        console.log("changing mode to filter");
-        setMode(Mode.FILTER);
-      }
+  const handleButtonClick = useCallback(() => {
+    console.log("handling button click");
+    if (!visible) {
+      console.log("currently closed, opening");
+      setVisible(true);
     } else {
-      setMode(Mode.SELECT);
-      setVisible(false);
+      console.log("already open, entering filter mode");
+      setMode(Mode.FILTER);
     }
-  }, [visible, mode]);
+  }, [mode, visible]);
 
+  const handleOutsideClick = useCallback((event?: MouseEvent | undefined) => {
+    console.log("handling click outside of dropdown", { event, buttonRef });
+    if (event?.target && buttonRef.current && buttonRef.current?.contains(event.target as Node)) {
+      console.log("Click was on button");
+      return;
+    }
+
+    console.log("click was not on button, closing");
+    setMode(Mode.FILTER);
+    setVisible(false);
+  }, [mode, visible, buttonRef.current]);
+
+  console.log("fina render", { mode, visible });
   return (
     <Popover
       id=""
@@ -74,9 +84,9 @@ const PaginatedSelect: FunctionComponent<Props> = ({
       modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
       visible={visible}
       body={({ toggleVisibility }) => (
-        <ClickOutside onClickOutside={() => { console.log("outer"); handleClick(false) }}>
+        <ClickOutside onClickOutside={handleOutsideClick}>
           <IntersectionProvider>
-            <Dropdown className={styles.dropdown}>
+            <Dropdown className={styles.dropdown} ref={dropdownRef}>
               {children}
               {loading && (
                 <Flex justifyContent="center">
@@ -99,8 +109,8 @@ const PaginatedSelect: FunctionComponent<Props> = ({
       {({ toggleVisibility, ref, visible }) => (
         <Flex
           className={cn(styles.button, className)}
-          onClick={(e) => { console.log("inner"); e.stopPropagation(); handleClick(true) }}
-          ref={ref}
+          onClick={handleButtonClick}
+          ref={buttonRef as unknown as any}
           justifyContent="space-between"
         >
           {Icon && (
