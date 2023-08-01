@@ -687,7 +687,7 @@ comments-reportPopover-reasonSpam = Dit lijkt een advertentie of marketing
 comments-reportPopover-reasonOther = Anders
 
 comments-reportPopover-additionalInformation =
-  Meer informatie <optional>Optional</optional>
+  Meer informatie <optional>Optioneel</optional>
 comments-reportPopover-pleaseLeaveAdditionalInformation =
   Meer informatie <optional>Optioneel</optional>
 
