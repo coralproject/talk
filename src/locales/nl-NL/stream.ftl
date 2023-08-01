@@ -687,9 +687,9 @@ comments-reportPopover-reasonSpam = Dit lijkt een advertentie of marketing
 comments-reportPopover-reasonOther = Anders
 
 comments-reportPopover-additionalInformation =
-  Meer informatie <optional>Optioneel</optional>
+  Meer informatie <optional>(optioneel)</optional>
 comments-reportPopover-pleaseLeaveAdditionalInformation =
-  Meer informatie <optional>Optioneel</optional>
+  Meer informatie <optional>(optioneel)</optional>
 
 comments-reportPopover-maxCharacters = Max. { $maxCharacters } tekens
 comments-reportPopover-restrictToMaxCharacters = Beperk je rapportage tot { $maxCharacters } tekens
