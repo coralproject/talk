@@ -10,7 +10,7 @@ interface CacheEntry {
   createdAt: number;
 }
 
-async function get(
+export async function get(
   redis: Redis,
   ttl: number,
   key: string

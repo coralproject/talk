@@ -223,6 +223,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.mongo,
         ctx.redis,
         ctx.cache,
+        ctx.config,
         ctx.broker,
         ctx.tenant,
         commentID,
