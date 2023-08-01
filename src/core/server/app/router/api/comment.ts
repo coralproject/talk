@@ -12,10 +12,10 @@ export function createCommentRouter(app: AppOptions) {
   const cacheDuration = app.config.get("jsonp_cache_max_age");
   const immutable = app.config.get("jsonp_cache_immutable");
 
-  const router = createAPIRouter({ cacheDuration, immutable });
+  const router = createAPIRouter({ cacheDuration: "0", immutable });
 
   if (app.config.get("jsonp_response_cache")) {
-    router.use(cacheMiddleware(app.redis, cacheDuration));
+    router.use(cacheMiddleware(app.redis, cacheDuration, "commentEmbed"));
   }
 
   router.get("/featured.js", featuredHander(app));
