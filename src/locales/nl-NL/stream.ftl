@@ -93,7 +93,7 @@ comments-bannedInfo-violatedCommunityGuidelines =
   dit is foutief gebeurd is, neem dan contact op met onze moderator.
 
 comments-noCommentsAtAll = Er zijn geen reacties op dit artikel.
-comments-noCommentsYet = Er zijn nog geen reacties. Wil je er één schrijven?
+comments-noCommentsYet = Er zijn nog geen reacties. Plaats de eerste!
 
 comments-streamQuery-storyNotFound = Artikel niet gevonden
 
@@ -241,7 +241,7 @@ comments-reportButton-aria-reported =
 comments-sortMenu-sortBy = Sorteer op
 comments-sortMenu-newest = Nieuwste
 comments-sortMenu-oldest = Oudste
-comments-sortMenu-mostReplies = Meeste reacties
+comments-sortMenu-mostReplies = Meeste antwoorden
 
 comments-userPopover =
   .description = Meer gebruikers informatie
@@ -658,20 +658,20 @@ profile-account-changePassword-change = Wijzigen
   .aria-label = Wijzig wachtwoord
 
 ## Notifications
-profile-notificationsTab = Kennisgevingen
-profile-account-notifications-emailNotifications = E-mail Kennisgevingen
-profile-account-notifications-emailNotifications = E-mail Kennisgevingen
-profile-account-notifications-receiveWhen = Ontvang kennisgevingen als:
-profile-account-notifications-onReply = Mijn reactie ontvangt een antwoord
+profile-notificationsTab = Notificaties
+profile-account-notifications-emailNotifications = E-mail notificaties
+profile-account-notifications-emailNotifications = E-mail notificaties
+profile-account-notifications-receiveWhen = Ontvang notificaties als:
+profile-account-notifications-onReply = Mijn reactie een antwoord ontvangt
 profile-account-notifications-onFeatured = Mijn reactie is opgenomen in de lijst
-profile-account-notifications-onStaffReplies = Een medewerker van Doorbraak reageert op mijn reactie
-profile-account-notifications-onModeration = Mijn reactie in afwachting is nagezien
-profile-account-notifications-sendNotifications = Zend kennisgevingen:
+profile-account-notifications-onStaffReplies = Een medewerker reageert op mijn reactie
+profile-account-notifications-onModeration = Mijn reactie in afwachting is beoordeeld
+profile-account-notifications-sendNotifications = Stuur notificaties:
 profile-account-notifications-sendNotifications-immediately = Onmiddellijk
 profile-account-notifications-sendNotifications-daily = Dagelijks
 profile-account-notifications-sendNotifications-hourly = Elk uur
-profile-account-notifications-updated = Je instellingen voor je kennisgevingen zijn bijgewerkt
-profile-account-notifications-button = Update instellingen voor kennisgevingen
+profile-account-notifications-updated = Je instellingen voor je notificaties zijn bijgewerkt
+profile-account-notifications-button = Update instellingen voor notificaties
 profile-account-notifications-button-update = Update
 
 ## Report Comment Popover
