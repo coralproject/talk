@@ -1,5 +1,6 @@
 import { Collection, FilterQuery } from "mongodb";
 
+import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
@@ -115,6 +116,7 @@ async function deleteUserActionCounts(
 async function moderateComments(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  config: Config,
   tenantID: string,
   filter: FilterQuery<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
@@ -149,6 +151,7 @@ async function moderateComments(
     const { result } = await moderate(
       mongo,
       redis,
+      config,
       tenant,
       {
         commentID: comment.id,
@@ -170,6 +173,7 @@ async function moderateComments(
 async function deleteUserComments(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  config: Config,
   authorID: string,
   tenantID: string,
   now: Date,
@@ -181,6 +185,7 @@ async function deleteUserComments(
   await moderateComments(
     mongo,
     redis,
+    config,
     tenantID,
     {
       tenantID,
@@ -198,6 +203,7 @@ async function deleteUserComments(
   await moderateComments(
     mongo,
     redis,
+    config,
     tenantID,
     {
       tenantID,
@@ -236,6 +242,7 @@ async function deleteUserComments(
 export async function deleteUser(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  config: Config,
   userID: string,
   tenantID: string,
   now: Date
@@ -262,9 +269,9 @@ export async function deleteUser(
   }
 
   // Delete the user's comments.
-  await deleteUserComments(mongo, redis, userID, tenantID, now);
+  await deleteUserComments(mongo, redis, config, userID, tenantID, now);
   if (mongo.archive) {
-    await deleteUserComments(mongo, redis, userID, tenantID, now, true);
+    await deleteUserComments(mongo, redis, config, userID, tenantID, now, true);
   }
 
   // Mark the user as deleted.

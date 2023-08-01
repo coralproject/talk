@@ -270,7 +270,7 @@ export default async function edit(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo, redis, {
+  const counts = await updateAllCommentCounts(mongo, redis, config, {
     tenant,
     actionCounts,
     ...result,
