@@ -16,7 +16,7 @@ export function createStoryRouter(app: AppOptions) {
   const router = createAPIRouter({ cacheDuration, immutable });
 
   if (app.config.get("jsonp_response_cache")) {
-    router.use(cacheMiddleware(app.redis, cacheDuration));
+    router.use(cacheMiddleware(app.redis, cacheDuration, "count"));
   }
 
   router.get("/count", countHandler(app));
