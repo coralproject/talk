@@ -277,10 +277,13 @@ export default async function edit(
     ...result,
   });
 
-  // clear comment embed Redis cache if exists
-  const commentEmbedCacheKey = getCommentEmbedRedisCacheKey(result.after.id);
-  if (commentEmbedCacheKey) {
-    void redis.del(commentEmbedCacheKey);
+  // only clear Redis cache for single comment embed if jsonp_response_cache set to true
+  if (config.get("jsonp_response_cache")) {
+    // clear comment embed Redis cache if exists
+    const commentEmbedCacheKey = getCommentEmbedRedisCacheKey(result.after.id);
+    if (commentEmbedCacheKey) {
+      void redis.del(commentEmbedCacheKey);
+    }
   }
 
   const cacheAvailable = await cache.available(tenant.id);
