@@ -13,7 +13,7 @@ export function createStoryRouter(app: AppOptions) {
   const redisCacheDuration = app.config.get("jsonp_cache_max_age");
   const immutable = app.config.get("jsonp_cache_immutable");
 
-  const router = createAPIRouter({ cacheDuration: "0", immutable });
+  const router = createAPIRouter({ cacheDuration: false, immutable });
 
   if (app.config.get("jsonp_response_cache")) {
     router.use(cacheMiddleware(app.redis, redisCacheDuration, "count"));

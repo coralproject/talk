@@ -1,5 +1,6 @@
 import { DateTime } from "luxon";
 
+import { getCommentEmbedRedisCacheKey } from "coral-server/app/middleware/cache";
 import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
@@ -51,7 +52,6 @@ import {
   retrieveParent,
   updateAllCommentCounts,
 } from "./helpers";
-import { getCommentEmbedRedisCacheKey } from "coral-server/app/middleware/cache";
 
 /**
  * getLastCommentEditableUntilDate will return the `createdAt` date that will

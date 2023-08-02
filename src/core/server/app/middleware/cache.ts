@@ -102,7 +102,7 @@ const cacheMiddleware =
 
         // Add it in Redis.
         redis
-          .set(key, JSON.stringify(entry), "PX", ttl)
+          .set(key as KeyType, JSON.stringify(entry), "PX", ttl)
           .then(() => {
             log.debug("request added to cache");
           })
