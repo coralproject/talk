@@ -278,7 +278,7 @@ export default async function edit(
 
   // clear comment embed Redis cache if exists
   const commentEmbedCacheKey = `rmc:CoralCommentEmbed&commentID=${result.after.id}`;
-  redis.del(commentEmbedCacheKey);
+  void redis.del(commentEmbedCacheKey);
 
   const cacheAvailable = await cache.available(tenant.id);
   if (cacheAvailable) {
