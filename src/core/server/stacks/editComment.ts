@@ -51,6 +51,7 @@ import {
   retrieveParent,
   updateAllCommentCounts,
 } from "./helpers";
+import { getCommentEmbedRedisCacheKey } from "coral-server/app/middleware/cache";
 
 /**
  * getLastCommentEditableUntilDate will return the `createdAt` date that will
@@ -277,8 +278,10 @@ export default async function edit(
   });
 
   // clear comment embed Redis cache if exists
-  const commentEmbedCacheKey = `rmc:CoralCommentEmbed&commentID=${result.after.id}`;
-  void redis.del(commentEmbedCacheKey);
+  const commentEmbedCacheKey = getCommentEmbedRedisCacheKey(result.after.id);
+  if (commentEmbedCacheKey) {
+    void redis.del(commentEmbedCacheKey);
+  }
 
   const cacheAvailable = await cache.available(tenant.id);
   if (cacheAvailable) {

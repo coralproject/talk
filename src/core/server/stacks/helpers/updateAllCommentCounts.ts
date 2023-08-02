@@ -1,4 +1,4 @@
-import { get } from "coral-server/app/middleware/cache";
+import { get, getCountRedisCacheKey } from "coral-server/app/middleware/cache";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
@@ -179,26 +179,28 @@ export default async function updateAllCommentCounts(
           updatedStory.commentCounts.status
         );
 
-        const key = `rmc:CoralCount&url=${updatedStory.url}`;
-        const ttl = config.get("jsonp_cache_max_age");
-        const entry = await get(redis, ttl, key);
-        if (entry) {
-          const { body } = entry;
+        const key = getCountRedisCacheKey(updatedStory.url);
+        if (key) {
+          const ttl = config.get("jsonp_cache_max_age");
+          const entry = await get(redis, ttl, key);
+          if (entry) {
+            const { body } = entry;
 
-          // update count in jsonp data with new total comment count
-          const bodyArr = body.split(",");
-          for (let i = 0; i < bodyArr.length; i++) {
-            if (bodyArr[i].startsWith('"count":')) {
-              bodyArr[i] = `"count":${totalCount}`;
+            // update count in jsonp data with new total comment count
+            const bodyArr = body.split(",");
+            for (let i = 0; i < bodyArr.length; i++) {
+              if (bodyArr[i].startsWith('"count":')) {
+                bodyArr[i] = `"count":${totalCount}`;
+              }
             }
-          }
-          const updatedEntry = {
-            ...entry,
-            body: bodyArr.join(","),
-          };
+            const updatedEntry = {
+              ...entry,
+              body: bodyArr.join(","),
+            };
 
-          // set updated entry with new total comment count in Redis cache
-          void redis.set(key, JSON.stringify(updatedEntry));
+            // set updated entry with new total comment count in Redis cache
+            void redis.set(key, JSON.stringify(updatedEntry));
+          }
         }
       }
     }
