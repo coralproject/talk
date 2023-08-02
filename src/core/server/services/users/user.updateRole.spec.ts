@@ -198,8 +198,6 @@ describe("updateRole", () => {
         GQLUSER_ROLE.MODERATOR,
         true
       );
-      /* eslint-disable */
-      console.log("TEST RES", res);
       expect(res.role).toEqual(GQLUSER_ROLE.MODERATOR);
       expect(res.moderationScopes?.scoped).toBeTruthy();
     }

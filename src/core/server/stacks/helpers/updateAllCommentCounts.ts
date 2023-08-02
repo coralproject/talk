@@ -191,6 +191,7 @@ export default async function updateAllCommentCounts(
             for (let i = 0; i < bodyArr.length; i++) {
               if (bodyArr[i].startsWith('"count":')) {
                 bodyArr[i] = `"count":${totalCount}`;
+                break;
               }
             }
             const updatedEntry = {
