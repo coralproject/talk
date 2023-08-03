@@ -1770,6 +1770,10 @@ conversation-modal-commentNotFound = Comment not found.
 conversation-modal-showMoreReplies = Show more replies
 conversation-modal-header-title = Conversation on:
 conversation-modal-header-moderate-link = Moderate story
+conversation-modal-rejectButton = <icon></icon>Reject
+  .aria-label = Reject
+conversation-modal-rejectButton-rejected = <icon></icon>Rejected
+  .aria-label = Rejected
 
 # Control panel
 

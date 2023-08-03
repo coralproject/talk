@@ -42,4 +42,8 @@ $conversationModalCommentText: var(--palette-text-500);
 
 .rejectButton {
   height: fit-content;
+  &:disabled {
+    background-color: var(--palette-error-500) !important;
+    opacity: 1 !important;
+  }
 }

@@ -1,7 +1,12 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { useRouter } from "found";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import { MediaContainer } from "coral-admin/components/MediaContainer";
@@ -80,6 +85,27 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
       orderBy: moderationQueueSort,
     });
   }, [comment.id, comment.revision, match, moderationQueueSort, rejectComment]);
+  const rejectButtonOptions = useMemo((): {
+    localization: string;
+    variant: "regular" | "outlined";
+    ariaLabel: string;
+    text: string;
+  } => {
+    if (comment.status === "REJECTED") {
+      return {
+        localization: "conversation-modal-rejectButton-rejected",
+        variant: "regular",
+        ariaLabel: "Rejected",
+        text: "Rejected",
+      };
+    }
+    return {
+      localization: "conversation-modal-rejectButton",
+      variant: "outlined",
+      ariaLabel: "Reject",
+      text: "Reject",
+    };
+  }, [comment.status]);
   return (
     <HorizontalGutter>
       <Flex>
@@ -132,17 +158,24 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
               </Flex>
             </Flex>
             <Flex>
-              {/* TODO: Add localized */}
-              <Button
-                className={styles.rejectButton}
-                color="alert"
-                variant={comment.status === "REJECTED" ? "regular" : "outlined"}
-                iconLeft
-                onClick={onRejectComment}
+              <Localized
+                id={rejectButtonOptions.localization}
+                attrs={{ "aria-label": true }}
+                elems={{ icon: <SvgIcon size="xs" Icon={RemoveIcon} /> }}
               >
-                <SvgIcon size="xs" Icon={RemoveIcon} />
-                {comment.status === "REJECTED" ? "Rejected" : "Reject"}
-              </Button>
+                <Button
+                  className={styles.rejectButton}
+                  color="alert"
+                  variant={rejectButtonOptions.variant}
+                  iconLeft
+                  disabled={comment.status === "REJECTED"}
+                  onClick={onRejectComment}
+                  aria-label={rejectButtonOptions.ariaLabel}
+                >
+                  <SvgIcon size="xs" Icon={RemoveIcon} />
+                  {rejectButtonOptions.text}
+                </Button>
+              </Localized>
             </Flex>
           </Flex>
         </HorizontalGutter>
