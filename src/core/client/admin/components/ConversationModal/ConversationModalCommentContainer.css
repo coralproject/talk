@@ -35,3 +35,11 @@ $conversationModalCommentText: var(--palette-text-500);
 .showReplies {
   padding-left: var(--spacing-2);
 }
+
+.commentWrapper {
+  flex: 1;
+}
+
+.rejectButton {
+  height: fit-content;
+}

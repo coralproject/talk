@@ -32,10 +32,6 @@ const ConversationModalQuery: FunctionComponent<Props> = ({
     <QueryRenderer<QueryTypes>
       query={graphql`
         query ConversationModalQuery($commentID: ID!) {
-          settings {
-            ...ConversationModalContainer_settings
-            ...ConversationModalRepliesContainer_settings
-          }
           comment(id: $commentID) {
             ...ConversationModalContainer_comment
             ...ConversationModalRepliesContainer_comment
@@ -80,14 +76,12 @@ const ConversationModalQuery: FunctionComponent<Props> = ({
             <div className={styles.body}>
               <ConversationModalContainer
                 onClose={onClose}
-                settings={props.settings}
                 comment={props.comment}
                 onUsernameClicked={onUsernameClicked}
               />
               <ConversationModalRepliesContainer
                 onClose={onClose}
                 comment={props.comment}
-                settings={props.settings}
                 onUsernameClicked={onUsernameClicked}
               />
             </div>

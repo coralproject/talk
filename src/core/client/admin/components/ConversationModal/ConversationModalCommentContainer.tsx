@@ -1,10 +1,18 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
+import { useRouter } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { MediaContainer } from "coral-admin/components/MediaContainer";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { RejectCommentMutation } from "coral-admin/mutations";
+import { parseModerationOptions } from "coral-framework/helpers";
+import {
+  useLocal,
+  useMutation,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
+import { RemoveIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Flex,
@@ -13,7 +21,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { ConversationModalCommentContainer_comment } from "coral-admin/__generated__/ConversationModalCommentContainer_comment.graphql";
-import { ConversationModalCommentContainer_settings } from "coral-admin/__generated__/ConversationModalCommentContainer_settings.graphql";
+import { ConversationModalCommentContainerLocal } from "coral-admin/__generated__/ConversationModalCommentContainerLocal.graphql";
 
 import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
 import { Circle, Line } from "../Timeline";
@@ -27,7 +35,6 @@ interface Props {
   onUsernameClick: (id?: string) => void;
   isParent?: boolean;
   isReply?: boolean;
-  settings: ConversationModalCommentContainer_settings;
 }
 
 const ConversationModalCommentContainer: FunctionComponent<Props> = ({
@@ -36,8 +43,16 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
   isParent,
   isReply,
   onUsernameClick,
-  settings,
 }) => {
+  const rejectComment = useMutation(RejectCommentMutation);
+  const { match } = useRouter();
+  const { storyID, siteID, section } = parseModerationOptions(match);
+  const [{ moderationQueueSort }] =
+    useLocal<ConversationModalCommentContainerLocal>(graphql`
+      fragment ConversationModalCommentContainerLocal on Local {
+        moderationQueueSort
+      }
+    `);
   const commentAuthorClick = useCallback(() => {
     if (comment.author) {
       onUsernameClick(comment.author.id);
@@ -52,6 +67,19 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
   const onShowReplies = useCallback(() => {
     setShowReplies(true);
   }, []);
+  const onRejectComment = useCallback(async () => {
+    if (!comment.revision) {
+      return;
+    }
+    await rejectComment({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID,
+      siteID,
+      section,
+      orderBy: moderationQueueSort,
+    });
+  }, [comment.id, comment.revision, match, moderationQueueSort, rejectComment]);
   return (
     <HorizontalGutter>
       <Flex>
@@ -71,33 +99,52 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
             [styles.highlighted]: isHighlighted,
           })}
         >
-          <div>
-            <Flex alignItems="center">
-              {comment.author && comment.author.username && (
-                <UsernameButton
-                  onClick={commentAuthorClick}
-                  username={comment.author.username}
-                />
-              )}
-              <Timestamp>{comment.createdAt}</Timestamp>
-            </Flex>
-            {comment.parent &&
-              comment.parent.author &&
-              comment.parent.author.username && (
-                <InReplyTo onUsernameClick={commentParentAuthorClick}>
-                  {comment.parent.author.username}
-                </InReplyTo>
-              )}
-          </div>
+          <Flex>
+            <Flex className={styles.commentWrapper}>
+              <Flex direction="column">
+                <div>
+                  <Flex alignItems="center">
+                    {comment.author && comment.author.username && (
+                      <UsernameButton
+                        onClick={commentAuthorClick}
+                        username={comment.author.username}
+                      />
+                    )}
+                    <Timestamp>{comment.createdAt}</Timestamp>
+                  </Flex>
+                  {comment.parent &&
+                    comment.parent.author &&
+                    comment.parent.author.username && (
+                      <InReplyTo onUsernameClick={commentParentAuthorClick}>
+                        {comment.parent.author.username}
+                      </InReplyTo>
+                    )}
+                </div>
 
-          <div>
-            {comment.body && (
-              <CommentContent className={styles.commentText}>
-                {comment.body}
-              </CommentContent>
-            )}
-            <MediaContainer comment={comment} />
-          </div>
+                <div>
+                  {comment.body && (
+                    <CommentContent className={styles.commentText}>
+                      {comment.body}
+                    </CommentContent>
+                  )}
+                  <MediaContainer comment={comment} />
+                </div>
+              </Flex>
+            </Flex>
+            <Flex>
+              {/* TODO: Add localized */}
+              <Button
+                className={styles.rejectButton}
+                color="alert"
+                variant={comment.status === "REJECTED" ? "regular" : "outlined"}
+                iconLeft
+                onClick={onRejectComment}
+              >
+                <SvgIcon size="xs" Icon={RemoveIcon} />
+                {comment.status === "REJECTED" ? "Rejected" : "Reject"}
+              </Button>
+            </Flex>
+          </Flex>
         </HorizontalGutter>
       </Flex>
       {isReply && comment.replyCount > 0 && (
@@ -127,13 +174,6 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment ConversationModalCommentContainer_settings on Settings {
-      multisite
-      featureFlags
-      ...MarkersContainer_settings
-    }
-  `,
   comment: graphql`
     fragment ConversationModalCommentContainer_comment on Comment {
       id
@@ -143,6 +183,10 @@ const enhanced = withFragmentContainer<Props>({
         username
         id
       }
+      revision {
+        id
+      }
+      status
       replyCount
       parent {
         author {
