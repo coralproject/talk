@@ -107,7 +107,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
     };
   }, [comment.status]);
   return (
-    <HorizontalGutter>
+    <HorizontalGutter data-testid={`conversation-modal-comment-${comment.id}`}>
       <Flex>
         <Flex
           direction="column"

@@ -67,7 +67,7 @@ const ConversationModalQuery: FunctionComponent<Props> = ({
         }
 
         return (
-          <Card className={styles.root}>
+          <Card className={styles.root} data-testid="conversation-modal">
             <ConversationModalHeaderContainer
               onClose={onClose}
               comment={props.comment}
