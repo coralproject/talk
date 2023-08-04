@@ -84,7 +84,16 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
       section,
       orderBy: moderationQueueSort,
     });
-  }, [comment.id, comment.revision, match, moderationQueueSort, rejectComment]);
+  }, [
+    comment.id,
+    comment.revision,
+    match,
+    moderationQueueSort,
+    rejectComment,
+    storyID,
+    siteID,
+    section,
+  ]);
   const rejectButtonOptions = useMemo((): {
     localization: string;
     variant: "regular" | "outlined";
