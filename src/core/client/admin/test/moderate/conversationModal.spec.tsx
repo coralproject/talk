@@ -149,6 +149,11 @@ it("renders view conversation thread and allows comments to be rejected there", 
   });
   const modal = await screen.findByTestId("conversation-modal");
 
+  const showRepliesButton = screen.getByRole("button", {
+    name: "Show replies",
+  });
+  userEvent.click(showRepliesButton);
+
   // find first reply to comment and its reject button
   const firstReply = within(modal).getByTestId(
     `conversation-modal-comment-${comments[0].id}`
@@ -164,4 +169,10 @@ it("renders view conversation thread and allows comments to be rejected there", 
   // check that comment is rejected and the button text updates as expected
   expect(rejectCommentStub.called).toBe(true);
   expect(rejectButtonReportedComment0).toHaveTextContent("Rejected");
+
+  // parent comment should still have button with Reject text
+  const parentComment = within(modal).getByTestId(
+    `conversation-modal-comment-${reportedComments[0].id}`
+  );
+  expect(parentComment).toHaveTextContent("Reject");
 });

@@ -99,6 +99,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
     variant: "regular" | "outlined";
     ariaLabel: string;
     text: string;
+    disabled: boolean;
   } => {
     if (comment.status === "REJECTED") {
       return {
@@ -106,6 +107,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
         variant: "regular",
         ariaLabel: "Rejected",
         text: "Rejected",
+        disabled: true,
       };
     }
     return {
@@ -113,6 +115,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
       variant: "outlined",
       ariaLabel: "Reject",
       text: "Reject",
+      disabled: false,
     };
   }, [comment.status]);
   return (
@@ -177,7 +180,7 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
                   color="alert"
                   variant={rejectButtonOptions.variant}
                   iconLeft
-                  disabled={comment.status === "REJECTED"}
+                  disabled={rejectButtonOptions.disabled}
                   onClick={onRejectComment}
                   aria-label={rejectButtonOptions.ariaLabel}
                 >

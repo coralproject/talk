@@ -793,7 +793,7 @@ export const baseComment = createFixture<GQLComment>({
 export const comments = createFixtures<GQLComment>(
   [
     {
-      id: "comment-0",
+      id: "comment-regular-0",
       author: users.commenters[0],
       body: "Joining Too",
       revision: {
@@ -802,7 +802,7 @@ export const comments = createFixtures<GQLComment>(
       permalink: "permalink",
     },
     {
-      id: "comment-1",
+      id: "comment-regular-1",
       author: users.commenters[1],
       body: "What's up?",
       revision: {
@@ -810,7 +810,7 @@ export const comments = createFixtures<GQLComment>(
       },
     },
     {
-      id: "comment-2",
+      id: "comment-regular-2",
       author: users.commenters[2],
       body: "Hey!",
       revision: {
