@@ -1,7 +1,13 @@
-/* eslint-disable */
 import cn from "classnames";
 import { noop } from "lodash";
-import React, { ComponentType, FunctionComponent, useCallback, useRef, useState } from "react";
+import React, {
+  ComponentType,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
@@ -11,7 +17,6 @@ import {
   ButtonSvgIcon,
 } from "coral-ui/components/icons";
 import {
-  Button,
   ClickOutside,
   Dropdown,
   Flex,
@@ -24,6 +29,7 @@ import styles from "./PaginatedSelect.css";
 
 interface Props {
   onLoadMore?: () => void;
+  onFilter?: (filter: string) => void;
   Icon?: ComponentType;
   hasMore?: boolean;
   disableLoadMore?: boolean;
@@ -35,11 +41,12 @@ interface Props {
 
 enum Mode {
   SELECT,
-  FILTER
+  FILTER,
 }
 
 const PaginatedSelect: FunctionComponent<Props> = ({
   onLoadMore = noop,
+  onFilter,
   disableLoadMore = false,
   hasMore = false,
   loading = false,
@@ -48,45 +55,41 @@ const PaginatedSelect: FunctionComponent<Props> = ({
   selected,
   className,
 }) => {
-  const buttonRef = useRef<HTMLDivElement>();
-  const dropdownRef = useRef(null);
+  const filterRef = useRef<HTMLInputElement>(null);
   const [mode, setMode] = useState<Mode>(Mode.SELECT);
   const [visible, setVisible] = useState(false);
 
   const handleButtonClick = useCallback(() => {
-    console.log("handling button click");
     if (!visible) {
-      console.log("currently closed, opening");
       setVisible(true);
-    } else {
-      console.log("already open, entering filter mode");
+    } else if (onFilter) {
       setMode(Mode.FILTER);
+    } else {
+      setVisible(false);
     }
-  }, [mode, visible]);
+  }, [visible, onFilter]);
+
+  useEffect(() => {
+    if (mode === Mode.FILTER && filterRef.current) {
+      filterRef.current.focus();
+    }
+  }, [mode]);
 
   const handleOutsideClick = useCallback((event?: MouseEvent | undefined) => {
-    console.log("handling click outside of dropdown", { event, buttonRef });
-    if (event?.target && buttonRef.current && buttonRef.current?.contains(event.target as Node)) {
-      console.log("Click was on button");
-      return;
-    }
-
-    console.log("click was not on button, closing");
-    setMode(Mode.FILTER);
+    setMode(Mode.SELECT);
     setVisible(false);
-  }, [mode, visible, buttonRef.current]);
+  }, []);
 
-  console.log("fina render", { mode, visible });
   return (
-    <Popover
-      id=""
-      placement="bottom-end"
-      modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
-      visible={visible}
-      body={({ toggleVisibility }) => (
-        <ClickOutside onClickOutside={handleOutsideClick}>
+    <ClickOutside onClickOutside={handleOutsideClick}>
+      <Popover
+        id=""
+        placement="bottom-end"
+        modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
+        visible={visible}
+        body={({ toggleVisibility }) => (
           <IntersectionProvider>
-            <Dropdown className={styles.dropdown} ref={dropdownRef}>
+            <Dropdown className={styles.dropdown}>
               {children}
               {loading && (
                 <Flex justifyContent="center">
@@ -103,46 +106,47 @@ const PaginatedSelect: FunctionComponent<Props> = ({
               )}
             </Dropdown>
           </IntersectionProvider>
-        </ClickOutside>
-      )}
-    >
-      {({ toggleVisibility, ref, visible }) => (
-        <Flex
-          className={cn(styles.button, className)}
-          onClick={handleButtonClick}
-          ref={buttonRef as unknown as any}
-          justifyContent="space-between"
-        >
-          {Icon && (
-            <ButtonSvgIcon className={styles.buttonIconLeft} Icon={Icon} />
-          )}
-          {mode === Mode.SELECT && (
-            <Flex alignItems="center" className={styles.wrapper}>
-              {selected}
-            </Flex>
-          )}
-          {mode === Mode.FILTER && (
-            <TextField
-
-            />
-          )}
-          {!visible && (
-            <ButtonSvgIcon
-              className={styles.buttonIconRight}
-              Icon={ArrowsDownIcon}
-              size="xs"
-            />
-          )}
-          {visible && (
-            <ButtonSvgIcon
-              className={styles.buttonIconRight}
-              Icon={ArrowsUpIcon}
-              size="xs"
-            />
-          )}
-        </Flex>
-      )}
-    </Popover>
+        )}
+      >
+        {({ toggleVisibility, ref }) => (
+          <Flex
+            className={cn(styles.button, className)}
+            onClick={handleButtonClick}
+            ref={ref}
+            justifyContent="space-between"
+          >
+            {Icon && (
+              <ButtonSvgIcon className={styles.buttonIconLeft} Icon={Icon} />
+            )}
+            {mode === Mode.SELECT && (
+              <Flex alignItems="center" className={styles.wrapper}>
+                {selected}
+              </Flex>
+            )}
+            {!!onFilter && mode === Mode.FILTER && (
+              <TextField
+                onChange={(e) => onFilter(e.target.value)}
+                ref={filterRef}
+              />
+            )}
+            {!visible && (
+              <ButtonSvgIcon
+                className={styles.buttonIconRight}
+                Icon={ArrowsDownIcon}
+                size="xs"
+              />
+            )}
+            {visible && (
+              <ButtonSvgIcon
+                className={styles.buttonIconRight}
+                Icon={ArrowsUpIcon}
+                size="xs"
+              />
+            )}
+          </Flex>
+        )}
+      </Popover>
+    </ClickOutside>
   );
 };
 

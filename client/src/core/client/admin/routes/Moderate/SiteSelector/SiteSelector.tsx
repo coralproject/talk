@@ -18,6 +18,7 @@ interface Props {
   >;
   queueName: QUEUE_NAME | undefined;
   onLoadMore: () => void;
+  onFilter: (filter: string) => void;
   hasMore: boolean;
   disableLoadMore: boolean;
   loading: boolean;
@@ -33,6 +34,7 @@ const SiteSelector: FunctionComponent<Props> = ({
   disableLoadMore,
   hasMore,
   siteID,
+  onFilter,
 }) => {
   return (
     <PaginatedSelect
@@ -42,6 +44,7 @@ const SiteSelector: FunctionComponent<Props> = ({
       disableLoadMore={disableLoadMore}
       hasMore={hasMore}
       className={styles.button}
+      onFilter={onFilter}
       selected={
         <>
           {siteID && <SiteSelectorCurrentSiteQuery siteID={siteID} />}
