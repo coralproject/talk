@@ -23,39 +23,30 @@ interface Props {
   siteID: string | null;
 }
 
-const useTimeout = <T extends unknown>(
-  fn: (arg: T) => void,
-  ms: number
-): ((arg: T) => void) => {
-  const context = useCoralContext();
-  const [timeoutID, setTimeoutID] =
-    useState<ReturnType<Window["setTimeout"]>>();
-
-  return (arg: T) => {
-    if (timeoutID !== undefined) {
-      context.window.clearTimeout(timeoutID);
-    }
-
-    const newTimeoutID = context.window.setTimeout(() => {
-      fn(arg);
-    }, ms);
-    setTimeoutID(newTimeoutID);
-  };
-};
-
 const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
+  const context = useCoralContext();
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
-  const [displayFilter, setDisplayFilter] = useState("");
+  const [displayFilter, setDisplayFilter] = useState<string | null>(null);
   const [searchFilter, setSearchFilter] = useState<string | null>(null);
-  const delayedSetFilter = useTimeout(setSearchFilter, 1000);
+  const [searchTimeout, setSearchTimeout] = useState<number | undefined>();
 
   const [, isRefetching] = useRefetch(props.relay, 10, {
     searchFilter: searchFilter || null, // will this work?
   });
 
   useEffect(() => {
-    delayedSetFilter(displayFilter);
-  }, [displayFilter, delayedSetFilter]);
+    if (searchTimeout) {
+      context.window.clearTimeout(searchTimeout);
+    }
+
+    const newTimeout = context.window.setTimeout(
+      () => setSearchFilter(displayFilter),
+      1000
+    );
+    setSearchTimeout(newTimeout);
+
+    return () => context.window.clearTimeout(searchTimeout);
+  }, [displayFilter]);
 
   const { sites, scoped } = useMemo(() => {
     // If the viewer is moderation scoped, then only provide those sites.
