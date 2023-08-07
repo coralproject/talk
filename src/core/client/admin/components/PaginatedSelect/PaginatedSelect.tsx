@@ -39,11 +39,6 @@ interface Props {
   children?: React.ReactNode;
 }
 
-enum Mode {
-  SELECT,
-  FILTER,
-}
-
 const PaginatedSelect: FunctionComponent<Props> = ({
   onLoadMore = noop,
   onFilter,
@@ -56,27 +51,19 @@ const PaginatedSelect: FunctionComponent<Props> = ({
   className,
 }) => {
   const filterRef = useRef<HTMLInputElement>(null);
-  const [mode, setMode] = useState<Mode>(Mode.SELECT);
-  const [visible, setVisible] = useState(false);
-
-  const handleButtonClick = useCallback(() => {
-    if (!visible) {
-      setVisible(true);
-    } else if (onFilter) {
-      setMode(Mode.FILTER);
-    } else {
-      setVisible(false);
-    }
-  }, [visible, onFilter]);
+  const [open, setVisible] = useState(false);
 
   useEffect(() => {
-    if (mode === Mode.FILTER && filterRef.current) {
+    if (open && filterRef.current) {
       filterRef.current.focus();
     }
-  }, [mode]);
+  });
+
+  const handleButtonClick = useCallback(() => {
+    setVisible(true);
+  }, []);
 
   const handleOutsideClick = useCallback((event?: MouseEvent | undefined) => {
-    setMode(Mode.SELECT);
     setVisible(false);
   }, []);
 
@@ -86,7 +73,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
         id=""
         placement="bottom-end"
         modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
-        visible={visible}
+        visible={open}
         body={({ toggleVisibility }) => (
           <IntersectionProvider>
             <Dropdown className={styles.dropdown}>
@@ -118,25 +105,33 @@ const PaginatedSelect: FunctionComponent<Props> = ({
             {Icon && (
               <ButtonSvgIcon className={styles.buttonIconLeft} Icon={Icon} />
             )}
-            {mode === Mode.SELECT && (
-              <Flex alignItems="center" className={styles.wrapper}>
-                {selected}
-              </Flex>
-            )}
-            {!!onFilter && mode === Mode.FILTER && (
+            {/* TODO: on keyboard select, set open */}
+            <Flex
+              alignItems="center"
+              className={styles.wrapper}
+              style={{
+                display: open && !!onFilter ? "none" : "inherit",
+              }}
+              role="button"
+              tabIndex={0}
+            >
+              {selected}
+            </Flex>
+            {!!onFilter && open && (
               <TextField
                 onChange={(e) => onFilter(e.target.value)}
                 ref={filterRef}
               />
             )}
-            {!visible && (
+
+            {!open && (
               <ButtonSvgIcon
                 className={styles.buttonIconRight}
                 Icon={ArrowsDownIcon}
                 size="xs"
               />
             )}
-            {visible && (
+            {open && (
               <ButtonSvgIcon
                 className={styles.buttonIconRight}
                 Icon={ArrowsUpIcon}
