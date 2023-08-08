@@ -18,13 +18,17 @@ import { retrieveTenantSites } from "coral-server/models/site";
 import {
   CreateAnnouncementInput,
   CreateEmailDomainInput,
+  CreateFlairBadgeInput,
   createTenant,
   createTenantAnnouncement,
   createTenantEmailDomain,
+  createTenantFlairBadge,
   CreateTenantInput,
   DeleteEmailDomainInput,
+  DeleteFlairBadgeInput,
   deleteTenantAnnouncement,
   deleteTenantEmailDomain,
+  deleteTenantFlairBadge,
   disableTenantFeatureFlag,
   enableTenantFeatureFlag,
   Tenant,
@@ -327,6 +331,92 @@ export async function sendSMTPTest(
     });
   }
   return tenant;
+}
+
+export async function createFlairBadge(
+  mongo: MongoContext,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  viewer: Pick<User, "id"> | undefined,
+  input: CreateFlairBadgeInput
+) {
+  if (!viewer) {
+    throw new UserForbiddenError(
+      "Must be authenticated to create flair badge",
+      "flairBadge",
+      "create"
+    );
+  }
+
+  const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
+  if (!fullViewer) {
+    throw new UserNotFoundError("Viewer not found");
+  }
+
+  const isAdmin = fullViewer.role === GQLUSER_ROLE.ADMIN;
+
+  const allowed = fullViewer.tenantID === tenant.id && isAdmin;
+
+  if (!allowed) {
+    throw new UserForbiddenError(
+      "Insufficient priviledges to create flair badge",
+      "flairBadge",
+      "create",
+      viewer.id
+    );
+  }
+
+  const updated = await createTenantFlairBadge(mongo, tenant.id, input);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+  await cache.update(redis, updated);
+
+  return updated;
+}
+
+export async function deleteFlairBadge(
+  mongo: MongoContext,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  viewer: Pick<User, "id"> | undefined,
+  input: DeleteFlairBadgeInput
+) {
+  if (!viewer) {
+    throw new UserForbiddenError(
+      "Must be authenticated to delete flair badge",
+      "flairBadge",
+      "create"
+    );
+  }
+
+  const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
+  if (!fullViewer) {
+    throw new UserNotFoundError("Viewer not found");
+  }
+
+  const isAdmin = fullViewer.role === GQLUSER_ROLE.ADMIN;
+
+  const allowed = fullViewer.tenantID === tenant.id && isAdmin;
+
+  if (!allowed) {
+    throw new UserForbiddenError(
+      "Insufficient priviledges to delete flair badge",
+      "flairBadge",
+      "create",
+      viewer.id
+    );
+  }
+
+  const updated = await deleteTenantFlairBadge(mongo, tenant.id, input);
+  if (!updated) {
+    throw new Error("tenant not found");
+  }
+  await cache.update(redis, updated);
+
+  return updated;
 }
 
 export async function createEmailDomain(

@@ -1706,6 +1706,11 @@ type BadgeConfiguration {
   adminLabel: String!
 }
 
+type FlairBadgeConfiguration {
+  flairBadgesEnabled: Boolean
+  flairBadgeURLs: [String!]
+}
+
 type WebhookDelivery {
   success: Boolean!
   status: Int!
@@ -2201,6 +2206,8 @@ type Settings @cacheControl(maxAge: 30) {
   embeddedComments includes the configuration for embedded comments.
   """
   embeddedComments: EmbeddedCommentsConfiguration
+
+  flairBadges: FlairBadgeConfiguration
 }
 
 ################################################################################
@@ -5568,6 +5575,11 @@ input RTEConfigurationInput {
   spoiler: Boolean!
 }
 
+input FlairBadgeConfigurationInput {
+  flairBadgesEnabled: Boolean
+  flairBadgeURLs: [String!]
+}
+
 """
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
@@ -5766,6 +5778,8 @@ input SettingsInput {
   embeddedComments includes the configuration for embedded comments.
   """
   embeddedComments: EmbeddedCommentsConfigurationInput
+
+  flairBadges: FlairBadgeConfigurationInput
 }
 
 """
@@ -8518,6 +8532,58 @@ type UpdateStoryModePayload {
   story: Story!
 }
 
+input CreateFlairBadge {
+  """
+  """
+  flairBadgeURL: String!
+}
+
+input CreateFlairBadgeInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  """
+  flairBadgeURL: String!
+}
+
+type CreateFlairBadgePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the flair badge configuration was created on.
+  """
+  settings: Settings!
+}
+
+input DeleteFlairBadgeInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  """
+  flairBadgeURL: String!
+}
+
+type DeleteFlairBadgePayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+
+  """
+  settings is the Settings that the flair badge configuration was deleted on.
+  """
+  settings: Settings!
+}
+
 ##################
 ## createEmailDomain
 ##################
@@ -9452,6 +9518,12 @@ type Mutation {
   createSite(input: CreateSiteInput!): CreateSitePayload! @auth(roles: [ADMIN])
 
   updateSite(input: UpdateSiteInput!): UpdateSitePayload! @auth(roles: [ADMIN])
+
+  createFlairBadge(input: CreateFlairBadgeInput!): CreateFlairBadgePayload!
+    @auth(roles: [ADMIN])
+
+  deleteFlairBadge(input: DeleteFlairBadgeInput!): DeleteFlairBadgePayload!
+    @auth(roles: [ADMIN])
 
   """
   createEmailDomain creates an email domain configuration.

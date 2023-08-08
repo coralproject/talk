@@ -363,6 +363,22 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     settings: await ctx.mutators.Settings.deleteEmailDomain(input),
     clientMutationId,
   }),
+  createFlairBadge: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    settings: await ctx.mutators.Settings.createFlairBadge(input),
+    clientMutationId,
+  }),
+  deleteFlairBadge: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    settings: await ctx.mutators.Settings.deleteFlairBadge(input),
+    clientMutationId,
+  }),
   createWebhookEndpoint: async (
     source,
     { input: { clientMutationId, ...input } },

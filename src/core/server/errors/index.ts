@@ -331,6 +331,15 @@ export class DuplicateEmailDomainError extends CoralError {
   }
 }
 
+export class DuplicateFlairBadgeError extends CoralError {
+  constructor(flairBadge: string) {
+    super({
+      code: ERROR_CODES.DUPLICATE_FLAIR_BADGE,
+      context: { pvt: { flairBadge } },
+    });
+  }
+}
+
 export class UsernameAlreadySetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.USERNAME_ALREADY_SET });

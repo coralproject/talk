@@ -50,6 +50,8 @@ export enum ERROR_CODES {
    */
   DUPLICATE_STORY_URL = "DUPLICATE_STORY_URL",
 
+  DUPLICATE_FLAIR_BADGE = "DUPLICATE_FLAIR_BADGE",
+
   /**
    * EMAIL_ALREADY_SET is used when trying to set the email address on a User
    * when the User already has an email address associated with their account.
