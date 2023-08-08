@@ -82,13 +82,20 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
   return (
     <ConfigBox
       title={
-        <Localized id="">
+        <Localized id="configure-general-flairBadge-header">
           <Header container={<legend />}>Custom flair badges</Header>
         </Localized>
       }
       container={<FieldSet />}
     >
-      <Localized id="">
+      <Localized
+        id="configure-general-flairBadge-description"
+        elems={{
+          externalLink: (
+            <ExternalLink href="https://docs.coralproject.net/sso" />
+          ),
+        }}
+      >
         <FormFieldDescription>
           Encourage user engagement and participation by adding custom flair
           badges for your site. Badges can be allocated as part of your{" "}
@@ -99,7 +106,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
         </FormFieldDescription>
       </Localized>
       <FormField container={<FieldSet />}>
-        <Localized id="">
+        <Localized id="configure-general-flairBadge-enable-label">
           <Label component="legend">Enable custom flair badges</Label>
         </Localized>
         <OnOffField name="flairBadges.flairBadgesEnabled" disabled={disabled} />
@@ -108,10 +115,10 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
         <Field name="flairBadgeURL">
           {({ input, meta }) => (
             <FormField>
-              <Localized id="">
+              <Localized id="configure-general-flairBadge-add">
                 <Label>Add flair by URL</Label>
               </Localized>
-              <Localized id="">
+              <Localized id="configure-general-flairBadge-add-helperText">
                 <HelperText>
                   Paste the web address for your custom flair badge. Supported
                   file types: png, jpeg, jpg, and gif
@@ -127,7 +134,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                   onChange={(e) => setFlairBadgeURLInput(e.target.value)}
                   value={flairBadgeURLInput}
                 />
-                <Localized id="">
+                <Localized id="configure-general-flairBadge-add-button">
                   <Button
                     iconLeft
                     className={styles.addButton}
@@ -153,10 +160,10 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
       <Table fullWidth>
         <TableHead>
           <TableRow>
-            <Localized id="">
+            <Localized id="configure-general-flairBadge-table-flairURL">
               <TableCell>Flair URL</TableCell>
             </Localized>
-            <Localized id="">
+            <Localized id="configure-general-flairBadge-table-preview">
               <TableCell>Preview</TableCell>
             </Localized>
           </TableRow>
@@ -174,7 +181,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                       <img className={styles.imagePreview} src={url} alt="" />
                       <Flex className={styles.deleteButton}>
                         <Localized
-                          id=""
+                          id="configure-general-flairBadge-table-deleteButton"
                           elems={{
                             icon: <ButtonSvgIcon Icon={BinIcon} />,
                           }}
@@ -196,7 +203,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
             })}
           </TableBody>
         ) : (
-          <Localized id="">
+          <Localized id="configure-general-flairBadge-table-empty">
             <HelperText className={styles.emptyCustomFlairText}>
               No custom flair added for this site
             </HelperText>
