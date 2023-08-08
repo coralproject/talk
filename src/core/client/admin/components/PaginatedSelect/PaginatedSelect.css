@@ -10,8 +10,8 @@
 
 .wrapper {
   overflow: hidden;
-  /* adjust for button line-height being > 1 */
-  margin-top: -2px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .button {
@@ -20,18 +20,23 @@
   width: calc(20 * var(--mini-unit));
   margin-right: calc(var(--spacing-1) / 2);
   font-size: var(--font-size-3);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
   line-height: 1.2;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
   background: var(--palette-background-input);
 }
 
 .buttonIconLeft {
   width: 20px;
-  margin-right: calc(var(--spacing-1) / 2);
+  margin-left: var(--spacing-1);
+  margin-right: var(--spacing-1);
 }
 
 .buttonIconRight {
-  align-self: baseline;
+  margin-left: auto;
+  margin-right: var(--spacing-1);
   width: 16px;
 }
 
@@ -39,9 +44,4 @@
 .buttonIconRight {
   /* adjust for button line-height being > 1 */
   margin-top: -2px;
-}
-
-.buttonText {
-  overflow: hidden;
-  text-overflow: ellipsis;
 }

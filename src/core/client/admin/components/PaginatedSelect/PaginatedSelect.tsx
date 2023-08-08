@@ -51,7 +51,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
   className,
 }) => {
   const filterRef = useRef<HTMLInputElement>(null);
-  const [open, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (open && filterRef.current) {
@@ -60,11 +60,11 @@ const PaginatedSelect: FunctionComponent<Props> = ({
   });
 
   const handleButtonClick = useCallback(() => {
-    setVisible(true);
+    setOpen(true);
   }, []);
 
   const handleOutsideClick = useCallback((event?: MouseEvent | undefined) => {
-    setVisible(false);
+    setOpen(false);
   }, []);
 
   return (
@@ -111,9 +111,13 @@ const PaginatedSelect: FunctionComponent<Props> = ({
               className={styles.wrapper}
               style={{
                 display: open && !!onFilter ? "none" : "inherit",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
               }}
               role="button"
               tabIndex={0}
+              onFocus={() => setOpen(true)}
+              onBlur={() => setOpen(false)}
             >
               {selected}
             </Flex>
