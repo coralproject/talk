@@ -28,11 +28,11 @@ import {
 
 import { FlairBadgeConfigContainer_settings as SettingsData } from "coral-admin/__generated__/FlairBadgeConfigContainer_settings.graphql";
 
-import CreateFlairBadgeMutation from "./CreateFlairBadgeMutation";
-import DeleteFlairBadgeMutation from "./DeleteFlairBadgeMutation";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
+import CreateFlairBadgeMutation from "./CreateFlairBadgeMutation";
+import DeleteFlairBadgeMutation from "./DeleteFlairBadgeMutation";
 
 import styles from "./FlairBadgeConfigContainer.css";
 
@@ -119,8 +119,9 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
               </Localized>
               <Flex>
                 <TextField
-                  className={styles.flairBadgeURLInput}
                   {...input}
+                  className={styles.flairBadgeURLInput}
+                  placeholder={"https://www.example.com/myimage.jpg"}
                   color={colorFromMeta(meta)}
                   fullWidth
                   onChange={(e) => setFlairBadgeURLInput(e.target.value)}
