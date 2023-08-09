@@ -40,6 +40,10 @@ comments-reacted =
     *[other] {$reaction} ({$count}) comment by {$username}
   }
 
+## components
+admin-paginatedSelect-filter =
+  .aria-roledescription = Filter results
+
 ## User Statuses
 userStatus-active = Active
 userStatus-banned = Banned
