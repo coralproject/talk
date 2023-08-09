@@ -1,5 +1,4 @@
-import cn from "classnames";
-import React, { FunctionComponent, ReactElement } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -26,27 +25,20 @@ const AuthorBadgesContainer: FunctionComponent<Props> = ({
       {flairBadgesEnabled ? (
         <>
           {badges.map((badge) => {
-            let tagChild: ReactElement<any, any> | string = badge;
-            let displayBadge = true;
             if (/\.(jpe?g|png|gif)$/i.test(badge)) {
               if (settings.flairBadges?.flairBadgeURLs?.includes(badge)) {
-                className = cn(className, styles.flairBadge);
-                tagChild = <img src={badge} alt="" />;
+                // todo: add stable classname specific to flair badge
+                return <img src={badge} alt="" className={styles.flairBadge} />;
               } else {
-                // if a badge matches the image regex but is not included in flairBadgeURL
-                // config, then we don't display it
-                displayBadge = false;
+                return null;
               }
+            } else {
+              return (
+                <Tag key={badge} color="dark" className={className}>
+                  {badge}
+                </Tag>
+              );
             }
-            return (
-              <>
-                {displayBadge && (
-                  <Tag key={badge} color="dark" className={className}>
-                    {tagChild}
-                  </Tag>
-                )}
-              </>
-            );
           })}
         </>
       ) : (
