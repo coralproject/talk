@@ -26,27 +26,35 @@ interface Props {
 const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
   const context = useCoralContext();
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
-  const [displayFilter, setDisplayFilter] = useState<string | null>(null);
+  // Buffering in the sense that we gather changes and then "flush"
+  // them 1 second after the last change is recieved
+  const [filterBuffer, setFilterBuffer] = useState<string | null>(null);
   const [searchFilter, setSearchFilter] = useState<string | null>(null);
   const [searchTimeout, setSearchTimeout] = useState<number | undefined>();
 
   const [, isRefetching] = useRefetch(props.relay, 10, {
-    searchFilter: searchFilter || null, // will this work?
+    searchFilter: searchFilter || null,
   });
 
   useEffect(() => {
+    if (filterBuffer === searchFilter) {
+      return;
+    }
+
     if (searchTimeout) {
       context.window.clearTimeout(searchTimeout);
     }
 
     const newTimeout = context.window.setTimeout(
-      () => setSearchFilter(displayFilter),
+      () => setSearchFilter(filterBuffer),
       1000
     );
+
     setSearchTimeout(newTimeout);
 
     return () => context.window.clearTimeout(searchTimeout);
-  }, [displayFilter]);
+  }, [filterBuffer, context.window]);
+  // marcushaddon: omitting searchFilter from dependency array to avoid an infinite update loop
 
   const { sites, scoped } = useMemo(() => {
     // If the viewer is moderation scoped, then only provide those sites.
@@ -76,7 +84,7 @@ const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
       scoped={scoped}
       sites={sites}
       onLoadMore={loadMore}
-      onFilter={setDisplayFilter}
+      onFilter={setFilterBuffer}
       hasMore={props.relay.hasMore()}
       disableLoadMore={isLoadingMore}
       queueName={props.queueName}

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { FunctionComponent, useEffect } from "react";
 
 import { useInView } from "coral-framework/lib/intersection";
@@ -33,7 +34,7 @@ const AutoLoadMoresContainer: FunctionComponent<Props> = ({
     );
   }
   return (
-    <div ref={intersectionRef}>
+    <div ref={intersectionRef} tabIndex={0}>
       <Spinner />
     </div>
   );

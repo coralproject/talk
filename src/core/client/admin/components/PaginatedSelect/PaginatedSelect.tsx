@@ -25,6 +25,7 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
+import { Localized } from "@fluent/react/compat";
 import styles from "./PaginatedSelect.css";
 
 interface Props {
@@ -57,7 +58,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
     if (open && filterRef.current) {
       filterRef.current.focus();
     }
-  });
+  }, [open]);
 
   const handleButtonClick = useCallback(() => {
     setOpen(true);
@@ -105,29 +106,31 @@ const PaginatedSelect: FunctionComponent<Props> = ({
             {Icon && (
               <ButtonSvgIcon className={styles.buttonIconLeft} Icon={Icon} />
             )}
-            {/* TODO: on keyboard select, set open */}
-            <Flex
-              alignItems="center"
-              className={styles.wrapper}
-              style={{
-                display: open && !!onFilter ? "none" : "inherit",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-              role="button"
-              tabIndex={0}
-              onFocus={() => setOpen(true)}
-              onBlur={() => setOpen(false)}
-            >
-              {selected}
-            </Flex>
-            {!!onFilter && open && (
-              <TextField
-                onChange={(e) => onFilter(e.target.value)}
-                ref={filterRef}
-              />
+            {open && !!onFilter ? (
+              <Localized id="admin-paginatedSelect-filter">
+                <TextField
+                  onChange={(e) => onFilter(e.target.value)}
+                  ref={filterRef}
+                  aria-roledescription="Filter results"
+                />
+              </Localized>
+            ) : (
+              <Flex
+                alignItems="center"
+                className={styles.wrapper}
+                style={{
+                  // display: open && !!onFilter ? "none" : "inherit",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+                role="button"
+                tabIndex={0}
+                onFocus={() => setOpen(true)}
+                onBlur={() => setOpen(false)}
+              >
+                {selected}
+              </Flex>
             )}
-
             {!open && (
               <ButtonSvgIcon
                 className={styles.buttonIconRight}
