@@ -87,6 +87,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
         </Localized>
       }
       container={<FieldSet />}
+      data-testid="custom-flair-badge-configuration"
     >
       <Localized
         id="configure-general-flairBadge-description"
@@ -169,47 +170,48 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
           </TableRow>
         </TableHead>
         {settings.flairBadges?.flairBadgeURLs &&
-        settings.flairBadges.flairBadgeURLs.length > 0 ? (
-          <TableBody>
-            {settings.flairBadges.flairBadgeURLs.map((url) => {
-              return (
-                // TODO: Needs a key
-                <TableRow key={url}>
-                  <TableCell className={styles.urlTableCell}>{url}</TableCell>
-                  <TableCell>
-                    <Flex>
-                      <img className={styles.imagePreview} src={url} alt="" />
-                      <Flex className={styles.deleteButton}>
-                        <Localized
-                          id="configure-general-flairBadge-table-deleteButton"
-                          elems={{
-                            icon: <ButtonSvgIcon Icon={BinIcon} />,
-                          }}
-                        >
-                          <Button
-                            variant="text"
-                            iconLeft
-                            onClick={() => onDelete(url)}
+          settings.flairBadges.flairBadgeURLs.length > 0 && (
+            <TableBody>
+              {settings.flairBadges.flairBadgeURLs.map((url) => {
+                return (
+                  <TableRow key={url}>
+                    <TableCell className={styles.urlTableCell}>{url}</TableCell>
+                    <TableCell>
+                      <Flex>
+                        <img className={styles.imagePreview} src={url} alt="" />
+                        <Flex className={styles.deleteButton}>
+                          <Localized
+                            id="configure-general-flairBadge-table-deleteButton"
+                            elems={{
+                              icon: <ButtonSvgIcon Icon={BinIcon} />,
+                            }}
                           >
-                            <ButtonSvgIcon Icon={BinIcon} />
-                            Delete
-                          </Button>
-                        </Localized>
+                            <Button
+                              variant="text"
+                              iconLeft
+                              onClick={() => onDelete(url)}
+                            >
+                              <ButtonSvgIcon Icon={BinIcon} />
+                              Delete
+                            </Button>
+                          </Localized>
+                        </Flex>
                       </Flex>
-                    </Flex>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        ) : (
-          <Localized id="configure-general-flairBadge-table-empty">
-            <HelperText className={styles.emptyCustomFlairText}>
-              No custom flair added for this site
-            </HelperText>
-          </Localized>
-        )}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          )}
       </Table>
+      {(!settings.flairBadges?.flairBadgeURLs ||
+        settings.flairBadges.flairBadgeURLs.length === 0) && (
+        <Localized id="configure-general-flairBadge-table-empty">
+          <HelperText className={styles.emptyCustomFlairText}>
+            No custom flair added for this site
+          </HelperText>
+        </Localized>
+      )}
     </ConfigBox>
   );
 };

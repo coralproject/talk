@@ -635,3 +635,100 @@ it("add announcement", async () => {
 
   expect(resolvers.Mutation!.createAnnouncement!.called).toBe(true);
 });
+
+it("enable, add, and delete custom flair badges", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      createFlairBadge: ({ variables }) => {
+        expectAndFail(variables.flairBadgeURL).toEqual(
+          "https://www.example.com/image.jpg"
+        );
+        return {
+          settings: pureMerge(settings, {
+            flairBadges: {
+              flairBadgesEnabled: true,
+              flairBadgeURLs: ["https://www.example.com/image.jpg"],
+            },
+          }),
+        };
+      },
+      deleteFlairBadge: ({ variables }) => {
+        expectAndFail(variables.flairBadgeURL).toEqual(
+          "https://www.example.com/image.jpg"
+        );
+        return {
+          settings: pureMerge(settings, {
+            flairBadges: {
+              flairBadgesEnabled: true,
+              flairBadgeURLs: [],
+            },
+          }),
+        };
+      },
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+  const customFlairBadgeConfig = screen.getByTestId(
+    "custom-flair-badge-configuration"
+  );
+
+  // check for correct text and link to docs
+  expect(
+    within(customFlairBadgeConfig).getByText(
+      "Encourage user engagement and participation by adding custom flair badges for your site. Badges can be allocated as part of your",
+      { exact: false }
+    )
+  );
+  expect(
+    within(customFlairBadgeConfig).getByRole("link", { name: "JWT claim" })
+  ).toHaveAttribute("href", "https://docs.coralproject.net/sso");
+
+  // custom flair badges off by default
+  expect(
+    within(customFlairBadgeConfig).getByRole("radio", { name: "Off" })
+  ).toBeChecked();
+
+  // enable custom flair badges
+  const onButton = within(customFlairBadgeConfig).getByRole("radio", {
+    name: "On",
+  });
+  userEvent.click(onButton);
+  expect(onButton).toBeChecked();
+
+  // Add URL button should be disabled and no custom flair added text displayed
+  const addURLButton = within(customFlairBadgeConfig).getByRole("button", {
+    name: "Add",
+  });
+  expect(addURLButton).toBeDisabled();
+  expect(
+    within(customFlairBadgeConfig).getByText(
+      "No custom flair added for this site"
+    )
+  ).toBeVisible();
+
+  // Add URL button should still be disabled when entering url that's not valid image url yet
+  const flairURLInput = within(customFlairBadgeConfig).getByRole("textbox");
+  userEvent.type(flairURLInput, "https://www.example.com");
+  expect(addURLButton).toBeDisabled();
+
+  // Add URL button should be enabled once the url is a valid image url
+  userEvent.type(flairURLInput, "/image.jpg");
+  expect(addURLButton).toBeEnabled();
+
+  // image URL should be displayed within table after it's added
+  userEvent.click(addURLButton);
+  expect(resolvers.Mutation!.createFlairBadge!.called).toBe(true);
+  const imageURL = await within(customFlairBadgeConfig).findByRole("cell", {
+    name: "https://www.example.com/image.jpg",
+  });
+  expect(imageURL).toBeVisible();
+
+  // image URL can be deleted and delete mutation is then called
+  const deleteButton = within(customFlairBadgeConfig).getByRole("button", {
+    name: "Delete",
+  });
+  userEvent.click(deleteButton);
+  expect(resolvers.Mutation!.deleteFlairBadge!.called).toBe(true);
+});
