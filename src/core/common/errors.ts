@@ -50,6 +50,10 @@ export enum ERROR_CODES {
    */
   DUPLICATE_STORY_URL = "DUPLICATE_STORY_URL",
 
+  /**
+   * DUPLICATE_FLAIR_BADGE is used when trying to create a flair badge for a
+   * tenant that already includes that flair badge.
+   */
   DUPLICATE_FLAIR_BADGE = "DUPLICATE_FLAIR_BADGE",
 
   /**

@@ -1706,6 +1706,10 @@ type BadgeConfiguration {
   adminLabel: String!
 }
 
+"""
+FlairBadgeConfiguration specifies the configuration for flair badges, including
+whether they are enabled and any configured image urls.
+"""
 type FlairBadgeConfiguration {
   flairBadgesEnabled: Boolean
   flairBadgeURLs: [String!]
@@ -2207,6 +2211,10 @@ type Settings @cacheControl(maxAge: 30) {
   """
   embeddedComments: EmbeddedCommentsConfiguration
 
+  """
+  flairBadges specifies the configuration for flair badges, including whether
+  they are enabled and any configured image urls
+  """
   flairBadges: FlairBadgeConfiguration
 }
 
@@ -5575,6 +5583,10 @@ input RTEConfigurationInput {
   spoiler: Boolean!
 }
 
+"""
+FlairBadgeConfigurationInput specifies the configuration for flair badges,
+including whether they are enabled and their image urls.
+"""
 input FlairBadgeConfigurationInput {
   flairBadgesEnabled: Boolean
   flairBadgeURLs: [String!]
@@ -5779,6 +5791,10 @@ input SettingsInput {
   """
   embeddedComments: EmbeddedCommentsConfigurationInput
 
+  """
+  flairBadges specifies the configuration for flair badges, including whether
+  they are enabled and any configured image urls
+  """
   flairBadges: FlairBadgeConfigurationInput
 }
 
@@ -8532,8 +8548,12 @@ type UpdateStoryModePayload {
   story: Story!
 }
 
+#########################
+## createFlairBadge
+#########################
 input CreateFlairBadge {
   """
+  flairBadgeURL is the flair badge url to be created
   """
   flairBadgeURL: String!
 }
@@ -8545,6 +8565,7 @@ input CreateFlairBadgeInput {
   clientMutationId: String!
 
   """
+  flairBadgeURL is the flair badge url to be created
   """
   flairBadgeURL: String!
 }
@@ -8561,6 +8582,9 @@ type CreateFlairBadgePayload {
   settings: Settings!
 }
 
+#########################
+## deleteFlairBadge
+#########################
 input DeleteFlairBadgeInput {
   """
   clientMutationId is required for Relay support.
@@ -8568,6 +8592,7 @@ input DeleteFlairBadgeInput {
   clientMutationId: String!
 
   """
+  flairBadgeURL is the flair badge url to be deleted
   """
   flairBadgeURL: String!
 }
@@ -9519,9 +9544,15 @@ type Mutation {
 
   updateSite(input: UpdateSiteInput!): UpdateSitePayload! @auth(roles: [ADMIN])
 
+  """
+  createFlairBadge creates a custom flair badge url.
+  """
   createFlairBadge(input: CreateFlairBadgeInput!): CreateFlairBadgePayload!
     @auth(roles: [ADMIN])
 
+  """
+  deleteFlairBadge removes a custom flair badge url.
+  """
   deleteFlairBadge(input: DeleteFlairBadgeInput!): DeleteFlairBadgePayload!
     @auth(roles: [ADMIN])
 
