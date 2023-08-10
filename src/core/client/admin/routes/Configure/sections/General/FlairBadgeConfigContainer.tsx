@@ -73,11 +73,11 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
     [deleteFlairBadge]
   );
   const validFlairURL = useCallback(
-    (values: any) => {
+    (values: string) => {
       const isValid = validateImageURL(flairBadgeURLInput, values);
       return !(isValid === undefined);
     },
-    [flairBadgeURLInput]
+    [flairBadgeURLInput, validateImageURL]
   );
   return (
     <ConfigBox

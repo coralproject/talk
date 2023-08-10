@@ -1,7 +1,9 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 import { Tag } from "coral-ui/components/v2";
 
 import { AuthorBadgesContainer_settings } from "coral-stream/__generated__/AuthorBadgesContainer_settings.graphql";
@@ -27,8 +29,17 @@ const AuthorBadgesContainer: FunctionComponent<Props> = ({
           {badges.map((badge) => {
             if (/\.(jpe?g|png|gif)$/i.test(badge)) {
               if (settings.flairBadges?.flairBadgeURLs?.includes(badge)) {
-                // todo: add stable classname specific to flair badge
-                return <img src={badge} alt="" className={styles.flairBadge} />;
+                return (
+                  <img
+                    key={badge}
+                    src={badge}
+                    alt=""
+                    className={cn(
+                      styles.flairBadge,
+                      CLASSES.comment.topBar.flairBadge
+                    )}
+                  />
+                );
               } else {
                 return null;
               }
