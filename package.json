@@ -74,6 +74,8 @@
   "dependencies": {
     "@ampproject/toolbox-cache-url": "^2.9.0",
     "@coralproject/bunyan-prettystream": "^0.1.4",
+    "@emotion/cache": "^10.0.29",
+    "@emotion/core": "^10.1.1",
     "@fluent/bundle": "^0.15.1",
     "@fluent/dom": "^0.7.0",
     "@google-cloud/profiler": "^5.0.3",
