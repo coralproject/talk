@@ -6,7 +6,7 @@ import { graphql } from "react-relay";
 import { colorFromMeta } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { validateImageURL } from "coral-framework/lib/validation";
+import { validateImageURLFunc } from "coral-framework/lib/validation";
 import { AddIcon, BinIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
@@ -56,9 +56,11 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
 }) => {
   const addFlairBadge = useMutation(CreateFlairBadgeMutation);
   const deleteFlairBadge = useMutation(DeleteFlairBadgeMutation);
+
   const [flairBadgeNameInput, setFlairBadgeNameInput] = useState<string>("");
   const [flairBadgeURLInput, setFlairBadgeURLInput] = useState<string>("");
   const [submitError, setSubmitError] = useState<string | null>(null);
+
   const onSubmit = useCallback(async () => {
     try {
       await addFlairBadge({
@@ -71,21 +73,24 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
       setSubmitError(e.message);
     }
   }, [addFlairBadge, flairBadgeURLInput, flairBadgeNameInput]);
+
   const onDelete = useCallback(
     async (name: string) => {
       await deleteFlairBadge({ name });
     },
     [deleteFlairBadge]
   );
-  const validFlairURL = useCallback(
-    (values: string) => {
-      const nameInvalid =
-        !flairBadgeNameInput || flairBadgeNameInput.length === 0;
-      const urlValidation = validateImageURL(flairBadgeURLInput, values);
-      return !nameInvalid && !(urlValidation === undefined);
+
+  const validFlairInput = useCallback(
+    (value: string) => {
+      const nameIsValid =
+        flairBadgeNameInput && flairBadgeNameInput.length !== 0;
+      const urlValidationResult = validateImageURLFunc(flairBadgeURLInput);
+      return nameIsValid && urlValidationResult;
     },
     [flairBadgeURLInput, flairBadgeNameInput]
   );
+
   return (
     <ConfigBox
       title={
@@ -134,6 +139,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
               <Flex>
                 <TextField
                   {...input}
+                  data-testid="flairBadgeNameInput"
                   className={styles.flairBadgeNameInput}
                   placeholder={"subscriber"}
                   color={colorFromMeta(meta)}
@@ -160,6 +166,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
               <Flex>
                 <TextField
                   {...input}
+                  data-testid="flairBadgeURLInput"
                   className={styles.flairBadgeURLInput}
                   placeholder={"https://www.example.com/myimage.jpg"}
                   color={colorFromMeta(meta)}
@@ -181,7 +188,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                     className={styles.addButton}
                     size="large"
                     onClick={() => onSubmit()}
-                    disabled={validFlairURL(flairBadgeURLInput)}
+                    disabled={!validFlairInput(flairBadgeURLInput)}
                   >
                     <ButtonSvgIcon Icon={AddIcon} />
                     Add

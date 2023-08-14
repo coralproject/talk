@@ -640,6 +640,7 @@ it("enable, add, and delete custom flair badges", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       createFlairBadge: ({ variables }) => {
+        expectAndFail(variables.name).toEqual("subscriber");
         expectAndFail(variables.url).toEqual(
           "https://www.example.com/image.jpg"
         );
@@ -649,7 +650,7 @@ it("enable, add, and delete custom flair badges", async () => {
               flairBadgesEnabled: true,
               badges: [
                 {
-                  name: variables.name,
+                  name: "subscriber",
                   url: "https://www.example.com/image.jpg",
                 },
               ],
@@ -711,8 +712,17 @@ it("enable, add, and delete custom flair badges", async () => {
     )
   ).toBeVisible();
 
+  // Add URL button should still be disabled while we have a name but are still missing a url
+  const flairNameInput = within(customFlairBadgeConfig).getByTestId(
+    "flairBadgeNameInput"
+  );
+  userEvent.type(flairNameInput, "subscriber");
+  expect(addURLButton).toBeDisabled();
+
   // Add URL button should still be disabled when entering url that's not valid image url yet
-  const flairURLInput = within(customFlairBadgeConfig).getByRole("textbox");
+  const flairURLInput = within(customFlairBadgeConfig).getByTestId(
+    "flairBadgeURLInput"
+  );
   userEvent.type(flairURLInput, "https://www.example.com");
   expect(addURLButton).toBeDisabled();
 
