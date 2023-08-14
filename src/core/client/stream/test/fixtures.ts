@@ -340,7 +340,7 @@ export const member = createFixture<GQLUser>({
   id: "member-user",
   username: "member",
   role: GQLUSER_ROLE.MEMBER,
-  badges: ["https://wwww.example.com/image.jpg"],
+  badges: ["subscriber"],
 });
 
 export const commenters = createFixtures<GQLUser>(
