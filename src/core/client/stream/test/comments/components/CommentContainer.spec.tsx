@@ -61,7 +61,7 @@ it("renders username and body", async () => {
     },
   });
 
-  const firstComment = stories[0].comments.edges[0].node;
+  const firstComment = singleCommentStory.comments.edges[0].node;
   const commentElement = await within(container).findByTestId(
     `comment-${firstComment.id}`
   );
