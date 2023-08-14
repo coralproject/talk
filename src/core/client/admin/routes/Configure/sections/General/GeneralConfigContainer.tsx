@@ -81,6 +81,7 @@ const enhanced = withFragmentContainer<Props>({
       ...FeaturedByConfig_formValues @relay(mask: false)
       ...ReactionConfig_formValues @relay(mask: false)
       ...BadgeConfig_formValues @relay(mask: false)
+      ...FlairBadgeConfigContainer_formValues @relay(mask: false)
       ...FlairBadgeConfigContainer_settings
       ...RTEConfig_formValues @relay(mask: false)
       ...MediaLinksConfig_formValues @relay(mask: false)

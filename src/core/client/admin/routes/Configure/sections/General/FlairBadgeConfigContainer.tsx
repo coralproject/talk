@@ -117,7 +117,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
         <Localized id="configure-general-flairBadge-enable-label">
           <Label component="legend">Enable custom flair badges</Label>
         </Localized>
-        <OnOffField name="flairBadgesEnabled" disabled={disabled} />
+        <OnOffField name="flairBadges.flairBadgesEnabled" disabled={disabled} />
       </FormField>
       <HorizontalGutter size="double">
         <Field name="flairBadgeName">
