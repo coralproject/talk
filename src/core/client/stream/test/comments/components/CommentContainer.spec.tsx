@@ -9,6 +9,7 @@ import {
 import {
   commenters,
   settings,
+  singleCommentStory,
   stories,
   storyWithDeletedComments,
   storyWithReplies,
@@ -51,7 +52,14 @@ async function createTestRenderer(
 afterEach(jest.clearAllMocks);
 
 it("renders username and body", async () => {
-  const { container } = await createTestRenderer();
+  const { container } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        story: () => singleCommentStory,
+        stream: () => singleCommentStory,
+      },
+    },
+  });
 
   const firstComment = stories[0].comments.edges[0].node;
   const commentElement = await within(container).findByTestId(
