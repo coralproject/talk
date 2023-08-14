@@ -27,22 +27,22 @@ const AuthorBadgesContainer: FunctionComponent<Props> = ({
       {flairBadgesEnabled ? (
         <>
           {badges.map((badge) => {
-            if (/\.(jpe?g|png|gif)$/i.test(badge)) {
-              if (settings.flairBadges?.flairBadgeURLs?.includes(badge)) {
-                return (
-                  <img
-                    key={badge}
-                    src={badge}
-                    alt=""
-                    className={cn(
-                      styles.flairBadge,
-                      CLASSES.comment.topBar.flairBadge
-                    )}
-                  />
-                );
-              } else {
-                return null;
-              }
+            const flairBadge = settings.flairBadges?.badges.find(
+              (b) => b.name === badge
+            );
+
+            if (flairBadge) {
+              return (
+                <img
+                  key={badge}
+                  src={flairBadge.url}
+                  alt={flairBadge.name}
+                  className={cn(
+                    styles.flairBadge,
+                    CLASSES.comment.topBar.flairBadge
+                  )}
+                />
+              );
             } else {
               return (
                 <Tag key={badge} color="dark" className={className}>
@@ -70,7 +70,10 @@ const enhanced = withFragmentContainer<Props>({
     fragment AuthorBadgesContainer_settings on Settings {
       flairBadges {
         flairBadgesEnabled
-        flairBadgeURLs
+        badges {
+          name
+          url
+        }
       }
     }
   `,

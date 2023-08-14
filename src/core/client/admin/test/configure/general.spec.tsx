@@ -640,22 +640,25 @@ it("enable, add, and delete custom flair badges", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       createFlairBadge: ({ variables }) => {
-        expectAndFail(variables.flairBadgeURL).toEqual(
+        expectAndFail(variables.url).toEqual(
           "https://www.example.com/image.jpg"
         );
         return {
           settings: pureMerge(settings, {
             flairBadges: {
               flairBadgesEnabled: true,
-              flairBadgeURLs: ["https://www.example.com/image.jpg"],
+              badges: [
+                {
+                  name: variables.name,
+                  url: "https://www.example.com/image.jpg",
+                },
+              ],
             },
           }),
         };
       },
       deleteFlairBadge: ({ variables }) => {
-        expectAndFail(variables.flairBadgeURL).toEqual(
-          "https://www.example.com/image.jpg"
-        );
+        expectAndFail(variables.name).toEqual("subscriber");
         return {
           settings: pureMerge(settings, {
             flairBadges: {

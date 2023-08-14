@@ -56,28 +56,35 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
 }) => {
   const addFlairBadge = useMutation(CreateFlairBadgeMutation);
   const deleteFlairBadge = useMutation(DeleteFlairBadgeMutation);
+  const [flairBadgeNameInput, setFlairBadgeNameInput] = useState<string>("");
   const [flairBadgeURLInput, setFlairBadgeURLInput] = useState<string>("");
   const [submitError, setSubmitError] = useState<string | null>(null);
   const onSubmit = useCallback(async () => {
     try {
-      await addFlairBadge({ flairBadgeURL: flairBadgeURLInput });
+      await addFlairBadge({
+        url: flairBadgeURLInput,
+        name: flairBadgeNameInput,
+      });
+      setFlairBadgeNameInput("");
       setFlairBadgeURLInput("");
     } catch (e) {
       setSubmitError(e.message);
     }
-  }, [flairBadgeURLInput, setFlairBadgeURLInput, addFlairBadge]);
+  }, [addFlairBadge, flairBadgeURLInput, flairBadgeNameInput]);
   const onDelete = useCallback(
-    async (url: string) => {
-      await deleteFlairBadge({ flairBadgeURL: url });
+    async (name: string) => {
+      await deleteFlairBadge({ name });
     },
     [deleteFlairBadge]
   );
   const validFlairURL = useCallback(
     (values: string) => {
-      const isValid = validateImageURL(flairBadgeURLInput, values);
-      return !(isValid === undefined);
+      const nameInvalid =
+        !flairBadgeNameInput || flairBadgeNameInput.length === 0;
+      const urlValidation = validateImageURL(flairBadgeURLInput, values);
+      return !nameInvalid && !(urlValidation === undefined);
     },
-    [flairBadgeURLInput, validateImageURL]
+    [flairBadgeURLInput, flairBadgeNameInput]
   );
   return (
     <ConfigBox
@@ -110,9 +117,34 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
         <Localized id="configure-general-flairBadge-enable-label">
           <Label component="legend">Enable custom flair badges</Label>
         </Localized>
-        <OnOffField name="flairBadges.flairBadgesEnabled" disabled={disabled} />
+        <OnOffField name="flairBadgesEnabled" disabled={disabled} />
       </FormField>
       <HorizontalGutter size="double">
+        <Field name="flairBadgeName">
+          {({ input, meta }) => (
+            <FormField>
+              <Localized id="configure-general-flairBadge-add-name">
+                <Label>Flair name</Label>
+              </Localized>
+              <Localized id="configure-general-flairBadge-add-name-helperText">
+                <HelperText>
+                  Name the flair with a descriptive identifier
+                </HelperText>
+              </Localized>
+              <Flex>
+                <TextField
+                  {...input}
+                  className={styles.flairBadgeNameInput}
+                  placeholder={"subscriber"}
+                  color={colorFromMeta(meta)}
+                  fullWidth
+                  onChange={(e) => setFlairBadgeNameInput(e.target.value)}
+                  value={flairBadgeNameInput}
+                />
+              </Flex>
+            </FormField>
+          )}
+        </Field>
         <Field name="flairBadgeURL">
           {({ input, meta }) => (
             <FormField>
@@ -135,13 +167,21 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                   onChange={(e) => setFlairBadgeURLInput(e.target.value)}
                   value={flairBadgeURLInput}
                 />
+              </Flex>
+            </FormField>
+          )}
+        </Field>
+        <Field name="flairBadgeSubmit">
+          {({ input }) => (
+            <FormField>
+              <Flex>
                 <Localized id="configure-general-flairBadge-add-button">
                   <Button
                     iconLeft
                     className={styles.addButton}
                     size="large"
                     onClick={() => onSubmit()}
-                    disabled={validFlairURL(input.value)}
+                    disabled={validFlairURL(flairBadgeURLInput)}
                   >
                     <ButtonSvgIcon Icon={AddIcon} />
                     Add
@@ -161,24 +201,36 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
       <Table fullWidth>
         <TableHead>
           <TableRow>
+            <Localized id="configure-general-flairBadge-table-flairName">
+              <TableCell>Name</TableCell>
+            </Localized>
             <Localized id="configure-general-flairBadge-table-flairURL">
-              <TableCell>Flair URL</TableCell>
+              <TableCell>URL</TableCell>
             </Localized>
             <Localized id="configure-general-flairBadge-table-preview">
               <TableCell>Preview</TableCell>
             </Localized>
           </TableRow>
         </TableHead>
-        {settings.flairBadges?.flairBadgeURLs &&
-          settings.flairBadges.flairBadgeURLs.length > 0 && (
+        {settings.flairBadges?.badges &&
+          settings.flairBadges.badges.length > 0 && (
             <TableBody>
-              {settings.flairBadges.flairBadgeURLs.map((url) => {
+              {settings.flairBadges.badges.map((badge) => {
                 return (
-                  <TableRow key={url}>
-                    <TableCell className={styles.urlTableCell}>{url}</TableCell>
+                  <TableRow key={badge.name}>
+                    <TableCell className={styles.urlTableCell}>
+                      {badge.name}
+                    </TableCell>
+                    <TableCell className={styles.urlTableCell}>
+                      {badge.url}
+                    </TableCell>
                     <TableCell>
                       <Flex>
-                        <img className={styles.imagePreview} src={url} alt="" />
+                        <img
+                          className={styles.imagePreview}
+                          src={badge.url}
+                          alt=""
+                        />
                         <Flex className={styles.deleteButton}>
                           <Localized
                             id="configure-general-flairBadge-table-deleteButton"
@@ -189,7 +241,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                             <Button
                               variant="text"
                               iconLeft
-                              onClick={() => onDelete(url)}
+                              onClick={() => onDelete(badge.name)}
                             >
                               <ButtonSvgIcon Icon={BinIcon} />
                               Delete
@@ -204,8 +256,8 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
             </TableBody>
           )}
       </Table>
-      {(!settings.flairBadges?.flairBadgeURLs ||
-        settings.flairBadges.flairBadgeURLs.length === 0) && (
+      {(!settings.flairBadges?.badges ||
+        settings.flairBadges.badges.length === 0) && (
         <Localized id="configure-general-flairBadge-table-empty">
           <HelperText className={styles.emptyCustomFlairText}>
             No custom flair added for this site
@@ -220,7 +272,11 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment FlairBadgeConfigContainer_settings on Settings {
       flairBadges {
-        flairBadgeURLs
+        flairBadgesEnabled
+        badges {
+          name
+          url
+        }
       }
     }
   `,

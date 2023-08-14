@@ -20,7 +20,11 @@ const DeleteFlairBadgeMutation = createMutation(
           deleteFlairBadge(input: $input) {
             settings {
               flairBadges {
-                flairBadgeURLs
+                flairBadgesEnabled
+                badges {
+                  name
+                  url
+                }
               }
             }
             clientMutationId
@@ -29,7 +33,7 @@ const DeleteFlairBadgeMutation = createMutation(
       `,
       variables: {
         input: {
-          flairBadgeURL: input.flairBadgeURL,
+          name: input.name,
           clientMutationId: (clientMutationId++).toString(),
         },
       },

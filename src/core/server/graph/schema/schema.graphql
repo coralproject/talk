@@ -1710,9 +1710,15 @@ type BadgeConfiguration {
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
 """
+
+type FlairBadge {
+  name: String!
+  url: String!
+}
+
 type FlairBadgeConfiguration {
   flairBadgesEnabled: Boolean
-  flairBadgeURLs: [String!]
+  badges: [FlairBadge!]!
 }
 
 type WebhookDelivery {
@@ -8551,12 +8557,6 @@ type UpdateStoryModePayload {
 #########################
 ## createFlairBadge
 #########################
-input CreateFlairBadge {
-  """
-  flairBadgeURL is the flair badge url to be created
-  """
-  flairBadgeURL: String!
-}
 
 input CreateFlairBadgeInput {
   """
@@ -8565,9 +8565,14 @@ input CreateFlairBadgeInput {
   clientMutationId: String!
 
   """
-  flairBadgeURL is the flair badge url to be created
+  name is the name of the flair badge to be created
   """
-  flairBadgeURL: String!
+  name: String!
+
+  """
+  url is the url of the flair badge to be created
+  """
+  url: String!
 }
 
 type CreateFlairBadgePayload {
@@ -8592,9 +8597,9 @@ input DeleteFlairBadgeInput {
   clientMutationId: String!
 
   """
-  flairBadgeURL is the flair badge url to be deleted
+  name is the name of the flair badge to be deleted
   """
-  flairBadgeURL: String!
+  name: String!
 }
 
 type DeleteFlairBadgePayload {

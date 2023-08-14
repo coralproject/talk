@@ -20,7 +20,11 @@ const CreateFlairBadgeMutation = createMutation(
           createFlairBadge(input: $input) {
             settings {
               flairBadges {
-                flairBadgeURLs
+                flairBadgesEnabled
+                badges {
+                  name
+                  url
+                }
               }
             }
             clientMutationId
@@ -29,7 +33,8 @@ const CreateFlairBadgeMutation = createMutation(
       `,
       variables: {
         input: {
-          flairBadgeURL: input.flairBadgeURL,
+          name: input.name,
+          url: input.url,
           clientMutationId: (clientMutationId++).toString(),
         },
       },

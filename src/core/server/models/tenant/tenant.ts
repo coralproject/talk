@@ -294,6 +294,10 @@ export async function createTenant(
     embeddedComments: {
       allowReplies: true,
     },
+    flairBadges: {
+      flairBadgesEnabled: false,
+      badges: [],
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -478,7 +482,8 @@ export async function createTenantAnnouncement(
 }
 
 export interface CreateFlairBadgeInput {
-  flairBadgeURL: string;
+  name: string;
+  url: string;
 }
 
 export async function createTenantFlairBadge(
@@ -489,16 +494,16 @@ export async function createTenantFlairBadge(
   // Search to see if this flair badge has already been configured.
   const duplicateFlairBadge = await mongo.tenants().findOne({
     id,
-    "flairBadges.flairBadgeURLs": input.flairBadgeURL,
+    "flairBadges.badges.name": input.name,
   });
   if (duplicateFlairBadge) {
-    throw new DuplicateFlairBadgeError(input.flairBadgeURL);
+    throw new DuplicateFlairBadgeError(input.name);
   }
 
   const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
-      $push: { "flairBadges.flairBadgeURLs": input.flairBadgeURL },
+      $push: { "flairBadges.badges": { name: input.name, url: input.url } },
     },
     {
       returnOriginal: false,
@@ -508,7 +513,7 @@ export async function createTenantFlairBadge(
 }
 
 export interface DeleteFlairBadgeInput {
-  flairBadgeURL: string;
+  name: string;
 }
 
 export async function deleteTenantFlairBadge(
@@ -519,7 +524,9 @@ export async function deleteTenantFlairBadge(
   const result = await mongo.tenants().findOneAndUpdate(
     { id },
     {
-      $pull: { "flairBadges.flairBadgeURLs": input.flairBadgeURL },
+      $pull: {
+        "flairBadges.badges": { name: input.name },
+      },
     },
     {
       returnOriginal: false,
