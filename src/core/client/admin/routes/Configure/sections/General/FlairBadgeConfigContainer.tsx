@@ -9,7 +9,6 @@ import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { FLAIR_BADGE_NAME_REGEX } from "coral-common/constants";
-import { colorFromMeta } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { validateImageURLFunc } from "coral-framework/lib/validation";
@@ -172,70 +171,60 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
         <OnOffField name="flairBadges.flairBadgesEnabled" disabled={disabled} />
       </FormField>
       <HorizontalGutter size="double">
-        <Field name="flairBadgeName">
-          {({ input, meta }) => (
-            <FormField>
-              <Localized id="configure-general-flairBadge-add-name">
-                <Label>Flair name</Label>
+        <FormField>
+          <Localized id="configure-general-flairBadge-add-name">
+            <Label>Flair name</Label>
+          </Localized>
+          <Localized id="configure-general-flairBadge-add-name-helperText">
+            <HelperText>
+              Name the flair with a descriptive identifier
+            </HelperText>
+          </Localized>
+          <TextField
+            data-testid="flairBadgeNameInput"
+            className={styles.flairBadgeNameInput}
+            placeholder={"subscriber"}
+            color={nameError ? "error" : "regular"}
+            fullWidth
+            onChange={onChangeName}
+            value={flairBadgeNameInput}
+          />
+          {nameError && (
+            <ValidationMessage fullWidth>
+              <Localized id="configure-general-flairBadge-name-permittedCharacters">
+                Only letters, numbers, and the special characters - . are
+                permitted.
               </Localized>
-              <Localized id="configure-general-flairBadge-add-name-helperText">
-                <HelperText>
-                  Name the flair with a descriptive identifier
-                </HelperText>
-              </Localized>
-              <TextField
-                {...input}
-                data-testid="flairBadgeNameInput"
-                className={styles.flairBadgeNameInput}
-                placeholder={"subscriber"}
-                color={nameError ? "error" : colorFromMeta(meta)}
-                fullWidth
-                onChange={onChangeName}
-                value={flairBadgeNameInput}
-              />
-              {nameError && (
-                <ValidationMessage fullWidth>
-                  <Localized id="configure-general-flairBadge-name-permittedCharacters">
-                    Only letters, numbers, and the special characters - . are
-                    permitted.
-                  </Localized>
-                </ValidationMessage>
-              )}
-            </FormField>
+            </ValidationMessage>
           )}
-        </Field>
-        <Field name="flairBadgeURL">
-          {({ input, meta }) => (
-            <FormField>
-              <Localized id="configure-general-flairBadge-add">
-                <Label>Flair URL</Label>
+        </FormField>
+        <FormField>
+          <Localized id="configure-general-flairBadge-add">
+            <Label>Flair URL</Label>
+          </Localized>
+          <Localized id="configure-general-flairBadge-add-helperText">
+            <HelperText>
+              Paste the web address for your custom flair badge. Supported file
+              types: png, jpeg, jpg, and gif
+            </HelperText>
+          </Localized>
+          <TextField
+            data-testid="flairBadgeURLInput"
+            className={styles.flairBadgeURLInput}
+            placeholder={"https://www.example.com/myimage.jpg"}
+            color={urlError ? "error" : "regular"}
+            fullWidth
+            onChange={onChangeURL}
+            value={flairBadgeURLInput}
+          />
+          {urlError && (
+            <ValidationMessage fullWidth>
+              <Localized id="configure-general-flairBadge-url-error">
+                The URL is invalid or has an unsupported file type.
               </Localized>
-              <Localized id="configure-general-flairBadge-add-helperText">
-                <HelperText>
-                  Paste the web address for your custom flair badge. Supported
-                  file types: png, jpeg, jpg, and gif
-                </HelperText>
-              </Localized>
-              <TextField
-                {...input}
-                data-testid="flairBadgeURLInput"
-                className={styles.flairBadgeURLInput}
-                placeholder={"https://www.example.com/myimage.jpg"}
-                color={urlError ? "error" : colorFromMeta(meta)}
-                fullWidth
-                onChange={onChangeURL}
-                value={flairBadgeURLInput}
-              />
-              {urlError && (
-                <ValidationMessage fullWidth>
-                  <Localized id="configure-general-flairBadge-url-error">
-                    The URL is invalid or has an unsupported file type.
-                  </Localized>
-                </ValidationMessage>
-              )}
-            </FormField>
+            </ValidationMessage>
           )}
-        </Field>
+        </FormField>
         <Field name="flairBadgeSubmit">
           {({ input }) => (
             <FormField>
