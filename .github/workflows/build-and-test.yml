@@ -6,7 +6,7 @@ on:
   merge_group:
 
 env:
-  IMAGE_REPOSITORY: 'gcr.io/the-coral-project/coral'
+  IMAGE_REPOSITORY: 'us-east1-docker.pkg.dev/the-coral-project/coral/talk'
   IMAGE_CACHE_REPOSITORY: 'coralproject/ci'
   DOCKERHUB_USERNAME: 'coralproject'
 
@@ -30,9 +30,9 @@ jobs:
         name: Login to GCR
         uses: docker/login-action@v2
         with:
-          registry: gcr.io
+          registry: us-east1-docker.pkg.dev
           username: _json_key
-          password: ${{ secrets.GCR_JSON_KEY }}
+          password: ${{ secrets.GAR_JSON_KEY }}
       -
         name: Login to Docker Hub
         uses: docker/login-action@v2
