@@ -510,7 +510,7 @@ configure-general-flairBadge-header = Custom flair badges
 configure-general-flairBadge-description = Encourage user engagement and participation by adding custom flair
   badges for your site. Badges can be allocated as part of your <externalLink>JWT claim</externalLink>.
 configure-general-flairBadge-enable-label = Enable custom flair badges
-configure-general-flairBadge-add = Add flair by URL
+configure-general-flairBadge-add = Flair URL
 configure-general-flairBadge-add-helperText =
   Paste the web address for your custom flair badge. Supported file types: png, jpeg, jpg, and gif
 configure-general-flairBadge-add-name = Flair name

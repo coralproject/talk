@@ -192,7 +192,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
           {({ input, meta }) => (
             <FormField>
               <Localized id="configure-general-flairBadge-add">
-                <Label>Add flair by URL</Label>
+                <Label>Flair URL</Label>
               </Localized>
               <Localized id="configure-general-flairBadge-add-helperText">
                 <HelperText>
