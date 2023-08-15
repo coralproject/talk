@@ -70,10 +70,13 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
 
   const onSubmit = useCallback(async () => {
     try {
+      setSubmitError(null);
+
       await addFlairBadge({
         url: flairBadgeURLInput,
         name: flairBadgeNameInput,
       });
+
       setFlairBadgeNameInput("");
       setFlairBadgeURLInput("");
     } catch (e) {
