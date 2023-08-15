@@ -21,10 +21,11 @@ import {
   Flex,
   Popover,
   Spinner,
-  TextField,
+  // TextField,
 } from "coral-ui/components/v2";
 
 import { useToggleState } from "coral-framework/hooks";
+import { TextArea } from "coral-ui/components/v3";
 import styles from "./PaginatedSelect.css";
 
 interface Props {
@@ -50,7 +51,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
   selected,
   className,
 }) => {
-  const filterRef = useRef<HTMLInputElement>(null);
+  const filterRef = useRef<HTMLTextAreaElement>(null);
 
   const [isPopoverVisible, setIsPopoverVisible, togglePopoverVisibility] =
     useToggleState(false);
@@ -104,7 +105,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
                 id="admin-paginatedSelect-filter"
                 attrs={{ "aria-roledescription": true }}
               >
-                <TextField
+                <TextArea
                   className={styles.filterInput}
                   onChange={(e) => onFilter(e.target.value)}
                   ref={filterRef}

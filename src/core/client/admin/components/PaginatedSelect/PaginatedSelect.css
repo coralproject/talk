@@ -29,7 +29,17 @@
 }
 
 .filterInput {
-  color: var(--palette-grey-300);
+  resize: none;
+  height: 100%;
+  width: auto;
+  overflow: hidden;
+}
+
+.filterInput > textarea {
+  resize: none;
+  overflow: hidden;
+  sizing: border-box;
+  color: var(--palette-grey-400);
 }
 
 .buttonIconLeft {
