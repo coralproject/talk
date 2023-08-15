@@ -28,6 +28,10 @@
   background: var(--palette-background-input);
 }
 
+.filterInput {
+  color: var(--palette-grey-300);
+}
+
 .buttonIconLeft {
   width: 20px;
   margin-left: var(--spacing-1);

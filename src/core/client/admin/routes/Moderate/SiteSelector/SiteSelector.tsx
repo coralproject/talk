@@ -9,6 +9,7 @@ import { AppWindowIcon } from "coral-ui/components/icons";
 import SiteSelectorCurrentSiteQuery from "./SiteSelectorCurrentSiteQuery";
 import SiteSelectorSite from "./SiteSelectorSite";
 
+import { Divider } from "coral-ui/components/v2";
 import styles from "./SiteSelector.css";
 
 interface Props {
@@ -58,11 +59,14 @@ const SiteSelector: FunctionComponent<Props> = ({
     >
       <>
         {!scoped && (
-          <SiteSelectorSite
-            link={getModerationLink({ queue: queueName })}
-            site={null}
-            active={!siteID}
-          />
+          <>
+            <SiteSelectorSite
+              link={getModerationLink({ queue: queueName })}
+              site={null}
+              active={!siteID}
+            />
+            <Divider spacing={4} fullWidth={false} />
+          </>
         )}
         {sites.map((s) => (
           <SiteSelectorSite

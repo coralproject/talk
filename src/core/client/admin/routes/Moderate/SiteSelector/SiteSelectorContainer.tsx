@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { QUEUE_NAME } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   useLoadMore,
   useRefetch,
@@ -12,7 +13,6 @@ import { SiteSelectorContainer_query } from "coral-admin/__generated__/SiteSelec
 import { SiteSelectorContainer_viewer } from "coral-admin/__generated__/SiteSelectorContainer_viewer.graphql";
 import { SiteSelectorContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSelectorContainerPaginationQuery.graphql";
 
-import { useCoralContext } from "coral-framework/lib/bootstrap";
 import SiteSelector from "./SiteSelector";
 
 interface Props {
@@ -27,7 +27,7 @@ const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
   const context = useCoralContext();
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   // Buffering in the sense that we gather changes and then "flush"
-  // them 1 second after the last change is recieved
+  // them 1 second after the last change is received
   const [filterBuffer, setFilterBuffer] = useState<string | null>(null);
   const [searchFilter, setSearchFilter] = useState<string | null>(null);
   const [searchTimeout, setSearchTimeout] = useState<number | undefined>();
