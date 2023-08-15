@@ -1,12 +1,11 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { noop } from "lodash";
 import React, {
   ComponentType,
   FunctionComponent,
-  useCallback,
   useEffect,
   useRef,
-  useState,
 } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
@@ -25,7 +24,7 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
-import { Localized } from "@fluent/react/compat";
+import { useToggleState } from "coral-framework/hooks";
 import styles from "./PaginatedSelect.css";
 
 interface Props {
@@ -52,30 +51,24 @@ const PaginatedSelect: FunctionComponent<Props> = ({
   className,
 }) => {
   const filterRef = useRef<HTMLInputElement>(null);
-  const [open, setOpen] = useState(false);
+
+  const [isPopoverVisible, setIsPopoverVisible, togglePopoverVisibility] =
+    useToggleState(false);
 
   useEffect(() => {
-    if (open && filterRef.current) {
+    if (isPopoverVisible && filterRef.current) {
       filterRef.current.focus();
     }
-  }, [open]);
-
-  const handleButtonClick = useCallback(() => {
-    setOpen(true);
-  }, []);
-
-  const handleOutsideClick = useCallback((event?: MouseEvent | undefined) => {
-    setOpen(false);
-  }, []);
+  }, [isPopoverVisible]);
 
   return (
-    <ClickOutside onClickOutside={handleOutsideClick}>
+    <ClickOutside onClickOutside={() => setIsPopoverVisible(false)}>
       <Popover
         id=""
         placement="bottom-end"
         modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
-        visible={open}
-        body={({ toggleVisibility }) => (
+        visible={isPopoverVisible}
+        body={() => (
           <IntersectionProvider>
             <Dropdown className={styles.dropdown}>
               {children}
@@ -96,19 +89,23 @@ const PaginatedSelect: FunctionComponent<Props> = ({
           </IntersectionProvider>
         )}
       >
-        {({ toggleVisibility, ref }) => (
+        {({ ref }) => (
           <Flex
             className={cn(styles.button, className)}
-            onClick={handleButtonClick}
+            onClick={togglePopoverVisibility}
             ref={ref}
             justifyContent="space-between"
           >
             {Icon && (
               <ButtonSvgIcon className={styles.buttonIconLeft} Icon={Icon} />
             )}
-            {open && !!onFilter ? (
-              <Localized id="admin-paginatedSelect-filter">
+            {isPopoverVisible && !!onFilter ? (
+              <Localized
+                id="admin-paginatedSelect-filter"
+                attrs={{ "aria-roledescription": true }}
+              >
                 <TextField
+                  className={styles.filterInput}
                   onChange={(e) => onFilter(e.target.value)}
                   ref={filterRef}
                   aria-roledescription="Filter results"
@@ -119,32 +116,24 @@ const PaginatedSelect: FunctionComponent<Props> = ({
                 alignItems="center"
                 className={styles.wrapper}
                 style={{
-                  // display: open && !!onFilter ? "none" : "inherit",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                 }}
                 role="button"
                 tabIndex={0}
-                onFocus={() => setOpen(true)}
-                onBlur={() => setOpen(false)}
+                onFocus={() => setIsPopoverVisible(true)}
+                onBlur={() => setIsPopoverVisible(false)}
               >
                 {selected}
               </Flex>
             )}
-            {!open && (
+            {
               <ButtonSvgIcon
                 className={styles.buttonIconRight}
-                Icon={ArrowsDownIcon}
+                Icon={isPopoverVisible ? ArrowsUpIcon : ArrowsDownIcon}
                 size="xs"
               />
-            )}
-            {open && (
-              <ButtonSvgIcon
-                className={styles.buttonIconRight}
-                Icon={ArrowsUpIcon}
-                size="xs"
-              />
-            )}
+            }
           </Flex>
         )}
       </Popover>
