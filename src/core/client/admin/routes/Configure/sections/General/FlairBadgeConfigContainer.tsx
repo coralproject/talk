@@ -30,6 +30,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  ValidationMessage,
 } from "coral-ui/components/v2";
 
 import { FlairBadgeConfigContainer_settings as SettingsData } from "coral-admin/__generated__/FlairBadgeConfigContainer_settings.graphql";
@@ -182,25 +183,23 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                   Name the flair with a descriptive identifier
                 </HelperText>
               </Localized>
-              <Flex>
-                <TextField
-                  {...input}
-                  data-testid="flairBadgeNameInput"
-                  className={styles.flairBadgeNameInput}
-                  placeholder={"subscriber"}
-                  color={nameError ? "error" : colorFromMeta(meta)}
-                  fullWidth
-                  onChange={onChangeName}
-                  value={flairBadgeNameInput}
-                />
-              </Flex>
+              <TextField
+                {...input}
+                data-testid="flairBadgeNameInput"
+                className={styles.flairBadgeNameInput}
+                placeholder={"subscriber"}
+                color={nameError ? "error" : colorFromMeta(meta)}
+                fullWidth
+                onChange={onChangeName}
+                value={flairBadgeNameInput}
+              />
               {nameError && (
-                <CallOut fullWidth color="error">
+                <ValidationMessage fullWidth>
                   <Localized id="configure-general-flairBadge-name-permittedCharacters">
                     Only letters, numbers, and the special characters - . are
                     permitted.
                   </Localized>
-                </CallOut>
+                </ValidationMessage>
               )}
             </FormField>
           )}
@@ -217,24 +216,22 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                   file types: png, jpeg, jpg, and gif
                 </HelperText>
               </Localized>
-              <Flex>
-                <TextField
-                  {...input}
-                  data-testid="flairBadgeURLInput"
-                  className={styles.flairBadgeURLInput}
-                  placeholder={"https://www.example.com/myimage.jpg"}
-                  color={urlError ? "error" : colorFromMeta(meta)}
-                  fullWidth
-                  onChange={onChangeURL}
-                  value={flairBadgeURLInput}
-                />
-              </Flex>
+              <TextField
+                {...input}
+                data-testid="flairBadgeURLInput"
+                className={styles.flairBadgeURLInput}
+                placeholder={"https://www.example.com/myimage.jpg"}
+                color={urlError ? "error" : colorFromMeta(meta)}
+                fullWidth
+                onChange={onChangeURL}
+                value={flairBadgeURLInput}
+              />
               {urlError && (
-                <CallOut fullWidth color="error">
+                <ValidationMessage fullWidth>
                   <Localized id="configure-general-flairBadge-url-error">
                     The URL is invalid or has an unsupported file type.
                   </Localized>
-                </CallOut>
+                </ValidationMessage>
               )}
             </FormField>
           )}
