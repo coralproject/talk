@@ -2,12 +2,16 @@ import { Redis } from "ioredis";
 import { isUndefined, toLower, uniqBy } from "lodash";
 import { URL } from "url";
 
-import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
+import {
+  FLAIR_BADGE_NAME_REGEX,
+  PROTECTED_EMAIL_DOMAINS,
+} from "coral-common/constants";
 import { ERROR_CODES } from "coral-common/errors";
 import { isModerator, isOrgModerator } from "coral-common/permissions/types";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
+  InvalidFlairBadgeName,
   OperationForbiddenError,
   TenantInstalledAlreadyError,
   UserForbiddenError,
@@ -347,6 +351,13 @@ export async function createFlairBadge(
       "flairBadge",
       "create"
     );
+  }
+
+  const regex = new RegExp(FLAIR_BADGE_NAME_REGEX);
+  const nameResult = regex.exec(input.name);
+
+  if (nameResult === null || nameResult === undefined) {
+    throw new InvalidFlairBadgeName(tenant.id);
   }
 
   const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);

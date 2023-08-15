@@ -1,8 +1,14 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useCallback,
+  useState,
+} from "react";
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
+import { FLAIR_BADGE_NAME_REGEX } from "coral-common/constants";
 import { colorFromMeta } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -60,6 +66,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
   const [flairBadgeNameInput, setFlairBadgeNameInput] = useState<string>("");
   const [flairBadgeURLInput, setFlairBadgeURLInput] = useState<string>("");
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [nameWarning, setNameWarning] = useState<string | null>(null);
 
   const onSubmit = useCallback(async () => {
     try {
@@ -81,14 +88,33 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
     [deleteFlairBadge]
   );
 
+  const onNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setFlairBadgeNameInput(e.target.value);
+
+    const regex = new RegExp(FLAIR_BADGE_NAME_REGEX);
+    const nameResult = regex.exec(e.target.value);
+
+    if (nameResult === null || nameResult === undefined) {
+      setNameWarning("invalid-characters");
+    } else {
+      setNameWarning(null);
+    }
+  }, []);
+
   const validFlairInput = useCallback(
     (value: string) => {
+      const regex = new RegExp(FLAIR_BADGE_NAME_REGEX);
+      const nameResult = regex.exec(flairBadgeNameInput);
+
       const nameIsValid =
-        flairBadgeNameInput && flairBadgeNameInput.length !== 0;
+        flairBadgeNameInput &&
+        flairBadgeNameInput.length !== 0 &&
+        nameResult !== null &&
+        nameResult !== undefined;
       const urlValidationResult = validateImageURLFunc(flairBadgeURLInput);
       return nameIsValid && urlValidationResult;
     },
-    [flairBadgeURLInput, flairBadgeNameInput]
+    [flairBadgeNameInput, flairBadgeURLInput]
   );
 
   return (
@@ -144,10 +170,18 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                   placeholder={"subscriber"}
                   color={colorFromMeta(meta)}
                   fullWidth
-                  onChange={(e) => setFlairBadgeNameInput(e.target.value)}
+                  onChange={onNameChange}
                   value={flairBadgeNameInput}
                 />
               </Flex>
+              {nameWarning && nameWarning === "invalid-characters" && (
+                <CallOut fullWidth color="regular">
+                  <Localized id="configure-general-flairBadge-name-permittedCharacters">
+                    Only letters, numbers, and the special characters - . are
+                    permitted.
+                  </Localized>
+                </CallOut>
+              )}
             </FormField>
           )}
         </Field>

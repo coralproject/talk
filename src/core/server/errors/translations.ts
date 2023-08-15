@@ -80,4 +80,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   USERNAME_ALREADY_EXISTS: "error-usernameAlreadyExists",
   UNABLE_TO_UPDATE_STORY_URL: "error-unableToUpdateStoryURL",
   DATA_CACHING_NOT_AVAILABLE: "error-dataCachingNotAvailable",
+  INVALID_FLAIR_BADGE_NAME: "error-invalidFlairBadgeName",
 };

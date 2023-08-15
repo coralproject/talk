@@ -516,6 +516,8 @@ configure-general-flairBadge-add-helperText =
 configure-general-flairBadge-add-name = Flair name
 configure-general-flairBadge-add-name-helperText =
   Name the flair with a descriptive identifier
+configure-general-flairBadge-name-permittedCharacters =
+  Only letters, numbers, and the special characters - . are permitted.
 configure-general-flairBadge-add-button = Add
 configure-general-flairBadge-table-flairName = Name
 configure-general-flairBadge-table-flairURL = URL

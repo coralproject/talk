@@ -81,3 +81,4 @@ error-cannotMergeAnArchivedStory = Cannot merge an archived story. The story mus
 error-usernameAlreadyExists = This username already exists. Please choose another.
 error-unableToUpdateStoryURL = Unable to update the story URL.
 error-dataCachingNotAvailable = Data caching is not available at this time.
+error-invalidFlairBadgeName = Only letters, numbers, and the special characters - . are permitted in flair badge names.

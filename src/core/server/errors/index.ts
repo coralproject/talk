@@ -1028,3 +1028,12 @@ export class DataCachingNotAvailableError extends CoralError {
     });
   }
 }
+
+export class InvalidFlairBadgeName extends CoralError {
+  constructor(tenantID: string) {
+    super({
+      code: ERROR_CODES.INVALID_FLAIR_BADGE_NAME,
+      context: { pub: { tenantID } },
+    });
+  }
+}

@@ -443,4 +443,10 @@ export enum ERROR_CODES {
    * caching action when it is not available for that tenant.
    */
   DATA_CACHING_NOT_AVAILABLE = "DATA_CACHING_NOT_AVAILABLE",
+
+  /**
+   * INVALID_FLAIR_BADGE_NAME is thrown when someone tries to create a custom
+   * flair badge with a name that includes invalid characters.
+   */
+  INVALID_FLAIR_BADGE_NAME = "INVALID_FLAIR_BADGE_NAME",
 }
