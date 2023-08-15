@@ -701,37 +701,74 @@ it("enable, add, and delete custom flair badges", async () => {
   userEvent.click(onButton);
   expect(onButton).toBeChecked();
 
-  // Add URL button should be disabled and no custom flair added text displayed
-  const addURLButton = within(customFlairBadgeConfig).getByRole("button", {
-    name: "Add",
-  });
-  expect(addURLButton).toBeDisabled();
+  // no custom flair added text displayed
   expect(
     within(customFlairBadgeConfig).getByText(
       "No custom flair added for this site"
     )
   ).toBeVisible();
 
-  // Add URL button should still be disabled while we have a name but are still missing a url
-  const flairNameInput = within(customFlairBadgeConfig).getByTestId(
+  // set the flair name to an invalid name
+  userEvent.type(
+    within(customFlairBadgeConfig).getByTestId("flairBadgeNameInput"),
+    "!nval!d(name)"
+  );
+
+  // set the url to an invalid url
+  userEvent.type(
+    within(customFlairBadgeConfig).getByTestId("flairBadgeURLInput"),
+    "not a url"
+  );
+
+  // try to submit
+  userEvent.click(
+    within(customFlairBadgeConfig).getByRole("button", {
+      name: "Add",
+    })
+  );
+
+  expect(resolvers.Mutation!.createFlairBadge!.called).toBe(false);
+
+  // Expect to see the validation errors
+  expect(
+    within(customFlairBadgeConfig).getByText(
+      "Only letters, numbers, and the special characters - . are permitted.",
+      {
+        exact: false,
+      }
+    )
+  ).toBeVisible();
+
+  expect(
+    within(customFlairBadgeConfig).getByText(
+      "The URL is invalid or has an unsupported file type.",
+      {
+        exact: false,
+      }
+    )
+  ).toBeVisible();
+
+  // set the flair name and URL to valid values
+  const nameField = within(customFlairBadgeConfig).getByTestId(
     "flairBadgeNameInput"
   );
-  userEvent.type(flairNameInput, "subscriber");
-  expect(addURLButton).toBeDisabled();
+  userEvent.clear(nameField);
+  userEvent.type(nameField, "subscriber");
 
-  // Add URL button should still be disabled when entering url that's not valid image url yet
-  const flairURLInput = within(customFlairBadgeConfig).getByTestId(
+  const urlField = within(customFlairBadgeConfig).getByTestId(
     "flairBadgeURLInput"
   );
-  userEvent.type(flairURLInput, "https://www.example.com");
-  expect(addURLButton).toBeDisabled();
+  userEvent.clear(urlField);
+  userEvent.type(urlField, "https://www.example.com/image.jpg");
 
-  // Add URL button should be enabled once the url is a valid image url
-  userEvent.type(flairURLInput, "/image.jpg");
-  expect(addURLButton).toBeEnabled();
+  // submit the valid values
+  userEvent.click(
+    within(customFlairBadgeConfig).getByRole("button", {
+      name: "Add",
+    })
+  );
 
   // image URL should be displayed within table after it's added
-  userEvent.click(addURLButton);
   expect(resolvers.Mutation!.createFlairBadge!.called).toBe(true);
   const imageURL = await within(customFlairBadgeConfig).findByRole("cell", {
     name: "https://www.example.com/image.jpg",
