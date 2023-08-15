@@ -56,6 +56,21 @@ interface Props {
   settings: SettingsData;
 }
 
+const isValidName = (value: string) => {
+  const regex = new RegExp(FLAIR_BADGE_NAME_REGEX);
+  const nameResult = regex.exec(value);
+  if (nameResult === null || nameResult === undefined) {
+    return false;
+  }
+
+  return true;
+};
+
+const isValidURL = (value: string) => {
+  const urlValidationResult = validateImageURLFunc(value);
+  return urlValidationResult;
+};
+
 const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
   disabled,
   settings,
@@ -66,11 +81,32 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
   const [flairBadgeNameInput, setFlairBadgeNameInput] = useState<string>("");
   const [flairBadgeURLInput, setFlairBadgeURLInput] = useState<string>("");
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [nameWarning, setNameWarning] = useState<string | null>(null);
+  const [nameError, setNameError] = useState<boolean>(false);
+  const [urlError, setURLError] = useState<boolean>(false);
 
   const onSubmit = useCallback(async () => {
     try {
       setSubmitError(null);
+      setNameError(false);
+      setURLError(false);
+
+      let haveValidationError = false;
+
+      // Check the name
+      if (!isValidName(flairBadgeNameInput)) {
+        setNameError(true);
+        haveValidationError = true;
+      }
+
+      // Check the URL
+      if (!isValidURL(flairBadgeURLInput)) {
+        setURLError(true);
+        haveValidationError = true;
+      }
+
+      if (haveValidationError) {
+        return;
+      }
 
       await addFlairBadge({
         url: flairBadgeURLInput,
@@ -91,34 +127,15 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
     [deleteFlairBadge]
   );
 
-  const onNameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeName = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setNameError(false);
     setFlairBadgeNameInput(e.target.value);
-
-    const regex = new RegExp(FLAIR_BADGE_NAME_REGEX);
-    const nameResult = regex.exec(e.target.value);
-
-    if (nameResult === null || nameResult === undefined) {
-      setNameWarning("invalid-characters");
-    } else {
-      setNameWarning(null);
-    }
   }, []);
 
-  const validFlairInput = useCallback(
-    (value: string) => {
-      const regex = new RegExp(FLAIR_BADGE_NAME_REGEX);
-      const nameResult = regex.exec(flairBadgeNameInput);
-
-      const nameIsValid =
-        flairBadgeNameInput &&
-        flairBadgeNameInput.length !== 0 &&
-        nameResult !== null &&
-        nameResult !== undefined;
-      const urlValidationResult = validateImageURLFunc(flairBadgeURLInput);
-      return nameIsValid && urlValidationResult;
-    },
-    [flairBadgeNameInput, flairBadgeURLInput]
-  );
+  const onChangeURL = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setURLError(false);
+    setFlairBadgeURLInput(e.target.value);
+  }, []);
 
   return (
     <ConfigBox
@@ -171,14 +188,14 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                   data-testid="flairBadgeNameInput"
                   className={styles.flairBadgeNameInput}
                   placeholder={"subscriber"}
-                  color={colorFromMeta(meta)}
+                  color={nameError ? "error" : colorFromMeta(meta)}
                   fullWidth
-                  onChange={onNameChange}
+                  onChange={onChangeName}
                   value={flairBadgeNameInput}
                 />
               </Flex>
-              {nameWarning && nameWarning === "invalid-characters" && (
-                <CallOut fullWidth color="regular">
+              {nameError && (
+                <CallOut fullWidth color="error">
                   <Localized id="configure-general-flairBadge-name-permittedCharacters">
                     Only letters, numbers, and the special characters - . are
                     permitted.
@@ -206,12 +223,19 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                   data-testid="flairBadgeURLInput"
                   className={styles.flairBadgeURLInput}
                   placeholder={"https://www.example.com/myimage.jpg"}
-                  color={colorFromMeta(meta)}
+                  color={urlError ? "error" : colorFromMeta(meta)}
                   fullWidth
-                  onChange={(e) => setFlairBadgeURLInput(e.target.value)}
+                  onChange={onChangeURL}
                   value={flairBadgeURLInput}
                 />
               </Flex>
+              {urlError && (
+                <CallOut fullWidth color="error">
+                  <Localized id="configure-general-flairBadge-url-error">
+                    The URL is invalid or has an unsupported file type.
+                  </Localized>
+                </CallOut>
+              )}
             </FormField>
           )}
         </Field>
@@ -225,7 +249,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                     className={styles.addButton}
                     size="large"
                     onClick={() => onSubmit()}
-                    disabled={!validFlairInput(flairBadgeURLInput)}
+                    disabled={disabled}
                   >
                     <ButtonSvgIcon Icon={AddIcon} />
                     Add

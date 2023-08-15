@@ -513,6 +513,8 @@ configure-general-flairBadge-enable-label = Enable custom flair badges
 configure-general-flairBadge-add = Flair URL
 configure-general-flairBadge-add-helperText =
   Paste the web address for your custom flair badge. Supported file types: png, jpeg, jpg, and gif
+configure-general-flairBadge-url-error =
+  The URL is invalid or has an unsupported file type.
 configure-general-flairBadge-add-name = Flair name
 configure-general-flairBadge-add-name-helperText =
   Name the flair with a descriptive identifier
