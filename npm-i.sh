@@ -19,3 +19,8 @@ cd ..
 echo "running \`npm install\` for \`server\`"
 cd server
 npm i
+cd ..
+
+echo "running \`npm install\` for \`docs\`"
+cd docs
+npm i
