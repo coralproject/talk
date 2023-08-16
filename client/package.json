@@ -40,8 +40,6 @@
     "generate:relay": "npm-run-all --parallel generate:relay:*",
     "generate:supportedBrowsersRegExp": "ts-node --transpile-only ./scripts/generateSupportedBrowsersRegExp.ts ./src/core/client/framework/helpers/supportedBrowsersRegExp.ts",
     "generate": "npm-run-all generate:css-types generate:relay",
-    "job-pods:up": "docker-compose up -d",
-    "job-pods:down": "docker-compose down",
     "lint-fix": "npm run lint:client -- --fix && npm run lint:scripts -- --fix",
     "lint:client": "eslint 'src/core/client/**/*.{js,ts,tsx}'",
     "lint:docs": "eslint 'docs/**/*.{js,ts,tsx}'",
