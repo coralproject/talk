@@ -1,6 +1,7 @@
 export interface CountJSONPData {
   ref: string;
-  html: string;
+  countHtml: string;
+  textHtml: string;
   count: number;
   id?: string | null;
 }
