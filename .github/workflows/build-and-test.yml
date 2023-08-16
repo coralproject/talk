@@ -27,7 +27,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.REPO_PATCHED_DEPLOY_KEY }}
       -
-        name: Login to GCR
+        name: Login to GAR
         uses: docker/login-action@v2
         with:
           registry: us-east1-docker.pkg.dev
