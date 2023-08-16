@@ -1,14 +1,25 @@
 #!/bin/bash
 set -e
 
-echo "installing \`homebrew\` for macOS"
+echo "checking for \`homebrew\` for macOS"
 
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+which -s brew
+if [[ $? != 0 ]] ; then
+    echo "homebrew not found, installing..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+    echo "homebrew found, performing a quick \`brew update\`..."
+    brew update
+fi
 
-echo "installing \`watchman\` for macOS"
+echo "checking for \`watchman\` for macOS"
 
-brew update
-brew install watchman
+if brew ls --versions "watchman"; then
+  echo "watchman is already installed"
+else
+  echo "watchman not found, installing..."
+  brew install watchman
+fi
 
 echo "running \`npm install\` for sub-directories"
 
@@ -18,9 +29,8 @@ echo "running generation steps for sub-directories"
 
 sh generate.sh
 
-echo "creating a \`client\` build to generate manifests"
+echo "running a build to generate client manifests, common libs, and server worker.js assets"
 
-cd client
-npm run build:development
+sh build-development.sh
 
 echo "initialization script finished"
