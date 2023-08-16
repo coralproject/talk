@@ -25,7 +25,6 @@
     "build:development": "NODE_ENV=development npm-run-all generate --parallel build:client",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true npm-run-all generate --parallel build:client",
     "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:client",
-    "clean": "gulp clean",
     "docs:css-variables": "ts-node ./scripts/generateCSSVariablesDocs.ts ./src/core/client/ui/theme/streamVariables.ts ./CSS_VARIABLES.md",
     "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./CLIENT_EVENTS.md",
     "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' CLIENT_EVENTS.md CONTRIBUTING.md WEBHOOKS.md EXTERNAL_MODERATION_PHASES.md",
