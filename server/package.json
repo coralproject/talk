@@ -429,18 +429,6 @@
       "npm run doctoc"
     ]
   },
-  "bundlesize": [
-    {
-      "path": "./dist/static/assets/js/embed.js",
-      "maxSize": "30 kB",
-      "maxSizeOld": "17 kB"
-    },
-    {
-      "path": "./dist/static/assets/js/count.js",
-      "maxSize": "10 kB",
-      "maxSizeOld": "2 kB"
-    }
-  ],
   "graphql-schema-linter": {
     "rules": [
       "types-are-capitalized"
