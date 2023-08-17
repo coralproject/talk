@@ -71,6 +71,7 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
   settings,
   story,
   onClose,
+  origin
 }) => {
   const { browserInfo } = useCoralContext();
   const refreshSettingsFetch = useFetch(RefreshSettingsFetch);
@@ -120,7 +121,7 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
       const editSubmitStatus = getSubmitStatus(
         await editComment({
           commentID: comment.id,
-          body: input.body,
+          body: origin === 'DELETE'? 'DELETED' : input.body,
           media: input.media,
         })
       );
@@ -158,7 +159,24 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
       />
     );
   }
-  return (
+
+  if(origin === 'DELETE'){
+    const mockForm = {
+      change: () => {},
+    };
+  
+    // Create mock values object with any required properties
+    const mockValues = {
+      body: 'DELETED', 
+      rating: 0,
+      media: null, 
+    };
+     return (<>
+     {handleOnSubmit(mockValues, mockForm)}
+     </>)
+  }
+  else{
+      return (
     <EditCommentForm
       siteID={comment.site.id}
       id={comment.id}
@@ -177,6 +195,8 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
       max={(settings.charCount.enabled && settings.charCount.max) || null}
     />
   );
+  }
+
 };
 
 const enhanced = withEditCommentMutation(

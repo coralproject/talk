@@ -37,7 +37,7 @@ import {
   ViewConversationEvent,
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { PencilIcon, SvgIcon } from "coral-ui/components/icons";
+import { DeleteIcon, PencilIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Flex,
@@ -179,6 +179,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [showEditDialog, setShowEditDialog, toggleShowEditDialog] =
     useToggleState(false);
+  const [showDeleteDialog, setShowDeleteDialog, toggleShowDeleteDialog] = 
+  useToggleState(false);
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
   const handleShowConversation = useCallback(
     (e: MouseEvent) => {
@@ -209,12 +211,16 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   const isLoggedIn = !!viewer;
 
-  const openEditDialog = useCallback(() => {
+  const openEditDialog = useCallback((defaultValue: string) => {
     if (isLoggedIn) {
       ShowEditFormEvent.emit(eventEmitter, {
         commentID: comment.id,
       });
-      setShowEditDialog(true);
+      if(defaultValue === 'DELETED'){
+        setShowDeleteDialog(true);
+      }else{
+        setShowEditDialog(true);
+      }
     } else {
       void showAuthPopup({ view: "SIGN_IN" });
     }
@@ -342,7 +348,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
     indentLevel === 1 &&
     !!showRemoveAnswered;
 
-  const showAvatar = settings.featureFlags.includes(GQLFEATURE_FLAG.AVATARS);
+  //const showAvatar = settings.featureFlags.includes(GQLFEATURE_FLAG.AVATARS);
 
   // When we're in Q&A and we are not un-answered (answered) and we're a top
   // level comment (no parent), then we are an answered question.
@@ -375,6 +381,21 @@ export const CommentContainer: FunctionComponent<Props> = ({
           comment={comment}
           story={story}
           onClose={toggleShowEditDialog}
+          origin={'EDIT'}
+        />
+      </div>
+    );
+  }
+
+  if (showDeleteDialog) {
+    return (
+      <div data-testid={`comment-${comment.id}`}>
+        <EditCommentFormContainer
+          settings={settings}
+          comment={comment}
+          story={story}
+          onClose={toggleShowDeleteDialog}
+          origin={'DELETE'}
         />
       </div>
     );
@@ -421,7 +442,21 @@ export const CommentContainer: FunctionComponent<Props> = ({
     comment.lastViewerAction !== "CREATE" &&
     comment.lastViewerAction !== "EDIT";
 
-  return (
+    if(comment.body === 'DELETED'){
+       return (<div
+        style={{
+          border: '2px solid gray',
+          borderRadius: '3px',
+          padding: '8px',
+          backgroundColor: 'lightgray',
+        }}
+      >
+        <p style={{ padding: '0px', margin: '0px' }}>- USER</p>
+        <p style={{ padding: '0px', margin: '0px', textAlign: 'center' }}>DELETED</p>
+      </div>)
+    }
+    else{
+      return (
     <div
       className={cn(
         styles.root,
@@ -602,10 +637,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
                     >
                       {matches ? commentTags : null}
                       {editable && (
+<>
                         <Button
                           color="stream"
                           variant="text"
-                          onClick={openEditDialog}
+                          onClick={() => openEditDialog("EDIT")}
                           className={cn(
                             CLASSES.comment.topBar.editButton,
                             styles.editButton
@@ -622,8 +658,30 @@ export const CommentContainer: FunctionComponent<Props> = ({
                             </Localized>
                           </Flex>
                         </Button>
+                        <Button
+                          color="stream"
+                          variant="text"
+                          onClick={() => openEditDialog('DELETED')}
+                          className={cn(
+                            CLASSES.comment.topBar.editButton,
+                            styles.editButton
+                          )}
+                          data-testid="comment-delete-button"
+                        >
+                          <Flex alignItems="center" justifyContent="center">
+                            <SvgIcon
+                              Icon={DeleteIcon}
+                              className={styles.editIcon}
+                            />
+                            <Localized id="comments-commentContainer-deleteButton">
+                              Delete
+                            </Localized>
+                          </Flex>
+                        </Button>
+                        
+</>
                       )}
-                      {showAvatar && comment.author?.avatar && (
+                      {comment.author?.avatar && (
                         <div
                           className={cn(
                             styles.avatarContainer,
@@ -786,6 +844,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
       </HorizontalGutter>
     </div>
   );
+    }
+  
 };
 
 const enhanced = withShowAuthPopupMutation(
