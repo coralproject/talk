@@ -42,7 +42,6 @@
     "generate": "npm-run-all generate:css-types generate:relay",
     "lint-fix": "npm run lint:client -- --fix && npm run lint:scripts -- --fix",
     "lint:client": "eslint 'src/core/client/**/*.{js,ts,tsx}'",
-    "lint:docs": "eslint 'docs/**/*.{js,ts,tsx}'",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
     "lint": "npm-run-all --parallel lint:* tscheck:*",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
