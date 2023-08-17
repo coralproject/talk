@@ -14,7 +14,6 @@ import {
 import { Button, HorizontalGutter } from "coral-ui/components/v2";
 
 import { ConversationModalRepliesContainer_comment } from "coral-admin/__generated__/ConversationModalRepliesContainer_comment.graphql";
-import { ConversationModalRepliesContainer_settings } from "coral-admin/__generated__/ConversationModalRepliesContainer_settings.graphql";
 import { ConversationModalRepliesContainerPaginationQueryVariables } from "coral-admin/__generated__/ConversationModalRepliesContainerPaginationQuery.graphql";
 
 import ConversationModalCommentContainer from "./ConversationModalCommentContainer";
@@ -24,7 +23,6 @@ import styles from "./ConversationModalRepliesContainer.css";
 interface Props {
   relay: RelayPaginationProp;
   comment: ConversationModalRepliesContainer_comment;
-  settings: ConversationModalRepliesContainer_settings;
   onClose: () => void;
   onUsernameClicked: (id?: string) => void;
 }
@@ -32,7 +30,6 @@ interface Props {
 const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
   comment,
   relay,
-  settings,
   onUsernameClicked,
 }) => {
   const [loadMore] = useLoadMore(relay, 5);
@@ -51,7 +48,6 @@ const ConversationModalRepliesContainer: FunctionComponent<Props> = ({
           <div key={reply.id} className={styles.comment}>
             <ConversationModalCommentContainer
               key={reply.id}
-              settings={settings}
               comment={reply}
               isHighlighted={false}
               isReply={true}
@@ -93,11 +89,6 @@ const enhanced = withPaginationContainer<
   FragmentVariables
 >(
   {
-    settings: graphql`
-      fragment ConversationModalRepliesContainer_settings on Settings {
-        ...ConversationModalCommentContainer_settings
-      }
-    `,
     comment: graphql`
       fragment ConversationModalRepliesContainer_comment on Comment
       @argumentDefinitions(

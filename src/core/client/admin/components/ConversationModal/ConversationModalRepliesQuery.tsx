@@ -23,9 +23,6 @@ const ConversationModalRepliesQuery: FunctionComponent<Props> = ({
     <QueryRenderer<QueryTypes>
       query={graphql`
         query ConversationModalRepliesQuery($commentID: ID!) {
-          settings {
-            ...ConversationModalCommentContainer_settings
-          }
           comment(id: $commentID) {
             replies {
               edges {
@@ -72,7 +69,6 @@ const ConversationModalRepliesQuery: FunctionComponent<Props> = ({
                 <ConversationModalCommentContainer
                   key={reply.node.id}
                   comment={reply.node}
-                  settings={props.settings}
                   isHighlighted={false}
                   isReply={true}
                   onUsernameClick={onUsernameClicked}
