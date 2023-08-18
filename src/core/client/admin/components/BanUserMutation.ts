@@ -1,5 +1,5 @@
 import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
+import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { getViewer } from "coral-framework/helpers";
 import {
@@ -16,92 +16,105 @@ let clientMutationId = 0;
 
 const BanUserMutation = createMutation(
   "banUser",
-  (environment: Environment, input: MutationInput<MutationTypes>) => {
+  async (environment: Environment, input: MutationInput<MutationTypes>) => {
     const viewer = getViewer(environment)!;
-    return commitMutationPromiseNormalized<MutationTypes>(environment, {
-      mutation: graphql`
-        mutation BanUserMutation($input: BanUserInput!) {
-          banUser(input: $input) {
-            user {
-              id
-              status {
-                current
-                warning {
-                  active
-                }
-                premod {
-                  active
-                }
-                suspension {
-                  active
-                }
-                ban {
-                  active
-                  history {
+
+    const res = await commitMutationPromiseNormalized<MutationTypes>(
+      environment,
+      {
+        mutation: graphql`
+          mutation BanUserMutation($input: BanUserInput!) {
+            banUser(input: $input) {
+              user {
+                id
+                status {
+                  current
+                  warning {
                     active
-                    createdAt
-                    createdBy {
-                      id
-                      username
-                    }
                   }
-                  sites {
-                    id
+                  premod {
+                    active
+                  }
+                  suspension {
+                    active
+                  }
+                  ban {
+                    active
+                    history {
+                      active
+                      createdAt
+                      createdBy {
+                        id
+                        username
+                      }
+                    }
+                    sites {
+                      id
+                    }
                   }
                 }
               }
+              clientMutationId
             }
-            clientMutationId
           }
-        }
-      `,
-      variables: {
-        input: {
-          ...input,
-          clientMutationId: clientMutationId.toString(),
+        `,
+        variables: {
+          input: {
+            ...input,
+            clientMutationId: clientMutationId.toString(),
+          },
         },
-      },
-      optimisticResponse: {
-        banUser: {
-          user: {
-            id: input.userID,
-            status: {
-              current: lookup<GQLUser>(
-                environment,
-                input.userID
-              )!.status.current.concat(GQLUSER_STATUS.BANNED),
-              ban: {
-                active: true,
-                history: [
-                  {
-                    active: true,
-                    createdAt: new Date().toISOString(),
-                    createdBy: {
-                      id: viewer.id,
-                      username: viewer.username || null,
+        optimisticResponse: {
+          banUser: {
+            user: {
+              id: input.userID,
+              status: {
+                current: lookup<GQLUser>(
+                  environment,
+                  input.userID
+                )!.status.current.concat(GQLUSER_STATUS.BANNED),
+                ban: {
+                  active: true,
+                  history: [
+                    {
+                      active: true,
+                      createdAt: new Date().toISOString(),
+                      createdBy: {
+                        id: viewer.id,
+                        username: viewer.username || null,
+                      },
                     },
-                  },
-                ],
-                sites:
-                  input.siteIDs?.map((id) => {
-                    return { id };
-                  }) || [],
-              },
-              warning: {
-                active: false,
-              },
-              suspension: {
-                active: false,
-              },
-              premod: {
-                active: false,
+                  ],
+                  sites:
+                    input.siteIDs?.map((id) => {
+                      return { id };
+                    }) || [],
+                },
+                warning: {
+                  active: false,
+                },
+                suspension: {
+                  active: false,
+                },
+                premod: {
+                  active: false,
+                },
               },
             },
+            clientMutationId: (clientMutationId++).toString(),
           },
-          clientMutationId: (clientMutationId++).toString(),
         },
-      },
-    });
+      }
+    );
+
+    if (input.rejectExistingComments) {
+      commitLocalUpdate(environment, (store) => {
+        const record = store.get(input.userID);
+        return record?.setValue(true, "allCommentsRejected");
+      });
+    }
+
+    return res;
   }
 );
 
