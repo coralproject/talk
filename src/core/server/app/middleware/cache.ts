@@ -37,13 +37,23 @@ async function get(
 }
 
 const cacheMiddleware =
-  (redis: Redis, ttl: number): RequestHandler =>
+  (
+    redis: Redis,
+    ttl: number,
+    jsonpType: "count" | "commentEmbed"
+  ): RequestHandler =>
   async (req, res, next) => {
     // Compute the cache key.
     const url = new URL(`${req.hostname}:${req.originalUrl}`);
     const params = new URLSearchParams(url.search);
 
-    const key = `rmc:CoralCount&url=${params.get("url")}`;
+    let key = "";
+    if (jsonpType === "count") {
+      key = `rmc:CoralCount&url=${params.get("url")}`;
+    }
+    if (jsonpType === "commentEmbed") {
+      key = `rmc:CoralCommentEmbed&commentID=${params.get("commentID")}`;
+    }
     const log = logger.child({ key }, true);
 
     // Try to lookup the entry in the cache.
