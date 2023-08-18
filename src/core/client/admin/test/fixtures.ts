@@ -791,7 +791,39 @@ export const baseComment = createFixture<GQLComment>({
   site: sites[0],
   parent: NULL_VALUE,
   deleted: NULL_VALUE,
+  replyCount: 0,
 });
+
+export const comments = createFixtures<GQLComment>(
+  [
+    {
+      id: "comment-regular-0",
+      author: users.commenters[0],
+      body: "Joining Too",
+      revision: {
+        id: "comment-0-revision-0",
+      },
+      permalink: "permalink",
+    },
+    {
+      id: "comment-regular-1",
+      author: users.commenters[1],
+      body: "What's up?",
+      revision: {
+        id: "comment-1-revision-1",
+      },
+    },
+    {
+      id: "comment-regular-2",
+      author: users.commenters[2],
+      body: "Hey!",
+      revision: {
+        id: "comment-2-revision-2",
+      },
+    },
+  ],
+  baseComment
+);
 
 export const unmoderatedComments = createFixtures<GQLComment>(
   [
@@ -868,6 +900,17 @@ export const reportedComments = createFixtures<GQLComment>(
       },
       permalink: "http://localhost/comment/0",
       body: "This is the last random sentence I will be writing and I am going to stop mid-sent",
+      replies: {
+        edges: [
+          { node: comments[0], cursor: comments[0].createdAt },
+          { node: comments[1], cursor: comments[1].createdAt },
+          { node: comments[2], cursor: comments[2].createdAt },
+        ],
+        pageInfo: {
+          hasNextPage: false,
+        },
+      },
+      replyCount: 2,
       flags: {
         edges: [
           {
@@ -920,6 +963,14 @@ export const reportedComments = createFixtures<GQLComment>(
         ],
         pageInfo: { endCursor: "2021-06-01T14:21:21.890Z", hasNextPage: true },
       },
+      parents: {
+        edges: [],
+        pageInfo: {
+          hasPreviousPage: false,
+          startCursor: null,
+        },
+      },
+      parentCount: 0,
     },
     {
       id: "comment-1",
