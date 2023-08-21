@@ -67,7 +67,7 @@ const SiteSelector: FunctionComponent<Props> = ({
               site={null}
               active={!siteID}
             />
-            <Divider spacing={4} fullWidth={false} />
+            <Divider spacing={1} horizontalSpacing={4} />
           </>
         )}
         {sites.map((s) => (

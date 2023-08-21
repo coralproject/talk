@@ -26,7 +26,22 @@ $divider-border-color: var(--palette-grey-300);
   margin-bottom: var(--spacing-4);
 }
 
-.horizontallySpaced {
+.horizontallySpaced1 {
+  margin-left: var(--spacing-1);
+  margin-right: var(--spacing-1);
+}
+
+.horizontallySpaced2 {
   margin-left: var(--spacing-2);
   margin-right: var(--spacing-2);
+}
+
+.horizontallySpaced3 {
+  margin-left: var(--spacing-3);
+  margin-right: var(--spacing-3);
+}
+
+.horizontallySpaced4 {
+  margin-left: var(--spacing-4);
+  margin-right: var(--spacing-4);
 }
