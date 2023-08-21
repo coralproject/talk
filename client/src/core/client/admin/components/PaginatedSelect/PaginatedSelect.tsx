@@ -9,6 +9,7 @@ import React, {
 } from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
+import { useToggleState } from "coral-framework/hooks";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   ArrowsDownIcon,
@@ -21,16 +22,15 @@ import {
   Flex,
   Popover,
   Spinner,
-  // TextField,
 } from "coral-ui/components/v2";
 
-import { useToggleState } from "coral-framework/hooks";
 import { TextArea } from "coral-ui/components/v3";
 import styles from "./PaginatedSelect.css";
 
 interface Props {
   onLoadMore?: () => void;
   onFilter?: (filter: string) => void;
+  label: string;
   Icon?: ComponentType;
   hasMore?: boolean;
   disableLoadMore?: boolean;
@@ -50,6 +50,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
   Icon,
   selected,
   className,
+  label,
 }) => {
   const filterRef = useRef<HTMLTextAreaElement>(null);
 
@@ -109,7 +110,8 @@ const PaginatedSelect: FunctionComponent<Props> = ({
                   className={styles.filterInput}
                   onChange={(e) => onFilter(e.target.value)}
                   ref={filterRef}
-                  aria-roledescription="Filter results"
+                  aria-roledescription="Input"
+                  aria-label="Filter results"
                 />
               </Localized>
             ) : (
@@ -120,7 +122,8 @@ const PaginatedSelect: FunctionComponent<Props> = ({
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                 }}
-                role="button"
+                aria-roledescription="button"
+                aria-label={label}
                 tabIndex={0}
                 onFocus={() => setIsPopoverVisible(true)}
                 onBlur={() => setIsPopoverVisible(false)}

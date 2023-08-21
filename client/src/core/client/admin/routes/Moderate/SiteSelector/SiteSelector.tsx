@@ -5,11 +5,11 @@ import PaginatedSelect from "coral-admin/components/PaginatedSelect";
 import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import { AppWindowIcon } from "coral-ui/components/icons";
+import { Divider } from "coral-ui/components/v2";
 
 import SiteSelectorCurrentSiteQuery from "./SiteSelectorCurrentSiteQuery";
 import SiteSelectorSite from "./SiteSelectorSite";
 
-import { Divider } from "coral-ui/components/v2";
 import styles from "./SiteSelector.css";
 
 interface Props {
@@ -39,6 +39,8 @@ const SiteSelector: FunctionComponent<Props> = ({
 }) => {
   return (
     <PaginatedSelect
+      data-testid="siteSelector"
+      label="TODO: localize - Select site"
       Icon={AppWindowIcon}
       loading={loading}
       onLoadMore={onLoadMore}
