@@ -41,7 +41,7 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
         className={cn(styles.root, CLASSES.comment.collapseToggle.$root)}
         aria-label={"Expand comment thread"}
       >
-        <Flex alignItems="flex-start" spacing={1}>
+        <Flex alignItems="baseline" spacing={1}>
           <SvgIcon
             className={cn(styles.icon, CLASSES.comment.collapseToggle.icon)}
             Icon={AddIcon}
@@ -59,6 +59,7 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
               alignItems="center"
               justifyContent="space-between"
               wrap
+              className={styles.innerWrapper}
             >
               <Flex
                 className={styles.username}

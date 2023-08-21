@@ -225,6 +225,10 @@ export const settings = createFixture<GQLSettings>({
   embeddedComments: {
     allowReplies: true,
   },
+  flairBadges: {
+    flairBadgesEnabled: false,
+    badges: [],
+  },
 });
 
 export const settingsWithMultisite = createFixture<GQLSettings>(

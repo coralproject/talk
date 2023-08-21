@@ -635,3 +635,150 @@ it("add announcement", async () => {
 
   expect(resolvers.Mutation!.createAnnouncement!.called).toBe(true);
 });
+
+it("enable, add, and delete custom flair badges", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      createFlairBadge: ({ variables }) => {
+        expectAndFail(variables.name).toEqual("subscriber");
+        expectAndFail(variables.url).toEqual(
+          "https://www.example.com/image.jpg"
+        );
+        return {
+          settings: pureMerge(settings, {
+            flairBadges: {
+              flairBadgesEnabled: true,
+              badges: [
+                {
+                  name: "subscriber",
+                  url: "https://www.example.com/image.jpg",
+                },
+              ],
+            },
+          }),
+        };
+      },
+      deleteFlairBadge: ({ variables }) => {
+        expectAndFail(variables.name).toEqual("subscriber");
+        return {
+          settings: pureMerge(settings, {
+            flairBadges: {
+              flairBadgesEnabled: true,
+              flairBadgeURLs: [],
+            },
+          }),
+        };
+      },
+    },
+  });
+  await createTestRenderer({
+    resolvers,
+  });
+  const customFlairBadgeConfig = screen.getByTestId(
+    "custom-flair-badge-configuration"
+  );
+
+  // check for correct text and link to docs
+  expect(
+    within(customFlairBadgeConfig).getByText(
+      "Encourage user engagement and participation by adding custom flair badges for your site. Badges can be allocated as part of your",
+      { exact: false }
+    )
+  );
+  expect(
+    within(customFlairBadgeConfig).getByRole("link", { name: "JWT claim" })
+  ).toHaveAttribute("href", "https://docs.coralproject.net/sso");
+
+  // custom flair badges off by default
+  expect(
+    within(customFlairBadgeConfig).getByRole("radio", { name: "Off" })
+  ).toBeChecked();
+
+  // enable custom flair badges
+  const onButton = within(customFlairBadgeConfig).getByRole("radio", {
+    name: "On",
+  });
+  userEvent.click(onButton);
+  expect(onButton).toBeChecked();
+
+  // no custom flair added text displayed
+  expect(
+    within(customFlairBadgeConfig).getByText(
+      "No custom flair added for this site"
+    )
+  ).toBeVisible();
+
+  // set the flair name to an invalid name
+  userEvent.type(
+    within(customFlairBadgeConfig).getByTestId("flairBadgeNameInput"),
+    "!nval!d(name)"
+  );
+
+  // set the url to an invalid url
+  userEvent.type(
+    within(customFlairBadgeConfig).getByTestId("flairBadgeURLInput"),
+    "not a url"
+  );
+
+  // try to submit
+  userEvent.click(
+    within(customFlairBadgeConfig).getByRole("button", {
+      name: "Add",
+    })
+  );
+
+  expect(resolvers.Mutation!.createFlairBadge!.called).toBe(false);
+
+  // Expect to see the validation errors
+  expect(
+    within(customFlairBadgeConfig).getByText(
+      "Only letters, numbers, and the special characters - . are permitted.",
+      {
+        exact: false,
+      }
+    )
+  ).toBeVisible();
+
+  expect(
+    within(customFlairBadgeConfig).getByText(
+      "The URL is invalid or has an unsupported file type.",
+      {
+        exact: false,
+      }
+    )
+  ).toBeVisible();
+
+  // set the flair name and URL to valid values
+  const nameField = within(customFlairBadgeConfig).getByTestId(
+    "flairBadgeNameInput"
+  );
+  userEvent.clear(nameField);
+  userEvent.type(nameField, "subscriber");
+
+  const urlField = within(customFlairBadgeConfig).getByTestId(
+    "flairBadgeURLInput"
+  );
+  userEvent.clear(urlField);
+  userEvent.type(urlField, "https://www.example.com/image.jpg");
+
+  // submit the valid values
+  userEvent.click(
+    within(customFlairBadgeConfig).getByRole("button", {
+      name: "Add",
+    })
+  );
+
+  // image URL should be displayed within table after it's added
+  expect(resolvers.Mutation!.createFlairBadge!.called).toBe(true);
+  const imageURL = await within(customFlairBadgeConfig).findByRole("cell", {
+    name: "https://www.example.com/image.jpg",
+  });
+  expect(imageURL).toBeVisible();
+
+  // image URL can be deleted and delete mutation is then called
+  const deleteButton = within(customFlairBadgeConfig).getByRole("button", {
+    name: "Delete",
+  });
+  userEvent.click(deleteButton);
+  expect(resolvers.Mutation!.deleteFlairBadge!.called).toBe(true);
+});
