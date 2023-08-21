@@ -97,7 +97,7 @@ export const validateUsernameCharacters = createValidator(
   INVALID_CHARACTERS()
 );
 
-export const validateImageURL = createValidator((v) => {
+export const validateImageURLFunc = (v: any) => {
   if (!v || typeof v !== "string" || !URL_REGEX.test(v)) {
     return false;
   }
@@ -108,7 +108,12 @@ export const validateImageURL = createValidator((v) => {
   } catch (err) {
     return false;
   }
-}, INVALID_MEDIA_URL());
+};
+
+export const validateImageURL = createValidator(
+  validateImageURLFunc,
+  INVALID_MEDIA_URL()
+);
 
 /**
  * validateURL is a Validator that checks that the URL only contains valid characters.

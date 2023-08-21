@@ -242,6 +242,7 @@ const BanModal: FunctionComponent<Props> = ({
             message: customizeMessage ? emailMessage : getDefaultMessage,
             banSiteIDs,
             unbanSiteIDs,
+            rejectExistingComments,
           });
         } catch (err) {
           return { [FORM_ERROR]: err.message };

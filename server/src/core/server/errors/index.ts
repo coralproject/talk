@@ -331,6 +331,15 @@ export class DuplicateEmailDomainError extends CoralError {
   }
 }
 
+export class DuplicateFlairBadgeError extends CoralError {
+  constructor(flairBadge: string) {
+    super({
+      code: ERROR_CODES.DUPLICATE_FLAIR_BADGE,
+      context: { pvt: { flairBadge } },
+    });
+  }
+}
+
 export class UsernameAlreadySetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.USERNAME_ALREADY_SET });
@@ -1015,6 +1024,15 @@ export class DataCachingNotAvailableError extends CoralError {
   constructor(tenantID: string) {
     super({
       code: ERROR_CODES.DATA_CACHING_NOT_AVAILABLE,
+      context: { pub: { tenantID } },
+    });
+  }
+}
+
+export class InvalidFlairBadgeName extends CoralError {
+  constructor(tenantID: string) {
+    super({
+      code: ERROR_CODES.INVALID_FLAIR_BADGE_NAME,
       context: { pub: { tenantID } },
     });
   }

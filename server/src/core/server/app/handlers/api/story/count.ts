@@ -98,7 +98,7 @@ export const countJSONPHandler =
 
       const count = story ? await calculateStoryCount(mongo, story) : 0;
 
-      const countHtml = `<span class="${NUMBER_CLASS_NAME}">${count}</span>`;
+      const countHtml = `<span class="${NUMBER_CLASS_NAME}">COMMENT_COUNT</span>`;
       const textHtml = getTextHTML(tenant, story?.settings.mode, i18n, count);
 
       const data: CountJSONPData = {

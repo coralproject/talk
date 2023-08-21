@@ -29,3 +29,11 @@
 .inner {
   flex: 1;
 }
+
+.innerWrapper {
+  min-height: 25px;
+}
+
+.userTags {
+  margin-right: var(--spacing-1);
+}

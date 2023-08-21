@@ -184,6 +184,10 @@ const enhanced = withFragmentContainer<Props>({
         body
       }
       comment {
+        author {
+          allCommentsRejected
+          commentsRejectedOnSites
+        }
         id
       }
       revision {

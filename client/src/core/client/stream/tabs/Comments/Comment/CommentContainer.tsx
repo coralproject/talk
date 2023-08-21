@@ -57,7 +57,7 @@ import { useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import { ArchivedReportFlowContainer } from "./ArchivedReportFlow";
-import AuthorBadges from "./AuthorBadges";
+import AuthorBadgesContainer from "./AuthorBadgesContainer";
 import ButtonsBar from "./ButtonsBar";
 import computeCommentElementID from "./computeCommentElementID";
 import EditCommentFormContainer from "./EditCommentForm";
@@ -547,9 +547,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
                   settings={settings}
                 />
                 {badges && (
-                  <AuthorBadges
+                  <AuthorBadgesContainer
                     className={CLASSES.comment.topBar.userBadge}
                     badges={badges}
+                    settings={settings}
                   />
                 )}
               </Flex>
@@ -583,9 +584,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
           badges={
             comment.author &&
             badges && (
-              <AuthorBadges
+              <AuthorBadgesContainer
                 className={CLASSES.comment.topBar.userBadge}
                 badges={badges}
+                settings={settings}
               />
             )
           }
@@ -910,6 +912,7 @@ const enhanced = withShowAuthPopupMutation(
         ...UsernameWithPopoverContainer_settings
         ...UserTagsContainer_settings
         ...ArchivedReportFlowContainer_settings
+        ...AuthorBadgesContainer_settings
       }
     `,
   })(CommentContainer)
