@@ -17,7 +17,7 @@ cd common
 npm run build
 cd ..
 
-echo "running \`npm run build\` for \`client\`"
+echo "running \`npm run generate\` for \`client\`"
 cd client
 npm run generate
 cd ..
