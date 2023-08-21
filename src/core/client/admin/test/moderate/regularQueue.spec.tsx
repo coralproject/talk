@@ -804,3 +804,80 @@ it("rejects comment in reported queue", async () => {
   );
   expect(within(reportedCount).getByText("1")).toBeVisible();
 });
+
+it.only("filters comments in queue by site", async () => {
+  /* eslint-disable */
+  const moderationQueuesStub = pureMerge(emptyModerationQueues, {
+    reported: {
+      count: 2,
+      comments: createQueryResolverStub<ModerationQueueToCommentsResolver>(
+        ({ variables, callCount }) => {
+          switch (callCount) {
+            case 0:
+              expectAndFail(variables).toEqual({
+                first: 5,
+                orderBy: "CREATED_AT_DESC",
+              });
+              return {
+                edges: [
+                  {
+                    node: reportedComments[0],
+                    cursor: reportedComments[0].createdAt,
+                  },
+                  {
+                    node: reportedComments[1],
+                    cursor: reportedComments[1].createdAt,
+                  },
+                ],
+                pageInfo: {
+                  endCursor: reportedComments[1].createdAt,
+                  hasNextPage: true,
+                },
+              };
+            default:
+              expectAndFail(variables).toEqual({
+                first: 10,
+                after: reportedComments[1].createdAt,
+                orderBy: "CREATED_AT_DESC",
+              });
+              return {
+                edges: [
+                  {
+                    node: reportedComments[2],
+                    cursor: reportedComments[2].createdAt,
+                  },
+                ],
+                pageInfo: {
+                  endCursor: reportedComments[2].createdAt,
+                  hasNextPage: false,
+                },
+              };
+          }
+        }
+      ) as any,
+    },
+  });
+
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: () => moderationQueuesStub,
+        },
+      }),
+    });
+  });
+
+  // const moderateContainer = await screen.findByTestId("moderate-container");
+  const searchBarContainer = await screen.findByTestId("moderate-searchBar-container");
+
+  // const siteSelector = await within(searchBarContainer).findByTestId("wtf");
+
+  const siteSelector = await within(searchBarContainer).findAllByTestId("siteSelector");
+  screen.debug(siteSelector);
+
+  // userEvent.click(siteSelector!);
+
+  // const filterInput = await within(moderateContainer).queryByLabelText("Filter results", { exact: false });
+  // screen.debug(filterInput!);
+});
