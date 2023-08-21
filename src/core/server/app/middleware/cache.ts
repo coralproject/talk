@@ -10,7 +10,14 @@ interface CacheEntry {
   createdAt: number;
 }
 
-async function get(
+export const getCountRedisCacheKey = (url: string | null) => {
+  return url ? `rmc:CoralCount&url=${url}` : null;
+};
+export const getCommentEmbedRedisCacheKey = (commentID: string | null) => {
+  return commentID ? `rmc:CoralCommentEmbed&commentID=${commentID}` : null;
+};
+
+export async function get(
   redis: Redis,
   ttl: number,
   key: string
@@ -47,13 +54,17 @@ const cacheMiddleware =
     const url = new URL(`${req.hostname}:${req.originalUrl}`);
     const params = new URLSearchParams(url.search);
 
-    let key = "";
+    let key: string | null = null;
     if (jsonpType === "count") {
-      key = `rmc:CoralCount&url=${params.get("url")}`;
+      key = getCountRedisCacheKey(params.get("url"));
     }
     if (jsonpType === "commentEmbed") {
-      key = `rmc:CoralCommentEmbed&commentID=${params.get("commentID")}`;
+      key = getCommentEmbedRedisCacheKey(params.get("commentID"));
     }
+    if (!key) {
+      return next();
+    }
+
     const log = logger.child({ key }, true);
 
     // Try to lookup the entry in the cache.
@@ -91,7 +102,7 @@ const cacheMiddleware =
 
         // Add it in Redis.
         redis
-          .set(key, JSON.stringify(entry), "PX", ttl)
+          .set(key as KeyType, JSON.stringify(entry), "PX", ttl)
           .then(() => {
             log.debug("request added to cache");
           })

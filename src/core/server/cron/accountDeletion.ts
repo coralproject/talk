@@ -1,3 +1,4 @@
+import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { retrieveLockedUserScheduledForDeletion } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
@@ -14,6 +15,7 @@ import {
 interface Options {
   mongo: MongoContext;
   redis: AugmentedRedis;
+  config: Config;
   mailerQueue: MailerQueue;
   tenantCache: TenantCache;
 }
@@ -36,6 +38,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
   log,
   mongo,
   redis,
+  config,
   mailerQueue,
   tenantCache,
 }) => {
@@ -61,7 +64,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
 
       log.info({ userID: user.id }, "deleting user");
 
-      await deleteUser(mongo, redis, user.id, tenant.id, now);
+      await deleteUser(mongo, redis, config, user.id, tenant.id, now);
 
       // If the user has an email, then send them a confirmation that their account
       // was deleted.

@@ -1,6 +1,9 @@
+import { get, getCountRedisCacheKey } from "coral-server/app/middleware/cache";
+import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
+  calculateTotalPublishedCommentCount,
   Comment,
   CommentModerationQueueCounts,
   CommentStatusCounts,
@@ -135,6 +138,7 @@ interface UpdateAllCommentCountsOptions {
 export default async function updateAllCommentCounts(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  config: Config,
   input: UpdateAllCommentCountsInput,
   options: UpdateAllCommentCountsOptions = {
     updateStory: true,
@@ -161,12 +165,46 @@ export default async function updateAllCommentCounts(
 
   if (options.updateStory) {
     // Update the story, site, and user comment counts.
-    await updateStoryCounts(mongo, tenant.id, storyID, {
+    const updatedStory = await updateStoryCounts(mongo, tenant.id, storyID, {
       action,
       status,
       moderationQueue,
       tags,
     });
+
+    // only update Redis cache for comment counts if jsonp_response_cache set to true
+    if (config.get("jsonp_response_cache")) {
+      if (updatedStory) {
+        const totalCount = calculateTotalPublishedCommentCount(
+          updatedStory.commentCounts.status
+        );
+
+        const key = getCountRedisCacheKey(updatedStory.url);
+        if (key) {
+          const ttl = config.get("jsonp_cache_max_age");
+          const entry = await get(redis, ttl, key);
+          if (entry) {
+            const { body } = entry;
+
+            // update count in jsonp data with new total comment count
+            const bodyArr = body.split(",");
+            for (let i = 0; i < bodyArr.length; i++) {
+              if (bodyArr[i].startsWith('"count":')) {
+                bodyArr[i] = `"count":${totalCount}`;
+                break;
+              }
+            }
+            const updatedEntry = {
+              ...entry,
+              body: bodyArr.join(","),
+            };
+
+            // set updated entry with new total comment count in Redis cache
+            void redis.set(key, JSON.stringify(updatedEntry));
+          }
+        }
+      }
+    }
   }
 
   if (options.updateSite) {
