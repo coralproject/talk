@@ -25,7 +25,14 @@ import styles from "./Queue.css";
 
 interface Props {
   comments: Array<
-    { id: string } & PropTypesOf<typeof ModerateCardContainer>["comment"]
+    {
+      id: string;
+      site: { id: string };
+      author: {
+        allCommentsRejected: boolean | null;
+        commentsRejectedOnSites: ReadonlyArray<string> | null;
+      } | null;
+    } & PropTypesOf<typeof ModerateCardContainer>["comment"]
   >;
   settings: PropTypesOf<typeof ModerateCardContainer>["settings"];
   viewer: PropTypesOf<typeof ModerateCardContainer>["viewer"];
@@ -41,7 +48,7 @@ interface Props {
 
 const Queue: FunctionComponent<Props> = ({
   settings,
-  comments,
+  comments: unfilteredComments,
   viewer,
   hasLoadMore: hasMore,
   disableLoadMore,
@@ -61,7 +68,17 @@ const Queue: FunctionComponent<Props> = ({
     useState(false);
   const [conversationCommentID, setConversationCommentID] = useState("");
   const [hasModerated, setHasModerated] = useState(false);
+  const [comments, setComments] = useState<typeof unfilteredComments>([]);
   const memoize = useMemoizer();
+
+  useEffect(() => {
+    const filteredComments = unfilteredComments.filter(
+      (comment) =>
+        !comment.author?.allCommentsRejected &&
+        !comment.author?.commentsRejectedOnSites?.includes(comment.site.id)
+    );
+    setComments(filteredComments);
+  }, [unfilteredComments]);
 
   // So we can register hotkeys for the first comment without immediately pulling focus
   useEffect(() => {

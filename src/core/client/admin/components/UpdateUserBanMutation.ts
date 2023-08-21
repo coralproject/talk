@@ -1,5 +1,5 @@
 import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
+import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import {
   commitMutationPromiseNormalized,
@@ -12,7 +12,7 @@ let clientMutationId = 0;
 
 const UpdateUserBanMutation = createMutation(
   "updateUserBan",
-  (environment: Environment, input: MutationInput<QueryTypes>) => {
+  async (environment: Environment, input: MutationInput<QueryTypes>) => {
     const {
       userID,
       banSiteIDs,
@@ -20,7 +20,8 @@ const UpdateUserBanMutation = createMutation(
       message,
       rejectExistingComments,
     } = input;
-    return commitMutationPromiseNormalized(environment, {
+
+    const res = await commitMutationPromiseNormalized(environment, {
       mutation: graphql`
         mutation UpdateUserBanMutation($input: UpdateUserBanInput!) {
           updateUserBan(input: $input) {
@@ -50,6 +51,15 @@ const UpdateUserBanMutation = createMutation(
         },
       },
     });
+
+    if (input.rejectExistingComments) {
+      commitLocalUpdate(environment, (store) => {
+        const record = store.get(input.userID);
+        return record!.setValue(banSiteIDs, "commentsRejectedOnSites");
+      });
+    }
+
+    return res;
   }
 );
 

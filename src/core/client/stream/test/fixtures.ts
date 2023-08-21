@@ -797,6 +797,19 @@ export const commentsFromStaff = denormalizeComments(
   )
 );
 
+export const singleCommentStory = denormalizeStory(
+  createFixture<GQLStory>(
+    {
+      id: "story-1",
+      url: "http://localhost/stories/story-1",
+      comments: {
+        edges: [{ node: comments[0], cursor: comments[0].createdAt }],
+      },
+    },
+    baseStory
+  )
+);
+
 export const stories = denormalizeStories(
   createFixtures<GQLStory>(
     [

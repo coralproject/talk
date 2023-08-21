@@ -386,10 +386,15 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerateCardContainer_comment on Comment {
       id
+      site {
+        id
+      }
       author {
         id
         email
         username
+        allCommentsRejected
+        commentsRejectedOnSites
         status {
           current
           ban {
