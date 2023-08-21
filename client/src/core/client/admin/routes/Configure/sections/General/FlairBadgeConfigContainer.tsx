@@ -8,7 +8,7 @@ import React, {
 import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
-import { FLAIR_BADGE_NAME_REGEX } from "coral-common/constants";
+import { FLAIR_BADGE_NAME_REGEX } from "coral-common/common/lib/constants";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { validateImageURLFunc } from "coral-framework/lib/validation";
