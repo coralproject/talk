@@ -1,0 +1,1 @@
+cp hooks/pre-commit ../.git/hooks

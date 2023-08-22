@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# created by `scripts/install-git-hooks.sh` and copied from `scripts/hooks/` into `.git/hooks`.
+# To update the git commit hooks, modify this file and then run `sh install-git-hooks.sh` from
+# within the `scripts` folder.
+
+FAST_LINT=true
+
+cd server
+
+npm run precommit-lint
+npm run lint:graphql
+
+cd ../client
+
+npm run precommit-lint
+npm run doctoc
+npm run generate:supportedBrowsersRegExp -- --verify
+npm run docs:css-variables -- --verify
+npm run docs:events -- --verify

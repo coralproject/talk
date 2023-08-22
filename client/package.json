@@ -27,7 +27,7 @@
     "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:client",
     "docs:css-variables": "ts-node ./scripts/generateCSSVariablesDocs.ts ./src/core/client/ui/theme/streamVariables.ts ./CSS_VARIABLES.md",
     "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./CLIENT_EVENTS.md",
-    "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' CLIENT_EVENTS.md CONTRIBUTING.md WEBHOOKS.md EXTERNAL_MODERATION_PHASES.md",
+    "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' CLIENT_EVENTS.md ../CONTRIBUTING.md",
     "generate-persist": "npm-run-all generate:css-types generate:relay-persist",
     "generate:css-types": "tcm src/core/client/",
     "generate:relay-persist": "npm-run-all --parallel 'generate:relay:* -- --persist'",
@@ -40,6 +40,7 @@
     "generate:relay": "npm-run-all --parallel generate:relay:*",
     "generate:supportedBrowsersRegExp": "ts-node --transpile-only ./scripts/generateSupportedBrowsersRegExp.ts ./src/core/client/framework/helpers/supportedBrowsersRegExp.ts",
     "generate": "npm-run-all generate:css-types generate:relay",
+    "precommit-lint": "FAST_LINT=true eslint --ext .jsx --ext .js --ext .tsx --ext .ts src/",
     "lint-fix": "npm run lint:client -- --fix && npm run lint:scripts -- --fix",
     "lint:client": "eslint 'src/core/client/**/*.{js,ts,tsx}'",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
@@ -57,8 +58,6 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "coral-common": "../common/dist",
-    "coral-config": "../config/dist",
     "@ampproject/toolbox-cache-url": "^2.9.0",
     "@coralproject/bunyan-prettystream": "^0.1.4",
     "@fluent/bundle": "^0.15.1",
@@ -91,6 +90,8 @@
     "convict": "^6.2.3",
     "convict-format-with-validator": "^6.2.0",
     "cookie": "^0.4.1",
+    "coral-common": "../common/dist",
+    "coral-config": "../config/dist",
     "cors": "^2.8.5",
     "cron": "^1.8.2",
     "csv-stringify": "^5.3.6",
@@ -307,7 +308,6 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^6.0.0-alpha.1",
     "html-webpack-plugin": "^4.0.4",
-    "husky": "^4.2.3",
     "intersection-observer": "^0.7.0",
     "intl": "^1.2.5",
     "jest": "^26.4.2",
@@ -420,28 +420,6 @@
       "Newer versions has problems with optional fields when querying with null",
       "Update when the following issue is resolved:",
       "https://github.com/DefinitelyTyped/DefinitelyTyped/issues/47686"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "FAST_LINT=true lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{j,t}s{,x}": [
-      "eslint"
-    ],
-    "{package.json,src/core/client/framework/helpers/supportedBrowsersRegExp.ts,scripts/generateSupportedBrowsersRegExp.ts}": [
-      "npm run generate:supportedBrowsersRegExp -- --verify"
-    ],
-    "{src/core/client/stream/events.ts,scripts/generateEventDocs.ts,CLIENT_EVENTS.md}": [
-      "npm run docs:events -- --verify"
-    ],
-    "{src/core/client/ui/theme/sharedVariables.ts,src/core/client/ui/theme/streamVariables.ts,scripts/generateCSSVariablesDocs.ts,CSS_VARIABLES.md}": [
-      "npm run docs:css-variables -- --verify"
-    ],
-    "{CLIENT_EVENTS,CONTRIBUTING,WEBHOOKS,EXTERNAL_MODERATION_PHASES}.md": [
-      "npm run doctoc"
     ]
   },
   "bundlesize": [

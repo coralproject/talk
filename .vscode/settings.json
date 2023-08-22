@@ -3,12 +3,12 @@
     "*.css": "postcss"
   },
   "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
+    ".vs": true,
     "**/.DS_Store": true,
-    ".vs": true
+    "**/.git": false,
+    "**/.hg": true,
+    "**/.svn": true,
+    "**/CVS": true
   },
   "tslint.enable": false,
   "eslint.validate": [

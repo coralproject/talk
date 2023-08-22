@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+echo "installing git hooks"
+
+cd scripts
+sh install-git-hooks.sh
+cd ..
+
 echo "running \`npm install\` for \`config\`"
 cd config
 npm i
