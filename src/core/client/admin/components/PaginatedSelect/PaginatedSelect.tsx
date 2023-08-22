@@ -104,6 +104,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
             onClick={() => setIsPopoverVisible(true)}
             ref={ref}
             justifyContent="space-between"
+            aria-label={label}
           >
             {Icon && (
               <ButtonSvgIcon className={styles.buttonIconLeft} Icon={Icon} />
@@ -130,7 +131,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
                   whiteSpace: "nowrap",
                 }}
                 aria-roledescription="button"
-                aria-label={label}
+                // aria-label={label}
                 tabIndex={0}
                 onFocus={() => setIsPopoverVisible(true)}
                 onBlur={handleButtonBlur}
