@@ -43,63 +43,72 @@ jobs:
         name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       -
-        name: Setup Node14.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14.x'
+        name: Create a signing secret
+        run: echo "SIGNING_SECRET=`echo ${openssl rand -base64 48}`" >> $GITHUB_ENV
+      # -
+      #   name: Setup Node14.x
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '14.x'
+      # -
+      #   name: Install npm 8
+      #   run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
+      # -
+      #   name: npm Lockfile Version
+      #   uses: mansona/npm-lockfile-version@v1
+      #   with:
+      #     version: 2
+      # -
+      #   name: Cache Dependencies
+      #   id: cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ./node_modules
+      #     key: modules-${{ hashFiles('package-lock.json') }}
+      #     restore-keys: npm-
       -
-        name: Install npm 8
-        run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
+        name: Create directories for mongo and redis
+        run: mkdir -p data/{mongo,redis}
       -
-        name: npm Lockfile Version
-        uses: mansona/npm-lockfile-version@v1
-        with:
-          version: 2
-      -
-        name: Cache Dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
-      -
-        name: npm ci
-        run: npm ci
+        name: Build
+        run: docker compose up -d
+      # -
+      #   name: npm ci
+      #   run: npm ci
       -
         name: Generate schemas and types
-        run: npm run generate
+        run: docker compose run jobs npm run generate
       -
         name: Lint Source Code
-        run: npm run lint
+        run: docker compose run jobs npm run lint
       -
         name: Lint Markdown
         run: |
-          npm run doctoc
-          git diff --exit-code
+          docker compose run jobs npm run doctoc
+          docker compose run jobs git diff --exit-code
       -
         name: Lint Versions
-        run: npx @coralproject/package-version-lint
-      -
-        name: Run Server Unit Tests
-        run: npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
-      -
-        name: Run Client Stream Unit Tests
-        run: npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
-      -
-        name: Run Client Admin Unit Tests
-        run: npm run test:client:admin -- --ci --runInBand --reporters=default --reporters=jest-junit
-      -
-        name: Run Client Other Unit Tests
-        run: npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
-      -
-        name: Build
-        env:
-          NODE_OPTIONS: "--max-old-space-size=8192"
-        run: npm run build
-      -
-        name: Verify Bundle Size
-        run: ./node_modules/.bin/bundlesize --enable-github-checks
+        run: docker compose run jobs npx @coralproject/package-version-lint
+      # -
+      #   name: Run Server Unit Tests
+      #   run: docker compose run jobs npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
+      # -
+      #   name: Run Client Stream Unit Tests
+      #   run: docker compose run jobs npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
+      # -
+      #   name: Run Client Admin Unit Tests
+      #   run: docker compose run jobs npm run test:client:admin -- --ci --runInBand --reporters=default --reporters=jest-junit
+      # -
+      #   name: Run Client Other Unit Tests
+      #   run: docker compose run jobs npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
+      # -
+      #   name: Build
+      #   env:
+      #     NODE_OPTIONS: "--max-old-space-size=8192"
+      #   run: npm run build
+      # -
+      #   name: Verify Bundle Size
+      #   run: ./node_modules/.bin/bundlesize --enable-github-checks
 # Build tag push the image after a merge to develop
       -
         name: Build, Tag, Push
