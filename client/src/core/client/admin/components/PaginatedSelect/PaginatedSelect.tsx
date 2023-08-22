@@ -112,13 +112,12 @@ const PaginatedSelect: FunctionComponent<Props> = ({
             {isPopoverVisible && !!onFilter ? (
               <Localized
                 id="admin-paginatedSelect-filter"
-                attrs={{ "aria-roledescription": true }}
+                attrs={{ "aria-roledescription": true, "aria-label": true }}
               >
                 <TextArea
                   className={styles.filterInput}
                   onChange={(e) => onFilter(e.target.value)}
                   ref={filterRef}
-                  aria-roledescription="Input"
                   aria-label="Filter results"
                 />
               </Localized>
@@ -131,7 +130,6 @@ const PaginatedSelect: FunctionComponent<Props> = ({
                   whiteSpace: "nowrap",
                 }}
                 aria-roledescription="button"
-                // aria-label={label}
                 tabIndex={0}
                 onFocus={() => setIsPopoverVisible(true)}
                 onBlur={handleButtonBlur}
