@@ -4,6 +4,7 @@ import { noop } from "lodash";
 import React, {
   ComponentType,
   FunctionComponent,
+  useCallback,
   useEffect,
   useRef,
 } from "react";
@@ -54,14 +55,20 @@ const PaginatedSelect: FunctionComponent<Props> = ({
 }) => {
   const filterRef = useRef<HTMLTextAreaElement>(null);
 
-  const [isPopoverVisible, setIsPopoverVisible, togglePopoverVisibility] =
-    useToggleState(false);
+  const [isPopoverVisible, setIsPopoverVisible] = useToggleState(false);
 
   useEffect(() => {
     if (isPopoverVisible && filterRef.current) {
       filterRef.current.focus();
     }
   }, [isPopoverVisible]);
+
+  const handleButtonBlur = useCallback(() => {
+    if (!onFilter) {
+      return;
+    }
+    setIsPopoverVisible(false);
+  }, [onFilter]);
 
   return (
     <ClickOutside onClickOutside={() => setIsPopoverVisible(false)}>
@@ -94,7 +101,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
         {({ ref }) => (
           <Flex
             className={cn(styles.button, className)}
-            onClick={togglePopoverVisibility}
+            onClick={() => setIsPopoverVisible(true)}
             ref={ref}
             justifyContent="space-between"
           >
@@ -126,7 +133,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
                 aria-label={label}
                 tabIndex={0}
                 onFocus={() => setIsPopoverVisible(true)}
-                onBlur={() => setIsPopoverVisible(false)}
+                onBlur={handleButtonBlur}
               >
                 {selected}
               </Flex>

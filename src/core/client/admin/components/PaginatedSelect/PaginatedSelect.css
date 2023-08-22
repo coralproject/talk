@@ -19,6 +19,7 @@
   border-width: 0;
   width: calc(20 * var(--mini-unit));
   margin-right: calc(var(--spacing-1) / 2);
+  padding-left: var(--spacing-1);
   font-size: var(--font-size-3);
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-bold);
@@ -44,8 +45,6 @@
 
 .buttonIconLeft {
   width: 20px;
-  margin-left: var(--spacing-1);
-  margin-right: var(--spacing-1);
 }
 
 .buttonIconRight {
