@@ -48,7 +48,7 @@ const SectionSelector: FunctionComponent<Props> = ({
       disableLoadMore
       className={styles.button}
       selected={<SelectedSection section={section} />}
-      label="TODO: localize - Select section"
+      label="Select section"
     >
       <SectionSelectorSection
         active={!section}

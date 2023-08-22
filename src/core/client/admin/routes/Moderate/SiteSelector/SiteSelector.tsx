@@ -39,8 +39,7 @@ const SiteSelector: FunctionComponent<Props> = ({
 }) => {
   return (
     <PaginatedSelect
-      data-testid="siteSelector"
-      label="TODO: localize - Select site"
+      label="Select site"
       Icon={AppWindowIcon}
       loading={loading}
       onLoadMore={onLoadMore}
