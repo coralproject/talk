@@ -12,6 +12,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   DUPLICATE_EMAIL_DOMAIN: "error-duplicateEmailDomain",
   DUPLICATE_STORY_ID: "error-duplicateStoryID",
   DUPLICATE_STORY_URL: "error-duplicateStoryURL",
+  DUPLICATE_FLAIR_BADGE: "error-duplicateFlairBadge",
   DUPLICATE_USER: "error-duplicateUser",
   EMAIL_ALREADY_SET: "error-emailAlreadySet",
   EMAIL_EXCEEDS_MAX_LENGTH: "error-emailExceedsMaxLength",
@@ -79,4 +80,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   USERNAME_ALREADY_EXISTS: "error-usernameAlreadyExists",
   UNABLE_TO_UPDATE_STORY_URL: "error-unableToUpdateStoryURL",
   DATA_CACHING_NOT_AVAILABLE: "error-dataCachingNotAvailable",
+  INVALID_FLAIR_BADGE_NAME: "error-invalidFlairBadgeName",
 };

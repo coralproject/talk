@@ -1,5 +1,6 @@
 import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { commitLocalUpdate } from "relay-runtime";
 
 import { pureMerge } from "coral-common/utils";
 import {
@@ -8,6 +9,7 @@ import {
   GQLResolver,
   ModerationQueueToCommentsResolver,
   MutationToApproveCommentResolver,
+  MutationToBanUserResolver,
   MutationToRejectCommentResolver,
 } from "coral-framework/schema";
 import {
@@ -578,6 +580,12 @@ it("renders reported queue with comments and load more", async () => {
     expect(screen.queryByRole("button", { name: "Load More" })).toBeNull();
   });
 
+  await waitFor(() => {
+    expect(
+      screen.queryByTestId(`moderate-comment-card-${reportedComments[2].id}`)
+    ).toBeInTheDocument();
+  });
+
   // Verify we have one more item now.
   const comments = screen.getAllByTestId(/^moderate-comment-card-.*$/);
   expect(comments.length).toBe(previousCount + 1);
@@ -803,4 +811,70 @@ it("rejects comment in reported queue", async () => {
     "moderate-navigation-reported-count"
   );
   expect(within(reportedCount).getByText("1")).toBeVisible();
+});
+
+it("doesnt show comments from banned users whose commens have been rejected", async () => {
+  const { context } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        moderationQueues: () =>
+          pureMerge(emptyModerationQueues, {
+            reported: {
+              count: 2,
+              comments:
+                createQueryResolverStub<ModerationQueueToCommentsResolver>(
+                  ({ variables }) => {
+                    expectAndFail(variables).toEqual({
+                      first: 5,
+                      orderBy: "CREATED_AT_DESC",
+                    });
+                    return {
+                      edges: [
+                        {
+                          node: reportedComments[0],
+                          cursor: reportedComments[0].createdAt,
+                        },
+                        {
+                          node: reportedComments[1],
+                          cursor: reportedComments[1].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: reportedComments[1].createdAt,
+                        hasNextPage: false,
+                      },
+                    };
+                  }
+                ) as any,
+            },
+          }),
+      },
+      Mutation: {
+        banUser: createMutationResolverStub<MutationToBanUserResolver>(
+          ({ variables }) => {
+            return {};
+          }
+        ),
+      },
+    }),
+  });
+
+  const modCard = await screen.findByTestId(
+    `moderate-comment-card-${reportedComments[0].id}`
+  );
+
+  expect(modCard).toBeInTheDocument();
+
+  act(() => {
+    commitLocalUpdate(context.relayEnvironment, (store) => {
+      const user = store.get(reportedComments[0].author!.id);
+      return user?.setValue(true, "allCommentsRejected");
+    });
+  });
+
+  await waitFor(() => {
+    expect(
+      screen.queryByTestId(`moderate-comment-card-${reportedComments[0].id}`)
+    ).toBeNull();
+  });
 });
