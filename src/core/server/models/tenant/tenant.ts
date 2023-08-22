@@ -9,7 +9,10 @@ import { DeepPartial, Sub } from "coral-common/types";
 import { isBeforeDate } from "coral-common/utils";
 import { dotize } from "coral-common/utils/dotize";
 import { MongoContext } from "coral-server/data/context";
-import { DuplicateEmailDomainError } from "coral-server/errors";
+import {
+  DuplicateEmailDomainError,
+  DuplicateFlairBadgeError,
+} from "coral-server/errors";
 import {
   defaultRTEConfiguration,
   generateSigningSecret,
@@ -291,6 +294,10 @@ export async function createTenant(
     embeddedComments: {
       allowReplies: true,
     },
+    flairBadges: {
+      flairBadgesEnabled: false,
+      badges: [],
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -465,6 +472,60 @@ export async function createTenantAnnouncement(
     {
       $set: {
         announcement,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value;
+}
+
+export interface CreateFlairBadgeInput {
+  name: string;
+  url: string;
+}
+
+export async function createTenantFlairBadge(
+  mongo: MongoContext,
+  id: string,
+  input: CreateFlairBadgeInput
+) {
+  // Search to see if this flair badge has already been configured.
+  const duplicateFlairBadge = await mongo.tenants().findOne({
+    id,
+    "flairBadges.badges.name": input.name,
+  });
+  if (duplicateFlairBadge) {
+    throw new DuplicateFlairBadgeError(input.name);
+  }
+
+  const result = await mongo.tenants().findOneAndUpdate(
+    { id },
+    {
+      $push: { "flairBadges.badges": { name: input.name, url: input.url } },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  return result.value;
+}
+
+export interface DeleteFlairBadgeInput {
+  name: string;
+}
+
+export async function deleteTenantFlairBadge(
+  mongo: MongoContext,
+  id: string,
+  input: DeleteFlairBadgeInput
+) {
+  const result = await mongo.tenants().findOneAndUpdate(
+    { id },
+    {
+      $pull: {
+        "flairBadges.badges": { name: input.name },
       },
     },
     {

@@ -293,6 +293,16 @@ export interface EmailDomain {
   newUserModeration: "BAN" | "PREMOD";
 }
 
+export interface FlairBadge {
+  name: string;
+  url: string;
+}
+
+export interface FlairBadgeConfig {
+  flairBadgesEnabled?: boolean;
+  badges?: FlairBadge[];
+}
+
 export type Settings = GlobalModerationSettings &
   Pick<
     GQLSettings,
@@ -398,6 +408,8 @@ export type Settings = GlobalModerationSettings &
      * put on a comment by a user.
      */
     forReviewQueue?: boolean;
+
+    flairBadges?: FlairBadgeConfig;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

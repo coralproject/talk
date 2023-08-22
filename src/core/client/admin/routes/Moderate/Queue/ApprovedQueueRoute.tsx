@@ -130,6 +130,13 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
+              site {
+                id
+              }
+              author {
+                commentsRejectedOnSites
+                allCommentsRejected
+              }
               ...ModerateCardContainer_comment
             }
           }

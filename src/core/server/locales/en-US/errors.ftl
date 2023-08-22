@@ -8,6 +8,7 @@ error-commentBodyExceedsMaxLength =
 error-storyURLNotPermitted =
   The specified story URL does not exist in the permitted domains list.
 error-duplicateStoryURL =  The specified story URL already exists.
+error-duplicateFlairBadge = The flair badge already exists.
 error-tenantNotFound = Tenant hostname ({$hostname}) not found.
 error-userNotFound = User ({$userID}) not found.
 error-notFound = Unrecognized request URL ({$method} {$path}).
@@ -80,3 +81,4 @@ error-cannotMergeAnArchivedStory = Cannot merge an archived story. The story mus
 error-usernameAlreadyExists = This username already exists. Please choose another.
 error-unableToUpdateStoryURL = Unable to update the story URL.
 error-dataCachingNotAvailable = Data caching is not available at this time.
+error-invalidFlairBadgeName = Only letters, numbers, and the special characters - . are permitted in flair badge names.
