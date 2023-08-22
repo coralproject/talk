@@ -58,4 +58,15 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     args,
     ctx
   ) => embeddedComments,
+  flairBadges: ({
+    flairBadges = { flairBadgesEnabled: false, badges: [] },
+  }) => {
+    if (!flairBadges.badges) {
+      return {
+        flairBadgesEnabled: flairBadges.flairBadgesEnabled ?? false,
+        badges: [],
+      };
+    }
+    return flairBadges;
+  },
 };
