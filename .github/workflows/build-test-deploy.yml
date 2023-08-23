@@ -88,13 +88,13 @@ jobs:
           restore-keys: npm-
       -
         name: npm ci
-        run: sh npm-ci.sh
+        run: sh scripts/npm-ci.sh
       -
         name: Generate schemas and types
-        run: sh generate.sh
+        run: sh scripts/generate.sh
       -
         name: Lint Source Code
-        run: sh lint.sh
+        run: sh scripts/lint.sh
       -
         name: Lint Markdown
         run: |
@@ -122,7 +122,7 @@ jobs:
         name: Build
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
-        run: sh build.sh
+        run: sh scripts/build.sh
       -
         name: Verify Bundle Size
         run: cd client && ./node_modules/.bin/bundlesize --enable-github-checks
