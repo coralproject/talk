@@ -283,7 +283,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                         <img
                           className={styles.imagePreview}
                           src={badge.url}
-                          alt=""
+                          alt={" "}
                         />
                         <Flex className={styles.deleteButton}>
                           <Localized

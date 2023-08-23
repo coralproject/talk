@@ -4,6 +4,7 @@
 
 .imagePreview {
   max-height: 25px;
+  min-height: 8px;
 }
 
 .addButton {
