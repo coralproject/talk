@@ -985,16 +985,15 @@ it.only("filters comments in queue by site", async () => {
 
   userEvent.click(siteSelector);
 
-  await waitFor(() =>
-    expect(within(siteSelector).getByLabelText("Filter results")).toBeVisible()
-  );
+  expect(
+    await within(siteSelector).findByLabelText("Filter results")
+  ).toBeVisible();
 
   const dropDown = screen.getByRole("dialog");
   expect(dropDown).toBeVisible();
 
   const textInput = await within(siteSelector).findByLabelText(
-    "Filter results",
-    { exact: false }
+    "Filter results"
   );
   expect(textInput).toHaveFocus();
 
