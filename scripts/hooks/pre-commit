@@ -8,13 +8,8 @@ FAST_LINT=true
 
 cd server
 
-npm run precommit-lint
-npm run lint:graphql
+npm run precommit
 
 cd ../client
 
-npm run precommit-lint
-npm run doctoc
-npm run generate:supportedBrowsersRegExp -- --verify
-npm run docs:css-variables -- --verify
-npm run docs:events -- --verify
+npm run precommit
