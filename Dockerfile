@@ -34,7 +34,8 @@ RUN npm ci && \
   npm prune --production
 
 # Setup the environment
-ENV NODE_ENV production
+ARG NODE_ENV production
+ENV NODE_ENV ${NODE_ENV}
 ENV PORT 5000
 EXPOSE 5000
 
