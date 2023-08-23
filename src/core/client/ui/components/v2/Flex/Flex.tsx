@@ -105,7 +105,7 @@ const Flex: FunctionComponent<Props> = (props) => {
   return (
     <Box
       ref={forwardRef}
-      className={cn(rootClassNames, flexClassNames)}
+      className={cn(rootClassNames, flexClassNames, "hahahaha")}
       {...rest}
     >
       {content}
