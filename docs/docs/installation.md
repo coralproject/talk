@@ -88,8 +88,8 @@ git clone https://github.com/coralproject/talk.git
 cd talk
 
 # Install dependencies.
-sh npm-ci.sh
-sh generate.sh
+sh scripts/npm-ci.sh
+sh scripts/generate.sh
 
 # Build the application dependencies, this may take some time.
 sh build.sh

@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+cd "$(dirname "$0")"
+cd ..
+
 echo "linting \`client\`"
 
 cd client

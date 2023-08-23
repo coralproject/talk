@@ -1,3 +1,6 @@
+cd "$(dirname "$0")"
+cd ..
+
 echo "clearing \`client/dist/\`..."
 rm -r client/dist
 

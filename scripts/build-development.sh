@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+cd "$(dirname "$0")"
+cd ..
+
 echo "generating schema types for client, common"
 
 cd server
@@ -17,7 +20,11 @@ cd common
 npm run build
 cd ..
 
-echo "running \`npm run generate\` for \`client\`"
+echo "running \`npm run build\` for \`client\`"
 cd client
-npm run generate
+npm run build:development
 cd ..
+
+echo "running \`npm run build\` for \`server\`"
+cd server
+npm run build:development

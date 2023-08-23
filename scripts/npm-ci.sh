@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+cd "$(dirname "$0")"
+cd ..
+
 echo "installing git hooks"
 
 cd scripts

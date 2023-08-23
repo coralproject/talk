@@ -17,7 +17,7 @@ git clone https://github.com/coralproject/talk.git
 cd talk
 
 # Install dependencies.
-npm install
+sh scripts/npm-i.sh
 ```
 
 Running Coral with default settings assumes that you have:
@@ -42,9 +42,6 @@ sh initialize.sh
 Then inside the `client/` folder run:
 
 ```bash
-# Run the server in development mode in order to facilitate auto-restarting and
-# rebuilding when file changes are detected. This might take a while to fully
-# run.
 npm run watch
 ```
 
@@ -65,7 +62,7 @@ To run linting and tests use the following commands:
 
 ```bash
 # Run the linters.
-sh lint.sh
+sh scripts/lint.sh
 
 # Inside client, server you can run our unit and integration tests
 npm run test
