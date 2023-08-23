@@ -919,16 +919,15 @@ it("enables filtering sites by text search", async () => {
 
   userEvent.click(siteSelector);
 
-  await waitFor(() =>
-    expect(within(siteSelector).getByLabelText("Filter results")).toBeVisible()
-  );
+  expect(
+    await within(siteSelector).findByLabelText("Filter results")
+  ).toBeVisible();
 
   const dropDown = screen.getByRole("dialog");
   expect(dropDown).toBeVisible();
 
   const textInput = await within(siteSelector).findByLabelText(
-    "Filter results",
-    { exact: false }
+    "Filter results"
   );
   expect(textInput).toHaveFocus();
 
