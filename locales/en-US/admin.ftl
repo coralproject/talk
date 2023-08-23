@@ -42,7 +42,7 @@ comments-reacted =
 
 ## components
 admin-paginatedSelect-filter =
-  .aria-label = Filter Results
+  .aria-label = Filter results
 
 ## User Statuses
 userStatus-active = Active

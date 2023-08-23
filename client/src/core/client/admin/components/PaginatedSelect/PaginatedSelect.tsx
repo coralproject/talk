@@ -24,8 +24,8 @@ import {
   Popover,
   Spinner,
 } from "coral-ui/components/v2";
-
 import { TextArea } from "coral-ui/components/v3";
+
 import styles from "./PaginatedSelect.css";
 
 interface Props {
@@ -55,7 +55,8 @@ const PaginatedSelect: FunctionComponent<Props> = ({
 }) => {
   const filterRef = useRef<HTMLTextAreaElement>(null);
 
-  const [isPopoverVisible, setIsPopoverVisible] = useToggleState(false);
+  const [isPopoverVisible, setIsPopoverVisible, togglePopoverVisible] =
+    useToggleState(false);
 
   useEffect(() => {
     if (isPopoverVisible && filterRef.current) {
@@ -68,7 +69,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
       return;
     }
     setIsPopoverVisible(false);
-  }, [onFilter]);
+  }, [onFilter, setIsPopoverVisible]);
 
   return (
     <ClickOutside onClickOutside={() => setIsPopoverVisible(false)}>
@@ -77,7 +78,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
         placement="bottom-end"
         modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
         visible={isPopoverVisible}
-        body={() => (
+        body={
           <IntersectionProvider>
             <Dropdown className={styles.dropdown}>
               {children}
@@ -96,7 +97,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
               )}
             </Dropdown>
           </IntersectionProvider>
-        )}
+        }
       >
         {({ ref }) => (
           <Flex
@@ -112,7 +113,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
             {isPopoverVisible && !!onFilter ? (
               <Localized
                 id="admin-paginatedSelect-filter"
-                attrs={{ "aria-roledescription": true, "aria-label": true }}
+                attrs={{ "aria-label": true }}
               >
                 <TextArea
                   className={styles.filterInput}
@@ -124,11 +125,6 @@ const PaginatedSelect: FunctionComponent<Props> = ({
             ) : (
               <Flex
                 alignItems="center"
-                className={styles.wrapper}
-                style={{
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
                 aria-roledescription="button"
                 tabIndex={0}
                 onFocus={() => setIsPopoverVisible(true)}
@@ -142,6 +138,10 @@ const PaginatedSelect: FunctionComponent<Props> = ({
                 className={styles.buttonIconRight}
                 Icon={isPopoverVisible ? ArrowsUpIcon : ArrowsDownIcon}
                 size="xs"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  togglePopoverVisible();
+                }}
               />
             }
           </Flex>
