@@ -9,7 +9,7 @@ env:
   IMAGE_REPOSITORY: 'us-east1-docker.pkg.dev/the-coral-project/coral/talk'
   IMAGE_CACHE_REPOSITORY: 'coralproject/ci'
   DOCKERHUB_USERNAME: 'coralproject'
-  COMPOSE_FILE: docker-compose.test.yml
+  COMPOSE_FILE: docker-compose.test.yaml
   COMPOSE_DOCKER_CLI_BUILD: 1
 
 jobs:
