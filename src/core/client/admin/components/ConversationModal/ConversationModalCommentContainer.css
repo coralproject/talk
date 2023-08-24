@@ -2,6 +2,7 @@ $conversationModalHighlightBackground: $colors-teal-100;
 $conversationModalCommentText: var(--palette-text-500);
 .root {
   flex: 1;
+  padding: 0 var(--spacing-2);
 }
 
 .line {
@@ -42,6 +43,7 @@ $conversationModalCommentText: var(--palette-text-500);
 
 .rejectButton {
   height: fit-content;
+  margin-top: var(--spacing-1);
   &:disabled {
     background-color: var(--palette-error-500) !important;
     opacity: 1 !important;
