@@ -43,9 +43,9 @@ jobs:
       -
         name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-      -
-        name: Create a signing secret
-        run: echo "SIGNING_SECRET=`echo ${openssl rand -base64 48}`" >> $GITHUB_ENV
+      # -
+      #   name: Create a signing secret
+      #   run: echo "SIGNING_SECRET=`echo ${openssl rand -base64 48}`" >> $GITHUB_ENV
       # -
       #   name: Setup Node14.x
       #   uses: actions/setup-node@v3
