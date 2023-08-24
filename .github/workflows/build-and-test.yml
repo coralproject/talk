@@ -72,7 +72,7 @@ jobs:
         run: mkdir -p data/{mongo,redis}
       -
         name: Build
-        run: docker compose up -d
+        run: NODE_ENV=development docker compose up -d
       # -
       #   name: npm ci
       #   run: npm ci
