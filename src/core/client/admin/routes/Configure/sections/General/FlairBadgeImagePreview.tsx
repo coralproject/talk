@@ -1,9 +1,15 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
 
+import FlairNotFoundIcon from "coral-ui/components/icons/FlairNotFoundIcon";
+
 import styles from "./FlairBadgeImagePreview.css";
 
 const FlairImageNotFound: FunctionComponent = () => {
-  return <div>NA</div>;
+  return (
+    <div className={styles.notFoundImagePreview}>
+      <FlairNotFoundIcon />
+    </div>
+  );
 };
 
 interface Props {
