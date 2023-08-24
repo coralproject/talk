@@ -911,6 +911,10 @@ configure-advanced-embeddedCommentReplies-explanation = When enabled, a reply bu
   specific comment or story.
 configure-advanced-embeddedCommentReplies-label = Allow replies to embedded comments
 
+configure-advanced-oembedAllowedOrigins-header = oEmbed permitted domains
+configure-advanced-oembedAllowedOrigins-description = Domains that are permitted to make calls to the oEmbed API.
+configure-advanced-oembedAllowedOrigins-label = oEmbed permitted domains
+
 configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =
   Domains where your { -product-name } instance is allowed to be embedded

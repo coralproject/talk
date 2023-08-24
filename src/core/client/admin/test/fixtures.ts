@@ -229,6 +229,7 @@ export const settings = createFixture<GQLSettings>({
     flairBadgesEnabled: false,
     badges: [],
   },
+  oEmbedAllowedOrigins: [],
 });
 
 export const settingsWithMultisite = createFixture<GQLSettings>(

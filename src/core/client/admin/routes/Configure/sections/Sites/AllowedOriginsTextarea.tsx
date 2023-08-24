@@ -12,11 +12,13 @@ import styles from "./AllowedOriginsTextarea.css";
 interface Props {
   name: string;
   defaultValue?: ReadonlyArray<string>;
+  disabled?: boolean;
 }
 
 const AllowedOriginsTextarea: FunctionComponent<Props> = ({
   name,
   defaultValue,
+  disabled = false,
 }) => (
   <Field
     name={name}
@@ -36,6 +38,7 @@ const AllowedOriginsTextarea: FunctionComponent<Props> = ({
           autoCapitalize="off"
           spellCheck={false}
           fullwidth
+          disabled={disabled}
         />
         <ValidationMessage meta={meta} />
       </>

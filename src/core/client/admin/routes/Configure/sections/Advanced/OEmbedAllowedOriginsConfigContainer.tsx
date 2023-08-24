@@ -23,23 +23,25 @@ const OEmbedAllowedOriginsConfigContainer: FunctionComponent<Props> = ({
   disabled,
 }) => (
   <ConfigBox
-    data-testid=""
+    data-testid="oembed-allowed-origins-config"
     title={
-      <Localized id="configure-advanced-">
-        <Header htmlFor="configure-advanced-">oEmbed permitted domains</Header>
+      <Localized id="configure-advanced-oembedAllowedOrigins-header">
+        <Header htmlFor="configure-advanced-oembedAllowedOrigins-header">
+          oEmbed permitted domains
+        </Header>
       </Localized>
     }
   >
     <FormField>
-      <Localized id="configure-advanced-">
+      <Localized id="configure-advanced-oembedAllowedOrigins-description">
         <FormFieldDescription>
           Domains that are permitted to make calls to the oEmbed API.
         </FormFieldDescription>
       </Localized>
-      <Localized id="configure-advanced-">
+      <Localized id="configure-advanced-oembedAllowedOrigins-label">
         <Label>oEmbed permitted domains</Label>
       </Localized>
-      <AllowedOriginsTextarea name="oEmbedAllowedOrigins" />
+      <AllowedOriginsTextarea name="oEmbedAllowedOrigins" disabled={disabled} />
     </FormField>
   </ConfigBox>
 );
