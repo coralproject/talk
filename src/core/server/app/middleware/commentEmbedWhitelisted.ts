@@ -9,7 +9,7 @@ import { AppOptions } from "..";
 import { getRequesterOrigin } from "../helpers";
 
 export const commentEmbedWhitelisted =
-  ({ mongo }: Pick<AppOptions, "mongo">): RequestHandler =>
+  ({ mongo }: Pick<AppOptions, "mongo">, oembedAPI = false): RequestHandler =>
   async (req, res, next) => {
     // First try to get the commentID from the query params
     let { commentID } = req.query;
@@ -37,6 +37,12 @@ export const commentEmbedWhitelisted =
             origin = req.header("Origin");
           }
           if (origin) {
+            // if oEmbed API call, we also check oEmbed allowed origins on tenant
+            if (oembedAPI) {
+              if (tenant.oEmbedAllowedOrigins.includes(origin)) {
+                return next();
+              }
+            }
             if (site.allowedOrigins.includes(origin)) {
               return next();
             }
