@@ -184,7 +184,10 @@ export const createTenantFixture = (
     flattenReplies: false,
     disableDefaultFonts: false,
     emailDomainModeration: [],
-    oEmbedAllowedOrigins: [],
+    embeddedComments: {
+      allowReplies: true,
+      oEmbedAllowedOrigins: [],
+    },
   };
 
   return merge(fixture, defaults);

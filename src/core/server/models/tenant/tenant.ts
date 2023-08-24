@@ -293,12 +293,12 @@ export async function createTenant(
     emailDomainModeration: [],
     embeddedComments: {
       allowReplies: true,
+      oEmbedAllowedOrigins: [],
     },
     flairBadges: {
       flairBadgesEnabled: false,
       badges: [],
     },
-    oEmbedAllowedOrigins: [],
   };
 
   // Create the new Tenant by merging it together with the defaults.

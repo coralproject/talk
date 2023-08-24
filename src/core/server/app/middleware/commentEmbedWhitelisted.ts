@@ -39,7 +39,9 @@ export const commentEmbedWhitelisted =
           if (origin) {
             // if oEmbed API call, we also check oEmbed allowed origins on tenant
             if (oembedAPI) {
-              if (tenant.oEmbedAllowedOrigins.includes(origin)) {
+              if (
+                tenant.embeddedComments?.oEmbedAllowedOrigins.includes(origin)
+              ) {
                 return next();
               }
             }

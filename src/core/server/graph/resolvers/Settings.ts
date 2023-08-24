@@ -54,10 +54,15 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     return deprecated;
   },
   embeddedComments: (
-    { embeddedComments = { allowReplies: true } },
+    { embeddedComments = { allowReplies: true, oEmbedAllowedOrigins: [] } },
     args,
     ctx
-  ) => embeddedComments,
+  ) => {
+    return {
+      allowReplies: embeddedComments.allowReplies ?? true,
+      oEmbedAllowedOrigins: embeddedComments.oEmbedAllowedOrigins ?? [],
+    };
+  },
   flairBadges: ({
     flairBadges = { flairBadgesEnabled: false, badges: [] },
   }) => {
@@ -69,5 +74,4 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     }
     return flairBadges;
   },
-  oEmbedAllowedOrigins: ({ oEmbedAllowedOrigins = [] }) => oEmbedAllowedOrigins,
 };

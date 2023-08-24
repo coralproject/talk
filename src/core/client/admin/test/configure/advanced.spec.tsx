@@ -59,7 +59,7 @@ it("renders configure advanced", async () => {
   const { configureContainer } = await createTestRenderer();
   expect(within(configureContainer).getByLabelText("Custom CSS")).toBeDefined();
   expect(
-    within(configureContainer).getByText("Embedded comment replies")
+    within(configureContainer).getByText("Embedded comments")
   ).toBeDefined();
   expect(
     within(configureContainer).getByText("Comment stream live updates")
@@ -223,7 +223,7 @@ it("change embedded comments allow replies", async () => {
   });
 
   const embeddedCommentReplies = within(advancedContainer).getByTestId(
-    "embedded-comment-replies-config"
+    "embedded-comments-config"
   );
 
   const offField = within(embeddedCommentReplies).getByText("Off");
@@ -246,9 +246,9 @@ it("change oembed permitted domains", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateSettings: ({ variables }) => {
-        expectAndFail(variables.settings.oEmbedAllowedOrigins).toEqual([
-          "http://localhost:8080",
-        ]);
+        expectAndFail(
+          variables.settings.embeddedComments?.oEmbedAllowedOrigins
+        ).toEqual(["http://localhost:8080"]);
         return {
           settings: pureMerge(settings, variables.settings),
         };
@@ -260,7 +260,7 @@ it("change oembed permitted domains", async () => {
   });
 
   const oembedAllowedOriginsConfig = within(advancedContainer).getByTestId(
-    "oembed-allowed-origins-config"
+    "embedded-comments-config"
   );
 
   const allowedOriginsTextArea = within(oembedAllowedOriginsConfig).getByRole(
