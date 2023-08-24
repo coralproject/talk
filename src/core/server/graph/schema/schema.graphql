@@ -1710,7 +1710,6 @@ type BadgeConfiguration {
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
 """
-
 type FlairBadge {
   name: String!
   url: String!
@@ -2222,6 +2221,11 @@ type Settings @cacheControl(maxAge: 30) {
   they are enabled and any configured image urls
   """
   flairBadges: FlairBadgeConfiguration
+
+  """
+  oEmbedAllowedOrigins are the allowed origins for oEmbed API calls.
+  """
+  oEmbedAllowedOrigins: [String!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################
@@ -5802,6 +5806,11 @@ input SettingsInput {
   they are enabled and any configured image urls
   """
   flairBadges: FlairBadgeConfigurationInput
+
+  """
+  oEmbedAllowedOrigins are the allowed origins for oEmbed API calls.
+  """
+  oEmbedAllowedOrigins: [String!]
 }
 
 """

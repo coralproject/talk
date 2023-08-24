@@ -69,4 +69,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     }
     return flairBadges;
   },
+  oEmbedAllowedOrigins: ({ oEmbedAllowedOrigins = [] }) => oEmbedAllowedOrigins,
 };

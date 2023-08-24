@@ -321,6 +321,7 @@ export type Settings = GlobalModerationSettings &
     | "announcement"
     | "memberBios"
     | "embeddedComments"
+    | "oEmbedAllowedOrigins"
   > & {
     /**
      * auth is the set of configured authentication integrations.
