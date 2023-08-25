@@ -12,7 +12,7 @@ import {
   apolloGraphQLMiddleware,
   authenticate,
   commentEmbedWhitelisted,
-  corsWhitelisted,
+  //corsWhitelisted,
   createCommentEmbedCorsOptionsDelegate,
   cspSiteMiddleware,
   JSONErrorHandler,
@@ -63,7 +63,10 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Create the auth router.
   router.use(
     "/auth",
-    corsWhitelisted(app.mongo),
+    cors({
+      origin: "*", // Allow requests from all origins
+    }),
+    //corsWhitelisted(app.mongo),
     createNewAuthRouter(app, options)
   );
   router.use("/account", createNewAccountRouter(app, options));
@@ -72,7 +75,10 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Configure the GraphQL route middleware.
   router.use(
     "/graphql",
-    corsWhitelisted(app.mongo),
+    cors({
+      origin: "*", // Allow requests from all origins
+    }),
+    //corsWhitelisted(app.mongo),
     authenticate(options.passport),
     jsonMiddleware(app.config.get("max_request_size")),
     persistedQueryMiddleware(app)

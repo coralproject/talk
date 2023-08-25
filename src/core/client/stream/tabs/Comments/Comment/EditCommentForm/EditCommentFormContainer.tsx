@@ -32,6 +32,7 @@ interface Props {
   settings: SettingsData;
   story: StoryData;
   onClose?: () => void;
+  origin: string;
 }
 
 function getMediaFromComment(comment: CommentData) {
@@ -71,6 +72,7 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
   settings,
   story,
   onClose,
+  origin,
 }) => {
   const { browserInfo } = useCoralContext();
   const refreshSettingsFetch = useFetch(RefreshSettingsFetch);
@@ -120,7 +122,7 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
       const editSubmitStatus = getSubmitStatus(
         await editComment({
           commentID: comment.id,
-          body: input.body,
+          body: origin === "DELETE" ? "DELETED" : input.body,
           media: input.media,
         })
       );
@@ -158,6 +160,7 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
       />
     );
   }
+
   return (
     <EditCommentForm
       siteID={comment.site.id}
@@ -175,6 +178,7 @@ export const EditCommentFormContainer: FunctionComponent<Props> = ({
       mediaConfig={settings.media}
       min={(settings.charCount.enabled && settings.charCount.min) || null}
       max={(settings.charCount.enabled && settings.charCount.max) || null}
+      origin={origin}
     />
   );
 };

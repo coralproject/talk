@@ -10,6 +10,8 @@ import React, {
   Ref,
   useCallback,
   useState,
+  useEffect,
+  useRef,
 } from "react";
 import { Field, Form } from "react-final-form";
 
@@ -92,6 +94,7 @@ interface FormSubmitProps extends FormProps, FormError {}
 interface Props {
   onSubmit: OnSubmitHandler;
   onChange?: OnChangeHandler;
+  origin?: string;
   initialValues?: FormProps;
   min: number | null;
   max: number | null;
@@ -165,10 +168,12 @@ const CommentForm: FunctionComponent<Props> = ({
   siteID,
   submitStatus,
   topBorder,
-}) => {
+  origin,
+}: any) => {
   const [rteLoaded, setRTELoaded] = useState(false);
   const [mediaWidget, setMediaWidget] = useState<Widget>(null);
   const [pastedMedia, setPastedMedia] = useState<MediaLink | null>(null);
+  const formRef = useRef(initialValues);
 
   const onRTELoad = useCallback(() => {
     setRTELoaded(true);
@@ -178,12 +183,18 @@ const CommentForm: FunctionComponent<Props> = ({
     (values: FormSubmitProps, form: FormApi) => {
       // Unset the media.
       setPastedMedia(null);
-
+      console.log("onFormSubmit", values, form);
       // Submit the form.
       return onSubmit(values, form);
     },
     [onSubmit, setPastedMedia]
   );
+
+  useEffect(() => {
+    if (origin === "DELETE" && formRef.current) {
+      formRef.current.submit(); // Call the submit method on the form element
+    }
+  }, [origin]);
 
   const onBodyChange = useCallback(
     (html: string, values: FormProps, form: FormApi) => {
@@ -268,264 +279,292 @@ const CommentForm: FunctionComponent<Props> = ({
           form,
           pristine,
           values,
-        }) => (
-          <form
-            autoComplete="off"
-            onSubmit={handleSubmit}
-            id="comments-postCommentForm-form"
-          >
-            {mode === "rating" && (
-              <RatingInput disabled={submitting || disabled} />
-            )}
-            <HorizontalGutter>
-              {onChange && (
-                <FormSync onChange={onChange} subscription={subscription} />
-              )}
-              <div>
-                {bodyLabel}
+        }) => {
+          formRef.current = form;
+          return (
+            <form
+              autoComplete="off"
+              onSubmit={handleSubmit}
+              id="comments-postCommentForm-form"
+            >
+              {
                 <div
-                  className={cn(
-                    styles.commentFormBox,
-                    {
-                      [styles.noTopBorder]: !topBorder,
-                    },
-                    CLASSES.commentForm
-                  )}
+                  style={
+                    origin === "DELETE"
+                      ? { visibility: "hidden", height: "10px" }
+                      : {}
+                  }
                 >
-                  <Field
-                    name="body"
-                    validate={getCommentBodyValidators(min, max)}
-                  >
-                    {({ input }) => (
-                      <Localized
-                        id={placeHolderId}
-                        attrs={{ placeholder: true }}
+                  {mode === "rating" && (
+                    <RatingInput disabled={submitting || disabled} />
+                  )}
+                  <HorizontalGutter>
+                    {onChange && (
+                      <FormSync
+                        onChange={onChange}
+                        subscription={subscription}
+                      />
+                    )}
+                    <div>
+                      {bodyLabel}
+                      <div
+                        className={cn(
+                          styles.commentFormBox,
+                          {
+                            [styles.noTopBorder]: !topBorder,
+                          },
+                          CLASSES.commentForm
+                        )}
                       >
-                        <RTEContainer
-                          inputID={bodyInputID}
-                          config={rteConfig}
-                          onFocus={onFocus}
-                          onLoad={onRTELoad}
-                          onWillPaste={(event) => {
-                            if (
-                              !(
-                                (values as FormProps).media &&
-                                (values as FormProps).media?.url
-                              )
-                            ) {
-                              onPaste(event);
-                            }
-                          }}
-                          onChange={(html: string) => {
-                            input.onChange(html);
-                            onBodyChange(html, values as FormProps, form);
-                          }}
-                          onKeyPress={async (
-                            event: React.KeyboardEvent<Element>
-                          ) => {
-                            if (
-                              event.ctrlKey &&
-                              (event.key === "Enter" || event.keyCode === 13)
-                            ) {
-                              await onFormSubmit(values as any, form);
-                            }
-                          }}
-                          value={input.value}
-                          placeholder={placeholder}
-                          disabled={submitting || disabled}
-                          ref={rteRef || null}
-                          toolbarButtons={
-                            <>
-                              {mediaConfig && mediaConfig.external.enabled ? (
-                                <RTELocalized
-                                  key="image"
-                                  id="comments-rte-externalImage"
-                                  attrs={{ title: true }}
-                                >
-                                  <RTEButton
-                                    disabled={
-                                      !!pastedMedia ||
-                                      !!(
-                                        (values as FormProps).media &&
-                                        (values as FormProps).media?.url
-                                      )
-                                    }
-                                    aria-pressed={showExternalImageInput}
-                                    onClick={toggleExternalImageInput}
-                                  >
-                                    <SvgIcon
-                                      Icon={ImageFileAddIcon}
-                                      size="md"
-                                    />
-                                  </RTEButton>
-                                </RTELocalized>
-                              ) : null}
-                              {mediaConfig && mediaConfig.giphy.enabled ? (
-                                <RTEButton
-                                  key="gif"
-                                  disabled={
-                                    !!pastedMedia ||
-                                    !!(
+                        <Field
+                          name="body"
+                          validate={getCommentBodyValidators(min, max)}
+                        >
+                          {({ input }) => (
+                            <Localized
+                              id={placeHolderId}
+                              attrs={{ placeholder: true }}
+                            >
+                              <RTEContainer
+                                inputID={bodyInputID}
+                                config={rteConfig}
+                                onFocus={onFocus}
+                                onLoad={onRTELoad}
+                                onWillPaste={(event) => {
+                                  if (
+                                    !(
                                       (values as FormProps).media &&
                                       (values as FormProps).media?.url
                                     )
+                                  ) {
+                                    onPaste(event);
                                   }
-                                  aria-pressed={showGifSelector}
-                                  onClick={toggleGIFSelector}
-                                >
-                                  <Flex alignItems="center" container="span">
-                                    <SvgIcon
-                                      className={styles.icon}
-                                      size="xs"
-                                      Icon={AddIcon}
-                                    />
-                                    GIF
-                                  </Flex>
-                                </RTEButton>
-                              ) : null}
-                            </>
-                          }
+                                }}
+                                onChange={(html: string) => {
+                                  input.onChange(html);
+                                  onBodyChange(html, values as FormProps, form);
+                                }}
+                                onKeyPress={async (
+                                  event: React.KeyboardEvent<Element>
+                                ) => {
+                                  if (
+                                    event.ctrlKey &&
+                                    (event.key === "Enter" ||
+                                      event.keyCode === 13)
+                                  ) {
+                                    await onFormSubmit(values as any, form);
+                                  }
+                                }}
+                                value={input.value}
+                                placeholder={placeholder}
+                                disabled={submitting || disabled}
+                                ref={rteRef || null}
+                                toolbarButtons={
+                                  <>
+                                    {mediaConfig &&
+                                    mediaConfig.external.enabled ? (
+                                      <RTELocalized
+                                        key="image"
+                                        id="comments-rte-externalImage"
+                                        attrs={{ title: true }}
+                                      >
+                                        <RTEButton
+                                          disabled={
+                                            !!pastedMedia ||
+                                            !!(
+                                              (values as FormProps).media &&
+                                              (values as FormProps).media?.url
+                                            )
+                                          }
+                                          aria-pressed={showExternalImageInput}
+                                          onClick={toggleExternalImageInput}
+                                        >
+                                          <SvgIcon
+                                            Icon={ImageFileAddIcon}
+                                            size="md"
+                                          />
+                                        </RTEButton>
+                                      </RTELocalized>
+                                    ) : null}
+                                    {mediaConfig &&
+                                    mediaConfig.giphy.enabled ? (
+                                      <RTEButton
+                                        key="gif"
+                                        disabled={
+                                          !!pastedMedia ||
+                                          !!(
+                                            (values as FormProps).media &&
+                                            (values as FormProps).media?.url
+                                          )
+                                        }
+                                        aria-pressed={showGifSelector}
+                                        onClick={toggleGIFSelector}
+                                      >
+                                        <Flex
+                                          alignItems="center"
+                                          container="span"
+                                        >
+                                          <SvgIcon
+                                            className={styles.icon}
+                                            size="xs"
+                                            Icon={AddIcon}
+                                          />
+                                          GIF
+                                        </Flex>
+                                      </RTEButton>
+                                    ) : null}
+                                  </>
+                                }
+                              />
+                            </Localized>
+                          )}
+                        </Field>
+                        <MediaField
+                          widget={mediaWidget}
+                          setWidget={setMediaWidget}
+                          pastedMedia={pastedMedia}
+                          setPastedMedia={setPastedMedia}
+                          siteID={siteID}
+                          giphyConfig={mediaConfig.giphy}
                         />
-                      </Localized>
+                      </div>
+                    </div>
+                    {!expired && editableUntil && (
+                      <Message
+                        className={CLASSES.editComment.remainingTime}
+                        fullWidth
+                      >
+                        <MessageIcon Icon={AlarmClockIcon} />
+                        <Localized
+                          id="comments-editCommentForm-editRemainingTime"
+                          elems={{
+                            time: <RelativeTime date={editableUntil} live />,
+                          }}
+                        >
+                          <span>{"Edit: <time></time> remaining"}</span>
+                        </Localized>
+                      </Message>
                     )}
-                  </Field>
-                  <MediaField
-                    widget={mediaWidget}
-                    setWidget={setMediaWidget}
-                    pastedMedia={pastedMedia}
-                    setPastedMedia={setPastedMedia}
-                    siteID={siteID}
-                    giphyConfig={mediaConfig.giphy}
-                  />
-                </div>
-              </div>
-              {!expired && editableUntil && (
-                <Message
-                  className={CLASSES.editComment.remainingTime}
-                  fullWidth
-                >
-                  <MessageIcon Icon={AlarmClockIcon} />
-                  <Localized
-                    id="comments-editCommentForm-editRemainingTime"
-                    elems={{ time: <RelativeTime date={editableUntil} live /> }}
-                  >
-                    <span>{"Edit: <time></time> remaining"}</span>
-                  </Localized>
-                </Message>
-              )}
-              {disabled ? (
-                <>
-                  {disabledMessage && (
-                    <CallOut
-                      className={CLASSES.editComment.expiredTime}
-                      color="error"
-                      title={disabledMessage}
-                      titleWeight="semiBold"
-                      icon={<SvgIcon Icon={AlertCircleIcon} />}
-                      role="alert"
-                    />
-                  )}
-                </>
-              ) : (
-                <Field
-                  name="body"
-                  subscription={{
-                    touched: true,
-                    error: true,
-                    submitError: true,
-                    value: true,
-                    dirtySinceLastSubmit: true,
-                  }}
-                >
-                  {({
-                    input: { value },
-                    meta: {
-                      touched,
-                      error,
-                      submitError: localSubmitError,
-                      dirtySinceLastSubmit,
-                    },
-                  }) => (
-                    <>
-                      {touched &&
-                        (error ||
-                          (localSubmitError && !dirtySinceLastSubmit)) && (
+                    {disabled ? (
+                      <>
+                        {disabledMessage && (
                           <CallOut
+                            className={CLASSES.editComment.expiredTime}
                             color="error"
-                            title={error || localSubmitError}
+                            title={disabledMessage}
                             titleWeight="semiBold"
                             icon={<SvgIcon Icon={AlertCircleIcon} />}
                             role="alert"
                           />
                         )}
-                      {max && (
-                        <RemainingCharactersContainer value={value} max={max} />
-                      )}
-                    </>
-                  )}
-                </Field>
-              )}
-              {/* Only show the submit error when the stream hasn't been disabled */}
-              {!disabled && submitError && (
-                <CallOut
-                  color="error"
-                  title={submitError}
-                  titleWeight="semiBold"
-                  icon={<SvgIcon Icon={AlertCircleIcon} />}
-                  role="alert"
-                />
-              )}
-              <Flex justifyContent="flex-end" spacing={1}>
-                <MatchMedia ltWidth="sm">
-                  {(matches) => (
-                    <>
-                      {onCancel && (
-                        <Localized id="comments-commentForm-cancel">
-                          <Button
-                            color="secondary"
-                            variant="outlined"
-                            disabled={submitting}
-                            onClick={onCancel}
-                            fullWidth={matches}
-                            className={CLASSES[classNameRoot].cancel}
-                            upperCase
-                          >
-                            Cancel
-                          </Button>
-                        </Localized>
-                      )}
-                      <Localized
-                        id={
-                          editableUntil
-                            ? "comments-commentForm-saveChanges"
-                            : "comments-commentForm-submit"
-                        }
+                      </>
+                    ) : (
+                      <Field
+                        name="body"
+                        subscription={{
+                          touched: true,
+                          error: true,
+                          submitError: true,
+                          value: true,
+                          dirtySinceLastSubmit: true,
+                        }}
                       >
-                        <Button
-                          color="primary"
-                          variant="filled"
-                          disabled={
-                            hasValidationErrors ||
-                            submitting ||
-                            disabled ||
-                            (!!editableUntil && pristine)
-                          }
-                          type="submit"
-                          fullWidth={matches}
-                          className={CLASSES[classNameRoot].submit}
-                          upperCase
-                        >
-                          {editableUntil ? "Save changes" : "Submit"}
-                        </Button>
-                      </Localized>
-                    </>
-                  )}
-                </MatchMedia>
-              </Flex>
-              {submitStatus}
-            </HorizontalGutter>
-          </form>
-        )}
+                        {({
+                          input: { value },
+                          meta: {
+                            touched,
+                            error,
+                            submitError: localSubmitError,
+                            dirtySinceLastSubmit,
+                          },
+                        }) => (
+                          <>
+                            {touched &&
+                              (error ||
+                                (localSubmitError &&
+                                  !dirtySinceLastSubmit)) && (
+                                <CallOut
+                                  color="error"
+                                  title={error || localSubmitError}
+                                  titleWeight="semiBold"
+                                  icon={<SvgIcon Icon={AlertCircleIcon} />}
+                                  role="alert"
+                                />
+                              )}
+                            {max && (
+                              <RemainingCharactersContainer
+                                value={value}
+                                max={max}
+                              />
+                            )}
+                          </>
+                        )}
+                      </Field>
+                    )}
+                    {/* Only show the submit error when the stream hasn't been disabled */}
+                    {!disabled && submitError && (
+                      <CallOut
+                        color="error"
+                        title={submitError}
+                        titleWeight="semiBold"
+                        icon={<SvgIcon Icon={AlertCircleIcon} />}
+                        role="alert"
+                      />
+                    )}
+                    <Flex justifyContent="flex-end" spacing={1}>
+                      <MatchMedia ltWidth="sm">
+                        {(matches) => (
+                          <>
+                            {onCancel && (
+                              <Localized id="comments-commentForm-cancel">
+                                <Button
+                                  color="secondary"
+                                  variant="outlined"
+                                  disabled={submitting}
+                                  onClick={onCancel}
+                                  fullWidth={matches}
+                                  className={CLASSES[classNameRoot].cancel}
+                                  upperCase
+                                >
+                                  Cancel
+                                </Button>
+                              </Localized>
+                            )}
+                            <Localized
+                              id={
+                                editableUntil
+                                  ? "comments-commentForm-saveChanges"
+                                  : "comments-commentForm-submit"
+                              }
+                            >
+                              <Button
+                                color="primary"
+                                variant="filled"
+                                disabled={
+                                  hasValidationErrors ||
+                                  submitting ||
+                                  disabled ||
+                                  (!!editableUntil && pristine)
+                                }
+                                type="submit"
+                                fullWidth={matches}
+                                className={CLASSES[classNameRoot].submit}
+                                upperCase
+                              >
+                                {editableUntil ? "Save changes" : "Submit"}
+                              </Button>
+                            </Localized>
+                          </>
+                        )}
+                      </MatchMedia>
+                    </Flex>
+                    {submitStatus}
+                  </HorizontalGutter>
+                </div>
+              }
+            </form>
+          );
+        }}
       </Form>
     </div>
   );

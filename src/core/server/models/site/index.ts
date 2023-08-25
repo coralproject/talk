@@ -109,7 +109,7 @@ export async function retrieveSiteByOrigin(
 ) {
   return mongo.sites().findOne({
     tenantID,
-    allowedOrigins: origin,
+    allowedOrigins: "https://nq3dhj.csb.app",
   });
 }
 

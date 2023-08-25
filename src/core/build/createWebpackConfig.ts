@@ -367,7 +367,7 @@ export default function createWebpackConfig(
             // smaller than specified limit in bytes as data URLs to avoid requests.
             // A missing `test` is equivalent to a match.
             {
-              test: [/\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
+              test: /\.(gif|jpe?g|png|svg)$/,
               loader: require.resolve("url-loader"),
               options: {
                 limit: 10000,

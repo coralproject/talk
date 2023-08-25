@@ -321,7 +321,9 @@ export async function mountClientRoutes(
     "/embed/bootstrap",
     // Need cors here because we use an XMLHttpRequest to fetch this resource from
     // the embed.
-    cors(),
+    cors({
+      origin: "*", // Allow requests from all origins
+    }),
     createEmbedBootstrapHandler(
       options.defaultLocale,
       manifestLoader,

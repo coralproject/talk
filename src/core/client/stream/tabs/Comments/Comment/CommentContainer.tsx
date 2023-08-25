@@ -37,7 +37,7 @@ import {
   ViewConversationEvent,
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { PencilIcon, SvgIcon } from "coral-ui/components/icons";
+import { DeleteIcon, PencilIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Flex,
@@ -57,7 +57,7 @@ import { useCommentSeenEnabled } from "../commentSeen";
 import { isPublished } from "../helpers";
 import AnsweredTag from "./AnsweredTag";
 import { ArchivedReportFlowContainer } from "./ArchivedReportFlow";
-import AuthorBadgesContainer from "./AuthorBadgesContainer";
+import AuthorBadges from "./AuthorBadges";
 import ButtonsBar from "./ButtonsBar";
 import computeCommentElementID from "./computeCommentElementID";
 import EditCommentFormContainer from "./EditCommentForm";
@@ -179,6 +179,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
   const [showReplyDialog, setShowReplyDialog] = useState(false);
   const [showEditDialog, setShowEditDialog, toggleShowEditDialog] =
     useToggleState(false);
+  const [showDeleteDialog, setShowDeleteDialog, toggleShowDeleteDialog] =
+    useToggleState(false);
   const [showReportFlow, , toggleShowReportFlow] = useToggleState(false);
   const handleShowConversation = useCallback(
     (e: MouseEvent) => {
@@ -209,16 +211,23 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   const isLoggedIn = !!viewer;
 
-  const openEditDialog = useCallback(() => {
-    if (isLoggedIn) {
-      ShowEditFormEvent.emit(eventEmitter, {
-        commentID: comment.id,
-      });
-      setShowEditDialog(true);
-    } else {
-      void showAuthPopup({ view: "SIGN_IN" });
-    }
-  }, [isLoggedIn, eventEmitter, comment.id, setShowEditDialog, showAuthPopup]);
+  const openEditDialog = useCallback(
+    (defaultValue: string) => {
+      if (isLoggedIn) {
+        ShowEditFormEvent.emit(eventEmitter, {
+          commentID: comment.id,
+        });
+        if (defaultValue === "DELETED") {
+          setShowDeleteDialog(true);
+        } else {
+          setShowEditDialog(true);
+        }
+      } else {
+        void showAuthPopup({ view: "SIGN_IN" });
+      }
+    },
+    [isLoggedIn, eventEmitter, comment.id, setShowEditDialog, showAuthPopup]
+  );
 
   const toggleShowReplyDialog = useCallback(() => {
     if (isLoggedIn) {
@@ -342,7 +351,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
     indentLevel === 1 &&
     !!showRemoveAnswered;
 
-  const showAvatar = settings.featureFlags.includes(GQLFEATURE_FLAG.AVATARS);
+  //const showAvatar = settings.featureFlags.includes(GQLFEATURE_FLAG.AVATARS);
 
   // When we're in Q&A and we are not un-answered (answered) and we're a top
   // level comment (no parent), then we are an answered question.
@@ -375,6 +384,21 @@ export const CommentContainer: FunctionComponent<Props> = ({
           comment={comment}
           story={story}
           onClose={toggleShowEditDialog}
+          origin={"EDIT"}
+        />
+      </div>
+    );
+  }
+
+  if (showDeleteDialog) {
+    return (
+      <div data-testid={`comment-${comment.id}`}>
+        <EditCommentFormContainer
+          settings={settings}
+          comment={comment}
+          story={story}
+          onClose={toggleShowDeleteDialog}
+          origin={"DELETE"}
         />
       </div>
     );
@@ -421,6 +445,33 @@ export const CommentContainer: FunctionComponent<Props> = ({
     comment.lastViewerAction !== "CREATE" &&
     comment.lastViewerAction !== "EDIT";
 
+  //   if(false){
+  //     return (<div
+  //       style={{
+  //         border: '2px solid #ab6215',
+  //         borderRadius: '5px',
+  //         padding: '12px',
+  //         backgroundColor: '#fcf5ed',
+  //         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  //         fontFamily: 'Helvetica Neue, sans-serif',
+  //         textAlign: 'center',
+  //         margin: '0 auto',
+  //       }}
+  //     >
+  //       <p
+  //         style={{
+  //           margin: '0',
+  //           textAlign: 'left',
+  //           fontSize: '16px',
+  //           fontWeight: '550',
+  //         }}
+  //       >
+  //         - {comment.author.username}
+  //       </p>
+  //       <p style={{ margin: '0', fontSize: '14px' }}>THIS MESSAGE WAS DELETED</p>
+  //     </div>)
+  //  }
+  //   else{
   return (
     <div
       className={cn(
@@ -507,6 +558,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
         <IndentedComment
           id={comment.id}
           showCommentID={!!showCommentIDs}
+          origin={comment.body === "DELETED" ? "DELETE" : "EDIT"}
           enableJumpToParent={enableJumpToParent}
           classNameIndented={cn(styles.indentedCommentRoot, {
             [styles.indented]: indentLevel && indentLevel > 0,
@@ -526,7 +578,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
           rating={isRatingsAndReviews ? comment.rating : null}
           createdAt={comment.createdAt}
           blur={!!comment.pending}
-          showEditedMarker={comment.editing.edited}
+          showEditedMarker={
+            comment.body === "DELETED" ? false : comment.editing.edited
+          }
           highlight={highlight}
           toggleCollapsed={toggleCollapsed}
           parent={comment.parent}
@@ -547,10 +601,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
                   settings={settings}
                 />
                 {badges && (
-                  <AuthorBadgesContainer
+                  <AuthorBadges
                     className={CLASSES.comment.topBar.userBadge}
                     badges={badges}
-                    settings={settings}
                   />
                 )}
               </Flex>
@@ -584,10 +637,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
           badges={
             comment.author &&
             badges && (
-              <AuthorBadgesContainer
+              <AuthorBadges
                 className={CLASSES.comment.topBar.userBadge}
                 badges={badges}
-                settings={settings}
               />
             )
           }
@@ -603,29 +655,51 @@ export const CommentContainer: FunctionComponent<Props> = ({
                       itemGutter
                     >
                       {matches ? commentTags : null}
-                      {editable && (
-                        <Button
-                          color="stream"
-                          variant="text"
-                          onClick={openEditDialog}
-                          className={cn(
-                            CLASSES.comment.topBar.editButton,
-                            styles.editButton
-                          )}
-                          data-testid="comment-edit-button"
-                        >
-                          <Flex alignItems="center" justifyContent="center">
-                            <SvgIcon
-                              Icon={PencilIcon}
-                              className={styles.editIcon}
-                            />
-                            <Localized id="comments-commentContainer-editButton">
-                              Edit
-                            </Localized>
-                          </Flex>
-                        </Button>
+                      {editable && comment.body !== "DELETED" && (
+                        <>
+                          <Button
+                            color="stream"
+                            variant="text"
+                            onClick={() => openEditDialog("EDIT")}
+                            className={cn(
+                              CLASSES.comment.topBar.editButton,
+                              styles.editButton
+                            )}
+                            data-testid="comment-edit-button"
+                          >
+                            <Flex alignItems="center" justifyContent="center">
+                              <SvgIcon
+                                Icon={PencilIcon}
+                                className={styles.editIcon}
+                              />
+                              <Localized id="comments-commentContainer-editButton">
+                                Edit
+                              </Localized>
+                            </Flex>
+                          </Button>
+                          <Button
+                            color="stream"
+                            variant="text"
+                            onClick={() => openEditDialog("DELETED")}
+                            className={cn(
+                              CLASSES.comment.topBar.editButton,
+                              styles.editButton
+                            )}
+                            data-testid="comment-delete-button"
+                          >
+                            <Flex alignItems="center" justifyContent="center">
+                              <SvgIcon
+                                Icon={DeleteIcon}
+                                className={styles.editIcon}
+                              />
+                              <Localized id="comments-commentContainer-deleteButton">
+                                Delete
+                              </Localized>
+                            </Flex>
+                          </Button>
+                        </>
                       )}
-                      {showAvatar && comment.author?.avatar && (
+                      {comment.author?.avatar && (
                         <div
                           className={cn(
                             styles.avatarContainer,
@@ -672,89 +746,91 @@ export const CommentContainer: FunctionComponent<Props> = ({
             />
           }
           footer={
-            <>
-              <Flex
-                justifyContent="space-between"
-                className={CLASSES.comment.actionBar.$root}
-              >
-                <ButtonsBar className={styles.actionBar}>
-                  <ReactionButtonContainer
-                    comment={comment}
-                    settings={settings}
-                    viewer={viewer}
-                    readOnly={
-                      isViewerBanned ||
-                      isViewerSuspended ||
-                      isViewerWarned ||
-                      story.isArchived ||
-                      story.isArchiving
-                    }
-                    className={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.reactButton
-                    )}
-                    reactedClassName={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.reactedButton
-                    )}
-                    isQA={story.settings.mode === GQLSTORY_MODE.QA}
+            comment.body === "DELETED" ? null : (
+              <>
+                <Flex
+                  justifyContent="space-between"
+                  className={CLASSES.comment.actionBar.$root}
+                >
+                  <ButtonsBar className={styles.actionBar}>
+                    <ReactionButtonContainer
+                      comment={comment}
+                      settings={settings}
+                      viewer={viewer}
+                      readOnly={
+                        isViewerBanned ||
+                        isViewerSuspended ||
+                        isViewerWarned ||
+                        story.isArchived ||
+                        story.isArchiving
+                      }
+                      className={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.reactButton
+                      )}
+                      reactedClassName={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.reactedButton
+                      )}
+                      isQA={story.settings.mode === GQLSTORY_MODE.QA}
+                    />
+                    {!disableReplies &&
+                      !isViewerBanned &&
+                      !isViewerSuspended &&
+                      !isViewerWarned &&
+                      !isViewerScheduledForDeletion && (
+                        <ReplyButton
+                          id={`comments-commentContainer-replyButton-${comment.id}`}
+                          author={comment.author?.username}
+                          onClick={toggleShowReplyDialog}
+                          active={showReplyDialog}
+                          disabled={
+                            !comment.canReply ||
+                            settings.disableCommenting.enabled ||
+                            story.isClosed ||
+                            story.isArchived ||
+                            story.isArchiving
+                          }
+                          className={cn(
+                            styles.actionButton,
+                            CLASSES.comment.actionBar.replyButton
+                          )}
+                        />
+                      )}
+                    <PermalinkButtonContainer
+                      story={story}
+                      commentID={comment.id}
+                      author={comment.author?.username}
+                      className={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.shareButton
+                      )}
+                    />
+                  </ButtonsBar>
+                  <ButtonsBar>
+                    {!isViewerBanned &&
+                      !isViewerSuspended &&
+                      !isViewerWarned &&
+                      !hideReportButton && (
+                        <ReportButton
+                          onClick={toggleShowReportFlow}
+                          open={showReportFlow}
+                          viewer={viewer}
+                          comment={comment}
+                        />
+                      )}
+                  </ButtonsBar>
+                </Flex>
+                {showConversationLink && (
+                  <ShowConversationLink
+                    className={CLASSES.comment.readMoreOfConversation}
+                    id={`comments-commentContainer-showConversation-${comment.id}`}
+                    onClick={handleShowConversation}
+                    href={getURLWithCommentID(story.url, comment.id)}
                   />
-                  {!disableReplies &&
-                    !isViewerBanned &&
-                    !isViewerSuspended &&
-                    !isViewerWarned &&
-                    !isViewerScheduledForDeletion && (
-                      <ReplyButton
-                        id={`comments-commentContainer-replyButton-${comment.id}`}
-                        author={comment.author?.username}
-                        onClick={toggleShowReplyDialog}
-                        active={showReplyDialog}
-                        disabled={
-                          !comment.canReply ||
-                          settings.disableCommenting.enabled ||
-                          story.isClosed ||
-                          story.isArchived ||
-                          story.isArchiving
-                        }
-                        className={cn(
-                          styles.actionButton,
-                          CLASSES.comment.actionBar.replyButton
-                        )}
-                      />
-                    )}
-                  <PermalinkButtonContainer
-                    story={story}
-                    commentID={comment.id}
-                    author={comment.author?.username}
-                    className={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.shareButton
-                    )}
-                  />
-                </ButtonsBar>
-                <ButtonsBar>
-                  {!isViewerBanned &&
-                    !isViewerSuspended &&
-                    !isViewerWarned &&
-                    !hideReportButton && (
-                      <ReportButton
-                        onClick={toggleShowReportFlow}
-                        open={showReportFlow}
-                        viewer={viewer}
-                        comment={comment}
-                      />
-                    )}
-                </ButtonsBar>
-              </Flex>
-              {showConversationLink && (
-                <ShowConversationLink
-                  className={CLASSES.comment.readMoreOfConversation}
-                  id={`comments-commentContainer-showConversation-${comment.id}`}
-                  onClick={handleShowConversation}
-                  href={getURLWithCommentID(story.url, comment.id)}
-                />
-              )}
-            </>
+                )}
+              </>
+            )
           }
         />
         {showReportFlow && !story.isArchived && !story.isArchiving && (
@@ -788,6 +864,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
       </HorizontalGutter>
     </div>
   );
+  // }
 };
 
 const enhanced = withShowAuthPopupMutation(
@@ -912,7 +989,6 @@ const enhanced = withShowAuthPopupMutation(
         ...UsernameWithPopoverContainer_settings
         ...UserTagsContainer_settings
         ...ArchivedReportFlowContainer_settings
-        ...AuthorBadgesContainer_settings
       }
     `,
   })(CommentContainer)

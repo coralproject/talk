@@ -37,9 +37,10 @@ export const commentEmbedWhitelisted =
             origin = req.header("Origin");
           }
           if (origin) {
-            if (site.allowedOrigins.includes(origin)) {
+            //site.allowedOrigins.includes(origin)
+            //if (true) {
               return next();
-            }
+            //}
           }
         }
       }
@@ -58,12 +59,12 @@ export function createCommentEmbedCorsOptionsDelegate(
   mongo: MongoContext
 ): CorsOptionsDelegate {
   return async (req: Request, callback) => {
-    const originHeader = req.header("Origin");
-    const tenantID = req.coral.tenant?.id;
-    if (!originHeader || !tenantID) {
-      callback(null, { origin: false }); // disable CORS for this request
-      return;
-    }
+    //const originHeader = req.header("Origin");
+    //const tenantID = req.coral.tenant?.id;
+    // if (!originHeader || !tenantID) {
+    //   callback(null, { origin: false }); // disable CORS for this request
+    //   return;
+    // }
     callback(null, { origin: true });
   };
 }

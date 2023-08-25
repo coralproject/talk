@@ -1,6 +1,6 @@
 import { isNull, omitBy } from "lodash";
 
-import { ERROR_CODES } from "coral-common/errors";
+//import { ERROR_CODES } from "coral-common/errors";
 import {
   DataCachingNotAvailableError,
   StoryNotFoundError,
@@ -63,20 +63,20 @@ export const Stories = (ctx: GraphContext) => ({
         ctx.now
       ),
       {
-        "input.story.url": [
-          ERROR_CODES.STORY_URL_NOT_PERMITTED,
-          ERROR_CODES.DUPLICATE_STORY_URL,
-        ],
+        // "input.story.url": [
+        //   ERROR_CODES.STORY_URL_NOT_PERMITTED,
+        //   ERROR_CODES.DUPLICATE_STORY_URL,
+        // ],
       }
     ),
   update: async (input: GQLUpdateStoryInput): Promise<Readonly<Story> | null> =>
     mapFieldsetToErrorCodes(
       update(ctx.mongo, ctx.tenant, input.id, input.story, ctx.now),
       {
-        "input.story.url": [
-          ERROR_CODES.STORY_URL_NOT_PERMITTED,
-          ERROR_CODES.DUPLICATE_STORY_URL,
-        ],
+        // "input.story.url": [
+        //   ERROR_CODES.STORY_URL_NOT_PERMITTED,
+        //   ERROR_CODES.DUPLICATE_STORY_URL,
+        // ],
       }
     ),
   updateSettings: async (
