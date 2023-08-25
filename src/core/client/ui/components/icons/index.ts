@@ -77,3 +77,4 @@ export { default as TradingConversationIcon } from "./TradingConversationIcon";
 export { default as VideoPlayerIcon } from "./VideoPlayerIcon";
 export { default as ViewIcon } from "./ViewIcon";
 export { default as ViewOffIcon } from "./ViewOffIcon";
+export { default as ImageFileWarningIcon } from "./ImageFileWarningIcon";

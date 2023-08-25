@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { SvgIcon } from "coral-ui/components/icons";
-import FlairNotFoundIcon from "coral-ui/components/icons/FlairNotFoundIcon";
+import ImageFileWarningIcon from "coral-ui/components/icons/ImageFileWarningIcon";
 
 import styles from "./FlairBadgeImagePreview.css";
 
@@ -20,7 +20,7 @@ export const FlairBadgeImagePreview: FunctionComponent<Props> = ({
   }, [setError]);
 
   return error ? (
-    <SvgIcon Icon={FlairNotFoundIcon} size="lg" />
+    <SvgIcon Icon={ImageFileWarningIcon} size="lg" />
   ) : (
     <img
       className={styles.imagePreview}
