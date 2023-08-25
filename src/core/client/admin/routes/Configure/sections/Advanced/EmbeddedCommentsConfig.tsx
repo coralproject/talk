@@ -7,8 +7,8 @@ import { FormField, FormFieldDescription, Label } from "coral-ui/components/v2";
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
-import AllowedOriginsTextarea from "../Sites/AllowedOriginsTextarea";
 import Subheader from "../../Subheader";
+import AllowedOriginsTextarea from "../Sites/AllowedOriginsTextarea";
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
