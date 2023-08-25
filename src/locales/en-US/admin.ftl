@@ -907,7 +907,6 @@ configure-advanced-customCSS-containsFontFace =
 
 configure-advanced-embeddedComments = Embedded comments
 configure-advanced-embeddedComments-subheader = For sites using oEmbed
-configure-advanced-embeddedCommentReplies = Embedded comment replies
 configure-advanced-embeddedCommentReplies-explanation = When enabled, a reply button
   will appear with each embedded comment to encourage additional discussion on that
   specific comment or story.
