@@ -37,6 +37,8 @@ export interface StreamEmbedConfig {
   storyMode?: string;
   commentID?: string;
   autoRender?: boolean;
+  topPosition?: number;
+  leftPosition?: number;
   eventEmitter: EventEmitter2;
   id: string;
   rootURL: string;
@@ -357,6 +359,8 @@ export class StreamEmbed {
       storyID: this.config.storyID,
       storyURL: this.config.storyURL,
       storyMode: this.config.storyMode,
+      topPosition: this.config.topPosition,
+      leftPosition: this.config.leftPosition,
       commentID: this.config.commentID,
       rootURL: this.config.rootURL,
       eventEmitter: this.streamEventEmitter,
