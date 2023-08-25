@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { SvgIcon } from "coral-ui/components/icons";
-import ImageFileWarningIcon from "coral-ui/components/icons/ImageFileWarningIcon";
+import { ImageFileWarningIcon, SvgIcon } from "coral-ui/components/icons";
 
 import styles from "./FlairBadgeImagePreview.css";
 
