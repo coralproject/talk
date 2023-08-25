@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { FormField, FormFieldDescription, Label } from "coral-ui/components/v2";
+import { FormField, HelperText, Label } from "coral-ui/components/v2";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -40,10 +40,10 @@ const EmbeddedCommentsConfig: FunctionComponent<Props> = ({ disabled }) => (
         <Label>Allow replies to embedded comments</Label>
       </Localized>
       <Localized id="configure-advanced-embeddedCommentReplies-explanation">
-        <FormFieldDescription>
+        <HelperText>
           When enabled, a reply button will appear with each embedded comment to
           encourage additional discussion on that specific comment or story.
-        </FormFieldDescription>
+        </HelperText>
       </Localized>
       <OnOffField name="embeddedComments.allowReplies" disabled={disabled} />
     </FormField>
@@ -55,11 +55,11 @@ const EmbeddedCommentsConfig: FunctionComponent<Props> = ({ disabled }) => (
         <Label>oEmbed permitted domains</Label>
       </Localized>
       <Localized id="configure-advanced-oembedAllowedOrigins-description">
-        <FormFieldDescription>
+        <HelperText>
           Domains that are permitted to make calls to the oEmbed API (ex.
           http://localhost:3000, https://staging.domain.com,
           https://domain.com).
-        </FormFieldDescription>
+        </HelperText>
       </Localized>
       <AllowedOriginsTextarea
         name="embeddedComments.oEmbedAllowedOrigins"
