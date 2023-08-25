@@ -7,10 +7,9 @@ import { PropTypesOf } from "coral-framework/types";
 import { AppWindowIcon } from "coral-ui/components/icons";
 import { Divider } from "coral-ui/components/v2";
 
+import styles from "./SiteSelector.css";
 import SiteSelectorCurrentSiteQuery from "./SiteSelectorCurrentSiteQuery";
 import SiteSelectorSite from "./SiteSelectorSite";
-
-import styles from "./SiteSelector.css";
 
 interface Props {
   scoped: boolean;
