@@ -49,7 +49,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
         justifyContent="space-between"
         className={CLASSES.comment.topBar.$root}
       >
-        <Flex alignItems="center" wrap className={styles.innerTopBar}>
+        <Flex alignItems="center" wrap>
           {props.usernameEl && (
             <MatchMedia lteWidth="mobile">
               {(matches) => (

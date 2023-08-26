@@ -3,11 +3,11 @@
 email-footer-accountNotification =
   Verstuurd door <a data-l10n-name="organizationLink">{ $organizationName }</a>
 
-email-subject-accountNotificationForgotPassword = Verzoek om wachtwoord te resetten
+email-subject-accountNotificationForgotPassword = Wachtwoord Reset Aanvraag
 email-template-accountNotificationForgotPassword =
   Hi { $username },<br/><br/>
   We hebben een verzoek ontvangen om je wachtwoord opnieuw in te stellen op <a data-l10n-name="organizationName">{ $organizationName }</a>.<br/><br/>
-  Volg deze link om je wachtwoord te resetten: <a data-l10n-name="resetYourPassword">Klik hier om je wachtwoord opnieuw in te stellen</a><br/><br/>
+  Volg deze link om je wachtwoord te herstellen: <a data-l10n-name="resetYourPassword">Klik hier om je wachtwoord opnieuw in te stellen</a><br/><br/>
   <i>Als je hier niet om hebt gevraagd, kun je deze e-mail negeren.</i><br/>
 
 email-subject-accountNotificationBan = Je account is verbannen
@@ -35,11 +35,11 @@ email-template-accountNotificationSuspend =
   Als je denkt dat dit ten onrechte is gedaan, neem dan contact op met
   ons <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
-email-subject-accountNotificationConfirmEmail = Bevestig e-mailadres
+email-subject-accountNotificationConfirmEmail = Bevestig E-mail
 email-template-accountNotificationConfirmEmail =
   Hi { $username },<br/><br/>
   Om je e-mailadres te bevestigen voor gebruik met je reactieaccount op { $organizationName },
-  volg deze link: <a data-l10n-name="confirmYourEmail">Klik hier om je e-mailadres te bevestigen</a><br/><br/>
+  volg deze link: <a data-l10n-name="confirmYourEmail">Klik hier om je e-mail te bevestigen</a><br/><br/>
   Als je niet onlangs een reactieaccount hebt gemaakt met
    { $organizationName }, kun je deze e-mail veilig negeren.
 
@@ -90,7 +90,7 @@ email-footer-notification =
 
 email-subject-notificationOnReply = Iemand heeft gereageerd op je reactie op { $organizationName }
 email-template-notificationOnReply =
-  { $authorUsername } heeft gereageerd op <a data-l10n-name="commentPermalink">de reactie</a> die je hebt geplaatst op <a data-l10n-name="storyLink">{ $storyTitle }</a>
+  { $authorUsername } heeft gereageerd op <a data-l10n-name="commentPermalink">de reactie</a> die je hebt gepost op <a data-l10n-name="storyLink">{ $storyTitle }</a>
 
 ## On Featured
 
@@ -102,7 +102,7 @@ email-template-notificationOnFeatured =
 
 email-subject-notificationOnStaffReply = Iemand bij { $organizationName } heeft op je reactie gereageerd
 email-template-notificationOnStaffReply =
-  { $authorUsername } van { $organizationName } heeft gereageerd op <a data-l10n-name="commentPermalink">de reactie</a> die je hebt geplaatst op <a data-l10n-name="storyLink">{ $storyTitle }< /a>
+  { $authorUsername } van { $organizationName } heeft gereageerd op <a data-l10n-name="commentPermalink">de reactie</a> die je hebt gepost op <a data-l10n-name="storyLink">{ $storyTitle }< /a>
 
 ## On Comment Approved
 

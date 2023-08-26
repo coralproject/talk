@@ -58,17 +58,11 @@ function createCountElementEnhancer({
 
     const showText = !(target.dataset.coralNotext === "true");
 
-    // replace the placeholder COMMENT_COUNT with current count
-    const updatedCountHtml = countHtml.replace(
-      "COMMENT_COUNT",
-      currentCount.toString()
-    );
-
     // Update the innerHTML which contains the count and new value..
     if (showText) {
-      element.innerHTML = `${updatedCountHtml} ${textHtml}`;
+      element.innerHTML = `${countHtml} ${textHtml}`;
     } else {
-      element.innerHTML = updatedCountHtml;
+      element.innerHTML = countHtml;
     }
 
     if (storyID) {

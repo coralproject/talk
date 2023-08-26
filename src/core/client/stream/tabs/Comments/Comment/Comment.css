@@ -42,7 +42,3 @@ $commentTimestampColor: var(--palette-grey-500);
   flex-basis: 100%;
   max-width: 190px;
 }
-
-.innerTopBar {
-  min-height: 25px;
-}

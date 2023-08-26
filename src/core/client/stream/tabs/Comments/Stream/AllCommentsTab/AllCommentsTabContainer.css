@@ -26,7 +26,7 @@
 
 .refreshButtonIcon {
   padding-right: 0.2rem;
-  display: inline;
+  display: inline-block;
 }
 
 .refreshButtonIcon svg {
@@ -44,7 +44,7 @@
 }
 
 .closeButtonIcon {
-  display: inline;
+  display: inline-block;
 }
 
 .closeButtonIcon svg {

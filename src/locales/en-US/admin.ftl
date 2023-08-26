@@ -506,27 +506,6 @@ configure-general-featuredBy-title = Featured by
 configure-general-featuredBy-enabled = Featured by enabled
 configure-general-featuredBy-explanation = Add moderator name to featured comment display
 
-configure-general-flairBadge-header = Custom flair badges
-configure-general-flairBadge-description = Encourage user engagement and participation by adding custom flair
-  badges for your site. Badges can be allocated as part of your <externalLink>JWT claim</externalLink>.
-configure-general-flairBadge-enable-label = Enable custom flair badges
-configure-general-flairBadge-add = Flair URL
-configure-general-flairBadge-add-helperText =
-  Paste the web address for your custom flair badge. Supported file types: png, jpeg, jpg, and gif
-configure-general-flairBadge-url-error =
-  The URL is invalid or has an unsupported file type.
-configure-general-flairBadge-add-name = Flair name
-configure-general-flairBadge-add-name-helperText =
-  Name the flair with a descriptive identifier
-configure-general-flairBadge-name-permittedCharacters =
-  Only letters, numbers, and the special characters - . are permitted.
-configure-general-flairBadge-add-button = Add
-configure-general-flairBadge-table-flairName = Name
-configure-general-flairBadge-table-flairURL = URL
-configure-general-flairBadge-table-preview = Preview
-configure-general-flairBadge-table-deleteButton = <icon></icon> Delete
-configure-general-flairBadge-table-empty = No custom flair added for this site
-
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear when a story is closed for commenting.

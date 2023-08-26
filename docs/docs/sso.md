@@ -35,10 +35,9 @@ You will then have to generate a JWT with the following claims:
   about status changes on a user account such as bans or suspensions.
 - `user.username` **(required)** - the username that should be used when being
   presented inside Coral to moderators and other users. There are no username validations or restrictions enforced by Coral when you're using SSO.
-- `user.badges` _(optional)_ - array of strings to be displayed as badges and custom flair badges beside username inside Coral,
-  visible to other users and moderators. Badges are configured by passing through strings and can be used to indicate a user's subscription status.
-   - Custom flair badges are configured by passing through names that link to the desired flair badge image.
-   - To use custom flair badges, they must also be enabled in the admin, and each custom flair badge name, image URL must be added in the admin as well. If you include the badges claim, but you are not passing a badge value, then use an empty array instead of null.
+- `user.badges` _(optional)_ - array of strings to be displayed as badges beside
+  username inside Coral, visible to other users and moderators. For example, to indicate
+  a user's subscription status. If you include the claim, but you are not passing a badge value, then use an empty array instead of null.
 - `user.role` _(optional)_ - one of "COMMENTER", "STAFF", "MODERATOR", "ADMIN". Will create/update
   Coral user with this permission level. When users have both an assigned role greather than COMMENTER and a badge, both will be displayed.
 - `user.url` _(optional)_ - url for user account management, where a user will
@@ -56,8 +55,7 @@ An example of the claims for this token would be:
   "user": {
     "id": "628bdc61-6616-4add-bfec-dd79156715d4",
     "email": "bob@example.com",
-    "username": "bob",
-    "badges": ["subscriber", "https://www.example/com/image.jpg"]
+    "username": "bob"
   }
 }
 ```

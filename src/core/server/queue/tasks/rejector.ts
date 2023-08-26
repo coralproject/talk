@@ -74,7 +74,6 @@ function getBatch(
 const rejectArchivedComments = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
-  config: Config,
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string,
@@ -117,7 +116,6 @@ const rejectArchivedComments = async (
       const { result } = await moderate(
         mongo,
         redis,
-        config,
         tenant,
         input,
         now,
@@ -148,7 +146,6 @@ const rejectLiveComments = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
   cache: DataCache,
-  config: Config,
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string,
@@ -167,7 +164,6 @@ const rejectLiveComments = async (
         mongo,
         redis,
         cache,
-        config,
         null,
         tenant,
         comment.id,
@@ -237,7 +233,6 @@ const createJobProcessor =
       mongo,
       redis,
       cache,
-      config,
       tenant,
       authorID,
       moderatorID,
@@ -247,7 +242,6 @@ const createJobProcessor =
       await rejectArchivedComments(
         mongo,
         redis,
-        config,
         tenant,
         authorID,
         moderatorID,

@@ -1,6 +1,5 @@
 import { DateTime } from "luxon";
 
-import { getCommentEmbedRedisCacheKey } from "coral-server/app/middleware/cache";
 import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
@@ -271,20 +270,11 @@ export default async function edit(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo, redis, config, {
+  const counts = await updateAllCommentCounts(mongo, redis, {
     tenant,
     actionCounts,
     ...result,
   });
-
-  // only clear Redis cache for single comment embed if jsonp_response_cache set to true
-  if (config.get("jsonp_response_cache")) {
-    // clear comment embed Redis cache if exists
-    const commentEmbedCacheKey = getCommentEmbedRedisCacheKey(result.after.id);
-    if (commentEmbedCacheKey) {
-      void redis.del(commentEmbedCacheKey);
-    }
-  }
 
   const cacheAvailable = await cache.available(tenant.id);
   if (cacheAvailable) {

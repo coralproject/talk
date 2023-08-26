@@ -350,11 +350,6 @@ const CLASSES = {
       userBadge: "coral coral-userBadge coral-comment-userBadge",
 
       /**
-       * flairBadge can be used to target a flair badge image associated with a User.
-       */
-      flairBadge: "coral coral-flairBadge coral-comment-flairBadge",
-
-      /**
        * commentTag can be used to target a tag associated with a Comment.
        */
       commentTag: "coral coral-commentTag coral-comment-commentTag",

@@ -2,16 +2,12 @@ import { Redis } from "ioredis";
 import { isUndefined, toLower, uniqBy } from "lodash";
 import { URL } from "url";
 
-import {
-  FLAIR_BADGE_NAME_REGEX,
-  PROTECTED_EMAIL_DOMAINS,
-} from "coral-common/constants";
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/constants";
 import { ERROR_CODES } from "coral-common/errors";
 import { isModerator, isOrgModerator } from "coral-common/permissions/types";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
-  InvalidFlairBadgeName,
   OperationForbiddenError,
   TenantInstalledAlreadyError,
   UserForbiddenError,
@@ -22,17 +18,13 @@ import { retrieveTenantSites } from "coral-server/models/site";
 import {
   CreateAnnouncementInput,
   CreateEmailDomainInput,
-  CreateFlairBadgeInput,
   createTenant,
   createTenantAnnouncement,
   createTenantEmailDomain,
-  createTenantFlairBadge,
   CreateTenantInput,
   DeleteEmailDomainInput,
-  DeleteFlairBadgeInput,
   deleteTenantAnnouncement,
   deleteTenantEmailDomain,
-  deleteTenantFlairBadge,
   disableTenantFeatureFlag,
   enableTenantFeatureFlag,
   Tenant,
@@ -335,99 +327,6 @@ export async function sendSMTPTest(
     });
   }
   return tenant;
-}
-
-export async function createFlairBadge(
-  mongo: MongoContext,
-  redis: Redis,
-  cache: TenantCache,
-  tenant: Tenant,
-  viewer: Pick<User, "id"> | undefined,
-  input: CreateFlairBadgeInput
-) {
-  if (!viewer) {
-    throw new UserForbiddenError(
-      "Must be authenticated to create flair badge",
-      "flairBadge",
-      "create"
-    );
-  }
-
-  const regex = new RegExp(FLAIR_BADGE_NAME_REGEX);
-  const nameResult = regex.exec(input.name);
-
-  if (nameResult === null || nameResult === undefined) {
-    throw new InvalidFlairBadgeName(tenant.id);
-  }
-
-  const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
-  if (!fullViewer) {
-    throw new UserNotFoundError("Viewer not found");
-  }
-
-  const isAdmin = fullViewer.role === GQLUSER_ROLE.ADMIN;
-
-  const allowed = fullViewer.tenantID === tenant.id && isAdmin;
-
-  if (!allowed) {
-    throw new UserForbiddenError(
-      "Insufficient priviledges to create flair badge",
-      "flairBadge",
-      "create",
-      viewer.id
-    );
-  }
-
-  const updated = await createTenantFlairBadge(mongo, tenant.id, input);
-  if (!updated) {
-    throw new Error("tenant not found");
-  }
-  await cache.update(redis, updated);
-
-  return updated;
-}
-
-export async function deleteFlairBadge(
-  mongo: MongoContext,
-  redis: Redis,
-  cache: TenantCache,
-  tenant: Tenant,
-  viewer: Pick<User, "id"> | undefined,
-  input: DeleteFlairBadgeInput
-) {
-  if (!viewer) {
-    throw new UserForbiddenError(
-      "Must be authenticated to delete flair badge",
-      "flairBadge",
-      "create"
-    );
-  }
-
-  const fullViewer = await retrieveUser(mongo, tenant.id, viewer.id);
-  if (!fullViewer) {
-    throw new UserNotFoundError("Viewer not found");
-  }
-
-  const isAdmin = fullViewer.role === GQLUSER_ROLE.ADMIN;
-
-  const allowed = fullViewer.tenantID === tenant.id && isAdmin;
-
-  if (!allowed) {
-    throw new UserForbiddenError(
-      "Insufficient priviledges to delete flair badge",
-      "flairBadge",
-      "create",
-      viewer.id
-    );
-  }
-
-  const updated = await deleteTenantFlairBadge(mongo, tenant.id, input);
-  if (!updated) {
-    throw new Error("tenant not found");
-  }
-  await cache.update(redis, updated);
-
-  return updated;
 }
 
 export async function createEmailDomain(

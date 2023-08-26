@@ -1,4 +1,4 @@
-import { act, screen, within } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver, GQLSettings, GQLStory } from "coral-framework/schema";
@@ -102,27 +102,5 @@ describe("user badges", () => {
     expect(memberBadge).toBeDefined();
     expect(staffBadge).toBeDefined();
     expect(moderatorBadge).toBeDefined();
-  });
-
-  it("renders custom flair badges", async () => {
-    const resolvers = createResolversStub<GQLResolver>({
-      Query: {
-        stream: ({ variables, ...rest }) => {
-          return storyWithBadgeComments;
-        },
-      },
-    });
-    await act(async () => {
-      await createTestRenderer({
-        resolvers,
-      });
-    });
-    const memberComment = screen.getByRole("article", {
-      name: "Comment from member 2018-07-06T18:24:00.000Z",
-    });
-    expect(within(memberComment).getByRole("img")).toHaveAttribute(
-      "src",
-      "https://wwww.example.com/image.jpg"
-    );
   });
 });

@@ -1,4 +1,3 @@
-import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
   CommentNotFoundError,
@@ -24,7 +23,6 @@ export type Moderate = Omit<CreateCommentModerationActionInput, "storyID">;
 export default async function moderate(
   mongo: MongoContext,
   redis: AugmentedRedis,
-  config: Config,
   tenant: Tenant,
   input: Moderate,
   now: Date,
@@ -112,7 +110,6 @@ export default async function moderate(
   const counts = await updateAllCommentCounts(
     mongo,
     redis,
-    config,
     {
       ...result,
       tenant,

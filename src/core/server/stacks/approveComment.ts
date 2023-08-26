@@ -1,4 +1,3 @@
-import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
@@ -17,7 +16,6 @@ const approveComment = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
   cache: DataCache,
-  config: Config,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   commentID: string,
@@ -32,7 +30,6 @@ const approveComment = async (
   const { result, counts } = await moderate(
     mongo,
     redis,
-    config,
     tenant,
     {
       commentID,

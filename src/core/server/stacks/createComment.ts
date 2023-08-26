@@ -94,7 +94,6 @@ const markCommentAsAnswered = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
   cache: DataCache,
-  config: Config,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   comment: Readonly<Comment>,
@@ -143,7 +142,6 @@ const markCommentAsAnswered = async (
       mongo,
       redis,
       cache,
-      config,
       broker,
       tenant,
       comment.parentID,
@@ -385,7 +383,6 @@ export default async function create(
       mongo,
       redis,
       cache,
-      config,
       broker,
       tenant,
       comment,
@@ -443,7 +440,7 @@ export default async function create(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo, redis, config, {
+  const counts = await updateAllCommentCounts(mongo, redis, {
     tenant,
     actionCounts,
     after: comment,
