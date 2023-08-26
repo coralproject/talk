@@ -95,9 +95,6 @@ export interface CoralContext {
   /** rootURL to the Coral Server */
   rootURL: string;
 
-  topPosition?: number;
-  leftPosition?: number;
-
   /** Supports a custom scroll container element if Coral is rendered outside
    * of the render window
    */

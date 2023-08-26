@@ -132,9 +132,7 @@ const AccessibleCounter: FunctionComponent<PropTypesOf<typeof Counter>> = (
 export const StreamContainer: FunctionComponent<Props> = (props) => {
   const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
   const emitSetCommentsOrderByEvent = useViewerEvent(SetCommentsOrderByEvent);
-  const { localStorage, browserInfo, leftPosition, topPosition } =
-    useCoralContext();
-
+  const { localStorage, browserInfo } = useCoralContext();
   const [local, setLocal] = useLocal<StreamContainerLocal>(
     graphql`
       fragment StreamContainerLocal on Local {
@@ -313,8 +311,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 tab={local.commentsTab}
                 onChangeTab={onChangeTab}
                 commentsOrderBy={local.commentsOrderBy}
-                topPosition={topPosition}
-                leftPosition={leftPosition}
               />
             </>
           ))}

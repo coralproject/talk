@@ -23,7 +23,6 @@ export interface IndentedCommentProps extends Omit<CommentProps, "ref"> {
   badges?: React.ReactNode | null;
   enableJumpToParent?: boolean;
   username?: string | null;
-  origin?: string;
 }
 
 const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
