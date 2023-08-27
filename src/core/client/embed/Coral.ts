@@ -20,7 +20,8 @@ export interface Config {
   autoRender?: boolean;
   events?: (eventEmitter: EventEmitter2) => void;
   accessToken?: string;
-
+  topPosition?: number;
+  leftPosition?: number;
   /**
    * refreshAccessToken is called to obtain a new access token when the current one has expired.
    * A parameter `nextAccessToken` is passed as the first argument that should be called with the
@@ -69,6 +70,8 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     rootURL: config.rootURL || getCurrentScriptOrigin(),
     eventEmitter: embedEventEmitter,
     accessToken: config.accessToken,
+    topPosition: config.topPosition,
+    leftPosition: config.leftPosition,
     customCSSURL: config.customCSSURL,
     customFontsCSSURL: config.customFontsCSSURL,
     disableDefaultFonts: config.disableDefaultFonts,

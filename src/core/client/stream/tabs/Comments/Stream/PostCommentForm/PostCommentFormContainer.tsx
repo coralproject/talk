@@ -72,6 +72,8 @@ interface Props {
   tab?: COMMENTS_TAB;
   onChangeTab?: (tab: COMMENTS_TAB) => void;
   commentsOrderBy?: COMMENT_SORT;
+  topPosition?: number;
+  leftPosition?: number;
 }
 export const PostCommentFormContainer: FunctionComponent<Props> = ({
   settings,
@@ -80,6 +82,8 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
   tab,
   onChangeTab,
   commentsOrderBy,
+  topPosition,
+  leftPosition,
 }) => {
   const refreshSettings = useFetch(RefreshSettingsFetch);
   const refreshViewer = useFetch(RefreshViewerFetch);
@@ -376,6 +380,8 @@ export const PostCommentFormContainer: FunctionComponent<Props> = ({
           mode={mode}
           siteID={story.site.id}
           story={story}
+          topPosition={topPosition}
+          leftPosition={leftPosition}
           onSubmit={handleOnSubmit}
           onChange={handleOnChange}
           initialValues={initialValues}
