@@ -308,32 +308,38 @@ const CommentForm: FunctionComponent<Props> = ({
                       />
                     )}
                     <div
-                      style={{
-                        alignItems: "center",
-                        display: "flex",
-                        flexDirection: "row",
-                      }}
+                      style={
+                        avatar
+                          ? {
+                              alignItems: "center",
+                              display: "flex",
+                              flexDirection: "row",
+                            }
+                          : {}
+                      }
                     >
                       {bodyLabel}
-                      <div
-                        style={{
-                          height: "40px",
-                          width: "40px",
-                          borderRadius: "50px",
-                          overflow: "hidden",
-                          border: "0px solid black",
-                          margin: "auto",
-                        }}
-                      >
-                        <img
-                          alt="avatar"
+                      {avatar ? (
+                        <div
                           style={{
                             height: "40px",
                             width: "40px",
+                            borderRadius: "50px",
+                            overflow: "hidden",
+                            border: "0px solid black",
+                            margin: "auto",
                           }}
-                          src={avatar}
-                        />
-                      </div>
+                        >
+                          <img
+                            alt="avatar"
+                            style={{
+                              height: "40px",
+                              width: "40px",
+                            }}
+                            src={avatar}
+                          />
+                        </div>
+                      ) : null}
 
                       <div
                         className={cn(
