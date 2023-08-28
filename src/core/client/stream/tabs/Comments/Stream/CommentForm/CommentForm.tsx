@@ -98,7 +98,7 @@ interface Props {
   initialValues?: FormProps;
   min: number | null;
   max: number | null;
-  avatar: string | undefined;
+  avatar?: string | undefined;
   disabled?: boolean;
   disabledMessage?: React.ReactNode;
   bodyLabel: React.ReactNode;
