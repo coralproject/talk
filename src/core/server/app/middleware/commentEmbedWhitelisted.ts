@@ -38,12 +38,11 @@ export const commentEmbedWhitelisted =
           }
           if (origin) {
             // if oEmbed API call, we also check oEmbed allowed origins on tenant
-            if (oembedAPI) {
-              if (
-                tenant.embeddedComments?.oEmbedAllowedOrigins.includes(origin)
-              ) {
-                return next();
-              }
+            if (
+              oembedAPI &&
+              tenant.embeddedComments?.oEmbedAllowedOrigins.includes(origin)
+            ) {
+              return next();
             }
             if (site.allowedOrigins.includes(origin)) {
               return next();
