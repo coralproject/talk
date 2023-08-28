@@ -131,6 +131,10 @@ export const settings = createFixture<GQLSettings>({
     sarcasm: false,
   },
   flattenReplies: false,
+  flairBadges: {
+    flairBadgesEnabled: true,
+    badges: [{ name: "subscriber", url: "https://wwww.example.com/image.jpg" }],
+  },
 });
 
 export const site = createFixtures<GQLSite>([
@@ -336,6 +340,7 @@ export const member = createFixture<GQLUser>({
   id: "member-user",
   username: "member",
   role: GQLUSER_ROLE.MEMBER,
+  badges: ["subscriber"],
 });
 
 export const commenters = createFixtures<GQLUser>(
@@ -442,6 +447,38 @@ export const baseComment = createFixture<GQLComment>({
   },
 });
 
+export const moderators = createFixtures<GQLUser>(
+  [
+    {
+      id: "me-as-moderator",
+      username: "Moderator",
+      role: GQLUSER_ROLE.MODERATOR,
+      ignoreable: false,
+    },
+    {
+      id: "site-moderator",
+      username: "Site Moderator",
+      role: GQLUSER_ROLE.MODERATOR,
+      ignoreable: false,
+      moderationScopes: {
+        scoped: true,
+        sites: [site[0]],
+      },
+    },
+    {
+      id: "site-moderator-2",
+      username: "Site Moderator 2",
+      role: GQLUSER_ROLE.MODERATOR,
+      ignoreable: false,
+      moderationScopes: {
+        scoped: true,
+        sites: [site[0]],
+      },
+    },
+  ],
+  baseUser
+);
+
 export const comments = denormalizeComments(
   createFixtures<GQLComment>(
     [
@@ -467,7 +504,7 @@ export const comments = denormalizeComments(
       },
       {
         id: "comment-4",
-        author: commenters[2],
+        author: moderators[2],
         body: "Comment Body 4",
       },
       {
@@ -735,28 +772,6 @@ export const commentWithDeepestReplies = denormalizeComment(
   })
 );
 
-export const moderators = createFixtures<GQLUser>(
-  [
-    {
-      id: "me-as-moderator",
-      username: "Moderator",
-      role: GQLUSER_ROLE.MODERATOR,
-      ignoreable: false,
-    },
-    {
-      id: "site-moderator",
-      username: "Site Moderator",
-      role: GQLUSER_ROLE.MODERATOR,
-      ignoreable: false,
-      moderationScopes: {
-        scoped: true,
-        sites: [site[0]],
-      },
-    },
-  ],
-  baseUser
-);
-
 export const commentFromModerator = denormalizeComment(
   createFixture<GQLComment>(
     {
@@ -787,6 +802,19 @@ export const commentsFromStaff = denormalizeComments(
   )
 );
 
+export const singleCommentStory = denormalizeStory(
+  createFixture<GQLStory>(
+    {
+      id: "story-1",
+      url: "http://localhost/stories/story-1",
+      comments: {
+        edges: [{ node: comments[0], cursor: comments[0].createdAt }],
+      },
+    },
+    baseStory
+  )
+);
+
 export const stories = denormalizeStories(
   createFixtures<GQLStory>(
     [
@@ -797,6 +825,7 @@ export const stories = denormalizeStories(
           edges: [
             { node: comments[0], cursor: comments[0].createdAt },
             { node: comments[1], cursor: comments[1].createdAt },
+            { node: comments[4], cursor: comments[4].createdAt },
           ],
         },
       },

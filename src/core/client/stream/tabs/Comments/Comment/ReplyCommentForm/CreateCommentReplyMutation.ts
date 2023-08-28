@@ -353,6 +353,7 @@ async function commit(
                 pending: false,
                 lastViewerAction: "CREATE",
                 hasTraversalFocus: false,
+                spamBanned: false,
                 author: {
                   id: viewer.id,
                   username: viewer.username || null,

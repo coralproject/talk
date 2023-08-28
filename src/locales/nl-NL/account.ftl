@@ -5,7 +5,7 @@ account-tokenNotFound =
 
 ## Not Found
 
-notFound = Niet Gevonden
+notFound = Niet gevonden
 
 ## Password Reset
 
@@ -21,7 +21,7 @@ resetPassword-passwordTextField =
 resetPassword-successfullyReset = Wachtwoord succesvol vernieuwd
 resetPassword-youMayClose =
   Je mag dit venster nu sluiten en je aanmelden met je nieuwe wachtwoord.
-resetPassword-oopsSorry = Oeps Sorry!
+resetPassword-oopsSorry = Oeps sorry!
 resetPassword-missingResetToken = De markering voor herstel lijkt te ontbreken.
 
 ## Email Confirmation
@@ -29,8 +29,8 @@ resetPassword-missingResetToken = De markering voor herstel lijkt te ontbreken.
 confirmEmail-confirmYourEmailAddress =
   Bevestig je e-mailadres
 confirmEmail-confirmEmail = Bevestig e-mail
-confirmEmail-pleaseClickToConfirm = Klik onderaan om je e-mail adres te bevestigen.
-confirmEmail-oopsSorry = Oeps Sorry!
+confirmEmail-pleaseClickToConfirm = Klik onderaan om je e-mailadres te bevestigen.
+confirmEmail-oopsSorry = Oeps sorry!
 confirmEmail-missingConfirmToken = De markering voor bevestiging lijkt te ontbreken.
 confirmEmail-successfullyConfirmed = E-mail met succes bevestigd
 confirmEmail-youMayClose =
@@ -38,11 +38,11 @@ confirmEmail-youMayClose =
 
 ## Download
 
-download-landingPage-title = Download je voorbije reacties
+download-landingPage-title = Download al je reacties
 download-landingPage-description =
-  Je voorbije reacties zullen gedownload worden in een .zip-bestand. Na het
+  Je reacties zullen gedownload worden in een .zip-bestand. Na het
   uitpakken heb je een bestand met door kommas gescheiden waarden (of .csv)
-  dat je gemakkelijk kunt importeren in je favoriete rekenblad toepassing.
+  dat je gemakkelijk kunt importeren in je favoriete spreadsheet-programma.
 download-landingPage-contentsDescription =
   Voor elk van je reacties is de volgende informatie opgenomen:
 download-landingPage-contentsDate =
@@ -59,7 +59,7 @@ download-landingPage-sorry = Je download link is ongeldig.
 ## Unsubscribe
 
 unsubscribe-unsubscribeFromEmails = Uitschrijven voor e-mailmeldingen
-unsubscribe-oopsSorry = Oeps Sorry!
+unsubscribe-oopsSorry = Oeps sorry!
 unsubscribe-clickToConfirm =
   Klik hieronder om te bevestigen dat je je wil uitschrijven voor alle meldingen.
 unsubscribe-submit-unsubscribe = Uitschrijven

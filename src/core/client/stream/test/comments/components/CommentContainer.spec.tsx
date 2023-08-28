@@ -1,6 +1,6 @@
-import { screen, within } from "@testing-library/react";
-import { pureMerge } from "coral-common/utils";
+import { screen, waitFor, within } from "@testing-library/react";
 
+import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
@@ -9,6 +9,7 @@ import {
 import {
   commenters,
   settings,
+  singleCommentStory,
   stories,
   storyWithDeletedComments,
   storyWithReplies,
@@ -43,7 +44,19 @@ async function createTestRenderer(
 
   customRenderAppWithContext(context);
 
-  const container = await screen.findByTestId("comments-allComments-log");
+  // it is usually best practice to use findByTestId
+  // for async work.
+  //
+  // source: https://kentcdodds.com/blog/common-mistakes-with-react-testing-library#using-waitfor-to-wait-for-elements-that-can-be-queried-with-find
+  //
+  // however, for some special occasions, the test runner
+  // has a hard time and doing a .getByTestId is more
+  // performant. Since this cuts the `render username and body`
+  // test from 1.32s down to 795ms on my machine, I'm doing
+  // a waitFor + getByTestId here.
+  const container = await waitFor(() =>
+    screen.getByTestId("comments-allComments-log")
+  );
 
   return { container, context };
 }
@@ -51,9 +64,16 @@ async function createTestRenderer(
 afterEach(jest.clearAllMocks);
 
 it("renders username and body", async () => {
-  const { container } = await createTestRenderer();
+  const { container } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        story: () => singleCommentStory,
+        stream: () => singleCommentStory,
+      },
+    },
+  });
 
-  const firstComment = stories[0].comments.edges[0].node;
+  const firstComment = singleCommentStory.comments.edges[0].node;
   const commentElement = await within(container).findByTestId(
     `comment-${firstComment.id}`
   );

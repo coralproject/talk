@@ -14,12 +14,15 @@
   </head>
 
   <body>
-    <p style="text-align: center;">
+    <p style="text-align: center">
       <a href="/admin">Admin</a> | <a href="/story.html">Story</a> |
       <a href="/storyButton.html">Story With Button</a> |
       <a href="http://127.0.0.1:8080/storyAMP.html"> AMP</a>
     </p>
     <h1 style="text-align: center">Coral – Embed Stream</h1>
+    <div style="text-align: center">
+      <span class="coral-count" data-coral-url="http://localhost:8080/"></span>
+    </div>
     <div id="coralStreamEmbed" style="max-width: 640px; margin: 0 auto"></div>
     <script>
       const CoralStreamEmbed = Coral.createStreamEmbed({
@@ -30,8 +33,8 @@
          *  The argument passed is the event emitter from
          *  https://github.com/asyncly/EventEmitter2
          */
-        events: function(events) {
-          events.onAny(function(eventName, data) {
+        events: function (events) {
+          events.onAny(function (eventName, data) {
             console.debug(eventName, data);
           });
         },

@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/utils";
@@ -82,6 +82,13 @@ it("renders single comment view with story info", async () => {
   const singleModerateContainer = await screen.findByTestId(
     "single-moderate-container"
   );
+
+  await waitFor(() => {
+    expect(
+      screen.getByTestId(`moderate-comment-card-${reportedComments[0].id}`)
+    ).toBeInTheDocument();
+  });
+
   expect(
     within(singleModerateContainer).queryByText("Comment On")
   ).toBeInTheDocument();

@@ -8,6 +8,7 @@ error-commentBodyExceedsMaxLength =
 error-storyURLNotPermitted =
   The specified story URL does not exist in the permitted domains list.
 error-duplicateStoryURL =  The specified story URL already exists.
+error-duplicateFlairBadge = The flair badge already exists.
 error-tenantNotFound = Tenant hostname ({$hostname}) not found.
 error-userNotFound = User ({$userID}) not found.
 error-notFound = Unrecognized request URL ({$method} {$path}).
@@ -16,6 +17,7 @@ error-tokenNotFound = Specified token does not exist.
 error-emailAlreadySet = Email address has already been set.
 error-emailNotSet = Email address has not been set yet.
 error-emailDomainProtected = Email domain cannot be moderated.
+error-cannotBanAccountWithModPrivileges = Cannot ban accounts with moderator privileges
 error-duplicateUser =
   Specified user already exists with a different login method.
 error-duplicateEmail = Specified email address is already in use.
@@ -79,3 +81,4 @@ error-cannotMergeAnArchivedStory = Cannot merge an archived story. The story mus
 error-usernameAlreadyExists = This username already exists. Please choose another.
 error-unableToUpdateStoryURL = Unable to update the story URL.
 error-dataCachingNotAvailable = Data caching is not available at this time.
+error-invalidFlairBadgeName = Only letters, numbers, and the special characters - . are permitted in flair badge names.

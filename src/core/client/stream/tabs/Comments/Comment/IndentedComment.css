@@ -5,6 +5,7 @@
 }
 
 .toggleButton {
+  min-height: 25px;
   padding: calc(var(--spacing-1) / 2) var(--spacing-1) var(--spacing-1);
 
   &.mouseHover,

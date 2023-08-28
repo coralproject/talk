@@ -5,11 +5,13 @@ import {
   createAnnouncement,
   createEmailDomain,
   createExternalModerationPhase,
+  createFlairBadge,
   createWebhookEndpoint,
   deactivateSSOSigningSecret,
   deleteAnnouncement,
   deleteEmailDomain,
   deleteExternalModerationPhase,
+  deleteFlairBadge,
   deleteSSOSigningSecret,
   deleteWebhookEndpoint,
   disableExternalModerationPhase,
@@ -32,10 +34,12 @@ import {
   GQLCreateAnnouncementInput,
   GQLCreateEmailDomainInput,
   GQLCreateExternalModerationPhaseInput,
+  GQLCreateFlairBadgeInput,
   GQLCreateWebhookEndpointInput,
   GQLDeactivateSSOSigningSecretInput,
   GQLDeleteEmailDomainInput,
   GQLDeleteExternalModerationPhaseInput,
+  GQLDeleteFlairBadgeInput,
   GQLDeleteSSOSigningSecretInput,
   GQLDeleteWebhookEndpointInput,
   GQLDisableExternalModerationPhaseInput,
@@ -141,6 +145,10 @@ export const Settings = ({
     updateEmailDomain(mongo, redis, tenantCache, tenant, input),
   deleteEmailDomain: (input: WithoutMutationID<GQLDeleteEmailDomainInput>) =>
     deleteEmailDomain(mongo, redis, tenantCache, tenant, input),
+  createFlairBadge: (input: WithoutMutationID<GQLCreateFlairBadgeInput>) =>
+    createFlairBadge(mongo, redis, tenantCache, tenant, user, input),
+  deleteFlairBadge: (input: WithoutMutationID<GQLDeleteFlairBadgeInput>) =>
+    deleteFlairBadge(mongo, redis, tenantCache, tenant, user, input),
   createExternalModerationPhase: (
     input: WithoutMutationID<GQLCreateExternalModerationPhaseInput>
   ) =>

@@ -1,0 +1,5 @@
+.imagePreview {
+  max-height: 25px;
+  min-height: 8px;
+  min-width: 8px;
+}
