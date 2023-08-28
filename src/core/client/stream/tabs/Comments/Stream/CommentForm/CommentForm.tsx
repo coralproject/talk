@@ -98,6 +98,7 @@ interface Props {
   initialValues?: FormProps;
   min: number | null;
   max: number | null;
+  avatar: string | undefined;
   disabled?: boolean;
   disabledMessage?: React.ReactNode;
   bodyLabel: React.ReactNode;
@@ -154,6 +155,7 @@ const CommentForm: FunctionComponent<Props> = ({
   expired,
   initialValues,
   max,
+  avatar,
   mediaConfig,
   min,
   mode = "comment",
@@ -305,8 +307,34 @@ const CommentForm: FunctionComponent<Props> = ({
                         subscription={subscription}
                       />
                     )}
-                    <div>
+                    <div
+                      style={{
+                        alignItems: "center",
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
+                    >
                       {bodyLabel}
+                      <div
+                        style={{
+                          height: "40px",
+                          width: "40px",
+                          borderRadius: "50px",
+                          overflow: "hidden",
+                          border: "0px solid black",
+                          margin: "auto",
+                        }}
+                      >
+                        <img
+                          alt="avatar"
+                          style={{
+                            height: "40px",
+                            width: "40px",
+                          }}
+                          src={avatar}
+                        />
+                      </div>
+
                       <div
                         className={cn(
                           styles.commentFormBox,

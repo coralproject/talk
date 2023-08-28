@@ -88,8 +88,7 @@ interface Props {
   rteConfig: PropTypesOf<typeof CommentForm>["rteConfig"];
   showMessageBox?: boolean;
   siteID: string;
-  topPosition?: number;
-  leftPosition?: number;
+  avatar?: string;
   story: PropTypesOf<typeof MessageBoxContainer>["story"];
   submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
 }
@@ -109,8 +108,7 @@ const PostCommentForm: FunctionComponent<Props> = ({
   siteID,
   story,
   submitStatus,
-  topPosition,
-  leftPosition,
+  avatar,
 }) => {
   const translation = translations[mode];
 
@@ -119,22 +117,8 @@ const PostCommentForm: FunctionComponent<Props> = ({
     emitFocusEvent();
   }, [emitFocusEvent]);
 
-  console.log("sdfsdf", topPosition, leftPosition);
-
   return (
-    <div
-      id={POST_COMMENT_FORM_ID}
-      style={
-        topPosition
-          ? {
-              position: "fixed",
-              top: `${topPosition}px`,
-              left: `${leftPosition}px`,
-            }
-          : {}
-      }
-      className={CLASSES.createComment.$root}
-    >
+    <div id={POST_COMMENT_FORM_ID} className={CLASSES.createComment.$root}>
       {showMessageBox && (
         <MessageBoxContainer
           story={story}
@@ -146,6 +130,7 @@ const PostCommentForm: FunctionComponent<Props> = ({
         onSubmit={onSubmit}
         onChange={onChange}
         min={min}
+        avatar={avatar}
         topBorder={!showMessageBox && mode !== "rating"}
         initialValues={initialValues}
         max={max}
