@@ -73,6 +73,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
                   styles.toggleButton,
                   CLASSES.comment.collapseToggle.$root
                 )}
+                aria-expanded="true"
               >
                 <SvgIcon
                   className={cn(
