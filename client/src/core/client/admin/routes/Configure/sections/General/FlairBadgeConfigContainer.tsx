@@ -39,6 +39,7 @@ import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import CreateFlairBadgeMutation from "./CreateFlairBadgeMutation";
 import DeleteFlairBadgeMutation from "./DeleteFlairBadgeMutation";
+import { FlairBadgeImagePreview } from "./FlairBadgeImagePreview";
 
 import styles from "./FlairBadgeConfigContainer.css";
 
@@ -280,10 +281,9 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
                     </TableCell>
                     <TableCell>
                       <Flex>
-                        <img
-                          className={styles.imagePreview}
-                          src={badge.url}
-                          alt=""
+                        <FlairBadgeImagePreview
+                          url={badge.url}
+                          alt={badge.name}
                         />
                         <Flex className={styles.deleteButton}>
                           <Localized

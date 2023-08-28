@@ -38,6 +38,7 @@ export { default as FlagWarningIcon } from "./FlagWarningIcon";
 export { default as HyperlinkIcon } from "./HyperlinkIcon";
 export { default as ImageFileAddIcon } from "./ImageFileAddIcon";
 export { default as ImageFileLandscapeIcon } from "./ImageFileLandscapeIcon";
+export { default as ImageFileWarningIcon } from "./ImageFileWarningIcon";
 export { default as InformationCircleIcon } from "./InformationCircleIcon";
 export { default as LabFlaskExperimentIcon } from "./LabFlaskExperimentIcon";
 export { default as LikeIcon } from "./LikeIcon";
