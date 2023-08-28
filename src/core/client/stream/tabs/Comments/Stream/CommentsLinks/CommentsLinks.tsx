@@ -5,6 +5,7 @@ import React, {
   FC,
   FunctionComponent,
   useCallback,
+  useMemo,
 } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -57,12 +58,37 @@ const CommentsLinks: FunctionComponent<Props> = ({
   showGoToProfile,
 }) => {
   const { renderWindow, customScrollContainer } = useCoralContext();
+
+  // Find first keyboard focusable element for accessibility
+  const firstKeyboardFocusableElement = useMemo(() => {
+    const container = customScrollContainer ?? renderWindow.document;
+    const visibleFocusableElements: Element[] = [];
+    const focusableElements = container.querySelectorAll(
+      'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+    );
+    focusableElements.forEach((el) => {
+      if (
+        !el.hasAttribute("disabled") &&
+        !el.getAttribute("aria-hidden") &&
+        !el.getAttribute("hidden")
+      ) {
+        visibleFocusableElements.push(el);
+      }
+    });
+    return visibleFocusableElements[0];
+  }, [renderWindow, customScrollContainer]);
+
   const root = useShadowRootOrDocument();
   const onGoToArticleTop = useCallback(() => {
     if (customScrollContainer) {
       customScrollContainer.scrollTo({ top: 0 });
     }
     renderWindow.scrollTo({ top: 0 });
+    // programmatically apply focus to first keyboard focusable element
+    // after scroll for accessibility
+    if (firstKeyboardFocusableElement instanceof HTMLElement) {
+      firstKeyboardFocusableElement.focus();
+    }
   }, [renderWindow, customScrollContainer]);
   const onGoToCommentsTop = useCallback(() => {
     scrollToBeginning(root, renderWindow, customScrollContainer);
