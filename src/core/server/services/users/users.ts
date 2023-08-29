@@ -163,7 +163,6 @@ export interface FindOrCreateUserOptions {
 export async function findOrCreate(
   config: Config,
   mongo: MongoContext,
-  cache: DataCache,
   tenant: Tenant,
   input: FindOrCreateUser,
   options: FindOrCreateUserOptions,
@@ -177,7 +176,7 @@ export async function findOrCreate(
     let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
 
     if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
-      user = await premod(mongo, cache, tenant, null, user.id, now);
+      user = await premodUser(mongo, tenant.id, user.id, undefined, now);
     }
 
     return user;
@@ -191,7 +190,7 @@ export async function findOrCreate(
       let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
 
       if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
-        user = await premod(mongo, cache, tenant, null, user.id, now);
+        user = await premodUser(mongo, tenant.id, user.id, undefined, now);
       }
 
       return user;
@@ -219,7 +218,7 @@ export async function findOrCreate(
       );
 
       if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
-        user = await premod(mongo, cache, tenant, null, user.id, now);
+        user = await premodUser(mongo, tenant.id, user.id, undefined, now);
       }
 
       return user;
