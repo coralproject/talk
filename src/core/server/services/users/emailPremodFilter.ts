@@ -3,7 +3,7 @@ import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
 import { User } from "coral-server/models/user";
 
-const EMAIL_PREMOD_FILTER_PERIOD_LIMIT = 3;
+export const EMAIL_PREMOD_FILTER_PERIOD_LIMIT = 3;
 
 const emailHasTooManyPeriods = (email: string | undefined, limit: number) => {
   if (!email) {
