@@ -11,7 +11,7 @@ const emailHasTooManyPeriods = (email: string | undefined, limit: number) => {
   }
 
   const split = email.split("@");
-  if (split.length !== 2) {
+  if (split.length < 2) {
     return false;
   }
 
