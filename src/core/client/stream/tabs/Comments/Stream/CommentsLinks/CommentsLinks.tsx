@@ -5,7 +5,6 @@ import React, {
   FC,
   FunctionComponent,
   useCallback,
-  useMemo,
 } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -60,22 +59,27 @@ const CommentsLinks: FunctionComponent<Props> = ({
   const { renderWindow, customScrollContainer } = useCoralContext();
 
   // Find first keyboard focusable element for accessibility
-  const firstKeyboardFocusableElement = useMemo(() => {
+  const getFirstKeyboardFocusableElement = useCallback(() => {
     const container = customScrollContainer ?? renderWindow.document;
-    const visibleFocusableElements: Element[] = [];
+    let firstFocusableElement: Element | null = null;
+    let counter = 0;
     const focusableElements = container.querySelectorAll(
       'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
     );
-    focusableElements.forEach((el) => {
+    while (
+      firstFocusableElement === null &&
+      counter < focusableElements.length
+    ) {
       if (
-        !el.hasAttribute("disabled") &&
-        !el.getAttribute("aria-hidden") &&
-        !el.getAttribute("hidden")
+        !focusableElements[counter].hasAttribute("disabled") &&
+        !focusableElements[counter].getAttribute("aria-hidden") &&
+        !focusableElements[counter].getAttribute("hidden")
       ) {
-        visibleFocusableElements.push(el);
+        firstFocusableElement = focusableElements[counter];
       }
-    });
-    return visibleFocusableElements[0];
+      counter++;
+    }
+    return firstFocusableElement;
   }, [renderWindow, customScrollContainer]);
 
   const root = useShadowRootOrDocument();
@@ -86,10 +90,11 @@ const CommentsLinks: FunctionComponent<Props> = ({
     renderWindow.scrollTo({ top: 0 });
     // programmatically apply focus to first keyboard focusable element
     // after scroll for accessibility
+    const firstKeyboardFocusableElement = getFirstKeyboardFocusableElement();
     if (firstKeyboardFocusableElement instanceof HTMLElement) {
       firstKeyboardFocusableElement.focus();
     }
-  }, [renderWindow, customScrollContainer]);
+  }, [renderWindow, customScrollContainer, getFirstKeyboardFocusableElement]);
   const onGoToCommentsTop = useCallback(() => {
     scrollToBeginning(root, renderWindow, customScrollContainer);
   }, [root, renderWindow, customScrollContainer]);
