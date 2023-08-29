@@ -37,8 +37,7 @@ After successful injection it will become:
 Set the class of your html element to `coral-count` in order to get story counts. The following `data-coral-*` attributes will configure the output:
 
 - `data-coral-id` – The id of the story of which counts should be injected.
-- `data-coral-url` – The URL of the story of which counts should be injected. This should always be set.
+- `data-coral-url` – The URL of the story of which counts should be injected. See more info below on when it needs to be set.
 - `data-coral-notext` – If set to `"true"`, only the count number will be injected
 
-The `data-coral-url` attribute should always be set. If it is not provided, the story URL
-will be retrieved from the [canonical url reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Choosing_between_www_and_non-www_URLs#Using_%3Clink_relcanonical%3E) `<link rel="canonical" href="...">` or inferred using the current page url. Therefore, on pages where the story URL cannot be inferred from the canonical url reference or current page url (such as index and homepages), it's important that the `data-coral-url` be included.
+The `data-coral-url` attribute should always be provided or be able to be inferred from the canonical url reference or current page url. If it is not provided in the data attribute, the story URL will be retrieved from the [canonical url reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Choosing_between_www_and_non-www_URLs#Using_%3Clink_relcanonical%3E) `<link rel="canonical" href="...">` or inferred using the current page url. Therefore, on pages where the story URL cannot be inferred from the canonical url reference or current page url (such as indexes and homepages), it's important that the `data-coral-url` be included.
