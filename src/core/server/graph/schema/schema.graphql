@@ -567,6 +567,12 @@ enum FEATURE_FLAG {
   users, and commentActions more quickly. It is disabled by default.
   """
   DATA_CACHE
+
+  """
+  EMAIL_PREMOD_FILTER enables the feature to premoderate accounts whose emails
+  match patterns that are common with spam accounts.
+  """
+  EMAIL_PREMOD_FILTER
 }
 
 # The moderation mode of the site.
