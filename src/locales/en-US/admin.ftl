@@ -877,9 +877,9 @@ configure-moderation-emailDomains-form-description-edit = Update the domain or a
 
 configure-moderation-premoderateEmailAddress-title = Email address
 configure-moderation-premoderateEmailAddress-enabled =
-  Premoderate users with too many periods
-configure-moderation-premoderateEmailAddress-enabled =
-  If a users has three or more periods in the first part of their
+  Premoderate emails with too many periods
+configure-moderation-premoderateEmailAddress-enabled-description =
+  If a user has three or more periods in the first part of their
   email address (before the @), set their status to pre-moderate all
   comments. This is often used because emails with more than 3
   periods can have a very high spam correlation.

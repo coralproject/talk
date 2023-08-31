@@ -45,12 +45,12 @@ const PremoderateEmailAddressConfig: FunctionComponent<Props> = ({
         <FormFieldHeader>
           <Localized id="configure-moderation-premoderateEmailAddress-enabled">
             <Label component="legend">
-              Premoderate users with too many periods
+              Premoderate emails with too many periods
             </Label>
           </Localized>
-          <Localized id="configure-moderation-premoderateEmailAddress-enabled">
+          <Localized id="configure-moderation-premoderateEmailAddress-enabled-description">
             <HelperText>
-              If a users has three or more periods in the first part of their
+              If a user has three or more periods in the first part of their
               email address (before the @), set their status to pre-moderate all
               comments. This is often used because emails with more than 3
               periods can have a very high spam correlation.
