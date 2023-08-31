@@ -10,9 +10,10 @@ import {
   UsernameAlreadyExists,
 } from "coral-server/errors";
 import { hasEnabledAuthIntegration } from "coral-server/models/tenant";
-import { LocalProfile, User } from "coral-server/models/user";
+import { LocalProfile, premodUser, User } from "coral-server/models/user";
 import { create, usernameAlreadyExists } from "coral-server/services/users";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
+import { shouldPremodDueToLikelySpamEmail } from "coral-server/services/users/emailPremodFilter";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
@@ -116,6 +117,10 @@ export const signupHandler = ({
         user as Required<User>,
         now
       );
+
+      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+        await premodUser(mongo, tenant.id, user.id);
+      }
 
       // Send off to the passport handler.
       return handleSuccessfulLogin(user, signingConfig, req, res, next);

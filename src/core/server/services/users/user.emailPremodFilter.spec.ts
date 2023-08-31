@@ -3,8 +3,6 @@ import {
   createUserFixture,
 } from "coral-server/test/fixtures";
 
-import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
-
 import {
   EMAIL_PREMOD_FILTER_PERIOD_LIMIT,
   shouldPremodDueToLikelySpamEmail,
@@ -14,9 +12,13 @@ const tooManyPeriodsEmail = "this.has.too.many.periods@test.com";
 const justEnoughPeriodsEmail = "just.enough.periods@test.com";
 const noPeriodsEmail = "noperiodshere@test.com";
 
-it("does not premod filter emails when feature flag is disabled", () => {
+it("does not premod filter emails when feature is disabled", () => {
   const tenant = createTenantFixture({
-    featureFlags: [],
+    premoderateEmailAddress: {
+      tooManyPeriods: {
+        enabled: false,
+      },
+    },
   });
 
   const user = createUserFixture({
@@ -27,9 +29,13 @@ it("does not premod filter emails when feature flag is disabled", () => {
   expect(!result);
 });
 
-it(`does not premod filter emails when feature flag enabled and has less than ${EMAIL_PREMOD_FILTER_PERIOD_LIMIT} periods`, () => {
+it(`does not premod filter emails when feature enabled and has less than ${EMAIL_PREMOD_FILTER_PERIOD_LIMIT} periods`, () => {
   const tenant = createTenantFixture({
-    featureFlags: [GQLFEATURE_FLAG.EMAIL_PREMOD_FILTER],
+    premoderateEmailAddress: {
+      tooManyPeriods: {
+        enabled: true,
+      },
+    },
   });
 
   const user = createUserFixture({
@@ -40,9 +46,13 @@ it(`does not premod filter emails when feature flag enabled and has less than ${
   expect(result);
 });
 
-it(`does not premod filter emails when feature flag enabled and has no periods`, () => {
+it(`does not premod filter emails when feature enabled and has no periods`, () => {
   const tenant = createTenantFixture({
-    featureFlags: [GQLFEATURE_FLAG.EMAIL_PREMOD_FILTER],
+    premoderateEmailAddress: {
+      tooManyPeriods: {
+        enabled: true,
+      },
+    },
   });
 
   const user = createUserFixture({
@@ -53,9 +63,13 @@ it(`does not premod filter emails when feature flag enabled and has no periods`,
   expect(result);
 });
 
-it(`does premod filter emails when feature flag is enabled and has too many (${EMAIL_PREMOD_FILTER_PERIOD_LIMIT} or more) periods`, () => {
+it(`does premod filter emails when feature is enabled and has too many (${EMAIL_PREMOD_FILTER_PERIOD_LIMIT} or more) periods`, () => {
   const tenant = createTenantFixture({
-    featureFlags: [GQLFEATURE_FLAG.EMAIL_PREMOD_FILTER],
+    premoderateEmailAddress: {
+      tooManyPeriods: {
+        enabled: true,
+      },
+    },
   });
 
   const user = createUserFixture({
