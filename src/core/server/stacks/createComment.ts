@@ -10,7 +10,6 @@ import {
   AuthorAlreadyHasRatedStory,
   CannotCreateCommentOnArchivedStory,
   CommentNotFoundError,
-  CommentRevisionNotFoundError,
   CoralError,
   StoryNotFoundError,
   UserSiteBanned,
@@ -31,11 +30,7 @@ import {
   pushChildCommentIDOntoParent,
   retrieveManyComments,
 } from "coral-server/models/comment";
-import {
-  getDepth,
-  getLatestRevision,
-  hasAncestors,
-} from "coral-server/models/comment/helpers";
+import { getDepth, hasAncestors } from "coral-server/models/comment/helpers";
 import { markSeenComments } from "coral-server/models/seenComments/seenComments";
 import { retrieveSite } from "coral-server/models/site";
 import {
@@ -274,17 +269,6 @@ export default async function create(
   const ancestorIDs: string[] = [];
   let parent = await retrieveParent(mongo, tenant.id, input);
   if (parent) {
-    // Check to see that the most recent revision matches the one we just replied
-    // to.
-    if (input.parentRevisionID) {
-      const revision = getLatestRevision(parent);
-      if (revision.id !== input.parentRevisionID) {
-        throw new CommentRevisionNotFoundError(
-          parent.id,
-          input.parentRevisionID
-        );
-      }
-    }
     ancestorIDs.push(parent.id);
     if (hasAncestors(parent)) {
       // Push the parent's ancestors id's into the comment's ancestor id's.
