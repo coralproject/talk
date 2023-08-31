@@ -303,6 +303,12 @@ export interface FlairBadgeConfig {
   badges?: FlairBadge[];
 }
 
+export interface PremoderateEmailAddressConfig {
+  tooManyPeriods?: {
+    enabled?: boolean;
+  };
+}
+
 export type Settings = GlobalModerationSettings &
   Pick<
     GQLSettings,
@@ -410,6 +416,8 @@ export type Settings = GlobalModerationSettings &
     forReviewQueue?: boolean;
 
     flairBadges?: FlairBadgeConfig;
+
+    premoderateEmailAddress?: PremoderateEmailAddressConfig;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

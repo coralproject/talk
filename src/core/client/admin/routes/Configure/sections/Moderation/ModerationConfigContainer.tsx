@@ -17,6 +17,7 @@ import EmailDomainConfigContainer from "./EmailDomainConfigContainer";
 import ExternalLinksConfigContainer from "./ExternalLinksConfigContainer";
 import NewCommentersConfigContainer from "./NewCommentersConfigContainer";
 import PerspectiveConfig from "./PerspectiveConfig";
+import PremoderateEmailAddressConfig from "./PremoderateEmailAddressConfig";
 import PreModerationConfigContainer from "./PreModerationConfigContainer";
 import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
 
@@ -50,6 +51,7 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
       <RecentCommentHistoryConfig disabled={submitting} />
       <ExternalLinksConfigContainer disabled={submitting} settings={settings} />
       <EmailDomainConfigContainer settings={settings} />
+      <PremoderateEmailAddressConfig disabled={submitting} />
     </HorizontalGutter>
   );
 };
@@ -67,6 +69,7 @@ const enhanced = withFragmentContainer<Props>({
       ...EmailDomainConfigContainer_settings
       ...ExternalLinksConfigContainer_formValues @relay(mask: false)
       ...ExternalLinksConfigContainer_settings
+      ...PremoderateEmailAddressConfig_formValues @relay(mask: false)
     }
   `,
 })(ModerationConfigContainer);

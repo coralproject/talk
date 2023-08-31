@@ -567,12 +567,6 @@ enum FEATURE_FLAG {
   users, and commentActions more quickly. It is disabled by default.
   """
   DATA_CACHE
-
-  """
-  EMAIL_PREMOD_FILTER enables the feature to premoderate accounts whose emails
-  match patterns that are common with spam accounts.
-  """
-  EMAIL_PREMOD_FILTER
 }
 
 # The moderation mode of the site.
@@ -1934,6 +1928,22 @@ type RTEConfiguration {
   sarcasm: Boolean!
 }
 
+type TooManyPeriodsConfig {
+  enabled: Boolean!
+}
+
+type PremoderateEmailAddressConfig {
+  tooManyPeriods: TooManyPeriodsConfig
+}
+
+input TooManyPeriodsConfigInput {
+  enabled: Boolean
+}
+
+input PremoderateEmailAddressConfigInput {
+  tooManyPeriods: TooManyPeriodsConfigInput
+}
+
 """
 Settings stores the global settings for a given Tenant.
 """
@@ -2228,6 +2238,8 @@ type Settings @cacheControl(maxAge: 30) {
   they are enabled and any configured image urls
   """
   flairBadges: FlairBadgeConfiguration
+
+  premoderateEmailAddress: PremoderateEmailAddressConfig
 }
 
 ################################################################################
@@ -5808,6 +5820,8 @@ input SettingsInput {
   they are enabled and any configured image urls
   """
   flairBadges: FlairBadgeConfigurationInput
+
+  premoderateEmailAddress: PremoderateEmailAddressConfigInput
 }
 
 """

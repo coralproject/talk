@@ -1,6 +1,4 @@
-import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
-
-import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
+import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
 export const EMAIL_PREMOD_FILTER_PERIOD_LIMIT = 3;
@@ -32,7 +30,7 @@ export const shouldPremodDueToLikelySpamEmail = (
   user: Readonly<User>
 ) => {
   // don't premod check unless the filter is enabled
-  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.EMAIL_PREMOD_FILTER)) {
+  if (!tenant?.premoderateEmailAddress?.tooManyPeriods?.enabled) {
     return false;
   }
 
