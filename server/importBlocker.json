@@ -1,0 +1,22 @@
+{
+  "sources": [
+    {
+      "name": "client",
+      "directory": "src/core/client",
+      "blockedImports": [
+        "coral-server/"
+      ],
+      "extensions": [ ".ts", ".tsx" ]
+    },
+    {
+      "name": "server",
+      "directory": "src/core/server",
+      "blockedImports": [
+        "coral-client/",
+        "coral-stream/",
+        "coral-framework/"
+      ],
+      "extensions": [ ".ts" ]
+    }
+  ]
+}

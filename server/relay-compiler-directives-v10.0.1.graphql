@@ -1,0 +1,86 @@
+# This is a workaround until full relay supports comes to
+# https://github.com/graphql/vscode-graphql
+
+directive @connection(
+    key: String!
+    filters: [String]
+    handler: String
+    dynamicKey_UNSTABLE: String
+  ) on FIELD
+
+directive @stream_connection(
+  key: String!
+  filters: [String]
+  handler: String
+  initial_count: Int!
+  if: Boolean = true
+  use_customized_batch: Boolean = false
+  dynamicKey_UNSTABLE: String
+) on FIELD
+
+directive @deleteRecord on FIELD
+directive @appendEdge(
+  connections: [String!]!
+) on FIELD
+directive @prependEdge(
+  connections: [String!]!
+) on FIELD
+
+directive @inline on FRAGMENT_DEFINITION
+
+directive @match(key: String) on FIELD
+
+directive @module(
+  name: String!
+) on FRAGMENT_SPREAD
+
+directive @refetchable(
+  queryName: String!
+) on FRAGMENT_DEFINITION
+
+directive @relay(
+  # Marks a fragment as being backed by a GraphQLList.
+  plural: Boolean,
+
+  # Marks a fragment spread which should be unmasked if provided false
+  mask: Boolean = true,
+) on FRAGMENT_DEFINITION | FRAGMENT_SPREAD
+
+directive @raw_response_type on QUERY | MUTATION | SUBSCRIPTION
+directive @relay_test_operation on QUERY | MUTATION | SUBSCRIPTION
+directive @DEPRECATED__relay_ignore_unused_variables_error on QUERY | MUTATION | SUBSCRIPTION
+
+# (@cvle) This is just a hack until full relay support comes to graphql.vscode-graphql :-)
+input ArgIntType {
+  type: String!
+  defaultValue: Int
+}
+input ArgCursorType {
+  type: String!
+  defaultValue: Cursor
+}
+input ArgCommentSortType {
+  type: String!
+  defaultValue: COMMENT_SORT
+}
+directive @arguments (
+  first: Int
+  after: Int
+  before: Cursor
+  cursor: Cursor
+  last: Int
+  count: Int
+  orderBy: COMMENT_SORT
+  tag: TAG
+  ratingFilter: Int
+) on FRAGMENT_SPREAD
+
+directive @argumentDefinitions(
+  first: ArgIntType
+  after: ArgCursorType
+  before: ArgCursorType
+  cursor: ArgCursorType
+  last: ArgIntType
+  count: ArgIntType
+  orderBy: ArgCommentSortType
+) on FRAGMENT_DEFINITION
