@@ -88,13 +88,14 @@ git clone https://github.com/coralproject/talk.git
 cd talk
 
 # Install dependencies.
-npm install
+sh scripts/npm-ci.sh
+sh scripts/generate.sh
 
 # Build the application dependencies, this may take some time.
-npm run build
+sh build.sh
 ```
 
-This should output all the compiled application code to `./dist`.
+This will build the application code into `dist/` folders under the various sub-directories of Coral. Examples of this are `server/dist`, `client/dist`, `common/dist`.
 
 Running Coral with default settings assumes that you have:
 
@@ -112,6 +113,7 @@ docker run -d -p 6379:6379 --restart always --name redis redis:3.2
 Then start Coral with:
 
 ```bash
+cd server
 npm run start:development
 ```
 
@@ -135,5 +137,6 @@ You can then run Coral with the production command instead:
 
 ```bash
 # Start the server in production mode.
+cd server
 npm run start
 ```

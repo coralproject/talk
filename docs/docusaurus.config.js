@@ -108,7 +108,7 @@ module.exports = {
     [
       "@edno/docusaurus2-graphql-doc-generator",
       {
-        schema: "../src/core/server/graph/schema/schema.graphql",
+        schema: "../server/src/core/server/graph/schema/schema.graphql",
         rootPath: "./docs",
         baseURL: "api",
         homepage: "./docs/graphql.md",
