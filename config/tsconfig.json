@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "commonjs",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noErrorTruncation": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "es2018", "esnext.asynciterable"],
+    "baseUrl": "./",
+    "paths": {
+      "coral-common/*": ["./lib/*"]
+    },
+    "declaration": true,
+    "outDir": "./dist",
+  },
+  "include": [
+    "./lib/**/*.ts",
+    "./lib/**/.*.js",
+    "./lib/types/**/*.d.ts",
+  ],
+  "exclude": ["node_modules"]
+}
