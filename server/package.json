@@ -12,8 +12,8 @@
     "url": "git://github.com/coralproject/talk.git"
   },
   "engines": {
-    "node": "^14.18",
-    "npm": "^8.0.0"
+    "node": "^18.16.0",
+    "npm": "8.0.0"
   },
   "bugs": "https://github.com/coralproject/talk/issues",
   "contributors": [
@@ -21,10 +21,10 @@
   ],
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
-    "build:development": "NODE_ENV=development npm-run-all generate --parallel build:server",
+    "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development npm-run-all generate --parallel build:server",
     "build:server": "gulp server",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true npm-run-all generate --parallel build:server",
-    "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:server",
+    "build": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production npm-run-all generate-persist --parallel build:server",
     "clean": "gulp clean",
     "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' WEBHOOKS.md EXTERNAL_MODERATION_PHASES.md",
     "generate-persist": "npm-run-all generate:schema",
@@ -39,16 +39,16 @@
     "lint:server": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint": "npm-run-all lint:* tscheck:*",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
-    "start:development": "NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
-    "start:development:withJobs": "NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
+    "start:development:withJobs": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
+    "start": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production node dist/index.js",
     "test": "node --trace-warnings scripts/test.js --watch",
     "test:server": "node --trace-warnings scripts/testServer.js",
     "test:cache": "node --trace-warnings scripts/test.cache.js --env=jsdom",
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",
     "tscheck": "npm-run-all --parallel tscheck:*",
-    "watch": "NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
+    "watch": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },
   "license": "Apache-2.0",
   "dependencies": {

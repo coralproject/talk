@@ -1,9 +1,10 @@
-FROM node:14-alpine
+FROM node:18-alpine
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
 
 # Install build dependancies.
-RUN apk --no-cache add git python3
+RUN apk --no-cache --update add g++ make git python3 \
+  && rm -rf /var/cache/apk/*
 
 RUN npm install -g npm@8.0.0
 
