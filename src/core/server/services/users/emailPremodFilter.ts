@@ -34,6 +34,18 @@ export const shouldPremodDueToLikelySpamEmail = (
     return false;
   }
 
+  // don't need to premod a user that is already premoderated
+  if (user.status.premod.active) {
+    return false;
+  }
+
+  // if user is no longer pre-modded, but was because of this spam
+  // email check, don't return true again because staff probably
+  // removed the premod status.
+  if (!user.status.premod.active && user.premoderatedBecauseOfEmailAt) {
+    return false;
+  }
+
   // this is an array to allow for adding more rules in the
   // future as we play whack-a-mole trying to block spammers
   // and other trouble makers

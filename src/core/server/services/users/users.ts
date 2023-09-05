@@ -66,6 +66,7 @@ import {
   mergeUserSiteModerationScopes,
   NotificationSettingsInput,
   premodUser,
+  PremodUserReason,
   pullUserMembershipScopes,
   pullUserSiteModerationScopes,
   removeActiveUserSuspensions,
@@ -176,7 +177,14 @@ export async function findOrCreate(
     let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
 
     if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
-      user = await premodUser(mongo, tenant.id, user.id, undefined, now);
+      user = await premodUser(
+        mongo,
+        tenant.id,
+        user.id,
+        undefined,
+        now,
+        PremodUserReason.EmailPremodFilter
+      );
     }
 
     return user;
@@ -190,7 +198,14 @@ export async function findOrCreate(
       let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
 
       if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
-        user = await premodUser(mongo, tenant.id, user.id, undefined, now);
+        user = await premodUser(
+          mongo,
+          tenant.id,
+          user.id,
+          undefined,
+          now,
+          PremodUserReason.EmailPremodFilter
+        );
       }
 
       return user;
@@ -218,7 +233,14 @@ export async function findOrCreate(
       );
 
       if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
-        user = await premodUser(mongo, tenant.id, user.id, undefined, now);
+        user = await premodUser(
+          mongo,
+          tenant.id,
+          user.id,
+          undefined,
+          now,
+          PremodUserReason.EmailPremodFilter
+        );
       }
 
       return user;

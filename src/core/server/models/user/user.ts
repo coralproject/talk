@@ -616,6 +616,8 @@ export interface User extends TenantResource {
    * bio is a user deifned biography
    */
   bio?: string;
+
+  premoderatedBecauseOfEmailAt?: Date;
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -1818,6 +1820,11 @@ async function retrieveConnection(
   return resolveConnection(query, input, (user) => user.createdAt);
 }
 
+export enum PremodUserReason {
+  None = 0,
+  EmailPremodFilter,
+}
+
 /**
  * premodUser will set a user to mandatory premod.
  *
@@ -1832,7 +1839,8 @@ export async function premodUser(
   tenantID: string,
   id: string,
   createdBy?: string,
-  now = new Date()
+  now = new Date(),
+  reason = PremodUserReason.None
 ) {
   // Create the new ban.
   const premodStatusHistory: PremodStatusHistory = {
@@ -1840,6 +1848,14 @@ export async function premodUser(
     createdBy,
     createdAt: now,
   };
+
+  const set: any = {
+    "status.premod.active": true,
+  };
+
+  if (reason === PremodUserReason.EmailPremodFilter) {
+    set.premoderatedBecauseOfEmailAt = now;
+  }
 
   // Try to update the user if the user isn't already banned.
   const result = await mongo.users().findOneAndUpdate(
@@ -1851,9 +1867,7 @@ export async function premodUser(
       },
     },
     {
-      $set: {
-        "status.premod.active": true,
-      },
+      $set: set,
       $push: {
         "status.premod.history": premodStatusHistory,
       },
