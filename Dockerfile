@@ -28,10 +28,39 @@ USER node
 RUN git config --global url."https://github.com/".insteadOf ssh://git@github.com/ && \
     git config --global url."https://".insteadOf ssh://
 
-# Install build static assets and clear caches.
-RUN npm ci && \
+# Initialize sub packages
+RUN cd config && npm ci && \
+  cd ../common && npm ci && \
+  cd ../client && npm ci && \
+  cd ../server && npm ci && \
+  cd ..
+
+# Generate schema types for common/ to use
+RUN cd server && \
+  npm run generate && \
+  cd ..
+
+# Build config, prune static assets
+RUN cd config && \
   npm run build && \
-  npm prune --production
+  cd ..
+
+# Build common, prune static assets
+RUN cd common && \
+  npm run build && \
+  cd ..
+
+# Build client, prune static assets
+RUN cd client && \
+  npm run build && \
+  npm prune --production && \
+  cd ..
+
+# Install, build server, prune static assets
+RUN cd server && \
+  npm run build && \
+  npm prune --production && \
+  cd ..
 
 # Setup the environment
 ENV NODE_ENV production
@@ -40,4 +69,4 @@ EXPOSE 5000
 
 # Run the node process directly instead of using `npm run start`:
 # SEE: https://github.com/nodejs/docker-node/blob/a2eb9f80b0fd224503ee2678867096c9e19a51c2/docs/BestPractices.md#cmd
-CMD ["node", "dist/index.js"]
+CMD ["node", "server/dist/index.js"]

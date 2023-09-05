@@ -1,0 +1,24 @@
+.deleteButton {
+  margin-left: auto;
+}
+
+.addButton {
+  height: 34px;
+}
+
+.flairBadgeURLInput {
+  margin-right: var(--spacing-3);
+}
+
+.flairBadgeNameInput {
+  margin-right: var(--spacing-3);
+}
+
+.urlTableCell {
+  max-width: 250px;
+  overflow-wrap: anywhere;
+}
+
+.emptyCustomFlairText {
+  padding-left: var(--spacing-3);
+}

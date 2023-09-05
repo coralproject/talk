@@ -47,3 +47,13 @@ If you are interested in contributing to Coral, check out our [Contributor's Gui
 ## License
 
 Coral is [Apache-2.0 licensed](LICENSE).
+
+## Versioning
+
+If you're packaging a release of Coral, there is a convenient script to update the version numbers for all the child projects in the mono-repo.
+
+The below script will run `npm version x.y.z` against all the child repositories so you don't have to manually update them by hand!
+
+```
+sh scripts/version.sh MAJOR.MINOR.VERSION // i.e. 8.5.0
+```
