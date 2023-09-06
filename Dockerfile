@@ -62,6 +62,9 @@ RUN cd server && \
   npm prune --production && \
   cd ..
 
+# Set working directory within server folder
+WORKDIR /usr/src/app/server
+
 # Setup the environment
 ENV NODE_ENV production
 ENV PORT 5000
