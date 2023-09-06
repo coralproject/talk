@@ -126,6 +126,7 @@ const PaginatedSelect: FunctionComponent<Props> = ({
               <Flex
                 alignItems="center"
                 aria-roledescription="button"
+                className={styles.wrapper}
                 tabIndex={0}
                 onFocus={() => setIsPopoverVisible(true)}
                 onBlur={handleButtonBlur}
