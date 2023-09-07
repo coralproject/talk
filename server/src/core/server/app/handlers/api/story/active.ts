@@ -14,11 +14,13 @@ export type Options = Pick<AppOptions, "mongo">;
 const ActiveStoriesQuerySchema = Joi.object().keys({
   callback: Joi.string().allow("").optional(),
   siteID: Joi.string().required(),
+  count: Joi.number().optional(),
 });
 
 interface ActiveStoriesQuery {
   callback: string;
   siteID: string;
+  count: number;
 }
 
 /**
@@ -44,7 +46,7 @@ export const activeJSONPHandler =
       const { tenant, now } = req.coral;
 
       // Ensure we have a siteID on the query.
-      const { siteID }: ActiveStoriesQuery = validate(
+      const { siteID, count }: ActiveStoriesQuery = validate(
         ActiveStoriesQuerySchema,
         req.query
       );
@@ -61,7 +63,7 @@ export const activeJSONPHandler =
         mongo,
         tenant.id,
         siteID,
-        5,
+        count ?? 5,
         start,
         now
       );
