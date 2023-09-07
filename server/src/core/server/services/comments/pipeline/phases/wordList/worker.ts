@@ -21,6 +21,7 @@ interface List {
   category: WordListCategory;
   locale: LanguageCode;
   regex: RE2 | null;
+  regexIsEmpty: boolean;
 }
 
 const lists = new Map<string, List>();
@@ -42,7 +43,13 @@ const initialize = (
   const regex =
     phrases.length > 0 ? createServerWordListRegEx(locale, phrases) : null;
 
-  lists.set(key, { tenantID, category, locale, regex });
+  lists.set(key, {
+    tenantID,
+    category,
+    locale,
+    regex,
+    regexIsEmpty: phrases.length === 0,
+  });
 
   logger.info(
     { tenantID, category, phrases: phrases.length },
@@ -73,7 +80,33 @@ const process = (
   const listKey = computeWordListKey(tenantID, category);
   const list = lists.get(listKey);
 
-  if (!list || list.regex === null) {
+  if (!list) {
+    return {
+      id,
+      tenantID,
+      ok: false,
+      err: new Error("word list for tenant not found"),
+    };
+  }
+
+  // Handle the case a phrase list is empty.
+  // If the regex is empty, we had no phrases to match against
+  // return that there are no matches as there can't be any matches.
+  if (list.regexIsEmpty) {
+    return {
+      id,
+      tenantID,
+      ok: true,
+      data: {
+        isMatched: false,
+        matches: [],
+      },
+    };
+  }
+
+  // If we made it here, the regex must be valid or something
+  // has gone very wrong!
+  if (!list.regex) {
     return {
       id,
       tenantID,
