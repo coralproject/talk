@@ -14,7 +14,7 @@ export type Options = Pick<AppOptions, "mongo">;
 const ActiveStoriesQuerySchema = Joi.object().keys({
   callback: Joi.string().allow("").optional(),
   siteID: Joi.string().required(),
-  count: Joi.number().optional(),
+  count: Joi.number().optional().max(999),
 });
 
 interface ActiveStoriesQuery {
