@@ -115,6 +115,7 @@ export const calculateTags = (
     [GQLTAG.REVIEW]: tagChanged(before, after, GQLTAG.REVIEW),
     [GQLTAG.STAFF]: tagChanged(before, after, GQLTAG.STAFF),
     [GQLTAG.UNANSWERED]: tagChanged(before, after, GQLTAG.UNANSWERED),
+    [GQLTAG.USER_EMAIL]: tagChanged(before, after, GQLTAG.USER_EMAIL),
   };
 
   let total = 0;

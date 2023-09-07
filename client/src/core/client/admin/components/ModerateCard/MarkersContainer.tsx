@@ -34,6 +34,13 @@ const markers: Array<
     )) ||
     null,
   (c) =>
+    (c.status === "PREMOD" && c.tags.find((t) => t.code === "USER_EMAIL") && (
+      <Localized id="moderate-marker-preMod-userEmail" key={keyCounter++}>
+        <Marker color="pending">User email</Marker>
+      </Localized>
+    )) ||
+    null,
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_LINKS && (
         <Localized id="moderate-marker-link" key={keyCounter++}>
