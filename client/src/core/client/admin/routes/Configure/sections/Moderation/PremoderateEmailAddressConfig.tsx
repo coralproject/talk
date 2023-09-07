@@ -45,7 +45,7 @@ const PremoderateEmailAddressConfig: FunctionComponent<Props> = ({
         <FormFieldHeader>
           <Localized id="configure-moderation-premoderateEmailAddress-enabled">
             <Label component="legend">
-              Premoderate emails with too many periods
+              Pre-moderate emails with too many periods
             </Label>
           </Localized>
           <Localized id="configure-moderation-premoderateEmailAddress-enabled-description">

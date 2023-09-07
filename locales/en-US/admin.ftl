@@ -873,11 +873,11 @@ configure-moderation-emailDomains-confirmDelete = Deleting this email domain wil
 configure-moderation-emailDomains-form-description-add = Add a domain and select the action that should be taken when on every new account created using the specified domain.
 configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
 
-#### Premoderate  Email Address Configuration
+#### Pre-moderate  Email Address Configuration
 
 configure-moderation-premoderateEmailAddress-title = Email address
 configure-moderation-premoderateEmailAddress-enabled =
-  Premoderate emails with too many periods
+  Pre-moderate emails with too many periods
 configure-moderation-premoderateEmailAddress-enabled-description =
   If a user has three or more periods in the first part of their
   email address (before the @), set their status to pre-moderate
