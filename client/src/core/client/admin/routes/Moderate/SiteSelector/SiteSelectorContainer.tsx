@@ -8,10 +8,12 @@ import {
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import { SiteSelectorContainer_query } from "coral-admin/__generated__/SiteSelectorContainer_query.graphql";
 import { SiteSelectorContainer_viewer } from "coral-admin/__generated__/SiteSelectorContainer_viewer.graphql";
 import { SiteSelectorContainerPaginationQueryVariables } from "coral-admin/__generated__/SiteSelectorContainerPaginationQuery.graphql";
+
 import SiteSelector from "./SiteSelector";
 
 interface Props {
@@ -31,7 +33,7 @@ const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
   const [searchFilter, setSearchFilter] = useState<string | null>(null);
   const [searchTimeout, setSearchTimeout] = useState<number | undefined>();
 
-  const [, isRefetching] = useRefetch(props.relay, 10, {
+  const [, isRefetching, refetchError] = useRefetch(props.relay, 10, {
     searchFilter: searchFilter || null,
   });
 
@@ -76,6 +78,10 @@ const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
 
     return { scoped: false, sites: [] };
   }, [props.query, props.viewer]);
+
+  if (refetchError) {
+    return <QueryError error={refetchError} />;
+  }
 
   return (
     <SiteSelector
