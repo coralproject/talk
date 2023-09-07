@@ -3,7 +3,7 @@ import {
   GQLPremoderateEmailAddressConfigTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const SlackConfiguration: GQLPremoderateEmailAddressConfigTypeResolver<GQLPremoderateEmailAddressConfig> =
+export const PremoderateEmailAddressConfig: GQLPremoderateEmailAddressConfigTypeResolver<GQLPremoderateEmailAddressConfig> =
   {
     tooManyPeriods: (config) =>
       config && config.tooManyPeriods

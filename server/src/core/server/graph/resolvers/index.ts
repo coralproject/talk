@@ -46,6 +46,7 @@ import { ModMessageStatusHistory } from "./ModMessageStatusHistory";
 import { Mutation } from "./Mutation";
 import { NewCommentersConfiguration } from "./NewCommentersConfiguration";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
+import { PremoderateEmailAddressConfig } from "./PremoderateEmailAddress";
 import { PremodStatus } from "./PremodStatus";
 import { PremodStatusHistory } from "./PremodStatusHistory";
 import { Profile } from "./Profile";
@@ -165,6 +166,7 @@ const Resolvers: GQLResolver = {
   YouTubeMediaConfiguration,
   LocalAuthIntegration,
   AuthenticationTargetFilter,
+  PremoderateEmailAddressConfig,
 };
 
 export default Resolvers;
