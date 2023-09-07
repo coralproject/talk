@@ -1932,7 +1932,7 @@ type TooManyPeriodsConfig {
   enabled: Boolean!
 }
 
-type PremoderateEmailAddressConfig {
+type PremoderateEmailAddressConfiguration {
   tooManyPeriods: TooManyPeriodsConfig
 }
 
@@ -1940,7 +1940,7 @@ input TooManyPeriodsConfigInput {
   enabled: Boolean
 }
 
-input PremoderateEmailAddressConfigInput {
+input PremoderateEmailAddressConfigurationInput {
   tooManyPeriods: TooManyPeriodsConfigInput
 }
 
@@ -2239,7 +2239,7 @@ type Settings @cacheControl(maxAge: 30) {
   """
   flairBadges: FlairBadgeConfiguration
 
-  premoderateEmailAddress: PremoderateEmailAddressConfig
+  premoderateEmailAddress: PremoderateEmailAddressConfiguration
 }
 
 ################################################################################
@@ -5821,7 +5821,7 @@ input SettingsInput {
   """
   flairBadges: FlairBadgeConfigurationInput
 
-  premoderateEmailAddress: PremoderateEmailAddressConfigInput
+  premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
 }
 
 """

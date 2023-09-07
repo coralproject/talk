@@ -1,9 +1,9 @@
 import {
-  GQLPremoderateEmailAddressConfig,
-  GQLPremoderateEmailAddressConfigTypeResolver,
+  GQLPremoderateEmailAddressConfiguration,
+  GQLPremoderateEmailAddressConfigurationTypeResolver,
 } from "coral-server/graph/schema/__generated__/types";
 
-export const PremoderateEmailAddressConfig: GQLPremoderateEmailAddressConfigTypeResolver<GQLPremoderateEmailAddressConfig> =
+export const PremoderateEmailAddressConfiguration: GQLPremoderateEmailAddressConfigurationTypeResolver<GQLPremoderateEmailAddressConfiguration> =
   {
     tooManyPeriods: (config) =>
       config && config.tooManyPeriods
