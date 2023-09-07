@@ -1,3 +1,4 @@
+import { NewUserModeration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
@@ -25,6 +26,30 @@ const emailHasTooManyPeriods = (email: string | undefined, limit: number) => {
   return periodCount >= limit;
 };
 
+const emailIsOnAutoBanList = (
+  email: string | undefined,
+  tenant: Readonly<Tenant>
+): boolean => {
+  if (!email) {
+    return false;
+  }
+
+  const emailSplit = email.split("@");
+  if (emailSplit.length < 2) {
+    return false;
+  }
+
+  const domain = emailSplit[1].trim().toLowerCase();
+
+  const autoBanRecord = tenant.emailDomainModeration?.find(
+    (record) =>
+      record.domain.toLowerCase() === domain &&
+      record.newUserModeration === NewUserModeration.BAN
+  );
+
+  return !!autoBanRecord;
+};
+
 export const shouldPremodDueToLikelySpamEmail = (
   tenant: Readonly<Tenant>,
   user: Readonly<User>
@@ -43,6 +68,10 @@ export const shouldPremodDueToLikelySpamEmail = (
   // email check, don't return true again because staff probably
   // removed the premod status.
   if (!user.status.premod.active && user.premoderatedBecauseOfEmailAt) {
+    return false;
+  }
+
+  if (emailIsOnAutoBanList(user.email, tenant)) {
     return false;
   }
 

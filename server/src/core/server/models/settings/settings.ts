@@ -287,10 +287,15 @@ export interface StoryConfiguration {
   disableLazy: boolean;
 }
 
+export enum NewUserModeration {
+  BAN = "BAN",
+  PREMOD = "PREMOD",
+}
+
 export interface EmailDomain {
   id: string;
   domain: string;
-  newUserModeration: "BAN" | "PREMOD";
+  newUserModeration: NewUserModeration;
 }
 
 export interface FlairBadge {
