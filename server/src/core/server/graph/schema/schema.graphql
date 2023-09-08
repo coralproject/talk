@@ -3623,14 +3623,6 @@ enum TAG {
   that is set to Ratings and Reviews.
   """
   QUESTION
-
-  """
-  USER_EMAIL is used when a comment is written by a user whose email has been
-  caught by the email pre-mod filter. This filter is used to catch likely spam
-  or bad actor emails. This tag allows moderators to see that a comment was
-  pre-moderated for this reason.
-  """
-  USER_EMAIL
 }
 
 """
@@ -3702,11 +3694,6 @@ type CommentTagCounts {
   UNANSWERED is the count of Comment's with the UNANSWERED tag.
   """
   UNANSWERED: Int!
-
-  """
-  USER_EMAIL is the count of Comment's with the USER_EMAIL tag.
-  """
-  USER_EMAIL: Int!
 }
 
 """

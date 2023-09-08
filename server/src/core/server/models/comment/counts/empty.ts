@@ -50,7 +50,6 @@ export function hasInvalidGQLCommentTagCounts(
     GQLTAG.REVIEW,
     GQLTAG.STAFF,
     GQLTAG.UNANSWERED,
-    GQLTAG.USER_EMAIL,
   ];
 
   for (const key of keys) {
@@ -86,7 +85,6 @@ export function createEmptyGQLCommentTagCounts(): GQLCommentTagCounts {
     [GQLTAG.REVIEW]: 0,
     [GQLTAG.STAFF]: 0,
     [GQLTAG.UNANSWERED]: 0,
-    [GQLTAG.USER_EMAIL]: 0,
   };
 }
 
