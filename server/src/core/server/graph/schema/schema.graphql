@@ -3158,6 +3158,13 @@ type User {
   bio is a user-defined biography.
   """
   bio: String
+
+  """
+  premoderatedBecauseOfEmailAt is set when a user was set to pre-moderated
+  comments for having an email that was caught by the email pre-moderation
+  filter.
+  """
+  premoderatedBecauseOfEmailAt: Time @auth(roles: [MODERATOR, ADMIN])
 }
 
 """
