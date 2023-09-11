@@ -6,7 +6,6 @@ reaction-labelActiveRespected = Aimé
 reaction-sortLabelMostRespected = Le plus aimé
 
 comment-count =
-  <span class="{ $numberClass }">{ $number }</span>
   <span class="{ $textClass }">{ $number  ->
     [one] Commentaire
     *[other] Commentaires
