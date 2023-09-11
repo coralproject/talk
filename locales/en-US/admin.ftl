@@ -1030,6 +1030,7 @@ moderate-marker-abusive = Abusive
 moderate-marker-newCommenter = New commenter
 moderate-marker-repeatPost = Repeat comment
 moderate-marker-other = Other
+moderate-marker-preMod-userEmail = User email
 
 moderate-markers-details = Details
 moderate-flagDetails-latestReports = Latest reports
