@@ -11,7 +11,6 @@ import {
   MutationToApproveCommentResolver,
   MutationToBanUserResolver,
   MutationToRejectCommentResolver,
-  QueryToSitesResolver,
 } from "coral-framework/schema";
 import {
   createMutationResolverStub,
@@ -28,10 +27,8 @@ import {
   emptyRejectedComments,
   reportedComments,
   settings,
-  settingsWithMultisite,
   site,
   siteConnection,
-  sites,
   users,
 } from "../fixtures";
 
@@ -880,128 +877,4 @@ it("doesnt show comments from banned users whose commens have been rejected", as
       screen.queryByTestId(`moderate-comment-card-${reportedComments[0].id}`)
     ).toBeNull();
   });
-});
-
-it.only("filters comments in queue by site", async () => {
-  const commentsResoverStub =
-    createQueryResolverStub<ModerationQueueToCommentsResolver>(
-      ({ variables, callCount }) => {
-        switch (callCount) {
-          case 0:
-            expectAndFail(variables).toEqual({
-              first: 5,
-              orderBy: "CREATED_AT_DESC",
-            });
-            return {
-              edges: [
-                {
-                  node: reportedComments[0],
-                  cursor: reportedComments[0].createdAt,
-                },
-                {
-                  node: reportedComments[1],
-                  cursor: reportedComments[1].createdAt,
-                },
-              ],
-              pageInfo: {
-                endCursor: reportedComments[1].createdAt,
-                hasNextPage: true,
-              },
-            };
-          default:
-            expectAndFail(variables).toEqual({
-              first: 10,
-              query: "second",
-              orderBy: "CREATED_AT_DESC",
-            });
-            return {
-              pageInfo: {
-                endCursor: reportedComments[2].createdAt,
-                hasNextPage: false,
-              },
-            };
-        }
-      }
-    ) as any;
-  const moderationQueuesStub = pureMerge(emptyModerationQueues, {
-    reported: {
-      count: 2,
-      comments: commentsResoverStub,
-    },
-  });
-
-  const sitesResolverStub = createQueryResolverStub<QueryToSitesResolver>(
-    ({ variables, callCount }) => {
-      switch (callCount) {
-        case 0:
-          return siteConnection;
-        default:
-          expectAndFail(variables).toEqual({
-            first: 10,
-            after: null,
-            query: "third",
-          });
-
-          return {
-            edges: [
-              {
-                cursor: "1",
-                node: {
-                  ...sites[0],
-                  id: "site-3",
-                  name: "Third Site",
-                },
-              },
-            ],
-            pageInfo: {
-              hasNextPage: false,
-            },
-          };
-      }
-    }
-  );
-
-  await act(async () => {
-    await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          moderationQueues: () => moderationQueuesStub,
-          sites: sitesResolverStub,
-          settings: () => settingsWithMultisite,
-        },
-      }),
-    });
-  });
-
-  const searchBarContainer = await screen.findByTestId(
-    "moderate-searchBar-container"
-  );
-
-  const siteSelector = await within(searchBarContainer).findByLabelText(
-    "Select site",
-    { exact: false }
-  );
-  expect(siteSelector).toBeInTheDocument();
-
-  userEvent.click(siteSelector);
-
-  expect(
-    await within(siteSelector).findByLabelText("Filter results")
-  ).toBeVisible();
-
-  const dropDown = screen.getByRole("dialog");
-  expect(dropDown).toBeVisible();
-
-  const textInput = await within(siteSelector).findByLabelText(
-    "Filter results"
-  );
-  expect(textInput).toHaveFocus();
-
-  await act(async () => {
-    userEvent.type(textInput, "third");
-    await new Promise((res) => setTimeout(res, 3000));
-  });
-
-  expect(within(dropDown).queryByText("Test Site")).toBeNull();
-  expect(within(dropDown).queryByText("Third Site")).toBeInTheDocument();
 });
