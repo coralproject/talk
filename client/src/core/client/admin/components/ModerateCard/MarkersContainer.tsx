@@ -34,11 +34,13 @@ const markers: Array<
     )) ||
     null,
   (c) =>
-    (c.status === "PREMOD" && c.author.premoderatedBecauseOfEmailAt && (
-      <Localized id="moderate-marker-preMod-userEmail" key={keyCounter++}>
-        <Marker color="pending">User email</Marker>
-      </Localized>
-    )) ||
+    (c.status === "PREMOD" &&
+      c.author &&
+      c.author.premoderatedBecauseOfEmailAt && (
+        <Localized id="moderate-marker-preMod-userEmail" key={keyCounter++}>
+          <Marker color="pending">User email</Marker>
+        </Localized>
+      )) ||
     null,
   (c) =>
     (c.revision &&
