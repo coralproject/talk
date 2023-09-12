@@ -1,13 +1,3 @@
-# don't include the dependancies
-node_modules
-
-# don't include any logs
-npm-debug.log*
-
-# don't include any yarn files
-yarn-error.log
-yarn.lock
-
 # don't include any OS/editor files
 .env
 .idea/
@@ -16,10 +6,4 @@ yarn.lock
 .next
 *.swp
 *.DS_STORE
-
-# don't include any generated files
-dist
-*.css.d.ts
-__generated__
-persisted-queries.json
-docs/out
+node_modules

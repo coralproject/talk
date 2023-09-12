@@ -1,0 +1,4 @@
+.flairBadge {
+  max-height: 25px;
+  margin-right: var(--spacing-1);
+}

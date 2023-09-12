@@ -3,12 +3,12 @@
     "*.css": "postcss"
   },
   "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
+    ".vs": true,
     "**/.DS_Store": true,
-    ".vs": true
+    "**/.git": false,
+    "**/.hg": true,
+    "**/.svn": true,
+    "**/CVS": true
   },
   "tslint.enable": false,
   "eslint.validate": [
@@ -54,5 +54,10 @@
   "search.exclude": {
     "package-lock.json": true
   },
-  "debug.node.autoAttach": "off"
+  "debug.node.autoAttach": "off",
+  "eslint.workingDirectories": [
+    "./client/",
+    "./server/",
+    "./common/",
+  ]
 }
