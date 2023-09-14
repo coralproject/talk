@@ -28,10 +28,42 @@ USER node
 RUN git config --global url."https://github.com/".insteadOf ssh://git@github.com/ && \
     git config --global url."https://".insteadOf ssh://
 
-# Install build static assets and clear caches.
-RUN npm ci && \
+# Initialize sub packages
+RUN cd config && npm ci && \
+  cd ../common && npm ci && \
+  cd ../client && npm ci && \
+  cd ../server && npm ci && \
+  cd ..
+
+# Generate schema types for common/ to use
+RUN cd server && \
+  npm run generate && \
+  cd ..
+
+# Build config, prune static assets
+RUN cd config && \
   npm run build && \
-  npm prune --production
+  cd ..
+
+# Build common, prune static assets
+RUN cd common && \
+  npm run build && \
+  cd ..
+
+# Build client, prune static assets
+RUN cd client && \
+  npm run build && \
+  npm prune --production && \
+  cd ..
+
+# Install, build server, prune static assets
+RUN cd server && \
+  npm run build && \
+  npm prune --production && \
+  cd ..
+
+# Set working directory within server folder
+WORKDIR /usr/src/app/server
 
 # Setup the environment
 ENV NODE_ENV production

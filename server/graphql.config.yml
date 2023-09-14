@@ -1,0 +1,4 @@
+projects:
+  tenant:
+    schema:
+      - './src/core/server/graph/schema/schema.graphql'
