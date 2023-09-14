@@ -48,7 +48,7 @@
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",
     "tscheck": "npm-run-all --parallel tscheck:*",
-    "watch": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
+    "watch": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development STATIC_URI=http://127.0.0.1:8080 ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },
   "license": "Apache-2.0",
   "dependencies": {

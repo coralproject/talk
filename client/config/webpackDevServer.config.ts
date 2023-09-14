@@ -69,7 +69,7 @@ export default function ({
     publicPath,
     // WebpackDevServer is noisy by default so we emit custom message instead
     // by listening to the compiler events with `compiler.plugin` calls above.
-    quiet: true,
+    quiet: false,
     // Reportedly, this avoids CPU overload on some systems.
     // https://github.com/facebookincubator/create-react-app/issues/293
     // src/node_modules is not ignored to support absolute imports
@@ -82,7 +82,8 @@ export default function ({
       disableDotRule: true,
       rewrites: [],
     },
-    public: allowedHost,
+    allowedHosts: ["127.0.0.1:8080", "127.0.0.1:3000"],
+    public: "127.0.0.1:8080",
     index: "embed.html",
     sockPort: devPort,
     proxy: [
@@ -105,7 +106,7 @@ export default function ({
             "/graphiql",
           ].some((p) => p === lc || lc.startsWith(`${p}/`));
         },
-        target: `http://localhost:${serverPort}`,
+        target: `127.0.0.1:${serverPort}`,
         onError: (err, req, res) => {
           res.writeHead(500, {
             "Content-Type": "text/html",
