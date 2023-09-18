@@ -46,7 +46,7 @@ cat > docker-compose.yml <<EOF
 version: "2"
 services:
   talk:
-    image: coralproject/talk:6
+    image: coralproject/talk:8.5.0
     restart: always
     ports:
       - "127.0.0.1:3000:5000"
