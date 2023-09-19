@@ -108,7 +108,7 @@ jobs:
           npx @coralproject/package-version-lint
       -
         name: Run Server Unit Tests
-        run: cd server && npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
+        run: cd server && npm run test:server -- --no-cache --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Run Client Stream Unit Tests
         run: cd client && npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
