@@ -96,7 +96,7 @@ function gatherEntries(
   function serializeEventSymbol(symbol: ts.Symbol) {
     const type = checker.getTypeOfSymbolAtLocation(
       symbol,
-      symbol.valueDeclaration
+      symbol.valueDeclaration!
     );
     const typeNode = checker.typeToTypeNode(type, undefined, buildFlags)!;
     const typeName = symbol.getName();
