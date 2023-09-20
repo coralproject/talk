@@ -31,4 +31,5 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   preset: "ts-jest",
+  workerIdleMemoryLimit: 0.2,
 };

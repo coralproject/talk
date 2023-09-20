@@ -28,4 +28,5 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   preset: "ts-jest",
   runInBand: true,
+  workerIdleMemoryLimit: 0.2,
 };
