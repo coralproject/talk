@@ -9,7 +9,6 @@ import { identity, uniq } from "lodash";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
-import TerserPlugin from "terser-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import webpack, { Configuration, Plugin } from "webpack";
 import WebpackAssetsManifest from "webpack-assets-manifest";
@@ -193,36 +192,6 @@ export default function createWebpackConfig(
         chunks: config.get("disableChunkSplitting") ? "async" : "all",
       },
       minimize: minimize || treeShake,
-      minimizer: [
-        // Minify the code.
-        new TerserPlugin({
-          terserOptions: {
-            compress: minimize
-              ? {}
-              : {
-                  defaults: false,
-                  dead_code: true,
-                  pure_getters: true,
-                  side_effects: true,
-                  unused: true,
-                  passes: 2,
-                },
-            mangle: minimize,
-            keep_classnames: profilerSupport,
-            keep_fnames: profilerSupport,
-            output: {
-              comments: !minimize,
-              // Turned on because emoji and regex is not minified properly using default
-              // https://github.com/facebookincubator/create-react-app/issues/2488
-              ascii_only: true,
-            },
-            safari10: true,
-          },
-          cache: enableBuildCache,
-          parallel: false,
-          sourceMap: !disableSourcemaps,
-        }),
-      ],
     },
     devtool,
     // These are the "entry points" to our application.
