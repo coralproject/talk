@@ -1928,6 +1928,14 @@ type RTEConfiguration {
   sarcasm: Boolean!
 }
 
+type DSAConfiguration {
+  """
+  enabled when true turns on the European Union DSA compliance
+  features for commenting, reporting, and moderation flows.
+  """
+  enabled: Boolean!
+}
+
 """
 Settings stores the global settings for a given Tenant.
 """
@@ -2222,6 +2230,12 @@ type Settings @cacheControl(maxAge: 30) {
   they are enabled and any configured image urls
   """
   flairBadges: FlairBadgeConfiguration
+
+  """
+  dsa specifies the configuration for the European Union's DSA compliance
+  features and whether they are enabled.
+  """
+  dsa: DSAConfiguration!
 }
 
 ################################################################################
@@ -5599,6 +5613,14 @@ input FlairBadgeConfigurationInput {
 }
 
 """
+DSAConfigurationInput specifies the configuration for DSA European Union
+moderation and reporting features.
+"""
+input DSAConfigurationInput {
+  enabled: Boolean
+}
+
+"""
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
@@ -5802,6 +5824,12 @@ input SettingsInput {
   they are enabled and any configured image urls
   """
   flairBadges: FlairBadgeConfigurationInput
+
+  """
+  dsa specifies the configuration for DSA European Union moderation and
+  reporting features.
+  """
+  dsa: DSAConfigurationInput
 }
 
 """

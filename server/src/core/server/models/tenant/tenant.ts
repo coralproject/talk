@@ -298,6 +298,9 @@ export async function createTenant(
       flairBadgesEnabled: false,
       badges: [],
     },
+    dsa: {
+      enabled: false,
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.
