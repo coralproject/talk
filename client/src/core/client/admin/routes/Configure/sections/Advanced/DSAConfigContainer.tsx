@@ -24,7 +24,7 @@ export const DSAConfigContainer: FunctionComponent<Props> = ({ disabled }) => {
       data-testid="configure-advanced-dsaConfig"
       title={
         <Localized id="configure-advanced-dsaConfig-title">
-          <Header container="h2">DSA Features</Header>
+          <Header container="h2">DSA Features (TODO)</Header>
         </Localized>
       }
       name="dsa.enabled"

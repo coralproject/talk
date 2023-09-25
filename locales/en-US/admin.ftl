@@ -949,6 +949,8 @@ configure-advanced-for-review-queue-explanation =
   mark them as "Reviewed".
 configure-advanced-for-review-queue-label = Show "For review" queue
 
+configure-advanced-dsaConfig-title = DSA Features (TODO)
+
 ## Decision History
 decisionHistory-popover =
   .description = A dialog showing the decision history
