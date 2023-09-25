@@ -17,7 +17,7 @@ env:
 jobs:
   build-and-test:
     name: Build, Test, and Deploy
-    runs-on: coral-cli
+    runs-on: coral-ci
     steps:
       -
         name: Checkout
