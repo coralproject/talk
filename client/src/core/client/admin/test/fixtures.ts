@@ -229,6 +229,9 @@ export const settings = createFixture<GQLSettings>({
     flairBadgesEnabled: false,
     badges: [],
   },
+  dsa: {
+    enabled: false,
+  },
 });
 
 export const settingsWithMultisite = createFixture<GQLSettings>(

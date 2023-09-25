@@ -135,6 +135,9 @@ export const settings = createFixture<GQLSettings>({
     flairBadgesEnabled: true,
     badges: [{ name: "subscriber", url: "https://wwww.example.com/image.jpg" }],
   },
+  dsa: {
+    enabled: false,
+  },
 });
 
 export const site = createFixtures<GQLSite>([
