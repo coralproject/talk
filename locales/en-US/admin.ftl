@@ -949,8 +949,6 @@ configure-advanced-for-review-queue-explanation =
   mark them as "Reviewed".
 configure-advanced-for-review-queue-label = Show "For review" queue
 
-configure-advanced-dsaConfig-title = DSA Features (TODO)
-
 ## Decision History
 decisionHistory-popover =
   .description = A dialog showing the decision history
@@ -1604,6 +1602,8 @@ configure-general-rte-spoiler = Spoiler
 configure-general-rte-spoilerDesc =
   Words and phrases formatted as Spoiler are hidden behind a
   dark background until the reader chooses to reveal the text.
+
+configure-general-dsaConfig-title = DSA Features (TODO)
 
 configure-account-features-title = Commenter account management features
 configure-account-features-explanation =

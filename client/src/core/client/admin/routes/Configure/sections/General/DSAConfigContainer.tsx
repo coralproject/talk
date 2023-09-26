@@ -21,9 +21,9 @@ interface Props {
 export const DSAConfigContainer: FunctionComponent<Props> = ({ disabled }) => {
   return (
     <ConfigBoxWithToggleField
-      data-testid="configure-advanced-dsaConfig"
+      data-testid="configure-general-dsaConfig"
       title={
-        <Localized id="configure-advanced-dsaConfig-title">
+        <Localized id="configure-general-dsaConfig-title">
           <Header container="h2">DSA Features (TODO)</Header>
         </Localized>
       }

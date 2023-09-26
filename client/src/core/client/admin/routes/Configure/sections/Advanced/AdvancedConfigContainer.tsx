@@ -13,7 +13,6 @@ import { AdvancedConfigContainer_settings } from "coral-admin/__generated__/Adva
 import AMPConfig from "./AMPConfig";
 import CommentStreamLiveUpdatesContainer from "./CommentStreamLiveUpdatesContainer";
 import CustomCSSConfig from "./CustomCSSConfig";
-import { DSAConfigContainer } from "./DSAConfigContainer";
 import EmbeddedCommentRepliesConfig from "./EmbeddedCommentRepliesConfig";
 import ForReviewQueueConfig from "./ForReviewQueueConfig";
 import StoryCreationConfig from "./StoryCreationConfig";
@@ -40,7 +39,6 @@ const AdvancedConfigContainer: React.FunctionComponent<Props> = ({
       <StoryCreationConfig disabled={submitting} />
       <AMPConfig disabled={submitting} />
       <ForReviewQueueConfig disabled={submitting} />
-      <DSAConfigContainer disabled={submitting} />
     </HorizontalGutter>
   );
 };
@@ -55,7 +53,6 @@ const enhanced = withFragmentContainer<Props>({
       ...CommentStreamLiveUpdatesContainer_settings
       ...AMPConfig_formValues @relay(mask: false)
       ...ForReviewQueueConfig_formValues @relay(mask: false)
-      ...DSAConfigContainer_formValues @relay(mask: false)
     }
   `,
 })(AdvancedConfigContainer);
