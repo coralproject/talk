@@ -20,6 +20,7 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 interface ResolvedConfig {
   readonly featureFlags: string[];
   readonly flattenReplies?: boolean | null;
+  readonly dsaFeaturesEnabled?: boolean;
 }
 
 async function resolveConfig(
@@ -39,13 +40,22 @@ async function resolveConfig(
           settings {
             flattenReplies
             featureFlags
+            dsa {
+              enabled
+            }
           }
         }
       `,
       {}
     );
 
-    return data.settings as ResolvedConfig;
+    const { settings } = data;
+
+    return {
+      flattenReplies: settings.flattenReplies,
+      featureFlags: settings.featureFlags,
+      dsaFeaturesEnabled: settings.dsa.enabled ?? false,
+    } as ResolvedConfig;
   }
   return {
     featureFlags: [],
@@ -166,5 +176,8 @@ export const createInitLocalState: (options: Options) => InitLocalState =
 
       localRecord.setValue(false, "showCommentIDs");
       localRecord.setValue(false, "refreshStream");
+
+      const dsaFeaturesEnabled = staticConfig?.dsaFeaturesEnabled ?? false;
+      localRecord.setValue(dsaFeaturesEnabled, "dsaFeaturesEnabled");
     });
   };
