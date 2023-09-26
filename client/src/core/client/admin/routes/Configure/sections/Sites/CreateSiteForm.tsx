@@ -84,7 +84,7 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
                     </HelperText>
                   </Localized>
                 </FormFieldHeader>
-                <AllowedOriginsTextarea />
+                <AllowedOriginsTextarea name="allowedOrigins" />
               </FormField>
               {submitError && (
                 <CallOut fullWidth color="error">
