@@ -103,7 +103,7 @@ export default async function edit(
     throw new CommentNotFoundError(input.id);
   }
 
-  // If the original comment was a reply, then get it's parent!
+  // If the original comment was a reply, then get its parent!
   const { parentID, parentRevisionID, siteID } = originalStaleComment;
   const parent = await retrieveParent(mongo, tenant.id, {
     parentID,
