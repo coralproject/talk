@@ -44,6 +44,7 @@ import {
 } from "coral-server/services/comments/media";
 import { processForModeration } from "coral-server/services/comments/pipeline";
 import { WordListService } from "coral-server/services/comments/pipeline/phases/wordList/service";
+import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
@@ -83,6 +84,7 @@ export default async function edit(
   wordList: WordListService,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -271,7 +273,7 @@ export default async function edit(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo, redis, config, {
+  const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
     tenant,
     actionCounts,
     ...result,
