@@ -40,6 +40,7 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
         onClick={props.toggleCollapsed}
         className={cn(styles.root, CLASSES.comment.collapseToggle.$root)}
         aria-label={"Expand comment thread"}
+        aria-expanded="false"
       >
         <Flex alignItems="baseline" spacing={1}>
           <SvgIcon

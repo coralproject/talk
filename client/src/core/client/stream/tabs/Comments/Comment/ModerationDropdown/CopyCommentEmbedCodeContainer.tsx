@@ -104,7 +104,7 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
 
   const permalinkUrl = getURLWithCommentID(story.url, comment.id);
 
-  const embedCode = `<div class="coral-comment-embed coral-comment-embed-simple" style="background-color: #f4f7f7; padding: 8px; position: relative;" data-commentID=${
+  const embedCode = `<div class="coral-comment-embed coral-comment-embed-simple" style="background-color: #f4f7f7; padding: 8px; position: relative; text-align: left;" data-commentID=${
     comment.id
   } data-reactionLabel="${
     settings.reaction.label

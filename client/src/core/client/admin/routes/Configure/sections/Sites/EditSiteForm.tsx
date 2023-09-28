@@ -90,7 +90,10 @@ const EditSiteForm: FunctionComponent<Props> = ({
                     </HelperText>
                   </Localized>
                 </FormFieldHeader>
-                <AllowedOriginsTextarea defaultValue={site.allowedOrigins} />
+                <AllowedOriginsTextarea
+                  defaultValue={site.allowedOrigins}
+                  name="allowedOrigins"
+                />
               </FormField>
               <FormField>
                 <FormFieldHeader>

@@ -5,7 +5,6 @@ import {
   ParentCommentRejectedError,
 } from "coral-server/errors";
 import {
-  getLatestRevision,
   hasPublishedStatus,
   retrieveComment,
 } from "coral-server/models/comment";
@@ -29,13 +28,6 @@ async function retrieveParent(
   );
   if (!parent) {
     throw new CommentNotFoundError(input.parentID);
-  }
-
-  // Check to see that the most recent revision matches the one we just replied
-  // to.
-  const revision = getLatestRevision(parent);
-  if (revision.id !== input.parentRevisionID) {
-    throw new CommentRevisionNotFoundError(parent.id, input.parentRevisionID);
   }
 
   // Check that the parent comment was visible.
