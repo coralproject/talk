@@ -145,6 +145,7 @@ comments-permalinkPopover-permalinkToComment =
 comments-permalinkButton-share = Share
 comments-permalinkButton =
   .aria-label = Share comment by {$username}
+  comments-permalinkButton-copyLink = Copy link
 comments-permalinkView-section =
   .aria-label = Single Conversation
 comments-permalinkView-viewFullDiscussion = View full discussion

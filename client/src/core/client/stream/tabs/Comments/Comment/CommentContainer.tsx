@@ -37,7 +37,7 @@ import {
   ViewConversationEvent,
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { PencilIcon, SvgIcon } from "coral-ui/components/icons";
+import { HyperlinkIcon, PencilIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Flex,
@@ -103,7 +103,11 @@ interface Props {
 
   hideAnsweredTag?: boolean;
   hideReportButton?: boolean;
+  hideReactionButton?: boolean;
+  hideReplyButton?: boolean;
+  hideShareButton?: boolean;
   hideModerationCarat?: boolean;
+  showCopyIllegalContentReportLinkButton?: boolean;
   collapsed?: boolean;
   toggleCollapsed?: () => void;
 
@@ -137,6 +141,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
   settings,
   showConversationLink,
   hideReportButton,
+  hideReactionButton,
+  hideReplyButton,
+  hideShareButton,
+  showCopyIllegalContentReportLinkButton,
   story,
   toggleCollapsed,
   viewer,
@@ -678,28 +686,31 @@ export const CommentContainer: FunctionComponent<Props> = ({
                 className={CLASSES.comment.actionBar.$root}
               >
                 <ButtonsBar className={styles.actionBar}>
-                  <ReactionButtonContainer
-                    comment={comment}
-                    settings={settings}
-                    viewer={viewer}
-                    readOnly={
-                      isViewerBanned ||
-                      isViewerSuspended ||
-                      isViewerWarned ||
-                      story.isArchived ||
-                      story.isArchiving
-                    }
-                    className={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.reactButton
-                    )}
-                    reactedClassName={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.reactedButton
-                    )}
-                    isQA={story.settings.mode === GQLSTORY_MODE.QA}
-                  />
+                  {!hideReactionButton && (
+                    <ReactionButtonContainer
+                      comment={comment}
+                      settings={settings}
+                      viewer={viewer}
+                      readOnly={
+                        isViewerBanned ||
+                        isViewerSuspended ||
+                        isViewerWarned ||
+                        story.isArchived ||
+                        story.isArchiving
+                      }
+                      className={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.reactButton
+                      )}
+                      reactedClassName={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.reactedButton
+                      )}
+                      isQA={story.settings.mode === GQLSTORY_MODE.QA}
+                    />
+                  )}
                   {!disableReplies &&
+                    !hideReplyButton &&
                     !isViewerBanned &&
                     !isViewerSuspended &&
                     !isViewerWarned &&
@@ -722,15 +733,24 @@ export const CommentContainer: FunctionComponent<Props> = ({
                         )}
                       />
                     )}
-                  <PermalinkButtonContainer
-                    story={story}
-                    commentID={comment.id}
-                    author={comment.author?.username}
-                    className={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.shareButton
-                    )}
-                  />
+                  {!hideShareButton && (
+                    <PermalinkButtonContainer
+                      story={story}
+                      commentID={comment.id}
+                      author={comment.author?.username}
+                    />
+                  )}
+                  {showCopyIllegalContentReportLinkButton && (
+                    <PermalinkButtonContainer
+                      story={story}
+                      commentID={comment.id}
+                      author={comment.author?.username}
+                      view="illegalContentReport"
+                      buttonText="Copy link"
+                      buttonTextID="comments-permalinkButton-copyLink"
+                      ButtonIcon={HyperlinkIcon}
+                    />
+                  )}
                 </ButtonsBar>
                 <ButtonsBar>
                   {!isViewerBanned &&
