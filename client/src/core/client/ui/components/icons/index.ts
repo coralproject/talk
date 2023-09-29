@@ -8,6 +8,7 @@ export { default as AppWindowDisableIcon } from "./AppWindowDisableIcon";
 export { default as AppWindowIcon } from "./AppWindowIcon";
 export { default as ArchiveIcon } from "./ArchiveIcon";
 export { default as ArrowsDownIcon } from "./ArrowsDownIcon";
+export { default as ArrowLeftIcon } from "./ArrowLeftIcon";
 export { default as ArrowRightIcon } from "./ArrowRightIcon";
 export { default as ArrowsUpIcon } from "./ArrowsUpIcon";
 export { default as ArrowUpWithTailIcon } from "./ArrowUpWithTailIcon";

@@ -31,3 +31,16 @@
     color: var(--palette-text-500);
   }
 }
+
+.description {
+  font-family: var(--font-family-primary);
+}
+
+.reporting {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.additionalInfo {
+  min-height: 120px;
+}

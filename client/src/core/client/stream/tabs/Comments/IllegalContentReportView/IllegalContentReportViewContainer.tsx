@@ -6,17 +6,29 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
+import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { parseBool } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { required } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { ViewFullDiscussionEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { Flex, HorizontalGutter } from "coral-ui/components/v2";
-import { Button, CallOut } from "coral-ui/components/v3";
+import { AddIcon, ArrowLeftIcon, SvgIcon } from "coral-ui/components/icons";
+import {
+  CheckBox,
+  Flex,
+  FormField,
+  HelperText,
+  HorizontalGutter,
+  InputLabel,
+  TextField,
+} from "coral-ui/components/v2";
+import { Button, CallOut, TextArea } from "coral-ui/components/v3";
 
 import { IllegalContentReportViewContainer_comment as CommentData } from "coral-stream/__generated__/IllegalContentReportViewContainer_comment.graphql";
 import { IllegalContentReportViewContainer_settings as SettingsData } from "coral-stream/__generated__/IllegalContentReportViewContainer_settings.graphql";
@@ -51,6 +63,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
         commentID: comment && comment.id,
       });
       void setCommentID({ id: null });
+      // remove view param too
       e.preventDefault();
     },
     [comment, eventEmitter, setCommentID]
@@ -62,6 +75,10 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   }, [window.location.href]);
 
   const commentVisible = comment && isPublished(comment.status);
+
+  const onSubmit = useCallback(() => {}, []);
+
+  const onAdditionalCommentsClick = useCallback(() => {}, []);
 
   return (
     <HorizontalGutter
@@ -90,26 +107,28 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
             {/* TODO: This should become Back to comments link */}
             {showAllCommentsHref && (
               // TODO: Update this button referencing permalink discussion
-              <Localized id="comments-permalinkView-viewFullDiscussion">
-                <Button
-                  className={CLASSES.permalinkView.viewFullDiscussionButton}
-                  variant="flat"
-                  color="primary"
-                  fontSize="medium"
-                  fontWeight="semiBold"
-                  onClick={onShowAllComments}
-                  href={showAllCommentsHref}
-                  target="_parent"
-                  anchor
-                  underline
-                >
-                  View full discussion
-                </Button>
-              </Localized>
+              // <Localized id="comments-permalinkView-viewFullDiscussion">
+              <Button
+                // className={CLASSES.permalinkView.viewFullDiscussionButton}
+                variant="flat"
+                color="primary"
+                fontSize="medium"
+                fontWeight="semiBold"
+                onClick={onShowAllComments}
+                href={showAllCommentsHref}
+                paddingSize="none"
+                target="_parent"
+                anchor
+                underline
+              >
+                <SvgIcon Icon={ArrowLeftIcon} />
+                Back to comments
+              </Button>
+              // {/* </Localized> */}
             )}
             {/* TODO: Localize all of this and apply styles */}
             <div className={styles.title}>Report illegal content</div>
-            <p>
+            <p className={styles.description}>
               Under the Digital Services Act (DSA), you can now report illegal
               content that you see in the comments. Please fill this form out to
               the best of your ability so our moderation team can make a
@@ -117,7 +136,9 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
               department. Thank you for your support in making our communities
               safer to engage in.
             </p>
-            <div>You are reporting this content</div>
+            <div className={styles.reporting}>
+              You are reporting this content
+            </div>
           </Flex>
           {!commentVisible && (
             <CallOut aria-live="polite">
@@ -155,6 +176,109 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
           )}
         </HorizontalGutter>
       </Localized>
+      <Form onSubmit={onSubmit}>
+        {({
+          handleSubmit,
+          submitting,
+          hasValidationErrors,
+          form,
+          submitError,
+        }) => (
+          <form
+            autoComplete="off"
+            onSubmit={handleSubmit}
+            id="report-illegal-content-form"
+          >
+            <HorizontalGutter spacing={4}>
+              <FormField>
+                <Field
+                  name="lawDetails"
+                  validate={required}
+                  id="reportIllegalContent-lawDetails"
+                >
+                  {({ input }) => (
+                    <>
+                      {/* <Localized id="profile-changeUsername-confirmNewUsername-label"> */}
+                      <InputLabel htmlFor={input.name}>
+                        What law do you believe has been broken? (required)
+                      </InputLabel>
+                      {/* </Localized> */}
+                      <TextField {...input} fullWidth id={input.name} />
+                    </>
+                  )}
+                </Field>
+              </FormField>
+              <FormField>
+                <Field name="additionalIllegalContentInfo" validate={required}>
+                  {({ input }) => (
+                    <>
+                      <InputLabel htmlFor={input.name}>
+                        Please include additional information why this comment
+                        is illegal (required)
+                      </InputLabel>
+                      <HelperText>
+                        To the best of your ability please give as much detail
+                        to help us investigate this further.
+                      </HelperText>
+                      <TextArea
+                        className={styles.additionalInfo}
+                        name={input.name}
+                      />
+                    </>
+                  )}
+                </Field>
+              </FormField>
+              <FormField>
+                <InputLabel>
+                  Have other comments you'd like to report for breaking this
+                  law?
+                </InputLabel>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  fontSize="small"
+                  paddingSize="small"
+                  upperCase
+                  onClick={onAdditionalCommentsClick}
+                >
+                  <SvgIcon Icon={AddIcon} />
+                  Add additional comments
+                </Button>
+              </FormField>
+              <FormField>
+                <Field
+                  name="bonafideBeliefStatement"
+                  type="checkbox"
+                  parse={parseBool}
+                >
+                  {({ input }) => (
+                    // <Localized id="configure-general-rte-strikethrough">
+                    <CheckBox {...input} id={input.name}>
+                      Bonafide belief statement
+                    </CheckBox>
+                    // </Localized>
+                  )}
+                </Field>
+              </FormField>
+            </HorizontalGutter>
+            <Flex alignItems="center" justifyContent="flex-end">
+              {/* <Localized id="comments-reportPopover-submit"> */}
+              <Button
+                color="secondary"
+                variant="filled"
+                fontSize="small"
+                paddingSize="small"
+                type="submit"
+                disabled={submitting || hasValidationErrors}
+                upperCase
+              >
+                Submit Report
+              </Button>
+              {/* </Localized> */}
+            </Flex>
+          </form>
+        )}
+      </Form>
     </HorizontalGutter>
   );
 };
