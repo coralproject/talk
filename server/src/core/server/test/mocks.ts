@@ -2,8 +2,8 @@ import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { RejectorQueue } from "coral-server/queue/tasks/rejector";
+import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
-import { Redis } from "ioredis";
 
 const createMockCollection = () => ({
   findOneAndUpdate: jest.fn(),
@@ -21,7 +21,7 @@ export const createMockMongoContex = () => {
   };
 };
 
-export const createMockRedis = () => ({} as Redis);
+export const createMockRedis = () => ({} as AugmentedRedis);
 
 export const createMockTenantCache = (): TenantCache =>
   ({
