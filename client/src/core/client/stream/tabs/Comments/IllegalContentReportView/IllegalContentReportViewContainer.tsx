@@ -1,12 +1,14 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
+import { FormApi } from "final-form";
 import React, {
   FunctionComponent,
   MouseEvent,
   useCallback,
   useMemo,
+  useState,
 } from "react";
-import { Field, Form } from "react-final-form";
+import { Field, Form, FormProps } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
@@ -60,6 +62,11 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const { comment, story, viewer, settings } = props;
   const setCommentID = useMutation(SetCommentIDMutation);
   const { eventEmitter, window } = useCoralContext();
+  const [showAddAdditionalComment, setShowAddAdditionalComment] =
+    useState(false);
+  const [additionalComments, setAdditionalComments] = useState<null | string[]>(
+    null
+  );
 
   const onShowAllComments = useCallback(
     (e: MouseEvent<any>) => {
@@ -80,9 +87,30 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
 
   const commentVisible = comment && isPublished(comment.status);
 
-  const onSubmit = useCallback(() => {}, []);
+  const onSubmit = useCallback((input: FormProps, form: FormApi) => {}, []);
 
-  const onAdditionalCommentsClick = useCallback(() => {}, []);
+  const onAddCommentURL = useCallback(
+    (values: Record<string, any>) => {
+      if (values.additionalComment) {
+        // TODO: validate
+        // if passes validation, add to additionalComments
+        if (additionalComments) {
+          setAdditionalComments([
+            ...additionalComments,
+            values.additionalComment,
+          ]);
+        } else {
+          setAdditionalComments([values.additionalComment]);
+        }
+      }
+      // TODO: also want to clear what was previously entered in the text box for this value
+      if (additionalComments && additionalComments.length < 9) {
+        setShowAddAdditionalComment(false);
+      }
+      // TODO: show a validation message if no value or value doesn't pass validation
+    },
+    [setAdditionalComments, additionalComments, setShowAddAdditionalComment]
+  );
 
   return (
     <HorizontalGutter
@@ -177,7 +205,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
         </HorizontalGutter>
       )}
       <Form onSubmit={onSubmit}>
-        {({ handleSubmit, submitting, hasValidationErrors }) => (
+        {({ handleSubmit, submitting, hasValidationErrors, values }) => (
           <form
             autoComplete="off"
             onSubmit={handleSubmit}
@@ -232,42 +260,104 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                   )}
                 </Field>
               </FormField>
-              <FormField>
-                <Localized id="comments-permalinkView-reportIllegalContent-additionalComments-inputLabel">
-                  <InputLabel>
-                    Have other comments you'd like to report for breaking this
-                    law?
-                  </InputLabel>
-                </Localized>
-                <Localized
-                  id="comments-permalinkView-reportIllegalContent-additionalComments-button"
-                  elems={{
-                    Button: (
+              <Localized id="comments-permalinkView-reportIllegalContent-additionalComments-inputLabel">
+                <InputLabel>
+                  Have other comments you'd like to report for breaking this
+                  law?
+                </InputLabel>
+              </Localized>
+              {additionalComments &&
+                additionalComments.map((additionalComment) => {
+                  // TODO: Add styles
+                  return <p key={additionalComment}>{additionalComment}</p>;
+                })}
+              <>
+                {showAddAdditionalComment ? (
+                  <>
+                    <Field
+                      name={`additionalComment`}
+                      // TODO: validate that it's a valid share url
+                      // validate uniqueness as well here?
+                      // validate={required}
+                      id={`reportIllegalContent-additionalComment`}
+                    >
+                      {({ input }: any) => (
+                        <>
+                          <Localized id="">
+                            <InputLabel htmlFor={input.name}>
+                              Comment URL
+                            </InputLabel>
+                          </Localized>
+                          <TextField
+                            {...input}
+                            fullWidth
+                            id={input.name}
+                            value={input.value}
+                          />
+                        </>
+                      )}
+                    </Field>
+                    {/* // TODO: Update localized */}
+                    <Localized
+                      id="comments-permalinkView-reportIllegalContent-additionalComments-"
+                      elems={{
+                        Button: (
+                          <ButtonSvgIcon
+                            Icon={AddIcon}
+                            size="xs"
+                            className={styles.leftIcon}
+                          />
+                        ),
+                      }}
+                    >
+                      <Button
+                        color="primary"
+                        variant="outlined"
+                        fontSize="small"
+                        paddingSize="small"
+                        upperCase
+                        onClick={() => onAddCommentURL(values)}
+                      >
+                        <ButtonSvgIcon
+                          Icon={AddIcon}
+                          size="xs"
+                          className={styles.leftIcon}
+                        />
+                        Add comment URL
+                      </Button>
+                    </Localized>
+                  </>
+                ) : (
+                  <Localized
+                    id="comments-permalinkView-reportIllegalContent-additionalComments-button"
+                    elems={{
+                      Button: (
+                        <ButtonSvgIcon
+                          Icon={AddIcon}
+                          size="xs"
+                          className={styles.leftIcon}
+                        />
+                      ),
+                    }}
+                  >
+                    <Button
+                      color="primary"
+                      variant="outlined"
+                      fontSize="small"
+                      paddingSize="small"
+                      upperCase
+                      onClick={() => setShowAddAdditionalComment(true)}
+                    >
                       <ButtonSvgIcon
                         Icon={AddIcon}
                         size="xs"
                         className={styles.leftIcon}
                       />
-                    ),
-                  }}
-                >
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    fontSize="small"
-                    paddingSize="small"
-                    upperCase
-                    onClick={onAdditionalCommentsClick}
-                  >
-                    <ButtonSvgIcon
-                      Icon={AddIcon}
-                      size="xs"
-                      className={styles.leftIcon}
-                    />
-                    Add additional comments
-                  </Button>
-                </Localized>
-              </FormField>
+                      Add additional comments
+                    </Button>
+                  </Localized>
+                )}
+              </>
               <FormField>
                 <Field
                   name="bonafideBeliefStatement"
