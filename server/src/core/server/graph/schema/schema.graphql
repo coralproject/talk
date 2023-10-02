@@ -3274,6 +3274,43 @@ enum COMMENT_STATUS {
   SYSTEM_WITHHELD
 }
 
+enum REJECTION_REASON {
+  """
+  OFFENSIVE represents a rejection of a comment for being offensive.
+  """
+  OFFENSIVE
+
+  """
+  ABUSIVE represents a rejection of a comment for being abusive.
+  """
+  ABUSIVE
+
+  """
+  SPAM represents a rejection of a comment for being spam.
+  """
+  SPAM
+
+  """
+  BANNED_WORD represents a rejection of a comment for containing a banned word.
+  """
+  BANNED_WORD
+
+  """
+  AD represents a rejection of a comment for being and ad.
+  """
+  AD
+
+  """
+  ILLEGAL_CONTENT represents a rejection of a comment for containing illegal content.
+  """
+  ILLEGAL_CONTENT
+
+  """
+  OTHER is reserved for reasons that arent adequately described by the other options.
+  """
+  OTHER
+}
+
 type CommentModerationAction {
   id: ID!
 
@@ -3297,6 +3334,11 @@ type CommentModerationAction {
   that the system has assigned the moderation status.
   """
   moderator: User
+
+  """
+  reason is the reason the comment was rejected, if it was rejected
+  """
+  reason: REJECTION_REASON
 
   """
   createdAt is the time that the CommentModerationAction was created.
