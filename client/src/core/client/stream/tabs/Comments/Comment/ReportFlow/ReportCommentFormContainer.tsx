@@ -4,6 +4,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/common/lib/errors";
+import { getURLWithCommentID } from "coral-framework/helpers";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
   MutationInput,
@@ -40,6 +41,11 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
   const dontAgreeMutation = useMutation(CreateCommentDisagreeMutation);
   const flagMutation = useMutation(CreateCommentFlagMutation);
   const refreshViewer = useFetch(RefreshViewerFetch);
+  const reportLink = getURLWithCommentID(
+    comment.story.url,
+    comment.id,
+    "illegalContentReport"
+  );
   const onSubmit = useCallback(
     async (
       input:
@@ -101,6 +107,7 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
         onSubmit={onSubmit}
         onCancel={onClose}
         biosEnabled={settings.memberBios}
+        reportLink={reportLink}
       />
     );
   }
@@ -129,6 +136,9 @@ const enhanced = withFragmentContainer<Props>({
       id
       revision {
         id
+      }
+      story {
+        url
       }
     }
   `,

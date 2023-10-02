@@ -40,6 +40,7 @@ interface Props {
   onCancel: () => void;
   onSubmit: OnSubmit<any>;
   biosEnabled: boolean;
+  reportLink: string;
 }
 
 export interface FormProps {
@@ -53,7 +54,7 @@ export interface FormProps {
 
 class ReportCommentForm extends React.Component<Props> {
   public render() {
-    const { onCancel, onSubmit, id } = this.props;
+    const { onCancel, onSubmit, id, reportLink } = this.props;
     return (
       <div
         className={cn(styles.root, CLASSES.reportPopover.$root)}
@@ -216,6 +217,12 @@ class ReportCommentForm extends React.Component<Props> {
                 {submitError && (
                   <ValidationMessage>{submitError}</ValidationMessage>
                 )}
+                {/* TODO: Localize and style, update based on design */}
+                <p>
+                  <a href={reportLink} target="_blank" rel="noreferrer">
+                    Report illegal content
+                  </a>
+                </p>
                 <Flex alignItems="center" justifyContent="flex-end">
                   <Localized id="comments-reportPopover-cancel">
                     <Button
