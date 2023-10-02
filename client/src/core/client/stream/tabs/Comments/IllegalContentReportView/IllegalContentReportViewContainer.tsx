@@ -18,7 +18,11 @@ import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { ViewFullDiscussionEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { AddIcon, ArrowLeftIcon, SvgIcon } from "coral-ui/components/icons";
+import {
+  AddIcon,
+  ArrowLeftIcon,
+  ButtonSvgIcon,
+} from "coral-ui/components/icons";
 import {
   CheckBox,
   Flex,
@@ -86,104 +90,94 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
         [CLASSES.permalinkView.authenticated]: Boolean(viewer),
         [CLASSES.permalinkView.unauthenticated]: !viewer,
       })}
-      size="double"
     >
       <UserBoxContainer viewer={viewer} settings={settings} />
-      {/* TODO: Update this localization */}
-      <Localized
-        id="comments-permalinkView-section"
-        attrs={{ "aria-label": true }}
-      >
-        <HorizontalGutter
-          size="double"
-          container="section"
-          // aria-label="Single Conversation"
+      {showAllCommentsHref && (
+        <Localized
+          id="comments-permalinkView-reportIllegalContent-backToComments"
+          elems={{
+            Button: (
+              <ButtonSvgIcon
+                className={styles.leftIcon}
+                Icon={ArrowLeftIcon}
+                size="xs"
+              />
+            ),
+          }}
         >
-          <Flex
-            alignItems="flex-start"
-            direction="column"
-            className={styles.header}
+          <Button
+            // className={CLASSES.permalinkView.viewFullDiscussionButton}
+            variant="flat"
+            color="primary"
+            fontSize="medium"
+            fontWeight="semiBold"
+            onClick={onShowAllComments}
+            href={showAllCommentsHref}
+            paddingSize="none"
+            target="_parent"
+            anchor
+            underline
           >
-            {/* TODO: This should become Back to comments link */}
-            {showAllCommentsHref && (
-              // TODO: Update this button referencing permalink discussion
-              // <Localized id="comments-permalinkView-viewFullDiscussion">
-              <Button
-                // className={CLASSES.permalinkView.viewFullDiscussionButton}
-                variant="flat"
-                color="primary"
-                fontSize="medium"
-                fontWeight="semiBold"
-                onClick={onShowAllComments}
-                href={showAllCommentsHref}
-                paddingSize="none"
-                target="_parent"
-                anchor
-                underline
-              >
-                <SvgIcon Icon={ArrowLeftIcon} />
-                Back to comments
-              </Button>
-              // {/* </Localized> */}
-            )}
-            {/* TODO: Localize all of this and apply styles */}
-            <div className={styles.title}>Report illegal content</div>
-            <p className={styles.description}>
-              Under the Digital Services Act (DSA), you can now report illegal
-              content that you see in the comments. Please fill this form out to
-              the best of your ability so our moderation team can make a
-              decision and if necessary consult with out site's legal
-              department. Thank you for your support in making our communities
-              safer to engage in.
-            </p>
-            <div className={styles.reporting}>
-              You are reporting this content
-            </div>
-          </Flex>
-          {!commentVisible && (
-            <CallOut aria-live="polite">
-              <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
-                This comment has been removed or does not exist.
-              </Localized>
-            </CallOut>
-          )}
-          {comment && commentVisible && (
-            <HorizontalGutter>
-              <IgnoredTombstoneOrHideContainer
-                viewer={viewer}
-                comment={comment}
-                allowTombstoneReveal
-              >
-                <RejectedTombstoneContainer comment={comment}>
-                  <DeletedTombstoneContainer comment={comment}>
-                    <CommentContainer
-                      comment={comment}
-                      story={story}
-                      viewer={viewer}
-                      settings={settings}
-                      highlight
-                      hideModerationCarat
-                      hideReportButton
-                      hideReactionButton
-                      hideReplyButton
-                      hideShareButton
-                      showCopyIllegalContentReportLinkButton
-                    />
-                  </DeletedTombstoneContainer>
-                </RejectedTombstoneContainer>
-              </IgnoredTombstoneOrHideContainer>
-            </HorizontalGutter>
-          )}
-        </HorizontalGutter>
+            <ButtonSvgIcon
+              className={styles.leftIcon}
+              Icon={ArrowLeftIcon}
+              size="xs"
+            />
+            Back to comments
+          </Button>
+        </Localized>
+      )}
+      <Localized id="comments-permalinkView-reportIllegalContent-title">
+        <div className={styles.title}>Report illegal content</div>
       </Localized>
+      <Localized id="comments-permalinkView-reportIllegalContent-description">
+        <p className={styles.description}>
+          Under the Digital Services Act (DSA), you can now report illegal
+          content that you see in the comments. Please fill this form out to the
+          best of your ability so our moderation team can make a decision and if
+          necessary consult with out site's legal department. Thank you for your
+          support in making our communities safer to engage in.
+        </p>
+      </Localized>
+      <Localized id="comments-permalinkView-reportIllegalContent-reportingComment">
+        <div className={styles.reporting}>You are reporting this comment</div>
+      </Localized>
+      {!commentVisible && (
+        <CallOut aria-live="polite">
+          <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
+            This comment has been removed or does not exist.
+          </Localized>
+        </CallOut>
+      )}
+      {comment && commentVisible && (
+        <HorizontalGutter>
+          <IgnoredTombstoneOrHideContainer
+            viewer={viewer}
+            comment={comment}
+            allowTombstoneReveal
+          >
+            <RejectedTombstoneContainer comment={comment}>
+              <DeletedTombstoneContainer comment={comment}>
+                <CommentContainer
+                  comment={comment}
+                  story={story}
+                  viewer={viewer}
+                  settings={settings}
+                  highlight
+                  hideModerationCarat
+                  hideReportButton
+                  hideReactionButton
+                  hideReplyButton
+                  hideShareButton
+                  showCopyIllegalContentReportLinkButton
+                />
+              </DeletedTombstoneContainer>
+            </RejectedTombstoneContainer>
+          </IgnoredTombstoneOrHideContainer>
+        </HorizontalGutter>
+      )}
       <Form onSubmit={onSubmit}>
-        {({
-          handleSubmit,
-          submitting,
-          hasValidationErrors,
-          form,
-          submitError,
-        }) => (
+        {({ handleSubmit, submitting, hasValidationErrors }) => (
           <form
             autoComplete="off"
             onSubmit={handleSubmit}
@@ -198,83 +192,113 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                 >
                   {({ input }) => (
                     <>
-                      {/* <Localized id="profile-changeUsername-confirmNewUsername-label"> */}
-                      <InputLabel htmlFor={input.name}>
-                        What law do you believe has been broken? (required)
-                      </InputLabel>
-                      {/* </Localized> */}
+                      <Localized id="comments-permalinkView-reportIllegalContent-lawDetails-inputLabel">
+                        <InputLabel htmlFor={input.name}>
+                          What law do you believe has been broken? (required)
+                        </InputLabel>
+                      </Localized>
                       <TextField {...input} fullWidth id={input.name} />
                     </>
                   )}
                 </Field>
               </FormField>
               <FormField>
-                <Field name="additionalIllegalContentInfo" validate={required}>
+                <Field
+                  name="additionalInfo"
+                  validate={required}
+                  id="reportIllegalContent-additionalInfo"
+                >
                   {({ input }) => (
                     <>
-                      <InputLabel htmlFor={input.name}>
-                        Please include additional information why this comment
-                        is illegal (required)
-                      </InputLabel>
-                      <HelperText>
-                        To the best of your ability please give as much detail
-                        to help us investigate this further.
-                      </HelperText>
+                      <Localized id="comments-permalinkView-reportIllegalContent-additionalInfo-inputLabel">
+                        <InputLabel htmlFor={input.name}>
+                          Please include additional information why this comment
+                          is illegal (required)
+                        </InputLabel>
+                      </Localized>
+                      <Localized id="comments-permalinkView-reportIllegalContent-additionalInfo-helperText">
+                        <HelperText>
+                          To the best of your ability please give as much detail
+                          to help us investigate this further.
+                        </HelperText>
+                      </Localized>
                       <TextArea
                         className={styles.additionalInfo}
                         name={input.name}
+                        value={input.value}
+                        onChange={input.onChange}
                       />
                     </>
                   )}
                 </Field>
               </FormField>
               <FormField>
-                <InputLabel>
-                  Have other comments you'd like to report for breaking this
-                  law?
-                </InputLabel>
-                <Button
-                  color="primary"
-                  variant="outlined"
-                  fontSize="small"
-                  paddingSize="small"
-                  upperCase
-                  onClick={onAdditionalCommentsClick}
+                <Localized id="comments-permalinkView-reportIllegalContent-additionalComments-inputLabel">
+                  <InputLabel>
+                    Have other comments you'd like to report for breaking this
+                    law?
+                  </InputLabel>
+                </Localized>
+                <Localized
+                  id="comments-permalinkView-reportIllegalContent-additionalComments-button"
+                  elems={{
+                    Button: (
+                      <ButtonSvgIcon
+                        Icon={AddIcon}
+                        size="xs"
+                        className={styles.leftIcon}
+                      />
+                    ),
+                  }}
                 >
-                  <SvgIcon Icon={AddIcon} />
-                  Add additional comments
-                </Button>
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    fontSize="small"
+                    paddingSize="small"
+                    upperCase
+                    onClick={onAdditionalCommentsClick}
+                  >
+                    <ButtonSvgIcon
+                      Icon={AddIcon}
+                      size="xs"
+                      className={styles.leftIcon}
+                    />
+                    Add additional comments
+                  </Button>
+                </Localized>
               </FormField>
               <FormField>
                 <Field
                   name="bonafideBeliefStatement"
                   type="checkbox"
                   parse={parseBool}
+                  validate={required}
                 >
                   {({ input }) => (
-                    // <Localized id="configure-general-rte-strikethrough">
-                    <CheckBox {...input} id={input.name}>
-                      Bonafide belief statement
-                    </CheckBox>
-                    // </Localized>
+                    <Localized id="comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox">
+                      <CheckBox {...input} id={input.name}>
+                        Bonafide belief statement
+                      </CheckBox>
+                    </Localized>
                   )}
                 </Field>
               </FormField>
             </HorizontalGutter>
             <Flex alignItems="center" justifyContent="flex-end">
-              {/* <Localized id="comments-reportPopover-submit"> */}
-              <Button
-                color="secondary"
-                variant="filled"
-                fontSize="small"
-                paddingSize="small"
-                type="submit"
-                disabled={submitting || hasValidationErrors}
-                upperCase
-              >
-                Submit Report
-              </Button>
-              {/* </Localized> */}
+              <Localized id="comments-permalinkView-reportIllegalContent-submit">
+                <Button
+                  color="secondary"
+                  variant="filled"
+                  fontSize="small"
+                  paddingSize="small"
+                  type="submit"
+                  disabled={submitting || hasValidationErrors}
+                  upperCase
+                >
+                  Submit report
+                </Button>
+              </Localized>
             </Flex>
           </form>
         )}

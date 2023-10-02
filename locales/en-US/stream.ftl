@@ -151,6 +151,21 @@ comments-permalinkView-section =
 comments-permalinkView-viewFullDiscussion = View full discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
+comments-permalinkView-reportIllegalContent-backToComments = <Button></Button>Back to comments
+comments-permalinkView-reportIllegalContent-title = Report illegal content
+comments-permalinkView-reportIllegalContent-description = Under the Digital Services Act (DSA) you can 
+  now report illegal content that you see in the comments. Please fill this form out to the best of 
+  your ability so our moderation team can make a decision and if necessary consult with our site's legal 
+  department. Thank you for your support in making our communities safer to engage in.
+comments-permalinkView-reportIllegalContent-reportingComment = You are reporting this comment
+comments-permalinkView-reportIllegalContent-lawDetails-inputLabel = What law do you believe has been broken? (required)
+comments-permalinkView-reportIllegalContent-additionalInfo-inputLabel = Please include additional information why this comment is illegal (required)
+comments-permalinkView-reportIllegalContent-additionalInfo-helperText = To the best of your ability please give as much detail to help us investigate this further
+comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Have other comments you'd like to report for breaking this law?
+comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = Bonafide belief statement
+comments-permalinkView-reportIllegalContent-additionalComments-button = <Button></Button>Add additional comments
+comments-permalinkView-reportIllegalContent-submit = Submit report
+
 comments-rte-bold =
   .title = Bold
 
