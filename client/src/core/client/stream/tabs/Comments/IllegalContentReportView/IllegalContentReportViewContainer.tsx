@@ -167,6 +167,20 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
           support in making our communities safer to engage in.
         </p>
       </Localized>
+      {/* TODO: Add localization and update to actual copy and link to go to */}
+      <Button
+        variant="flat"
+        color="primary"
+        fontSize="medium"
+        fontWeight="semiBold"
+        // href={showAllCommentsHref}
+        paddingSize="none"
+        target="_blank"
+        anchor
+        underline
+      >
+        Some link
+      </Button>
       <Localized id="comments-permalinkView-reportIllegalContent-reportingComment">
         <div className={styles.reporting}>You are reporting this comment</div>
       </Localized>
@@ -204,6 +218,21 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
           </IgnoredTombstoneOrHideContainer>
         </HorizontalGutter>
       )}
+      {/* TODO: Localize and update styles */}
+      <CallOut>
+        <div>Need more time to submit your report?</div>
+        <p>
+          Use the "Copy link" button above to grab the URL to this comment for
+          you to come back to when you're ready (should note that it does not
+          save your progress).
+        </p>
+      </CallOut>
+      {/* Localize */}
+      <div className={styles.directions}>Directions</div>
+      <p className={styles.directionsMoreInfo}>
+        Another chance to give some instructions on what is required for this
+        form. Maybe some reference or links to the laws? Unclear at this point.
+      </p>
       <Form onSubmit={onSubmit}>
         {({ handleSubmit, submitting, hasValidationErrors, values }) => (
           <form

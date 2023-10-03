@@ -30,3 +30,14 @@
 .leftIcon {
   padding-right: var(--spacing-1);
 }
+
+.directions {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+}
+
+.directionsMoreInfo {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+}

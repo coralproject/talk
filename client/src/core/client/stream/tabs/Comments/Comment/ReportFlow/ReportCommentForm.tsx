@@ -217,12 +217,20 @@ class ReportCommentForm extends React.Component<Props> {
                 {submitError && (
                   <ValidationMessage>{submitError}</ValidationMessage>
                 )}
-                {/* TODO: Localize and style, update based on design */}
-                <p>
-                  <a href={reportLink} target="_blank" rel="noreferrer">
-                    Report illegal content
-                  </a>
-                </p>
+                {/* TODO: Localize */}
+                <Button
+                  variant="flat"
+                  color="primary"
+                  fontSize="medium"
+                  fontWeight="semiBold"
+                  paddingSize="none"
+                  target="_blank"
+                  anchor
+                  underline
+                  href={reportLink}
+                >
+                  Report illegal content
+                </Button>
                 <Flex alignItems="center" justifyContent="flex-end">
                   <Localized id="comments-reportPopover-cancel">
                     <Button
