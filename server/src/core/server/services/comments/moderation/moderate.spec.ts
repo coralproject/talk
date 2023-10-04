@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Config } from "coral-server/config";
 import {
   createCommentFixture,
@@ -17,12 +16,14 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
-jest.mock("coral-server/models/comment");
+jest.mock("coral-server/models/comment/comment");
 jest.mock("coral-server/stacks/helpers");
 jest.mock("coral-server/models/action/moderation/comment");
 
 it("requires a valid rejection reason if dsaFeatures are enabled", async () => {
-  const tenant = createTenantFixture();
+  const tenant = createTenantFixture({
+    dsa: { enabled: true },
+  });
   const config = {} as Config;
   const story = createStoryFixture({ tenantID: tenant.id });
   const comment = createCommentFixture({ storyID: story.id });
@@ -34,23 +35,23 @@ it("requires a valid rejection reason if dsaFeatures are enabled", async () => {
   const redis = createMockRedis();
 
   /* eslint-disable-next-line */
-  require("coral-server/models/comment").retrieveComment.mockImplementation(
+  require("coral-server/models/comment/comment").retrieveComment.mockImplementation(
     async () => comment
   );
 
   /* eslint-disable-next-line */
-  require("coral-server/models/comment").updateCommentStatus.mockImplementation(
-    async () => "TODO"
+  require("coral-server/models/comment/comment").updateCommentStatus.mockImplementation(
+    async () => ({})
   );
 
   /* eslint-disable-next-line */
   require("coral-server/models/action/moderation/comment").createCommentModerationAction.mockImplementation(
-    async () => "TODO"
+    async () => ({})
   );
 
   /* eslint-disable-next-line */
   require("coral-server/stacks/helpers").updateAllCommentCounts.mockImplementation(
-    async () => "TODO"
+    async () => ({})
   );
 
   const input: Moderate = {
@@ -74,5 +75,5 @@ it("requires a valid rejection reason if dsaFeatures are enabled", async () => {
           actionCounts: {}, // TODO: what should this be?
         }
       )
-  ).rejects.not.toThrow();
+  ).rejects.toThrow();
 });

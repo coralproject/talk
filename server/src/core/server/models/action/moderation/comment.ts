@@ -12,7 +12,7 @@ import { TenantResource } from "coral-server/models/tenant";
 
 import {
   GQLCOMMENT_STATUS,
-  GQLREJECTION_REASON,
+  GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 
 /**
@@ -50,7 +50,7 @@ export interface CommentModerationAction extends TenantResource {
    */
   rejectionReason?: {
     code: GQLREJECTION_REASON_CODE;
-    metaData?: string;
+    additionalInfo?: string;
   };
 
   /**

@@ -1,9 +1,12 @@
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
   CommentNotFoundError,
   CommentRevisionNotFoundError,
+  OperationForbiddenError,
 } from "coral-server/errors";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
   createCommentModerationAction,
@@ -39,7 +42,18 @@ export default async function moderate(
     };
   }
 ) {
-  /* eslint-disable */
+  if (
+    tenant.dsa.enabled &&
+    input.status === GQLCOMMENT_STATUS.REJECTED &&
+    !input.rejectionReason
+  ) {
+    throw new OperationForbiddenError(
+      ERROR_CODES.VALIDATION,
+      "DSA features enabled, rejection reason is required",
+      "comment",
+      "moderate"
+    );
+  }
   // TODO: wrap these operations in a transaction?
   const commentsColl =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
@@ -55,9 +69,7 @@ export default async function moderate(
   }
 
   // Get the latest revision on that comment.
-  const revision = comment.revisions[comment.revisions.length - 1];
-  const foo = getLatestRevision(comment);
-  console.log({ revision, foo, bar: comment.revisions[0] });
+  const revision = getLatestRevision(comment);
 
   // Ensure that the latest revision is the same revision that we're moderating.
   if (revision.id !== input.commentRevisionID) {
