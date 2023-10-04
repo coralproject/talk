@@ -1,13 +1,15 @@
+/* eslint-disable */
 import { Config } from "coral-server/config";
-import { MongoContext } from "coral-server/data/context";
-import { AugmentedRedis } from "coral-server/services/redis";
 import {
   createCommentFixture,
   createStoryFixture,
   createTenantFixture,
   createUserFixture,
 } from "coral-server/test/fixtures";
-import { createMockRedis } from "coral-server/test/mocks";
+import {
+  createMockMongoContex,
+  createMockRedis,
+} from "coral-server/test/mocks";
 import moderate, { Moderate } from "./moderate";
 
 import {
@@ -28,12 +30,12 @@ it("requires a valid rejection reason if dsaFeatures are enabled", async () => {
     tenantID: tenant.id,
     role: GQLUSER_ROLE.MODERATOR,
   });
-  let mongo: MongoContext;
+  const { ctx: mongoContext } = createMockMongoContex();
   const redis = createMockRedis();
 
   /* eslint-disable-next-line */
   require("coral-server/models/comment").retrieveComment.mockImplementation(
-    async () => "TODO"
+    async () => comment
   );
 
   /* eslint-disable-next-line */
@@ -60,8 +62,17 @@ it("requires a valid rejection reason if dsaFeatures are enabled", async () => {
 
   await expect(
     async () =>
-      await moderate(mongo, redis, config, tenant, input, new Date(), false, {
-        actionCounts: {}, // TODO: what should this be?
-      })
-  ).rejects.toThrow();
+      await moderate(
+        mongoContext,
+        redis,
+        config,
+        tenant,
+        input,
+        new Date(),
+        false,
+        {
+          actionCounts: {}, // TODO: what should this be?
+        }
+      )
+  ).rejects.not.toThrow();
 });

@@ -11,12 +11,15 @@ const createMockCollection = () => ({
 });
 
 export const createMockMongoContex = () => {
+  const comments = createMockCollection();
   const users = createMockCollection();
 
   return {
     ctx: {
+      comments: () => comments,
       users: () => users,
     } as unknown as MongoContext,
+    comments,
     users,
   };
 };

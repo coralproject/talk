@@ -3274,7 +3274,7 @@ enum COMMENT_STATUS {
   SYSTEM_WITHHELD
 }
 
-enum REJECTION_REASON {
+enum REJECTION_REASON_CODE {
   """
   OFFENSIVE represents a rejection of a comment for being offensive.
   """
@@ -3311,6 +3311,18 @@ enum REJECTION_REASON {
   OTHER
 }
 
+type RejectionReason {
+  """
+  code is the reason that the comment was rejected
+  """
+  code: REJECTION_REASON_CODE!
+
+  """
+  metaData is any optional plaintext data added for context
+  """
+  metaData: String
+}
+
 type CommentModerationAction {
   id: ID!
 
@@ -3338,7 +3350,7 @@ type CommentModerationAction {
   """
   reason is the reason the comment was rejected, if it was rejected
   """
-  reason: REJECTION_REASON
+  reason: RejectionReason
 
   """
   createdAt is the time that the CommentModerationAction was created.
@@ -6558,6 +6570,11 @@ input RejectCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  reason is the reason the comment is being rejected
+  """
+  reason: RejectionReason!
 }
 
 type RejectCommentPayload {

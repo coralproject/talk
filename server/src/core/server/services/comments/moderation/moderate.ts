@@ -39,6 +39,7 @@ export default async function moderate(
     };
   }
 ) {
+  /* eslint-disable */
   // TODO: wrap these operations in a transaction?
   const commentsColl =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
@@ -54,7 +55,9 @@ export default async function moderate(
   }
 
   // Get the latest revision on that comment.
-  const revision = getLatestRevision(comment);
+  const revision = comment.revisions[comment.revisions.length - 1];
+  const foo = getLatestRevision(comment);
+  console.log({ revision, foo, bar: comment.revisions[0] });
 
   // Ensure that the latest revision is the same revision that we're moderating.
   if (revision.id !== input.commentRevisionID) {
