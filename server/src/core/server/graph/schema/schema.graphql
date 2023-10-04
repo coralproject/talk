@@ -1673,6 +1673,10 @@ EmbeddedCommentsConfiguration specifies the configuration for embedded comments.
 """
 type EmbeddedCommentsConfiguration {
   allowReplies: Boolean
+  """
+  oEmbedAllowedOrigins are the allowed origins for oEmbed API calls.
+  """
+  oEmbedAllowedOrigins: [String!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 """
@@ -1710,7 +1714,6 @@ type BadgeConfiguration {
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
 """
-
 type FlairBadge {
   name: String!
   url: String!
@@ -5568,6 +5571,10 @@ EmbeddedCommentsConfigurationInput specifies the configuration for comment embed
 """
 input EmbeddedCommentsConfigurationInput {
   allowReplies: Boolean
+  """
+  oEmbedAllowedOrigins are the allowed origins for oEmbed API calls.
+  """
+  oEmbedAllowedOrigins: [String!]
 }
 
 """

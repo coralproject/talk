@@ -11,6 +11,7 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
+import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
@@ -68,6 +69,7 @@ const rejectComment = async (
   redis: AugmentedRedis,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker | null,
   tenant: Tenant,
   commentID: string,
@@ -85,6 +87,7 @@ const rejectComment = async (
     mongo,
     redis,
     config,
+    i18n,
     tenant,
     {
       commentID,

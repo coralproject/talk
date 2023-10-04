@@ -29,3 +29,11 @@ Integration with native mobile applications is done through web view, you will n
 This will initialize the Coral stream with a logged-in user.
 
 5. You will need to use the same method to pass a Story ID or Story URL to the embed code using the `storyID` or `storyURL` options passed to `createStreamEmbed`. See [CMS Integration](/cms) for more details.
+
+### Troubleshooting
+
+If the Coral embed is not loading in web view, and you are using Coral >= v7.0.0, you may need to add in this call:
+
+```js
+webView.getSettings.setDomStorageEnabled(true);
+```
