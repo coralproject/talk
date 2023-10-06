@@ -5,6 +5,8 @@ import { MongoContext } from "coral-server/data/context";
 import { FilterQuery } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
+import { GQLDSAReportStatus } from "coral-server/graph/schema/__generated__/types";
+
 export interface DSAReport extends TenantResource {
   readonly id: string;
 
@@ -21,16 +23,18 @@ export interface DSAReport extends TenantResource {
   submissionID?: string;
 
   publicID: string;
+
+  status: GQLDSAReportStatus;
 }
 
 export type CreateDSAReportInput = Omit<
   DSAReport,
-  "id" | "tenantID" | "createdAt" | "publicID"
+  "id" | "tenantID" | "createdAt" | "publicID" | "status"
 >;
 
 export interface CreateDSAReportResultObject {
   /**
-   * action contains the resultant DSAReport that was created.
+   * dsaReport contains the resultant DSAReport that was created.
    */
   dsaReport: DSAReport;
 }
@@ -60,6 +64,7 @@ export async function createDSAReport(
     tenantID,
     createdAt: now,
     publicID,
+    status: GQLDSAReportStatus.AWAITING_REVIEW,
   };
 
   // Extract the filter parameters.

@@ -23,7 +23,6 @@ import {
   updateCommentActionCounts,
 } from "coral-server/models/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
-import { createDSAReport as createReport } from "coral-server/models/dsaReport/comment";
 import { retrieveSite } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
@@ -472,23 +471,4 @@ export async function createFlag(
   }
 
   return comment;
-}
-
-export interface CreateDSAReportInput {
-  commentID: string;
-  userID: string;
-  lawBrokenDescription: string;
-  additionalInformation: string;
-  submissionID?: string;
-}
-
-export async function createDSAReport(
-  mongo: MongoContext,
-  tenant: Tenant,
-  input: CreateDSAReportInput,
-  now = new Date()
-) {
-  const result = await createReport(mongo, tenant.id, input, now);
-  const { dsaReport } = result;
-  return dsaReport;
 }

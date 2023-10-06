@@ -68,7 +68,7 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     clientMutationId: input.clientMutationId,
   }),
   createDSAReport: async (source, { input }, ctx) => ({
-    dsaReport: await ctx.mutators.Comments.createDSAReport(input),
+    dsaReport: await ctx.mutators.DSAReports.createDSAReport(input),
     clientMutationId: input.clientMutationId,
   }),
   featureComment: async (

@@ -6,7 +6,7 @@ import { hasTag } from "coral-server/models/comment";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
-  createDSAReport,
+  // createDSAReport,
   createFlag,
   createReaction,
   removeDontAgree,
@@ -29,7 +29,7 @@ import {
   GQLCreateCommentInput,
   GQLCreateCommentReactionInput,
   GQLCreateCommentReplyInput,
-  GQLCreateDSAReportInput,
+  // GQLCreateDSAReportInput,
   GQLEditCommentInput,
   GQLFeatureCommentInput,
   GQLMarkCommentsAsSeenInput,
@@ -208,20 +208,6 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.now,
       ctx.req
     ),
-  createDSAReport: ({
-    commentID,
-    userID,
-    lawBrokenDescription,
-    additionalInformation,
-    submissionID,
-  }: GQLCreateDSAReportInput) =>
-    createDSAReport(ctx.mongo, ctx.tenant, {
-      commentID,
-      userID,
-      lawBrokenDescription,
-      additionalInformation,
-      submissionID,
-    }),
   feature: async ({
     commentID,
     commentRevisionID,
