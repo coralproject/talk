@@ -6,7 +6,6 @@ import { hasTag } from "coral-server/models/comment";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
-  // createDSAReport,
   createFlag,
   createReaction,
   removeDontAgree,
@@ -29,7 +28,6 @@ import {
   GQLCreateCommentInput,
   GQLCreateCommentReactionInput,
   GQLCreateCommentReplyInput,
-  // GQLCreateDSAReportInput,
   GQLEditCommentInput,
   GQLFeatureCommentInput,
   GQLMarkCommentsAsSeenInput,
