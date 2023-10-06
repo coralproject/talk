@@ -8,14 +8,14 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { Field, Form, FormProps } from "react-final-form";
+import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { parseBool } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { required } from "coral-framework/lib/validation";
+import { required, validateShareURL } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { ViewFullDiscussionEvent } from "coral-stream/events";
@@ -49,6 +49,7 @@ import { CommentContainer } from "../Comment";
 import DeletedTombstoneContainer from "../DeletedTombstoneContainer";
 import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 import RejectedTombstoneContainer from "../PermalinkView/RejectedTombstoneContainer";
+import CreateDSAReportMutation from "./CreateDSAReportMutation";
 
 interface Props {
   comment: CommentData | null;
@@ -58,15 +59,24 @@ interface Props {
   refreshStream: boolean | null;
 }
 
+interface FormProps {
+  lawBrokenDescription: string;
+  additionalInformation: string;
+}
+
 const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const { comment, story, viewer, settings } = props;
   const setCommentID = useMutation(SetCommentIDMutation);
+  const createDSAReport = useMutation(CreateDSAReportMutation);
   const { eventEmitter, window } = useCoralContext();
   const [showAddAdditionalComment, setShowAddAdditionalComment] =
     useState(false);
   const [additionalComments, setAdditionalComments] = useState<null | string[]>(
     null
   );
+  const [addAdditionalCommentError, setAddAdditionalCommentError] = useState<
+    null | string
+  >(null);
 
   const onShowAllComments = useCallback(
     (e: MouseEvent<any>) => {
@@ -87,12 +97,48 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
 
   const commentVisible = comment && isPublished(comment.status);
 
-  const onSubmit = useCallback((input: FormProps, form: FormApi) => {}, []);
+  const onSubmit = useCallback(
+    async (input: FormProps, form: FormApi) => {
+      if (viewer && comment) {
+        // TODO: generate submissionID with uuid here for each if it's a multiple
+        // add report form comment and any additional commentIDs to comments
+        const comments = [comment.id];
+        if (additionalComments) {
+          for (const c of additionalComments) {
+            const cArr = c.split("?commentID=");
+            comments.push(cArr[1]);
+          }
+        }
+        try {
+          await createDSAReport({
+            userID: viewer.id,
+            commentID: comment.id,
+            lawBrokenDescription: input.lawBrokenDescription,
+            additionalInformation: input.additionalInformation,
+          });
+        } catch (e) {
+          // TODO: handle error
+        }
+      }
+    },
+    [additionalComments, viewer, comment, createDSAReport]
+  );
+
+  const isValidShareURL = useCallback((value: string) => {
+    return validateShareURL(value);
+  }, []);
 
   const onAddCommentURL = useCallback(
     (values: Record<string, any>) => {
       if (values.additionalComment) {
-        // TODO: validate
+        // TODO: also ensure that it's not the same commentID as the report form
+        if (!isValidShareURL(values.additionalComment)) {
+          // TODO: Update to localize
+          setAddAdditionalCommentError("Please add a valid comment URL.");
+          return;
+        } else {
+          setAddAdditionalCommentError(null);
+        }
         // if passes validation, add to additionalComments
         if (additionalComments) {
           setAdditionalComments([
@@ -107,9 +153,15 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
       if (additionalComments && additionalComments.length < 9) {
         setShowAddAdditionalComment(false);
       }
-      // TODO: show a validation message if no value or value doesn't pass validation
+      // TODO: show a validation message if value doesn't pass validation
     },
-    [setAdditionalComments, additionalComments, setShowAddAdditionalComment]
+    [
+      setAdditionalComments,
+      additionalComments,
+      setShowAddAdditionalComment,
+      isValidShareURL,
+      setAddAdditionalCommentError,
+    ]
   );
 
   return (
@@ -243,13 +295,13 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
             <HorizontalGutter spacing={4}>
               <FormField>
                 <Field
-                  name="lawDetails"
+                  name="lawBrokenDescription"
                   validate={required}
-                  id="reportIllegalContent-lawDetails"
+                  id="reportIllegalContent-lawBrokenDescription"
                 >
                   {({ input }) => (
                     <>
-                      <Localized id="comments-permalinkView-reportIllegalContent-lawDetails-inputLabel">
+                      <Localized id="comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel">
                         <InputLabel htmlFor={input.name}>
                           What law do you believe has been broken? (required)
                         </InputLabel>
@@ -261,19 +313,19 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
               </FormField>
               <FormField>
                 <Field
-                  name="additionalInfo"
+                  name="additionalInformation"
                   validate={required}
-                  id="reportIllegalContent-additionalInfo"
+                  id="reportIllegalContent-additionalInformation"
                 >
                   {({ input }) => (
                     <>
-                      <Localized id="comments-permalinkView-reportIllegalContent-additionalInfo-inputLabel">
+                      <Localized id="comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel">
                         <InputLabel htmlFor={input.name}>
                           Please include additional information why this comment
                           is illegal (required)
                         </InputLabel>
                       </Localized>
-                      <Localized id="comments-permalinkView-reportIllegalContent-additionalInfo-helperText">
+                      <Localized id="comments-permalinkView-reportIllegalContent-additionalInformation-helperText">
                         <HelperText>
                           To the best of your ability please give as much detail
                           to help us investigate this further.
@@ -305,9 +357,6 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                   <>
                     <Field
                       name={`additionalComment`}
-                      // TODO: validate that it's a valid share url
-                      // validate uniqueness as well here?
-                      // validate={required}
                       id={`reportIllegalContent-additionalComment`}
                     >
                       {({ input }: any) => (
@@ -326,6 +375,9 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                         </>
                       )}
                     </Field>
+                    {addAdditionalCommentError && (
+                      <div>{addAdditionalCommentError}</div>
+                    )}
                     {/* // TODO: Update localized */}
                     <Localized
                       id="comments-permalinkView-reportIllegalContent-additionalComments-"

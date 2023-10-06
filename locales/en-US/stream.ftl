@@ -158,9 +158,9 @@ comments-permalinkView-reportIllegalContent-description = Under the Digital Serv
   your ability so our moderation team can make a decision and if necessary consult with our site's legal 
   department. Thank you for your support in making our communities safer to engage in.
 comments-permalinkView-reportIllegalContent-reportingComment = You are reporting this comment
-comments-permalinkView-reportIllegalContent-lawDetails-inputLabel = What law do you believe has been broken? (required)
-comments-permalinkView-reportIllegalContent-additionalInfo-inputLabel = Please include additional information why this comment is illegal (required)
-comments-permalinkView-reportIllegalContent-additionalInfo-helperText = To the best of your ability please give as much detail to help us investigate this further
+comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel = What law do you believe has been broken? (required)
+comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel = Please include additional information why this comment is illegal (required)
+comments-permalinkView-reportIllegalContent-additionalInformation-helperText = To the best of your ability please give as much detail to help us investigate this further
 comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Have other comments you'd like to report for breaking this law?
 comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = Bonafide belief statement
 comments-permalinkView-reportIllegalContent-additionalComments-button = <Button></Button>Add additional comments

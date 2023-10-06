@@ -1710,7 +1710,6 @@ type BadgeConfiguration {
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
 """
-
 type FlairBadge {
   name: String!
   url: String!
@@ -3331,6 +3330,28 @@ type CommentModerationActionConnection {
   pageInfo is information to aid in pagination.
   """
   pageInfo: PageInfo!
+}
+
+enum DSAReportStatus {
+  AWAITING_REVIEW
+  UNDER_REVIEW
+  COMPLETED
+}
+
+type DSAReport {
+  id: ID!
+
+  createdBy: User!
+
+  comments: [Comment!]
+
+  createdAt: Time!
+
+  status: DSAReportStatus
+
+  lawBrokenDescription: String!
+
+  additionalInformation: String!
 }
 
 type CommentRevisionPerspectiveMetadata {
@@ -6048,6 +6069,20 @@ type CreateCommentFlagPayload {
   """
   clientMutationId is required for Relay support.
   """
+  clientMutationId: String!
+}
+
+input CreateDSAReportInput {
+  commentID: ID!
+  userID: ID!
+  lawBrokenDescription: String!
+  additionalInformation: String!
+  submissionID: ID
+  clientMutationId: String!
+}
+
+type CreateDSAReportPayload {
+  dsaReport: DSAReport
   clientMutationId: String!
 }
 
@@ -9768,6 +9803,8 @@ type Mutation {
   flushRedis flushes the redis instance.
   """
   flushRedis(input: FlushRedisInput!): FlushRedisPayload! @auth(roles: [ADMIN])
+
+  createDSAReport(input: CreateDSAReportInput!): CreateDSAReportPayload!
 }
 
 ##################
