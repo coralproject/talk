@@ -19,11 +19,13 @@ export interface DSAReport extends TenantResource {
   commentID: string;
 
   submissionID?: string;
+
+  publicID: string;
 }
 
 export type CreateDSAReportInput = Omit<
   DSAReport,
-  "id" | "tenantID" | "createdAt"
+  "id" | "tenantID" | "createdAt" | "publicID"
 >;
 
 export interface CreateDSAReportResultObject {
@@ -31,13 +33,6 @@ export interface CreateDSAReportResultObject {
    * action contains the resultant DSAReport that was created.
    */
   dsaReport: DSAReport;
-
-  /**
-   * wasUpserted when true, indicates that this DSAReport was just newly created.
-   * When false, it indicates that this DSAReport was just looked up, and had
-   * existed prior to the `createDSAReport` call.
-   */
-  wasUpserted: boolean;
 }
 
 export async function createDSAReport(
@@ -55,7 +50,8 @@ export async function createDSAReport(
     submissionIDToUse = uuid();
   }
 
-  // TODO: Also generate a publicID and add
+  // TODO: update how publicID generated
+  const publicID = uuid();
 
   // defaults are the properties set by the application when a new DSAReport is
   // created.
@@ -63,9 +59,8 @@ export async function createDSAReport(
     id,
     tenantID,
     createdAt: now,
+    publicID,
   };
-
-  // search for a
 
   // Extract the filter parameters.
   const filter: FilterQuery<DSAReport> = {
@@ -81,38 +76,20 @@ export async function createDSAReport(
     submissionID: submissionIDToUse,
   };
 
-  // Create the upsert/update operation.
-  const update: { $setOnInsert: Readonly<DSAReport> } = {
-    $setOnInsert: report,
-  };
+  // check if there's already a dsareport submitted by this user for this comment
+  // and return a duplicate error if so
+  const alreadyExisting = await mongo.dsaReports().findOne(filter);
 
-  // TODO: Make sure appropriate checks in place not to create duplicate reports
-  // by one user for a particular comment
+  if (alreadyExisting) {
+    // TODO: update error thrown
+    throw new Error(
+      "dsa report submitted by user for this comment already exists"
+    );
+  }
 
-  // Insert the report into the database using an upsert operation.
-  const result = await mongo.dsaReports().findOneAndUpdate(filter, update, {
-    // We are using this to create a report, so we need to upsert it.
-    upsert: true,
+  await mongo.dsaReports().insertOne(report);
 
-    // False to return the updated document instead of the original document.
-    // This lets us detect if the document was updated or not.
-    returnOriginal: false,
-  });
-
-  // Check to see if this was a new document that was upserted, or one was found
-  // that matched existing records. We are sure here that the record exists
-  // because we're returning the updated document and performing an upsert
-  // operation.
-
-  // Because it's relevant that we know that the report was just created, or
-  // was just looked up, we need to return the report with an object that
-  // indicates if it was upserted.
-  const wasUpserted = result.value!.id === id;
-
-  // Return the report that was created/found with a boolean indicating if this
-  // report was just upserted (and therefore was newly created).
   return {
-    dsaReport: result.value!,
-    wasUpserted,
+    dsaReport: report,
   };
 }

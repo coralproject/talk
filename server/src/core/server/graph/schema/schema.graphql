@@ -3332,26 +3332,72 @@ type CommentModerationActionConnection {
   pageInfo: PageInfo!
 }
 
+"""
+DSAReportStatus keeps track of where a DSAReport is in the process of being reviewed
+"""
 enum DSAReportStatus {
   AWAITING_REVIEW
   UNDER_REVIEW
   COMPLETED
 }
 
+"""
+DSAReportDecision keeps track of whether a DSAReport was determined illegal or not
+"""
+enum DSAReportDecision {
+  LEGAL
+  ILLEGAL
+}
+
 type DSAReport {
   id: ID!
 
+  """
+  publicID is a reference ID to keep track of the DSAReport
+  """
+  publicID: String!
+
+  """
+  submissionID keeps track of comments that were submitted together in one form
+  """
+  submissionID: String!
+
+  """
+  user who submitted the DSAReport
+  """
   createdBy: User!
 
-  comments: [Comment!]
+  """
+  commentID of the comment reported
+  """
+  commentID: String!
 
+  """
+  createdAt is when the DSAReport was created
+  """
   createdAt: Time!
 
+  """
+  status of DSAReport
+  """
   status: DSAReportStatus
 
+  """
+  lawBrokenDescription is the text entered by the submitting user to describe
+  which law is broken by the reported comment
+  """
   lawBrokenDescription: String!
 
+  """
+  additionalInformation is more explanation entereted by the submitting user to
+  describe how the comment breaks the law
+  """
   additionalInformation: String!
+
+  """
+  decision is the determination of whether the reported comment is illegal or not
+  """
+  decision: DSAReportDecision
 }
 
 type CommentRevisionPerspectiveMetadata {
@@ -6073,16 +6119,48 @@ type CreateCommentFlagPayload {
 }
 
 input CreateDSAReportInput {
+  """
+  id of the reported comment
+  """
   commentID: ID!
+
+  """
+  id of the user who submitted the DSAReport
+  """
   userID: ID!
+
+  """
+  lawBrokenDescription is the text entered by the submitting user to describe
+  which law is broken by the reported comment
+  """
   lawBrokenDescription: String!
+
+  """
+  additionalInformation is more explanation entereted by the submitting user to
+  describe how the comment breaks the law
+  """
   additionalInformation: String!
+
+  """
+  submissionID keeps track of comments that were submitted together in one form
+  """
   submissionID: ID
+
+  """
+  clientMutationId is required for Relay support.
+  """
   clientMutationId: String!
 }
 
 type CreateDSAReportPayload {
+  """
+  dsaReport is the report that was newly created
+  """
   dsaReport: DSAReport
+
+  """
+  clientMutationId is required for Relay support.
+  """
   clientMutationId: String!
 }
 
@@ -9804,6 +9882,9 @@ type Mutation {
   """
   flushRedis(input: FlushRedisInput!): FlushRedisPayload! @auth(roles: [ADMIN])
 
+  """
+  createDSAReport creates a DSAReport for the provided comment
+  """
   createDSAReport(input: CreateDSAReportInput!): CreateDSAReportPayload!
 }
 
