@@ -12,19 +12,16 @@ import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
+import { useUUID } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { parseBool } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { required, validateShareURL } from "coral-framework/lib/validation";
+import { required } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { ViewFullDiscussionEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import {
-  AddIcon,
-  ArrowLeftIcon,
-  ButtonSvgIcon,
-} from "coral-ui/components/icons";
+import { ArrowLeftIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   CheckBox,
   Flex,
@@ -49,6 +46,7 @@ import { CommentContainer } from "../Comment";
 import DeletedTombstoneContainer from "../DeletedTombstoneContainer";
 import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 import RejectedTombstoneContainer from "../PermalinkView/RejectedTombstoneContainer";
+import AddAdditionalComments from "./AddAdditionalComments";
 import CreateDSAReportMutation from "./CreateDSAReportMutation";
 
 interface Props {
@@ -69,14 +67,12 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const setCommentID = useMutation(SetCommentIDMutation);
   const createDSAReport = useMutation(CreateDSAReportMutation);
   const { eventEmitter, window } = useCoralContext();
-  const [showAddAdditionalComment, setShowAddAdditionalComment] =
-    useState(false);
   const [additionalComments, setAdditionalComments] = useState<null | string[]>(
     null
   );
-  const [addAdditionalCommentError, setAddAdditionalCommentError] = useState<
-    null | string
-  >(null);
+  const [submitErrors, setSubmitErrors] = useState<any[]>([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const submissionID = useUUID();
 
   const onShowAllComments = useCallback(
     (e: MouseEvent<any>) => {
@@ -99,14 +95,23 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
 
   const onSubmit = useCallback(
     async (input: FormProps, form: FormApi) => {
+      const allErrors = [];
       if (viewer && comment) {
-        // TODO: generate submissionID with uuid here for each if it's a multiple
-        // add report form comment and any additional commentIDs to comments
-        const comments = [comment.id];
         if (additionalComments) {
           for (const c of additionalComments) {
             const cArr = c.split("?commentID=");
-            comments.push(cArr[1]);
+            const cID = cArr[1];
+            try {
+              await createDSAReport({
+                userID: viewer.id,
+                commentID: cID,
+                lawBrokenDescription: input.lawBrokenDescription,
+                additionalInformation: input.additionalInformation,
+                submissionID,
+              });
+            } catch (e) {
+              allErrors.push(e);
+            }
           }
         }
         try {
@@ -115,54 +120,43 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
             commentID: comment.id,
             lawBrokenDescription: input.lawBrokenDescription,
             additionalInformation: input.additionalInformation,
+            submissionID,
           });
         } catch (e) {
-          // TODO: handle error
+          allErrors.push(e);
         }
+        setSubmitErrors(allErrors);
+        // TODO: Better take submit errors into account here
+        setIsSubmitted(true);
       }
-    },
-    [additionalComments, viewer, comment, createDSAReport]
-  );
-
-  const isValidShareURL = useCallback((value: string) => {
-    return validateShareURL(value);
-  }, []);
-
-  const onAddCommentURL = useCallback(
-    (values: Record<string, any>) => {
-      if (values.additionalComment) {
-        // TODO: also ensure that it's not the same commentID as the report form
-        if (!isValidShareURL(values.additionalComment)) {
-          // TODO: Update to localize
-          setAddAdditionalCommentError("Please add a valid comment URL.");
-          return;
-        } else {
-          setAddAdditionalCommentError(null);
-        }
-        // if passes validation, add to additionalComments
-        if (additionalComments) {
-          setAdditionalComments([
-            ...additionalComments,
-            values.additionalComment,
-          ]);
-        } else {
-          setAdditionalComments([values.additionalComment]);
-        }
-      }
-      // TODO: also want to clear what was previously entered in the text box for this value
-      if (additionalComments && additionalComments.length < 9) {
-        setShowAddAdditionalComment(false);
-      }
-      // TODO: show a validation message if value doesn't pass validation
     },
     [
-      setAdditionalComments,
       additionalComments,
-      setShowAddAdditionalComment,
-      isValidShareURL,
-      setAddAdditionalCommentError,
+      viewer,
+      comment,
+      createDSAReport,
+      setSubmitErrors,
+      setIsSubmitted,
+      submissionID,
     ]
   );
+
+  if (isSubmitted) {
+    return (
+      <>
+        {/* Localize and update to add in any errors and based on design */}
+        <div>
+          You have successfully submitted your illegal content report for the
+          following comments:
+        </div>
+        {comment && <div>{comment.id}</div>}
+        {additionalComments &&
+          additionalComments.map((c) => {
+            return <div key={c}>{c}</div>;
+          })}
+      </>
+    );
+  }
 
   return (
     <HorizontalGutter
@@ -270,210 +264,124 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
           </IgnoredTombstoneOrHideContainer>
         </HorizontalGutter>
       )}
-      {/* TODO: Localize and update styles */}
-      <CallOut>
-        <div>Need more time to submit your report?</div>
-        <p>
-          Use the "Copy link" button above to grab the URL to this comment for
-          you to come back to when you're ready (should note that it does not
-          save your progress).
+
+      <>
+        <CallOut>
+          <div>Need more time to submit your report?</div>
+          <p>
+            Use the "Copy link" button above to grab the URL to this comment for
+            you to come back to when you're ready (should note that it does not
+            save your progress).
+          </p>
+        </CallOut>
+        {/* Localize */}
+        <div className={styles.directions}>Directions</div>
+        <p className={styles.directionsMoreInfo}>
+          Another chance to give some instructions on what is required for this
+          form. Maybe some reference or links to the laws? Unclear at this
+          point.
         </p>
-      </CallOut>
-      {/* Localize */}
-      <div className={styles.directions}>Directions</div>
-      <p className={styles.directionsMoreInfo}>
-        Another chance to give some instructions on what is required for this
-        form. Maybe some reference or links to the laws? Unclear at this point.
-      </p>
-      <Form onSubmit={onSubmit}>
-        {({ handleSubmit, submitting, hasValidationErrors, values }) => (
-          <form
-            autoComplete="off"
-            onSubmit={handleSubmit}
-            id="report-illegal-content-form"
-          >
-            <HorizontalGutter spacing={4}>
-              <FormField>
-                <Field
-                  name="lawBrokenDescription"
-                  validate={required}
-                  id="reportIllegalContent-lawBrokenDescription"
-                >
-                  {({ input }) => (
-                    <>
-                      <Localized id="comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel">
-                        <InputLabel htmlFor={input.name}>
-                          What law do you believe has been broken? (required)
-                        </InputLabel>
-                      </Localized>
-                      <TextField {...input} fullWidth id={input.name} />
-                    </>
-                  )}
-                </Field>
-              </FormField>
-              <FormField>
-                <Field
-                  name="additionalInformation"
-                  validate={required}
-                  id="reportIllegalContent-additionalInformation"
-                >
-                  {({ input }) => (
-                    <>
-                      <Localized id="comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel">
-                        <InputLabel htmlFor={input.name}>
-                          Please include additional information why this comment
-                          is illegal (required)
-                        </InputLabel>
-                      </Localized>
-                      <Localized id="comments-permalinkView-reportIllegalContent-additionalInformation-helperText">
-                        <HelperText>
-                          To the best of your ability please give as much detail
-                          to help us investigate this further.
-                        </HelperText>
-                      </Localized>
-                      <TextArea
-                        className={styles.additionalInfo}
-                        name={input.name}
-                        value={input.value}
-                        onChange={input.onChange}
-                      />
-                    </>
-                  )}
-                </Field>
-              </FormField>
-              <Localized id="comments-permalinkView-reportIllegalContent-additionalComments-inputLabel">
-                <InputLabel>
-                  Have other comments you'd like to report for breaking this
-                  law?
-                </InputLabel>
-              </Localized>
-              {additionalComments &&
-                additionalComments.map((additionalComment) => {
-                  // TODO: Add styles
-                  return <p key={additionalComment}>{additionalComment}</p>;
-                })}
-              <>
-                {showAddAdditionalComment ? (
-                  <>
-                    <Field
-                      name={`additionalComment`}
-                      id={`reportIllegalContent-additionalComment`}
-                    >
-                      {({ input }: any) => (
-                        <>
-                          <Localized id="">
-                            <InputLabel htmlFor={input.name}>
-                              Comment URL
-                            </InputLabel>
-                          </Localized>
-                          <TextField
-                            {...input}
-                            fullWidth
-                            id={input.name}
-                            value={input.value}
-                          />
-                        </>
-                      )}
-                    </Field>
-                    {addAdditionalCommentError && (
-                      <div>{addAdditionalCommentError}</div>
-                    )}
-                    {/* // TODO: Update localized */}
-                    <Localized
-                      id="comments-permalinkView-reportIllegalContent-additionalComments-"
-                      elems={{
-                        Button: (
-                          <ButtonSvgIcon
-                            Icon={AddIcon}
-                            size="xs"
-                            className={styles.leftIcon}
-                          />
-                        ),
-                      }}
-                    >
-                      <Button
-                        color="primary"
-                        variant="outlined"
-                        fontSize="small"
-                        paddingSize="small"
-                        upperCase
-                        onClick={() => onAddCommentURL(values)}
-                      >
-                        <ButtonSvgIcon
-                          Icon={AddIcon}
-                          size="xs"
-                          className={styles.leftIcon}
-                        />
-                        Add comment URL
-                      </Button>
-                    </Localized>
-                  </>
-                ) : (
-                  <Localized
-                    id="comments-permalinkView-reportIllegalContent-additionalComments-button"
-                    elems={{
-                      Button: (
-                        <ButtonSvgIcon
-                          Icon={AddIcon}
-                          size="xs"
-                          className={styles.leftIcon}
-                        />
-                      ),
-                    }}
+        <Form onSubmit={onSubmit}>
+          {({ handleSubmit, submitting, hasValidationErrors }) => (
+            <form
+              autoComplete="off"
+              onSubmit={handleSubmit}
+              id="report-illegal-content-form"
+            >
+              <HorizontalGutter spacing={4}>
+                <FormField>
+                  <Field
+                    name="lawBrokenDescription"
+                    validate={required}
+                    id="reportIllegalContent-lawBrokenDescription"
                   >
-                    <Button
-                      color="primary"
-                      variant="outlined"
-                      fontSize="small"
-                      paddingSize="small"
-                      upperCase
-                      onClick={() => setShowAddAdditionalComment(true)}
-                    >
-                      <ButtonSvgIcon
-                        Icon={AddIcon}
-                        size="xs"
-                        className={styles.leftIcon}
-                      />
-                      Add additional comments
-                    </Button>
-                  </Localized>
-                )}
-              </>
-              <FormField>
-                <Field
-                  name="bonafideBeliefStatement"
-                  type="checkbox"
-                  parse={parseBool}
-                  validate={required}
-                >
-                  {({ input }) => (
-                    <Localized id="comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox">
-                      <CheckBox {...input} id={input.name}>
-                        Bonafide belief statement
-                      </CheckBox>
-                    </Localized>
-                  )}
-                </Field>
-              </FormField>
-            </HorizontalGutter>
-            <Flex alignItems="center" justifyContent="flex-end">
-              <Localized id="comments-permalinkView-reportIllegalContent-submit">
-                <Button
-                  color="secondary"
-                  variant="filled"
-                  fontSize="small"
-                  paddingSize="small"
-                  type="submit"
-                  disabled={submitting || hasValidationErrors}
-                  upperCase
-                >
-                  Submit report
-                </Button>
-              </Localized>
-            </Flex>
-          </form>
-        )}
-      </Form>
+                    {({ input }) => (
+                      <>
+                        <Localized id="comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel">
+                          <InputLabel htmlFor={input.name}>
+                            What law do you believe has been broken? (required)
+                          </InputLabel>
+                        </Localized>
+                        <TextField {...input} fullWidth id={input.name} />
+                      </>
+                    )}
+                  </Field>
+                </FormField>
+                <FormField>
+                  <Field
+                    name="additionalInformation"
+                    validate={required}
+                    id="reportIllegalContent-additionalInformation"
+                  >
+                    {({ input }) => (
+                      <>
+                        <Localized id="comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel">
+                          <InputLabel htmlFor={input.name}>
+                            Please include additional information why this
+                            comment is illegal (required)
+                          </InputLabel>
+                        </Localized>
+                        <Localized id="comments-permalinkView-reportIllegalContent-additionalInformation-helperText">
+                          <HelperText>
+                            To the best of your ability please give as much
+                            detail to help us investigate this further.
+                          </HelperText>
+                        </Localized>
+                        <TextArea
+                          className={styles.additionalInfo}
+                          name={input.name}
+                          value={input.value}
+                          onChange={input.onChange}
+                        />
+                      </>
+                    )}
+                  </Field>
+                </FormField>
+                <AddAdditionalComments
+                  additionalComments={additionalComments}
+                  setAdditionalComments={setAdditionalComments}
+                  comment={comment}
+                />
+                <FormField>
+                  <Field
+                    name="bonafideBeliefStatement"
+                    type="checkbox"
+                    parse={parseBool}
+                    validate={required}
+                  >
+                    {({ input }) => (
+                      <Localized id="comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox">
+                        <CheckBox {...input} id={input.name}>
+                          Bonafide belief statement
+                        </CheckBox>
+                      </Localized>
+                    )}
+                  </Field>
+                </FormField>
+              </HorizontalGutter>
+              {submitErrors.map((submitError) => {
+                return <div key={submitError.id}>{submitError.message}</div>;
+              })}
+              <Flex alignItems="center" justifyContent="flex-end">
+                <Localized id="comments-permalinkView-reportIllegalContent-submit">
+                  <Button
+                    color="secondary"
+                    variant="filled"
+                    fontSize="small"
+                    paddingSize="small"
+                    type="submit"
+                    disabled={submitting || hasValidationErrors}
+                    upperCase
+                  >
+                    Submit report
+                  </Button>
+                </Localized>
+              </Flex>
+            </form>
+          )}
+        </Form>
+      </>
+      {/* // TODO: Localize and update styles */}
     </HorizontalGutter>
   );
 };
