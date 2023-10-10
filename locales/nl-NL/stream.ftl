@@ -175,7 +175,7 @@ comments-rte-externalImage =
 
 comments-remainingCharacters = { $remaining } overgebleven karakters
 
-comments-postCommentFormFake-signInAndJoin = Aanmelden registreren om een reactie te kunnen plaatsen.
+comments-postCommentFormFake-signInAndJoin = Aanmelden of registreren om een reactie te kunnen plaatsen.
 
 comments-postCommentForm-rteLabel = Plaats een reactie
 
