@@ -67,9 +67,9 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const setCommentID = useMutation(SetCommentIDMutation);
   const createDSAReport = useMutation(CreateDSAReportMutation);
   const { eventEmitter, window } = useCoralContext();
-  const [additionalComments, setAdditionalComments] = useState<null | string[]>(
-    null
-  );
+  const [additionalComments, setAdditionalComments] = useState<
+    null | { id: string; url: string }[]
+  >(null);
   const [submitErrors, setSubmitErrors] = useState<any[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const submissionID = useUUID();
@@ -80,7 +80,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
         commentID: comment && comment.id,
       });
       void setCommentID({ id: null });
-      // remove view param too
+      // TODO: remove view param too
       e.preventDefault();
     },
     [comment, eventEmitter, setCommentID]
@@ -99,12 +99,10 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
       if (viewer && comment) {
         if (additionalComments) {
           for (const c of additionalComments) {
-            const cArr = c.split("?commentID=");
-            const cID = cArr[1];
             try {
               await createDSAReport({
                 userID: viewer.id,
-                commentID: cID,
+                commentID: c.id,
                 lawBrokenDescription: input.lawBrokenDescription,
                 additionalInformation: input.additionalInformation,
                 submissionID,
@@ -152,7 +150,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
         {comment && <div>{comment.id}</div>}
         {additionalComments &&
           additionalComments.map((c) => {
-            return <div key={c}>{c}</div>;
+            return <div key={c.id}>{c.url}</div>;
           })}
       </>
     );
@@ -267,6 +265,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
 
       <>
         <CallOut>
+          {/* TODO: Localize all of this */}
           <div>Need more time to submit your report?</div>
           <p>
             Use the "Copy link" button above to grab the URL to this comment for
@@ -274,7 +273,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
             save your progress).
           </p>
         </CallOut>
-        {/* Localize */}
+        {/* TODO: Localize this */}
         <div className={styles.directions}>Directions</div>
         <p className={styles.directionsMoreInfo}>
           Another chance to give some instructions on what is required for this
@@ -381,7 +380,6 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
           )}
         </Form>
       </>
-      {/* // TODO: Localize and update styles */}
     </HorizontalGutter>
   );
 };

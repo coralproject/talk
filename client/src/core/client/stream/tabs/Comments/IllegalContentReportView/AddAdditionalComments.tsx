@@ -18,9 +18,11 @@ import { IllegalContentReportViewContainer_comment as CommentData } from "coral-
 import styles from "./IllegalContentReportViewContainer.css";
 
 interface Props {
-  additionalComments: string[] | null;
+  additionalComments: { id: string; url: string }[] | null;
   comment: CommentData | null;
-  setAdditionalComments: Dispatch<SetStateAction<string[] | null>>;
+  setAdditionalComments: Dispatch<
+    SetStateAction<{ id: string; url: string }[] | null>
+  >;
 }
 
 const AddAdditionalComments: FunctionComponent<Props> = ({
@@ -43,11 +45,13 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
     const newAdditionalComment =
       form?.getFieldState("additionalComment")?.value;
     if (newAdditionalComment) {
-      if (!isValidShareURL(newAdditionalComment)) {
+      const newAdditionalCommentID =
+        newAdditionalComment.split("?commentID=")[1];
+      if (!isValidShareURL(newAdditionalComment.url)) {
         // TODO: Update to localize
         setAddAdditionalCommentError("Please add a valid comment URL.");
         return;
-      } else if (newAdditionalComment.split("?commentID=")[1] === comment?.id) {
+      } else if (newAdditionalCommentID === comment?.id) {
         setAddAdditionalCommentError(
           "Additional comments cannot be the same as overall reported comment."
         );
@@ -55,11 +59,14 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
       } else {
         setAddAdditionalCommentError(null);
       }
-      // if passes validation, add (id and url?) to additionalComments
+      const newAdditionalCommentObj = {
+        id: newAdditionalCommentID,
+        url: newAdditionalComment,
+      };
       if (additionalComments) {
-        setAdditionalComments([...additionalComments, newAdditionalComment]);
+        setAdditionalComments([...additionalComments, newAdditionalCommentObj]);
       } else {
-        setAdditionalComments([newAdditionalComment]);
+        setAdditionalComments([newAdditionalCommentObj]);
       }
       // clear additionalComment value now that it's been added
       form.change("additionalComment", undefined);
@@ -85,10 +92,12 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
         </InputLabel>
       </Localized>
       {additionalComments &&
-        additionalComments.map((additionalComment: string) => {
-          // TODO: Add styles
-          return <p key={additionalComment}>{additionalComment}</p>;
-        })}
+        additionalComments.map(
+          (additionalComment: { id: string; url: string }) => {
+            // TODO: Add styles
+            return <p key={additionalComment.id}>{additionalComment.url}</p>;
+          }
+        )}
       <>
         {showAddAdditionalComment ? (
           <>
