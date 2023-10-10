@@ -101,6 +101,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
     setAddAdditionalCommentError,
     comment,
     form,
+    localeBundles,
   ]);
 
   return (
