@@ -165,6 +165,8 @@ comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Have
 comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = Bonafide belief statement
 comments-permalinkView-reportIllegalContent-additionalComments-button = <Button></Button>Add additional comments
 comments-permalinkView-reportIllegalContent-submit = Submit report
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = Please add a valid comment URL.
+comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = Please add a unique comment URL. This is a duplicate of another comment you are reporting.
 
 comments-rte-bold =
   .title = Bold
