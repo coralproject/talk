@@ -88,8 +88,10 @@ export async function createDSAReport(
     submissionIDToUse = uuid();
   }
 
-  // TODO: update how publicID generated
-  const publicID = uuid();
+  // shorter, url-friendly publicID generated from the report id
+  const publicID = Buffer.from(id.replace(/-/g, ""), "hex").toString(
+    "base64url"
+  );
 
   // defaults are the properties set by the application when a new DSAReport is
   // created.
