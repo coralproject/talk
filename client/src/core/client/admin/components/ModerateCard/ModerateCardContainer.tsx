@@ -1,8 +1,11 @@
 import { useRouter } from "found";
 import React, {
   FunctionComponent,
+  Reducer,
   useCallback,
+  useEffect,
   useMemo,
+  useReducer,
   useState,
 } from "react";
 import { graphql } from "react-relay";
@@ -32,6 +35,7 @@ import { ModerateCardContainer_viewer } from "coral-admin/__generated__/Moderate
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
 
+import ModerationReason from "../ModerationReason/ModerationReason";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -70,6 +74,18 @@ function isFeatured(comment: ModerateCardContainer_comment) {
   return comment.tags.some((t) => t.code === GQLTAG.FEATURED);
 }
 
+interface RejectionState {
+  showModerationReason: boolean;
+  rejecting: boolean;
+}
+
+type RejectionAction =
+  | "INDICATE_REJECT"
+  | "CONFIRM_REASON"
+  | "REJECTION_COMPLETE";
+
+type RejectionReducer = Reducer<RejectionState, RejectionAction>;
+
 const ModerateCardContainer: FunctionComponent<Props> = ({
   comment,
   settings,
@@ -94,10 +110,11 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const { match, router } = useRouter();
 
-  const [{ moderationQueueSort }] =
+  const [{ moderationQueueSort, dsaFeaturesEnabled }] =
     useLocal<ModerateCardContainerLocal>(graphql`
       fragment ModerateCardContainerLocal on Local {
         moderationQueueSort
+        dsaFeaturesEnabled
       }
     `);
 
@@ -109,6 +126,25 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   );
 
   const [showBanModal, setShowBanModal] = useState(false);
+  const [{ showModerationReason, rejecting }, dispatch] =
+    useReducer<RejectionReducer>( // TODO use dispatch
+      (state, action) => {
+        /* eslint-disable */
+        console.log("DISPATCHED", { action, state, dsaFeaturesEnabled });
+        switch (action) {
+          case "INDICATE_REJECT":
+            return dsaFeaturesEnabled
+              ? { showModerationReason: true, rejecting: false }
+              : { showModerationReason: false, rejecting: true };
+          case "CONFIRM_REASON":
+            return { showModerationReason: false, rejecting: true };
+          case "REJECTION_COMPLETE":
+            return { showModerationReason: false, rejecting: false };
+        }
+      },
+      { showModerationReason: false, rejecting: false }
+    );
+
   const handleApprove = useCallback(async () => {
     if (!comment.revision) {
       return;
@@ -164,6 +200,9 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       section,
       orderBy: moderationQueueSort,
     });
+
+    dispatch("REJECTION_COMPLETE");
+
     if (loadNext) {
       loadNext();
     }
@@ -276,6 +315,12 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const handleBanConfirm = useCallback(() => setShowBanModal(false), []);
 
+  useEffect(() => {
+    if (rejecting) {
+      void handleReject();
+    }
+  }, [handleReject, rejecting]);
+
   // Only highlight comments that have been flagged for containing a banned or
   // suspect word.
   const highlight = useMemo(() => {
@@ -296,6 +341,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const isRatingsAndReviews =
     comment.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS;
+
+  console.log((dsaFeaturesEnabled && showModerationReason) ? "SHOULD SHOW MODAL" : `"UH OH"- featureEn: ${dsaFeaturesEnabled}, showMod: ${showModerationReason}`);
 
   return (
     <>
@@ -319,7 +366,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           featured={isFeatured(comment)}
           viewContextHref={comment.permalink}
           onApprove={handleApprove}
-          onReject={handleReject}
+          onReject={() => dispatch("INDICATE_REJECT")}
           onFeature={onFeature}
           onUsernameClick={onUsernameClicked}
           onConversationClick={
@@ -378,6 +425,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           isMultisite={settings.multisite}
         />
       )}
+      {dsaFeaturesEnabled && <ModerationReason commentID="DELETEME" open={showModerationReason} />}
     </>
   );
 };

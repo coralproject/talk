@@ -850,7 +850,7 @@ it("doesnt show comments from banned users whose commens have been rejected", as
           }),
       },
       Mutation: {
-        banUser: createMutationResolverStub<MutationToBanUserResolver>(
+        rejectComment: createMutationResolverStub<MutationToBanUserResolver>(
           ({ variables }) => {
             return {};
           }
@@ -877,4 +877,73 @@ it("doesnt show comments from banned users whose commens have been rejected", as
       screen.queryByTestId(`moderate-comment-card-${reportedComments[0].id}`)
     ).toBeNull();
   });
+});
+
+it.only("requires moderation reason when DSA features enabled", async () => {
+  await createTestRenderer({
+    initLocalState(local, source, environment) {
+      local.setValue(true, "dsaFeaturesEnabled");
+    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        moderationQueues: () =>
+          pureMerge(emptyModerationQueues, {
+            reported: {
+              count: 2,
+              comments:
+                createQueryResolverStub<ModerationQueueToCommentsResolver>(
+                  ({ variables }) => {
+                    expectAndFail(variables).toEqual({
+                      first: 5,
+                      orderBy: "CREATED_AT_DESC",
+                    });
+                    return {
+                      edges: [
+                        {
+                          node: reportedComments[0],
+                          cursor: reportedComments[0].createdAt,
+                        },
+                        {
+                          node: reportedComments[1],
+                          cursor: reportedComments[1].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: reportedComments[1].createdAt,
+                        hasNextPage: false,
+                      },
+                    };
+                  }
+                ) as any,
+            },
+          }),
+      },
+      Mutation: {
+        rejectComment: createMutationResolverStub<MutationToBanUserResolver>(
+          ({ variables }) => {
+            return {};
+          }
+        ),
+      },
+    }),
+  });
+
+  const modCard = await screen.findByTestId(
+    `moderate-comment-card-${reportedComments[0].id}`
+  );
+
+  expect(modCard).toBeInTheDocument();
+
+  const rejectButton = within(modCard).getByLabelText("Reject");
+  expect(rejectButton).toBeVisible();
+  // click it
+  act(() => {
+    userEvent.click(rejectButton);
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("moderation-reason-modal")).toBeVisible();
+  });
+
+  // BOOKMARK: continue here
 });

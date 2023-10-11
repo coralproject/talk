@@ -639,9 +639,58 @@ it("can copy comment embed code", async () => {
   const embedCodeButton = within(comment).getByRole("button", {
     name: "Embed code",
   });
+
   fireEvent.click(embedCodeButton);
   expect(
     within(comment).getByRole("button", { name: "Code copied" })
   ).toBeDefined();
   window.prompt = jsdomPrompt;
+});
+
+it.only("requires rection reason when dsaFeaturesEnabled", async () => {
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Mutation: {
+          rejectComment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              commentID: firstComment.id,
+              commentRevisionID: firstComment.revision!.id,
+            });
+            return {
+              comment: pureMerge<typeof firstComment>(firstComment, {
+                status: GQLCOMMENT_STATUS.REJECTED,
+              }),
+            };
+          },
+        },
+      }),
+      initLocalState(local, source, environment) {
+        local.setValue(true, "dsaFeaturesEnabled");
+      },
+    });
+  });
+  // const tabPane = await screen.findByTestId("current-tab-pane");
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
+
+  const caretButton = within(comment).getByLabelText("Moderate");
+
+  // THis isnt opening the thing!?!?
+  await act(async () => userEvent.click(caretButton));
+
+  const rejectButton = within(comment).getByRole("button", { name: "Reject" });
+
+  await act(async () => {
+    userEvent.click(rejectButton);
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("moderation-reason-modal")).toBeInTheDocument();
+  });
+
+  const reasonModal = await within(comment).findByTestId(
+    "moderation-reason-modal"
+  );
+
+  expect(reasonModal).toBeInTheDocument();
 });

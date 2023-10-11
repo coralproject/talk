@@ -1,6 +1,14 @@
+/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, {
+  FunctionComponent,
+  Reducer,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+} from "react";
 import { graphql } from "react-relay";
 
 import { useModerationLink } from "coral-framework/hooks";
@@ -21,11 +29,14 @@ import {
 } from "coral-ui/components/icons";
 import { DropdownButton, DropdownDivider } from "coral-ui/components/v2";
 
+import ModerationReason from "coral-admin/components/ModerationReason/ModerationReason";
+
 import { ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
 import { ModerationActionsContainer_local } from "coral-stream/__generated__/ModerationActionsContainer_local.graphql";
 import { ModerationActionsContainer_settings } from "coral-stream/__generated__/ModerationActionsContainer_settings.graphql";
 import { ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
 import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
+import { ModerationActionsContainerLocal } from "coral-stream/__generated__/ModerationActionsContainerLocal.graphql";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
 import CopyCommentEmbedCodeContainer from "./CopyCommentEmbedCodeContainer";
@@ -45,6 +56,18 @@ interface Props {
   onBan: () => void;
   onSiteBan: () => void;
 }
+
+interface RejectState {
+  showModerationReason: boolean;
+  rejecting: boolean;
+}
+
+type RejectAction =
+  | "INDICATE_REJECT"
+  | "CONFIRM_REJECT_REASON"
+  | "REJECT_COMPLETE";
+
+type RejectionReducer = Reducer<RejectState, RejectAction>;
 
 const ModerationActionsContainer: FunctionComponent<Props> = ({
   comment,
@@ -69,6 +92,34 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
 
   const linkModerateStory = useModerationLink({ storyID: story.id });
   const linkModerateComment = useModerationLink({ commentID: comment.id });
+
+  const [{ dsaFeaturesEnabled }] =
+    useLocal<ModerationActionsContainerLocal>(graphql`
+      fragment ModerationActionsContainerLocal on Local {
+        dsaFeaturesEnabled
+      }
+    `);
+
+  const [{ showModerationReason, rejecting }, dispatch] =
+    useReducer<RejectionReducer>(
+      (state, action) => {
+        console.log("an action was dispatched", action);
+        switch (action) {
+          case "REJECT_COMPLETE":
+            return { rejecting: false, showModerationReason: false };
+          case "CONFIRM_REJECT_REASON":
+            return { rejecting: true, showModerationReason: false };
+          case "INDICATE_REJECT":
+            return dsaFeaturesEnabled
+              ? { showModerationReason: true, rejecting: false }
+              : { showModerationReason: false, rejecting: true };
+        }
+      },
+      {
+        showModerationReason: false,
+        rejecting: false,
+      }
+    );
 
   const moderationLinkSuffix =
     !!accessToken &&
@@ -116,7 +167,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       commentRevisionID: comment.revision.id,
       storyID: story.id,
     });
-  }, [approve, comment, story]);
+  }, [comment, story, reject]);
   const onFeature = useCallback(() => {
     if (!comment.revision) {
       return;
@@ -135,6 +186,13 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     });
     onDismiss();
   }, [unfeature, onDismiss, story, comment]);
+
+  useEffect(() => {
+    if (rejecting) {
+      void onReject();
+    }
+  }, [rejecting, onReject]);
+
   const approved = comment.status === "APPROVED";
   const rejected = comment.status === "REJECTED";
   const featured = comment.tags.some((t) => t.code === "FEATURED");
@@ -145,6 +203,10 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
   const showCopyCommentEmbed = !!comment.body;
+
+
+  console.log("SHOWING MODAL?",
+  JSON.stringify({ dsaFeaturesEnabled, showModerationReason }, null, 2));
 
   return (
     <>
@@ -245,7 +307,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
         <Localized id="comments-moderationDropdown-reject">
           <DropdownButton
             icon={<SvgIcon Icon={RemoveIcon} className={styles.rejectIcon} />}
-            onClick={onReject}
+            onClick={() => dispatch("INDICATE_REJECT")}
             className={cn(
               styles.label,
               CLASSES.moderationDropdown.rejectButton
@@ -307,6 +369,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
           story={story}
         />
       )}
+      {dsaFeaturesEnabled && <ModerationReason commentID={comment.id} open={showModerationReason} />}
     </>
   );
 };
