@@ -681,7 +681,7 @@ it.only("requires rection reason when dsaFeaturesEnabled", async () => {
   const rejectButton = within(comment).getByRole("button", { name: "Reject" });
 
   await act(async () => {
-    userEvent.click(rejectButton);
+    fireEvent.click(rejectButton);
   });
 
   await waitFor(() => {
