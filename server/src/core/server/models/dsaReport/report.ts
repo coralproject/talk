@@ -2,28 +2,62 @@ import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/common/lib/types";
 import { MongoContext } from "coral-server/data/context";
+import {
+  CommentNotFoundError,
+  DuplicateDSAReportError,
+} from "coral-server/errors";
 import { FilterQuery } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
 import { GQLDSAReportStatus } from "coral-server/graph/schema/__generated__/types";
 
 export interface DSAReport extends TenantResource {
+  /**
+   * id identifies this DSA Report specifically.
+   */
   readonly id: string;
 
+  /**
+   * userID is the id of the user who reported this comment for illegal content.
+   */
   userID: string;
 
+  /**
+   * createdAt is the date that this DSAReport was created
+   */
   createdAt: Date;
 
+  /**
+   * lawBrokenDescription is the description of the law this comment is being
+   * reported for breaking.
+   */
   lawBrokenDescription: string;
 
+  /**
+   * additionalInformation is more explanation of how this comment being reported
+   * breaks the law.
+   */
   additionalInformation: string;
 
+  /**
+   * commentID is the id of the comment being reported.
+   */
   commentID: string;
 
+  /**
+   * submissionID is the id that keeps track of all comments that are submitted together
+   * as part of one illegal content report form by a user.
+   */
   submissionID?: string;
 
+  /**
+   * publicID is a user-friendly id used to reference the DSA Report.
+   */
   publicID: string;
 
+  /**
+   * status keeps track of the current status of the DSA Report
+   */
   status: GQLDSAReportStatus;
 }
 
@@ -81,15 +115,21 @@ export async function createDSAReport(
     submissionID: submissionIDToUse,
   };
 
+  // check that a comment for the comment ID exists and throw an error if not
+  const commentExists = await mongo
+    .comments()
+    .findOne({ tenantID, id: commentID });
+
+  if (!commentExists) {
+    throw new CommentNotFoundError(commentID);
+  }
+
   // check if there's already a dsareport submitted by this user for this comment
   // and return a duplicate error if so
-  const alreadyExisting = await mongo.dsaReports().findOne(filter);
+  const alreadyExistingReport = await mongo.dsaReports().findOne(filter);
 
-  if (alreadyExisting) {
-    // TODO: update error thrown
-    throw new Error(
-      "dsa report submitted by user for this comment already exists"
-    );
+  if (alreadyExistingReport) {
+    throw new DuplicateDSAReportError(alreadyExistingReport.id);
   }
 
   await mongo.dsaReports().insertOne(report);
