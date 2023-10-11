@@ -70,7 +70,9 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const [additionalComments, setAdditionalComments] = useState<
     null | { id: string; url: string }[]
   >(null);
-  const [submitErrors, setSubmitErrors] = useState<any[]>([]);
+  const [submissionStatus, setSubmissionStatus] = useState<
+    { id: string; status: string; error?: any; url: string }[]
+  >([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const submissionID = useUUID();
 
@@ -95,7 +97,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
 
   const onSubmit = useCallback(
     async (input: FormProps, form: FormApi) => {
-      const allErrors = [];
+      const statuses = [];
       if (viewer && comment) {
         if (additionalComments) {
           for (const c of additionalComments) {
@@ -107,11 +109,18 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                 additionalInformation: input.additionalInformation,
                 submissionID,
               });
+              statuses.push({ id: c.id, status: "success", url: c.url });
             } catch (e) {
-              allErrors.push(e);
+              statuses.push({
+                id: c.id,
+                status: "error",
+                error: e,
+                url: c.url,
+              });
             }
           }
         }
+        const url = getURLWithCommentID(story.url, comment.id);
         try {
           await createDSAReport({
             userID: viewer.id,
@@ -120,11 +129,11 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
             additionalInformation: input.additionalInformation,
             submissionID,
           });
+          statuses.push({ id: comment.id, status: "success", url });
         } catch (e) {
-          allErrors.push(e);
+          statuses.push({ id: comment.id, status: "error", error: e, url });
         }
-        setSubmitErrors(allErrors);
-        // TODO: Better take submit errors into account here
+        setSubmissionStatus(statuses);
         setIsSubmitted(true);
       }
     },
@@ -133,7 +142,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
       viewer,
       comment,
       createDSAReport,
-      setSubmitErrors,
+      setSubmissionStatus,
       setIsSubmitted,
       submissionID,
     ]
@@ -147,10 +156,21 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
           You have successfully submitted your illegal content report for the
           following comments:
         </div>
-        {comment && <div>{comment.id}</div>}
-        {additionalComments &&
-          additionalComments.map((c) => {
+        {submissionStatus
+          .filter((submission) => submission.status === "success")
+          .map((c) => {
             return <div key={c.id}>{c.url}</div>;
+          })}
+        <div>The following comments were submitted with errors:</div>
+        {submissionStatus
+          .filter((submission) => submission.status === "error")
+          .map((c) => {
+            return (
+              <div key={c.id}>
+                <div>{c.url}</div>
+                {c.error.message && <div>Error: {c.error.message}</div>}
+              </div>
+            );
           })}
       </>
     );
@@ -358,9 +378,13 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                   </Field>
                 </FormField>
               </HorizontalGutter>
-              {submitErrors.map((submitError) => {
-                return <div key={submitError.id}>{submitError.message}</div>;
-              })}
+              {submissionStatus
+                .filter((s) => s.status === "error")
+                .map((submitError) => {
+                  return (
+                    <div key={submitError.id}>{submitError.error.message}</div>
+                  );
+                })}
               <Flex alignItems="center" justifyContent="flex-end">
                 <Localized id="comments-permalinkView-reportIllegalContent-submit">
                   <Button
@@ -388,6 +412,7 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment IllegalContentReportViewContainer_story on Story {
       id
+      url
       ...CommentContainer_story
     }
   `,
