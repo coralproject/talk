@@ -158,11 +158,16 @@ comments-permalinkView-reportIllegalContent-description = Under the Digital Serv
   your ability so our moderation team can make a decision and if necessary consult with our site's legal 
   department. Thank you for your support in making our communities safer to engage in.
 comments-permalinkView-reportIllegalContent-reportingComment = You are reporting this comment
+comments-permalinkView-reportIllegalContent-callout-needMoreTime = Need more time to submit your report?
+comments-permalinkView-reportIllegalContent-callout-useCopyLink = Use the "Copy link" button above to grab the URL to this comment for you to come back to when you're ready (should note that it does not save your progress).
+comments-permalinkView-reportIllegalContent-directions = Directions
+comments-permalinkView-reportIllegalContent-directions-moreInfo = Another chance to give some instructions on what is required for this form. Maybe some reference or links to the laws? Unclear at this point.
 comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel = What law do you believe has been broken? (required)
 comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel = Please include additional information why this comment is illegal (required)
 comments-permalinkView-reportIllegalContent-additionalInformation-helperText = To the best of your ability please give as much detail to help us investigate this further
 comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Have other comments you'd like to report for breaking this law?
 comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = Bonafide belief statement
+comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton = <Button></Button>Add comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-button = <Button></Button>Add additional comments
 comments-permalinkView-reportIllegalContent-submit = Submit report
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = Please add a valid comment URL.

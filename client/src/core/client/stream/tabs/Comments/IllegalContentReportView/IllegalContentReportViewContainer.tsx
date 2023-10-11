@@ -145,6 +145,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
       setSubmissionStatus,
       setIsSubmitted,
       submissionID,
+      story.url,
     ]
   );
 
@@ -198,7 +199,6 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
           }}
         >
           <Button
-            // className={CLASSES.permalinkView.viewFullDiscussionButton}
             variant="flat"
             color="primary"
             fontSize="medium"
@@ -285,21 +285,27 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
 
       <>
         <CallOut>
-          {/* TODO: Localize all of this */}
-          <div>Need more time to submit your report?</div>
-          <p>
-            Use the "Copy link" button above to grab the URL to this comment for
-            you to come back to when you're ready (should note that it does not
-            save your progress).
-          </p>
+          <Localized id="comments-permalinkView-reportIllegalContent-callout-needMoreTime">
+            <div>Need more time to submit your report?</div>
+          </Localized>
+          <Localized id="comments-permalinkView-reportIllegalContent-callout-useCopyLink">
+            <p>
+              Use the "Copy link" button above to grab the URL to this comment
+              for you to come back to when you're ready (should note that it
+              does not save your progress).
+            </p>
+          </Localized>
         </CallOut>
-        {/* TODO: Localize this */}
-        <div className={styles.directions}>Directions</div>
-        <p className={styles.directionsMoreInfo}>
-          Another chance to give some instructions on what is required for this
-          form. Maybe some reference or links to the laws? Unclear at this
-          point.
-        </p>
+        <Localized id="comments-permalinkView-reportIllegalContent-directions">
+          <div className={styles.directions}>Directions</div>
+        </Localized>
+        <Localized id="comments-permalinkView-reportIllegalContent-directions-moreInfo">
+          <p className={styles.directionsMoreInfo}>
+            Another chance to give some instructions on what is required for
+            this form. Maybe some reference or links to the laws? Unclear at
+            this point.
+          </p>
+        </Localized>
         <Form onSubmit={onSubmit}>
           {({ handleSubmit, submitting, hasValidationErrors }) => (
             <form

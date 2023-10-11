@@ -18,7 +18,7 @@ import { Button } from "coral-ui/components/v3";
 
 import { IllegalContentReportViewContainer_comment as CommentData } from "coral-stream/__generated__/IllegalContentReportViewContainer_comment.graphql";
 
-import styles from "./IllegalContentReportViewContainer.css";
+import styles from "./AddAdditionalComments.css";
 
 interface Props {
   additionalComments: { id: string; url: string }[] | null;
@@ -114,8 +114,14 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
       {additionalComments &&
         additionalComments.map(
           (additionalComment: { id: string; url: string }) => {
-            // TODO: Add styles
-            return <p key={additionalComment.id}>{additionalComment.url}</p>;
+            return (
+              <div
+                className={styles.additionalCommentURLs}
+                key={additionalComment.id}
+              >
+                {additionalComment.url}
+              </div>
+            );
           }
         )}
       <>
@@ -144,11 +150,10 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
                   )}
                 </Field>
                 {addAdditionalCommentError && (
-                  <div>{addAdditionalCommentError}</div>
+                  <div className="error">{addAdditionalCommentError}</div>
                 )}
-                {/* // TODO: Update localized */}
                 <Localized
-                  id="comments-permalinkView-reportIllegalContent-additionalComments-"
+                  id="comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton"
                   elems={{
                     Button: (
                       <ButtonSvgIcon
