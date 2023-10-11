@@ -7,6 +7,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { Button } from "coral-ui/components/v3";
 
 import { ArchivedReportFlowContainer_comment } from "coral-stream/__generated__/ArchivedReportFlowContainer_comment.graphql";
 import { ArchivedReportFlowContainer_settings } from "coral-stream/__generated__/ArchivedReportFlowContainer_settings.graphql";
@@ -49,6 +50,12 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
     }
   );
 
+  const reportLink = getURLWithCommentID(
+    comment.story.url,
+    comment.id,
+    "illegalContentReport"
+  );
+
   return (
     <div className={styles.root}>
       <Localized id="comments-archivedReportPopover-reportThisComment">
@@ -87,6 +94,22 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
         upperCase
         className={CLASSES.reportPopover.copyButton}
       />
+
+      <Localized id="comments-reportForm-reportIllegalContent-button">
+        <Button
+          variant="flat"
+          color="primary"
+          fontSize="medium"
+          fontWeight="semiBold"
+          paddingSize="none"
+          target="_blank"
+          anchor
+          underline
+          href={reportLink}
+        >
+          Report illegal content
+        </Button>
+      </Localized>
     </div>
   );
 };

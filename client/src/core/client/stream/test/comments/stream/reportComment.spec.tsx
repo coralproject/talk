@@ -1,11 +1,13 @@
+import { act, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import sinon from "sinon";
 
 import { ERROR_CODES } from "coral-common/common/lib/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { act, waitForElement, within } from "coral-framework/testHelpers";
+import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
 
 import { commenters, settings, stories } from "../../fixtures";
-import create from "./create";
+import { createContext } from "./create";
 
 async function createTestRenderer(
   resolver: any = {},
@@ -59,115 +61,104 @@ async function createTestRenderer(
     },
   };
 
-  const { testRenderer } = create({
+  const { context } = createContext({
     // Set this to true, to see graphql responses.
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
     initLocalState: (localRecord) => {
       localRecord.setValue(stories[0].id, "storyID");
+      localRecord.setValue(true, "dsaFeaturesEnabled");
     },
   });
-  return { testRenderer, resolvers };
+  customRenderAppWithContext(context);
+  return { resolvers };
 }
 
 it("close popup", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer } = await createTestRenderer();
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentID}`)
-  );
-  const button = within(comment).getByTestID("comment-report-button");
-  act(() => button.props.onClick());
+  await createTestRenderer();
+  const comment = await screen.findByTestId(`comment-${commentID}`);
 
-  const form = within(comment).getByTestID("report-comment-form");
-  act(() =>
-    within(form).getByText("Cancel", { exact: false }).props.onClick({})
-  );
+  const reportButton = screen.getByRole("button", {
+    name: "Report comment by Markus",
+  });
+  userEvent.click(reportButton);
+
+  const form = within(comment).getByTestId("report-comment-form");
+  const cancelButton = within(form).getByText("Cancel", { exact: false });
+  userEvent.click(cancelButton);
 });
 
 it("report comment as offensive", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer, resolvers } = await createTestRenderer();
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentID}`)
-  );
-  const button = within(comment).getByTestID("comment-report-button");
-  act(() => button.props.onClick());
+  const { resolvers } = await createTestRenderer();
+  const comment = await screen.findByTestId(`comment-${commentID}`);
 
-  const form = within(comment).getByTestID("report-comment-form");
-
-  const radioButton = within(form).getByLabelText("This comment is offensive");
-
-  act(() =>
-    radioButton.props.onChange({
-      target: { type: "radio", value: radioButton.props.value },
-    })
-  );
-
-  act(() =>
-    within(form)
-      .getByTestID("report-comment-additional-information")
-      .props.onChange({ target: { value: "More info" } })
-  );
-
-  act(() => {
-    within(form).getByType("form").props.onSubmit({});
+  const reportButton = screen.getByRole("button", {
+    name: "Report comment by Markus",
   });
+  userEvent.click(reportButton);
+
+  const form = within(comment).getByTestId("report-comment-form");
+
+  const radioButtonOffensive = within(form).getByLabelText(
+    "This comment is offensive"
+  );
+
+  userEvent.click(radioButtonOffensive);
+
+  const additionalInfo = within(form).getByTestId(
+    "report-comment-additional-information"
+  );
+  userEvent.type(additionalInfo, "More info");
+
+  const submitButton = within(form).getByRole("button", { name: "Submit" });
 
   await act(async () => {
-    await waitForElement(() =>
-      within(comment).getByText("Thank you", { exact: false })
-    );
+    userEvent.click(submitButton);
   });
-  within(comment).getByTestID("comment-reported-button");
+  within(comment).getByText("Thank you", { exact: false });
+  within(comment).getByTestId("comment-reported-button");
   expect(resolvers.Mutation.createCommentFlag.called).toBe(true);
 });
 
 it("dont agree with comment", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer, resolvers } = await createTestRenderer();
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentID}`)
-  );
-  const button = within(comment).getByTestID("comment-report-button");
-  act(() => button.props.onClick());
+  const { resolvers } = await createTestRenderer();
+  const comment = await screen.findByTestId(`comment-${commentID}`);
 
-  const form = within(comment).getByTestID("report-comment-form");
+  const reportButton = screen.getByRole("button", {
+    name: "Report comment by Markus",
+  });
+  userEvent.click(reportButton);
 
-  const radioButton = within(form).getByLabelText("I disagree", {
+  const form = within(comment).getByTestId("report-comment-form");
+
+  const radioButtonOffensive = within(form).getByLabelText("I disagree", {
     exact: false,
   });
 
-  act(() =>
-    radioButton.props.onChange({
-      target: { type: "radio", value: radioButton.props.value },
-    })
-  );
+  userEvent.click(radioButtonOffensive);
 
-  act(() =>
-    within(form)
-      .getByTestID("report-comment-additional-information")
-      .props.onChange({ target: { value: "More info" } })
+  const additionalInfo = within(form).getByTestId(
+    "report-comment-additional-information"
   );
+  userEvent.type(additionalInfo, "More info");
 
-  act(() => {
-    within(form).getByType("form").props.onSubmit({});
-  });
+  const submitButton = within(form).getByRole("button", { name: "Submit" });
 
   await act(async () => {
-    await waitForElement(() =>
-      within(comment).getByText("Thank you", { exact: false })
-    );
+    userEvent.click(submitButton);
   });
-
-  within(comment).getByTestID("comment-reported-button");
+  within(comment).getByText("Thank you", { exact: false });
+  within(comment).getByTestId("comment-reported-button");
   expect(resolvers.Mutation.createCommentDontAgree.called).toBe(true);
 });
 
 it("report comment as offensive and handle server error", async () => {
   const commentID = stories[0].comments.edges[0].node.id;
-  const { testRenderer } = await createTestRenderer(
+  await createTestRenderer(
     {
       Mutation: {
         createCommentFlag: sinon.stub().callsFake(() => {
@@ -180,28 +171,26 @@ it("report comment as offensive and handle server error", async () => {
     },
     { muteNetworkErrors: true }
   );
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentID}`)
-  );
-  const button = within(comment).getByTestID("comment-report-button");
-  act(() => button.props.onClick());
+  const comment = await screen.findByTestId(`comment-${commentID}`);
 
-  const form = within(comment).getByTestID("report-comment-form");
-
-  const radioButton = within(form).getByLabelText("This comment is offensive");
-
-  act(() =>
-    radioButton.props.onChange({
-      target: { type: "radio", value: radioButton.props.value },
-    })
-  );
-
-  act(() => {
-    within(form).getByType("form").props.onSubmit({});
+  const reportButton = screen.getByRole("button", {
+    name: "Report comment by Markus",
   });
+  userEvent.click(reportButton);
 
-  // Look for internal error being displayed.
+  const form = within(comment).getByTestId("report-comment-form");
+
+  const radioButtonOffensive = within(form).getByLabelText(
+    "This comment is offensive"
+  );
+
+  userEvent.click(radioButtonOffensive);
+
+  const submitButton = within(form).getByRole("button", { name: "Submit" });
+
   await act(async () => {
-    await waitForElement(() => within(form).getByText("INTERNAL_ERROR"));
+    userEvent.click(submitButton);
   });
+
+  await within(form).findByText("INTERNAL_ERROR");
 });
