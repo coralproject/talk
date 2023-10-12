@@ -123,7 +123,13 @@ export async function createDSAReport(
     .findOne({ tenantID, id: commentID });
 
   if (!commentExists) {
-    throw new CommentNotFoundError(commentID);
+    // look in archived comments too
+    const commentIsArchived = await mongo
+      .archivedComments()
+      .findOne({ tenantID, id: commentID });
+    if (!commentIsArchived) {
+      throw new CommentNotFoundError(commentID);
+    }
   }
 
   // check if there's already a dsareport submitted by this user for this comment

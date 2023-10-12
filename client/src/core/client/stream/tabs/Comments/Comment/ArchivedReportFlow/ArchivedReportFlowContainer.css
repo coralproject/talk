@@ -40,3 +40,7 @@
 
   margin-bottom: var(--spacing-2);
 }
+
+.illegalContentReportButton {
+  margin-bottom: var(--spacing-2);
+}
