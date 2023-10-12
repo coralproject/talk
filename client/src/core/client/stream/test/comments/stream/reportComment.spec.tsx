@@ -194,3 +194,21 @@ it("report comment as offensive and handle server error", async () => {
 
   await within(form).findByText("INTERNAL_ERROR");
 });
+
+it("report comment includes link to report illegal content", async () => {
+  const commentID = stories[0].comments.edges[0].node.id;
+  await createTestRenderer();
+  const comment = await screen.findByTestId(`comment-${commentID}`);
+  const reportButton = screen.getByRole("button", {
+    name: "Report comment by Markus",
+  });
+  userEvent.click(reportButton);
+  const form = within(comment).getByTestId("report-comment-form");
+  const reportIllegalContentButton = within(form).getByText(
+    "Report illegal content"
+  );
+  expect(reportIllegalContentButton).toHaveAttribute(
+    "href",
+    "https://www.test.com/story-0?commentID=comment-0&view=illegalContentReport"
+  );
+});
