@@ -17,6 +17,7 @@ import { Request } from "coral-server/types/express";
 
 import {
   GQLCOMMENT_STATUS,
+  GQLREJECTION_REASON_CODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -74,6 +75,7 @@ const rejectComment = async (
   commentRevisionID: string,
   moderatorID: string,
   now: Date,
+  reason?: { code: GQLREJECTION_REASON_CODE; additionalInfo?: string },
   request?: Request | undefined
 ) => {
   const updateAllCommentCountsArgs = {
@@ -90,6 +92,7 @@ const rejectComment = async (
       commentID,
       commentRevisionID,
       moderatorID,
+      rejectionReason: reason,
       status: GQLCOMMENT_STATUS.REJECTED,
     },
     now,

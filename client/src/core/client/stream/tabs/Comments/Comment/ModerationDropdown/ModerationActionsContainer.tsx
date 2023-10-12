@@ -369,7 +369,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
           story={story}
         />
       )}
-      {dsaFeaturesEnabled && <ModerationReason commentID={comment.id} open={showModerationReason} />}
+      {dsaFeaturesEnabled && <ModerationReason onReason={(reason) => console.log("TODO: reject from stream")} open={showModerationReason} />}
     </>
   );
 };

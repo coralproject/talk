@@ -6555,6 +6555,12 @@ type ApproveCommentPayload {
 # rejectComment
 ##################
 
+input RejectCommentReasonInput {
+  code: REJECTION_REASON_CODE!
+
+  additionalInfo: String
+}
+
 input RejectCommentInput {
   """
   commentID is the ID of the Comment that was rejected.
@@ -6565,6 +6571,11 @@ input RejectCommentInput {
   commentRevisionID is the ID of the CommentRevision that is being rejected.
   """
   commentRevisionID: ID!
+
+  """
+  reason is the reason the comment is being rejected
+  """
+  reason: RejectCommentReasonInput
 
   """
   clientMutationId is required for Relay support.
