@@ -353,6 +353,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                           </HelperText>
                         </Localized>
                         <TextArea
+                          data-testid="additionalInfo"
                           className={styles.additionalInfo}
                           name={input.name}
                           value={input.value}
