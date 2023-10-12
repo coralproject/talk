@@ -14,7 +14,7 @@ env:
 jobs:
   build-and-test:
     name: Build and Test
-    runs-on: coral-ci
+    runs-on: ubuntu-22.04
     steps:
       -
         name: Checkout
@@ -43,10 +43,10 @@ jobs:
         name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       -
-        name: Setup Node18.x
+        name: Setup Node14.x
         uses: actions/setup-node@v3
         with:
-          node-version: '18.16.x'
+          node-version: '14.x'
       -
         name: Install npm 8
         run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
@@ -108,7 +108,7 @@ jobs:
           npx @coralproject/package-version-lint
       -
         name: Run Server Unit Tests
-        run: cd server && npm run test:server -- --ci --reporters=default --reporters=jest-junit
+        run: cd server && npm run test:server -- --ci --runInBand --reporters=default --reporters=jest-junit
       -
         name: Run Client Stream Unit Tests
         run: cd client && npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
@@ -121,7 +121,7 @@ jobs:
       -
         name: Build
         env:
-          NODE_OPTIONS: "--max-old-space-size=14336"
+          NODE_OPTIONS: "--max-old-space-size=8192"
         run: sh scripts/build.sh
       -
         name: Verify Bundle Size

@@ -58,7 +58,7 @@ const userShouldHaveModerationScopesRemoved: PermissionsActionSideEffectTest =
           mongo,
           tenantID,
           user.id,
-          user.moderationScopes.siteIDs!
+          user.moderationScopes!.siteIDs!
         );
 
       return removeModerationScopes;

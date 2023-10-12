@@ -15,8 +15,7 @@ describe("extractJWTFromRequest", () => {
 
     expect(extractTokenFromRequest(req as any as Request)).toEqual("token");
 
-    const anyReq = req as any;
-    delete anyReq.headers.authorization;
+    delete req.headers.authorization;
 
     expect(extractTokenFromRequest(req as any as Request)).toEqual(null);
   });
