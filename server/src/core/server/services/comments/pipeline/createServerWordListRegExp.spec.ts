@@ -102,7 +102,7 @@ describe("en-US", () => {
 
   it("splits the words in a sentence correctly", () => {
     expect(split("this sentence is bad.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence is",
         " ",
         "bad",
@@ -111,7 +111,7 @@ describe("en-US", () => {
       ]
     `);
     expect(split("this sentence is worse.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence is",
         " ",
         "worse",
@@ -123,7 +123,7 @@ describe("en-US", () => {
 
   it("splits words when there are repeat words", () => {
     expect(split("This is bad bad, very BAD.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "This is",
         " ",
         "bad",
@@ -139,7 +139,7 @@ describe("en-US", () => {
 
   it("splits the words with unicode in a sentence correctly", () => {
     expect(split("this sentence has one jalapeño.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence has one",
         " ",
         "jalapeño",
@@ -148,7 +148,7 @@ describe("en-US", () => {
       ]
     `);
     expect(split("this sentence has many jalapeños.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence has many jalapeños.",
       ]
     `);
@@ -156,7 +156,7 @@ describe("en-US", () => {
 
   it("splits the multi-words in a sentence correctly", () => {
     expect(split("this sentence has french fries.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence has",
         " ",
         "french fries",
@@ -165,7 +165,7 @@ describe("en-US", () => {
       ]
     `);
     expect(split("this sentence has french;fries.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence has",
         " ",
         "french;fries",
@@ -174,7 +174,7 @@ describe("en-US", () => {
       ]
     `);
     expect(split("this sentence has french!fries.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence has",
         " ",
         "french!fries",
@@ -183,7 +183,7 @@ describe("en-US", () => {
       ]
     `);
     expect(split("this sentence has french.fries.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence has",
         " ",
         "french.fries",
@@ -192,7 +192,7 @@ describe("en-US", () => {
       ]
     `);
     expect(split("this sentence has french?fries.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence has",
         " ",
         "french?fries",
@@ -201,7 +201,7 @@ describe("en-US", () => {
       ]
     `);
     expect(split("this sentence has french¿fries.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence has",
         " ",
         "french¿fries",
@@ -210,7 +210,7 @@ describe("en-US", () => {
       ]
     `);
     expect(split("this sentence has french:fries.")).toMatchInlineSnapshot(`
-      [
+      Array [
         "this sentence has",
         " ",
         "french:fries",
@@ -261,7 +261,7 @@ describe("pt-BR", () => {
 
   it("splits the words with unicode in a sentence correctly", () => {
     expect(split("biólogo se soletra com: bi ")).toMatchInlineSnapshot(`
-      [
+      Array [
         "biólogo se soletra com",
         ": ",
         "bi",
@@ -270,7 +270,7 @@ describe("pt-BR", () => {
       ]
     `);
     expect(split("m.e.r.d.a")).toMatchInlineSnapshot(`
-      [
+      Array [
         "",
         "",
         "m.e.r.d.a",
@@ -279,7 +279,7 @@ describe("pt-BR", () => {
       ]
     `);
     expect(split("não tomo café pois faz mal")).toMatchInlineSnapshot(`
-      [
+      Array [
         "não tomo",
         " ",
         "café",
@@ -288,7 +288,7 @@ describe("pt-BR", () => {
       ]
     `);
     expect(split("Como fazer coisas ruins")).toMatchInlineSnapshot(`
-      [
+      Array [
         "",
         "",
         "Como fazer coisas ruins",
@@ -297,17 +297,17 @@ describe("pt-BR", () => {
       ]
     `);
     expect(split("O biólogo recomenda este artigo")).toMatchInlineSnapshot(`
-      [
+      Array [
         "O biólogo recomenda este artigo",
       ]
     `);
     expect(split("cafe")).toMatchInlineSnapshot(`
-      [
+      Array [
         "cafe",
       ]
     `);
     expect(split("Ser banido é uma merda")).toMatchInlineSnapshot(`
-      [
+      Array [
         "Ser banido é uma merda",
       ]
     `);

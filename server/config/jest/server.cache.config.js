@@ -10,23 +10,20 @@ module.exports = {
   testMatch: ["**/*.spec.{js,jsx,mjs,ts,tsx}"],
   testPathIgnorePatterns: ["/node_modules/", "/client/"],
   testEnvironment: "node",
-  testEnvironmentOptions: {
-    url: "http://localhost",
-  },
+  testURL: "http://localhost",
   transform: {
-    "^.+\\.tsx?$": [
-      "<rootDir>/node_modules/ts-jest",
-      {
-        babel: true,
-        tsconfig: path.resolve(__dirname, "../../src/tsconfig.json"),
-      },
-    ],
+    "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest",
   },
   moduleNameMapper: {
     "^coral-server/(.*)$": "<rootDir>/src/core/server/$1",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  globals: {
+    "ts-jest": {
+      babelConfig: true,
+      tsConfig: path.resolve(__dirname, "../../src/tsconfig.json"),
+    },
+  },
   preset: "ts-jest",
   runInBand: true,
-  workerIdleMemoryLimit: 0.2,
 };

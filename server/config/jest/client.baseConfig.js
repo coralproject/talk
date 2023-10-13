@@ -1,3 +1,5 @@
+const path = require("path");
+
 const createConfig = () => {
   const d3Pkgs = [
     "d3",
@@ -74,6 +76,15 @@ const createConfig = () => {
       "^coral-test/(.*)$": "<rootDir>/src/core/client/test/$1",
     },
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node", "ftl"],
+    globals: {
+      "ts-jest": {
+        babelConfig: true,
+        tsConfig: path.resolve(
+          __dirname,
+          "../../src/core/client/tsconfig.json"
+        ),
+      },
+    },
     preset: "ts-jest/presets/js-with-babel",
   };
 };

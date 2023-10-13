@@ -3,7 +3,7 @@ jest.mock("coral-server/models/user");
 jest.mock("coral-server/models/site");
 
 import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
-import { UserForbiddenError } from "coral-server/errors";
+import { UserNotFoundError } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import {
   createSiteFixture,
@@ -57,7 +57,7 @@ describe("createEmailDomain", () => {
         }
       );
 
-    void expect(shouldFail).rejects.toThrow(UserForbiddenError);
+    void expect(shouldFail).rejects.toThrow(UserNotFoundError);
   });
 });
 

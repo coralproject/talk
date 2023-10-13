@@ -28,6 +28,5 @@ const jest = require("jest");
 const argv = [];
 argv.push("--env=jsdom");
 argv.push("--config", paths.appJestConfig);
-argv.push("--workerIdleMemoryLimit='1024MB'");
 
 jest.run(argv);

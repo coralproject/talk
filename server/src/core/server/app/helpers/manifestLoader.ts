@@ -195,7 +195,7 @@ export function createManifestLoader(config: Config, manifestFilename: string) {
   const fromWebpackDevServerURL =
     process.env.WEBPACK_DEV_SERVER === "true"
       ? // Loading manifests from Webpack Dev Server
-        `http://127.0.0.1:${config.get("dev_port")}`
+        `http://localhost:${config.get("dev_port")}`
       : null;
   return new ManifestLoader(manifestFilename, {
     fromWebpackDevServerURL,
