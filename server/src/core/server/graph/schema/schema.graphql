@@ -4460,6 +4460,61 @@ type Queues {
 }
 
 ################################################################################
+## Notifications
+################################################################################
+
+type Notification {
+  """
+  id is the uuid identifier for the notification.
+  """
+  id: ID!
+
+  """
+  ownerID is the string identifier for who this notification is directed to.
+  """
+  ownerID: ID!
+
+  """
+  createdAt is when this notification was created, used for sorting.
+  """
+  createdAt: Time!
+
+  """
+  body is the content of this notification.
+  """
+  body: String!
+}
+
+type NotificationEdge {
+  """
+  node is the Flag for this edge.
+  """
+  node: Notification!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+type NotificationsConnection {
+  """
+  edges are a subset of FlagEdge's.
+  """
+  edges: [NotificationEdge!]!
+
+  """
+  nodes is a list of Flags.
+  """
+  nodes: [Notification!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
+################################################################################
 ## Query
 ################################################################################
 
@@ -4625,6 +4680,14 @@ type Query {
   emailDomain will return a specific emailDomain configuration if it exists.
   """
   emailDomain(id: ID!): EmailDomain @auth(roles: [ADMIN])
+
+  """
+  notifications will return a list of notifications for an ownerID.
+  """
+  notifications(
+    ownerID: ID!
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor): NotificationsConnection!
 }
 
 ################################################################################

@@ -71,4 +71,10 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
         },
       },
     }),
+  notifications: (source, { ownerID, first, after }, ctx) =>
+    ctx.loaders.Notifications.connection({
+      ownerID,
+      first: defaultTo(first, 10),
+      after,
+    }),
 };

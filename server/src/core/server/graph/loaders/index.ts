@@ -4,6 +4,7 @@ import Auth from "./Auth";
 import CommentActions from "./CommentActions";
 import CommentModerationActions from "./CommentModerationActions";
 import Comments from "./Comments";
+import Notifications from "./Notifications";
 import SeenComments from "./SeenComments";
 import Sites from "./Sites";
 import Stories from "./Stories";
@@ -18,4 +19,5 @@ export default (ctx: Context) => ({
   Users: Users(ctx),
   Sites: Sites(ctx),
   SeenComments: SeenComments(ctx),
+  Notifications: Notifications(ctx),
 });
