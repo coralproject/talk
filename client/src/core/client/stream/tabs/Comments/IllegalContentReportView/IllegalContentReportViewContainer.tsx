@@ -128,6 +128,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
             lawBrokenDescription: input.lawBrokenDescription,
             additionalInformation: input.additionalInformation,
             submissionID,
+            commentRevisionID: comment.revision?.id,
           });
           statuses.push({ id: comment.id, status: "success", url });
         } catch (e) {
@@ -427,6 +428,9 @@ const enhanced = withFragmentContainer<Props>({
     fragment IllegalContentReportViewContainer_comment on Comment {
       id
       status
+      revision {
+        id
+      }
       ...RejectedTombstoneContainer_comment
       ...IgnoredTombstoneOrHideContainer_comment
       ...DeletedTombstoneContainer_comment

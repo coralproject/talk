@@ -48,7 +48,7 @@ export interface DSAReport extends TenantResource {
    * submissionID is the id that keeps track of all comments that are submitted together
    * as part of one illegal content report form by a user.
    */
-  submissionID?: string;
+  submissionID: string;
 
   /**
    * publicID is a user-friendly id used to reference the DSA Report.
@@ -63,8 +63,8 @@ export interface DSAReport extends TenantResource {
 
 export type CreateDSAReportInput = Omit<
   DSAReport,
-  "id" | "tenantID" | "createdAt" | "publicID" | "status"
->;
+  "id" | "tenantID" | "createdAt" | "publicID" | "status" | "submissionID"
+> & { submissionID?: string };
 
 export interface CreateDSAReportResultObject {
   /**

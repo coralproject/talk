@@ -33,6 +33,7 @@ const CreateDSAReportMutation = createMutation(
           lawBrokenDescription: input.lawBrokenDescription,
           additionalInformation: input.additionalInformation,
           submissionID: input.submissionID,
+          commentRevisionID: input.commentRevisionID,
           clientMutationId: (clientMutationId++).toString(),
         },
       },
