@@ -189,6 +189,9 @@ export function createComment(
       dontAgree: {
         total: 0,
       },
+      illegal: {
+        total: 0,
+      },
       flag: {
         total: 0,
         reasons: {
