@@ -880,6 +880,19 @@ it("doesnt show comments from banned users whose commens have been rejected", as
 });
 
 it.only("requires moderation reason when DSA features enabled", async () => {
+  const rejectCommentStub =
+    createMutationResolverStub<MutationToRejectCommentResolver>(
+      ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          commentID: reportedComments[0].id,
+          commentRevisionID: reportedComments[0].revision!.id,
+          reason: {
+            code: "ABUSIVE",
+          },
+        });
+        return {};
+      }
+    );
   await createTestRenderer({
     initLocalState(local, source, environment) {
       local.setValue(true, "dsaFeaturesEnabled");
@@ -919,11 +932,7 @@ it.only("requires moderation reason when DSA features enabled", async () => {
           }),
       },
       Mutation: {
-        rejectComment: createMutationResolverStub<MutationToBanUserResolver>(
-          ({ variables }) => {
-            return {};
-          }
-        ),
+        rejectComment: rejectCommentStub,
       },
     }),
   });
@@ -944,6 +953,23 @@ it.only("requires moderation reason when DSA features enabled", async () => {
   await waitFor(() => {
     expect(screen.queryByTestId("moderation-reason-modal")).toBeVisible();
   });
-
   // BOOKMARK: continue here
+  const reasonModal = screen.queryByTestId("moderation-reason-modal")!;
+
+  const submitReasonButton = within(reasonModal).getByRole("button", {
+    name: "Submit",
+  });
+  expect(submitReasonButton).toBeDisabled();
+
+  const abusiveOption = within(reasonModal).getByLabelText("abusive", {
+    exact: false,
+  });
+
+  expect(abusiveOption).toBeInTheDocument();
+
+  act(() => userEvent.click(abusiveOption));
+
+  expect(submitReasonButton).toBeEnabled();
+
+  act(() => userEvent.click(submitReasonButton));
 });
