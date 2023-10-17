@@ -8,6 +8,7 @@ import {
   CogIcon,
   ConversationChatIcon,
   ConversationQuestionWarningIcon,
+  InformationCircleIcon,
   MessagesBubbleSquareIcon,
   RatingStarIcon,
   SingleNeutralCircleIcon,
@@ -17,7 +18,12 @@ import { MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
 
 import styles from "./TabBar.css";
 
-type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
+type TabValue =
+  | "COMMENTS"
+  | "PROFILE"
+  | "DISCUSSIONS"
+  | "NOTIFICATIONS"
+  | "%future added value";
 
 export interface Props {
   activeTab: TabValue;
@@ -25,6 +31,7 @@ export interface Props {
   showProfileTab: boolean;
   showDiscussionsTab: boolean;
   showConfigureTab: boolean;
+  showNotificationsTab: boolean;
   mode:
     | "COMMENTS"
     | "QA"
@@ -53,6 +60,10 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
   );
   const myProfileText = getMessage("general-tabBar-myProfileTab", "My Profile");
   const configureText = getMessage("general-tabBar-configure", "Configure");
+  const notificationsText = getMessage(
+    "general-tabBar-notifications",
+    "Notifications"
+  );
 
   return (
     <MatchMedia gteWidth="sm">
@@ -151,6 +162,25 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               ) : (
                 <div>
                   <SvgIcon size="md" Icon={CogIcon} />
+                </div>
+              )}
+            </Tab>
+          )}
+
+          {props.showNotificationsTab && (
+            <Tab
+              className={cn(CLASSES.tabBar.notifications, {
+                [CLASSES.tabBar.activeTab]: props.activeTab === "NOTIFICATIONS",
+                [styles.smallTab]: !matches,
+              })}
+              tabID="NOTIFICATIONS"
+              variant="streamPrimary"
+            >
+              {matches ? (
+                <span>{notificationsText}</span>
+              ) : (
+                <div>
+                  <SvgIcon size="md" Icon={InformationCircleIcon} />
                 </div>
               )}
             </Tab>

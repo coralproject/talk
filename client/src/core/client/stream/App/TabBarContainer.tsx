@@ -66,6 +66,7 @@ export const TabBarContainer: FunctionComponent<Props> = ({
       showProfileTab={!!viewer}
       showDiscussionsTab={showDiscussionsTab}
       showConfigureTab={showConfigureTab}
+      showNotificationsTab={true}
       onTabClick={handleSetActiveTab}
     />
   );

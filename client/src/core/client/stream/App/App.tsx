@@ -4,6 +4,7 @@ import React, { FunctionComponent } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import CLASSES from "coral-stream/classes";
+import NotificationsQuery from "coral-stream/tabs/Notifications/NotificationsQuery";
 import { HorizontalGutter, TabContent, TabPane } from "coral-ui/components/v2";
 
 import Comments from "../tabs/Comments";
@@ -67,6 +68,13 @@ const App: FunctionComponent<AppProps> = (props) => {
               data-testid="current-tab-pane"
             >
               <Configure />
+            </TabPane>
+            <TabPane
+              className={CLASSES.notificationsTabPane.$root}
+              tabID="NOTIFICATIONS"
+              data-testid="current-tab-pane"
+            >
+              <NotificationsQuery />
             </TabPane>
           </TabContent>
         </div>

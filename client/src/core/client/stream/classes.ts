@@ -77,6 +77,8 @@ const CLASSES = {
     configure: "coral coral-tabBar-tab coral-tabBar-configure",
 
     activeTab: "coral-tabBar-tab-active",
+
+    notifications: "coral coral-tabBar-tab coral-tabBar-notifications",
   },
 
   /**
