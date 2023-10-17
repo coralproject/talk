@@ -52,6 +52,7 @@ const ModerationReason: FunctionComponent<Props> = ({ open, onReason }) => {
 
         {reasonCode === GQLREJECTION_REASON_CODE.OTHER && (
           <TextArea
+            data-testid="moderation-reason-additiona-info"
             value={info || undefined}
             onChange={(e) => setInfo(e.target.value)}
           />

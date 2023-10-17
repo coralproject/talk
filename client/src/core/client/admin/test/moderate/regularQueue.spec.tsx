@@ -879,7 +879,7 @@ it("doesnt show comments from banned users whose commens have been rejected", as
   });
 });
 
-it.only("requires moderation reason when DSA features enabled", async () => {
+it("requires moderation reason when DSA features enabled", async () => {
   const rejectCommentStub =
     createMutationResolverStub<MutationToRejectCommentResolver>(
       ({ variables }) => {

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, {
@@ -37,6 +36,7 @@ import { ModerationActionsContainer_settings } from "coral-stream/__generated__/
 import { ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
 import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
 import { ModerationActionsContainerLocal } from "coral-stream/__generated__/ModerationActionsContainerLocal.graphql";
+import { RejectCommentInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
 import CopyCommentEmbedCodeContainer from "./CopyCommentEmbedCodeContainer";
@@ -57,17 +57,18 @@ interface Props {
   onSiteBan: () => void;
 }
 
-interface RejectState {
+interface RejectionState {
   showModerationReason: boolean;
   rejecting: boolean;
+  reason?: RejectCommentInput["reason"];
 }
 
-type RejectAction =
-  | "INDICATE_REJECT"
-  | "CONFIRM_REJECT_REASON"
-  | "REJECT_COMPLETE";
+type RejectionAction =
+  | { action: "INDICATE_REJECT" }
+  | { action: "CONFIRM_REASON"; reason: RejectCommentInput["reason"] }
+  | { action: "REJECTION_COMPLETE" };
 
-type RejectionReducer = Reducer<RejectState, RejectAction>;
+type RejectionReducer = Reducer<RejectionState, RejectionAction>;
 
 const ModerationActionsContainer: FunctionComponent<Props> = ({
   comment,
@@ -100,15 +101,18 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       }
     `);
 
-  const [{ showModerationReason, rejecting }, dispatch] =
+  const [{ showModerationReason, rejecting, reason }, dispatch] =
     useReducer<RejectionReducer>(
-      (state, action) => {
-        console.log("an action was dispatched", action);
-        switch (action) {
-          case "REJECT_COMPLETE":
+      (state, input) => {
+        switch (input.action) {
+          case "REJECTION_COMPLETE":
             return { rejecting: false, showModerationReason: false };
-          case "CONFIRM_REJECT_REASON":
-            return { rejecting: true, showModerationReason: false };
+          case "CONFIRM_REASON":
+            return {
+              rejecting: true,
+              showModerationReason: false,
+              reason: input.reason,
+            };
           case "INDICATE_REJECT":
             return dsaFeaturesEnabled
               ? { showModerationReason: true, rejecting: false }
@@ -166,8 +170,9 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
       storyID: story.id,
+      reason,
     });
-  }, [comment, story, reject]);
+  }, [comment, story, reject, reason]);
   const onFeature = useCallback(() => {
     if (!comment.revision) {
       return;
@@ -203,10 +208,6 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const isQA = story.settings.mode === GQLSTORY_MODE.QA;
 
   const showCopyCommentEmbed = !!comment.body;
-
-
-  console.log("SHOWING MODAL?",
-  JSON.stringify({ dsaFeaturesEnabled, showModerationReason }, null, 2));
 
   return (
     <>
@@ -307,7 +308,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
         <Localized id="comments-moderationDropdown-reject">
           <DropdownButton
             icon={<SvgIcon Icon={RemoveIcon} className={styles.rejectIcon} />}
-            onClick={() => dispatch("INDICATE_REJECT")}
+            onClick={() => dispatch({ action: "INDICATE_REJECT" })}
             className={cn(
               styles.label,
               CLASSES.moderationDropdown.rejectButton
@@ -369,7 +370,14 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
           story={story}
         />
       )}
-      {dsaFeaturesEnabled && <ModerationReason onReason={(reason) => console.log("TODO: reject from stream")} open={showModerationReason} />}
+      {dsaFeaturesEnabled && (
+        <ModerationReason
+          onReason={(rejectionReason) =>
+            dispatch({ action: "CONFIRM_REASON", reason: rejectionReason })
+          }
+          open={showModerationReason}
+        />
+      )}
     </>
   );
 };

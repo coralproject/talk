@@ -656,6 +656,10 @@ it.only("requires rection reason when dsaFeaturesEnabled", async () => {
             expectAndFail(variables).toMatchObject({
               commentID: firstComment.id,
               commentRevisionID: firstComment.revision!.id,
+              reason: {
+                code: "OTHER",
+                additionalInfo: "really weird comment tbh",
+              },
             });
             return {
               comment: pureMerge<typeof firstComment>(firstComment, {
@@ -675,7 +679,6 @@ it.only("requires rection reason when dsaFeaturesEnabled", async () => {
 
   const caretButton = within(comment).getByLabelText("Moderate");
 
-  // THis isnt opening the thing!?!?
   await act(async () => userEvent.click(caretButton));
 
   const rejectButton = within(comment).getByRole("button", { name: "Reject" });
@@ -693,4 +696,34 @@ it.only("requires rection reason when dsaFeaturesEnabled", async () => {
   );
 
   expect(reasonModal).toBeInTheDocument();
+
+  const submitReasonButton = within(reasonModal).getByRole("button", {
+    name: "Submit",
+  });
+  expect(submitReasonButton).toBeDisabled();
+
+  const otherOption = within(reasonModal).getByLabelText("other", {
+    exact: false,
+  });
+
+  expect(otherOption).toBeInTheDocument();
+
+  act(() => {
+    fireEvent.click(otherOption);
+  });
+
+  const additionalInfo = within(reasonModal).getByTestId(
+    "moderation-reason-additiona-info"
+  );
+  act(() => {
+    fireEvent.change(additionalInfo, {
+      target: { value: "really weird comment tbh" },
+    });
+  });
+
+  expect(submitReasonButton).toBeEnabled();
+
+  act(() => {
+    fireEvent.click(submitReasonButton);
+  });
 });
