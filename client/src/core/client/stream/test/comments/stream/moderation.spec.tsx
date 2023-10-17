@@ -647,7 +647,7 @@ it("can copy comment embed code", async () => {
   window.prompt = jsdomPrompt;
 });
 
-it.only("requires rection reason when dsaFeaturesEnabled", async () => {
+it("requires rection reason when dsaFeaturesEnabled", async () => {
   await act(async () => {
     await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
