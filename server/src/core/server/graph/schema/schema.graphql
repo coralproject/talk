@@ -3225,6 +3225,41 @@ type SitesConnection {
   pageInfo: PageInfo!
 }
 
+"""
+DSAReportEdge represents a unique DSAReport in a DSAReportConnection.
+"""
+type DSAReportEdge {
+  """
+  node is the DSAReport for this edge.
+  """
+  node: DSAReport!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+"""
+DSAReportsConnection represents a subset of a DSA reports list.
+"""
+type DSAReportsConnection {
+  """
+  edges are a subset of DSAReportEdge's.
+  """
+  edges: [DSAReportEdge!]!
+
+  """
+  nodes is a list of DSAReports.
+  """
+  nodes: [DSAReport!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
 ################################################################################
 ## Comment
 ################################################################################
@@ -3365,7 +3400,7 @@ type DSAReport {
   """
   user who submitted the DSAReport
   """
-  createdBy: User!
+  reporter: User
 
   """
   commentID of the comment reported
@@ -4625,6 +4660,15 @@ type Query {
   emailDomain will return a specific emailDomain configuration if it exists.
   """
   emailDomain(id: ID!): EmailDomain @auth(roles: [ADMIN])
+
+  """
+  dsaReports are the list of dsaReports
+  """
+  dsaReports(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+    query: String
+  ): DSAReportsConnection! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################

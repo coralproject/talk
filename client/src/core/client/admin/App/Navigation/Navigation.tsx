@@ -31,6 +31,13 @@ const Navigation: FunctionComponent<Props> = (props) => (
         <NavigationLink to="/admin/dashboard">Dashboard</NavigationLink>
       </Localized>
     )}
+    {/* TODO: Show with appropriate permissions AND if DSA enabled only */}
+    {/* {props.showDashboard && ( */}
+    {/* TODO: Update localization */}
+    <Localized id="navigation-reports">
+      <NavigationLink to="/admin/reports">Reports</NavigationLink>
+    </Localized>
+    {/* )} */}
   </AppBarNavigation>
 );
 

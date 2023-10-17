@@ -1,11 +1,19 @@
+import { isNumber } from "lodash";
 import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/common/lib/types";
 import { MongoContext } from "coral-server/data/context";
-import { FilterQuery } from "coral-server/models/helpers";
-import { TenantResource } from "coral-server/models/tenant";
+import {
+  Connection,
+  ConnectionInput,
+  FilterQuery,
+  Query,
+  resolveConnection,
+} from "coral-server/models/helpers";
 
 import { GQLDSAReportStatus } from "coral-server/graph/schema/__generated__/types";
+
+import { TenantResource } from "../tenant";
 
 export interface DSAReport extends TenantResource {
   readonly id: string;
@@ -20,17 +28,49 @@ export interface DSAReport extends TenantResource {
 
   commentID: string;
 
-  submissionID?: string;
+  submissionID: string;
 
   publicID: string;
 
   status: GQLDSAReportStatus;
 }
 
+export type DSAReportConnectionInput = ConnectionInput<DSAReport>;
+
+async function retrieveConnection(
+  input: DSAReportConnectionInput,
+  query: Query<DSAReport>
+): Promise<Readonly<Connection<Readonly<DSAReport>>>> {
+  // Apply the pagination arguments to the query.
+  query.orderBy({ name: 1 });
+  const skip = isNumber(input.after) ? input.after : 0;
+  if (skip) {
+    query.after(skip);
+  }
+
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
+  // Return a connection.
+  return resolveConnection(query, input, (_, index) => index + skip + 1);
+}
+
+export async function retrieveDSAReportConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  input: DSAReportConnectionInput
+): Promise<Readonly<Connection<Readonly<DSAReport>>>> {
+  // Create the query.
+  const query = new Query(mongo.dsaReports()).where({ tenantID });
+
+  return retrieveConnection(input, query);
+}
+
 export type CreateDSAReportInput = Omit<
   DSAReport,
-  "id" | "tenantID" | "createdAt" | "publicID" | "status"
->;
+  "id" | "tenantID" | "createdAt" | "publicID" | "status" | "submissionID"
+> & { submissionID?: string };
 
 export interface CreateDSAReportResultObject {
   /**

@@ -4,7 +4,7 @@ import { Config } from "coral-server/config";
 import { CommentAction } from "coral-server/models/action/comment";
 import { CommentModerationAction } from "coral-server/models/action/moderation/comment";
 import { Comment } from "coral-server/models/comment";
-import { DSAReport } from "coral-server/models/dsaReport/report";
+import { DSAReport } from "coral-server/models/dsaReport";
 import { createCollection } from "coral-server/models/helpers";
 import { Invite } from "coral-server/models/invite";
 import { MigrationRecord } from "coral-server/models/migration";
