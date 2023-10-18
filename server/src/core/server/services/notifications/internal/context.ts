@@ -77,11 +77,11 @@ export class InternalNotificationContext {
     }
 
     if (!result.notification && result.attempted) {
-      this.logNotificationError(tenantID, input);
+      this.logCreateNotificationError(tenantID, input);
     }
   }
 
-  private logNotificationError(
+  private logCreateNotificationError(
     tenantID: string,
     input: CreateNotificationInput
   ) {
