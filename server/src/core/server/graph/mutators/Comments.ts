@@ -13,6 +13,7 @@ import {
 } from "coral-server/services/comments/actions";
 import { CreateCommentMediaInput } from "coral-server/services/comments/media";
 import { publishCommentFeatured } from "coral-server/services/events";
+import { NotificationType } from "coral-server/services/notifications/internal/context";
 import { markSeen } from "coral-server/services/seenComments";
 import {
   approveComment,
@@ -55,6 +56,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.cache,
         ctx.config,
         ctx.broker,
+        ctx.notifications,
         ctx.tenant,
         ctx.user!,
         {
@@ -230,6 +232,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.cache,
         ctx.config,
         ctx.broker,
+        ctx.notifications,
         ctx.tenant,
         commentID,
         commentRevisionID,
@@ -253,6 +256,12 @@ export const Comments = (ctx: GraphContext) => ({
 
     // Publish that the comment was featured.
     await publishCommentFeatured(ctx.broker, comment);
+
+    await ctx.notifications.create(ctx.tenant.id, {
+      targetUserID: comment.authorID!,
+      comment,
+      type: NotificationType.COMMENT_FEATURED,
+    });
 
     // Return it to the next step.
     return comment;

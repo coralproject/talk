@@ -49,6 +49,7 @@ import { retrieveAllTenants, retrieveTenant, Tenant } from "./models/tenant";
 import { WordListCategory } from "./services/comments/pipeline/phases/wordList/message";
 import { WordListService } from "./services/comments/pipeline/phases/wordList/service";
 import { ErrorReporter, SentryErrorReporter } from "./services/errors";
+import { InternalNotificationContext } from "./services/notifications/internal/context";
 import { isInstalled } from "./services/tenant";
 
 export interface ServerOptions {
@@ -263,6 +264,7 @@ class Server {
       tenantCache: this.tenantCache,
       i18n: this.i18n,
       signingConfig: this.signingConfig,
+      notifications: new InternalNotificationContext(this.mongo, logger),
     });
 
     // Create the pubsub client.
