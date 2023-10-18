@@ -1,9 +1,17 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import {
+  CommentContent,
+  InReplyTo,
+  UsernameButton,
+} from "coral-admin/components/Comment";
+import { MediaContainer } from "coral-admin/components/MediaContainer";
+import CommentAuthorContainer from "coral-admin/components/ModerateCard/CommentAuthorContainer";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withRouteConfig } from "coral-framework/lib/router";
-import { Flex, HorizontalGutter } from "coral-ui/components/v2";
+import { Flex, HorizontalGutter, Timestamp } from "coral-ui/components/v2";
+import { StarRating } from "coral-ui/components/v3";
 
 import { SingleReportRouteQueryResponse } from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
 
@@ -15,6 +23,7 @@ type Props = SingleReportRouteQueryResponse;
 
 const SingleReportRoute: FunctionComponent<Props> = (props) => {
   const { dsaReport } = props;
+  const comment = dsaReport?.comment;
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",
@@ -27,6 +36,8 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
   if (!dsaReport) {
     return <NotFound />;
   }
+
+  const inReplyTo = comment && comment.parent && comment.parent.author;
 
   return (
     // TODO: Localize all the labels in here
@@ -64,10 +75,87 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
                 </Flex>
               </Flex>
               <Flex>
-                <Flex direction="column">
-                  <div className={styles.label}>Comment</div>
-                  {/* TODO: Add in comment */}
-                </Flex>
+                {comment && (
+                  <Flex direction="column">
+                    <div className={styles.label}>Comment</div>
+
+                    <Flex>
+                      <div>
+                        <div>
+                          <Flex alignItems="center">
+                            {comment.author?.username && (
+                              <>
+                                <UsernameButton
+                                  username={comment.author?.username}
+                                  // onClick={commentAuthorClick}
+                                  onClick={() => {}}
+                                />
+                                <CommentAuthorContainer comment={comment} />
+                              </>
+                            )}
+                            <Timestamp>{comment.createdAt}</Timestamp>
+                            {comment.editing.edited && (
+                              // <Localized id="moderate-comment-edited">
+                              <span>(edited)</span>
+                              // </Localized>
+                            )}
+                          </Flex>
+                          {inReplyTo && inReplyTo.username && (
+                            <InReplyTo
+                              // onUsernameClick={commentParentAuthorClick}
+                              onUsernameClick={() => {}}
+                            >
+                              {inReplyTo.username}
+                            </InReplyTo>
+                          )}
+                        </div>
+                        {comment.rating && (
+                          <div>
+                            <StarRating rating={comment.rating} />
+                          </div>
+                        )}
+                        <div>
+                          <div>
+                            {/* Add in the deleted account backup in moderatecardcontainer */}
+                            <CommentContent
+                              // TODO: determine highlight
+                              // highlight={highlight}
+                              bannedWords={
+                                comment.revision?.metadata?.wordList
+                                  ?.bannedWords || []
+                              }
+                              suspectWords={
+                                comment.revision?.metadata?.wordList
+                                  ?.suspectWords || []
+                              }
+                            >
+                              {comment.body || ""}
+                            </CommentContent>
+                            <MediaContainer comment={comment} />
+                          </div>
+                        </div>
+                        <div>
+                          <HorizontalGutter spacing={3}>
+                            <div>
+                              <div>
+                                {/* <Localized id="moderate-comment-storyLabel"> */}
+                                <span>Comment on</span>
+                                {/* </Localized> */}
+                                <span>:</span>
+                              </div>
+                              <div>
+                                <span>
+                                  {/* TODO: Not available backup */}
+                                  {comment.story?.metadata.title ?? ""}
+                                </span>
+                              </div>
+                            </div>
+                          </HorizontalGutter>
+                        </div>
+                      </div>
+                    </Flex>
+                  </Flex>
+                )}
               </Flex>
             </HorizontalGutter>
           </Flex>
@@ -94,9 +182,43 @@ const enhanced = withRouteConfig<Props, SingleReportRouteQueryResponse>({
           username
         }
         comment {
+          body
+          story {
+            metadata {
+              title
+            }
+          }
+          rating
+          parent {
+            author {
+              username
+            }
+          }
+          createdAt
+          editing {
+            edited
+          }
           author {
             username
           }
+          revision {
+            metadata {
+              wordList {
+                bannedWords {
+                  value
+                  index
+                  length
+                }
+                suspectWords {
+                  value
+                  index
+                  length
+                }
+              }
+            }
+          }
+          ...CommentAuthorContainer_comment
+          ...MediaContainer_comment
         }
       }
     }
