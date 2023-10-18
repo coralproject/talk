@@ -4112,6 +4112,11 @@ enum COMMENT_SORT {
   REACTION_DESC
 }
 
+enum REPORT_SORT {
+  CREATED_AT_DESC
+  CREATED_AT_ASC
+}
+
 """
 StoryMetadata stores all the metadata that is scraped using the scraping tools
 inside Coral. Coral utilizes [metascraper](https://metascraper.js.org/) which uses
@@ -4667,6 +4672,7 @@ type Query {
   dsaReports(
     first: Int = 10 @constraint(max: 50)
     after: Cursor
+    orderBy: REPORT_SORT = CREATED_AT_DESC
     query: String
   ): DSAReportsConnection! @auth(roles: [ADMIN, MODERATOR])
 

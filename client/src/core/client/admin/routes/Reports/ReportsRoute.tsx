@@ -1,29 +1,16 @@
+import { RouteProps } from "found";
 import React from "react";
-import { graphql } from "react-relay";
 
-import { withRouteConfig } from "coral-framework/lib/router";
+import { createRouteConfig } from "coral-framework/lib/router";
 
-import { ReportsRouteQueryResponse } from "coral-admin/__generated__/ReportsRouteQuery.graphql";
+import Reports from "./Reports";
 
-import ReportsContainer from "./ReportsContainer";
-
-interface Props {
-  data: ReportsRouteQueryResponse | null;
-}
-const ReportsRoute: React.FunctionComponent<Props> = ({ data }) => {
-  if (!data) {
-    return null;
-  }
-
-  return <ReportsContainer query={data} />;
+const ReportsRoute: React.FunctionComponent & {
+  routeConfig: RouteProps;
+} = () => {
+  return <Reports />;
 };
 
-const enhanced = withRouteConfig<Props>({
-  query: graphql`
-    query ReportsRouteQuery {
-      ...ReportsContainer_query
-    }
-  `,
-})(ReportsRoute);
+ReportsRoute.routeConfig = createRouteConfig({ Component: ReportsRoute });
 
-export default enhanced;
+export default ReportsRoute;

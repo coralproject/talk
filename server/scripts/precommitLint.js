@@ -31,7 +31,7 @@ sgf((err, results) => {
     // only include valid, filtered extensions
     // this is primarily to keep eslint rampaging
     // over non-source files
-    if (!matchesExtension(extensions, filename || status === "Deleted")) {
+    if (!matchesExtension(extensions, filename) || status === "Deleted") {
       continue;
     }
 

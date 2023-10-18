@@ -8,7 +8,10 @@ import {
   retrieveManyDSAReports,
 } from "coral-server/models/dsaReport";
 
-import { QueryToDsaReportsArgs } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLREPORT_SORT,
+  QueryToDsaReportsArgs,
+} from "coral-server/graph/schema/__generated__/types";
 
 export default (ctx: TenantContext) => ({
   dsaReport: new DataLoader<string, DSAReport | null>(
@@ -17,9 +20,10 @@ export default (ctx: TenantContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
-  connection: ({ first, after }: QueryToDsaReportsArgs) =>
+  connection: ({ first, after, orderBy }: QueryToDsaReportsArgs) =>
     retrieveDSAReportConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 20),
       after,
+      orderBy: defaultTo(orderBy, GQLREPORT_SORT.CREATED_AT_DESC),
     }),
 });

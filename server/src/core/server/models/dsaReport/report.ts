@@ -11,7 +11,10 @@ import {
   resolveConnection,
 } from "coral-server/models/helpers";
 
-import { GQLDSAReportStatus } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLDSAReportStatus,
+  GQLREPORT_SORT,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { TenantResource } from "../tenant";
 
@@ -35,14 +38,20 @@ export interface DSAReport extends TenantResource {
   status: GQLDSAReportStatus;
 }
 
-export type DSAReportConnectionInput = ConnectionInput<DSAReport>;
+export type DSAReportConnectionInput = ConnectionInput<DSAReport> & {
+  orderBy: GQLREPORT_SORT;
+};
 
 async function retrieveConnection(
   input: DSAReportConnectionInput,
   query: Query<DSAReport>
 ): Promise<Readonly<Connection<Readonly<DSAReport>>>> {
-  // Apply the pagination arguments to the query.
-  query.orderBy({ name: 1 });
+  if (input.orderBy === GQLREPORT_SORT.CREATED_AT_ASC) {
+    query.orderBy({ createdAt: 1 });
+  } else {
+    query.orderBy({ createdAt: -1 });
+  }
+
   const skip = isNumber(input.after) ? input.after : 0;
   if (skip) {
     query.after(skip);
