@@ -83,7 +83,7 @@ const approveComment = async (
     }
   }
 
-  await notifications.create(tenant.id, {
+  await notifications.create(tenant.id, tenant.locale, {
     targetUserID: result.after.authorID!,
     comment: result.after,
     type: NotificationType.COMMENT_REJECTED,

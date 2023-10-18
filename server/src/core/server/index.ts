@@ -264,7 +264,11 @@ class Server {
       tenantCache: this.tenantCache,
       i18n: this.i18n,
       signingConfig: this.signingConfig,
-      notifications: new InternalNotificationContext(this.mongo, logger),
+      notifications: new InternalNotificationContext(
+        this.mongo,
+        this.i18n,
+        logger
+      ),
     });
 
     // Create the pubsub client.

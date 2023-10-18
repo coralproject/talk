@@ -18,3 +18,7 @@ comment-counts-ratings-and-reviews =
   }</span>
 
 staff-label = Staff
+
+notifications-commentWasFeatured = Comment was featured.
+notifications-commentWasApproved = Comment was approved.
+notifications-commentWasRejected = Comment was rejected.

@@ -257,7 +257,7 @@ export const Comments = (ctx: GraphContext) => ({
     // Publish that the comment was featured.
     await publishCommentFeatured(ctx.broker, comment);
 
-    await ctx.notifications.create(ctx.tenant.id, {
+    await ctx.notifications.create(ctx.tenant.id, ctx.tenant.locale, {
       targetUserID: comment.authorID!,
       comment,
       type: NotificationType.COMMENT_FEATURED,

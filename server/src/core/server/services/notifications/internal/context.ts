@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
 
+import { LanguageCode } from "coral-common/common/lib/helpers";
 import { MongoContext } from "coral-server/data/context";
 import { Logger } from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
@@ -8,6 +9,7 @@ import {
   createNotification,
   Notification,
 } from "coral-server/models/notifications/notification";
+import { I18n, translate } from "coral-server/services/i18n";
 
 export enum NotificationType {
   COMMENT_FEATURED = "COMMENT_FEATURED",
@@ -31,13 +33,19 @@ interface CreationResult {
 export class InternalNotificationContext {
   private mongo: MongoContext;
   private log: Logger;
+  private i18n: I18n;
 
-  constructor(mongo: MongoContext, log: Logger) {
+  constructor(mongo: MongoContext, i18n: I18n, log: Logger) {
     this.mongo = mongo;
+    this.i18n = i18n;
     this.log = log;
   }
 
-  public async create(tenantID: string, input: CreateNotificationInput) {
+  public async create(
+    tenantID: string,
+    lang: LanguageCode,
+    input: CreateNotificationInput
+  ) {
     const { type, targetUserID, comment } = input;
 
     const now = new Date();
@@ -53,7 +61,11 @@ export class InternalNotificationContext {
         tenantID,
         createdAt: now,
         ownerID: targetUserID,
-        body: `comment ${comment.id} was featured.`,
+        body: this.translatePhrase(
+          lang,
+          "notifications-commentWasFeatured",
+          "Comment was featured"
+        ),
         commentID: comment.id,
       });
       result.attempted = true;
@@ -63,7 +75,11 @@ export class InternalNotificationContext {
         tenantID,
         createdAt: now,
         ownerID: targetUserID,
-        body: `comment ${comment.id} was approved.`,
+        body: this.translatePhrase(
+          lang,
+          "notifications-commentWasApproved",
+          "Comment was approved"
+        ),
         commentID: comment.id,
       });
       result.attempted = true;
@@ -73,7 +89,11 @@ export class InternalNotificationContext {
         tenantID,
         createdAt: now,
         ownerID: targetUserID,
-        body: `comment ${comment.id} was rejected.`,
+        body: this.translatePhrase(
+          lang,
+          "notifications-commentWasRejected",
+          "Comment was rejected"
+        ),
         commentID: comment.id,
       });
       result.attempted = true;
@@ -82,6 +102,11 @@ export class InternalNotificationContext {
     if (!result.notification && result.attempted) {
       this.logCreateNotificationError(tenantID, input);
     }
+  }
+
+  private translatePhrase(lang: LanguageCode, key: string, text: string) {
+    const bundle = this.i18n.getBundle(lang);
+    return translate(bundle, text, key);
   }
 
   private logCreateNotificationError(
