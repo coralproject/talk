@@ -3403,9 +3403,9 @@ type DSAReport {
   reporter: User
 
   """
-  commentID of the comment reported
+  comment reported as containing illegal content
   """
-  commentID: String!
+  comment: Comment
 
   """
   createdAt is when the DSAReport was created
@@ -4669,6 +4669,11 @@ type Query {
     after: Cursor
     query: String
   ): DSAReportsConnection! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  dsaReport returns a specific dsaReport.
+  """
+  dsaReport(id: ID!): DSAReport
 }
 
 ################################################################################

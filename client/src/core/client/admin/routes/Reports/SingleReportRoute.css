@@ -1,0 +1,42 @@
+.root {
+  font-family: var(--font-family-secondary);
+}
+
+.header {
+  background-color: var(--palette-grey-200);
+  padding: var(--spacing-3) var(--spacing-7);
+
+  .label {
+    font-weight: var(--font-weight-primary-semi-bold);
+  }
+}
+
+.label {
+  font-size: var(--font-size-1);
+  text-transform: uppercase;
+}
+
+.reportMain {
+  background-color: var(--palette-grey-100);
+  padding: var(--spacing-5) var(--spacing-7);
+  flex-grow: 2;
+
+  .label {
+    color: var(--palette-grey-500);
+  }
+}
+
+.innerMain {
+  background-color: var(--palette-background-body);
+  padding: var(--spacing-6);
+  flex-grow: 1;
+}
+
+.reportDate {
+  margin-left: auto;
+}
+
+.reportHistory {
+  flex-grow: 1;
+  padding: var(--spacing-6) var(--spacing-4);
+}

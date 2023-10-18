@@ -67,6 +67,20 @@ export async function retrieveDSAReportConnection(
   return retrieveConnection(input, query);
 }
 
+export async function retrieveManyDSAReports(
+  mongo: MongoContext,
+  tenantID: string,
+  ids: ReadonlyArray<string>
+) {
+  const cursor = mongo.dsaReports().find({
+    id: { $in: ids },
+    tenantID,
+  });
+  const dsaReports = await cursor.toArray();
+
+  return ids.map((id) => dsaReports.find((report) => report.id === id) || null);
+}
+
 export type CreateDSAReportInput = Omit<
   DSAReport,
   "id" | "tenantID" | "createdAt" | "publicID" | "status" | "submissionID"

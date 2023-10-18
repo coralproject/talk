@@ -48,6 +48,7 @@ import {
 } from "./routes/Moderate/Queue";
 import SingleModerateRoute from "./routes/Moderate/SingleModerate";
 import ReportsRoute from "./routes/Reports";
+import SingleReportRoute from "./routes/Reports/SingleReportRoute";
 import StoriesRoute from "./routes/Stories";
 
 interface CoralContainerProps {
@@ -125,6 +126,10 @@ export default makeRouteConfig(
         <Route path="dashboard/:siteID" {...SiteDashboardRoute.routeConfig} />
         <Route path="community" {...CommunityRoute.routeConfig} />
         <Route path="reports" {...ReportsRoute.routeConfig} />
+        <Route
+          path="reports/report/:reportID"
+          {...SingleReportRoute.routeConfig}
+        />
         <Route
           {...createAuthCheckRoute({
             ability: Ability.CHANGE_CONFIGURATION,

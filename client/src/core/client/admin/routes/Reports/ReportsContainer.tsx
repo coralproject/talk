@@ -14,6 +14,8 @@ import {
 import { ReportsContainer_query as QueryData } from "coral-admin/__generated__/ReportsContainer_query.graphql";
 import { ReportsContainerPaginationQueryVariables } from "coral-admin/__generated__/ReportsContainerPaginationQuery.graphql";
 
+import ReportsRow from "./ReportsRow";
+
 import styles from "./ReportsContainer.css";
 
 interface Props {
@@ -44,19 +46,7 @@ const ReportsContainer: React.FunctionComponent<Props> = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {dsaReports.map((report) => {
-            return (
-              <TableRow key={report.publicID}>
-                <TableCell>{report.createdAt}</TableCell>
-                <TableCell>Age TODO</TableCell>
-                <TableCell>{report.reporter?.username}</TableCell>
-                <TableCell>{report.publicID}</TableCell>
-                <TableCell>{report.lawBrokenDescription}</TableCell>
-                <TableCell>Comment author TODO</TableCell>
-                <TableCell>{report.status}</TableCell>
-              </TableRow>
-            );
-          })}
+          <ReportsRow reports={dsaReports} />
         </TableBody>
       </Table>
     </MainLayout>
@@ -87,6 +77,11 @@ const enhanced = withPaginationContainer<
               status
               reporter {
                 username
+              }
+              comment {
+                author {
+                  username
+                }
               }
               lawBrokenDescription
             }

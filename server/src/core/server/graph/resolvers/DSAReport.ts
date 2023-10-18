@@ -10,4 +10,11 @@ export const DSAReport: GQLDSAReportTypeResolver<dsaReport.DSAReport> = {
 
     return null;
   },
+  comment: ({ commentID }, args, ctx) => {
+    if (commentID) {
+      return ctx.loaders.Comments.comment.load(commentID);
+    }
+
+    return null;
+  },
 };

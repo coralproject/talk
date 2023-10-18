@@ -51,6 +51,8 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
       ? getEmailDomain(ctx.tenant.emailDomainModeration, id)
       : null,
   dsaReports: (source, args, ctx) => ctx.loaders.DSAReports.connection(args),
+  dsaReport: (source, { id }, ctx) =>
+    id ? ctx.loaders.DSAReports.dsaReport.load(id) : null,
   flags: (source, { first, after, orderBy, storyID, siteID, section }, ctx) =>
     ctx.loaders.CommentActions.forFilter({
       first: defaultTo(first, 10),
