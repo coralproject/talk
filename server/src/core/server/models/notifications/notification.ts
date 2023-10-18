@@ -38,3 +38,12 @@ export const retrieveNotificationsConnection = async (
 
   return resolveConnection(query, input, (n) => n.createdAt);
 };
+
+export const createNotification = async (
+  mongo: MongoContext,
+  notification: Notification
+) => {
+  const op = await mongo.notifications().insertOne(notification);
+
+  return op.result.ok ? notification : null;
+};

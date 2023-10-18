@@ -24,6 +24,7 @@ import { WordListService } from "coral-server/services/comments/pipeline/phases/
 import { ErrorReporter } from "coral-server/services/errors";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { Request } from "coral-server/types/express";
@@ -103,6 +104,8 @@ export default class GraphContext {
 
   public readonly wordList: WordListService;
 
+  public readonly notifications: InternalNotificationContext;
+
   constructor(options: GraphContextOptions) {
     this.id = options.id || uuid();
     this.now = options.now || new Date();
@@ -150,6 +153,11 @@ export default class GraphContext {
       this.logger,
       this.disableCaching,
       this.config.get("redis_cache_expiry") / 1000
+    );
+
+    this.notifications = new InternalNotificationContext(
+      this.mongo,
+      this.logger
     );
   }
 }
