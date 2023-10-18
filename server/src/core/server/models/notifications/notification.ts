@@ -13,6 +13,7 @@ export interface Notification extends TenantResource {
   ownerID: string;
 
   reportID?: string;
+  commentID?: string;
 
   body?: string;
 }

@@ -54,6 +54,7 @@ export class InternalNotificationContext {
         createdAt: now,
         ownerID: targetUserID,
         body: `comment ${comment.id} was featured.`,
+        commentID: comment.id,
       });
       result.attempted = true;
     } else if (type === NotificationType.COMMENT_APPROVED && comment) {
@@ -63,6 +64,7 @@ export class InternalNotificationContext {
         createdAt: now,
         ownerID: targetUserID,
         body: `comment ${comment.id} was approved.`,
+        commentID: comment.id,
       });
       result.attempted = true;
     } else if (type === NotificationType.COMMENT_REJECTED && comment) {
@@ -72,6 +74,7 @@ export class InternalNotificationContext {
         createdAt: now,
         ownerID: targetUserID,
         body: `comment ${comment.id} was rejected.`,
+        commentID: comment.id,
       });
       result.attempted = true;
     }

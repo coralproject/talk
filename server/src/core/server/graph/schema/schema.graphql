@@ -4483,6 +4483,11 @@ type Notification {
   body is the content of this notification.
   """
   body: String!
+
+  """
+  comment is the optional comment that is linked to this notification.
+  """
+  comment: Comment
 }
 
 type NotificationEdge {

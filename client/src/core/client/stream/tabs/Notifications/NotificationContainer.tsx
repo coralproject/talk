@@ -10,7 +10,12 @@ interface Props {
 }
 
 const NotificationContainer: FunctionComponent<Props> = ({ notification }) => {
-  return <div>{notification.body}</div>;
+  return (
+    <div>
+      {notification.body} -{" "}
+      {notification.comment ? notification.comment.body : ""}
+    </div>
+  );
 };
 
 const enhanced = withFragmentContainer<Props>({
@@ -18,6 +23,9 @@ const enhanced = withFragmentContainer<Props>({
     fragment NotificationContainer_notification on Notification {
       id
       body
+      comment {
+        body
+      }
     }
   `,
 })(NotificationContainer);
