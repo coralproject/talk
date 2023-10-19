@@ -156,7 +156,12 @@ export function createComment(
           hasPreviousPage: false,
         },
       },
-      viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
+      viewerActionPresence: {
+        reaction: false,
+        dontAgree: false,
+        flag: false,
+        illegal: false,
+      },
       parent: NULL_VALUE,
       canModerate: !!data.canModerate,
       canReply: true,

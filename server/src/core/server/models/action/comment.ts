@@ -176,6 +176,7 @@ const ActionSchema = Joi.compile([
   {
     actionType: ACTION_TYPE.REACTION,
   },
+  { actionType: ACTION_TYPE.ILLEGAL },
 ]);
 
 /**
