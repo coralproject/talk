@@ -30,11 +30,13 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   settings,
   setActiveTab,
 }) => {
-  const [{ activeTab }] = useLocal<TabBarContainerLocal>(graphql`
-    fragment TabBarContainerLocal on Local {
-      activeTab
-    }
-  `);
+  const [{ activeTab, dsaFeaturesEnabled }] =
+    useLocal<TabBarContainerLocal>(graphql`
+      fragment TabBarContainerLocal on Local {
+        activeTab
+        dsaFeaturesEnabled
+      }
+    `);
   const handleSetActiveTab = useCallback(
     (tab: SetActiveTabInput["tab"]) => {
       void setActiveTab({ tab });
@@ -66,7 +68,7 @@ export const TabBarContainer: FunctionComponent<Props> = ({
       showProfileTab={!!viewer}
       showDiscussionsTab={showDiscussionsTab}
       showConfigureTab={showConfigureTab}
-      showNotificationsTab={true}
+      showNotificationsTab={!!dsaFeaturesEnabled}
       onTabClick={handleSetActiveTab}
     />
   );

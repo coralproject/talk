@@ -19,10 +19,12 @@ type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
 
 export interface AppProps {
   activeTab: TabValue;
+  dsaFeaturesEnabled: boolean;
 }
 
 const App: FunctionComponent<AppProps> = (props) => {
   const { browserInfo } = useCoralContext();
+
   return (
     <Localized id="general-commentsEmbedSection" attrs={{ "aria-label": true }}>
       <HorizontalGutter
@@ -69,13 +71,15 @@ const App: FunctionComponent<AppProps> = (props) => {
             >
               <Configure />
             </TabPane>
-            <TabPane
-              className={CLASSES.notificationsTabPane.$root}
-              tabID="NOTIFICATIONS"
-              data-testid="current-tab-pane"
-            >
-              <NotificationsQuery />
-            </TabPane>
+            {props.dsaFeaturesEnabled && (
+              <TabPane
+                className={CLASSES.notificationsTabPane.$root}
+                tabID="NOTIFICATIONS"
+                data-testid="current-tab-pane"
+              >
+                <NotificationsQuery />
+              </TabPane>
+            )}
           </TabContent>
         </div>
       </HorizontalGutter>
