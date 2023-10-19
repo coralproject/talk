@@ -44,7 +44,7 @@ const ReportsRowContainer: React.FunctionComponent<Props> = (props) => {
       {dsaReports.map((report) => {
         return (
           <TableRow
-            key={report.publicID}
+            key={report.referenceID}
             onClick={() => onReportRowClick(report.id)}
           >
             <TableCell>{formatter(report.createdAt)}</TableCell>
@@ -52,7 +52,7 @@ const ReportsRowContainer: React.FunctionComponent<Props> = (props) => {
               <RelativeTime date={report.createdAt} />
             </TableCell>
             <TableCell>{report.reporter?.username}</TableCell>
-            <TableCell>{report.publicID}</TableCell>
+            <TableCell>{report.referenceID}</TableCell>
             <TableCell>{report.lawBrokenDescription}</TableCell>
             <TableCell>{report.comment?.author?.username}</TableCell>
             <TableCell>{report.status}</TableCell>
@@ -84,7 +84,7 @@ const enhanced = withPaginationContainer<
             node {
               id
               createdAt
-              publicID
+              referenceID
               status
               reporter {
                 username

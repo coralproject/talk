@@ -15,6 +15,7 @@ import {
   Button,
   Flex,
   HorizontalGutter,
+  // SelectField,
   Timestamp,
 } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
@@ -24,6 +25,7 @@ import { SingleReportRouteQueryResponse } from "coral-admin/__generated__/Single
 import styles from "./SingleReportRoute.css";
 
 import NotFound from "../NotFound";
+import ReportStatusMenu from "./ReportStatusMenu";
 
 type Props = SingleReportRouteQueryResponse;
 
@@ -78,7 +80,24 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
       <Flex className={styles.header}>
         <Flex direction="column">
           <div className={styles.label}>Report ID</div>
-          <div>{dsaReport.publicID}</div>
+          <div>{dsaReport.referenceID}</div>
+        </Flex>
+        <Flex
+          className={styles.statusAndShare}
+          justifyContent="flex-end"
+          alignItems="center"
+        >
+          {/* TODO: Actually change report status with this */}
+          <ReportStatusMenu onChange={() => {}} />
+          {/* TODO: Should download report when clicked */}
+          <Button
+            className={styles.shareButton}
+            variant="outlined"
+            color="regular"
+            uppercase
+          >
+            Share
+          </Button>
         </Flex>
       </Flex>
       <Flex>
@@ -127,10 +146,10 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
               </Flex>
               <Flex>
                 {comment && (
-                  <Flex direction="column">
+                  <Flex direction="column" className={styles.commentMain}>
                     <div className={styles.label}>Comment</div>
 
-                    <Flex>
+                    <Flex className={styles.commentBox}>
                       <div>
                         <div>
                           <Flex alignItems="center">
@@ -233,7 +252,7 @@ const enhanced = withRouteConfig<Props, SingleReportRouteQueryResponse>({
     query SingleReportRouteQuery($reportID: ID!) {
       dsaReport(id: $reportID) {
         id
-        publicID
+        referenceID
         lawBrokenDescription
         additionalInformation
         createdAt

@@ -34,6 +34,15 @@
   flex-grow: 1;
 }
 
+.statusAndShare {
+  margin-left: auto;
+}
+
+.shareButton {
+  margin-left: var(--spacing-2);
+  background-color: var(--palette-background-body);
+}
+
 .reportDate {
   margin-left: auto;
 }
@@ -41,6 +50,15 @@
 .reportHistory {
   flex-grow: 1;
   padding: var(--spacing-6) var(--spacing-4);
+}
+
+.commentMain {
+  flex-grow: 1;
+}
+
+.commentBox {
+  border: 1px solid var(--palette-grey-300);
+  padding: var(--spacing-3);
 }
 
 .reporterUsernameButton {

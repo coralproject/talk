@@ -3388,9 +3388,9 @@ type DSAReport {
   id: ID!
 
   """
-  publicID is a reference ID to keep track of the DSAReport
+  referenceID is a human-friendly ID to keep track of the DSAReport
   """
-  publicID: String!
+  referenceID: String!
 
   """
   submissionID keeps track of comments that were submitted together in one form
