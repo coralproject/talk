@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import {
@@ -8,9 +8,15 @@ import {
 } from "coral-admin/components/Comment";
 import { MediaContainer } from "coral-admin/components/MediaContainer";
 import CommentAuthorContainer from "coral-admin/components/ModerateCard/CommentAuthorContainer";
+import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withRouteConfig } from "coral-framework/lib/router";
-import { Flex, HorizontalGutter, Timestamp } from "coral-ui/components/v2";
+import {
+  Button,
+  Flex,
+  HorizontalGutter,
+  Timestamp,
+} from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
 import { SingleReportRouteQueryResponse } from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
@@ -33,11 +39,38 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
     minute: "2-digit",
   });
 
+  const inReplyTo = comment && comment.parent && comment.parent.author;
+
+  const [userDrawerUserID, setUserDrawerUserID] = useState<string | undefined>(
+    undefined
+  );
+  const [userDrawerVisible, setUserDrawerVisible] = useState(false);
+
+  const onShowUserDrawer = useCallback(
+    (userID: string | null | undefined) => {
+      if (userID) {
+        setUserDrawerUserID(userID);
+        setUserDrawerVisible(true);
+      }
+    },
+    [setUserDrawerUserID, setUserDrawerVisible]
+  );
+
+  const onHideUserDrawer = useCallback(() => {
+    setUserDrawerVisible(false);
+    setUserDrawerUserID(undefined);
+  }, [setUserDrawerUserID, setUserDrawerVisible]);
+
+  const onSetUserID = useCallback(
+    (userID: string) => {
+      setUserDrawerUserID(userID);
+    },
+    [setUserDrawerUserID]
+  );
+
   if (!dsaReport) {
     return <NotFound />;
   }
-
-  const inReplyTo = comment && comment.parent && comment.parent.author;
 
   return (
     // TODO: Localize all the labels in here
@@ -55,23 +88,41 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
               <Flex>
                 <Flex direction="column">
                   <div className={styles.label}>Reporter</div>
-                  <div>{dsaReport.reporter?.username}</div>
+                  {dsaReport.reporter ? (
+                    <Button
+                      className={styles.reporterUsernameButton}
+                      variant="text"
+                      color="mono"
+                      uppercase={false}
+                      onClick={() => onShowUserDrawer(dsaReport.reporter?.id)}
+                    >
+                      <div>{dsaReport.reporter.username}</div>
+                    </Button>
+                  ) : (
+                    <>Report name not available</>
+                  )}
                 </Flex>
                 <Flex className={styles.reportDate} direction="column">
                   <div className={styles.label}>Report Date</div>
-                  <div>{formatter(dsaReport.createdAt)}</div>
+                  <div className={styles.data}>
+                    {formatter(dsaReport.createdAt)}
+                  </div>
                 </Flex>
               </Flex>
               <Flex>
                 <Flex direction="column">
                   <div className={styles.label}>What law was broken?</div>
-                  <div>{dsaReport.lawBrokenDescription}</div>
+                  <div className={styles.data}>
+                    {dsaReport.lawBrokenDescription}
+                  </div>
                 </Flex>
               </Flex>
               <Flex>
                 <Flex direction="column">
                   <div className={styles.label}>Explanation</div>
-                  <div>{dsaReport.additionalInformation}</div>
+                  <div className={styles.data}>
+                    {dsaReport.additionalInformation}
+                  </div>
                 </Flex>
               </Flex>
               <Flex>
@@ -86,9 +137,11 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
                             {comment.author?.username && (
                               <>
                                 <UsernameButton
-                                  username={comment.author?.username}
+                                  username={comment.author.username}
                                   // onClick={commentAuthorClick}
-                                  onClick={() => {}}
+                                  onClick={() =>
+                                    onShowUserDrawer(comment.author?.id)
+                                  }
                                 />
                                 <CommentAuthorContainer comment={comment} />
                               </>
@@ -102,8 +155,9 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
                           </Flex>
                           {inReplyTo && inReplyTo.username && (
                             <InReplyTo
-                              // onUsernameClick={commentParentAuthorClick}
-                              onUsernameClick={() => {}}
+                              onUsernameClick={() =>
+                                onShowUserDrawer(inReplyTo.id)
+                              }
                             >
                               {inReplyTo.username}
                             </InReplyTo>
@@ -146,7 +200,7 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
                               <div>
                                 <span>
                                   {/* TODO: Not available backup */}
-                                  {comment.story?.metadata.title ?? ""}
+                                  {comment.story?.metadata?.title ?? ""}
                                 </span>
                               </div>
                             </div>
@@ -164,6 +218,12 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
           <div>History</div>
         </Flex>
       </Flex>
+      <UserHistoryDrawer
+        userID={userDrawerUserID}
+        open={userDrawerVisible}
+        onClose={onHideUserDrawer}
+        setUserID={onSetUserID}
+      />
     </div>
   );
 };
@@ -179,6 +239,7 @@ const enhanced = withRouteConfig<Props, SingleReportRouteQueryResponse>({
         createdAt
         status
         reporter {
+          id
           username
         }
         comment {
@@ -191,6 +252,7 @@ const enhanced = withRouteConfig<Props, SingleReportRouteQueryResponse>({
           rating
           parent {
             author {
+              id
               username
             }
           }
@@ -199,6 +261,7 @@ const enhanced = withRouteConfig<Props, SingleReportRouteQueryResponse>({
             edited
           }
           author {
+            id
             username
           }
           revision {
