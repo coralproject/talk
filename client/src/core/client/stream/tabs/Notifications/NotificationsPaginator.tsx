@@ -1,8 +1,11 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { useRefetch, withPaginationContainer } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 import Spinner from "coral-stream/common/Spinner";
+import { Button } from "coral-ui/components/v3";
 
 import { NotificationsPaginator_query } from "coral-stream/__generated__/NotificationsPaginator_query.graphql";
 import { NotificationsPaginatorPaginationQueryVariables } from "coral-stream/__generated__/NotificationsPaginatorPaginationQuery.graphql";
@@ -56,7 +59,20 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
       })}
       {isRefetching && <Spinner />}
       {!isRefetching && !disableLoadMore && props.relay.hasMore() && (
-        <button onClick={loadMore}>Load More</button>
+        <Localized id="notifications-loadMore">
+          <Button
+            key={props.query.notifications.edges.length}
+            onClick={loadMore}
+            variant="outlined"
+            color="secondary"
+            fullWidth
+            disabled={disableLoadMore}
+            aria-controls="notifications-loadMore"
+            className={CLASSES.tabBarNotifications.loadMore}
+          >
+            Load More
+          </Button>
+        </Localized>
       )}
     </div>
   );

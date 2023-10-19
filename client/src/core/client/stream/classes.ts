@@ -144,6 +144,10 @@ const CLASSES = {
     settings: "coral coral-tabBarSecondary-tab coral-tabBarMyProfile-settings",
   },
 
+  tabBarNotifications: {
+    loadMore: "coral coral-tabBarNotifications-loadMore",
+  },
+
   /**
    * createComment is the comment creation box where a user can write a comment.
    */
