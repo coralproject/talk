@@ -9,6 +9,7 @@ export const NotificationResolver: Required<
   id: ({ id }) => id,
   ownerID: ({ ownerID }) => ownerID,
   createdAt: ({ createdAt }) => createdAt,
+  title: ({ title }) => title,
   body: ({ body }) => body,
   comment: async ({ commentID }, input, ctx) => {
     if (!commentID) {

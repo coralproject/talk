@@ -19,6 +19,9 @@ comment-counts-ratings-and-reviews =
 
 staff-label = Staff
 
-notifications-commentWasFeatured = Comment was featured.
-notifications-commentWasApproved = Comment was approved.
-notifications-commentWasRejected = Comment was rejected.
+notifications-commentWasFeatured-title = Comment was featured
+notifications-commentWasFeatured-body = The comment { $commentID } was featured.
+notifications-commentWasApproved-title = Comment was approved
+notifications-commentWasApproved-body = The comment { $commentID } was approved.
+notifications-commentWasRejected-title = Comment was rejected
+notifications-commentWasRejected-body = The comment { $commentID } was rejected.

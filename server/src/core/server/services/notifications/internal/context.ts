@@ -61,10 +61,18 @@ export class InternalNotificationContext {
         tenantID,
         createdAt: now,
         ownerID: targetUserID,
+        title: this.translatePhrase(
+          lang,
+          "notifications-commentWasFeatured-title",
+          "Comment was featured"
+        ),
         body: this.translatePhrase(
           lang,
-          "notifications-commentWasFeatured",
-          "Comment was featured"
+          "notifications-commentWasFeatured-body",
+          `The comment ${comment.id} was featured.`,
+          {
+            commentID: comment.id,
+          }
         ),
         commentID: comment.id,
       });
@@ -75,10 +83,18 @@ export class InternalNotificationContext {
         tenantID,
         createdAt: now,
         ownerID: targetUserID,
+        title: this.translatePhrase(
+          lang,
+          "notifications-commentWasApproved-title",
+          "Comment was approved"
+        ),
         body: this.translatePhrase(
           lang,
-          "notifications-commentWasApproved",
-          "Comment was approved"
+          "notifications-commentWasApproved-body",
+          `The comment ${comment.id} was approved.`,
+          {
+            commentID: comment.id,
+          }
         ),
         commentID: comment.id,
       });
@@ -89,10 +105,18 @@ export class InternalNotificationContext {
         tenantID,
         createdAt: now,
         ownerID: targetUserID,
+        title: this.translatePhrase(
+          lang,
+          "notifications-commentWasRejected-title",
+          "Comment was rejected"
+        ),
         body: this.translatePhrase(
           lang,
-          "notifications-commentWasRejected",
-          "Comment was rejected"
+          "notifications-commentWasRejected-body",
+          `The comment ${comment.id} was rejected.`,
+          {
+            commentID: comment.id,
+          }
         ),
         commentID: comment.id,
       });
@@ -104,9 +128,20 @@ export class InternalNotificationContext {
     }
   }
 
-  private translatePhrase(lang: LanguageCode, key: string, text: string) {
+  private translatePhrase(
+    lang: LanguageCode,
+    key: string,
+    text: string,
+    args?: object | undefined
+  ) {
     const bundle = this.i18n.getBundle(lang);
-    return translate(bundle, text, key);
+
+    const result = translate(bundle, text, key, args);
+
+    // eslint-disable-next-line no-console
+    console.log(result, args);
+
+    return result;
   }
 
   private logCreateNotificationError(

@@ -15,6 +15,7 @@ export interface Notification extends TenantResource {
   reportID?: string;
   commentID?: string;
 
+  title?: string;
   body?: string;
 }
 
