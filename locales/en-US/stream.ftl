@@ -168,6 +168,7 @@ comments-permalinkView-reportIllegalContent-additionalInformation-helperText = T
 comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Have other comments you'd like to report for breaking this law?
 comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = Bonafide belief statement
 comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton = <Button></Button>Add comment URL
+comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton = Comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-button = <Button></Button>Add additional comments
 comments-permalinkView-reportIllegalContent-submit = Submit report
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = Please add a valid comment URL.

@@ -39,6 +39,9 @@ export enum ACTION_TYPE {
    */
   DONT_AGREE = "DONT_AGREE",
 
+  /**
+   * ILLEGAL corresponds to when a user reports a comment as containing illegal content.
+   */
   ILLEGAL = "ILLEGAL",
 
   /**
@@ -70,6 +73,9 @@ export interface ActionCounts {
    */
   flag: FlagActionCounts;
 
+  /**
+   * illegal returns the counts for the illegal content action on an item.
+   */
   illegal: GQLIllegalActionCounts;
 }
 

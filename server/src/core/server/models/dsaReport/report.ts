@@ -51,9 +51,9 @@ export interface DSAReport extends TenantResource {
   submissionID: string;
 
   /**
-   * publicID is a user-friendly id used to reference the DSA Report.
+   * referenceID is a user-friendly id used to reference the DSA Report.
    */
-  publicID: string;
+  referenceID: string;
 
   /**
    * status keeps track of the current status of the DSA Report
@@ -63,7 +63,7 @@ export interface DSAReport extends TenantResource {
 
 export type CreateDSAReportInput = Omit<
   DSAReport,
-  "id" | "tenantID" | "createdAt" | "publicID" | "status" | "submissionID"
+  "id" | "tenantID" | "createdAt" | "referenceID" | "status" | "submissionID"
 > & { submissionID?: string };
 
 export interface CreateDSAReportResultObject {
@@ -88,10 +88,9 @@ export async function createDSAReport(
     submissionIDToUse = uuid();
   }
 
-  // shorter, url-friendly publicID generated from the report id
-  const publicID = Buffer.from(id.replace(/-/g, ""), "hex").toString(
-    "base64url"
-  );
+  // shorter, url-friendly referenceID generated from the report id, userID, and commentID
+  const referenceID =
+    userID.slice(0, 4) + "-" + commentID.slice(0, 4) + "-" + id.slice(0, 4);
 
   // defaults are the properties set by the application when a new DSAReport is
   // created.
@@ -99,7 +98,7 @@ export async function createDSAReport(
     id,
     tenantID,
     createdAt: now,
-    publicID,
+    referenceID,
     status: GQLDSAReportStatus.AWAITING_REVIEW,
   };
 

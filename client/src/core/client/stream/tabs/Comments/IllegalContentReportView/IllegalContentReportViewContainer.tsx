@@ -153,7 +153,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   if (isSubmitted) {
     return (
       <>
-        {/* Localize and update to add in any errors and based on design */}
+        {/* TODO: Localize and update to add in any errors and style based on design */}
         <div>
           You have successfully submitted your illegal content report for the
           following comments:

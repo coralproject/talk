@@ -54,8 +54,6 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
     const newAdditionalComment =
       form?.getFieldState("additionalComment")?.value;
     if (newAdditionalComment) {
-      const newAdditionalCommentID =
-        newAdditionalComment.split("?commentID=")[1];
       if (!isValidShareURL(newAdditionalComment)) {
         const validCommentURLError = getMessage(
           localeBundles,
@@ -64,7 +62,10 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
         );
         setAddAdditionalCommentError(validCommentURLError);
         return;
-      } else if (
+      }
+      const newAdditionalCommentID =
+        newAdditionalComment.split("?commentID=")[1];
+      if (
         newAdditionalCommentID === comment?.id ||
         additionalComments?.some((c) => c.id === newAdditionalCommentID)
       ) {
@@ -75,9 +76,8 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
         );
         setAddAdditionalCommentError(uniqueCommentURLError);
         return;
-      } else {
-        setAddAdditionalCommentError(null);
       }
+      setAddAdditionalCommentError(null);
       const newAdditionalCommentObj = {
         id: newAdditionalCommentID,
         url: newAdditionalComment,
@@ -135,7 +135,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
                 >
                   {({ input }: any) => (
                     <>
-                      <Localized id="">
+                      <Localized id="comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton">
                         <InputLabel htmlFor={input.name}>
                           Comment URL
                         </InputLabel>
