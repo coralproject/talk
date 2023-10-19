@@ -30,7 +30,7 @@ import {
   withShowAuthPopupMutation,
 } from "coral-stream/common/AuthPopup";
 import { SetTraversalFocus } from "coral-stream/common/KeyboardShortcuts/SetTraversalFocus";
-import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
+import { MAX_REPLY_INDENT_DEPTH, URLViewType } from "coral-stream/constants";
 import {
   ShowEditFormEvent,
   ShowReplyFormEvent,
@@ -745,7 +745,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                       story={story}
                       commentID={comment.id}
                       author={comment.author?.username}
-                      view="illegalContentReport"
+                      view={URLViewType.IllegalContentReport}
                       buttonText="Copy link"
                       buttonTextID="comments-permalinkButton-copyLink"
                       ButtonIcon={HyperlinkIcon}

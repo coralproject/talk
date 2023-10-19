@@ -121,7 +121,7 @@ export async function createDSAReport(
     .comments()
     .findOne({ tenantID, id: commentID });
 
-  if (!commentExists) {
+  if (!commentExists && mongo.archive) {
     // look in archived comments too
     const commentIsArchived = await mongo
       .archivedComments()

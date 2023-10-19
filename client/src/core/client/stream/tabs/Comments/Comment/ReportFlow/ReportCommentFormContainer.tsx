@@ -13,6 +13,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import WarningError from "coral-stream/common/WarningError";
+import { URLViewType } from "coral-stream/constants";
 import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
@@ -44,7 +45,7 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
   const reportLink = getURLWithCommentID(
     comment.story.url,
     comment.id,
-    "illegalContentReport"
+    URLViewType.IllegalContentReport
   );
   const onSubmit = useCallback(
     async (

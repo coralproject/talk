@@ -7,6 +7,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { URLViewType } from "coral-stream/constants";
 import { Button } from "coral-ui/components/v3";
 
 import { ArchivedReportFlowContainer_comment } from "coral-stream/__generated__/ArchivedReportFlowContainer_comment.graphql";
@@ -62,7 +63,7 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
   const reportLink = getURLWithCommentID(
     comment.story.url,
     comment.id,
-    "illegalContentReport"
+    URLViewType.IllegalContentReport
   );
 
   return (
