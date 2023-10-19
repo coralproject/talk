@@ -61,6 +61,11 @@ export const TabBarContainer: FunctionComponent<Props> = ({
     [viewer, story]
   );
 
+  const showNotificationsTab = useMemo(
+    () => !!viewer && !!dsaFeaturesEnabled,
+    [viewer, dsaFeaturesEnabled]
+  );
+
   return (
     <TabBar
       mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
@@ -68,7 +73,7 @@ export const TabBarContainer: FunctionComponent<Props> = ({
       showProfileTab={!!viewer}
       showDiscussionsTab={showDiscussionsTab}
       showConfigureTab={showConfigureTab}
-      showNotificationsTab={!!dsaFeaturesEnabled}
+      showNotificationsTab={showNotificationsTab}
       onTabClick={handleSetActiveTab}
     />
   );
