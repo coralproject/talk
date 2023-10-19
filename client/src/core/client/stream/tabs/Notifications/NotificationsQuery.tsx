@@ -46,7 +46,7 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <LazyLoadContainer viewer={props.viewer} />
+      <LazyLoadContainer viewer={props.viewer} settings={props.settings} />
     </Suspense>
   );
 };
@@ -58,6 +58,9 @@ const NotificationsQuery: FunctionComponent = () => {
         query NotificationsQuery {
           viewer {
             ...NotificationsContainer_viewer
+          }
+          settings {
+            ...NotificationsContainer_settings
           }
         }
       `}
