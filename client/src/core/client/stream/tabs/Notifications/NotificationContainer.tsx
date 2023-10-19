@@ -2,6 +2,7 @@ import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { getURLWithCommentID } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import { NotificationContainer_notification } from "coral-stream/__generated__/NotificationContainer_notification.graphql";
@@ -13,12 +14,17 @@ interface Props {
 }
 
 const NotificationContainer: FunctionComponent<Props> = ({
-  notification: { title, body },
+  notification: { title, body, comment },
 }) => {
+  const commentURL = comment
+    ? getURLWithCommentID(comment.story.url, comment.id)
+    : "";
+
   return (
     <div className={cn(styles.root)}>
       {title && <div className={cn(styles.title)}>{title}</div>}
       {body && <div className={cn(styles.body)}>{body}</div>}
+      {comment && <a href={commentURL}>{commentURL}</a>}
     </div>
   );
 };
@@ -31,7 +37,9 @@ const enhanced = withFragmentContainer<Props>({
       body
       comment {
         id
-        body
+        story {
+          url
+        }
       }
     }
   `,

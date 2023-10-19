@@ -30,3 +30,11 @@
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-2);
 }
+
+.commentData {
+  padding: var(--spacing-4);
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+}
