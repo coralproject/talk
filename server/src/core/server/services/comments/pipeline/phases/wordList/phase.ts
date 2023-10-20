@@ -31,12 +31,10 @@ export const wordListPhase: IntermediateModerationPhase = async ({
   if (banned.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
-      moderationActions: [
-        {
-          status: GQLCOMMENT_STATUS.REJECTED,
-          moderatorID: null,
-        },
-      ],
+      moderationAction: {
+        status: GQLCOMMENT_STATUS.REJECTED,
+        moderatorID: null,
+      },
       metadata: {
         wordList: {
           bannedWords: banned.matches,
