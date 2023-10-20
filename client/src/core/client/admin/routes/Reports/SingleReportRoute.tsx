@@ -1,4 +1,6 @@
+import { RouteProps } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import {
@@ -10,11 +12,15 @@ import { MediaContainer } from "coral-admin/components/MediaContainer";
 import CommentAuthorContainer from "coral-admin/components/ModerateCard/CommentAuthorContainer";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { withRouteConfig } from "coral-framework/lib/router";
+import { useMutation } from "coral-framework/lib/relay";
+import { createRouteConfig } from "coral-framework/lib/router";
+import { required } from "coral-framework/lib/validation";
+import { GQLDSAReportHistoryType } from "coral-framework/schema";
 import {
   Button,
   Flex,
   HorizontalGutter,
+  Textarea,
   // SelectField,
   Timestamp,
 } from "coral-ui/components/v2";
@@ -27,11 +33,17 @@ import styles from "./SingleReportRoute.css";
 import NotFound from "../NotFound";
 import ReportStatusMenu from "./ReportStatusMenu";
 
+import AddReportNoteMutation from "./AddReportNoteMutation";
+
 type Props = SingleReportRouteQueryResponse;
 
-const SingleReportRoute: FunctionComponent<Props> = (props) => {
-  const { dsaReport } = props;
+const SingleReportRoute: FunctionComponent<Props> & {
+  routeConfig: RouteProps;
+} = (props) => {
+  const { dsaReport, viewer } = props;
   const comment = dsaReport?.comment;
+
+  const addReportNote = useMutation(AddReportNoteMutation);
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",
@@ -68,6 +80,19 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
       setUserDrawerUserID(userID);
     },
     [setUserDrawerUserID]
+  );
+
+  const onSubmit = useCallback(
+    async (input: any) => {
+      if (dsaReport?.id && viewer?.id) {
+        await addReportNote({
+          body: input.note,
+          reportID: dsaReport.id,
+          userID: viewer.id,
+        });
+      }
+    },
+    [addReportNote, dsaReport, viewer]
   );
 
   if (!dsaReport) {
@@ -233,8 +258,50 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
             </HorizontalGutter>
           </Flex>
         </Flex>
-        <Flex className={styles.reportHistory}>
-          <div>History</div>
+        <Flex className={styles.reportHistory} direction="column">
+          <div className={styles.reportHistoryHeader}>History</div>
+          {dsaReport.history?.map((h) => {
+            if (h?.type === GQLDSAReportHistoryType.NOTE) {
+              return (
+                <div key={h.id}>
+                  {/* TODO: Localize */}
+                  <div>{`${h.createdBy?.username} added a note`}</div>
+                  <div>{h.body}</div>
+                  {/* TODO: Add in ability to delete the note */}
+                  <div>{h.createdAt}</div>
+                </div>
+              );
+            }
+            if (h?.type === GQLDSAReportHistoryType.STATUS_CHANGED) {
+              // TODO: Make new status human-readable
+              return (
+                <div key={h.id}>
+                  <div>{`${h.createdBy?.username} changed status to ${h.status}`}</div>
+                  <div>{h.createdAt}</div>
+                </div>
+              );
+            }
+            return <div key={h.id}>history type not implemented yet</div>;
+          })}
+          <Form onSubmit={onSubmit}>
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                {/* <Localized id="moderate-user-drawer-notes-field"> */}
+                <Field id="reportHistory-note" name="note" validate={required}>
+                  {({ input }) => (
+                    <Textarea placeholder="Add your note..." {...input} />
+                  )}
+                </Field>
+                {/* </Localized> */}
+                <Flex justifyContent="flex-end">
+                  {/* <Localized id="moderate-user-drawer-notes-button"> */}
+                  {/* TODO Add icon here */}
+                  <Button type="submit">Add update</Button>
+                  {/* </Localized> */}
+                </Flex>
+              </form>
+            )}
+          </Form>
         </Flex>
       </Flex>
       <UserHistoryDrawer
@@ -247,10 +314,26 @@ const SingleReportRoute: FunctionComponent<Props> = (props) => {
   );
 };
 
-const enhanced = withRouteConfig<Props, SingleReportRouteQueryResponse>({
+SingleReportRoute.routeConfig = createRouteConfig<
+  Props,
+  SingleReportRouteQueryResponse
+>({
   query: graphql`
     query SingleReportRouteQuery($reportID: ID!) {
+      viewer {
+        id
+      }
       dsaReport(id: $reportID) {
+        history {
+          id
+          createdBy {
+            username
+          }
+          createdAt
+          body
+          type
+          status
+        }
         id
         referenceID
         lawBrokenDescription
@@ -305,14 +388,15 @@ const enhanced = withRouteConfig<Props, SingleReportRouteQueryResponse>({
       }
     }
   `,
+  Component: SingleReportRoute,
   cacheConfig: { force: true },
   render: function SingleReportRouteRender({ Component, data }) {
     if (Component && data) {
       return <Component {...data} />;
     }
-    // TODO: Loading?
-    return <></>;
+    // Loading of some sort?
+    return <>Not found</>;
   },
-})(SingleReportRoute);
+});
 
-export default enhanced;
+export default SingleReportRoute;

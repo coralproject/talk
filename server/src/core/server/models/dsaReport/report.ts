@@ -12,11 +12,20 @@ import {
 } from "coral-server/models/helpers";
 
 import {
+  GQLDSAReportHistoryType,
   GQLDSAReportStatus,
   GQLREPORT_SORT,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { TenantResource } from "../tenant";
+
+export interface ReportHistoryItem {
+  status?: string;
+  createdAt: Date;
+  createdBy: string;
+  type: GQLDSAReportHistoryType;
+  body?: string;
+}
 
 export interface DSAReport extends TenantResource {
   readonly id: string;
@@ -36,6 +45,8 @@ export interface DSAReport extends TenantResource {
   referenceID: string;
 
   status: GQLDSAReportStatus;
+
+  history: ReportHistoryItem[];
 }
 
 export type DSAReportConnectionInput = ConnectionInput<DSAReport> & {
@@ -92,7 +103,13 @@ export async function retrieveManyDSAReports(
 
 export type CreateDSAReportInput = Omit<
   DSAReport,
-  "id" | "tenantID" | "createdAt" | "referenceID" | "status" | "submissionID"
+  | "id"
+  | "tenantID"
+  | "createdAt"
+  | "referenceID"
+  | "status"
+  | "submissionID"
+  | "history"
 > & { submissionID?: string };
 
 export interface CreateDSAReportResultObject {
@@ -128,6 +145,14 @@ export async function createDSAReport(
     tenantID,
     createdAt: now,
     referenceID,
+    history: [
+      {
+        createdAt: now,
+        type: GQLDSAReportHistoryType.STATUS_CHANGED,
+        status: GQLDSAReportStatus.AWAITING_REVIEW,
+        createdBy: userID,
+      },
+    ],
     status: GQLDSAReportStatus.AWAITING_REVIEW,
   };
 
@@ -160,5 +185,68 @@ export async function createDSAReport(
 
   return {
     dsaReport: report,
+  };
+}
+
+export interface DSAReportNote {
+  id: string;
+  createdBy: string;
+  body: string;
+  createdAt: Date;
+}
+
+export type CreateDSAReportNoteInput = Omit<
+  DSAReportNote,
+  "id" | "createdBy" | "createdAt"
+> & { userID: string; reportID: string };
+
+export interface CreateDSAReportNoteResultObject {
+  /**
+   * dsaReport contains the resultant DSAReport that was created.
+   */
+  dsaReport: DSAReport;
+}
+
+enum DSAReportHistoryType {
+  STATUS_CHANGED = "STATUS_CHANGED",
+  NOTE = "NOTE",
+  DECISION_MADE = "DECISION_MADE",
+}
+
+export async function createDSAReportNote(
+  mongo: MongoContext,
+  tenantID: string,
+  input: CreateDSAReportNoteInput,
+  now = new Date()
+): Promise<CreateDSAReportNoteResultObject> {
+  const { userID, body, reportID } = input;
+
+  // Create a new ID for the DSAReportNote.
+  const id = uuid();
+
+  const note = {
+    id,
+    createdBy: userID,
+    createdAt: now,
+    body,
+    type: DSAReportHistoryType.NOTE,
+  };
+
+  const updatedReport = await mongo.dsaReports().findOneAndUpdate(
+    { id: reportID, tenantID },
+    {
+      $push: {
+        history: note,
+      },
+    },
+    { returnOriginal: false }
+  );
+
+  if (!updatedReport.value) {
+    throw new Error();
+  }
+
+  return {
+    dsaReport: updatedReport.value,
   };
 }

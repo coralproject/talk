@@ -3,9 +3,9 @@ import * as dsaReport from "coral-server/models/dsaReport";
 import { GQLDSAReportTypeResolver } from "coral-server/graph/schema/__generated__/types";
 
 export const DSAReport: GQLDSAReportTypeResolver<dsaReport.DSAReport> = {
-  reporter: ({ userID }, args, ctx) => {
-    if (userID) {
-      return ctx.loaders.Users.user.load(userID);
+  reporter: (report, args, ctx) => {
+    if (report.userID) {
+      return ctx.loaders.Users.user.load(report.userID);
     }
 
     return null;
@@ -16,5 +16,14 @@ export const DSAReport: GQLDSAReportTypeResolver<dsaReport.DSAReport> = {
     }
 
     return null;
+  },
+  history: ({ history }, args, ctx) => {
+    const consolidatedHistory = history.map((h) => {
+      const createdUser = h.createdBy
+        ? ctx.loaders.Users.user.load(h.createdBy)
+        : null;
+      return { ...h, createdBy: createdUser };
+    });
+    return consolidatedHistory ?? [];
   },
 };

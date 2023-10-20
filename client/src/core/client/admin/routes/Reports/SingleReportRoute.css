@@ -52,6 +52,11 @@
   padding: var(--spacing-6) var(--spacing-4);
 }
 
+.reportHistoryHeader {
+  text-transform: uppercase;
+  font-size: var(--font-size-3);
+}
+
 .commentMain {
   flex-grow: 1;
 }

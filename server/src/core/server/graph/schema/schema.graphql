@@ -3384,6 +3384,53 @@ enum DSAReportDecision {
   ILLEGAL
 }
 
+enum DSAReportHistoryType {
+  STATUS_CHANGED
+  NOTE
+  DECISION_MADE
+}
+
+type DSAReportStatusChanged {
+  id: ID!
+  type: DSAReportHistoryType
+  createdAt: Time!
+  createdBy: User
+  status: DSAReportStatus
+}
+
+type DSAReportNote {
+  id: ID!
+  type: DSAReportHistoryType
+  createdAt: Time!
+  createdBy: User
+  body: String
+}
+
+type DSAReportDecisionMade {
+  id: ID!
+  type: DSAReportHistoryType
+  createdAt: Time!
+  createdBy: User
+  decision: DSAReportDecision
+  note: String
+}
+
+type DSAReportHistoryItem {
+  id: ID!
+  type: DSAReportHistoryType
+  createdAt: Time!
+  createdBy: User
+  decision: DSAReportDecision
+  note: String
+  status: DSAReportStatus
+  body: String
+}
+
+# union DSAReportHistoryItem =
+#     DSAReportDecisionMade
+#   | DSAReportNote
+#   | DSAReportStatusChanged
+
 type DSAReport {
   id: ID!
 
@@ -3433,6 +3480,8 @@ type DSAReport {
   decision is the determination of whether the reported comment is illegal or not
   """
   decision: DSAReportDecision
+
+  history: [DSAReportHistoryItem]
 }
 
 type CommentRevisionPerspectiveMetadata {
@@ -6166,6 +6215,31 @@ type CreateCommentFlagPayload {
   comment is the Comment that the Flag was created on.
   """
   comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input AddDSAReportNoteInput {
+  """
+  id of the user who added the note to the DSAReport
+  """
+  userID: ID!
+
+  body: String!
+
+  reportID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type AddDSAReportNotePayload {
+  dsaReport: DSAReport
 
   """
   clientMutationId is required for Relay support.
@@ -9941,6 +10015,8 @@ type Mutation {
   createDSAReport creates a DSAReport for the provided comment
   """
   createDSAReport(input: CreateDSAReportInput!): CreateDSAReportPayload!
+
+  addDSAReportNote(input: AddDSAReportNoteInput!): AddDSAReportNotePayload!
 }
 
 ##################
