@@ -41,7 +41,7 @@ export interface PhaseResult {
   /**
    * moderationActions are moderation actions that are added to the comment revision.
    */
-  moderationActions: ModerationAction[];
+  moderationAction?: ModerationAction;
 
   /**
    * commentActions are comment actions that are added to the comment revision.
@@ -134,7 +134,6 @@ export const compose =
       status: GQLCOMMENT_STATUS.NONE,
       body: context.comment.body,
       commentActions: [],
-      moderationActions: [],
       metadata: {
         // Merge in the passed comment metadata.
         ...(context.comment.metadata || {}),

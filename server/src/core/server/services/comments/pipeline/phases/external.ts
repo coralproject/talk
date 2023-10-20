@@ -102,8 +102,9 @@ export interface ExternalModerationRequest {
   tenantDomain: string;
 }
 
+// BOOKMARK: (marcushaddon) do we need a new type to maintain type safety with joi?
 export type ExternalModerationResponse = Partial<
-  Pick<PhaseResult, "actions" | "status" | "tags">
+  Pick<PhaseResult, "commentActions" | "moderationActions" | "status" | "tags">
 >;
 
 const ExternalModerationResponseSchema = Joi.object().keys({
@@ -311,7 +312,8 @@ export const external: IntermediateModerationPhase = async (ctx) => {
         name: phase.name,
         analyzedAt: ctx.now,
         result: {
-          actions: response.actions,
+          // NOTE: these will be split into comment/moderation actions later
+          actions: response.commentActions,
           status: response.status,
           tags: response.tags,
         },

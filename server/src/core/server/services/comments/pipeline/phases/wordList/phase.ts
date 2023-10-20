@@ -33,9 +33,8 @@ export const wordListPhase: IntermediateModerationPhase = async ({
       status: GQLCOMMENT_STATUS.REJECTED,
       moderationActions: [
         {
-          // BOOKMARK: (marchaddon) update this to match moderation action input after pulling in model updates
-          actionType: ACTION_TYPE.FLAG,
-          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
+          status: GQLCOMMENT_STATUS.REJECTED,
+          moderatorID: null,
         },
       ],
       metadata: {
@@ -46,7 +45,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
     };
   } else if (banned.timedOut) {
     return {
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
@@ -69,7 +68,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
   if (tenant.premoderateSuspectWords && suspect.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
@@ -83,7 +82,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
     };
   } else if (suspect.isMatched) {
     return {
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
@@ -97,7 +96,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
     };
   } else if (suspect.timedOut) {
     return {
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,

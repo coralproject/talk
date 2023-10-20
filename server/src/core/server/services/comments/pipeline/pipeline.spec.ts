@@ -71,14 +71,14 @@ describe("compose", () => {
 
     const enhanced = compose([
       () => ({
-        actions: [flags[0]],
+        commentActions: [flags[0]],
       }),
       () => ({
         status,
         actions: [flags[1]],
       }),
       () => ({
-        actions: [
+        commentActions: [
           {
             userID: null,
             actionType: ACTION_TYPE.FLAG,
@@ -91,10 +91,10 @@ describe("compose", () => {
     const final = await enhanced(context);
 
     for (const flag of flags) {
-      expect(final.actions).toContainEqual(flag);
+      expect(final.commentActions).toContainEqual(flag);
     }
 
-    expect(final.actions).not.toContainEqual({
+    expect(final.commentActions).not.toContainEqual({
       body: context.comment.body,
       actionType: ACTION_TYPE.FLAG,
       reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
