@@ -31,7 +31,7 @@ describe("compose", () => {
       body: context.comment.body,
       status,
       metadata: {},
-      actions: [],
+      commentActions: [],
       tags: [],
     });
   });
@@ -48,11 +48,12 @@ describe("compose", () => {
       body: context.comment.body,
       status,
       metadata: { akismet: false, linkCount: 1 },
-      actions: [],
+      commentActions: [],
       tags: [],
     });
   });
 
+  // BOOKMARK (marcushaddon): how was this passing before?
   it("merges actions", async () => {
     const status = GQLCOMMENT_STATUS.APPROVED;
 
@@ -111,7 +112,7 @@ describe("compose", () => {
       body: context.comment.body,
       status: GQLCOMMENT_STATUS.NONE,
       metadata: { akismet: false },
-      actions: [],
+      commentActions: [],
       tags: [],
     });
   });
