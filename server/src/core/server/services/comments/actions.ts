@@ -385,6 +385,60 @@ export async function createDontAgree(
   return comment;
 }
 
+export type CreateIllegalContent = Pick<CreateActionInput, "commentID"> & {
+  commentRevisionID?: string;
+};
+
+export async function createIllegalContent(
+  mongo: MongoContext,
+  redis: AugmentedRedis,
+  config: Config,
+  commentActionsCache: CommentActionsCache,
+  broker: CoralEventPublisherBroker,
+  tenant: Tenant,
+  user: User,
+  input: CreateIllegalContent,
+  now = new Date()
+) {
+  let revisionID = input.commentRevisionID;
+
+  const retrievedComment = await retrieveComment(
+    mongo.comments(),
+    tenant.id,
+    input.commentID
+  );
+  if (!retrievedComment) {
+    throw new CommentNotFoundError(input.commentID);
+  }
+
+  if (!revisionID) {
+    revisionID = getLatestRevision(retrievedComment).id;
+  }
+
+  const { comment, action } = await addCommentAction(
+    mongo,
+    redis,
+    config,
+    broker,
+    tenant,
+    {
+      actionType: ACTION_TYPE.ILLEGAL,
+      commentID: input.commentID,
+      commentRevisionID: revisionID,
+      // additionalDetails: input.additionalDetails,
+    },
+    user,
+    now
+  );
+
+  const cacheAvailable = await commentActionsCache.available(tenant.id);
+  if (action && cacheAvailable) {
+    await commentActionsCache.add(action);
+  }
+
+  return comment;
+}
+
 export type RemoveCommentDontAgree = Pick<
   RemoveActionInput,
   "commentID" | "commentRevisionID"

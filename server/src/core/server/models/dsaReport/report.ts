@@ -2,35 +2,69 @@ import { v4 as uuid } from "uuid";
 
 import { Sub } from "coral-common/common/lib/types";
 import { MongoContext } from "coral-server/data/context";
+import {
+  CommentNotFoundError,
+  DuplicateDSAReportError,
+} from "coral-server/errors";
 import { FilterQuery } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
 import { GQLDSAReportStatus } from "coral-server/graph/schema/__generated__/types";
 
 export interface DSAReport extends TenantResource {
+  /**
+   * id identifies this DSA Report specifically.
+   */
   readonly id: string;
 
+  /**
+   * userID is the id of the user who reported this comment for illegal content.
+   */
   userID: string;
 
+  /**
+   * createdAt is the date that this DSAReport was created
+   */
   createdAt: Date;
 
+  /**
+   * lawBrokenDescription is the description of the law this comment is being
+   * reported for breaking.
+   */
   lawBrokenDescription: string;
 
+  /**
+   * additionalInformation is more explanation of how this comment being reported
+   * breaks the law.
+   */
   additionalInformation: string;
 
+  /**
+   * commentID is the id of the comment being reported.
+   */
   commentID: string;
 
-  submissionID?: string;
+  /**
+   * submissionID is the id that keeps track of all comments that are submitted together
+   * as part of one illegal content report form by a user.
+   */
+  submissionID: string;
 
-  publicID: string;
+  /**
+   * referenceID is a user-friendly id used to reference the DSA Report.
+   */
+  referenceID: string;
 
+  /**
+   * status keeps track of the current status of the DSA Report
+   */
   status: GQLDSAReportStatus;
 }
 
 export type CreateDSAReportInput = Omit<
   DSAReport,
-  "id" | "tenantID" | "createdAt" | "publicID" | "status"
->;
+  "id" | "tenantID" | "createdAt" | "referenceID" | "status" | "submissionID"
+> & { submissionID?: string };
 
 export interface CreateDSAReportResultObject {
   /**
@@ -54,8 +88,9 @@ export async function createDSAReport(
     submissionIDToUse = uuid();
   }
 
-  // TODO: update how publicID generated
-  const publicID = uuid();
+  // shorter, url-friendly referenceID generated from the report id, userID, and commentID
+  const referenceID =
+    userID.slice(0, 4) + "-" + commentID.slice(0, 4) + "-" + id.slice(0, 4);
 
   // defaults are the properties set by the application when a new DSAReport is
   // created.
@@ -63,7 +98,7 @@ export async function createDSAReport(
     id,
     tenantID,
     createdAt: now,
-    publicID,
+    referenceID,
     status: GQLDSAReportStatus.AWAITING_REVIEW,
   };
 
@@ -81,15 +116,27 @@ export async function createDSAReport(
     submissionID: submissionIDToUse,
   };
 
+  // check that a comment for the comment ID exists and throw an error if not
+  const commentExists = await mongo
+    .comments()
+    .findOne({ tenantID, id: commentID });
+
+  if (!commentExists && mongo.archive) {
+    // look in archived comments too
+    const commentIsArchived = await mongo
+      .archivedComments()
+      .findOne({ tenantID, id: commentID });
+    if (!commentIsArchived) {
+      throw new CommentNotFoundError(commentID);
+    }
+  }
+
   // check if there's already a dsareport submitted by this user for this comment
   // and return a duplicate error if so
-  const alreadyExisting = await mongo.dsaReports().findOne(filter);
+  const alreadyExistingReport = await mongo.dsaReports().findOne(filter);
 
-  if (alreadyExisting) {
-    // TODO: update error thrown
-    throw new Error(
-      "dsa report submitted by user for this comment already exists"
-    );
+  if (alreadyExistingReport) {
+    throw new DuplicateDSAReportError(alreadyExistingReport.id);
   }
 
   await mongo.dsaReports().insertOne(report);

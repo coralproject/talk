@@ -322,6 +322,15 @@ export class DuplicateEmailError extends CoralError {
   }
 }
 
+export class DuplicateDSAReportError extends CoralError {
+  constructor(reportID: string) {
+    super({
+      code: ERROR_CODES.DUPLICATE_DSA_REPORT,
+      context: { pub: { reportID } },
+    });
+  }
+}
+
 export class DuplicateEmailDomainError extends CoralError {
   constructor(emailDomain: string) {
     super({

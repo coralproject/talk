@@ -22,6 +22,7 @@ error-duplicateUser =
   Specified user already exists with a different login method.
 error-duplicateEmail = Specified email address is already in use.
 error-duplicateEmailDomain = Specified email domain is already configured.
+error-duplicateDSAReport = User has already reported this comment for illegal content.
 error-localProfileAlreadySet =
   Specified account already has a password set.
 error-localProfileNotSet =
