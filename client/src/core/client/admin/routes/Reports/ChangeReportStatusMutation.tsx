@@ -7,17 +7,19 @@ import {
   MutationInput,
 } from "coral-framework/lib/relay";
 
-import { AddReportNoteMutation as MutationTypes } from "coral-admin/__generated__/AddReportNoteMutation.graphql";
+import { ChangeReportStatusMutation as MutationTypes } from "coral-admin/__generated__/ChangeReportStatusMutation.graphql";
 
 let clientMutationId = 0;
 
-const AddReportNoteMutation = createMutation(
-  "addReportNote",
+const ChangeReportStatusMutation = createMutation(
+  "changeReportStatus",
   (environment: Environment, input: MutationInput<MutationTypes>) => {
     const result = commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation AddReportNoteMutation($input: AddDSAReportNoteInput!) {
-          addDSAReportNote(input: $input) {
+        mutation ChangeReportStatusMutation(
+          $input: ChangeDSAReportStatusInput!
+        ) {
+          changeDSAReportStatus(input: $input) {
             dsaReport {
               id
             }
@@ -28,8 +30,8 @@ const AddReportNoteMutation = createMutation(
       variables: {
         input: {
           userID: input.userID,
-          body: input.body,
           reportID: input.reportID,
+          status: input.status,
           clientMutationId: (clientMutationId++).toString(),
         },
       },
@@ -38,4 +40,4 @@ const AddReportNoteMutation = createMutation(
   }
 );
 
-export default AddReportNoteMutation;
+export default ChangeReportStatusMutation;

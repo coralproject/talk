@@ -1,14 +1,17 @@
 // import { Localized } from "@fluent/react/compat";
 import { Option, SelectField } from "coral-ui/components/v2";
-import React, { ChangeEvent, EventHandler, FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
+
+import { DSAReportStatus } from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
 
 import styles from "./ReportStatusMenu.css";
 
 interface Props {
-  onChange: EventHandler<ChangeEvent<HTMLSelectElement>>;
+  onChange: (status: string) => Promise<void>;
+  value: DSAReportStatus | null;
 }
 
-const ReportStatusMenu: FunctionComponent<Props> = ({ onChange }) => {
+const ReportStatusMenu: FunctionComponent<Props> = ({ onChange, value }) => {
   return (
     <>
       <label
@@ -17,7 +20,11 @@ const ReportStatusMenu: FunctionComponent<Props> = ({ onChange }) => {
       >
         Status
       </label>
-      <SelectField id="coral-reports-report-statusMenu" onChange={onChange}>
+      <SelectField
+        id="coral-reports-report-statusMenu"
+        onChange={(e) => onChange(e.target.value)}
+        value={value ?? "AWAITING_REVIEW"}
+      >
         {/* <Localized id="comments-sortMenu-newest"> */}
         <Option value="AWAITING_REVIEW">Awaiting review</Option>
         {/* </Localized> */}

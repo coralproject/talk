@@ -2,11 +2,13 @@ import GraphContext from "coral-server/graph/context";
 import { createIllegalContent } from "coral-server/services/comments";
 import {
   addDSAReportNote,
+  changeDSAReportStatus,
   createDSAReport,
 } from "coral-server/services/dsaReports/reports";
 
 import {
   GQLAddDSAReportNoteInput,
+  GQLChangeDSAReportStatusInput,
   GQLCreateDSAReportInput,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -43,4 +45,10 @@ export const DSAReports = (ctx: GraphContext) => ({
   },
   addDSAReportNote: ({ userID, body, reportID }: GQLAddDSAReportNoteInput) =>
     addDSAReportNote(ctx.mongo, ctx.tenant, { userID, body, reportID }),
+  changeDSAReportStatus: ({
+    userID,
+    status,
+    reportID,
+  }: GQLChangeDSAReportStatusInput) =>
+    changeDSAReportStatus(ctx.mongo, ctx.tenant, { userID, status, reportID }),
 });

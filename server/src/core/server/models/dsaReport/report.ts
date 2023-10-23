@@ -290,3 +290,55 @@ export async function createDSAReportNote(
     dsaReport: updatedReport.value,
   };
 }
+
+export interface ChangeDSAReportStatusInput {
+  reportID: string;
+  status: string;
+  userID: string;
+}
+
+export interface ChangeDSAReportStatusResultObject {
+  /**
+   * dsaReport contains the resultant DSAReport that was updated.
+   */
+  dsaReport: DSAReport;
+}
+
+export async function changeDSAReportStatus(
+  mongo: MongoContext,
+  tenantID: string,
+  input: ChangeDSAReportStatusInput,
+  now = new Date()
+): Promise<ChangeDSAReportStatusResultObject> {
+  const { userID, status, reportID } = input;
+
+  // Create a new ID for the DSAReportHistoryItem.
+  const id = uuid();
+
+  const statusChangeHistoryItem = {
+    id,
+    createdBy: userID,
+    createdAt: now,
+    status,
+    type: DSAReportHistoryType.STATUS_CHANGED,
+  };
+
+  const updatedReport = await mongo.dsaReports().findOneAndUpdate(
+    { id: reportID, tenantID },
+    {
+      $push: {
+        history: statusChangeHistoryItem,
+      },
+      $set: { status },
+    },
+    { returnOriginal: false }
+  );
+
+  if (!updatedReport.value) {
+    throw new Error();
+  }
+
+  return {
+    dsaReport: updatedReport.value,
+  };
+}

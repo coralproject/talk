@@ -6288,6 +6288,31 @@ type AddDSAReportNotePayload {
   clientMutationId: String!
 }
 
+input ChangeDSAReportStatusInput {
+  """
+  id of the user who changed the status of the DSAReport
+  """
+  userID: ID!
+
+  status: DSAReportStatus!
+
+  reportID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type ChangeDSAReportStatusPayload {
+  dsaReport: DSAReport
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 input CreateDSAReportInput {
   """
   id of the reported comment
@@ -10063,6 +10088,10 @@ type Mutation {
   createDSAReport(input: CreateDSAReportInput!): CreateDSAReportPayload!
 
   addDSAReportNote(input: AddDSAReportNoteInput!): AddDSAReportNotePayload!
+
+  changeDSAReportStatus(
+    input: ChangeDSAReportStatusInput!
+  ): ChangeDSAReportStatusPayload!
 }
 
 ##################

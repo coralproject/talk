@@ -15,7 +15,10 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation } from "coral-framework/lib/relay";
 import { createRouteConfig } from "coral-framework/lib/router";
 import { required } from "coral-framework/lib/validation";
-import { GQLDSAReportHistoryType } from "coral-framework/schema";
+import {
+  GQLDSAReportHistoryType,
+  GQLDSAReportStatus,
+} from "coral-framework/schema";
 import {
   Button,
   Flex,
@@ -34,6 +37,7 @@ import NotFound from "../NotFound";
 import ReportStatusMenu from "./ReportStatusMenu";
 
 import AddReportNoteMutation from "./AddReportNoteMutation";
+import ChangeReportStatusMutation from "./ChangeReportStatusMutation";
 
 type Props = SingleReportRouteQueryResponse;
 
@@ -44,6 +48,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
   const comment = dsaReport?.comment;
 
   const addReportNote = useMutation(AddReportNoteMutation);
+  const changeReportStatus = useMutation(ChangeReportStatusMutation);
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",
@@ -58,6 +63,30 @@ const SingleReportRoute: FunctionComponent<Props> & {
     month: "long",
     year: "numeric",
   });
+
+  // TODO: Localization
+  const statusMapping = useCallback(
+    (
+      status:
+        | "AWAITING_REVIEW"
+        | "UNDER_REVIEW"
+        | "COMPLETED"
+        | "%future added value"
+        | null
+    ) => {
+      if (!status) {
+        return "Unknown status";
+      }
+      const statuses = {
+        AWAITING_REVIEW: "Awaiting review",
+        UNDER_REVIEW: "In review",
+        COMPLETED: "Completed",
+        "%future added value": "Unknown status",
+      };
+      return statuses[status];
+    },
+    []
+  );
 
   const inReplyTo = comment && comment.parent && comment.parent.author;
 
@@ -88,6 +117,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
     [setUserDrawerUserID]
   );
 
+  // TODO: Update on add note
   const onSubmit = useCallback(
     async (input: any) => {
       if (dsaReport?.id && viewer?.id) {
@@ -99,6 +129,20 @@ const SingleReportRoute: FunctionComponent<Props> & {
       }
     },
     [addReportNote, dsaReport, viewer]
+  );
+
+  // TODO: Update on change status
+  const onChangeStatus = useCallback(
+    async (status: GQLDSAReportStatus) => {
+      if (dsaReport?.id && viewer?.id) {
+        await changeReportStatus({
+          reportID: dsaReport?.id,
+          userID: viewer.id,
+          status,
+        });
+      }
+    },
+    [dsaReport, viewer, changeReportStatus]
   );
 
   if (!dsaReport) {
@@ -119,7 +163,10 @@ const SingleReportRoute: FunctionComponent<Props> & {
           alignItems="center"
         >
           {/* TODO: Actually change report status with this */}
-          <ReportStatusMenu onChange={() => {}} />
+          <ReportStatusMenu
+            onChange={onChangeStatus}
+            value={dsaReport.status}
+          />
           {/* TODO: Should download report when clicked */}
           <Button
             className={styles.shareButton}
@@ -296,7 +343,11 @@ const SingleReportRoute: FunctionComponent<Props> & {
                       {h?.type === GQLDSAReportHistoryType.STATUS_CHANGED && (
                         // TODO: Make new status human-readable
                         <>
-                          <div>{`${h.createdBy?.username} changed status to ${h.status}`}</div>
+                          <div className={styles.reportHistoryText}>{`${
+                            h.createdBy?.username
+                          } changed status to "${statusMapping(
+                            h.status
+                          )}"`}</div>
                         </>
                       )}
                       <div className={styles.reportHistoryCreatedAt}>
