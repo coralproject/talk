@@ -4,12 +4,14 @@ import {
   addDSAReportNote,
   changeDSAReportStatus,
   createDSAReport,
+  deleteDSAReportNote,
 } from "coral-server/services/dsaReports/reports";
 
 import {
   GQLAddDSAReportNoteInput,
   GQLChangeDSAReportStatusInput,
   GQLCreateDSAReportInput,
+  GQLDeleteDSAReportNoteInput,
 } from "coral-server/graph/schema/__generated__/types";
 
 export const DSAReports = (ctx: GraphContext) => ({
@@ -45,6 +47,8 @@ export const DSAReports = (ctx: GraphContext) => ({
   },
   addDSAReportNote: ({ userID, body, reportID }: GQLAddDSAReportNoteInput) =>
     addDSAReportNote(ctx.mongo, ctx.tenant, { userID, body, reportID }),
+  deleteDSAReportNote: ({ id, reportID }: GQLDeleteDSAReportNoteInput) =>
+    deleteDSAReportNote(ctx.mongo, ctx.tenant, { id, reportID }),
   changeDSAReportStatus: ({
     userID,
     status,

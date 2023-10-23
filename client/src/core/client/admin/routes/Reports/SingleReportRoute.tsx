@@ -12,6 +12,7 @@ import { MediaContainer } from "coral-admin/components/MediaContainer";
 import CommentAuthorContainer from "coral-admin/components/ModerateCard/CommentAuthorContainer";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { useDateTimeFormatter } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useMutation } from "coral-framework/lib/relay";
 import { createRouteConfig } from "coral-framework/lib/router";
 import { required } from "coral-framework/lib/validation";
@@ -19,12 +20,12 @@ import {
   GQLDSAReportHistoryType,
   GQLDSAReportStatus,
 } from "coral-framework/schema";
+import { BinIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Flex,
   HorizontalGutter,
   Textarea,
-  // SelectField,
   Timestamp,
 } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
@@ -38,6 +39,7 @@ import ReportStatusMenu from "./ReportStatusMenu";
 
 import AddReportNoteMutation from "./AddReportNoteMutation";
 import ChangeReportStatusMutation from "./ChangeReportStatusMutation";
+import DeleteReportNoteMutation from "./DeleteReportNoteMutation";
 
 type Props = SingleReportRouteQueryResponse;
 
@@ -46,9 +48,11 @@ const SingleReportRoute: FunctionComponent<Props> & {
 } = (props) => {
   const { dsaReport, viewer } = props;
   const comment = dsaReport?.comment;
+  const { window } = useCoralContext();
 
   const addReportNote = useMutation(AddReportNoteMutation);
   const changeReportStatus = useMutation(ChangeReportStatusMutation);
+  const deleteReportNote = useMutation(DeleteReportNoteMutation);
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",
@@ -145,6 +149,38 @@ const SingleReportRoute: FunctionComponent<Props> & {
     [dsaReport, viewer, changeReportStatus]
   );
 
+  const onDeleteReportNoteButton = useCallback(
+    async (id: string) => {
+      if (dsaReport?.id) {
+        await deleteReportNote({ id, reportID: dsaReport.id });
+      }
+    },
+    [deleteReportNote]
+  );
+
+  const onShareButtonClick = useCallback(() => {
+    if (dsaReport) {
+      // TODO: Will need to localize this
+      // Also determine what should be included; also comment info and report history?
+      const reportInfo = `Reference ID: ${dsaReport.referenceID}\nReporter: ${
+        dsaReport.reporter?.username
+      }\nReport date: ${formatter(
+        dsaReport.createdAt
+      )}\nWhat law was broken?: ${
+        dsaReport.lawBrokenDescription
+      }\nExplanation: ${dsaReport.additionalInformation}`;
+      const element = window.document.createElement("a");
+      const file = new Blob([reportInfo], { type: "text/plain" });
+      element.href = URL.createObjectURL(file);
+      // TODO: Should have date/time added since could be downloaded more than once?
+      element.download = `dsaReport-${dsaReport?.referenceID}`;
+      window.document.body.appendChild(element);
+      element.click();
+
+      // TODO: Also add an item to report history that it was downloaded in this case
+    }
+  }, [dsaReport, window]);
+
   if (!dsaReport) {
     return <NotFound />;
   }
@@ -173,6 +209,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
             variant="outlined"
             color="regular"
             uppercase
+            target="_blank"
+            rel="noreferrer"
+            onClick={onShareButtonClick}
           >
             Share
           </Button>
@@ -337,6 +376,14 @@ const SingleReportRoute: FunctionComponent<Props> & {
                             {h.body}
                           </div>
                           {/* TODO: Add in ability to delete the note */}
+                          <Button
+                            variant="text"
+                            color="mono"
+                            uppercase={false}
+                            onClick={() => onDeleteReportNoteButton(h.id)}
+                          >
+                            <ButtonSvgIcon Icon={BinIcon} /> Delete
+                          </Button>
                         </>
                       )}
 

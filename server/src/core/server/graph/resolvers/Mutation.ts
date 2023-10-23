@@ -75,6 +75,10 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     dsaReport: await ctx.mutators.DSAReports.addDSAReportNote(input),
     clientMutationId: input.clientMutationId,
   }),
+  deleteDSAReportNote: async (source, { input }, ctx) => ({
+    dsaReport: await ctx.mutators.DSAReports.deleteDSAReportNote(input),
+    clientMutationId: input.clientMutationId,
+  }),
   changeDSAReportStatus: async (source, { input }, ctx) => ({
     dsaReport: await ctx.mutators.DSAReports.changeDSAReportStatus(input),
     clientMutationId: input.clientMutationId,

@@ -6288,6 +6288,29 @@ type AddDSAReportNotePayload {
   clientMutationId: String!
 }
 
+input DeleteDSAReportNoteInput {
+  """
+  id of the note to be deleted from DSAReport history
+  """
+  id: ID!
+
+  reportID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteDSAReportNotePayload {
+  dsaReport: DSAReport
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 input ChangeDSAReportStatusInput {
   """
   id of the user who changed the status of the DSAReport
@@ -10088,6 +10111,10 @@ type Mutation {
   createDSAReport(input: CreateDSAReportInput!): CreateDSAReportPayload!
 
   addDSAReportNote(input: AddDSAReportNoteInput!): AddDSAReportNotePayload!
+
+  deleteDSAReportNote(
+    input: DeleteDSAReportNoteInput!
+  ): DeleteDSAReportNotePayload!
 
   changeDSAReportStatus(
     input: ChangeDSAReportStatusInput!

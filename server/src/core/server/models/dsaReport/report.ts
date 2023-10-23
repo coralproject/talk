@@ -291,6 +291,45 @@ export async function createDSAReportNote(
   };
 }
 
+export interface DeleteDSAReportNoteInput {
+  id: string;
+  reportID: string;
+}
+
+export interface DeleteDSAReportNoteResultObject {
+  /**
+   * dsaReport contains the resultant DSAReport from which a note was deleted from its history.
+   */
+  dsaReport: DSAReport;
+}
+
+export async function deleteDSAReportNote(
+  mongo: MongoContext,
+  tenantID: string,
+  input: DeleteDSAReportNoteInput,
+  now = new Date()
+): Promise<DeleteDSAReportNoteResultObject> {
+  const { id, reportID } = input;
+
+  const updatedReport = await mongo.dsaReports().findOneAndUpdate(
+    { id: reportID, tenantID },
+    {
+      $pull: {
+        history: { id: { $eq: id } },
+      },
+    },
+    { returnOriginal: false }
+  );
+
+  if (!updatedReport.value) {
+    throw new Error();
+  }
+
+  return {
+    dsaReport: updatedReport.value,
+  };
+}
+
 export interface ChangeDSAReportStatusInput {
   reportID: string;
   status: string;
