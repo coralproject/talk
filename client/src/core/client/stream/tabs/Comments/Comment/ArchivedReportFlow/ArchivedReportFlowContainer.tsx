@@ -5,11 +5,14 @@ import { graphql } from "react-relay";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
+import { URLViewType } from "coral-stream/constants";
+import { Button } from "coral-ui/components/v3";
 
 import { ArchivedReportFlowContainer_comment } from "coral-stream/__generated__/ArchivedReportFlowContainer_comment.graphql";
 import { ArchivedReportFlowContainer_settings } from "coral-stream/__generated__/ArchivedReportFlowContainer_settings.graphql";
+import { ArchivedReportFlowContainerLocal } from "coral-stream/__generated__/ArchivedReportFlowContainerLocal.graphql";
 
 import PermalinkCopyButton from "../PermalinkButton/PermalinkCopyButton";
 
@@ -25,6 +28,14 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
   comment,
 }) => {
   const { localeBundles } = useCoralContext();
+
+  const [{ dsaFeaturesEnabled }] = useLocal<ArchivedReportFlowContainerLocal>(
+    graphql`
+      fragment ArchivedReportFlowContainerLocal on Local {
+        dsaFeaturesEnabled
+      }
+    `
+  );
 
   const permalinkURL = getURLWithCommentID(comment.story.url, comment.id);
 
@@ -47,6 +58,12 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
     {
       permalinkURL,
     }
+  );
+
+  const reportLink = getURLWithCommentID(
+    comment.story.url,
+    comment.id,
+    URLViewType.IllegalContentReport
   );
 
   return (
@@ -74,6 +91,25 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
           with a link to this comment and a brief explanation.
         </div>
       </Localized>
+
+      {dsaFeaturesEnabled && (
+        <Localized id="comments-reportForm-reportIllegalContent-button">
+          <Button
+            className={styles.illegalContentReportButton}
+            variant="flat"
+            color="primary"
+            fontSize="medium"
+            fontWeight="semiBold"
+            paddingSize="none"
+            target="_blank"
+            anchor
+            underline
+            href={reportLink}
+          >
+            Report illegal content
+          </Button>
+        </Localized>
+      )}
 
       <Localized id="comments-archivedReportPopover-needALink">
         <div className={styles.heading}>Need a link to this comment?</div>

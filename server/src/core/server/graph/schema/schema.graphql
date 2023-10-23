@@ -258,6 +258,13 @@ type DontAgreeActionCounts {
   total: Int!
 }
 
+type IllegalActionCounts {
+  """
+  total is the total number of illegal actions against a given item.
+  """
+  total: Int!
+}
+
 type Reacter {
   username: String
   userID: String
@@ -427,6 +434,11 @@ type ActionCounts {
   restricted to administrators and moderators.
   """
   flag: FlagActionCounts! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  illegal returns the counts for the illegal content action on on item.
+  """
+  illegal: IllegalActionCounts!
 }
 
 """
@@ -449,6 +461,11 @@ type ActionPresence {
   flag is true when a flag action was left on an item.
   """
   flag: Boolean!
+
+  """
+  flag is true when an illegal content actions was left on an item.
+  """
+  illegal: Boolean!
 }
 
 ################################################################################
@@ -6143,6 +6160,30 @@ type CreateCommentDontAgreePayload {
   clientMutationId: String!
 }
 
+input CreateIllegalContentInput {
+  """
+  commentID is the id of the comment reported for illegal content.
+  """
+  commentID: ID!
+
+  """
+  commentRevisionID is the revision ID of the comment reported for illegal content.
+  """
+  commentRevisionID: ID!
+}
+
+type CreateIllegalContentPayload {
+  """
+  comment is the Comment that the illegal content report was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 ##################
 ## removeCommentDontAgree
 ##################
@@ -6274,6 +6315,11 @@ input CreateDSAReportInput {
   submissionID keeps track of comments that were submitted together in one form
   """
   submissionID: ID
+
+  """
+  commentRevisionID is the revision ID for the comment for which a DSA report is being submitted.
+  """
+  commentRevisionID: String
 
   """
   clientMutationId is required for Relay support.

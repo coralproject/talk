@@ -442,6 +442,7 @@ export const baseComment = createFixture<GQLComment>({
     reaction: false,
     dontAgree: false,
     flag: false,
+    illegal: false,
   },
   tags: [],
   deleted: NULL_VALUE,
