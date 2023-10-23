@@ -82,7 +82,7 @@ const IllegalContentReportViewQuery: FunctionComponent = () => {
         }
       `}
       variables={{
-        commentID,
+        commentID: commentID!,
         storyID,
         storyURL,
       }}

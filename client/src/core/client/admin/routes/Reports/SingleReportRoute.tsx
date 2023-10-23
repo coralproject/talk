@@ -53,6 +53,12 @@ const SingleReportRoute: FunctionComponent<Props> & {
     minute: "2-digit",
   });
 
+  const reportHistoryFormatter = useDateTimeFormatter({
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
   const inReplyTo = comment && comment.parent && comment.parent.author;
 
   const [userDrawerUserID, setUserDrawerUserID] = useState<string | undefined>(
@@ -260,29 +266,51 @@ const SingleReportRoute: FunctionComponent<Props> & {
         </Flex>
         <Flex className={styles.reportHistory} direction="column">
           <div className={styles.reportHistoryHeader}>History</div>
-          {dsaReport.history?.map((h) => {
-            if (h?.type === GQLDSAReportHistoryType.NOTE) {
-              return (
-                <div key={h.id}>
-                  {/* TODO: Localize */}
-                  <div>{`${h.createdBy?.username} added a note`}</div>
-                  <div>{h.body}</div>
-                  {/* TODO: Add in ability to delete the note */}
-                  <div>{h.createdAt}</div>
-                </div>
-              );
-            }
-            if (h?.type === GQLDSAReportHistoryType.STATUS_CHANGED) {
-              // TODO: Make new status human-readable
-              return (
-                <div key={h.id}>
-                  <div>{`${h.createdBy?.username} changed status to ${h.status}`}</div>
-                  <div>{h.createdAt}</div>
-                </div>
-              );
-            }
-            return <div key={h.id}>history type not implemented yet</div>;
-          })}
+          <HorizontalGutter spacing={3} paddingBottom={4}>
+            <div>
+              <div className={styles.reportHistoryText}>
+                Illegal content report submitted
+              </div>
+              <div className={styles.reportHistoryCreatedAt}>
+                {reportHistoryFormatter(dsaReport.createdAt)}
+              </div>
+            </div>
+            <>
+              {dsaReport.history?.map((h) => {
+                if (h) {
+                  return (
+                    <div key={h.id}>
+                      {h?.type === GQLDSAReportHistoryType.NOTE && (
+                        <>
+                          {/* TODO: Localize */}
+                          <div
+                            className={styles.reportHistoryText}
+                          >{`${h.createdBy?.username} added a note`}</div>
+                          <div className={styles.reportHistoryNoteBody}>
+                            {h.body}
+                          </div>
+                          {/* TODO: Add in ability to delete the note */}
+                        </>
+                      )}
+
+                      {h?.type === GQLDSAReportHistoryType.STATUS_CHANGED && (
+                        // TODO: Make new status human-readable
+                        <>
+                          <div>{`${h.createdBy?.username} changed status to ${h.status}`}</div>
+                        </>
+                      )}
+                      <div className={styles.reportHistoryCreatedAt}>
+                        {reportHistoryFormatter(h.createdAt)}
+                      </div>
+                    </div>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </>
+          </HorizontalGutter>
+          {/* TODO: Need to add a success state here once note is submitted */}
           <Form onSubmit={onSubmit}>
             {({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>

@@ -55,6 +55,25 @@
 .reportHistoryHeader {
   text-transform: uppercase;
   font-size: var(--font-size-3);
+  font-weight: var(--font-weight-secondary-bold);
+  font-family: var(--font-family-secondary);
+  padding-bottom: var(--spacing-3);
+}
+
+.reportHistoryText {
+  font-size: var(--font-size-2);
+}
+
+.reportHistoryCreatedAt {
+  font-size: var(--font-size-1);
+  color: var(--palette-grey-500);
+}
+
+.reportHistoryNoteBody {
+  padding: var(--spacing-1);
+  background-color: var(--palette-grey-100);
+  margin-top: var(--spacing-1);
+  font-size: var(--font-size-2);
 }
 
 .commentMain {

@@ -24,6 +24,7 @@ import {
 import { TenantResource } from "coral-server/models/tenant";
 
 export interface ReportHistoryItem {
+  id: string;
   status?: string;
   createdAt: Date;
   createdBy: string;
@@ -179,14 +180,7 @@ export async function createDSAReport(
     tenantID,
     createdAt: now,
     referenceID,
-    history: [
-      {
-        createdAt: now,
-        type: GQLDSAReportHistoryType.STATUS_CHANGED,
-        status: GQLDSAReportStatus.AWAITING_REVIEW,
-        createdBy: userID,
-      },
-    ],
+    history: [],
     status: GQLDSAReportStatus.AWAITING_REVIEW,
   };
 
