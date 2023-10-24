@@ -53,7 +53,6 @@ describe("compose", () => {
     });
   });
 
-  // BOOKMARK (marcushaddon): how was this passing before?
   it("merges actions", async () => {
     const status = GQLCOMMENT_STATUS.APPROVED;
 
@@ -76,7 +75,7 @@ describe("compose", () => {
       }),
       () => ({
         status,
-        actions: [flags[1]],
+        commentActions: [flags[1]],
       }),
       () => ({
         commentActions: [
