@@ -2,7 +2,11 @@ import React, { useCallback, useMemo, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import MainLayout from "coral-admin/components/MainLayout";
-import { useRefetch, withPaginationContainer } from "coral-framework/lib/relay";
+import {
+  useLoadMore,
+  useRefetch,
+  withPaginationContainer,
+} from "coral-framework/lib/relay";
 import { GQLREPORT_SORT } from "coral-framework/schema";
 
 import { ReportsTableContainer_query as QueryData } from "coral-admin/__generated__/ReportsTableContainer_query.graphql";
@@ -30,7 +34,8 @@ const ReportsTableContainer: React.FunctionComponent<Props> = (props) => {
     [setOrderBy]
   );
 
-  const [,] = useRefetch(props.relay, 10, {
+  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+  const [, isRefetching] = useRefetch(props.relay, 10, {
     orderBy,
   });
 
@@ -43,7 +48,13 @@ const ReportsTableContainer: React.FunctionComponent<Props> = (props) => {
   return (
     <MainLayout className={styles.root}>
       <ReportsSortMenu onChange={onSortChange} />
-      <ReportsTable dsaReports={dsaReports} />
+      <ReportsTable
+        dsaReports={dsaReports}
+        hasMore={!isRefetching && props.relay.hasMore()}
+        disableLoadMore={isLoadingMore}
+        onLoadMore={loadMore}
+        loading={!props.query || isRefetching}
+      />
     </MainLayout>
   );
 };
