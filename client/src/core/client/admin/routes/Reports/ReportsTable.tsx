@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React from "react";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
@@ -35,15 +36,28 @@ const ReportsTable: React.FunctionComponent<Props> = ({
     <>
       <Table fullWidth>
         <TableHead>
-          {/* TODO: Need to localize all of these tableheads */}
           <TableRow>
-            <TableCell>Report date</TableCell>
-            <TableCell>Report age</TableCell>
-            <TableCell>Reporter</TableCell>
-            <TableCell>Report number</TableCell>
-            <TableCell>Law broken</TableCell>
-            <TableCell>Comment author</TableCell>
-            <TableCell>Status</TableCell>
+            <Localized id="reportsTable-column-time">
+              <TableCell>Time</TableCell>
+            </Localized>
+            <Localized id="reportsTable-column-age">
+              <TableCell>Age</TableCell>
+            </Localized>
+            <Localized id="reportsTable-column-reportedBy">
+              <TableCell>Reported by</TableCell>
+            </Localized>
+            <Localized id="reportsTable-column-reference">
+              <TableCell>Reference</TableCell>
+            </Localized>
+            <Localized id="reportsTable-column-lawBroken">
+              <TableCell>Law broken</TableCell>
+            </Localized>
+            <Localized id="reportsTable-column-commentAuthor">
+              <TableCell>Comment author</TableCell>
+            </Localized>
+            <Localized id="reportsTable-column-status">
+              <TableCell>Status</TableCell>
+            </Localized>
           </TableRow>
         </TableHead>
         <TableBody>

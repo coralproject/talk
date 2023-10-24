@@ -33,7 +33,6 @@ const Navigation: FunctionComponent<Props> = (props) => (
       </Localized>
     )}
     {/* TODO: Any other permissions needed? */}
-    {/* TODO: Update localization */}
     {props.showReports && (
       <Localized id="navigation-reports">
         <NavigationLink to="/admin/reports">Reports</NavigationLink>

@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import MainLayout from "coral-admin/components/MainLayout";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useRefetch,
@@ -47,14 +48,16 @@ const ReportsTableContainer: React.FunctionComponent<Props> = (props) => {
 
   return (
     <MainLayout className={styles.root}>
-      <ReportsSortMenu onChange={onSortChange} />
-      <ReportsTable
-        dsaReports={dsaReports}
-        hasMore={!isRefetching && props.relay.hasMore()}
-        disableLoadMore={isLoadingMore}
-        onLoadMore={loadMore}
-        loading={!props.query || isRefetching}
-      />
+      <IntersectionProvider>
+        <ReportsSortMenu onChange={onSortChange} />
+        <ReportsTable
+          dsaReports={dsaReports}
+          hasMore={!isRefetching && props.relay.hasMore()}
+          disableLoadMore={isLoadingMore}
+          onLoadMore={loadMore}
+          loading={!props.query || isRefetching}
+        />
+      </IntersectionProvider>
     </MainLayout>
   );
 };

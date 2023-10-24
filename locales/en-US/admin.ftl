@@ -60,6 +60,7 @@ navigation-community = Community
 navigation-stories = Stories
 navigation-configure = Configure
 navigation-dashboard = Dashboard
+navigation-reports = Reports
 
 ## User Menu
 userMenu-signOut = Sign Out
@@ -1797,6 +1798,15 @@ conversation-modal-rejectButton = <icon></icon>Reject
   .aria-label = Reject
 conversation-modal-rejectButton-rejected = <icon></icon>Rejected
   .aria-label = Rejected
+
+# DSA Reports tab
+reportsTable-column-time = Time
+reportsTable-column-age = Age
+reportsTable-column-reportedBy = Reported by
+reportsTable-column-reference = Reference
+reportsTable-column-lawBroken = Law broken
+reportsTable-column-commentAuthor = Comment author
+reportsTable-column-status = Status
 
 # Control panel
 
