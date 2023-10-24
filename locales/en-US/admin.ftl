@@ -1832,6 +1832,10 @@ reports-singleReport-note-field =
   .placeholder = Add your note...
 reports-singleReport-addUpdateButton = <icon></icon> Add update
 
+reports-reportStatusMenu-awaitingReview = Awaiting review
+reports-reportStatusMenu-inReview = In review
+reports-reportStatusMenu-completed = Completed
+
 # Control panel
 
 controlPanel-redis-redis = Redis

@@ -24,12 +24,35 @@ import {
 import { TenantResource } from "coral-server/models/tenant";
 
 export interface ReportHistoryItem {
+  /**
+   * id identifies this DSA Report history item specifically.
+   */
   id: string;
-  status?: string;
+
+  /**
+   * createdAt is when this report history item was created
+   */
   createdAt: Date;
+
+  /**
+   * createdBy is the id of the user who added the report history item
+   */
   createdBy: string;
+
+  /**
+   * type is the kind of report history item (note added, status changed, decision made, etc.)
+   */
   type: GQLDSAReportHistoryType;
+
+  /**
+   * body is the text of the note if the report history item is a note added
+   */
   body?: string;
+
+  /**
+   * status is the new status if this report history item is a status change
+   */
+  status?: string;
 }
 
 export interface DSAReport extends TenantResource {
@@ -81,6 +104,10 @@ export interface DSAReport extends TenantResource {
    */
   status: GQLDSAReportStatus;
 
+  /**
+   * history keeps track of the history of a DSAReport, including notes added, when status is changed,
+   * and when an illegal content decision is made
+   */
   history: ReportHistoryItem[];
 }
 
@@ -356,8 +383,7 @@ export interface DeleteDSAReportNoteResultObject {
 export async function deleteDSAReportNote(
   mongo: MongoContext,
   tenantID: string,
-  input: DeleteDSAReportNoteInput,
-  now = new Date()
+  input: DeleteDSAReportNoteInput
 ): Promise<DeleteDSAReportNoteResultObject> {
   const { id, reportID } = input;
 

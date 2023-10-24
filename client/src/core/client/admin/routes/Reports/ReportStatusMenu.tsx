@@ -1,6 +1,7 @@
-// import { Localized } from "@fluent/react/compat";
-import { Option, SelectField } from "coral-ui/components/v2";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+
+import { Option, SelectField } from "coral-ui/components/v2";
 
 import { DSAReportStatus } from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
 
@@ -25,13 +26,15 @@ const ReportStatusMenu: FunctionComponent<Props> = ({ onChange, value }) => {
         onChange={(e) => onChange(e.target.value)}
         value={value ?? "AWAITING_REVIEW"}
       >
-        {/* <Localized id="comments-sortMenu-newest"> */}
-        <Option value="AWAITING_REVIEW">Awaiting review</Option>
-        {/* </Localized> */}
-        {/* <Localized id="comments-sortMenu-oldest"> */}
-        <Option value="UNDER_REVIEW">In review</Option>
-        <Option value="COMPLETED">Completed</Option>
-        {/* </Localized> */}
+        <Localized id="reports-reportStatusMenu-awaitingReview">
+          <Option value="AWAITING_REVIEW">Awaiting review</Option>
+        </Localized>
+        <Localized id="reports-reportStatusMenu-inReview">
+          <Option value="UNDER_REVIEW">In review</Option>
+        </Localized>
+        <Localized id="reports-reportStatusMenu-completed">
+          <Option value="COMPLETED">Completed</Option>
+        </Localized>
       </SelectField>
     </>
   );

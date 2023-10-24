@@ -17,6 +17,15 @@ export interface CreateDSAReportInput {
   submissionID?: string;
 }
 
+/**
+ * createDSAReport creates a new DSAReport
+ *
+ * @param mongo is the mongo context.
+ * @param tenant is the filtering tenant for this operation.
+ * @param input is the input used for creating the DSAReport
+ * @param now is the time this DSAReport was created
+ * @returns the newly created DSAReport.
+ */
 export async function createDSAReport(
   mongo: MongoContext,
   tenant: Tenant,
@@ -34,6 +43,15 @@ export interface AddDSAReportNoteInput {
   reportID: string;
 }
 
+/**
+ * addDSAReportNote adds a note to the history of a DSAReport
+ *
+ * @param mongo is the mongo context.
+ * @param tenant is the filtering tenant for this operation.
+ * @param input is the input used for adding the note
+ * @param now is the time this note was created
+ * @returns the DSAReport with the new note added to its history.
+ */
 export async function addDSAReportNote(
   mongo: MongoContext,
   tenant: Tenant,
@@ -50,6 +68,15 @@ export interface AddDSAReportShareInput {
   reportID: string;
 }
 
+/**
+ * addDSAReportNote adds a share item to the history of a DSAReport
+ *
+ * @param mongo is the mongo context.
+ * @param tenant is the filtering tenant for this operation.
+ * @param input is the input used for adding the share item
+ * @param now is the time this DSAReport was shared
+ * @returns the DSAReport with the new share added to its history.
+ */
 export async function addDSAReportShare(
   mongo: MongoContext,
   tenant: Tenant,
@@ -66,13 +93,21 @@ export interface DeleteDSAReportNoteInput {
   reportID: string;
 }
 
+/**
+ * deleteDSAReportNote deletes a note from the history of a DSAReport
+ *
+ * @param mongo is the mongo context.
+ * @param tenant is the filtering tenant for this operation.
+ * @param input is the input used for deleting the note
+ * @returns the DSAReport with the note deleted from is history.
+ */
 export async function deleteDSAReportNote(
   mongo: MongoContext,
   tenant: Tenant,
   input: DeleteDSAReportNoteInput,
   now = new Date()
 ) {
-  const result = await deleteReportNote(mongo, tenant.id, input, now);
+  const result = await deleteReportNote(mongo, tenant.id, input);
   const { dsaReport } = result;
   return dsaReport;
 }
@@ -83,6 +118,15 @@ export interface ChangeDSAReportStatusInput {
   reportID: string;
 }
 
+/**
+ * changeDSAReportStatus changes the status of a DSAReport
+ * and also adds the status change to its history
+ *
+ * @param mongo is the mongo context.
+ * @param tenant is the filtering tenant for this operation.
+ * @param input is the input used for changing the status
+ * @returns the DSAReport with its new status
+ */
 export async function changeDSAReportStatus(
   mongo: MongoContext,
   tenant: Tenant,

@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
-import { Flex, Option, SelectField } from "coral-ui/components/v2";
 import React, { FunctionComponent } from "react";
+
+import { Flex, Option, SelectField } from "coral-ui/components/v2";
 
 import styles from "./ReportsSortMenu.css";
 
