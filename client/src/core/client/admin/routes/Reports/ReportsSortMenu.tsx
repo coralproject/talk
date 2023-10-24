@@ -1,4 +1,4 @@
-// import { Localized } from "@fluent/react/compat";
+import { Localized } from "@fluent/react/compat";
 import { Flex, Option, SelectField } from "coral-ui/components/v2";
 import React, { FunctionComponent } from "react";
 
@@ -10,11 +10,11 @@ interface Props {
 
 const ReportsSortMenu: FunctionComponent<Props> = ({ onChange }) => {
   const label = (
-    // <Localized>
-    <label className={styles.sortLabel} htmlFor="coral-reports-sortMenu">
-      Sort by
-    </label>
-    // </Localized>
+    <Localized id="reports-sortMenu-sortBy">
+      <label className={styles.sortLabel} htmlFor="coral-reports-sortMenu">
+        Sort by
+      </label>
+    </Localized>
   );
   return (
     <Flex
@@ -28,12 +28,12 @@ const ReportsSortMenu: FunctionComponent<Props> = ({ onChange }) => {
         id="coral-reports-sortMenu"
         onChange={(e) => onChange(e.target.value)}
       >
-        {/* <Localized id="comments-sortMenu-newest"> */}
-        <Option value="CREATED_AT_DESC">Newest</Option>
-        {/* </Localized> */}
-        {/* <Localized id="comments-sortMenu-oldest"> */}
-        <Option value="CREATED_AT_ASC">Oldest</Option>
-        {/* </Localized> */}
+        <Localized id="reports-sortMenu-newest">
+          <Option value="CREATED_AT_DESC">Newest</Option>
+        </Localized>
+        <Localized id="reports-sortMenu-oldest">
+          <Option value="CREATED_AT_ASC">Oldest</Option>
+        </Localized>
       </SelectField>
     </Flex>
   );

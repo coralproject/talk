@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import { FormApi } from "final-form";
 import { RouteProps } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
@@ -39,12 +40,11 @@ import {
 import styles from "./SingleReportRoute.css";
 
 import NotFound from "../NotFound";
-import ReportStatusMenu from "./ReportStatusMenu";
-
 import AddReportNoteMutation from "./AddReportNoteMutation";
 import AddReportShareMutation from "./AddReportShareMutation";
 import ChangeReportStatusMutation from "./ChangeReportStatusMutation";
 import DeleteReportNoteMutation from "./DeleteReportNoteMutation";
+import ReportStatusMenu from "./ReportStatusMenu";
 
 type Props = SingleReportRouteQueryResponse;
 
@@ -186,7 +186,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
     <div className={styles.root}>
       <Flex className={styles.header}>
         <Flex direction="column">
-          <div className={styles.label}>Report ID</div>
+          <Localized id="reports-singleReport-reportID">
+            <div className={styles.label}>Report ID</div>
+          </Localized>
           <div>{dsaReport.referenceID}</div>
         </Flex>
         <Flex
@@ -198,17 +200,19 @@ const SingleReportRoute: FunctionComponent<Props> & {
             onChange={onChangeStatus}
             value={dsaReport.status}
           />
-          <Button
-            className={styles.shareButton}
-            variant="outlined"
-            color="regular"
-            uppercase
-            target="_blank"
-            rel="noreferrer"
-            onClick={onShareButtonClick}
-          >
-            Share
-          </Button>
+          <Localized id="reports-singleReport-shareButton">
+            <Button
+              className={styles.shareButton}
+              variant="outlined"
+              color="regular"
+              uppercase
+              target="_blank"
+              rel="noreferrer"
+              onClick={onShareButtonClick}
+            >
+              Share
+            </Button>
+          </Localized>
         </Flex>
       </Flex>
       <Flex>
@@ -217,7 +221,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
             <HorizontalGutter spacing={5}>
               <Flex>
                 <Flex direction="column">
-                  <div className={styles.label}>Reporter</div>
+                  <Localized id="reports-singleReport-reporter">
+                    <div className={styles.label}>Reporter</div>
+                  </Localized>
                   {dsaReport.reporter ? (
                     <Button
                       className={styles.reporterUsernameButton}
@@ -229,11 +235,15 @@ const SingleReportRoute: FunctionComponent<Props> & {
                       <div>{dsaReport.reporter.username}</div>
                     </Button>
                   ) : (
-                    <>Report name not available</>
+                    <Localized id="reports-singleReport-reporterNameNotAvailable">
+                      <div>Reporter name not available</div>
+                    </Localized>
                   )}
                 </Flex>
                 <Flex className={styles.reportDate} direction="column">
-                  <div className={styles.label}>Report Date</div>
+                  <Localized id="reports-singleReport-reportDate">
+                    <div className={styles.label}>Report Date</div>
+                  </Localized>
                   <div className={styles.data}>
                     {formatter(dsaReport.createdAt)}
                   </div>
@@ -241,7 +251,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
               </Flex>
               <Flex>
                 <Flex direction="column">
-                  <div className={styles.label}>What law was broken?</div>
+                  <Localized id="reports-singleReport-lawBroken">
+                    <div className={styles.label}>What law was broken?</div>
+                  </Localized>
                   <div className={styles.data}>
                     {dsaReport.lawBrokenDescription}
                   </div>
@@ -249,7 +261,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
               </Flex>
               <Flex>
                 <Flex direction="column">
-                  <div className={styles.label}>Explanation</div>
+                  <Localized id="reports-singleReport-explanation">
+                    <div className={styles.label}>Explanation</div>
+                  </Localized>
                   <div className={styles.data}>
                     {dsaReport.additionalInformation}
                   </div>
@@ -258,8 +272,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
               <Flex>
                 {comment && (
                   <Flex direction="column" className={styles.commentMain}>
-                    <div className={styles.label}>Comment</div>
-
+                    <Localized id="reports-singleReport-comment">
+                      <div className={styles.label}>Comment</div>
+                    </Localized>
                     <Flex className={styles.commentBox}>
                       <div>
                         <div>
@@ -278,9 +293,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
                             )}
                             <Timestamp>{comment.createdAt}</Timestamp>
                             {comment.editing.edited && (
-                              // <Localized id="moderate-comment-edited">
-                              <span className={styles.edited}>(edited)</span>
-                              // </Localized>
+                              <Localized id="reports-singleReport-comment-edited">
+                                <span className={styles.edited}>(edited)</span>
+                              </Localized>
                             )}
                           </Flex>
                           {inReplyTo && inReplyTo.username && (
@@ -324,9 +339,11 @@ const SingleReportRoute: FunctionComponent<Props> & {
                           <HorizontalGutter spacing={3}>
                             <div>
                               <div>
-                                {/* <Localized id="moderate-comment-storyLabel"> */}
-                                <span className={styles.label}>Comment on</span>
-                                {/* </Localized> */}
+                                <Localized id="reports-singleReport-commentOn">
+                                  <span className={styles.label}>
+                                    Comment on
+                                  </span>
+                                </Localized>
                                 <span>:</span>
                               </div>
                               <div>
@@ -347,12 +364,16 @@ const SingleReportRoute: FunctionComponent<Props> & {
           </Flex>
         </Flex>
         <Flex className={styles.reportHistory} direction="column">
-          <div className={styles.reportHistoryHeader}>History</div>
+          <Localized id="reports-singleReport-history">
+            <div className={styles.reportHistoryHeader}>History</div>
+          </Localized>
           <HorizontalGutter spacing={3} paddingBottom={4}>
             <div>
-              <div className={styles.reportHistoryText}>
-                Illegal content report submitted
-              </div>
+              <Localized id="reports-singleReport-history-reportSubmitted">
+                <div className={styles.reportHistoryText}>
+                  Illegal content report submitted
+                </div>
+              </Localized>
               <div className={styles.reportHistoryCreatedAt}>
                 {reportHistoryFormatter(dsaReport.createdAt)}
               </div>
@@ -364,39 +385,62 @@ const SingleReportRoute: FunctionComponent<Props> & {
                     <div key={h.id}>
                       {h?.type === GQLDSAReportHistoryType.NOTE && (
                         <>
-                          {/* TODO: Localize */}
-                          <div
-                            className={styles.reportHistoryText}
-                          >{`${h.createdBy?.username} added a note`}</div>
+                          <Localized
+                            id="reports-singleReport-history-addedNote"
+                            vars={{ username: h.createdBy?.username }}
+                          >
+                            <div
+                              className={styles.reportHistoryText}
+                            >{`${h.createdBy?.username} added a note`}</div>
+                          </Localized>
                           <div className={styles.reportHistoryNoteBody}>
                             {h.body}
                           </div>
                           <div>
-                            {/* TODO: Add in localization */}
-                            <Button
-                              className={styles.deleteReportNoteButton}
-                              iconLeft
-                              variant="text"
-                              color="mono"
-                              uppercase={false}
-                              onClick={() => onDeleteReportNoteButton(h.id)}
+                            <Localized
+                              id="reports-singleReport-history-deleteNoteButton"
+                              elems={{ icon: <ButtonSvgIcon Icon={BinIcon} /> }}
                             >
-                              <ButtonSvgIcon Icon={BinIcon} /> Delete
-                            </Button>
+                              <Button
+                                className={styles.deleteReportNoteButton}
+                                iconLeft
+                                variant="text"
+                                color="mono"
+                                uppercase={false}
+                                onClick={() => onDeleteReportNoteButton(h.id)}
+                              >
+                                <ButtonSvgIcon Icon={BinIcon} /> Delete
+                              </Button>
+                            </Localized>
                           </div>
                         </>
                       )}
 
                       {h?.type === GQLDSAReportHistoryType.STATUS_CHANGED && (
-                        <div className={styles.reportHistoryText}>{`${
-                          h.createdBy?.username
-                        } changed status to "${statusMapping(h.status)}"`}</div>
+                        <Localized
+                          id="reports-singleReport-changedStatus"
+                          vars={{
+                            status: statusMapping(h.status),
+                            username: h.createdBy?.username,
+                          }}
+                        >
+                          <div className={styles.reportHistoryText}>{`${
+                            h.createdBy?.username
+                          } changed status to "${statusMapping(
+                            h.status
+                          )}"`}</div>
+                        </Localized>
                       )}
 
                       {h?.type === GQLDSAReportHistoryType.SHARE && (
-                        <div
-                          className={styles.reportHistoryText}
-                        >{`${h.createdBy?.username} shared this report`}</div>
+                        <Localized
+                          id="reports-singleReport-sharedReport"
+                          vars={{ username: h.createdBy?.username }}
+                        >
+                          <div
+                            className={styles.reportHistoryText}
+                          >{`${h.createdBy?.username} shared this report`}</div>
+                        </Localized>
                       )}
                       <div className={styles.reportHistoryCreatedAt}>
                         {reportHistoryFormatter(h.createdAt)}
@@ -412,24 +456,31 @@ const SingleReportRoute: FunctionComponent<Props> & {
           <Form onSubmit={onSubmit}>
             {({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>
-                {/* <Localized id="moderate-user-drawer-notes-field"> */}
-                <Field id="reportHistory-note" name="note" validate={required}>
-                  {({ input }) => (
-                    <Textarea
-                      className={styles.addNoteTextarea}
-                      placeholder="Add your note..."
-                      {...input}
-                    />
-                  )}
-                </Field>
-                {/* </Localized> */}
+                <Localized id="reports-singleReport-note-field">
+                  <Field
+                    id="reportHistory-note"
+                    name="note"
+                    validate={required}
+                  >
+                    {({ input }) => (
+                      <Textarea
+                        className={styles.addNoteTextarea}
+                        placeholder="Add your note..."
+                        {...input}
+                      />
+                    )}
+                  </Field>
+                </Localized>
                 <Flex justifyContent="flex-end">
-                  {/* <Localized id="moderate-user-drawer-notes-button"> */}
-                  <Button type="submit" iconLeft>
-                    <ButtonSvgIcon size="xs" Icon={AddIcon} />
-                    Add update
-                  </Button>
-                  {/* </Localized> */}
+                  <Localized
+                    id="reports-singleReport-addUpdateButton"
+                    elems={{ icon: <ButtonSvgIcon size="xs" Icon={AddIcon} /> }}
+                  >
+                    <Button type="submit" iconLeft>
+                      <ButtonSvgIcon size="xs" Icon={AddIcon} />
+                      Add update
+                    </Button>
+                  </Localized>
                 </Flex>
               </form>
             )}

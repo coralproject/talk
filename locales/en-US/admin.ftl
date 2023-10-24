@@ -1808,6 +1808,30 @@ reportsTable-column-lawBroken = Law broken
 reportsTable-column-commentAuthor = Comment author
 reportsTable-column-status = Status
 
+reports-sortMenu-newest = Newest
+reports-sortMenu-oldest = Oldest
+reports-sortMenu-sortBy = Sort by
+
+reports-singleReport-reportID = Report ID
+reports-singleReport-shareButton = Share
+reports-singleReport-reporter = Reporter
+reports-singleReport-reporterNameNotAvailable = Reporter name not available
+reports-singleReport-reportDate = Report date
+reports-singleReport-lawBroken = What law was broken?
+reports-singleReport-explanation = Explanation
+reports-singleReport-comment = Comment
+reports-singleReport-comment-edited = (edited)
+reports-singleReport-commentOn = Comment on
+reports-singleReport-history = History
+reports-singleReport-history-reportSubmitted = Illegal content report submitted
+reports-singleReport-history-addedNote = { $username } added a note
+reports-singleReport-history-deleteNoteButton = <icon></icon> Delete
+reports-singleReport-changedStatus = { $username } changed status to { $status }
+reports-singleReport-sharedReport = { $username } shared this report
+reports-singleReport-note-field =
+  .placeholder = Add your note...
+reports-singleReport-addUpdateButton = <icon></icon> Add update
+
 # Control panel
 
 controlPanel-redis-redis = Redis
