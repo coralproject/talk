@@ -9,6 +9,7 @@ import {
   createNotification,
   Notification,
 } from "coral-server/models/notifications/notification";
+import { retrieveUser } from "coral-server/models/user";
 import { I18n, translate } from "coral-server/services/i18n";
 
 export enum NotificationType {
@@ -47,6 +48,15 @@ export class InternalNotificationContext {
     input: CreateNotificationInput
   ) {
     const { type, targetUserID, comment } = input;
+
+    const existingUser = retrieveUser(this.mongo, tenantID, targetUserID);
+    if (!existingUser) {
+      this.log.warn(
+        { userID: targetUserID },
+        "attempted to create notification for user that does not exist, ignoring"
+      );
+      return;
+    }
 
     const now = new Date();
 
