@@ -3405,6 +3405,7 @@ enum DSAReportHistoryType {
   STATUS_CHANGED
   NOTE
   DECISION_MADE
+  SHARE
 }
 
 type DSAReportStatusChanged {
@@ -6280,6 +6281,29 @@ input AddDSAReportNoteInput {
 }
 
 type AddDSAReportNotePayload {
+  dsaReport: DSAReport
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input AddDSAReportShareInput {
+  """
+  id of the user who shared the DSAReport
+  """
+  userID: ID!
+
+  reportID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type AddDSAReportSharePayload {
   dsaReport: DSAReport
 
   """
@@ -10111,6 +10135,8 @@ type Mutation {
   createDSAReport(input: CreateDSAReportInput!): CreateDSAReportPayload!
 
   addDSAReportNote(input: AddDSAReportNoteInput!): AddDSAReportNotePayload!
+
+  addDSAReportShare(input: AddDSAReportShareInput!): AddDSAReportSharePayload!
 
   deleteDSAReportNote(
     input: DeleteDSAReportNoteInput!

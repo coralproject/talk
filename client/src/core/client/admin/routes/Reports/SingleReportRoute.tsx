@@ -1,3 +1,4 @@
+import { FormApi } from "final-form";
 import { RouteProps } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
@@ -20,7 +21,7 @@ import {
   GQLDSAReportHistoryType,
   GQLDSAReportStatus,
 } from "coral-framework/schema";
-import { BinIcon, ButtonSvgIcon } from "coral-ui/components/icons";
+import { AddIcon, BinIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Flex,
@@ -30,7 +31,10 @@ import {
 } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
-import { SingleReportRouteQueryResponse } from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
+import {
+  DSAReportStatus,
+  SingleReportRouteQueryResponse,
+} from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
 
 import styles from "./SingleReportRoute.css";
 
@@ -38,10 +42,19 @@ import NotFound from "../NotFound";
 import ReportStatusMenu from "./ReportStatusMenu";
 
 import AddReportNoteMutation from "./AddReportNoteMutation";
+import AddReportShareMutation from "./AddReportShareMutation";
 import ChangeReportStatusMutation from "./ChangeReportStatusMutation";
 import DeleteReportNoteMutation from "./DeleteReportNoteMutation";
 
 type Props = SingleReportRouteQueryResponse;
+
+// TODO: Add localization strings
+export const statusMappings = {
+  AWAITING_REVIEW: "Awaiting review",
+  UNDER_REVIEW: "In review",
+  COMPLETED: "Completed",
+  "%future added value": "Unknown status",
+};
 
 const SingleReportRoute: FunctionComponent<Props> & {
   routeConfig: RouteProps;
@@ -53,6 +66,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
   const addReportNote = useMutation(AddReportNoteMutation);
   const changeReportStatus = useMutation(ChangeReportStatusMutation);
   const deleteReportNote = useMutation(DeleteReportNoteMutation);
+  const addReportShare = useMutation(AddReportShareMutation);
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",
@@ -69,28 +83,12 @@ const SingleReportRoute: FunctionComponent<Props> & {
   });
 
   // TODO: Localization
-  const statusMapping = useCallback(
-    (
-      status:
-        | "AWAITING_REVIEW"
-        | "UNDER_REVIEW"
-        | "COMPLETED"
-        | "%future added value"
-        | null
-    ) => {
-      if (!status) {
-        return "Unknown status";
-      }
-      const statuses = {
-        AWAITING_REVIEW: "Awaiting review",
-        UNDER_REVIEW: "In review",
-        COMPLETED: "Completed",
-        "%future added value": "Unknown status",
-      };
-      return statuses[status];
-    },
-    []
-  );
+  const statusMapping = useCallback((status: DSAReportStatus | null) => {
+    if (!status) {
+      return "Unknown status";
+    }
+    return statusMappings[status];
+  }, []);
 
   const inReplyTo = comment && comment.parent && comment.parent.author;
 
@@ -121,21 +119,20 @@ const SingleReportRoute: FunctionComponent<Props> & {
     [setUserDrawerUserID]
   );
 
-  // TODO: Update on add note
   const onSubmit = useCallback(
-    async (input: any) => {
+    async (input: any, form: FormApi) => {
       if (dsaReport?.id && viewer?.id) {
         await addReportNote({
           body: input.note,
           reportID: dsaReport.id,
           userID: viewer.id,
         });
+        form.change("note", undefined);
       }
     },
     [addReportNote, dsaReport, viewer]
   );
 
-  // TODO: Update on change status
   const onChangeStatus = useCallback(
     async (status: GQLDSAReportStatus) => {
       if (dsaReport?.id && viewer?.id) {
@@ -158,8 +155,8 @@ const SingleReportRoute: FunctionComponent<Props> & {
     [deleteReportNote]
   );
 
-  const onShareButtonClick = useCallback(() => {
-    if (dsaReport) {
+  const onShareButtonClick = useCallback(async () => {
+    if (dsaReport && viewer?.id) {
       // TODO: Will need to localize this
       // Also determine what should be included; also comment info and report history?
       const reportInfo = `Reference ID: ${dsaReport.referenceID}\nReporter: ${
@@ -178,8 +175,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
       element.click();
 
       // TODO: Also add an item to report history that it was downloaded in this case
+      await addReportShare({ reportID: dsaReport.id, userID: viewer.id });
     }
-  }, [dsaReport, window]);
+  }, [dsaReport, window, addReportShare]);
 
   if (!dsaReport) {
     return <NotFound />;
@@ -273,6 +271,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
                             {comment.author?.username && (
                               <>
                                 <UsernameButton
+                                  className={styles.commentUsernameButton}
                                   username={comment.author.username}
                                   // onClick={commentAuthorClick}
                                   onClick={() =>
@@ -285,12 +284,13 @@ const SingleReportRoute: FunctionComponent<Props> & {
                             <Timestamp>{comment.createdAt}</Timestamp>
                             {comment.editing.edited && (
                               // <Localized id="moderate-comment-edited">
-                              <span>(edited)</span>
+                              <span className={styles.edited}>(edited)</span>
                               // </Localized>
                             )}
                           </Flex>
                           {inReplyTo && inReplyTo.username && (
                             <InReplyTo
+                              className={styles.reportUsername}
                               onUsernameClick={() =>
                                 onShowUserDrawer(inReplyTo.id)
                               }
@@ -308,6 +308,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
                           <div>
                             {/* Add in the deleted account backup in moderatecardcontainer */}
                             <CommentContent
+                              className={styles.commentContent}
                               // TODO: determine highlight
                               // highlight={highlight}
                               bannedWords={
@@ -329,12 +330,12 @@ const SingleReportRoute: FunctionComponent<Props> & {
                             <div>
                               <div>
                                 {/* <Localized id="moderate-comment-storyLabel"> */}
-                                <span>Comment on</span>
+                                <span className={styles.label}>Comment on</span>
                                 {/* </Localized> */}
                                 <span>:</span>
                               </div>
                               <div>
-                                <span>
+                                <span className={styles.storyTitle}>
                                   {/* TODO: Not available backup */}
                                   {comment.story?.metadata?.title ?? ""}
                                 </span>
@@ -375,27 +376,33 @@ const SingleReportRoute: FunctionComponent<Props> & {
                           <div className={styles.reportHistoryNoteBody}>
                             {h.body}
                           </div>
-                          {/* TODO: Add in ability to delete the note */}
-                          <Button
-                            variant="text"
-                            color="mono"
-                            uppercase={false}
-                            onClick={() => onDeleteReportNoteButton(h.id)}
-                          >
-                            <ButtonSvgIcon Icon={BinIcon} /> Delete
-                          </Button>
+                          <div>
+                            {/* TODO: Add in localization */}
+                            <Button
+                              className={styles.deleteReportNoteButton}
+                              iconLeft
+                              variant="text"
+                              color="mono"
+                              uppercase={false}
+                              onClick={() => onDeleteReportNoteButton(h.id)}
+                            >
+                              <ButtonSvgIcon Icon={BinIcon} /> Delete
+                            </Button>
+                          </div>
                         </>
                       )}
 
                       {h?.type === GQLDSAReportHistoryType.STATUS_CHANGED && (
                         // TODO: Make new status human-readable
-                        <>
-                          <div className={styles.reportHistoryText}>{`${
-                            h.createdBy?.username
-                          } changed status to "${statusMapping(
-                            h.status
-                          )}"`}</div>
-                        </>
+                        <div className={styles.reportHistoryText}>{`${
+                          h.createdBy?.username
+                        } changed status to "${statusMapping(h.status)}"`}</div>
+                      )}
+
+                      {h?.type === GQLDSAReportHistoryType.SHARE && (
+                        <div
+                          className={styles.reportHistoryText}
+                        >{`${h.createdBy?.username} shared this report`}</div>
                       )}
                       <div className={styles.reportHistoryCreatedAt}>
                         {reportHistoryFormatter(h.createdAt)}
@@ -408,21 +415,26 @@ const SingleReportRoute: FunctionComponent<Props> & {
               })}
             </>
           </HorizontalGutter>
-          {/* TODO: Need to add a success state here once note is submitted */}
           <Form onSubmit={onSubmit}>
             {({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>
                 {/* <Localized id="moderate-user-drawer-notes-field"> */}
                 <Field id="reportHistory-note" name="note" validate={required}>
                   {({ input }) => (
-                    <Textarea placeholder="Add your note..." {...input} />
+                    <Textarea
+                      className={styles.addNoteTextarea}
+                      placeholder="Add your note..."
+                      {...input}
+                    />
                   )}
                 </Field>
                 {/* </Localized> */}
                 <Flex justifyContent="flex-end">
                   {/* <Localized id="moderate-user-drawer-notes-button"> */}
-                  {/* TODO Add icon here */}
-                  <Button type="submit">Add update</Button>
+                  <Button type="submit" iconLeft>
+                    <ButtonSvgIcon size="xs" Icon={AddIcon} />
+                    Add update
+                  </Button>
                   {/* </Localized> */}
                 </Flex>
               </form>

@@ -20,6 +20,16 @@ const DeleteReportNoteMutation = createMutation(
           deleteDSAReportNote(input: $input) {
             dsaReport {
               id
+              history {
+                id
+                createdBy {
+                  username
+                }
+                createdAt
+                body
+                type
+                status
+              }
             }
             clientMutationId
           }

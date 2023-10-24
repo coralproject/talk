@@ -8,6 +8,7 @@ import NavigationLink from "./NavigationLink";
 interface Props {
   showConfigure: boolean;
   showDashboard: boolean;
+  showReports: boolean;
 }
 
 const Navigation: FunctionComponent<Props> = (props) => (
@@ -31,13 +32,13 @@ const Navigation: FunctionComponent<Props> = (props) => (
         <NavigationLink to="/admin/dashboard">Dashboard</NavigationLink>
       </Localized>
     )}
-    {/* TODO: Show with appropriate permissions AND if DSA enabled only */}
-    {/* {props.showDashboard && ( */}
+    {/* TODO: Any other permissions needed? */}
     {/* TODO: Update localization */}
-    <Localized id="navigation-reports">
-      <NavigationLink to="/admin/reports">Reports</NavigationLink>
-    </Localized>
-    {/* )} */}
+    {props.showReports && (
+      <Localized id="navigation-reports">
+        <NavigationLink to="/admin/reports">Reports</NavigationLink>
+      </Localized>
+    )}
   </AppBarNavigation>
 );
 

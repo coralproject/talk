@@ -20,7 +20,7 @@
 .reportMain {
   background-color: var(--palette-grey-100);
   padding: var(--spacing-5) var(--spacing-7);
-  flex-grow: 2;
+  width: 70%;
 
   .label {
     color: var(--palette-grey-500);
@@ -48,7 +48,7 @@
 }
 
 .reportHistory {
-  flex-grow: 1;
+  width: 30%;
   padding: var(--spacing-6) var(--spacing-4);
 }
 
@@ -65,6 +65,7 @@
 }
 
 .reportHistoryCreatedAt {
+  clear: both;
   font-size: var(--font-size-1);
   color: var(--palette-grey-500);
 }
@@ -76,6 +77,20 @@
   font-size: var(--font-size-2);
 }
 
+.deleteReportNoteButton {
+  float: right;
+  margin-top: var(--spacing-1);
+}
+
+.addNoteTextarea {
+  width: 100%;
+}
+
+.addNoteTextarea::placeholder {
+  color: var(--palette-grey-300);
+  font-size: var(--font-size-2);
+}
+
 .commentMain {
   flex-grow: 1;
 }
@@ -83,6 +98,35 @@
 .commentBox {
   border: 1px solid var(--palette-grey-300);
   padding: var(--spacing-3);
+  margin-top: var(--spacing-1);
+}
+
+.commentContent {
+  margin: var(--spacing-2) 0;
+}
+
+.commentUsernameButton {
+  padding: 0 0 0 var(--spacing-1);
+
+  span {
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-family: var(--font-family-primary);
+  }
+}
+
+.edited {
+  margin-left: var(--spacing-2);
+}
+
+.reportUsername {
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+}
+
+.storyTitle {
+  font-size: var(--font-size-2);
 }
 
 .reporterUsernameButton {

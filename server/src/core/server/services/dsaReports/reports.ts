@@ -4,6 +4,7 @@ import {
   changeDSAReportStatus as changeReportStatus,
   createDSAReport as createReport,
   createDSAReportNote as createReportNote,
+  createDSAReportShare as createReportShare,
   deleteDSAReportNote as deleteReportNote,
 } from "coral-server/models/dsaReport/report";
 import { Tenant } from "coral-server/models/tenant";
@@ -40,6 +41,22 @@ export async function addDSAReportNote(
   now = new Date()
 ) {
   const result = await createReportNote(mongo, tenant.id, input, now);
+  const { dsaReport } = result;
+  return dsaReport;
+}
+
+export interface AddDSAReportShareInput {
+  userID: string;
+  reportID: string;
+}
+
+export async function addDSAReportShare(
+  mongo: MongoContext,
+  tenant: Tenant,
+  input: AddDSAReportShareInput,
+  now = new Date()
+) {
+  const result = await createReportShare(mongo, tenant.id, input, now);
   const { dsaReport } = result;
   return dsaReport;
 }

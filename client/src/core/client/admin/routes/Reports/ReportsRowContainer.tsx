@@ -7,8 +7,13 @@ import { withPaginationContainer } from "coral-framework/lib/relay";
 import { GQLREPORT_SORT } from "coral-framework/schema";
 import { RelativeTime, TableCell, TableRow } from "coral-ui/components/v2";
 
-import { ReportsRowContainer_query as QueryData } from "coral-admin/__generated__/ReportsRowContainer_query.graphql";
+import {
+  DSAReportStatus,
+  ReportsRowContainer_query as QueryData,
+} from "coral-admin/__generated__/ReportsRowContainer_query.graphql";
 import { ReportsRowContainerPaginationQueryVariables } from "coral-admin/__generated__/ReportsRowContainerPaginationQuery.graphql";
+
+import { statusMappings } from "./SingleReportRoute";
 
 interface Props {
   query: QueryData | null;
@@ -31,6 +36,13 @@ const ReportsRowContainer: React.FunctionComponent<Props> = (props) => {
     minute: "2-digit",
   });
   const { router } = useRouter();
+
+  const statusMapping = useCallback((status: DSAReportStatus | null) => {
+    if (!status) {
+      return "Unknown status";
+    }
+    return statusMappings[status];
+  }, []);
 
   const onReportRowClick = useCallback(
     (reportID: string) => {
@@ -55,7 +67,7 @@ const ReportsRowContainer: React.FunctionComponent<Props> = (props) => {
             <TableCell>{report.referenceID}</TableCell>
             <TableCell>{report.lawBrokenDescription}</TableCell>
             <TableCell>{report.comment?.author?.username}</TableCell>
-            <TableCell>{report.status}</TableCell>
+            <TableCell>{statusMapping(report.status)}</TableCell>
           </TableRow>
         );
       })}

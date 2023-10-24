@@ -251,6 +251,7 @@ enum DSAReportHistoryType {
   STATUS_CHANGED = "STATUS_CHANGED",
   NOTE = "NOTE",
   DECISION_MADE = "DECISION_MADE",
+  SHARE = "SHARE",
 }
 
 export async function createDSAReportNote(
@@ -270,6 +271,55 @@ export async function createDSAReportNote(
     createdAt: now,
     body,
     type: DSAReportHistoryType.NOTE,
+  };
+
+  const updatedReport = await mongo.dsaReports().findOneAndUpdate(
+    { id: reportID, tenantID },
+    {
+      $push: {
+        history: note,
+      },
+    },
+    { returnOriginal: false }
+  );
+
+  if (!updatedReport.value) {
+    throw new Error();
+  }
+
+  return {
+    dsaReport: updatedReport.value,
+  };
+}
+
+export interface CreateDSAReportShareInput {
+  reportID: string;
+  userID: string;
+}
+
+export interface CreateDSAReportShareResultObject {
+  /**
+   * dsaReport contains the resultant DSAReport that was updated.
+   */
+  dsaReport: DSAReport;
+}
+
+export async function createDSAReportShare(
+  mongo: MongoContext,
+  tenantID: string,
+  input: CreateDSAReportShareInput,
+  now = new Date()
+): Promise<CreateDSAReportShareResultObject> {
+  const { userID, reportID } = input;
+
+  // Create a new ID for the DSAReportShare.
+  const id = uuid();
+
+  const note = {
+    id,
+    createdBy: userID,
+    createdAt: now,
+    type: DSAReportHistoryType.SHARE,
   };
 
   const updatedReport = await mongo.dsaReports().findOneAndUpdate(

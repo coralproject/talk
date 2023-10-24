@@ -2,6 +2,7 @@ import GraphContext from "coral-server/graph/context";
 import { createIllegalContent } from "coral-server/services/comments";
 import {
   addDSAReportNote,
+  addDSAReportShare,
   changeDSAReportStatus,
   createDSAReport,
   deleteDSAReportNote,
@@ -9,6 +10,7 @@ import {
 
 import {
   GQLAddDSAReportNoteInput,
+  GQLAddDSAReportShareInput,
   GQLChangeDSAReportStatusInput,
   GQLCreateDSAReportInput,
   GQLDeleteDSAReportNoteInput,
@@ -47,6 +49,8 @@ export const DSAReports = (ctx: GraphContext) => ({
   },
   addDSAReportNote: ({ userID, body, reportID }: GQLAddDSAReportNoteInput) =>
     addDSAReportNote(ctx.mongo, ctx.tenant, { userID, body, reportID }),
+  addDSAReportShare: ({ userID, reportID }: GQLAddDSAReportShareInput) =>
+    addDSAReportShare(ctx.mongo, ctx.tenant, { userID, reportID }),
   deleteDSAReportNote: ({ id, reportID }: GQLDeleteDSAReportNoteInput) =>
     deleteDSAReportNote(ctx.mongo, ctx.tenant, { id, reportID }),
   changeDSAReportStatus: ({
