@@ -58,8 +58,7 @@ export const statusMappings = {
 
 const SingleReportRoute: FunctionComponent<Props> & {
   routeConfig: RouteProps;
-} = (props) => {
-  const { dsaReport, viewer } = props;
+} = ({ dsaReport, viewer }) => {
   const comment = dsaReport?.comment;
   const { window } = useCoralContext();
 
@@ -152,7 +151,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
         await deleteReportNote({ id, reportID: dsaReport.id });
       }
     },
-    [deleteReportNote]
+    [deleteReportNote, dsaReport]
   );
 
   const onShareButtonClick = useCallback(async () => {
@@ -174,10 +173,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
       window.document.body.appendChild(element);
       element.click();
 
-      // TODO: Also add an item to report history that it was downloaded in this case
       await addReportShare({ reportID: dsaReport.id, userID: viewer.id });
     }
-  }, [dsaReport, window, addReportShare]);
+  }, [dsaReport, window, addReportShare, formatter, viewer]);
 
   if (!dsaReport) {
     return <NotFound />;
@@ -196,12 +194,10 @@ const SingleReportRoute: FunctionComponent<Props> & {
           justifyContent="flex-end"
           alignItems="center"
         >
-          {/* TODO: Actually change report status with this */}
           <ReportStatusMenu
             onChange={onChangeStatus}
             value={dsaReport.status}
           />
-          {/* TODO: Should download report when clicked */}
           <Button
             className={styles.shareButton}
             variant="outlined"
@@ -273,7 +269,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
                                 <UsernameButton
                                   className={styles.commentUsernameButton}
                                   username={comment.author.username}
-                                  // onClick={commentAuthorClick}
                                   onClick={() =>
                                     onShowUserDrawer(comment.author?.id)
                                   }
@@ -393,7 +388,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
                       )}
 
                       {h?.type === GQLDSAReportHistoryType.STATUS_CHANGED && (
-                        // TODO: Make new status human-readable
                         <div className={styles.reportHistoryText}>{`${
                           h.createdBy?.username
                         } changed status to "${statusMapping(h.status)}"`}</div>
