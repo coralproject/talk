@@ -1,5 +1,6 @@
 import Context from "coral-server/graph/context";
 import {
+  hasNewNotifications,
   NotificationsConnectionInput,
   retrieveNotificationsConnection,
 } from "coral-server/models/notifications/notification";
@@ -15,5 +16,8 @@ export default (ctx: Context) => ({
       first,
       after,
     });
+  },
+  hasNewNotifications: async (ownerID: string, lastSeen: Date) => {
+    return hasNewNotifications(ctx.tenant.id, ctx.mongo, ownerID, lastSeen);
   },
 });

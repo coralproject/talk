@@ -3153,6 +3153,17 @@ type User {
   bio is a user-defined biography.
   """
   bio: String
+
+  """
+  hasNewNotifications returns true if the user has received new notifications
+  since they last viewed their notifications tab.
+  """
+  hasNewNotifications: Boolean!
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 }
 
 """

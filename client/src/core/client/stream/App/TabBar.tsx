@@ -32,6 +32,7 @@ export interface Props {
   showDiscussionsTab: boolean;
   showConfigureTab: boolean;
   showNotificationsTab: boolean;
+  hasNewNotifications: boolean;
   mode:
     | "COMMENTS"
     | "QA"
@@ -177,7 +178,9 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               variant="streamPrimary"
             >
               {matches ? (
-                <span>{notificationsText}</span>
+                <span>
+                  {notificationsText} {`${props.hasNewNotifications}`}
+                </span>
               ) : (
                 <div>
                   <SvgIcon size="md" Icon={InformationCircleIcon} />

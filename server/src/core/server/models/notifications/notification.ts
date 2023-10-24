@@ -2,6 +2,7 @@ import { MongoContext } from "coral-server/data/context";
 
 import { ConnectionInput, Query, resolveConnection } from "../helpers";
 import { TenantResource } from "../tenant";
+import { User } from "../user";
 
 export interface Notification extends TenantResource {
   readonly id: string;
@@ -30,7 +31,10 @@ export const retrieveNotificationsConnection = async (
   tenantID: string,
   input: NotificationsConnectionInput
 ) => {
-  const query = new Query(mongo.notifications()).where({ tenantID });
+  const query = new Query(mongo.notifications()).where({
+    tenantID,
+    ownerID: input.ownerID,
+  });
 
   query.orderBy({ createdAt: -1 });
 
@@ -48,4 +52,49 @@ export const createNotification = async (
   const op = await mongo.notifications().insertOne(notification);
 
   return op.result.ok ? notification : null;
+};
+
+interface LastSeenNotificationChange {
+  $set: {
+    lastSeenNotificationDate?: Date | null;
+  };
+}
+
+export const markLastSeenNotification = async (
+  tenantID: string,
+  mongo: MongoContext,
+  user: Readonly<User>,
+  notificationDates: Date[]
+) => {
+  let max = new Date(0);
+  for (const date of notificationDates) {
+    if (max.getTime() < date.getTime()) {
+      max = date;
+    }
+  }
+
+  const change: LastSeenNotificationChange = {
+    $set: { lastSeenNotificationDate: user.lastSeenNotificationDate },
+  };
+
+  if (user.lastSeenNotificationDate && user.lastSeenNotificationDate < max) {
+    change.$set.lastSeenNotificationDate = max;
+  } else {
+    change.$set.lastSeenNotificationDate = max;
+  }
+
+  await mongo.users().findOneAndUpdate({ tenantID, id: user.id }, change);
+};
+
+export const hasNewNotifications = async (
+  tenantID: string,
+  mongo: MongoContext,
+  ownerID: string,
+  lastSeen: Date
+) => {
+  const exists = await mongo
+    .notifications()
+    .findOne({ tenantID, ownerID, createdAt: { $gt: lastSeen } });
+
+  return exists !== null;
 };

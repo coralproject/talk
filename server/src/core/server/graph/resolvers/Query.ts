@@ -1,6 +1,8 @@
 import { defaultTo } from "lodash";
 
+import { UserNotFoundError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
+import { markLastSeenNotification } from "coral-server/models/notifications/notification";
 import {
   getEmailDomain,
   getExternalModerationPhase,
@@ -71,10 +73,25 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
         },
       },
     }),
-  notifications: (source, { ownerID, first, after }, ctx) =>
-    ctx.loaders.Notifications.connection({
+  notifications: async (source, { ownerID, first, after }, ctx) => {
+    const user = await ctx.loaders.Users.user.load(ownerID);
+    if (!user) {
+      throw new UserNotFoundError(ownerID);
+    }
+
+    const connection = await ctx.loaders.Notifications.connection({
       ownerID,
       first: defaultTo(first, 10),
       after,
-    }),
+    });
+
+    await markLastSeenNotification(
+      ctx.tenant.id,
+      ctx.mongo,
+      user,
+      connection.nodes.map((n) => n.createdAt)
+    );
+
+    return connection;
+  },
 };

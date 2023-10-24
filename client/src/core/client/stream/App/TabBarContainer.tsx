@@ -74,6 +74,7 @@ export const TabBarContainer: FunctionComponent<Props> = ({
       showDiscussionsTab={showDiscussionsTab}
       showConfigureTab={showConfigureTab}
       showNotificationsTab={showNotificationsTab}
+      hasNewNotifications={!!viewer?.hasNewNotifications}
       onTabClick={handleSetActiveTab}
     />
   );
@@ -84,6 +85,7 @@ const enhanced = withSetActiveTabMutation(
     viewer: graphql`
       fragment TabBarContainer_viewer on User {
         role
+        hasNewNotifications
       }
     `,
     story: graphql`
