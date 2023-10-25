@@ -12,6 +12,7 @@ import {
   PhaseResult,
 } from "coral-server/services/comments/pipeline";
 import { createFetch, generateFetchOptions } from "coral-server/services/fetch";
+import { partition } from "coral-server/utils/partition";
 
 import {
   GQLCOMMENT_BODY_FORMAT,
@@ -104,8 +105,8 @@ export interface ExternalModerationRequest {
 
 // BOOKMARK: (marcushaddon) do we need a new type to maintain type safety with joi?
 export type ExternalModerationResponse = Partial<
-  Pick<PhaseResult, "commentActions" | "moderationAction" | "status" | "tags">
->;
+  Pick<PhaseResult, "status" | "tags">
+> & { actions: PhaseResult["commentActions"] };
 
 const ExternalModerationResponseSchema = Joi.object().keys({
   actions: Joi.array().items(
@@ -268,6 +269,14 @@ async function processPhase(
   return validateResponse(body);
 }
 
+/**
+ * Our external API still just has a concept of "actions", while
+ * internally we distinguish beteween "moderationActions" and "commentActions"
+ */
+const mapActions = (response: ExternalModerationResponse): PhaseResult => {
+  // TODO: marcushaddon - implement after deciding what to do
+};
+
 export const external: IntermediateModerationPhase = async (ctx) => {
   // Check to see if any custom moderation phases have been defined, if there is
   // none, exit now.
@@ -313,14 +322,15 @@ export const external: IntermediateModerationPhase = async (ctx) => {
         analyzedAt: ctx.now,
         result: {
           // NOTE: these will be split into comment/moderation actions later
-          actions: response.commentActions,
+          actions: response.actions,
           status: response.status,
           tags: response.tags,
         },
       });
 
       // Merge the results in. If we're finished, return now!
-      const finished = mergePhaseResult(response, result);
+      const mappedResult = mapActions(result);
+      const finished = mergePhaseResult(mappedResult, result);
       if (finished) {
         return result;
       }
