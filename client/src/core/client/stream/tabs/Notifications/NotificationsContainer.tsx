@@ -1,11 +1,12 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 
 import { NotificationsContainer_settings } from "coral-stream/__generated__/NotificationsContainer_settings.graphql";
 import { NotificationsContainer_viewer } from "coral-stream/__generated__/NotificationsContainer_viewer.graphql";
+import { NotificationsContainerLocal } from "coral-stream/__generated__/NotificationsContainerLocal.graphql";
 
 import NotificationsListQuery from "./NotificationsListQuery";
 
@@ -20,6 +21,20 @@ const NotificationsContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const [, setLocal] = useLocal<NotificationsContainerLocal>(graphql`
+    fragment NotificationsContainerLocal on Local {
+      hasNewNotifications
+    }
+  `);
+
+  const setViewed = useCallback(() => {
+    setLocal({ hasNewNotifications: false });
+  }, [setLocal]);
+
+  useEffect(() => {
+    setTimeout(setViewed, 300);
+  }, [setViewed]);
+
   return (
     <>
       <div className={styles.userBox}>
