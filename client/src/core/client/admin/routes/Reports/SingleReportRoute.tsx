@@ -12,6 +12,7 @@ import {
 } from "coral-admin/components/Comment";
 import { MediaContainer } from "coral-admin/components/MediaContainer";
 import CommentAuthorContainer from "coral-admin/components/ModerateCard/CommentAuthorContainer";
+import NotAvailable from "coral-admin/components/NotAvailable";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -32,6 +33,7 @@ import {
   Button,
   Flex,
   HorizontalGutter,
+  Spinner,
   Textarea,
   Timestamp,
 } from "coral-ui/components/v2";
@@ -187,7 +189,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
   }
 
   return (
-    // TODO: Localize all the labels in here
     <div className={styles.root}>
       <Flex className={styles.reportsLink}>
         <Localized
@@ -338,20 +339,8 @@ const SingleReportRoute: FunctionComponent<Props> & {
                         )}
                         <div>
                           <div>
-                            {/* Add in the deleted account backup in moderatecardcontainer */}
-                            <CommentContent
-                              className={styles.commentContent}
-                              // TODO: determine highlight
-                              // highlight={highlight}
-                              bannedWords={
-                                comment.revision?.metadata?.wordList
-                                  ?.bannedWords || []
-                              }
-                              suspectWords={
-                                comment.revision?.metadata?.wordList
-                                  ?.suspectWords || []
-                              }
-                            >
+                            {/* TODO: Do we want to show message for deleted/rejected */}
+                            <CommentContent className={styles.commentContent}>
                               {comment.body || ""}
                             </CommentContent>
                             <MediaContainer comment={comment} />
@@ -370,8 +359,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
                               </div>
                               <div>
                                 <span className={styles.storyTitle}>
-                                  {/* TODO: Not available backup */}
-                                  {comment.story?.metadata?.title ?? ""}
+                                  {comment.story?.metadata?.title ?? (
+                                    <NotAvailable />
+                                  )}
                                 </span>
                               </div>
                             </div>
@@ -550,6 +540,7 @@ SingleReportRoute.routeConfig = createRouteConfig<
           username
         }
         comment {
+          deleted
           body
           story {
             metadata {
@@ -571,22 +562,7 @@ SingleReportRoute.routeConfig = createRouteConfig<
             id
             username
           }
-          revision {
-            metadata {
-              wordList {
-                bannedWords {
-                  value
-                  index
-                  length
-                }
-                suspectWords {
-                  value
-                  index
-                  length
-                }
-              }
-            }
-          }
+
           ...CommentAuthorContainer_comment
           ...MediaContainer_comment
         }
@@ -599,8 +575,7 @@ SingleReportRoute.routeConfig = createRouteConfig<
     if (Component && data) {
       return <Component {...data} />;
     }
-    // Loading of some sort?
-    return <>Not found</>;
+    return <Spinner />;
   },
 });
 

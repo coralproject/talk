@@ -1807,6 +1807,7 @@ reportsTable-column-reference = Reference
 reportsTable-column-lawBroken = Law broken
 reportsTable-column-commentAuthor = Comment author
 reportsTable-column-status = Status
+reportsTable-emptyReports = There are no DSA reports to display.
 
 reports-sortMenu-newest = Newest
 reports-sortMenu-oldest = Oldest

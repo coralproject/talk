@@ -13,6 +13,8 @@ import {
 } from "coral-ui/components/v2";
 import { PropTypesOf } from "coral-ui/types";
 
+import styles from "./ReportsTable.css";
+
 import ReportRowContainer from "./ReportRowContainer";
 
 interface Props {
@@ -61,12 +63,20 @@ const ReportsTable: React.FunctionComponent<Props> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {/* TODO: Should there be an empty state message */}
           {dsaReports.map((report) => {
             return <ReportRowContainer key={report.id} dsaReport={report} />;
           })}
         </TableBody>
       </Table>
+      {!loading && dsaReports.length === 0 && (
+        <Flex justifyContent="center" padding={3}>
+          <Localized id="reportsTable-emptyReports">
+            <div className={styles.emptyReports}>
+              There are no DSA reports to display.
+            </div>
+          </Localized>
+        </Flex>
+      )}
       {loading && (
         <Flex justifyContent="center">
           <Spinner />
