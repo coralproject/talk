@@ -1,8 +1,6 @@
 import { Localized } from "@fluent/react/compat";
-import { FormApi } from "final-form";
 import { RouteProps } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import {
@@ -15,64 +13,32 @@ import CommentAuthorContainer from "coral-admin/components/ModerateCard/CommentA
 import NotAvailable from "coral-admin/components/NotAvailable";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { useDateTimeFormatter } from "coral-framework/hooks";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { useMutation } from "coral-framework/lib/relay";
 import { createRouteConfig } from "coral-framework/lib/router";
-import { required } from "coral-framework/lib/validation";
-import {
-  GQLDSAReportHistoryType,
-  GQLDSAReportStatus,
-} from "coral-framework/schema";
-import {
-  AddIcon,
-  ArrowsLeftIcon,
-  BinIcon,
-  ButtonSvgIcon,
-} from "coral-ui/components/icons";
+import { ArrowsLeftIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Flex,
   HorizontalGutter,
   Spinner,
-  Textarea,
   Timestamp,
 } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
-import {
-  DSAReportStatus,
-  SingleReportRouteQueryResponse,
-} from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
+import { SingleReportRouteQueryResponse } from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
 
 import styles from "./SingleReportRoute.css";
 
 import NotFound from "../NotFound";
-import AddReportNoteMutation from "./AddReportNoteMutation";
-import AddReportShareMutation from "./AddReportShareMutation";
-import ChangeReportStatusMutation from "./ChangeReportStatusMutation";
-import DeleteReportNoteMutation from "./DeleteReportNoteMutation";
+import ReportHistory from "./ReportHistory";
+import ReportShareButton from "./ReportShareButton";
 import ReportStatusMenu from "./ReportStatusMenu";
 
 type Props = SingleReportRouteQueryResponse;
-
-// TODO: Add localization strings
-export const statusMappings = {
-  AWAITING_REVIEW: "Awaiting review",
-  UNDER_REVIEW: "In review",
-  COMPLETED: "Completed",
-  "%future added value": "Unknown status",
-};
 
 const SingleReportRoute: FunctionComponent<Props> & {
   routeConfig: RouteProps;
 } = ({ dsaReport, viewer }) => {
   const comment = dsaReport?.comment;
-  const { window } = useCoralContext();
-
-  const addReportNote = useMutation(AddReportNoteMutation);
-  const changeReportStatus = useMutation(ChangeReportStatusMutation);
-  const deleteReportNote = useMutation(DeleteReportNoteMutation);
-  const addReportShare = useMutation(AddReportShareMutation);
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",
@@ -81,20 +47,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
     hour: "2-digit",
     minute: "2-digit",
   });
-
-  const reportHistoryFormatter = useDateTimeFormatter({
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-
-  // TODO: Localization
-  const statusMapping = useCallback((status: DSAReportStatus | null) => {
-    if (!status) {
-      return "Unknown status";
-    }
-    return statusMappings[status];
-  }, []);
 
   const inReplyTo = comment && comment.parent && comment.parent.author;
 
@@ -124,65 +76,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
     },
     [setUserDrawerUserID]
   );
-
-  const onSubmit = useCallback(
-    async (input: any, form: FormApi) => {
-      if (dsaReport?.id && viewer?.id) {
-        await addReportNote({
-          body: input.note,
-          reportID: dsaReport.id,
-          userID: viewer.id,
-        });
-        form.change("note", undefined);
-      }
-    },
-    [addReportNote, dsaReport, viewer]
-  );
-
-  const onChangeStatus = useCallback(
-    async (status: GQLDSAReportStatus) => {
-      if (dsaReport?.id && viewer?.id) {
-        await changeReportStatus({
-          reportID: dsaReport?.id,
-          userID: viewer.id,
-          status,
-        });
-      }
-    },
-    [dsaReport, viewer, changeReportStatus]
-  );
-
-  const onDeleteReportNoteButton = useCallback(
-    async (id: string) => {
-      if (dsaReport?.id) {
-        await deleteReportNote({ id, reportID: dsaReport.id });
-      }
-    },
-    [deleteReportNote, dsaReport]
-  );
-
-  const onShareButtonClick = useCallback(async () => {
-    if (dsaReport && viewer?.id) {
-      // TODO: Will need to localize this
-      // Also determine what should be included; also comment info and report history?
-      const reportInfo = `Reference ID: ${dsaReport.referenceID}\nReporter: ${
-        dsaReport.reporter?.username
-      }\nReport date: ${formatter(
-        dsaReport.createdAt
-      )}\nWhat law was broken?: ${
-        dsaReport.lawBrokenDescription
-      }\nExplanation: ${dsaReport.additionalInformation}`;
-      const element = window.document.createElement("a");
-      const file = new Blob([reportInfo], { type: "text/plain" });
-      element.href = URL.createObjectURL(file);
-      // TODO: Should have date/time added since could be downloaded more than once?
-      element.download = `dsaReport-${dsaReport?.referenceID}`;
-      window.document.body.appendChild(element);
-      element.click();
-
-      await addReportShare({ reportID: dsaReport.id, userID: viewer.id });
-    }
-  }, [dsaReport, window, addReportShare, formatter, viewer]);
 
   if (!dsaReport) {
     return <NotFound />;
@@ -220,22 +113,15 @@ const SingleReportRoute: FunctionComponent<Props> & {
           alignItems="center"
         >
           <ReportStatusMenu
-            onChange={onChangeStatus}
             value={dsaReport.status}
+            reportID={dsaReport.id}
+            userID={viewer?.id}
           />
-          <Localized id="reports-singleReport-shareButton">
-            <Button
-              className={styles.shareButton}
-              variant="outlined"
-              color="regular"
-              uppercase
-              target="_blank"
-              rel="noreferrer"
-              onClick={onShareButtonClick}
-            >
-              Share
-            </Button>
-          </Localized>
+          <ReportShareButton
+            dsaReport={dsaReport}
+            userID={viewer?.id}
+            formatter={formatter}
+          />
         </Flex>
       </Flex>
       <Flex>
@@ -375,129 +261,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
             </HorizontalGutter>
           </Flex>
         </Flex>
-        <Flex className={styles.reportHistory} direction="column">
-          <Localized id="reports-singleReport-history">
-            <div className={styles.reportHistoryHeader}>History</div>
-          </Localized>
-          <HorizontalGutter spacing={3} paddingBottom={4}>
-            <div>
-              <Localized id="reports-singleReport-history-reportSubmitted">
-                <div className={styles.reportHistoryText}>
-                  Illegal content report submitted
-                </div>
-              </Localized>
-              <div className={styles.reportHistoryCreatedAt}>
-                {reportHistoryFormatter(dsaReport.createdAt)}
-              </div>
-            </div>
-            <>
-              {dsaReport.history?.map((h) => {
-                if (h) {
-                  return (
-                    <div key={h.id}>
-                      {h?.type === GQLDSAReportHistoryType.NOTE && (
-                        <>
-                          <Localized
-                            id="reports-singleReport-history-addedNote"
-                            vars={{ username: h.createdBy?.username }}
-                          >
-                            <div
-                              className={styles.reportHistoryText}
-                            >{`${h.createdBy?.username} added a note`}</div>
-                          </Localized>
-                          <div className={styles.reportHistoryNoteBody}>
-                            {h.body}
-                          </div>
-                          <div>
-                            <Localized
-                              id="reports-singleReport-history-deleteNoteButton"
-                              elems={{ icon: <ButtonSvgIcon Icon={BinIcon} /> }}
-                            >
-                              <Button
-                                className={styles.deleteReportNoteButton}
-                                iconLeft
-                                variant="text"
-                                color="mono"
-                                uppercase={false}
-                                onClick={() => onDeleteReportNoteButton(h.id)}
-                              >
-                                <ButtonSvgIcon Icon={BinIcon} /> Delete
-                              </Button>
-                            </Localized>
-                          </div>
-                        </>
-                      )}
-
-                      {h?.type === GQLDSAReportHistoryType.STATUS_CHANGED && (
-                        <Localized
-                          id="reports-singleReport-changedStatus"
-                          vars={{
-                            status: statusMapping(h.status),
-                            username: h.createdBy?.username,
-                          }}
-                        >
-                          <div className={styles.reportHistoryText}>{`${
-                            h.createdBy?.username
-                          } changed status to "${statusMapping(
-                            h.status
-                          )}"`}</div>
-                        </Localized>
-                      )}
-
-                      {h?.type === GQLDSAReportHistoryType.SHARE && (
-                        <Localized
-                          id="reports-singleReport-sharedReport"
-                          vars={{ username: h.createdBy?.username }}
-                        >
-                          <div
-                            className={styles.reportHistoryText}
-                          >{`${h.createdBy?.username} shared this report`}</div>
-                        </Localized>
-                      )}
-                      <div className={styles.reportHistoryCreatedAt}>
-                        {reportHistoryFormatter(h.createdAt)}
-                      </div>
-                    </div>
-                  );
-                } else {
-                  return null;
-                }
-              })}
-            </>
-          </HorizontalGutter>
-          <Form onSubmit={onSubmit}>
-            {({ handleSubmit }) => (
-              <form onSubmit={handleSubmit}>
-                <Localized id="reports-singleReport-note-field">
-                  <Field
-                    id="reportHistory-note"
-                    name="note"
-                    validate={required}
-                  >
-                    {({ input }) => (
-                      <Textarea
-                        className={styles.addNoteTextarea}
-                        placeholder="Add your note..."
-                        {...input}
-                      />
-                    )}
-                  </Field>
-                </Localized>
-                <Flex justifyContent="flex-end">
-                  <Localized
-                    id="reports-singleReport-addUpdateButton"
-                    elems={{ icon: <ButtonSvgIcon size="xs" Icon={AddIcon} /> }}
-                  >
-                    <Button type="submit" iconLeft>
-                      <ButtonSvgIcon size="xs" Icon={AddIcon} />
-                      Add update
-                    </Button>
-                  </Localized>
-                </Flex>
-              </form>
-            )}
-          </Form>
-        </Flex>
+        <ReportHistory dsaReport={dsaReport} />
       </Flex>
       <UserHistoryDrawer
         userID={userDrawerUserID}
@@ -519,16 +283,6 @@ SingleReportRoute.routeConfig = createRouteConfig<
         id
       }
       dsaReport(id: $reportID) {
-        history {
-          id
-          createdBy {
-            username
-          }
-          createdAt
-          body
-          type
-          status
-        }
         id
         referenceID
         lawBrokenDescription
@@ -566,6 +320,8 @@ SingleReportRoute.routeConfig = createRouteConfig<
           ...CommentAuthorContainer_comment
           ...MediaContainer_comment
         }
+        ...ReportHistory_dsaReport
+        ...ReportShareButton_dsaReport
       }
     }
   `,

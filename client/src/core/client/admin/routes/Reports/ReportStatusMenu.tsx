@@ -1,18 +1,40 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
+import { useMutation } from "coral-framework/lib/relay";
 import { Option, SelectField } from "coral-ui/components/v2";
 
 import { DSAReportStatus } from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
 
 import styles from "./ReportStatusMenu.css";
 
+import ChangeReportStatusMutation from "./ChangeReportStatusMutation";
+
 interface Props {
-  onChange: (status: string) => Promise<void>;
   value: DSAReportStatus | null;
+  reportID: string;
+  userID?: string;
 }
 
-const ReportStatusMenu: FunctionComponent<Props> = ({ onChange, value }) => {
+const ReportStatusMenu: FunctionComponent<Props> = ({
+  value,
+  reportID,
+  userID,
+}) => {
+  const changeReportStatus = useMutation(ChangeReportStatusMutation);
+
+  const onChangeStatus = useCallback(
+    async (status: DSAReportStatus) => {
+      if (userID) {
+        await changeReportStatus({
+          reportID,
+          userID,
+          status,
+        });
+      }
+    },
+    [reportID, userID, changeReportStatus]
+  );
   return (
     <>
       <label
@@ -23,7 +45,7 @@ const ReportStatusMenu: FunctionComponent<Props> = ({ onChange, value }) => {
       </label>
       <SelectField
         id="coral-reports-report-statusMenu"
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChangeStatus(e.target.value as DSAReportStatus)}
         value={value ?? "AWAITING_REVIEW"}
       >
         <Localized id="reports-reportStatusMenu-awaitingReview">

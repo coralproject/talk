@@ -1815,7 +1815,7 @@ reports-sortMenu-sortBy = Sort by
 
 reports-singleReport-reportsLinkButton = <icon></icon> All DSA Reports
 reports-singleReport-reportID = Report ID
-reports-singleReport-shareButton = Share
+reports-singleReport-shareButton = Download
 reports-singleReport-reporter = Reporter
 reports-singleReport-reporterNameNotAvailable = Reporter name not available
 reports-singleReport-reportDate = Report date

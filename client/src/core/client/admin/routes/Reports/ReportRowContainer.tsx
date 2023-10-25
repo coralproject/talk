@@ -11,7 +11,9 @@ import {
   ReportRowContainer_dsaReport as DSAReportData,
 } from "coral-admin/__generated__/ReportRowContainer_dsaReport.graphql";
 
-import { statusMappings } from "./SingleReportRoute";
+import { statusMappings } from "./ReportHistory";
+
+// import { statusMappings } from "./SingleReportRoute";
 
 interface Props {
   dsaReport: DSAReportData;
