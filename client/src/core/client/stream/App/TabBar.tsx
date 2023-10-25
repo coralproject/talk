@@ -62,12 +62,6 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
   );
   const myProfileText = getMessage("general-tabBar-myProfileTab", "My Profile");
   const configureText = getMessage("general-tabBar-configure", "Configure");
-  const notificationsText = props.hasNewNotifications
-    ? getMessage(
-        "general-tabBar-notifications-hasNew",
-        "Notifications (has new)"
-      )
-    : getMessage("general-tabBar-notifications", "Notifications");
 
   return (
     <MatchMedia gteWidth="sm">
@@ -173,12 +167,13 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
 
           {props.showNotificationsTab && (
             <Tab
-              className={cn(CLASSES.tabBar.notifications, styles.condensedTab, {
+              className={cn(CLASSES.tabBar.notifications, {
                 [CLASSES.tabBar.activeTab]: props.activeTab === "NOTIFICATIONS",
+                [styles.condensedTab]: matches,
+                [styles.smallTab]: !matches,
               })}
               tabID="NOTIFICATIONS"
               variant="streamPrimary"
-              aria-label={notificationsText}
             >
               <div>
                 <SvgIcon

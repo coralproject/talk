@@ -240,6 +240,7 @@ export const baseUser = createFixture<GQLUser>({
     },
   ],
   avatar: NULL_VALUE,
+  hasNewNotifications: false,
 });
 
 export const userWithModMessageHistory = createFixture<GQLUser>(
