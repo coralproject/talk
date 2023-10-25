@@ -13,8 +13,6 @@ import {
 
 import { statusMappings } from "./ReportHistory";
 
-// import { statusMappings } from "./SingleReportRoute";
-
 interface Props {
   dsaReport: DSAReportData;
 }

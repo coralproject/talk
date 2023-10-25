@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import { RouteProps } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import {
@@ -14,12 +15,19 @@ import NotAvailable from "coral-admin/components/NotAvailable";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { createRouteConfig } from "coral-framework/lib/router";
+import { required } from "coral-framework/lib/validation";
 import { ArrowsLeftIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
+  Card,
+  CardCloseButton,
   Flex,
   HorizontalGutter,
+  Modal,
+  Option,
+  SelectField,
   Spinner,
+  Textarea,
   Timestamp,
 } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
@@ -76,6 +84,15 @@ const SingleReportRoute: FunctionComponent<Props> & {
     },
     [setUserDrawerUserID]
   );
+
+  const [showDecisionModal, setShowDecisionModal] = useState(false);
+
+  const onSubmitDecision = useCallback(() => {
+    // TODO
+  }, []);
+  const onCloseDecisionModal = useCallback(() => {
+    setShowDecisionModal(false);
+  }, [setShowDecisionModal]);
 
   if (!dsaReport) {
     return <NotFound />;
@@ -258,10 +275,84 @@ const SingleReportRoute: FunctionComponent<Props> & {
                   </Flex>
                 )}
               </Flex>
+              <Modal open={showDecisionModal}>
+                {({ firstFocusableRef }) => (
+                  <Card>
+                    <Flex justifyContent="flex-end">
+                      <CardCloseButton
+                        onClick={onCloseDecisionModal}
+                        ref={firstFocusableRef}
+                      />
+                    </Flex>
+                    {/* TODO: Localize all of this */}
+                    <Form onSubmit={onSubmitDecision}>
+                      {({ handleSubmit }) => (
+                        <form onSubmit={handleSubmit}>
+                          <Flex direction="column">
+                            <HorizontalGutter>
+                              <Flex alignItems="center">
+                                <div>This comment</div>
+                                <Field id="reportDecision" name="decision">
+                                  {({ input }) => {
+                                    return (
+                                      <SelectField {...input} id={input.name}>
+                                        <Option value="ILLEGAL">
+                                          contains illegal content
+                                        </Option>
+                                        <Option value="LEGAL">
+                                          does not appear to contain illegal
+                                          content
+                                        </Option>
+                                      </SelectField>
+                                    );
+                                  }}
+                                </Field>
+                              </Flex>
+                              <Flex>
+                                <Field
+                                  id="reportLegalGrounds"
+                                  name="legalGrounds"
+                                  validate={required}
+                                >
+                                  {({ input }) => (
+                                    <Textarea
+                                      placeholder="Legal grounds"
+                                      {...input}
+                                    />
+                                  )}
+                                </Field>
+                              </Flex>
+                              <Flex>
+                                <Field
+                                  id="reportReason"
+                                  name="reason"
+                                  validate={required}
+                                >
+                                  {({ input }) => (
+                                    <Textarea
+                                      placeholder="Explanation"
+                                      {...input}
+                                    />
+                                  )}
+                                </Field>
+                              </Flex>
+                              <Flex justifyContent="flex-end">
+                                <Button type="submit" iconLeft>
+                                  Submit
+                                </Button>
+                              </Flex>
+                            </HorizontalGutter>
+                          </Flex>
+                        </form>
+                      )}
+                    </Form>
+                  </Card>
+                )}
+              </Modal>
             </HorizontalGutter>
           </Flex>
         </Flex>
-        <ReportHistory dsaReport={dsaReport} />
+        <ReportHistory dsaReport={dsaReport} userID={viewer?.id} />
       </Flex>
       <UserHistoryDrawer
         userID={userDrawerUserID}
