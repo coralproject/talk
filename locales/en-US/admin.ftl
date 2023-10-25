@@ -1812,6 +1812,7 @@ reports-sortMenu-newest = Newest
 reports-sortMenu-oldest = Oldest
 reports-sortMenu-sortBy = Sort by
 
+reports-singleReport-reportsLinkButton = <icon></icon> All DSA Reports
 reports-singleReport-reportID = Report ID
 reports-singleReport-shareButton = Share
 reports-singleReport-reporter = Reporter

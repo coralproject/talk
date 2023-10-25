@@ -10,6 +10,7 @@ export { default as ArchiveIcon } from "./ArchiveIcon";
 export { default as ArrowsDownIcon } from "./ArrowsDownIcon";
 export { default as ArrowLeftIcon } from "./ArrowLeftIcon";
 export { default as ArrowRightIcon } from "./ArrowRightIcon";
+export { default as ArrowsLeftIcon } from "./ArrowsLeftIcon";
 export { default as ArrowsUpIcon } from "./ArrowsUpIcon";
 export { default as ArrowUpWithTailIcon } from "./ArrowUpWithTailIcon";
 export { default as BinIcon } from "./BinIcon";

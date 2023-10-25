@@ -22,7 +22,12 @@ import {
   GQLDSAReportHistoryType,
   GQLDSAReportStatus,
 } from "coral-framework/schema";
-import { AddIcon, BinIcon, ButtonSvgIcon } from "coral-ui/components/icons";
+import {
+  AddIcon,
+  ArrowsLeftIcon,
+  BinIcon,
+  ButtonSvgIcon,
+} from "coral-ui/components/icons";
 import {
   Button,
   Flex,
@@ -184,6 +189,23 @@ const SingleReportRoute: FunctionComponent<Props> & {
   return (
     // TODO: Localize all the labels in here
     <div className={styles.root}>
+      <Flex className={styles.reportsLink}>
+        <Localized
+          id="reports-singleReport-reportsLinkButton"
+          elems={{ icon: <ButtonSvgIcon Icon={ArrowsLeftIcon} /> }}
+        >
+          <Button
+            variant="text"
+            to="/admin/reports"
+            uppercase={false}
+            iconLeft
+            color="mono"
+          >
+            <ButtonSvgIcon Icon={ArrowsLeftIcon} />
+            All DSA Reports
+          </Button>
+        </Localized>
+      </Flex>
       <Flex className={styles.header}>
         <Flex direction="column">
           <Localized id="reports-singleReport-reportID">

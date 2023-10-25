@@ -2,6 +2,10 @@
   font-family: var(--font-family-primary);
 }
 
+.reportsLink {
+  padding: var(--spacing-3) var(--spacing-7);
+}
+
 .header {
   background-color: var(--palette-grey-200);
   padding: var(--spacing-3) var(--spacing-7);
