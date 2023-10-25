@@ -28,6 +28,8 @@ general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
 general-tabBar-reviewsTab = Reviews
 general-tabBar-configure = Configure
+general-tabBar-notifications = Notifications
+general-tabBar-notifications-hasNew = Notifications (has new)
 
 general-mainTablist =
   .aria-label = Main Tablist

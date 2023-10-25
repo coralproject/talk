@@ -5,11 +5,12 @@ import useGetMessage from "coral-framework/lib/i18n/useGetMessage";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import {
+  ActiveNotificationBellIcon,
   CogIcon,
   ConversationChatIcon,
   ConversationQuestionWarningIcon,
-  InformationCircleIcon,
   MessagesBubbleSquareIcon,
+  NotificationBellIcon,
   RatingStarIcon,
   SingleNeutralCircleIcon,
   SvgIcon,
@@ -61,10 +62,12 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
   );
   const myProfileText = getMessage("general-tabBar-myProfileTab", "My Profile");
   const configureText = getMessage("general-tabBar-configure", "Configure");
-  const notificationsText = getMessage(
-    "general-tabBar-notifications",
-    "Notifications"
-  );
+  const notificationsText = props.hasNewNotifications
+    ? getMessage(
+        "general-tabBar-notifications-hasNew",
+        "Notifications (has new)"
+      )
+    : getMessage("general-tabBar-notifications", "Notifications");
 
   return (
     <MatchMedia gteWidth="sm">
@@ -170,22 +173,23 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
 
           {props.showNotificationsTab && (
             <Tab
-              className={cn(CLASSES.tabBar.notifications, {
+              className={cn(CLASSES.tabBar.notifications, styles.condensedTab, {
                 [CLASSES.tabBar.activeTab]: props.activeTab === "NOTIFICATIONS",
-                [styles.smallTab]: !matches,
               })}
               tabID="NOTIFICATIONS"
               variant="streamPrimary"
+              aria-label={notificationsText}
             >
-              {matches ? (
-                <span>
-                  {notificationsText} {`${props.hasNewNotifications}`}
-                </span>
-              ) : (
-                <div>
-                  <SvgIcon size="md" Icon={InformationCircleIcon} />
-                </div>
-              )}
+              <div>
+                <SvgIcon
+                  size="md"
+                  Icon={
+                    props.hasNewNotifications
+                      ? ActiveNotificationBellIcon
+                      : NotificationBellIcon
+                  }
+                ></SvgIcon>
+              </div>
             </Tab>
           )}
         </TabBar>

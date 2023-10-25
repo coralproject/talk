@@ -5,6 +5,13 @@
   padding-right: var(--spacing-3);
 }
 
+.condensedTab {
+  padding-top: var(--spacing-2);
+  padding-bottom: var(--spacing-2);
+  padding-left: var(--spacing-2);
+  padding-right: var(--spacing-2);
+}
+
 .configureTab {
   padding-left: var(--spacing-4);
   padding-right: var(--spacing-4);
