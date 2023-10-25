@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
@@ -19,16 +19,18 @@ const NotificationContainer: FunctionComponent<Props> = ({
   notification: { title, body, comment, createdAt },
   viewer,
 }) => {
-  if (!viewer) {
-    return null;
-  }
+  const seen = useMemo(() => {
+    if (!viewer) {
+      return false;
+    }
 
-  const createdAtDate = new Date(createdAt);
-  const lastSeenDate = viewer.lastSeenNotificationDate
-    ? new Date(viewer.lastSeenNotificationDate)
-    : new Date(0);
+    const createdAtDate = new Date(createdAt);
+    const lastSeenDate = viewer.lastSeenNotificationDate
+      ? new Date(viewer.lastSeenNotificationDate)
+      : new Date(0);
 
-  const seen = createdAtDate.getTime() <= lastSeenDate.getTime();
+    return createdAtDate.getTime() <= lastSeenDate.getTime();
+  }, [createdAt, viewer]);
 
   const commentURL = comment
     ? getURLWithCommentID(comment.story.url, comment.id)
@@ -44,7 +46,6 @@ const NotificationContainer: FunctionComponent<Props> = ({
       {title && <div className={cn(styles.title)}>{title}</div>}
       {body && <div className={cn(styles.body)}>{body}</div>}
       {comment && <a href={commentURL}>{commentURL}</a>}
-      {`seen: ${seen}`}
     </div>
   );
 };
