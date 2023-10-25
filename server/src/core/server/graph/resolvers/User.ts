@@ -99,4 +99,7 @@ export const User: GQLUserTypeResolver<user.User> = {
       ctx.user.lastSeenNotificationDate ?? new Date(0)
     );
   },
+  lastSeenNotificationDate: ({ lastSeenNotificationDate }) => {
+    return lastSeenNotificationDate ?? new Date(0);
+  },
 };

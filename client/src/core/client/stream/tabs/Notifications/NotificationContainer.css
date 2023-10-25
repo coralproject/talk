@@ -15,6 +15,14 @@
   word-break: break-word;
 }
 
+.seen {
+  border-color: var(--palette-grey-300);
+}
+
+.notSeen {
+  border-color: var(--palette-primary-500);
+}
+
 .title {
   width: 100%;
 

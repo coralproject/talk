@@ -3164,6 +3164,16 @@ type User {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+
+  """
+  lastSeenNotificationDate is the date of the last notification the user viewed.
+  """
+  lastSeenNotificationDate: Time
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 }
 
 """

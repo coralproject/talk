@@ -48,14 +48,20 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
     );
   }, [props.relay]);
 
-  if (!props.query) {
+  if (!props.query || !props.query.viewer) {
     return null;
   }
 
   return (
     <div>
       {props.query.notifications.edges.map(({ node }) => {
-        return <NotificationContainer key={node.id} notification={node} />;
+        return (
+          <NotificationContainer
+            key={node.id}
+            notification={node}
+            viewer={props.query.viewer}
+          />
+        );
       })}
       {isRefetching && <Spinner />}
       {!isRefetching && !disableLoadMore && props.relay.hasMore() && (
@@ -93,6 +99,9 @@ const enhanced = withPaginationContainer<
         cursor: { type: "Cursor" }
         viewerID: { type: "ID!" }
       ) {
+        viewer {
+          ...NotificationContainer_viewer
+        }
         notifications(ownerID: $viewerID, after: $cursor, first: $count)
           @connection(key: "NotificationsPaginator_notifications") {
           edges {
