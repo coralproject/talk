@@ -4,6 +4,11 @@ import { graphql } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  CheckCircleIcon,
+  SignBadgeCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import { RelativeTime, TableCell, TableRow } from "coral-ui/components/v2";
 
 import {
@@ -11,11 +16,11 @@ import {
   ReportRowContainer_dsaReport as DSAReportData,
 } from "coral-admin/__generated__/ReportRowContainer_dsaReport.graphql";
 
-import { statusMappings } from "./ReportHistory";
-
 interface Props {
   dsaReport: DSAReportData;
 }
+
+export const openStatuses = ["AWAITING_REVIEW", "UNDER_REVIEW"];
 
 const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
   const formatter = useDateTimeFormatter({
@@ -27,11 +32,15 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
   });
   const { router } = useRouter();
 
-  const statusMapping = useCallback((status: DSAReportStatus | null) => {
+  const statusIconMapping = useCallback((status: DSAReportStatus | null) => {
     if (!status) {
-      return "Unknown status";
+      return null;
     }
-    return statusMappings[status];
+    return openStatuses.includes(status) ? (
+      <SvgIcon Icon={SignBadgeCircleIcon} />
+    ) : (
+      <SvgIcon Icon={CheckCircleIcon} />
+    );
   }, []);
 
   const onReportRowClick = useCallback(
@@ -48,13 +57,17 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
     >
       <TableCell>{formatter(dsaReport.createdAt)}</TableCell>
       <TableCell>
-        <RelativeTime date={dsaReport.createdAt} />
+        {dsaReport.lastUpdated ? (
+          <RelativeTime date={dsaReport.lastUpdated} />
+        ) : (
+          <div>-</div>
+        )}
       </TableCell>
       <TableCell>{dsaReport.reporter?.username}</TableCell>
       <TableCell>{dsaReport.referenceID}</TableCell>
       <TableCell>{dsaReport.lawBrokenDescription}</TableCell>
       <TableCell>{dsaReport.comment?.author?.username}</TableCell>
-      <TableCell>{statusMapping(dsaReport.status)}</TableCell>
+      <TableCell>{statusIconMapping(dsaReport.status)}</TableCell>
     </TableRow>
   );
 };
@@ -75,6 +88,7 @@ const enhanced = withFragmentContainer<Props>({
         }
       }
       lawBrokenDescription
+      lastUpdated
     }
   `,
 })(ReportRowContainer);

@@ -1,3 +1,7 @@
+.wrapper {
+  margin-left: auto;
+}
+
 .sortLabel {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-2);

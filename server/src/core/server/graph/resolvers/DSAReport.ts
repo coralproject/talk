@@ -26,4 +26,11 @@ export const DSAReport: GQLDSAReportTypeResolver<dsaReport.DSAReport> = {
     });
     return consolidatedHistory ?? [];
   },
+  lastUpdated: ({ history }, args, ctx) => {
+    if (history.length > 0) {
+      return history[history.length - 1].createdAt;
+    } else {
+      return null;
+    }
+  },
 };

@@ -1800,8 +1800,8 @@ conversation-modal-rejectButton-rejected = <icon></icon>Rejected
   .aria-label = Rejected
 
 # DSA Reports tab
-reportsTable-column-time = Time
-reportsTable-column-age = Age
+reportsTable-column-created = Created
+reportsTable-column-lastUpdated = Last updated
 reportsTable-column-reportedBy = Reported by
 reportsTable-column-reference = Reference
 reportsTable-column-lawBroken = Law broken

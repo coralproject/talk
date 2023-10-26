@@ -8,7 +8,11 @@ import {
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import { GQLREPORT_SORT } from "coral-framework/schema";
+import {
+  GQLDSAREPORT_STATUS_FILTER,
+  GQLREPORT_SORT,
+} from "coral-framework/schema";
+import { Button, Flex } from "coral-ui/components/v2";
 
 import { ReportsTableContainer_query as QueryData } from "coral-admin/__generated__/ReportsTableContainer_query.graphql";
 import { ReportsTableContainerPaginationQueryVariables } from "coral-admin/__generated__/ReportsTableContainerPaginationQuery.graphql";
@@ -27,6 +31,13 @@ const ReportsTableContainer: React.FunctionComponent<Props> = (props) => {
   const [orderBy, setOrderBy] = useState<GQLREPORT_SORT>(
     GQLREPORT_SORT.CREATED_AT_DESC
   );
+  const [statusFilter, setStatusFilter] = useState<
+    GQLDSAREPORT_STATUS_FILTER[]
+  >([
+    GQLDSAREPORT_STATUS_FILTER.AWAITING_REVIEW,
+    GQLDSAREPORT_STATUS_FILTER.UNDER_REVIEW,
+  ]);
+  const [filterButton, setFilterButton] = useState("completed");
 
   const onSortChange = useCallback(
     (value: GQLREPORT_SORT) => {
@@ -35,9 +46,23 @@ const ReportsTableContainer: React.FunctionComponent<Props> = (props) => {
     [setOrderBy]
   );
 
+  const onShowCompleted = useCallback(() => {
+    setStatusFilter([GQLDSAREPORT_STATUS_FILTER.COMPLETED]);
+    setFilterButton("open");
+  }, []);
+
+  const onShowOpen = useCallback(() => {
+    setStatusFilter([
+      GQLDSAREPORT_STATUS_FILTER.AWAITING_REVIEW,
+      GQLDSAREPORT_STATUS_FILTER.UNDER_REVIEW,
+    ]);
+    setFilterButton("completed");
+  }, []);
+
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [, isRefetching] = useRefetch(props.relay, 10, {
     orderBy,
+    statusFilter,
   });
 
   const dsaReports = useMemo(() => {
@@ -49,7 +74,31 @@ const ReportsTableContainer: React.FunctionComponent<Props> = (props) => {
   return (
     <MainLayout className={styles.root}>
       <IntersectionProvider>
-        <ReportsSortMenu onChange={onSortChange} />
+        <Flex>
+          {/* TODO: Localize once confirmed with design */}
+          {filterButton === "completed" ? (
+            <Button
+              className={styles.filterButton}
+              onClick={onShowCompleted}
+              variant="text"
+              color="dark"
+              uppercase={false}
+            >
+              Show completed reports
+            </Button>
+          ) : (
+            <Button
+              className={styles.filterButton}
+              onClick={onShowOpen}
+              variant="text"
+              color="dark"
+              uppercase={false}
+            >
+              Show open reports
+            </Button>
+          )}
+          <ReportsSortMenu onChange={onSortChange} />
+        </Flex>
         <ReportsTable
           dsaReports={dsaReports}
           hasMore={!isRefetching && props.relay.hasMore()}
@@ -76,9 +125,17 @@ const enhanced = withPaginationContainer<
         count: { type: "Int", defaultValue: 20 }
         cursor: { type: "Cursor" }
         orderBy: { type: "REPORT_SORT", defaultValue: CREATED_AT_DESC }
+        statusFilter: {
+          type: "[DSAREPORT_STATUS_FILTER!]"
+          defaultValue: [AWAITING_REVIEW, UNDER_REVIEW]
+        }
       ) {
-        dsaReports(first: $count, after: $cursor, orderBy: $orderBy)
-          @connection(key: "ReportsTable_dsaReports") {
+        dsaReports(
+          first: $count
+          after: $cursor
+          orderBy: $orderBy
+          status: $statusFilter
+        ) @connection(key: "ReportsTable_dsaReports") {
           edges {
             node {
               id
@@ -98,6 +155,7 @@ const enhanced = withPaginationContainer<
         count,
         orderBy: fragmentVariables.orderBy,
         cursor,
+        statusFilter: fragmentVariables.statusFilter,
       };
     },
     query: graphql`
@@ -107,9 +165,15 @@ const enhanced = withPaginationContainer<
         $count: Int!
         $cursor: Cursor
         $orderBy: REPORT_SORT
+        $statusFilter: [DSAREPORT_STATUS_FILTER!]
       ) {
         ...ReportsTableContainer_query
-          @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+          @arguments(
+            count: $count
+            cursor: $cursor
+            orderBy: $orderBy
+            statusFilter: $statusFilter
+          )
       }
     `,
   }

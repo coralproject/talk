@@ -39,11 +39,11 @@ const ReportsTable: React.FunctionComponent<Props> = ({
       <Table fullWidth>
         <TableHead>
           <TableRow>
-            <Localized id="reportsTable-column-time">
-              <TableCell>Time</TableCell>
+            <Localized id="reportsTable-column-created">
+              <TableCell>Created</TableCell>
             </Localized>
-            <Localized id="reportsTable-column-age">
-              <TableCell>Age</TableCell>
+            <Localized id="reportsTable-column-lastUpdated">
+              <TableCell>Last updated</TableCell>
             </Localized>
             <Localized id="reportsTable-column-reportedBy">
               <TableCell>Reported by</TableCell>

@@ -23,6 +23,7 @@ const ReportsSortMenu: FunctionComponent<Props> = ({ onChange }) => {
       justifyContent="flex-end"
       alignItems="center"
       itemGutter
+      className={styles.wrapper}
     >
       {label}
       <SelectField

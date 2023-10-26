@@ -2687,6 +2687,12 @@ type UserStatus {
     )
 }
 
+enum DSAREPORT_STATUS_FILTER {
+  AWAITING_REVIEW
+  UNDER_REVIEW
+  COMPLETED
+}
+
 enum USER_STATUS_FILTER {
   """
   ACTIVE is used when a User is not suspended or banned.
@@ -3503,6 +3509,8 @@ type DSAReport {
   illegal content or not
   """
   history: [DSAReportHistoryItem]
+
+  lastUpdated: Time
 }
 
 type CommentRevisionPerspectiveMetadata {
@@ -4743,6 +4751,7 @@ type Query {
     first: Int = 10 @constraint(max: 50)
     after: Cursor
     orderBy: REPORT_SORT = CREATED_AT_DESC
+    status: [DSAREPORT_STATUS_FILTER!]
     query: String
   ): DSAReportsConnection! @auth(roles: [ADMIN, MODERATOR])
 
