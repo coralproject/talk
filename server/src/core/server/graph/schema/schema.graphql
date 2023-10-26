@@ -3290,7 +3290,7 @@ enum COMMENT_STATUS {
   SYSTEM_WITHHELD
 }
 
-enum REJECTION_REASON {
+enum REJECTION_REASON_CODE {
   """
   OFFENSIVE represents a rejection of a comment for being offensive.
   """
@@ -3327,6 +3327,23 @@ enum REJECTION_REASON {
   OTHER
 }
 
+type RejectionReason {
+  """
+  code is the reason that the comment was rejected
+  """
+  code: REJECTION_REASON_CODE!
+
+  """
+  legalGrounds is the specific laws broken as described by the reporter
+  """
+  legalGrounds: String
+
+  """
+  detailedExplaination is any additional information the user wishes to provide.
+  """
+  detailedExplaination: String
+}
+
 type CommentModerationAction {
   id: ID!
 
@@ -3354,7 +3371,7 @@ type CommentModerationAction {
   """
   reason is the reason the comment was rejected, if it was rejected
   """
-  reason: REJECTION_REASON
+  reason: RejectionReason
 
   """
   createdAt is the time that the CommentModerationAction was created.
@@ -6702,6 +6719,23 @@ type ApproveCommentPayload {
 # rejectComment
 ##################
 
+input RejectCommentReasonInput {
+  """
+  code is the enumerated code for the reason the comment is being rejected.
+  """
+  code: REJECTION_REASON_CODE!
+
+  """
+  legalGrounds is the specific laws broken as described by the reporter.
+  """
+  legalGrounds: String
+
+  """
+  detailedExplaination is any additional information the user wishes to provide.
+  """
+  detailedExplaination: String
+}
+
 input RejectCommentInput {
   """
   commentID is the ID of the Comment that was rejected.
@@ -6717,6 +6751,11 @@ input RejectCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  reason is the reason the comment is being rejected if DSA features are enabled.
+  """
+  reason: RejectCommentReasonInput
 }
 
 type RejectCommentPayload {
