@@ -23,6 +23,7 @@ import {
   GQLCOMMENT_SORT,
   GQLDontAgreeActionCounts,
   GQLFlagActionCounts,
+  GQLIllegalActionCounts,
   GQLReactionActionCounts,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -37,6 +38,11 @@ export enum ACTION_TYPE {
    * agree with.
    */
   DONT_AGREE = "DONT_AGREE",
+
+  /**
+   * ILLEGAL corresponds to when a user reports a comment as containing illegal content.
+   */
+  ILLEGAL = "ILLEGAL",
 
   /**
    * FLAG corresponds to a flag action that indicates that the given resource needs
@@ -66,6 +72,11 @@ export interface ActionCounts {
    * restricted to administrators and moderators.
    */
   flag: FlagActionCounts;
+
+  /**
+   * illegal returns the counts for the illegal content action on an item.
+   */
+  illegal: GQLIllegalActionCounts;
 }
 
 /**
@@ -165,6 +176,7 @@ const ActionSchema = Joi.compile([
   {
     actionType: ACTION_TYPE.REACTION,
   },
+  { actionType: ACTION_TYPE.ILLEGAL },
 ]);
 
 /**
@@ -408,6 +420,7 @@ export async function retrieveManyUserActionPresence(
           reaction: false,
           dontAgree: false,
           flag: false,
+          illegal: false,
         }
       )
     );
@@ -620,6 +633,9 @@ function createEmptyActionCounts(): ActionCounts {
     reaction: {
       total: 0,
     },
+    illegal: {
+      total: 0,
+    },
     dontAgree: {
       total: 0,
     },
@@ -706,6 +722,9 @@ function incrementActionCounts(
       break;
     case ACTION_TYPE.DONT_AGREE:
       actionCounts.dontAgree.total += count;
+      break;
+    case ACTION_TYPE.ILLEGAL:
+      actionCounts.illegal.total += count;
       break;
     case ACTION_TYPE.FLAG:
       // When we have a reason, we are incrementing for that particular reason

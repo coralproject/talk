@@ -7,6 +7,7 @@ import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
   createFlag,
+  createIllegalContent,
   createReaction,
   removeDontAgree,
   removeReaction,
@@ -28,6 +29,7 @@ import {
   GQLCreateCommentInput,
   GQLCreateCommentReactionInput,
   GQLCreateCommentReplyInput,
+  GQLCreateIllegalContentInput,
   GQLEditCommentInput,
   GQLFeatureCommentInput,
   GQLMarkCommentsAsSeenInput,
@@ -137,6 +139,24 @@ export const Comments = (ctx: GraphContext) => ({
         commentID,
         commentRevisionID,
       }
+    ),
+  createIllegalContent: ({
+    commentID,
+    commentRevisionID,
+  }: GQLCreateIllegalContentInput) =>
+    createIllegalContent(
+      ctx.mongo,
+      ctx.redis,
+      ctx.config,
+      ctx.cache.commentActions,
+      ctx.broker,
+      ctx.tenant,
+      ctx.user!,
+      {
+        commentID,
+        commentRevisionID,
+      },
+      ctx.now
     ),
   createDontAgree: ({
     commentID,

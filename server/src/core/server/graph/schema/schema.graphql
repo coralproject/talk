@@ -258,6 +258,13 @@ type DontAgreeActionCounts {
   total: Int!
 }
 
+type IllegalActionCounts {
+  """
+  total is the total number of illegal actions against a given item.
+  """
+  total: Int!
+}
+
 type Reacter {
   username: String
   userID: String
@@ -427,6 +434,11 @@ type ActionCounts {
   restricted to administrators and moderators.
   """
   flag: FlagActionCounts! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  illegal returns the counts for the illegal content action on on item.
+  """
+  illegal: IllegalActionCounts!
 }
 
 """
@@ -449,6 +461,11 @@ type ActionPresence {
   flag is true when a flag action was left on an item.
   """
   flag: Boolean!
+
+  """
+  flag is true when an illegal content actions was left on an item.
+  """
+  illegal: Boolean!
 }
 
 ################################################################################
@@ -1710,7 +1727,6 @@ type BadgeConfiguration {
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
 """
-
 type FlairBadge {
   name: String!
   url: String!
@@ -3313,14 +3329,19 @@ enum REJECTION_REASON_CODE {
 
 type RejectionReason {
   """
-  code is the enumerated reason for the rejection.
+  code is the reason that the comment was rejected
   """
   code: REJECTION_REASON_CODE!
 
   """
-  additionalDetails is any additional context in plaintext form.
+  legalGrounds is the specific laws broken as described by the reporter
   """
-  additionalDetails: String
+  legalGrounds: String
+
+  """
+  detailedExplaination is any additional information the user wishes to provide.
+  """
+  detailedExplaination: String
 }
 
 type CommentModerationAction {
@@ -3385,6 +3406,74 @@ type CommentModerationActionConnection {
   pageInfo is information to aid in pagination.
   """
   pageInfo: PageInfo!
+}
+
+"""
+DSAReportStatus keeps track of where a DSAReport is in the process of being reviewed
+"""
+enum DSAReportStatus {
+  AWAITING_REVIEW
+  UNDER_REVIEW
+  COMPLETED
+}
+
+"""
+DSAReportDecision keeps track of whether a DSAReport was determined illegal or not
+"""
+enum DSAReportDecision {
+  LEGAL
+  ILLEGAL
+}
+
+type DSAReport {
+  id: ID!
+
+  """
+  referenceID is a human-friendly ID to keep track of the DSAReport
+  """
+  referenceID: String!
+
+  """
+  submissionID keeps track of comments that were submitted together in one form
+  """
+  submissionID: String!
+
+  """
+  user who submitted the DSAReport
+  """
+  createdBy: User!
+
+  """
+  commentID of the comment reported
+  """
+  commentID: String!
+
+  """
+  createdAt is when the DSAReport was created
+  """
+  createdAt: Time!
+
+  """
+  status of DSAReport
+  """
+  status: DSAReportStatus
+
+  """
+  lawBrokenDescription is the text entered by the submitting user to describe
+  which law is broken by the reported comment
+  """
+  lawBrokenDescription: String!
+
+  """
+  additionalInformation is more explanation entereted by the submitting user to
+  describe how the comment breaks the law
+  """
+  additionalInformation: String!
+
+  """
+  decision is the determination of whether the reported comment is illegal or not
+  """
+  decision: DSAReportDecision
 }
 
 type CommentRevisionPerspectiveMetadata {
@@ -6026,6 +6115,30 @@ type CreateCommentDontAgreePayload {
   clientMutationId: String!
 }
 
+input CreateIllegalContentInput {
+  """
+  commentID is the id of the comment reported for illegal content.
+  """
+  commentID: ID!
+
+  """
+  commentRevisionID is the revision ID of the comment reported for illegal content.
+  """
+  commentRevisionID: ID!
+}
+
+type CreateIllegalContentPayload {
+  """
+  comment is the Comment that the illegal content report was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 ##################
 ## removeCommentDontAgree
 ##################
@@ -6098,6 +6211,57 @@ type CreateCommentFlagPayload {
   comment is the Comment that the Flag was created on.
   """
   comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input CreateDSAReportInput {
+  """
+  id of the reported comment
+  """
+  commentID: ID!
+
+  """
+  id of the user who submitted the DSAReport
+  """
+  userID: ID!
+
+  """
+  lawBrokenDescription is the text entered by the submitting user to describe
+  which law is broken by the reported comment
+  """
+  lawBrokenDescription: String!
+
+  """
+  additionalInformation is more explanation entereted by the submitting user to
+  describe how the comment breaks the law
+  """
+  additionalInformation: String!
+
+  """
+  submissionID keeps track of comments that were submitted together in one form
+  """
+  submissionID: ID
+
+  """
+  commentRevisionID is the revision ID for the comment for which a DSA report is being submitted.
+  """
+  commentRevisionID: String
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateDSAReportPayload {
+  """
+  dsaReport is the report that was newly created
+  """
+  dsaReport: DSAReport
 
   """
   clientMutationId is required for Relay support.
@@ -6556,9 +6720,20 @@ type ApproveCommentPayload {
 ##################
 
 input RejectCommentReasonInput {
+  """
+  code is the enumerated code for the reason the comment is being rejected.
+  """
   code: REJECTION_REASON_CODE!
 
-  additionalInfo: String
+  """
+  legalGrounds is the specific laws broken as described by the reporter.
+  """
+  legalGrounds: String
+
+  """
+  detailedExplaination is any additional information the user wishes to provide.
+  """
+  detailedExplaination: String
 }
 
 input RejectCommentInput {
@@ -6581,6 +6756,11 @@ input RejectCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  reason is the reason the comment is being rejected if DSA features are enabled.
+  """
+  reason: RejectCommentReasonInput
 }
 
 type RejectCommentPayload {
@@ -9833,6 +10013,11 @@ type Mutation {
   flushRedis flushes the redis instance.
   """
   flushRedis(input: FlushRedisInput!): FlushRedisPayload! @auth(roles: [ADMIN])
+
+  """
+  createDSAReport creates a DSAReport for the provided comment
+  """
+  createDSAReport(input: CreateDSAReportInput!): CreateDSAReportPayload!
 }
 
 ##################

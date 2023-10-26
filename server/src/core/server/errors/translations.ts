@@ -10,6 +10,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   COMMENTING_DISABLED: "error-commentingDisabled",
   DUPLICATE_EMAIL: "error-duplicateEmail",
   DUPLICATE_EMAIL_DOMAIN: "error-duplicateEmailDomain",
+  DUPLICATE_DSA_REPORT: "error-duplicateDSAReport",
   DUPLICATE_STORY_ID: "error-duplicateStoryID",
   DUPLICATE_STORY_URL: "error-duplicateStoryURL",
   DUPLICATE_FLAIR_BADGE: "error-duplicateFlairBadge",
