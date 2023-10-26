@@ -35,13 +35,6 @@ RUN cd config && npm ci && \
   cd ../server && npm ci && \
   cd ..
 
-FROM node:14-alpine AS runner
-
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-COPY --from=builder . .
-
 # Generate schema types for common/ to use
 RUN cd server && \
   npm run generate && \
@@ -68,6 +61,9 @@ RUN cd server && \
   npm run build && \
   npm prune --production && \
   cd ..
+
+FROM node:14-alpine AS runner
+COPY --from=builder . .
 
 # Set working directory within server folder
 WORKDIR /usr/src/app/server
