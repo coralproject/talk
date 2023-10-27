@@ -163,6 +163,14 @@ export async function retrieveManyDSAReports(
   return ids.map((id) => dsaReports.find((report) => report.id === id) || null);
 }
 
+export async function retrieveDSAReport(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string
+) {
+  return mongo.dsaReports().findOne({ tenantID, id });
+}
+
 export type CreateDSAReportInput = Omit<
   DSAReport,
   | "id"

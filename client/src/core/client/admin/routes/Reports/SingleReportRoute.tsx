@@ -134,11 +134,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
             reportID={dsaReport.id}
             userID={viewer?.id}
           />
-          <ReportShareButton
-            dsaReport={dsaReport}
-            userID={viewer?.id}
-            formatter={formatter}
-          />
+          <ReportShareButton dsaReport={dsaReport} userID={viewer?.id} />
         </Flex>
       </Flex>
       <Flex>
