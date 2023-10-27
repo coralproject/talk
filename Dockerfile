@@ -1,4 +1,4 @@
-FROM node:14-alpine AS builder
+FROM node:14-alpine
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
 
@@ -34,13 +34,6 @@ RUN cd config && npm ci && \
   cd ../client && npm ci && \
   cd ../server && npm ci && \
   cd ..
-
-FROM node:14-alpine AS runner
-
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-COPY --from=builder . .
 
 # Generate schema types for common/ to use
 RUN cd server && \
