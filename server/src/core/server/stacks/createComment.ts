@@ -465,7 +465,6 @@ export default async function create(
       false,
       {
         actionCounts,
-        // BOOKMARK (marcushaddon): need more clarity on what these options do
       }
     );
   }

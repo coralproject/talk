@@ -277,7 +277,6 @@ export default async function edit(
       false,
       {
         actionCounts,
-        // BOOKMARK (marcushaddon): need more clarity on what these options do
       }
     );
   }

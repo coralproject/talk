@@ -275,7 +275,6 @@ async function processPhase(
 const mapActions = (
   response: ExternalModerationResponse
 ): Partial<PhaseResult> => {
-  // TODO: marcushaddon - implement after deciding what to do
   return {
     ...response,
     commentActions: response.actions,
@@ -326,7 +325,6 @@ export const external: IntermediateModerationPhase = async (ctx) => {
         name: phase.name,
         analyzedAt: ctx.now,
         result: {
-          // NOTE: these will be split into comment/moderation actions later
           actions: response.actions,
           status: response.status,
           tags: response.tags,
