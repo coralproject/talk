@@ -12,7 +12,6 @@ import {
   PhaseResult,
 } from "coral-server/services/comments/pipeline";
 import { createFetch, generateFetchOptions } from "coral-server/services/fetch";
-import { partition } from "coral-server/utils/partition";
 
 import {
   GQLCOMMENT_BODY_FORMAT,
@@ -273,8 +272,14 @@ async function processPhase(
  * Our external API still just has a concept of "actions", while
  * internally we distinguish beteween "moderationActions" and "commentActions"
  */
-const mapActions = (response: ExternalModerationResponse): PhaseResult => {
+const mapActions = (
+  response: ExternalModerationResponse
+): Partial<PhaseResult> => {
   // TODO: marcushaddon - implement after deciding what to do
+  return {
+    ...response,
+    commentActions: response.actions,
+  };
 };
 
 export const external: IntermediateModerationPhase = async (ctx) => {
@@ -328,9 +333,10 @@ export const external: IntermediateModerationPhase = async (ctx) => {
         },
       });
 
+      const mappedResponse = mapActions(response);
+
       // Merge the results in. If we're finished, return now!
-      const mappedResult = mapActions(result);
-      const finished = mergePhaseResult(mappedResult, result);
+      const finished = mergePhaseResult(mappedResponse, result);
       if (finished) {
         return result;
       }
