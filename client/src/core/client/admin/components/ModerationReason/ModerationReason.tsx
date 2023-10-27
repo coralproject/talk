@@ -18,15 +18,25 @@ export interface Props {
 
 const ModerationReason: FunctionComponent<Props> = ({ open, onReason }) => {
   const [reasonCode, setReasonCode] = useState<ReasonCode | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
+  const [legalGrounds, setLegalGrounds] = useState<string | null>(null);
+  const [detailedExplaination, setDetailedExplaination] = useState<
+    string | null
+  >(null);
 
   const submitReason = useCallback(() => {
     onReason({
       code: reasonCode!,
-      additionalInfo:
-        reasonCode === GQLREJECTION_REASON_CODE.OTHER ? info : undefined,
+      legalGrounds:
+        reasonCode === GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT
+          ? legalGrounds
+          : undefined,
+      detailedExplaination:
+        reasonCode === GQLREJECTION_REASON_CODE.OTHER ||
+        reasonCode === GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT
+          ? detailedExplaination
+          : undefined,
     });
-  }, [reasonCode, info]);
+  }, [reasonCode, legalGrounds, detailedExplaination, onReason]);
 
   return (
     <Modal open={open}>
@@ -50,11 +60,20 @@ const ModerationReason: FunctionComponent<Props> = ({ open, onReason }) => {
             </RadioButton>
           ))}
 
-        {reasonCode === GQLREJECTION_REASON_CODE.OTHER && (
+        {reasonCode === GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT && (
           <TextArea
-            data-testid="moderation-reason-additiona-info"
-            value={info || undefined}
-            onChange={(e) => setInfo(e.target.value)}
+            data-testid="moderation-reason-legal-grounds"
+            value={legalGrounds || undefined}
+            onChange={(e) => setLegalGrounds(e.target.value)}
+          />
+        )}
+
+        {(reasonCode === GQLREJECTION_REASON_CODE.OTHER ||
+          reasonCode === GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT) && (
+          <TextArea
+            data-testid="moderation-reason-detailed-explaination"
+            value={detailedExplaination || undefined}
+            onChange={(e) => setDetailedExplaination(e.target.value)}
           />
         )}
 

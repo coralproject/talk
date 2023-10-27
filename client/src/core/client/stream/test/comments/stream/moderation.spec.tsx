@@ -713,7 +713,7 @@ it("requires rection reason when dsaFeaturesEnabled", async () => {
   });
 
   const additionalInfo = within(reasonModal).getByTestId(
-    "moderation-reason-additiona-info"
+    "moderation-reason-detailed-explaination"
   );
   act(() => {
     fireEvent.change(additionalInfo, {

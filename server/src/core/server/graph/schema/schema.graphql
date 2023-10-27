@@ -3337,7 +3337,6 @@ type RejectionReason {
   legalGrounds is the specific laws broken as described by the reporter
   """
   legalGrounds: String
-
   """
   detailedExplaination is any additional information the user wishes to provide.
   """
@@ -6756,11 +6755,6 @@ input RejectCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
-
-  """
-  reason is the reason the comment is being rejected if DSA features are enabled.
-  """
-  reason: RejectCommentReasonInput
 }
 
 type RejectCommentPayload {
