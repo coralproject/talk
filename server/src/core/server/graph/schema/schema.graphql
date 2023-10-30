@@ -4516,7 +4516,7 @@ type Notification {
   comment: Comment
 
   """
-  dsaReports are details of the DSA Reports related to the notification.
+  dsaReport is the details of the DSA Report related to the notification.
   This is usually in reference to the comment that is also related to
   the notification.
   """
@@ -4553,18 +4553,44 @@ type NotificationsConnection {
 }
 
 type NotificationDSAReportDetails {
+  """
+  id is the primary identifier of the DSA report.
+  """
   id: ID!
 
+  """
+  publicID is the public identifier that is human readable
+  for the DSA report.
+  """
   publicID: String!
 
+  """
+  comment is the comment associated with the DSA report.
+  """
   comment: Comment
 
+  """
+  user is the target user (of the comment) the DSA report pertains to.
+  """
   user: User
 
+  """
+  lawBrokenDescription describes the law that was allegedly broken in the
+  DSA report.
+  """
   lawBrokenDescription: String @auth(roles: [ADMIN, MODERATOR])
 
+  """
+  additionalInformation is any further relevant details added by the user
+  who filed the DSA report.
+  """
   additionalInformation: String @auth(roles: [ADMIN, MODERATOR])
 
+  """
+  submissionID is the linking id that connects this DSA report to other reports
+  that may have been submitted at the same time by the same reporting user as
+  a collection of co-related DSA reports.
+  """
   submissionID: ID @auth(roles: [ADMIN, MODERATOR])
 }
 
