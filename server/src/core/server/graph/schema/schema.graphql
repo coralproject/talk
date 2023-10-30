@@ -4514,6 +4514,13 @@ type Notification {
   comment is the optional comment that is linked to this notification.
   """
   comment: Comment
+
+  """
+  dsaReports are details of the DSA Reports related to the notification.
+  This is usually in reference to the comment that is also related to
+  the notification.
+  """
+  dsaReport: NotificationDSAReportDetails
 }
 
 type NotificationEdge {
@@ -4543,6 +4550,22 @@ type NotificationsConnection {
   pageInfo is information to aid in pagination.
   """
   pageInfo: PageInfo!
+}
+
+type NotificationDSAReportDetails {
+  id: ID!
+
+  publicID: String!
+
+  comment: Comment
+
+  user: User
+
+  lawBrokenDescription: String @auth(roles: [ADMIN, MODERATOR])
+
+  additionalInformation: String @auth(roles: [ADMIN, MODERATOR])
+
+  submissionID: ID @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################
@@ -4718,7 +4741,8 @@ type Query {
   notifications(
     ownerID: ID!
     first: Int = 10 @constraint(max: 50)
-    after: Cursor): NotificationsConnection!
+    after: Cursor
+  ): NotificationsConnection!
 }
 
 ################################################################################
