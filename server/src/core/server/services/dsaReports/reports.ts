@@ -1,11 +1,15 @@
 import { MongoContext } from "coral-server/data/context";
-import { GQLDSAReportStatus } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLDSAReportDecisionLegality,
+  GQLDSAReportStatus,
+} from "coral-server/graph/schema/__generated__/types";
 import {
   changeDSAReportStatus as changeReportStatus,
   createDSAReport as createReport,
   createDSAReportNote as createReportNote,
   createDSAReportShare as createReportShare,
   deleteDSAReportNote as deleteReportNote,
+  makeDSAReportDecision as makeReportDecision,
 } from "coral-server/models/dsaReport/report";
 import { Tenant } from "coral-server/models/tenant";
 
@@ -134,6 +138,34 @@ export async function changeDSAReportStatus(
   now = new Date()
 ) {
   const result = await changeReportStatus(mongo, tenant.id, input, now);
+  const { dsaReport } = result;
+  return dsaReport;
+}
+
+export interface MakeDSAReportDecisionInput {
+  userID: string;
+  reportID: string;
+  legality: GQLDSAReportDecisionLegality;
+  legalGrounds: string;
+  detailedExplanation: string;
+}
+
+/**
+ * makeDSAReportDecison makes an illegal vs legal decision for a DSAReport
+ * and also adds the decision to its history
+ *
+ * @param mongo is the mongo context.
+ * @param tenant is the filtering tenant for this operation.
+ * @param input is the input used for making the decision
+ * @returns the DSAReport with its decision
+ */
+export async function makeDSAReportDecision(
+  mongo: MongoContext,
+  tenant: Tenant,
+  input: MakeDSAReportDecisionInput,
+  now = new Date()
+) {
+  const result = await makeReportDecision(mongo, tenant.id, input, now);
   const { dsaReport } = result;
   return dsaReport;
 }

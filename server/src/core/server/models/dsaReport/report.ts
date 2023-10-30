@@ -16,6 +16,7 @@ import {
 } from "coral-server/models/helpers";
 
 import {
+  GQLDSAReportDecisionLegality,
   GQLDSAReportHistoryType,
   GQLDSAReportStatus,
   GQLREPORT_SORT,
@@ -456,6 +457,74 @@ export async function changeDSAReportStatus(
     },
     { returnOriginal: false }
   );
+
+  if (!updatedReport.value) {
+    throw new Error();
+  }
+
+  return {
+    dsaReport: updatedReport.value,
+  };
+}
+
+export interface MakeDSAReportDecisionInput {
+  reportID: string;
+  userID: string;
+  legality: GQLDSAReportDecisionLegality;
+  legalGrounds: string;
+  detailedExplanation: string;
+}
+
+export interface MakeDSAReportDecisionResultObject {
+  /**
+   * dsaReport contains the resultant DSAReport that was updated.
+   */
+  dsaReport: DSAReport;
+}
+
+export async function makeDSAReportDecision(
+  mongo: MongoContext,
+  tenantID: string,
+  input: MakeDSAReportDecisionInput,
+  now = new Date()
+): Promise<MakeDSAReportDecisionResultObject> {
+  const { userID, legality, legalGrounds, detailedExplanation, reportID } =
+    input;
+
+  // Create a new ID for the DSAReportHistoryItem.
+  const id = uuid();
+
+  const statusChangeHistoryItem = {
+    id,
+    createdBy: userID,
+    createdAt: now,
+    type: DSAReportHistoryType.DECISION_MADE,
+    decision: {
+      legality,
+      legalGrounds,
+      detailedExplanation,
+    },
+  };
+
+  const updatedReport = await mongo.dsaReports().findOneAndUpdate(
+    { id: reportID, tenantID },
+    {
+      $push: {
+        history: statusChangeHistoryItem,
+      },
+      $set: {
+        decision: {
+          legality,
+          legalGrounds,
+          detailedExplanation,
+        },
+        status: "COMPLETED",
+      },
+    },
+    { returnOriginal: false }
+  );
+
+  // TODO: Also needs to create a CommentModerationAction
 
   if (!updatedReport.value) {
     throw new Error();

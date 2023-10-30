@@ -3402,7 +3402,7 @@ enum DSAReportStatus {
 """
 DSAReportDecision keeps track of whether a DSAReport was determined illegal or not
 """
-enum DSAReportDecision {
+enum DSAReportDecisionLegality {
   LEGAL
   ILLEGAL
 }
@@ -3412,6 +3412,12 @@ enum DSAReportHistoryType {
   NOTE
   DECISION_MADE
   SHARE
+}
+
+type DSAReportDecision {
+  legality: DSAReportDecisionLegality!
+  legalGrounds: String!
+  detailedExplanation: String!
 }
 
 type DSAReportHistoryItem {
@@ -3499,7 +3505,8 @@ type DSAReport {
   additionalInformation: String!
 
   """
-  decision is the determination of whether the reported comment is illegal or not
+  decision is the determination of whether the reported comment is illegal or not, as well as
+  the legal grounds for the decision and additional detailed explanation of decision
   """
   decision: DSAReportDecision
 
@@ -6359,6 +6366,45 @@ input DeleteDSAReportNoteInput {
 type DeleteDSAReportNotePayload {
   """
   dsaReport is the DSAReport from which the note was deleted
+  """
+  dsaReport: DSAReport
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input MakeDSAReportDecisionInput {
+  """
+  id of the user who made a decision for the DSAReport
+  """
+  userID: ID!
+
+  """
+  decision is the legality decision made for the DSAReport
+  """
+  # decision: DSAReportDecision!
+  legality: DSAReportDecisionLegality!
+
+  legalGrounds: String!
+
+  detailedExplanation: String!
+
+  """
+  reportID is the id of the DSAReport that is being decided on
+  """
+  reportID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type MakeDSAReportDecisionPayload {
+  """
+  dsaReport is the DSAReport that was decided on
   """
   dsaReport: DSAReport
 
@@ -10199,6 +10245,13 @@ type Mutation {
   changeDSAReportStatus(
     input: ChangeDSAReportStatusInput!
   ): ChangeDSAReportStatusPayload!
+
+  """
+  makeDSAReportDecision makes a legality decision for a DSAReport and adds the decision to the history for a DSAReport
+  """
+  makeDSAReportDecision(
+    input: MakeDSAReportDecisionInput!
+  ): MakeDSAReportDecisionPayload!
 }
 
 ##################

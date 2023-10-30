@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import { FormApi } from "final-form";
 import { RouteProps } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
@@ -10,10 +11,12 @@ import {
   UsernameButton,
 } from "coral-admin/components/Comment";
 import { MediaContainer } from "coral-admin/components/MediaContainer";
+import ModalHeader from "coral-admin/components/ModalHeader";
 import CommentAuthorContainer from "coral-admin/components/ModerateCard/CommentAuthorContainer";
 import NotAvailable from "coral-admin/components/NotAvailable";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { useDateTimeFormatter } from "coral-framework/hooks";
+import { useMutation } from "coral-framework/lib/relay";
 import { createRouteConfig } from "coral-framework/lib/router";
 import { required } from "coral-framework/lib/validation";
 import { ArrowsLeftIcon, ButtonSvgIcon } from "coral-ui/components/icons";
@@ -37,6 +40,7 @@ import { SingleReportRouteQueryResponse } from "coral-admin/__generated__/Single
 import styles from "./SingleReportRoute.css";
 
 import NotFound from "../NotFound";
+import MakeReportDecisionMutation from "./MakeReportDecisionMutation";
 import ReportHistory from "./ReportHistory";
 import ReportShareButton from "./ReportShareButton";
 import ReportStatusMenu from "./ReportStatusMenu";
@@ -47,6 +51,8 @@ const SingleReportRoute: FunctionComponent<Props> & {
   routeConfig: RouteProps;
 } = ({ dsaReport, viewer }) => {
   const comment = dsaReport?.comment;
+
+  const makeReportDecision = useMutation(MakeReportDecisionMutation);
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",
@@ -87,12 +93,36 @@ const SingleReportRoute: FunctionComponent<Props> & {
 
   const [showDecisionModal, setShowDecisionModal] = useState(false);
 
-  const onSubmitDecision = useCallback(() => {
-    // TODO
-  }, []);
+  const onSubmitDecision = useCallback(
+    async (input: any, form: FormApi) => {
+      if (dsaReport && viewer?.id) {
+        try {
+          await makeReportDecision({
+            userID: viewer.id,
+            reportID: dsaReport.id,
+            legality: input.decision,
+            legalGrounds: input.legalGrounds,
+            detailedExplanation: input.explanation,
+          });
+          setShowDecisionModal(false);
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error(e);
+        }
+      }
+    },
+    [makeReportDecision, viewer, dsaReport]
+  );
   const onCloseDecisionModal = useCallback(() => {
     setShowDecisionModal(false);
   }, [setShowDecisionModal]);
+
+  const onChangeReportStatusCompleted = useCallback(() => {
+    setShowDecisionModal(true);
+
+    // prompt to submit decision to complete
+    // submitting a decision will change status to completed
+  }, []);
 
   if (!dsaReport) {
     return <NotFound />;
@@ -133,6 +163,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
             value={dsaReport.status}
             reportID={dsaReport.id}
             userID={viewer?.id}
+            onChangeReportStatusCompleted={onChangeReportStatusCompleted}
           />
           <ReportShareButton dsaReport={dsaReport} userID={viewer?.id} />
         </Flex>
@@ -280,14 +311,22 @@ const SingleReportRoute: FunctionComponent<Props> & {
                         ref={firstFocusableRef}
                       />
                     </Flex>
+                    <ModalHeader>Decision</ModalHeader>
                     {/* TODO: Localize all of this */}
-                    <Form onSubmit={onSubmitDecision}>
-                      {({ handleSubmit }) => (
+                    <Form
+                      onSubmit={onSubmitDecision}
+                      initialValues={{ decision: "ILLEGAL" }}
+                    >
+                      {({ handleSubmit, hasValidationErrors }) => (
                         <form onSubmit={handleSubmit}>
-                          <Flex direction="column">
+                          <Flex direction="column" padding={2}>
                             <HorizontalGutter>
                               <Flex alignItems="center">
-                                <div>This comment</div>
+                                <div
+                                  className={styles.decisionModalThisComment}
+                                >
+                                  This comment
+                                </div>
                                 <Field id="reportDecision" name="decision">
                                   {({ input }) => {
                                     return (
@@ -312,6 +351,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
                                 >
                                   {({ input }) => (
                                     <Textarea
+                                      className={styles.decisionModalTextArea}
                                       placeholder="Legal grounds"
                                       {...input}
                                     />
@@ -320,12 +360,13 @@ const SingleReportRoute: FunctionComponent<Props> & {
                               </Flex>
                               <Flex>
                                 <Field
-                                  id="reportReason"
-                                  name="reason"
+                                  id="reportExplanation"
+                                  name="explanation"
                                   validate={required}
                                 >
                                   {({ input }) => (
                                     <Textarea
+                                      className={styles.decisionModalTextArea}
                                       placeholder="Explanation"
                                       {...input}
                                     />
@@ -333,7 +374,11 @@ const SingleReportRoute: FunctionComponent<Props> & {
                                 </Field>
                               </Flex>
                               <Flex justifyContent="flex-end">
-                                <Button type="submit" iconLeft>
+                                <Button
+                                  type="submit"
+                                  iconLeft
+                                  disabled={hasValidationErrors}
+                                >
                                   Submit
                                 </Button>
                               </Flex>

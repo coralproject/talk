@@ -6,6 +6,7 @@ import {
   changeDSAReportStatus,
   createDSAReport,
   deleteDSAReportNote,
+  makeDSAReportDecision,
 } from "coral-server/services/dsaReports/reports";
 
 import {
@@ -14,6 +15,7 @@ import {
   GQLChangeDSAReportStatusInput,
   GQLCreateDSAReportInput,
   GQLDeleteDSAReportNoteInput,
+  GQLMakeDSAReportDecisionInput,
 } from "coral-server/graph/schema/__generated__/types";
 
 export const DSAReports = (ctx: GraphContext) => ({
@@ -59,4 +61,18 @@ export const DSAReports = (ctx: GraphContext) => ({
     reportID,
   }: GQLChangeDSAReportStatusInput) =>
     changeDSAReportStatus(ctx.mongo, ctx.tenant, { userID, status, reportID }),
+  makeDSAReportDecision: ({
+    userID,
+    legality,
+    legalGrounds,
+    detailedExplanation,
+    reportID,
+  }: GQLMakeDSAReportDecisionInput) =>
+    makeDSAReportDecision(ctx.mongo, ctx.tenant, {
+      userID,
+      legality,
+      legalGrounds,
+      detailedExplanation,
+      reportID,
+    }),
 });

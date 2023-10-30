@@ -17,6 +17,7 @@ import {
 } from "coral-ui/components/v2";
 
 import {
+  DSAReportDecisionLegality,
   DSAReportStatus,
   ReportHistory_dsaReport,
 } from "coral-admin/__generated__/ReportHistory_dsaReport.graphql";
@@ -40,6 +41,13 @@ export const statusMappings = {
   "%future added value": "Unknown status",
 };
 
+// TODO: Add localizations here
+const decisionMadeMapping = {
+  ILLEGAL: "contains illegal content",
+  LEGAL: "does not contain illegal content",
+  "%future added value": "Unknown decision",
+};
+
 const ReportHistory: FunctionComponent<Props> = ({ dsaReport, userID }) => {
   const addReportNote = useMutation(AddReportNoteMutation);
   const deleteReportNote = useMutation(DeleteReportNoteMutation);
@@ -57,6 +65,16 @@ const ReportHistory: FunctionComponent<Props> = ({ dsaReport, userID }) => {
     }
     return statusMappings[status];
   }, []);
+
+  const decisionMapping = useCallback(
+    (decision?: DSAReportDecisionLegality | null) => {
+      if (!decision) {
+        return "Unknown decision";
+      }
+      return decisionMadeMapping[decision];
+    },
+    []
+  );
 
   const onDeleteReportNoteButton = useCallback(
     async (id: string) => {
@@ -162,6 +180,20 @@ const ReportHistory: FunctionComponent<Props> = ({ dsaReport, userID }) => {
                         >{`${h.createdBy?.username} shared this report`}</div>
                       </Localized>
                     )}
+
+                    {h?.type === GQLDSAReportHistoryType.DECISION_MADE && (
+                      <Localized
+                        id="reports-singleReport-madeDecision"
+                        vars={{ username: h.createdBy?.username }}
+                      >
+                        <div className={styles.reportHistoryText}>{`${
+                          h.createdBy?.username
+                        } made a decision that this report ${decisionMapping(
+                          h.decision?.legality
+                        )}`}</div>
+                      </Localized>
+                    )}
+
                     <div className={styles.reportHistoryCreatedAt}>
                       {reportHistoryFormatter(h.createdAt)}
                     </div>
@@ -222,6 +254,11 @@ const enhanced = withFragmentContainer<Props>({
         body
         type
         status
+        decision {
+          legality
+          legalGrounds
+          detailedExplanation
+        }
       }
     }
   `,

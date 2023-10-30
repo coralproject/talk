@@ -14,23 +14,29 @@ interface Props {
   value: DSAReportStatus | null;
   reportID: string;
   userID?: string;
+  onChangeReportStatusCompleted: () => void;
 }
 
 const ReportStatusMenu: FunctionComponent<Props> = ({
   value,
   reportID,
   userID,
+  onChangeReportStatusCompleted,
 }) => {
   const changeReportStatus = useMutation(ChangeReportStatusMutation);
 
   const onChangeStatus = useCallback(
     async (status: DSAReportStatus) => {
-      if (userID) {
-        await changeReportStatus({
-          reportID,
-          userID,
-          status,
-        });
+      if (status === "COMPLETED") {
+        onChangeReportStatusCompleted();
+      } else {
+        if (userID) {
+          await changeReportStatus({
+            reportID,
+            userID,
+            status,
+          });
+        }
       }
     },
     [reportID, userID, changeReportStatus]

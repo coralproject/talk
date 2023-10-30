@@ -97,3 +97,11 @@
   font-weight: var(--font-weight-primary-regular);
   white-space: pre-wrap;
 }
+
+.decisionModalThisComment {
+  margin-right: var(--spacing-2);
+}
+
+.decisionModalTextArea {
+  flex-grow: 1;
+}
