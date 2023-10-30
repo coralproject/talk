@@ -3290,6 +3290,60 @@ enum COMMENT_STATUS {
   SYSTEM_WITHHELD
 }
 
+enum REJECTION_REASON_CODE {
+  """
+  OFFENSIVE represents a rejection of a comment for being offensive.
+  """
+  OFFENSIVE
+
+  """
+  ABUSIVE represents a rejection of a comment for being abusive.
+  """
+  ABUSIVE
+
+  """
+  SPAM represents a rejection of a comment for being spam.
+  """
+  SPAM
+
+  """
+  BANNED_WORD represents a rejection of a comment for containing a banned word.
+  """
+  BANNED_WORD
+
+  """
+  AD represents a rejection of a comment for being and ad.
+  """
+  AD
+
+  """
+  ILLEGAL_CONTENT represents a rejection of a comment for containing illegal content.
+  """
+  ILLEGAL_CONTENT
+
+  """
+  OTHER is reserved for reasons that arent adequately described by the other options.
+  """
+  OTHER
+}
+
+type RejectionReason {
+  """
+  code is the reason that the comment was rejected
+  """
+  code: REJECTION_REASON_CODE!
+
+  """
+  legalGrounds is the specific laws broken as described by the reporter
+  """
+  legalGrounds: String
+
+  """
+  detailedExplanation is any additional information the user wishes to provide.
+  """
+  detailedExplanation: String
+}
+
 type CommentModerationAction {
   id: ID!
 
@@ -3313,6 +3367,11 @@ type CommentModerationAction {
   that the system has assigned the moderation status.
   """
   moderator: User
+
+  """
+  reason is the reason the comment was rejected, if it was rejected
+  """
+  reason: RejectionReason
 
   """
   createdAt is the time that the CommentModerationAction was created.
@@ -6660,6 +6719,23 @@ type ApproveCommentPayload {
 # rejectComment
 ##################
 
+input RejectCommentReasonInput {
+  """
+  code is the enumerated code for the reason the comment is being rejected.
+  """
+  code: REJECTION_REASON_CODE!
+
+  """
+  legalGrounds is the specific laws broken as described by the reporter.
+  """
+  legalGrounds: String
+
+  """
+  detailedExplanation is any additional information the user wishes to provide.
+  """
+  detailedExplanation: String
+}
+
 input RejectCommentInput {
   """
   commentID is the ID of the Comment that was rejected.
@@ -6675,6 +6751,11 @@ input RejectCommentInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  reason is the reason the comment is being rejected if DSA features are enabled.
+  """
+  reason: RejectCommentReasonInput
 }
 
 type RejectCommentPayload {
