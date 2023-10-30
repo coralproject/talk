@@ -83,7 +83,7 @@ const ReportHistory: FunctionComponent<Props> = ({ dsaReport, userID }) => {
     [deleteReportNote, dsaReport.id]
   );
 
-  const onSubmit = useCallback(
+  const onSubmitAddNote = useCallback(
     async (input: any, form: FormApi) => {
       if (userID) {
         await addReportNote({
@@ -207,7 +207,7 @@ const ReportHistory: FunctionComponent<Props> = ({ dsaReport, userID }) => {
         </HorizontalGutter>
       </Flex>
       <Flex>
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={onSubmitAddNote}>
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit} className={styles.addNoteForm}>
               <Localized id="reports-singleReport-note-field">
