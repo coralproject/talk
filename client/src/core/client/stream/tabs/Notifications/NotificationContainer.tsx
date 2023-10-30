@@ -2,8 +2,9 @@ import cn from "classnames";
 import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { getURLWithCommentID } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { RelativeTime } from "coral-ui/components/v2";
 
 import { NotificationContainer_notification } from "coral-stream/__generated__/NotificationContainer_notification.graphql";
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
@@ -32,21 +33,27 @@ const NotificationContainer: FunctionComponent<Props> = ({
     return createdAtDate.getTime() <= lastSeenDate.getTime();
   }, [createdAt, viewer]);
 
-  const commentURL = comment
-    ? getURLWithCommentID(comment.story.url, comment.id)
-    : "";
-
   return (
-    <div
-      className={cn(styles.root, {
-        [styles.seen]: seen,
-        [styles.notSeen]: !seen,
-      })}
-    >
-      {title && <div className={cn(styles.title)}>{title}</div>}
-      {body && <div className={cn(styles.body)}>{body}</div>}
-      {comment && <a href={commentURL}>{commentURL}</a>}
-    </div>
+    <>
+      <div
+        className={cn(styles.root, {
+          [styles.seen]: seen,
+          [styles.notSeen]: !seen,
+        })}
+      >
+        {title && (
+          <div className={styles.title}>
+            <SvgIcon size="sm" Icon={CheckCircleIcon} />
+            <div className={styles.titleText}>{title}</div>
+          </div>
+        )}
+        {body && <div className={cn(styles.body)}>{body}</div>}
+        <div className={styles.footer}>
+          <RelativeTime date={createdAt} />
+        </div>
+      </div>
+      <div className={styles.divider}></div>
+    </>
   );
 };
 
