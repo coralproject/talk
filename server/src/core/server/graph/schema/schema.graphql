@@ -3339,9 +3339,9 @@ type RejectionReason {
   legalGrounds: String
 
   """
-  detailedExplaination is any additional information the user wishes to provide.
+  detailedExplanation is any additional information the user wishes to provide.
   """
-  detailedExplaination: String
+  detailedExplanation: String
 }
 
 type CommentModerationAction {
@@ -6731,9 +6731,9 @@ input RejectCommentReasonInput {
   legalGrounds: String
 
   """
-  detailedExplaination is any additional information the user wishes to provide.
+  detailedExplanation is any additional information the user wishes to provide.
   """
-  detailedExplaination: String
+  detailedExplanation: String
 }
 
 input RejectCommentInput {
