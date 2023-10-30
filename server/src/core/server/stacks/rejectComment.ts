@@ -75,7 +75,11 @@ const rejectComment = async (
   commentRevisionID: string,
   moderatorID: string,
   now: Date,
-  reason?: { code: GQLREJECTION_REASON_CODE; additionalInfo?: string },
+  reason?: {
+    code: GQLREJECTION_REASON_CODE;
+    legalGrounds?: string | undefined;
+    detailedExplaination?: string | undefined;
+  },
   request?: Request | undefined
 ) => {
   const updateAllCommentCountsArgs = {
