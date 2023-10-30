@@ -148,6 +148,8 @@ const Popover: FunctionComponent<PopoverProps> = ({
           modifiers={modifiers}
         >
           {(props) => {
+            /* eslint-disable */
+    console.log("POPOVER", { props });
             return (
               <div
                 id={id}

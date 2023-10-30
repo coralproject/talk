@@ -34,9 +34,8 @@ import { ModerateCardContainer_settings } from "coral-admin/__generated__/Modera
 import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
-
 import { RejectCommentInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
-import ModerationReason from "../ModerationReason/ModerationReason";
+
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -128,28 +127,26 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   );
 
   const [showBanModal, setShowBanModal] = useState(false);
-  const [
-    { showModerationReason, rejecting, reason: rejectionReason },
-    dispatch,
-  ] = useReducer<RejectionReducer>( // TODO use dispatch
-    (state, input) => {
-      switch (input.action) {
-        case "INDICATE_REJECT":
-          return dsaFeaturesEnabled
-            ? { showModerationReason: true, rejecting: false }
-            : { showModerationReason: false, rejecting: true };
-        case "CONFIRM_REASON":
-          return {
-            showModerationReason: false,
-            rejecting: true,
-            reason: input.reason,
-          };
-        case "REJECTION_COMPLETE":
-          return { showModerationReason: false, rejecting: false };
-      }
-    },
-    { showModerationReason: false, rejecting: false }
-  );
+  const [{ rejecting, reason: rejectionReason }, dispatch] =
+    useReducer<RejectionReducer>( // TODO use dispatch
+      (state, input) => {
+        switch (input.action) {
+          case "INDICATE_REJECT":
+            return dsaFeaturesEnabled
+              ? { showModerationReason: true, rejecting: false }
+              : { showModerationReason: false, rejecting: true };
+          case "CONFIRM_REASON":
+            return {
+              showModerationReason: false,
+              rejecting: true,
+              reason: input.reason,
+            };
+          case "REJECTION_COMPLETE":
+            return { showModerationReason: false, rejecting: false };
+        }
+      },
+      { showModerationReason: false, rejecting: false }
+    );
 
   const handleApprove = useCallback(async () => {
     if (!comment.revision) {
@@ -410,6 +407,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           isArchived={comment.story.isArchived}
           isArchiving={comment.story.isArchiving}
+          dsaFeaturesEnabled={!!dsaFeaturesEnabled}
+          onReason={(reason) => dispatch({ action: "CONFIRM_REASON", reason })}
         />
       </FadeInTransition>
       {comment.author && (
@@ -429,12 +428,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           userEmail={comment.author.email}
           userRole={comment.author.role}
           isMultisite={settings.multisite}
-        />
-      )}
-      {dsaFeaturesEnabled && (
-        <ModerationReason
-          open={showModerationReason}
-          onReason={(reason) => dispatch({ action: "CONFIRM_REASON", reason })}
         />
       )}
     </>

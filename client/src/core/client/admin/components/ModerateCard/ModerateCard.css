@@ -111,6 +111,10 @@ $moderateCardLinkTextColor: $colors-teal-700;
   padding-bottom: var(--spacing-1);
 }
 
+.moderationReasonDropdown {
+
+}
+
 .storyLabel {
   color: var(--palette-grey-500);
   font-size: var(--font-size-1);

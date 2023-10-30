@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import key from "keymaster";
@@ -8,6 +9,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  // useState,
 } from "react";
 
 import { MediaContainer } from "coral-admin/components/MediaContainer";
@@ -23,8 +25,10 @@ import {
 import {
   Button,
   Card,
+  Dropdown,
   Flex,
   HorizontalGutter,
+  Popover,
   TextLink,
   Timestamp,
 } from "coral-ui/components/v2";
@@ -37,6 +41,8 @@ import FeatureButton from "./FeatureButton";
 import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
 
+import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
+import ModerationReason from "../ModerationReason/ModerationReason";
 import styles from "./ModerateCard.css";
 
 interface Props {
@@ -95,6 +101,8 @@ interface Props {
   suspectWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
   isArchived?: boolean;
   isArchiving?: boolean;
+  dsaFeaturesEnabled: boolean;
+  onReason: (reason: RejectCommentReasonInput) => void;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -137,6 +145,8 @@ const ModerateCard: FunctionComponent<Props> = ({
   suspectWords,
   isArchived,
   isArchiving,
+  onReason,
+  dsaFeaturesEnabled,
 }) => {
   const div = useRef<HTMLDivElement>(null);
 
@@ -172,6 +182,8 @@ const ModerateCard: FunctionComponent<Props> = ({
       div.current.focus();
     }
   }, [selected, div]);
+
+  // const [showModerationReason, setShowModerationReason] = useState(false);
 
   const commentBody = useMemo(
     () =>
@@ -340,23 +352,46 @@ const ModerateCard: FunctionComponent<Props> = ({
               <div className={styles.decision}>DECISION</div>
             </Localized>
           )}
-          <Flex itemGutter>
-            <RejectButton
-              onClick={onReject}
-              invert={status === "rejected"}
-              disabled={
-                status === "rejected" ||
-                dangling ||
-                deleted ||
-                readOnly ||
-                isArchived ||
-                isArchiving
-              }
-              readOnly={readOnly}
-              className={cn({
-                [styles.miniButton]: mini,
-              })}
-            />
+          <Flex itemGutter style={{ position: "relative" }}>
+            <Popover
+              id={`reject-reason-${id}`}
+              // modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
+              body={({ toggleVisibility, visible }) => {
+                return (
+                  <Dropdown className={styles.moderationReasonDropdown}>
+                    <ModerationReason onReason={onReason} />
+                  </Dropdown>
+                );
+              }}
+              placement="bottom-end"
+            >
+              {({ toggleVisibility, visible }) => {
+                return (
+                  <RejectButton
+                    onClick={
+                      dsaFeaturesEnabled
+                        ? () => {
+                            toggleVisibility();
+                          }
+                        : onReject
+                    }
+                    invert={status === "rejected"}
+                    disabled={
+                      status === "rejected" ||
+                      dangling ||
+                      deleted ||
+                      readOnly ||
+                      isArchived ||
+                      isArchiving
+                    }
+                    readOnly={readOnly}
+                    className={cn({
+                      [styles.miniButton]: mini,
+                    })}
+                  />
+                );
+              }}
+            </Popover>
             <ApproveButton
               onClick={onApprove}
               invert={status === "approved"}

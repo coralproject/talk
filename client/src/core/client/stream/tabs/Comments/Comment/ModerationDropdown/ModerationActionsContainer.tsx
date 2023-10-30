@@ -370,12 +370,11 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
           story={story}
         />
       )}
-      {dsaFeaturesEnabled && (
+      {dsaFeaturesEnabled && showModerationReason && (
         <ModerationReason
           onReason={(rejectionReason) =>
             dispatch({ action: "CONFIRM_REASON", reason: rejectionReason })
           }
-          open={showModerationReason}
         />
       )}
     </>
