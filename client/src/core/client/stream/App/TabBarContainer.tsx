@@ -86,7 +86,6 @@ const enhanced = withSetActiveTabMutation(
     viewer: graphql`
       fragment TabBarContainer_viewer on User {
         role
-        hasNewNotifications
       }
     `,
     story: graphql`

@@ -66,6 +66,10 @@ export const markLastSeenNotification = async (
   user: Readonly<User>,
   notificationDates: Date[]
 ) => {
+  if (!notificationDates || notificationDates.length === 0) {
+    return;
+  }
+
   let max = new Date(0);
   for (const date of notificationDates) {
     if (max.getTime() < date.getTime()) {
@@ -77,9 +81,15 @@ export const markLastSeenNotification = async (
     $set: { lastSeenNotificationDate: user.lastSeenNotificationDate },
   };
 
-  if (user.lastSeenNotificationDate && user.lastSeenNotificationDate < max) {
+  if (
+    user.lastSeenNotificationDate &&
+    user.lastSeenNotificationDate.getTime() < max.getTime()
+  ) {
     change.$set.lastSeenNotificationDate = max;
-  } else {
+  } else if (
+    user.lastSeenNotificationDate === null ||
+    user.lastSeenNotificationDate === undefined
+  ) {
     change.$set.lastSeenNotificationDate = max;
   }
 
