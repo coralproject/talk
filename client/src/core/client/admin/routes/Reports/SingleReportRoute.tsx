@@ -44,6 +44,7 @@ import { SingleReportRouteQueryResponse } from "coral-admin/__generated__/Single
 import styles from "./SingleReportRoute.css";
 
 import NotFound from "../NotFound";
+import ChangeReportStatusMutation from "./ChangeReportStatusMutation";
 import MakeReportDecisionMutation from "./MakeReportDecisionMutation";
 import ReportHistory from "./ReportHistory";
 import ReportShareButton from "./ReportShareButton";
@@ -57,6 +58,24 @@ const SingleReportRoute: FunctionComponent<Props> & {
   const comment = dsaReport?.comment;
 
   const makeReportDecision = useMutation(MakeReportDecisionMutation);
+  const changeReportStatus = useMutation(ChangeReportStatusMutation);
+
+  const [showChangeStatusModal, setShowChangeStatusModal] = useState(false);
+
+  const onCloseChangeStatusModal = useCallback(() => {
+    setShowChangeStatusModal(false);
+  }, [setShowChangeStatusModal]);
+
+  const onSubmitStatusUpdate = useCallback(async () => {
+    if (viewer?.id && dsaReport?.id) {
+      await changeReportStatus({
+        userID: viewer.id,
+        reportID: dsaReport.id,
+        status: "UNDER_REVIEW",
+      });
+      setShowChangeStatusModal(false);
+    }
+  }, [viewer, dsaReport, setShowChangeStatusModal, changeReportStatus]);
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",
@@ -99,7 +118,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
 
   const onSubmitDecision = useCallback(
     async (input: any, form: FormApi) => {
-      if (dsaReport && viewer?.id) {
+      if (dsaReport && viewer?.id && dsaReport.comment?.revision) {
         try {
           await makeReportDecision({
             userID: viewer.id,
@@ -107,6 +126,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
             legality: input.decision,
             legalGrounds: input.legalGrounds,
             detailedExplanation: input.explanation,
+            commentID: dsaReport.comment?.id,
+            commentRevisionID: dsaReport.comment.revision.id,
+            storyID: dsaReport.comment.story.id,
           });
           setShowDecisionModal(false);
         } catch (e) {
@@ -123,10 +145,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
 
   const onChangeReportStatusCompleted = useCallback(() => {
     setShowDecisionModal(true);
-
-    // prompt to submit decision to complete
-    // submitting a decision will change status to completed
-  }, []);
+  }, [setShowDecisionModal]);
 
   if (!dsaReport) {
     return <NotFound />;
@@ -169,7 +188,11 @@ const SingleReportRoute: FunctionComponent<Props> & {
             userID={viewer?.id}
             onChangeReportStatusCompleted={onChangeReportStatusCompleted}
           />
-          <ReportShareButton dsaReport={dsaReport} userID={viewer?.id} />
+          <ReportShareButton
+            dsaReport={dsaReport}
+            userID={viewer?.id}
+            setShowChangeStatusModal={setShowChangeStatusModal}
+          />
         </Flex>
       </Flex>
       <Flex>
@@ -426,7 +449,11 @@ const SingleReportRoute: FunctionComponent<Props> & {
             </HorizontalGutter>
           </Flex>
         </Flex>
-        <ReportHistory dsaReport={dsaReport} userID={viewer?.id} />
+        <ReportHistory
+          dsaReport={dsaReport}
+          userID={viewer?.id}
+          setShowChangeStatusModal={setShowChangeStatusModal}
+        />
       </Flex>
       <UserHistoryDrawer
         userID={userDrawerUserID}
@@ -434,6 +461,43 @@ const SingleReportRoute: FunctionComponent<Props> & {
         onClose={onHideUserDrawer}
         setUserID={onSetUserID}
       />
+      <Modal open={showChangeStatusModal}>
+        {({ firstFocusableRef }) => (
+          <Card>
+            <Flex justifyContent="flex-end">
+              <CardCloseButton
+                onClick={onCloseChangeStatusModal}
+                ref={firstFocusableRef}
+              />
+            </Flex>
+            <ModalHeader>Update status</ModalHeader>
+            {/* TODO: Localize all of this */}
+            <Form onSubmit={onSubmitStatusUpdate}>
+              {({ handleSubmit, hasValidationErrors }) => (
+                <form onSubmit={handleSubmit}>
+                  <Flex direction="column" padding={2}>
+                    <HorizontalGutter>
+                      <div>
+                        Would you also like to update the status to In review
+                        since you've now taken an action on this report?
+                      </div>
+                      <Flex justifyContent="flex-end">
+                        <Button
+                          type="submit"
+                          iconLeft
+                          disabled={hasValidationErrors}
+                        >
+                          Update status
+                        </Button>
+                      </Flex>
+                    </HorizontalGutter>
+                  </Flex>
+                </form>
+              )}
+            </Form>
+          </Card>
+        )}
+      </Modal>
     </div>
   );
 };
@@ -463,10 +527,14 @@ SingleReportRoute.routeConfig = createRouteConfig<
           deleted
           body
           story {
+            id
             url
             metadata {
               title
             }
+          }
+          revision {
+            id
           }
           rating
           parent {

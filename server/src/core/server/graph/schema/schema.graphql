@@ -3576,7 +3576,17 @@ type DSAReport {
   """
   history: [DSAReportHistoryItem]
 
+  """
+  lastUpdated is when the DSAReport last had an action created and added to its history,
+  such as a note added, status changed, or decision made
+  """
   lastUpdated: Time
+
+  """
+  commentModerationActionID is the id of the associated comment moderation action if a legality
+  decision has been made for this DSAReport
+  """
+  commentModerationActionID: ID
 }
 
 type CommentRevisionPerspectiveMetadata {
@@ -6441,19 +6451,39 @@ input MakeDSAReportDecisionInput {
   userID: ID!
 
   """
-  decision is the legality decision made for the DSAReport
+  legality is the legality decision made for the DSAReport
   """
-  # decision: DSAReportDecision!
   legality: DSAReportDecisionLegality!
 
+  """
+  legal grounds is an overview of the law broken as part of legality decision made
+  """
   legalGrounds: String!
 
+  """
+  detailedExplanation provides more information as part of legality decision made
+  """
   detailedExplanation: String!
+
+  """
+  commentID is the id of the comment about which the DSAReport legality decision is being made
+  """
+  commentID: ID!
+
+  """
+  commentRevisionID is the revision id of the comment about which the DSAReport legality decision is being made
+  """
+  commentRevisionID: ID!
 
   """
   reportID is the id of the DSAReport that is being decided on
   """
   reportID: ID!
+
+  """
+  storyID is the id of the story that the comment is on which the DSAReport decision is being made about
+  """
+  storyID: ID!
 
   """
   clientMutationId is required for Relay support.

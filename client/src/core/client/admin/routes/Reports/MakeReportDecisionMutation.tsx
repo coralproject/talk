@@ -52,10 +52,12 @@ const MakeReportDecisionMutation = createMutation(
         input: {
           userID: input.userID,
           reportID: input.reportID,
-          // decision: input.decision,
           legality: input.legality,
           legalGrounds: input.legalGrounds,
           detailedExplanation: input.detailedExplanation,
+          commentID: input.commentID,
+          commentRevisionID: input.commentRevisionID,
+          storyID: input.storyID,
           clientMutationId: (clientMutationId++).toString(),
         },
       },

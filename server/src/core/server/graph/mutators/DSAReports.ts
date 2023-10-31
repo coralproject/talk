@@ -67,6 +67,9 @@ export const DSAReports = (ctx: GraphContext) => ({
     legalGrounds,
     detailedExplanation,
     reportID,
+    commentID,
+    storyID,
+    commentRevisionID,
   }: GQLMakeDSAReportDecisionInput) =>
     makeDSAReportDecision(ctx.mongo, ctx.tenant, {
       userID,
@@ -74,5 +77,8 @@ export const DSAReports = (ctx: GraphContext) => ({
       legalGrounds,
       detailedExplanation,
       reportID,
+      commentID,
+      storyID,
+      commentRevisionID,
     }),
 });

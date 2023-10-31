@@ -1,8 +1,11 @@
 import { MongoContext } from "coral-server/data/context";
 import {
+  GQLCOMMENT_STATUS,
   GQLDSAReportDecisionLegality,
   GQLDSAReportStatus,
+  GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
+import { createCommentModerationAction } from "coral-server/models/action/moderation/comment";
 import {
   changeDSAReportStatus as changeReportStatus,
   createDSAReport as createReport,
@@ -143,8 +146,11 @@ export async function changeDSAReportStatus(
 }
 
 export interface MakeDSAReportDecisionInput {
+  commentID: string;
+  commentRevisionID: string;
   userID: string;
   reportID: string;
+  storyID: string;
   legality: GQLDSAReportDecisionLegality;
   legalGrounds: string;
   detailedExplanation: string;
@@ -165,7 +171,58 @@ export async function makeDSAReportDecision(
   input: MakeDSAReportDecisionInput,
   now = new Date()
 ) {
-  const result = await makeReportDecision(mongo, tenant.id, input, now);
+  const {
+    commentID,
+    storyID,
+    commentRevisionID,
+    userID,
+    legalGrounds,
+    detailedExplanation,
+  } = input;
+
+  let actionInput;
+  // REJECT if ILLEGAL
+  if (input.legality === GQLDSAReportDecisionLegality.ILLEGAL) {
+    actionInput = {
+      status: GQLCOMMENT_STATUS.REJECTED,
+      rejectionReason: {
+        reason: GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT,
+        legalGrounds,
+        detailedExplanation,
+      },
+    };
+    // APPROVE IF NOT ILLEGAL
+  } else {
+    actionInput = {
+      status: GQLCOMMENT_STATUS.APPROVED,
+    };
+  }
+  const action = await createCommentModerationAction(
+    mongo,
+    tenant.id,
+    {
+      commentID,
+      storyID,
+      commentRevisionID,
+      moderatorID: userID,
+      ...actionInput,
+    },
+    now
+  );
+
+  if (!action) {
+    // TODO: Update error thrown
+    throw new Error();
+  }
+
+  const result = await makeReportDecision(
+    mongo,
+    tenant.id,
+    input,
+    now,
+    action.id
+  );
+
   const { dsaReport } = result;
   return dsaReport;
 }

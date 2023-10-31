@@ -9,6 +9,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import { GQLDSAReportStatus } from "coral-framework/schema";
 import { Button } from "coral-ui/components/v2";
 
 import { ReportShareButton_dsaReport } from "coral-admin/__generated__/ReportShareButton_dsaReport.graphql";
@@ -19,10 +20,15 @@ import AddReportShareMutation from "./AddReportShareMutation";
 
 interface Props {
   dsaReport: ReportShareButton_dsaReport;
+  setShowChangeStatusModal: (show: boolean) => void;
   userID?: string;
 }
 
-const ReportShareButton: FunctionComponent<Props> = ({ dsaReport, userID }) => {
+const ReportShareButton: FunctionComponent<Props> = ({
+  dsaReport,
+  userID,
+  setShowChangeStatusModal,
+}) => {
   const { window } = useCoralContext();
 
   const addReportShare = useMutation(AddReportShareMutation);
@@ -56,6 +62,11 @@ const ReportShareButton: FunctionComponent<Props> = ({ dsaReport, userID }) => {
       element.download = `dsaReport-${dsaReport.referenceID}`;
       window.document.body.appendChild(element);
       element.click();
+
+      // If still awaiting review, prompt user to update status to In review on download
+      if (dsaReport.status === GQLDSAReportStatus.AWAITING_REVIEW) {
+        setShowChangeStatusModal(true);
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
@@ -64,7 +75,14 @@ const ReportShareButton: FunctionComponent<Props> = ({ dsaReport, userID }) => {
     if (userID) {
       await addReportShare({ reportID: dsaReport.id, userID });
     }
-  }, [dsaReport, window, addReportShare, userID, fetchDownload]);
+  }, [
+    dsaReport,
+    window,
+    addReportShare,
+    userID,
+    fetchDownload,
+    setShowChangeStatusModal,
+  ]);
 
   return (
     <Localized id="reports-singleReport-shareButton">
@@ -88,6 +106,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment ReportShareButton_dsaReport on DSAReport {
       id
       referenceID
+      status
     }
   `,
 })(ReportShareButton);

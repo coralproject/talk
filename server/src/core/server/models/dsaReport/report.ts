@@ -16,6 +16,7 @@ import {
 } from "coral-server/models/helpers";
 
 import {
+  GQLDSAReportDecision,
   GQLDSAReportDecisionLegality,
   GQLDSAReportHistoryType,
   GQLDSAReportStatus,
@@ -54,6 +55,11 @@ export interface ReportHistoryItem {
    * status is the new status if this report history item is a status change
    */
   status?: string;
+
+  /**
+   * decision is the legality decision made about the DSAReport
+   */
+  decision?: GQLDSAReportDecision;
 }
 
 export interface DSAReport extends TenantResource {
@@ -110,6 +116,16 @@ export interface DSAReport extends TenantResource {
    * and when an illegal content decision is made
    */
   history: ReportHistoryItem[];
+
+  /**
+   * decision is the legality decision made about the DSAReport
+   */
+  decision?: GQLDSAReportDecision;
+
+  /**
+   * commentModerationActionID is the id of the comment moderation action associated with this DSAReport
+   */
+  commentModerationActionID?: string;
 }
 
 export type DSAReportConnectionInput = ConnectionInput<DSAReport> & {
@@ -181,6 +197,8 @@ export type CreateDSAReportInput = Omit<
   | "status"
   | "submissionID"
   | "history"
+  | "decision"
+  | "commentModerationActionID"
 > & { submissionID?: string };
 
 export interface CreateDSAReportResultObject {
@@ -486,7 +504,8 @@ export async function makeDSAReportDecision(
   mongo: MongoContext,
   tenantID: string,
   input: MakeDSAReportDecisionInput,
-  now = new Date()
+  now = new Date(),
+  commentModerationActionID: string
 ): Promise<MakeDSAReportDecisionResultObject> {
   const { userID, legality, legalGrounds, detailedExplanation, reportID } =
     input;
@@ -518,7 +537,8 @@ export async function makeDSAReportDecision(
           legalGrounds,
           detailedExplanation,
         },
-        status: "COMPLETED",
+        commentModerationActionID,
+        status: GQLDSAReportStatus.COMPLETED,
       },
     },
     { returnOriginal: false }

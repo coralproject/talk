@@ -29,6 +29,7 @@ import DeleteReportNoteMutation from "./DeleteReportNoteMutation";
 
 interface Props {
   dsaReport: ReportHistory_dsaReport;
+  setShowChangeStatusModal: (show: boolean) => void;
   userID?: string;
 }
 
@@ -48,7 +49,11 @@ const decisionMadeMapping = {
   "%future added value": "Unknown decision",
 };
 
-const ReportHistory: FunctionComponent<Props> = ({ dsaReport, userID }) => {
+const ReportHistory: FunctionComponent<Props> = ({
+  dsaReport,
+  userID,
+  setShowChangeStatusModal,
+}) => {
   const addReportNote = useMutation(AddReportNoteMutation);
   const deleteReportNote = useMutation(DeleteReportNoteMutation);
 
@@ -92,9 +97,10 @@ const ReportHistory: FunctionComponent<Props> = ({ dsaReport, userID }) => {
           userID,
         });
         form.change("note", undefined);
+        setShowChangeStatusModal(true);
       }
     },
-    [addReportNote, dsaReport, userID]
+    [addReportNote, dsaReport, userID, setShowChangeStatusModal]
   );
 
   if (!dsaReport) {

@@ -4,9 +4,9 @@ import { defaultTo } from "lodash";
 import TenantContext from "coral-server/graph/context";
 import {
   DSAReport,
+  DSAReportConnectionInput,
   retrieveDSAReportConnection,
   retrieveManyDSAReports,
-  DSAReportConnectionInput,
 } from "coral-server/models/dsaReport";
 
 import {

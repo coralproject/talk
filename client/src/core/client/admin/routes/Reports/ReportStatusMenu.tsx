@@ -53,6 +53,7 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
         id="coral-reports-report-statusMenu"
         onChange={(e) => onChangeStatus(e.target.value as DSAReportStatus)}
         value={value ?? "AWAITING_REVIEW"}
+        disabled={value === "COMPLETED"}
       >
         <Localized id="reports-reportStatusMenu-awaitingReview">
           <Option value="AWAITING_REVIEW">Awaiting review</Option>
