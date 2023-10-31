@@ -9,7 +9,6 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  // useState,
 } from "react";
 
 import { MediaContainer } from "coral-admin/components/MediaContainer";
@@ -25,6 +24,7 @@ import {
 import {
   Button,
   Card,
+  ClickOutside,
   Dropdown,
   Flex,
   HorizontalGutter,
@@ -358,9 +358,13 @@ const ModerateCard: FunctionComponent<Props> = ({
               // modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
               body={({ toggleVisibility, visible }) => {
                 return (
-                  <Dropdown className={styles.moderationReasonDropdown}>
-                    <ModerationReason onReason={onReason} />
-                  </Dropdown>
+                  <ClickOutside
+                    onClickOutside={toggleVisibility}
+                  >
+                    <Dropdown className={styles.moderationReasonDropdown}>
+                      <ModerationReason onReason={onReason} onCancel={toggleVisibility}/>
+                    </Dropdown>
+                  </ClickOutside>
                 );
               }}
               placement="bottom-end"
@@ -408,6 +412,7 @@ const ModerateCard: FunctionComponent<Props> = ({
                 [styles.miniButton]: mini,
               })}
             />
+            <ModerationReason onReason={onReason} onCancel={() => null} />
           </Flex>
           {moderatedBy}
         </Flex>

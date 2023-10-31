@@ -112,7 +112,7 @@ $moderateCardLinkTextColor: $colors-teal-700;
 }
 
 .moderationReasonDropdown {
-
+  opacity: 1;
 }
 
 .storyLabel {

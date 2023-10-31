@@ -375,6 +375,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
           onReason={(rejectionReason) =>
             dispatch({ action: "CONFIRM_REASON", reason: rejectionReason })
           }
+          onCancel={() => alert("TODO: handle cancel")}
         />
       )}
     </>
