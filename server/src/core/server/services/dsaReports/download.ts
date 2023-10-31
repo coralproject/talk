@@ -4,10 +4,10 @@ import { Response } from "express";
 
 import { createDateFormatter } from "coral-common/common/lib/date";
 import { MongoContext } from "coral-server/data/context";
+import { retrieveComment } from "coral-server/models/comment";
 import { DSAReport } from "coral-server/models/dsaReport";
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
-import { retrieveComment } from "coral-server/models/comment";
 
 export async function sendReportDownload(
   res: Response,
@@ -109,8 +109,7 @@ export async function sendReportDownload(
   csv.write(["User", "Update type", "Update info", "Date"]);
 
   if (report.history) {
-    for (let i = 0; i < report.history.length; i++) {
-      const reportHistoryItem = report.history[i];
+    for (const reportHistoryItem of report.history) {
       const reportCommentAuthor = await retrieveUser(
         mongo,
         tenant.id,
