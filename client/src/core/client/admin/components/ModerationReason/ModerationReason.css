@@ -9,18 +9,38 @@
 }
 
 .sectionLabel {
+  display: block;
   font-family: var(--font-family-primary);
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-bold);
 }
 
-.addExplanation {
+.optionAction {
   padding: 0;
   margin: var(--spacing-1) 0;
+  color: $colors-teal-600;
+  font-weight: var(--font-weight-secondary-regular);
+  text-decoration: underline;
 }
 
 .buttons {
   margin-top: var(--spacing-1);
+}
+
+.detailedExplanation {
+  margin-bottom: var(--spacing-3);
+}
+
+.explanationLabel {
+  margin-bottom: var(--spacing-2);
+}
+
+.changeReason {
+  margin-bottom: var(--spacing-3);
+}
+
+.detailedExplanation > textarea {
+  resize: none;
 }
 
 .cancelButton {

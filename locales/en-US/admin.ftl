@@ -1101,6 +1101,35 @@ moderate-searchBar-comboBoxTextField =
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
+moderationReason-reason = 
+  Reason
+moderationReason-addExplanation = 
+  Add explanation
+moderationReason-reject =
+  Reject
+moderationReason-cancel =
+  Cancel
+moderationReason-rejectionReason-OFFENSIVE =
+  Offensive
+moderationReason-rejectionReason-ABUSIVE = 
+  Abusive
+moderationReason-rejectionReason-SPAM =
+  Spam
+moderationReason-rejectionReason-BANNED_WORD =
+  Banned word
+moderationReason-rejectionReason-AD =
+  Ad
+moderationReason-reason-moreReasons =
+  + More reasons
+moderationReason-rejectionReason-OTHER = 
+  Other
+moderationReason-changeReason =
+  Change reason
+moderationReason-detailedExplanation =
+  Detailed explanation
+moderationReason-detailedExplanation-placeholder =
+   .placeholder = Add your explanation
+
 moderateCardDetails-tab-info = Info
 moderateCardDetails-tab-edits = Edit history
 moderateCardDetails-tab-automatedActions = Automated actions
