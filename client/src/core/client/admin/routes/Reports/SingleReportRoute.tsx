@@ -19,6 +19,7 @@ import {
   getURLWithCommentID,
 } from "coral-framework/helpers";
 import { useDateTimeFormatter } from "coral-framework/hooks";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useMutation } from "coral-framework/lib/relay";
 import { createRouteConfig } from "coral-framework/lib/router";
 import { ArrowsLeftIcon, ButtonSvgIcon } from "coral-ui/components/icons";
@@ -399,11 +400,13 @@ const SingleReportRoute: FunctionComponent<Props> & {
             </HorizontalGutter>
           </Flex>
         </Flex>
-        <ReportHistory
-          dsaReport={dsaReport}
-          userID={viewer?.id}
-          setShowChangeStatusModal={setShowChangeStatusModal}
-        />
+        <IntersectionProvider threshold={[0, 1]}>
+          <ReportHistory
+            dsaReport={dsaReport}
+            userID={viewer?.id}
+            setShowChangeStatusModal={setShowChangeStatusModal}
+          />
+        </IntersectionProvider>
       </Flex>
       <UserHistoryDrawer
         userID={userDrawerUserID}

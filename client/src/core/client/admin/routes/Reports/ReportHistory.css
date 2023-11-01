@@ -9,6 +9,20 @@
   margin-bottom: var(--spacing-2);
 }
 
+.fadeBottom:after {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(255, 255, 255, 0) 200px
+  );
+  pointer-events: none;
+}
+
 .reportHistoryHeader {
   text-transform: uppercase;
   font-size: var(--font-size-3);
@@ -47,6 +61,10 @@
 .addNoteForm {
   padding: var(--spacing-2) var(--spacing-4) var(--spacing-4) var(--spacing-4);
   width: 100%;
+}
+
+.addNoteFormWrapper {
+  position: relative;
 }
 
 .addNoteTextarea::placeholder {

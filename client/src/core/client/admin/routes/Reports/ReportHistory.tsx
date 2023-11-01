@@ -1,10 +1,17 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import { FormApi } from "final-form";
-import React, { FunctionComponent, useCallback } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
+import { useInView } from "coral-framework/lib/intersection";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import {
@@ -18,6 +25,7 @@ import {
   HorizontalGutter,
   Textarea,
 } from "coral-ui/components/v2";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import {
   DSAReportDecisionLegality,
@@ -58,6 +66,21 @@ const ReportHistory: FunctionComponent<Props> = ({
   userID,
   setShowChangeStatusModal,
 }) => {
+  const root = useShadowRootOrDocument();
+  const [reportHistoryStyles, setReportHistoryStyles] = useState(
+    cn(styles.reportHistory, styles.fadeBottom)
+  );
+  const { inView, intersectionRef: bottomOfReportHistoryInViewRef } =
+    useInView();
+
+  useEffect(() => {
+    if (inView) {
+      setReportHistoryStyles(styles.reportHistory);
+    } else {
+      setReportHistoryStyles(cn(styles.reportHistory, styles.fadeBottom));
+    }
+  }, [inView]);
+
   const addReportNote = useMutation(AddReportNoteMutation);
   const deleteReportNote = useMutation(DeleteReportNoteMutation);
 
@@ -101,12 +124,19 @@ const ReportHistory: FunctionComponent<Props> = ({
           userID,
         });
         form.change("note", undefined);
+        // Wait for new note to appear then scroll down to it
+        setTimeout(() => {
+          const element = root.getElementById("reportHistory");
+          if (element) {
+            element.scroll({ top: element.scrollHeight, behavior: "smooth" });
+          }
+        }, 0);
         if (dsaReport.status === GQLDSAReportStatus.AWAITING_REVIEW) {
           setShowChangeStatusModal(true);
         }
       }
     },
-    [addReportNote, dsaReport, userID, setShowChangeStatusModal]
+    [addReportNote, dsaReport, userID, setShowChangeStatusModal, root]
   );
 
   if (!dsaReport) {
@@ -115,7 +145,11 @@ const ReportHistory: FunctionComponent<Props> = ({
 
   return (
     <Flex direction="column" className={styles.reportHistoryWrapper}>
-      <Flex className={styles.reportHistory} direction="column">
+      <Flex
+        className={reportHistoryStyles}
+        direction="column"
+        id="reportHistory"
+      >
         <Localized id="reports-singleReport-history">
           <div className={styles.reportHistoryHeader}>History</div>
         </Localized>
@@ -241,8 +275,9 @@ const ReportHistory: FunctionComponent<Props> = ({
             })}
           </>
         </HorizontalGutter>
+        <div ref={bottomOfReportHistoryInViewRef}></div>
       </Flex>
-      <Flex>
+      <Flex className={styles.addNoteFormWrapper}>
         <Form onSubmit={onSubmitAddNote}>
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit} className={styles.addNoteForm}>
