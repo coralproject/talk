@@ -1,8 +1,7 @@
 import { Localized } from "@fluent/react/compat";
-import { FormApi } from "final-form";
 import { RouteProps } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { Field, Form } from "react-final-form";
+import { Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import {
@@ -22,7 +21,6 @@ import {
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation } from "coral-framework/lib/relay";
 import { createRouteConfig } from "coral-framework/lib/router";
-import { required } from "coral-framework/lib/validation";
 import { ArrowsLeftIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
@@ -32,7 +30,6 @@ import {
   HorizontalGutter,
   Modal,
   Spinner,
-  Textarea,
   Timestamp,
 } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
@@ -43,8 +40,8 @@ import styles from "./SingleReportRoute.css";
 
 import NotFound from "../NotFound";
 import ChangeReportStatusMutation from "./ChangeReportStatusMutation";
-import MakeReportDecisionMutation from "./MakeReportDecisionMutation";
 import ReportHistory from "./ReportHistory";
+import ReportMakeDecisionModal from "./ReportMakeDecisionModal";
 import ReportShareButton from "./ReportShareButton";
 import ReportStatusMenu from "./ReportStatusMenu";
 
@@ -55,7 +52,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
 } = ({ dsaReport, viewer }) => {
   const comment = dsaReport?.comment;
 
-  const makeReportDecision = useMutation(MakeReportDecisionMutation);
   const changeReportStatus = useMutation(ChangeReportStatusMutation);
 
   const [showChangeStatusModal, setShowChangeStatusModal] = useState(false);
@@ -90,10 +86,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
   );
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
 
-  const [makeDecisionSelection, setMakeDecisionSelection] = useState<
-    null | string
-  >(null);
-
   const onShowUserDrawer = useCallback(
     (userID: string | null | undefined) => {
       if (userID) {
@@ -118,35 +110,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
 
   const [showDecisionModal, setShowDecisionModal] = useState(false);
 
-  const onSubmitDecision = useCallback(
-    async (input: any, form: FormApi) => {
-      if (dsaReport && viewer?.id && dsaReport.comment?.revision) {
-        try {
-          await makeReportDecision({
-            userID: viewer.id,
-            reportID: dsaReport.id,
-            legality: makeDecisionSelection === "YES" ? "ILLEGAL" : "LEGAL",
-            legalGrounds:
-              makeDecisionSelection === "YES" ? input.legalGrounds : undefined,
-            detailedExplanation:
-              makeDecisionSelection === "YES" ? input.explanation : undefined,
-            commentID: dsaReport.comment?.id,
-            commentRevisionID: dsaReport.comment.revision.id,
-            storyID: dsaReport.comment.story.id,
-          });
-          setShowDecisionModal(false);
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.error(e);
-        }
-      }
-    },
-    [makeReportDecision, viewer, dsaReport, makeDecisionSelection]
-  );
-  const onCloseDecisionModal = useCallback(() => {
-    setShowDecisionModal(false);
-  }, [setShowDecisionModal]);
-
   const onChangeReportStatusCompleted = useCallback(() => {
     setShowDecisionModal(true);
   }, [setShowDecisionModal]);
@@ -154,14 +117,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
   const onClickMakeDecisionButton = useCallback(() => {
     setShowDecisionModal(true);
   }, [setShowDecisionModal]);
-
-  const onClickMakeDecisionContainsIllegal = useCallback(() => {
-    setMakeDecisionSelection("YES");
-  }, [setMakeDecisionSelection]);
-
-  const onClickMakeDecisionDoesNotContainIllegal = useCallback(() => {
-    setMakeDecisionSelection("NO");
-  }, [setMakeDecisionSelection]);
 
   if (!dsaReport) {
     return <NotFound />;
@@ -191,7 +146,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
           <Localized id="reports-singleReport-reportID">
             <div className={styles.label}>Report ID</div>
           </Localized>
-          <div>{dsaReport.referenceID}</div>
+          <div className={styles.refID}>{dsaReport.referenceID}</div>
         </Flex>
         <Flex alignItems="center" className={styles.autoMarginLeft}>
           <ReportStatusMenu
@@ -441,107 +396,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
                   </HorizontalGutter>
                 </Flex>
               )}
-              <Modal open={showDecisionModal}>
-                {({ firstFocusableRef }) => (
-                  <Card>
-                    <Flex justifyContent="flex-end">
-                      <CardCloseButton
-                        onClick={onCloseDecisionModal}
-                        ref={firstFocusableRef}
-                      />
-                    </Flex>
-                    <ModalHeader>Decision</ModalHeader>
-                    {/* TODO: Localize all of this */}
-                    <Form
-                      onSubmit={onSubmitDecision}
-                      initialValues={{ decision: "ILLEGAL" }}
-                    >
-                      {({ handleSubmit, hasValidationErrors }) => (
-                        <form onSubmit={handleSubmit}>
-                          <Flex direction="column" padding={2}>
-                            <HorizontalGutter>
-                              <Flex alignItems="center" direction="column">
-                                <div
-                                  className={styles.decisionModalThisComment}
-                                >
-                                  Does this comment appear to contain illegal
-                                  content?
-                                </div>
-                                <Flex margin={2}>
-                                  <Button
-                                    onClick={onClickMakeDecisionContainsIllegal}
-                                    active={makeDecisionSelection === "YES"}
-                                    className={styles.yesButton}
-                                  >
-                                    Yes
-                                  </Button>
-                                  <Button
-                                    onClick={
-                                      onClickMakeDecisionDoesNotContainIllegal
-                                    }
-                                    active={makeDecisionSelection === "NO"}
-                                  >
-                                    No
-                                  </Button>
-                                </Flex>
-                              </Flex>
-                              {makeDecisionSelection === "YES" && (
-                                <>
-                                  <Flex>
-                                    <Field
-                                      id="reportLegalGrounds"
-                                      name="legalGrounds"
-                                      validate={required}
-                                    >
-                                      {({ input }) => (
-                                        <Textarea
-                                          className={
-                                            styles.decisionModalTextArea
-                                          }
-                                          placeholder="Legal grounds"
-                                          {...input}
-                                        />
-                                      )}
-                                    </Field>
-                                  </Flex>
-                                  <Flex>
-                                    <Field
-                                      id="reportExplanation"
-                                      name="explanation"
-                                      validate={required}
-                                    >
-                                      {({ input }) => (
-                                        <Textarea
-                                          className={
-                                            styles.decisionModalTextArea
-                                          }
-                                          placeholder="Explanation"
-                                          {...input}
-                                        />
-                                      )}
-                                    </Field>
-                                  </Flex>
-                                </>
-                              )}
-                              {makeDecisionSelection !== null && (
-                                <Flex justifyContent="flex-end">
-                                  <Button
-                                    type="submit"
-                                    iconLeft
-                                    disabled={hasValidationErrors}
-                                  >
-                                    Submit
-                                  </Button>
-                                </Flex>
-                              )}
-                            </HorizontalGutter>
-                          </Flex>
-                        </form>
-                      )}
-                    </Form>
-                  </Card>
-                )}
-              </Modal>
             </HorizontalGutter>
           </Flex>
         </Flex>
@@ -556,6 +410,12 @@ const SingleReportRoute: FunctionComponent<Props> & {
         open={userDrawerVisible}
         onClose={onHideUserDrawer}
         setUserID={onSetUserID}
+      />
+      <ReportMakeDecisionModal
+        userID={viewer?.id}
+        dsaReport={dsaReport}
+        setShowDecisionModal={setShowDecisionModal}
+        showDecisionModal={showDecisionModal}
       />
       <Modal open={showChangeStatusModal}>
         {({ firstFocusableRef }) => (
@@ -628,14 +488,10 @@ SingleReportRoute.routeConfig = createRouteConfig<
           deleted
           body
           story {
-            id
             url
             metadata {
               title
             }
-          }
-          revision {
-            id
           }
           rating
           parent {
@@ -658,6 +514,7 @@ SingleReportRoute.routeConfig = createRouteConfig<
         }
         ...ReportHistory_dsaReport
         ...ReportShareButton_dsaReport
+        ...ReportMakeDecisionModal_dsaReport
       }
     }
   `,

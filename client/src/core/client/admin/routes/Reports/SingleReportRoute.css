@@ -11,9 +11,9 @@
   background-color: var(--palette-primary-900);
   padding: var(--spacing-3) var(--spacing-7);
   font-family: var(--font-family-secondary);
-  color: var(--palette-text-000);
 
   .label {
+    color: var(--palette-text-000);
     font-weight: var(--font-weight-secondary-bold);
   }
 }
@@ -21,6 +21,10 @@
 .label {
   font-size: var(--font-size-1);
   text-transform: uppercase;
+}
+
+.refID {
+  color: var(--palette-text-000);
 }
 
 .reportMain {
@@ -42,10 +46,6 @@
 
 .decisionButton {
   margin-left: var(--spacing-2);
-}
-
-.yesButton {
-  margin-right: var(--spacing-2);
 }
 
 .autoMarginLeft {
@@ -106,12 +106,4 @@
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-regular);
   white-space: pre-wrap;
-}
-
-.decisionModalThisComment {
-  margin-right: var(--spacing-2);
-}
-
-.decisionModalTextArea {
-  flex-grow: 1;
 }

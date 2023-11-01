@@ -1,4 +1,5 @@
 .statusLabel {
+  color: var(--palette-text-000);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-primary-semi-bold);
