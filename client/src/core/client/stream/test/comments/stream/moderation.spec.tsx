@@ -698,7 +698,7 @@ it("requires rection reason when dsaFeaturesEnabled", async () => {
   expect(reasonModal).toBeInTheDocument();
 
   const submitReasonButton = within(reasonModal).getByRole("button", {
-    name: "Submit",
+    name: "Reject",
   });
   expect(submitReasonButton).toBeDisabled();
 

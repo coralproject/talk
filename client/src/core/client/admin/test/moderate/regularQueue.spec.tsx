@@ -957,7 +957,7 @@ it("requires moderation reason when DSA features enabled", async () => {
   const reasonModal = screen.queryByTestId("moderation-reason-modal")!;
 
   const submitReasonButton = within(reasonModal).getByRole("button", {
-    name: "Submit",
+    name: "Reject",
   });
   expect(submitReasonButton).toBeDisabled();
 

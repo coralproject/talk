@@ -51,7 +51,7 @@ export interface CommentModerationAction extends TenantResource {
   rejectionReason?: {
     code: GQLREJECTION_REASON_CODE;
     legalGrounds?: string;
-    detailedExplaination?: string;
+    detailedExplanation?: string;
   };
 
   /**

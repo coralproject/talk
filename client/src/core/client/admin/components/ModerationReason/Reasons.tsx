@@ -24,8 +24,6 @@ const AddExpanationButton: FunctionComponent<{ onClick: () => void }> = ({
       className={styles.optionAction}
       variant="none"
       color="success"
-      // size="small"
-      // uppercase={false}
     >
       + Add explanation
     </Button>
@@ -89,18 +87,13 @@ const Reasons: FunctionComponent<Props> = ({
             onChange={(e) => {
               if (e.target.checked) {
                 onCode(GQLREJECTION_REASON_CODE.OTHER);
+                onAddExplanation();
               }
             }}
           >
             {unsnake(GQLREJECTION_REASON_CODE.OTHER)}
           </RadioButton>
         </Localized>
-
-        {selected === GQLREJECTION_REASON_CODE.OTHER && (
-          <AddExpanationButton
-            onClick={() => alert("TODO: explanatioin view")}
-          />
-        )}
       </>
     </>
   );
