@@ -51,8 +51,21 @@
   font-size: var(--font-size-2);
 }
 
+.contextItem {
+  margin-left: var(--spacing-5);
+  margin-bottom: var(--spacing-2);
+}
+
 .footer {
   margin-left: var(--spacing-5);
+}
+
+.timestamp {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  color: var(--palette-text-500);
 }
 
 .divider {

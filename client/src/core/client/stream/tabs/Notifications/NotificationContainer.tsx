@@ -4,10 +4,12 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
-import { RelativeTime } from "coral-ui/components/v2";
+import { Timestamp } from "coral-ui/components/v2";
 
 import { NotificationContainer_notification } from "coral-stream/__generated__/NotificationContainer_notification.graphql";
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
+
+import NotificationCommentContainer from "./NotificationCommentContainer";
 
 import styles from "./NotificationContainer.css";
 
@@ -48,8 +50,13 @@ const NotificationContainer: FunctionComponent<Props> = ({
           </div>
         )}
         {body && <div className={cn(styles.body)}>{body}</div>}
+        {comment && (
+          <div className={styles.contextItem}>
+            <NotificationCommentContainer comment={comment} />
+          </div>
+        )}
         <div className={styles.footer}>
-          <RelativeTime date={createdAt} />
+          <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
         </div>
       </div>
       <div className={styles.divider}></div>
@@ -70,10 +77,7 @@ const enhanced = withFragmentContainer<Props>({
       title
       body
       comment {
-        id
-        story {
-          url
-        }
+        ...NotificationCommentContainer_comment
       }
     }
   `,
