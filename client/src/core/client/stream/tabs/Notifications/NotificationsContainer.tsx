@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql } from "react-relay";
 
@@ -39,6 +40,9 @@ const NotificationsContainer: FunctionComponent<Props> = ({
     <>
       <div className={styles.userBox}>
         <UserBoxContainer viewer={viewer} settings={settings} />
+      </div>
+      <div className={styles.title}>
+        <Localized id="notifications-title">Notifications</Localized>
       </div>
       <NotificationsListQuery viewerID={viewer.id} />
     </>

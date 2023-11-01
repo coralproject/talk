@@ -1008,6 +1008,7 @@ stream-footer-navigation =
 
 ## Notifications
 
+notifications-title = Notifications
 notifications-loadMore = Load More
 notification-comment-toggle-approved-open = Approved comment
 notification-comment-toggle-approved-closed = + Approved comment

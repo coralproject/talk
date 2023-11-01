@@ -34,7 +34,7 @@
   margin-left: var(--spacing-2);
 
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-bold);
   font-size: var(--font-size-3);
 
   word-break: break-word;
