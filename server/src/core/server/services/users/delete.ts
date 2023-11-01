@@ -1,4 +1,5 @@
 import { Collection, FilterQuery } from "mongodb";
+import { v4 as uuid } from "uuid";
 
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -7,7 +8,11 @@ import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { Story } from "coral-server/models/story";
 import { retrieveTenant } from "coral-server/models/tenant";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLDSAReportHistoryType,
+  GQLDSAReportStatus,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { moderate } from "../comments/moderation";
 import { AugmentedRedis } from "../redis";
@@ -170,6 +175,39 @@ async function moderateComments(
   }
 }
 
+async function deleteUserDSAReports(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  now: Date
+) {
+  const id = uuid();
+  await mongo.dsaReports().updateMany(
+    {
+      tenantID,
+      userID,
+      status: {
+        $in: [
+          GQLDSAReportStatus.AWAITING_REVIEW,
+          GQLDSAReportStatus.UNDER_REVIEW,
+        ],
+      },
+    },
+    {
+      $set: { status: GQLDSAReportStatus.VOID, userID: null },
+      $push: {
+        history: {
+          id,
+          createdBy: null,
+          createdAt: now,
+          type: GQLDSAReportHistoryType.STATUS_CHANGED,
+          status: GQLDSAReportStatus.VOID,
+        },
+      },
+    }
+  );
+}
+
 async function deleteUserComments(
   mongo: MongoContext,
   redis: AugmentedRedis,
@@ -273,6 +311,9 @@ export async function deleteUser(
   if (mongo.archive) {
     await deleteUserComments(mongo, redis, config, userID, tenantID, now, true);
   }
+
+  // Delete the user's DSAReports and set their status to VOID
+  await deleteUserDSAReports(mongo, tenantID, userID, now);
 
   // Mark the user as deleted.
   const result = await mongo.users().findOneAndUpdate(

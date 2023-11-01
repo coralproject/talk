@@ -47,7 +47,10 @@ const ReportsTableContainer: React.FunctionComponent<Props> = (props) => {
   );
 
   const onShowCompleted = useCallback(() => {
-    setStatusFilter([GQLDSAREPORT_STATUS_FILTER.COMPLETED]);
+    setStatusFilter([
+      GQLDSAREPORT_STATUS_FILTER.COMPLETED,
+      GQLDSAREPORT_STATUS_FILTER.VOID,
+    ]);
     setFilterButton("open");
   }, []);
 
@@ -84,7 +87,7 @@ const ReportsTableContainer: React.FunctionComponent<Props> = (props) => {
               color="dark"
               uppercase={false}
             >
-              Show completed reports
+              Show closed reports
             </Button>
           ) : (
             <Button

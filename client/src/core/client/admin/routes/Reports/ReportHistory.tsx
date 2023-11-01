@@ -7,7 +7,10 @@ import { graphql } from "react-relay";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
-import { GQLDSAReportHistoryType } from "coral-framework/schema";
+import {
+  GQLDSAReportHistoryType,
+  GQLDSAReportStatus,
+} from "coral-framework/schema";
 import { AddIcon, BinIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
@@ -39,6 +42,7 @@ export const statusMappings = {
   AWAITING_REVIEW: "Awaiting review",
   UNDER_REVIEW: "In review",
   COMPLETED: "Completed",
+  VOID: "Void",
   "%future added value": "Unknown status",
 };
 
@@ -97,7 +101,9 @@ const ReportHistory: FunctionComponent<Props> = ({
           userID,
         });
         form.change("note", undefined);
-        setShowChangeStatusModal(true);
+        if (dsaReport.status === GQLDSAReportStatus.AWAITING_REVIEW) {
+          setShowChangeStatusModal(true);
+        }
       }
     },
     [addReportNote, dsaReport, userID, setShowChangeStatusModal]
@@ -163,17 +169,28 @@ const ReportHistory: FunctionComponent<Props> = ({
                     )}
 
                     {h?.type === GQLDSAReportHistoryType.STATUS_CHANGED && (
-                      <Localized
-                        id="reports-singleReport-changedStatus"
-                        vars={{
-                          status: statusMapping(h.status),
-                          username: h.createdBy?.username,
-                        }}
-                      >
-                        <div className={styles.reportHistoryText}>{`${
-                          h.createdBy?.username
-                        } changed status to "${statusMapping(h.status)}"`}</div>
-                      </Localized>
+                      <>
+                        {h.status === GQLDSAReportStatus.VOID ? (
+                          // TODO: Localize
+                          <div className={styles.reportHistoryText}>
+                            User deleted their account. Report is void.
+                          </div>
+                        ) : (
+                          <Localized
+                            id="reports-singleReport-changedStatus"
+                            vars={{
+                              status: statusMapping(h.status),
+                              username: h.createdBy?.username,
+                            }}
+                          >
+                            <div className={styles.reportHistoryText}>{`${
+                              h.createdBy?.username
+                            } changed status to "${statusMapping(
+                              h.status
+                            )}"`}</div>
+                          </Localized>
+                        )}
+                      </>
                     )}
 
                     {h?.type === GQLDSAReportHistoryType.SHARE && (
@@ -188,16 +205,29 @@ const ReportHistory: FunctionComponent<Props> = ({
                     )}
 
                     {h?.type === GQLDSAReportHistoryType.DECISION_MADE && (
-                      <Localized
-                        id="reports-singleReport-madeDecision"
-                        vars={{ username: h.createdBy?.username }}
-                      >
-                        <div className={styles.reportHistoryText}>{`${
-                          h.createdBy?.username
-                        } made a decision that this report ${decisionMapping(
-                          h.decision?.legality
-                        )}`}</div>
-                      </Localized>
+                      <>
+                        <Localized
+                          id="reports-singleReport-madeDecision"
+                          vars={{ username: h.createdBy?.username }}
+                        >
+                          <div className={styles.reportHistoryText}>{`${
+                            h.createdBy?.username
+                          } made a decision that this report ${decisionMapping(
+                            h.decision?.legality
+                          )}`}</div>
+                        </Localized>
+                        {h.decision?.legality === "ILLEGAL" && (
+                          <>
+                            <div className={styles.reportHistoryText}>
+                              Legal grounds: {`${h.decision?.legalGrounds}`}
+                            </div>
+                            <div className={styles.reportHistoryText}>
+                              Explanation:{" "}
+                              {`${h.decision?.detailedExplanation}`}
+                            </div>
+                          </>
+                        )}
+                      </>
                     )}
 
                     <div className={styles.reportHistoryCreatedAt}>
@@ -250,6 +280,7 @@ const enhanced = withFragmentContainer<Props>({
   dsaReport: graphql`
     fragment ReportHistory_dsaReport on DSAReport {
       id
+      status
       createdAt
       history {
         id

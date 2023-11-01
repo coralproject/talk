@@ -39,7 +39,7 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
         }
       }
     },
-    [reportID, userID, changeReportStatus]
+    [reportID, userID, changeReportStatus, onChangeReportStatusCompleted]
   );
   return (
     <>
@@ -53,7 +53,7 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
         id="coral-reports-report-statusMenu"
         onChange={(e) => onChangeStatus(e.target.value as DSAReportStatus)}
         value={value ?? "AWAITING_REVIEW"}
-        disabled={value === "COMPLETED"}
+        disabled={value === "COMPLETED" || value === "VOID"}
       >
         <Localized id="reports-reportStatusMenu-awaitingReview">
           <Option value="AWAITING_REVIEW">Awaiting review</Option>
@@ -64,6 +64,11 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
         <Localized id="reports-reportStatusMenu-completed">
           <Option value="COMPLETED">Completed</Option>
         </Localized>
+        {/* <Localized id="reports-reportStatusMenu-awaitingReview"> */}
+        <Option hidden value="VOID">
+          Void
+        </Option>
+        {/* </Localized> */}
       </SelectField>
     </>
   );

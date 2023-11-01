@@ -32,6 +32,7 @@ export { default as ConversationChatTextIcon } from "./ConversationChatTextIcon"
 export { default as ConversationQuestionWarningIcon } from "./ConversationQuestionWarningIcon";
 export { default as CoralMarkIcon } from "./CoralMarkIcon";
 export { default as DeleteIcon } from "./DeleteIcon";
+export { default as DrawerDownloadIcon } from "./DrawerDownloadIcon";
 export { default as DuplicateIcon } from "./DuplicateIcon";
 export { default as EmailActionReplyIcon } from "./EmailActionReplyIcon";
 export { default as EmailActionUnreadIcon } from "./EmailActionUnreadIcon";

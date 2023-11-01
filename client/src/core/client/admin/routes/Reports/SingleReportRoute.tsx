@@ -31,8 +31,6 @@ import {
   Flex,
   HorizontalGutter,
   Modal,
-  Option,
-  SelectField,
   Spinner,
   Textarea,
   Timestamp,
@@ -92,6 +90,10 @@ const SingleReportRoute: FunctionComponent<Props> & {
   );
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
 
+  const [makeDecisionSelection, setMakeDecisionSelection] = useState<
+    null | string
+  >(null);
+
   const onShowUserDrawer = useCallback(
     (userID: string | null | undefined) => {
       if (userID) {
@@ -123,9 +125,11 @@ const SingleReportRoute: FunctionComponent<Props> & {
           await makeReportDecision({
             userID: viewer.id,
             reportID: dsaReport.id,
-            legality: input.decision,
-            legalGrounds: input.legalGrounds,
-            detailedExplanation: input.explanation,
+            legality: makeDecisionSelection === "YES" ? "ILLEGAL" : "LEGAL",
+            legalGrounds:
+              makeDecisionSelection === "YES" ? input.legalGrounds : undefined,
+            detailedExplanation:
+              makeDecisionSelection === "YES" ? input.explanation : undefined,
             commentID: dsaReport.comment?.id,
             commentRevisionID: dsaReport.comment.revision.id,
             storyID: dsaReport.comment.story.id,
@@ -137,7 +141,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
         }
       }
     },
-    [makeReportDecision, viewer, dsaReport]
+    [makeReportDecision, viewer, dsaReport, makeDecisionSelection]
   );
   const onCloseDecisionModal = useCallback(() => {
     setShowDecisionModal(false);
@@ -146,6 +150,18 @@ const SingleReportRoute: FunctionComponent<Props> & {
   const onChangeReportStatusCompleted = useCallback(() => {
     setShowDecisionModal(true);
   }, [setShowDecisionModal]);
+
+  const onClickMakeDecisionButton = useCallback(() => {
+    setShowDecisionModal(true);
+  }, [setShowDecisionModal]);
+
+  const onClickMakeDecisionContainsIllegal = useCallback(() => {
+    setMakeDecisionSelection("YES");
+  }, [setMakeDecisionSelection]);
+
+  const onClickMakeDecisionDoesNotContainIllegal = useCallback(() => {
+    setMakeDecisionSelection("NO");
+  }, [setMakeDecisionSelection]);
 
   if (!dsaReport) {
     return <NotFound />;
@@ -177,17 +193,28 @@ const SingleReportRoute: FunctionComponent<Props> & {
           </Localized>
           <div>{dsaReport.referenceID}</div>
         </Flex>
-        <Flex
-          className={styles.statusAndShare}
-          justifyContent="flex-end"
-          alignItems="center"
-        >
+        <Flex alignItems="center" className={styles.autoMarginLeft}>
           <ReportStatusMenu
             value={dsaReport.status}
             reportID={dsaReport.id}
             userID={viewer?.id}
             onChangeReportStatusCompleted={onChangeReportStatusCompleted}
           />
+          <Button
+            className={styles.decisionButton}
+            onClick={onClickMakeDecisionButton}
+            disabled={
+              dsaReport.status === "COMPLETED" || dsaReport.status === "VOID"
+            }
+          >
+            Make Decision
+          </Button>
+        </Flex>
+        <Flex
+          className={styles.autoMarginLeft}
+          justifyContent="flex-end"
+          alignItems="center"
+        >
           <ReportShareButton
             dsaReport={dsaReport}
             userID={viewer?.id}
@@ -256,108 +283,164 @@ const SingleReportRoute: FunctionComponent<Props> & {
                       <Localized id="reports-singleReport-comment">
                         <div className={styles.label}>Comment</div>
                       </Localized>
-                      <Flex className={styles.commentBox}>
-                        <div>
+                      <>
+                        {comment.deleted ? (
                           <div>
-                            <Flex alignItems="center">
-                              {comment.author?.username && (
-                                <>
-                                  <UsernameButton
-                                    className={styles.commentUsernameButton}
-                                    username={comment.author.username}
-                                    onClick={() =>
-                                      onShowUserDrawer(comment.author?.id)
-                                    }
-                                  />
-                                  <CommentAuthorContainer comment={comment} />
-                                </>
-                              )}
-                              <Timestamp>{comment.createdAt}</Timestamp>
-                              {comment.editing.edited && (
-                                <Localized id="reports-singleReport-comment-edited">
-                                  <span className={styles.edited}>
-                                    (edited)
-                                  </span>
-                                </Localized>
-                              )}
-                            </Flex>
-                            {inReplyTo && inReplyTo.username && (
-                              <InReplyTo
-                                className={styles.reportUsername}
-                                onUsernameClick={() =>
-                                  onShowUserDrawer(inReplyTo.id)
-                                }
-                              >
-                                {inReplyTo.username}
-                              </InReplyTo>
-                            )}
+                            This comment is no longer available. The commenter
+                            has deleted their account.
                           </div>
-                          {comment.rating && (
-                            <div>
-                              <StarRating rating={comment.rating} />
-                            </div>
-                          )}
-                          <div>
-                            <div>
-                              {/* TODO: Do we want to show message for deleted/rejected */}
-                              <CommentContent className={styles.commentContent}>
-                                {comment.body || ""}
-                              </CommentContent>
-                              <MediaContainer comment={comment} />
-                            </div>
-                          </div>
-                          <div>
-                            <HorizontalGutter spacing={3}>
+                        ) : (
+                          <>
+                            <Flex className={styles.commentBox}>
                               <div>
                                 <div>
-                                  <Localized id="reports-singleReport-commentOn">
-                                    <span className={styles.label}>
-                                      Comment on
-                                    </span>
-                                  </Localized>
-                                  <span>:</span>
+                                  <Flex alignItems="center">
+                                    {comment.author?.username && (
+                                      <>
+                                        <UsernameButton
+                                          className={
+                                            styles.commentUsernameButton
+                                          }
+                                          username={comment.author.username}
+                                          onClick={() =>
+                                            onShowUserDrawer(comment.author?.id)
+                                          }
+                                        />
+                                        <CommentAuthorContainer
+                                          comment={comment}
+                                        />
+                                      </>
+                                    )}
+                                    <Timestamp>{comment.createdAt}</Timestamp>
+                                    {comment.editing.edited && (
+                                      <Localized id="reports-singleReport-comment-edited">
+                                        <span className={styles.edited}>
+                                          (edited)
+                                        </span>
+                                      </Localized>
+                                    )}
+                                  </Flex>
+                                  {inReplyTo && inReplyTo.username && (
+                                    <InReplyTo
+                                      className={styles.reportUsername}
+                                      onUsernameClick={() =>
+                                        onShowUserDrawer(inReplyTo.id)
+                                      }
+                                    >
+                                      {inReplyTo.username}
+                                    </InReplyTo>
+                                  )}
+                                </div>
+                                {comment.rating && (
+                                  <div>
+                                    <StarRating rating={comment.rating} />
+                                  </div>
+                                )}
+                                <div>
+                                  <div>
+                                    {/* TODO: Do we want to show message for deleted/rejected */}
+                                    <CommentContent
+                                      className={styles.commentContent}
+                                    >
+                                      {comment.body || ""}
+                                    </CommentContent>
+                                    <MediaContainer comment={comment} />
+                                  </div>
                                 </div>
                                 <div>
-                                  <span className={styles.storyTitle}>
-                                    {comment.story?.metadata?.title ?? (
-                                      <NotAvailable />
-                                    )}
-                                  </span>
+                                  <HorizontalGutter spacing={3}>
+                                    <div>
+                                      <div>
+                                        <Localized id="reports-singleReport-commentOn">
+                                          <span className={styles.label}>
+                                            Comment on
+                                          </span>
+                                        </Localized>
+                                        <span>:</span>
+                                      </div>
+                                      <div>
+                                        <span className={styles.storyTitle}>
+                                          {comment.story?.metadata?.title ?? (
+                                            <NotAvailable />
+                                          )}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </HorizontalGutter>
                                 </div>
                               </div>
-                            </HorizontalGutter>
-                          </div>
-                        </div>
-                      </Flex>
-                    </Flex>
-                    {/* TODO: Localize these comment links */}
-                    <Flex marginTop={2}>
-                      <Button
-                        variant="text"
-                        uppercase={false}
-                        color="mono"
-                        to={getURLWithCommentID(comment.story.url, comment.id)}
-                        target="_blank"
-                      >
-                        View comment in stream
-                      </Button>
-                    </Flex>
-                    <Flex marginTop={2}>
-                      <Button
-                        variant="text"
-                        uppercase={false}
-                        color="mono"
-                        target="_blank"
-                        to={getModerationLink({
-                          commentID: comment.id,
-                        })}
-                      >
-                        View comment in moderation
-                      </Button>
+                            </Flex>
+                            {/* TODO: Localize these comment links */}
+                            <Flex marginTop={2}>
+                              <Button
+                                variant="text"
+                                uppercase={false}
+                                color="mono"
+                                to={getURLWithCommentID(
+                                  comment.story.url,
+                                  comment.id
+                                )}
+                                target="_blank"
+                              >
+                                View comment in stream
+                              </Button>
+                            </Flex>
+                            <Flex marginTop={2}>
+                              <Button
+                                variant="text"
+                                uppercase={false}
+                                color="mono"
+                                target="_blank"
+                                to={getModerationLink({
+                                  commentID: comment.id,
+                                })}
+                              >
+                                View comment in moderation
+                              </Button>
+                            </Flex>
+                          </>
+                        )}
+                      </>
                     </Flex>
                   </>
                 )}
               </Flex>
+              {dsaReport.decision && (
+                <Flex direction="column">
+                  <HorizontalGutter spacing={2}>
+                    {/* <Localized id="reports-singleReport-comment"> */}
+                    <div className={styles.label}>Decision</div>
+                    {/* </Localized> */}
+                    {dsaReport.decision.legality === "ILLEGAL" ? (
+                      <>
+                        <Flex direction="column">
+                          <div className={styles.data}>
+                            This report appears to contain illegal content
+                          </div>
+                        </Flex>
+                        <Flex direction="column">
+                          <div className={styles.label}>Legal grounds</div>
+                          <div className={styles.data}>
+                            {`${dsaReport.decision.legalGrounds}`}
+                          </div>
+                        </Flex>
+                        <Flex direction="column">
+                          <div className={styles.label}>
+                            Detailed explanation
+                          </div>
+                          <div className={styles.data}>
+                            {`${dsaReport.decision.detailedExplanation}`}
+                          </div>
+                        </Flex>
+                      </>
+                    ) : (
+                      <div className={styles.data}>
+                        This report does not appear to contain illegal content
+                      </div>
+                    )}
+                  </HorizontalGutter>
+                </Flex>
+              )}
               <Modal open={showDecisionModal}>
                 {({ firstFocusableRef }) => (
                   <Card>
@@ -377,67 +460,80 @@ const SingleReportRoute: FunctionComponent<Props> & {
                         <form onSubmit={handleSubmit}>
                           <Flex direction="column" padding={2}>
                             <HorizontalGutter>
-                              <Flex alignItems="center">
+                              <Flex alignItems="center" direction="column">
                                 <div
                                   className={styles.decisionModalThisComment}
                                 >
-                                  This comment
+                                  Does this comment appear to contain illegal
+                                  content?
                                 </div>
-                                <Field id="reportDecision" name="decision">
-                                  {({ input }) => {
-                                    return (
-                                      <SelectField {...input} id={input.name}>
-                                        <Option value="ILLEGAL">
-                                          contains illegal content
-                                        </Option>
-                                        <Option value="LEGAL">
-                                          does not appear to contain illegal
-                                          content
-                                        </Option>
-                                      </SelectField>
-                                    );
-                                  }}
-                                </Field>
+                                <Flex margin={2}>
+                                  <Button
+                                    onClick={onClickMakeDecisionContainsIllegal}
+                                    active={makeDecisionSelection === "YES"}
+                                    className={styles.yesButton}
+                                  >
+                                    Yes
+                                  </Button>
+                                  <Button
+                                    onClick={
+                                      onClickMakeDecisionDoesNotContainIllegal
+                                    }
+                                    active={makeDecisionSelection === "NO"}
+                                  >
+                                    No
+                                  </Button>
+                                </Flex>
                               </Flex>
-                              <Flex>
-                                <Field
-                                  id="reportLegalGrounds"
-                                  name="legalGrounds"
-                                  validate={required}
-                                >
-                                  {({ input }) => (
-                                    <Textarea
-                                      className={styles.decisionModalTextArea}
-                                      placeholder="Legal grounds"
-                                      {...input}
-                                    />
-                                  )}
-                                </Field>
-                              </Flex>
-                              <Flex>
-                                <Field
-                                  id="reportExplanation"
-                                  name="explanation"
-                                  validate={required}
-                                >
-                                  {({ input }) => (
-                                    <Textarea
-                                      className={styles.decisionModalTextArea}
-                                      placeholder="Explanation"
-                                      {...input}
-                                    />
-                                  )}
-                                </Field>
-                              </Flex>
-                              <Flex justifyContent="flex-end">
-                                <Button
-                                  type="submit"
-                                  iconLeft
-                                  disabled={hasValidationErrors}
-                                >
-                                  Submit
-                                </Button>
-                              </Flex>
+                              {makeDecisionSelection === "YES" && (
+                                <>
+                                  <Flex>
+                                    <Field
+                                      id="reportLegalGrounds"
+                                      name="legalGrounds"
+                                      validate={required}
+                                    >
+                                      {({ input }) => (
+                                        <Textarea
+                                          className={
+                                            styles.decisionModalTextArea
+                                          }
+                                          placeholder="Legal grounds"
+                                          {...input}
+                                        />
+                                      )}
+                                    </Field>
+                                  </Flex>
+                                  <Flex>
+                                    <Field
+                                      id="reportExplanation"
+                                      name="explanation"
+                                      validate={required}
+                                    >
+                                      {({ input }) => (
+                                        <Textarea
+                                          className={
+                                            styles.decisionModalTextArea
+                                          }
+                                          placeholder="Explanation"
+                                          {...input}
+                                        />
+                                      )}
+                                    </Field>
+                                  </Flex>
+                                </>
+                              )}
+                              {makeDecisionSelection !== null && (
+                                <Flex justifyContent="flex-end">
+                                  <Button
+                                    type="submit"
+                                    iconLeft
+                                    disabled={hasValidationErrors}
+                                  >
+                                    Submit
+                                  </Button>
+                                </Flex>
+                              )}
                             </HorizontalGutter>
                           </Flex>
                         </form>
@@ -521,6 +617,11 @@ SingleReportRoute.routeConfig = createRouteConfig<
         reporter {
           id
           username
+        }
+        decision {
+          legality
+          legalGrounds
+          detailedExplanation
         }
         comment {
           id

@@ -10,6 +10,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import { GQLDSAReportStatus } from "coral-framework/schema";
+import { DrawerDownloadIcon, SvgIcon } from "coral-ui/components/icons";
 import { Button } from "coral-ui/components/v2";
 
 import { ReportShareButton_dsaReport } from "coral-admin/__generated__/ReportShareButton_dsaReport.graphql";
@@ -85,7 +86,10 @@ const ReportShareButton: FunctionComponent<Props> = ({
   ]);
 
   return (
-    <Localized id="reports-singleReport-shareButton">
+    <Localized
+      id="reports-singleReport-shareButton"
+      elems={{ icon: <SvgIcon Icon={DrawerDownloadIcon} /> }}
+    >
       <Button
         className={styles.shareButton}
         variant="outlined"
@@ -94,8 +98,10 @@ const ReportShareButton: FunctionComponent<Props> = ({
         target="_blank"
         rel="noreferrer"
         onClick={onShareButtonClick}
+        iconLeft
       >
-        Download
+        <SvgIcon Icon={DrawerDownloadIcon} />
+        CSV
       </Button>
     </Localized>
   );

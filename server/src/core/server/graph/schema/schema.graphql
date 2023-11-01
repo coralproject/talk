@@ -2691,6 +2691,7 @@ enum DSAREPORT_STATUS_FILTER {
   AWAITING_REVIEW
   UNDER_REVIEW
   COMPLETED
+  VOID
 }
 
 enum USER_STATUS_FILTER {
@@ -3456,6 +3457,10 @@ enum DSAReportStatus {
   AWAITING_REVIEW
   UNDER_REVIEW
   COMPLETED
+  """
+  VOID is set for a DSAReport if its reported comment/user are deleted while the report is in review
+  """
+  VOID
 }
 
 """
@@ -3475,8 +3480,8 @@ enum DSAReportHistoryType {
 
 type DSAReportDecision {
   legality: DSAReportDecisionLegality!
-  legalGrounds: String!
-  detailedExplanation: String!
+  legalGrounds: String
+  detailedExplanation: String
 }
 
 type DSAReportHistoryItem {
@@ -6456,14 +6461,14 @@ input MakeDSAReportDecisionInput {
   legality: DSAReportDecisionLegality!
 
   """
-  legal grounds is an overview of the law broken as part of legality decision made
+  legal grounds is an overview of the law broken as part of illegal content decision
   """
-  legalGrounds: String!
+  legalGrounds: String
 
   """
-  detailedExplanation provides more information as part of legality decision made
+  detailedExplanation provides more information as part of illegal content decision
   """
-  detailedExplanation: String!
+  detailedExplanation: String
 
   """
   commentID is the id of the comment about which the DSAReport legality decision is being made

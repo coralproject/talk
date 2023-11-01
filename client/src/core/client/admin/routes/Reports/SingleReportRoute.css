@@ -4,12 +4,14 @@
 
 .reportsLink {
   padding: var(--spacing-3) var(--spacing-7);
+  background-color: var(--palette-grey-200);
 }
 
 .header {
-  background-color: var(--palette-grey-200);
+  background-color: var(--palette-primary-900);
   padding: var(--spacing-3) var(--spacing-7);
   font-family: var(--font-family-secondary);
+  color: var(--palette-text-000);
 
   .label {
     font-weight: var(--font-weight-secondary-bold);
@@ -38,7 +40,15 @@
   flex-grow: 1;
 }
 
-.statusAndShare {
+.decisionButton {
+  margin-left: var(--spacing-2);
+}
+
+.yesButton {
+  margin-right: var(--spacing-2);
+}
+
+.autoMarginLeft {
   margin-left: auto;
 }
 
