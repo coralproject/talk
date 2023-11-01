@@ -60,7 +60,7 @@ navigation-community = Community
 navigation-stories = Stories
 navigation-configure = Configure
 navigation-dashboard = Dashboard
-navigation-reports = Reports
+navigation-reports = DSA Reports
 
 ## User Menu
 userMenu-signOut = Sign Out

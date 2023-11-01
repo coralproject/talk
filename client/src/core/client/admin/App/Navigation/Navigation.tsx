@@ -35,7 +35,7 @@ const Navigation: FunctionComponent<Props> = (props) => (
     {/* TODO: Any other permissions needed? */}
     {props.showReports && (
       <Localized id="navigation-reports">
-        <NavigationLink to="/admin/reports">Reports</NavigationLink>
+        <NavigationLink to="/admin/reports">DSA Reports</NavigationLink>
       </Localized>
     )}
   </AppBarNavigation>
