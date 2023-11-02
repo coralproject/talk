@@ -1,46 +1,27 @@
 import { Localized } from "@fluent/react/compat";
 import { RouteProps } from "found";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { Form } from "react-final-form";
 import { graphql } from "react-relay";
 
-import {
-  CommentContent,
-  InReplyTo,
-  UsernameButton,
-} from "coral-admin/components/Comment";
-import { MediaContainer } from "coral-admin/components/MediaContainer";
-import ModalHeader from "coral-admin/components/ModalHeader";
-import CommentAuthorContainer from "coral-admin/components/ModerateCard/CommentAuthorContainer";
-import NotAvailable from "coral-admin/components/NotAvailable";
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
-import {
-  getModerationLink,
-  getURLWithCommentID,
-} from "coral-framework/helpers";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
-import { useMutation } from "coral-framework/lib/relay";
 import { createRouteConfig } from "coral-framework/lib/router";
 import { ArrowsLeftIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
-  Card,
-  CardCloseButton,
   Flex,
   HorizontalGutter,
-  Modal,
   Spinner,
-  Timestamp,
 } from "coral-ui/components/v2";
-import { StarRating } from "coral-ui/components/v3";
 
 import { SingleReportRouteQueryResponse } from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
 
 import styles from "./SingleReportRoute.css";
 
 import NotFound from "../NotFound";
-import ChangeReportStatusMutation from "./ChangeReportStatusMutation";
+import ChangeStatusModal from "./ChangeStatusModal";
+import ReportedComment from "./ReportedComment";
 import ReportHistory from "./ReportHistory";
 import ReportMakeDecisionModal from "./ReportMakeDecisionModal";
 import ReportShareButton from "./ReportShareButton";
@@ -51,26 +32,7 @@ type Props = SingleReportRouteQueryResponse;
 const SingleReportRoute: FunctionComponent<Props> & {
   routeConfig: RouteProps;
 } = ({ dsaReport, viewer }) => {
-  const comment = dsaReport?.comment;
-
-  const changeReportStatus = useMutation(ChangeReportStatusMutation);
-
   const [showChangeStatusModal, setShowChangeStatusModal] = useState(false);
-
-  const onCloseChangeStatusModal = useCallback(() => {
-    setShowChangeStatusModal(false);
-  }, [setShowChangeStatusModal]);
-
-  const onSubmitStatusUpdate = useCallback(async () => {
-    if (viewer?.id && dsaReport?.id) {
-      await changeReportStatus({
-        userID: viewer.id,
-        reportID: dsaReport.id,
-        status: "UNDER_REVIEW",
-      });
-      setShowChangeStatusModal(false);
-    }
-  }, [viewer, dsaReport, setShowChangeStatusModal, changeReportStatus]);
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",
@@ -79,8 +41,6 @@ const SingleReportRoute: FunctionComponent<Props> & {
     hour: "2-digit",
     minute: "2-digit",
   });
-
-  const inReplyTo = comment && comment.parent && comment.parent.author;
 
   const [userDrawerUserID, setUserDrawerUserID] = useState<string | undefined>(
     undefined
@@ -232,135 +192,10 @@ const SingleReportRoute: FunctionComponent<Props> & {
                   </div>
                 </Flex>
               </Flex>
-              <Flex direction="column">
-                {comment && (
-                  <>
-                    <Flex direction="column" className={styles.commentMain}>
-                      <Localized id="reports-singleReport-comment">
-                        <div className={styles.label}>Comment</div>
-                      </Localized>
-                      <>
-                        {comment.deleted ? (
-                          <div>
-                            This comment is no longer available. The commenter
-                            has deleted their account.
-                          </div>
-                        ) : (
-                          <>
-                            <Flex className={styles.commentBox}>
-                              <div>
-                                <div>
-                                  <Flex alignItems="center">
-                                    {comment.author?.username && (
-                                      <>
-                                        <UsernameButton
-                                          className={
-                                            styles.commentUsernameButton
-                                          }
-                                          username={comment.author.username}
-                                          onClick={() =>
-                                            onShowUserDrawer(comment.author?.id)
-                                          }
-                                        />
-                                        <CommentAuthorContainer
-                                          comment={comment}
-                                        />
-                                      </>
-                                    )}
-                                    <Timestamp>{comment.createdAt}</Timestamp>
-                                    {comment.editing.edited && (
-                                      <Localized id="reports-singleReport-comment-edited">
-                                        <span className={styles.edited}>
-                                          (edited)
-                                        </span>
-                                      </Localized>
-                                    )}
-                                  </Flex>
-                                  {inReplyTo && inReplyTo.username && (
-                                    <InReplyTo
-                                      className={styles.reportUsername}
-                                      onUsernameClick={() =>
-                                        onShowUserDrawer(inReplyTo.id)
-                                      }
-                                    >
-                                      {inReplyTo.username}
-                                    </InReplyTo>
-                                  )}
-                                </div>
-                                {comment.rating && (
-                                  <div>
-                                    <StarRating rating={comment.rating} />
-                                  </div>
-                                )}
-                                <div>
-                                  <div>
-                                    {/* TODO: Do we want to show message for deleted/rejected */}
-                                    <CommentContent
-                                      className={styles.commentContent}
-                                    >
-                                      {comment.body || ""}
-                                    </CommentContent>
-                                    <MediaContainer comment={comment} />
-                                  </div>
-                                </div>
-                                <div>
-                                  <HorizontalGutter spacing={3}>
-                                    <div>
-                                      <div>
-                                        <Localized id="reports-singleReport-commentOn">
-                                          <span className={styles.label}>
-                                            Comment on
-                                          </span>
-                                        </Localized>
-                                        <span>:</span>
-                                      </div>
-                                      <div>
-                                        <span className={styles.storyTitle}>
-                                          {comment.story?.metadata?.title ?? (
-                                            <NotAvailable />
-                                          )}
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </HorizontalGutter>
-                                </div>
-                              </div>
-                            </Flex>
-                            {/* TODO: Localize these comment links */}
-                            <Flex marginTop={2}>
-                              <Button
-                                variant="text"
-                                uppercase={false}
-                                color="mono"
-                                to={getURLWithCommentID(
-                                  comment.story.url,
-                                  comment.id
-                                )}
-                                target="_blank"
-                              >
-                                View comment in stream
-                              </Button>
-                            </Flex>
-                            <Flex marginTop={2}>
-                              <Button
-                                variant="text"
-                                uppercase={false}
-                                color="mono"
-                                target="_blank"
-                                to={getModerationLink({
-                                  commentID: comment.id,
-                                })}
-                              >
-                                View comment in moderation
-                              </Button>
-                            </Flex>
-                          </>
-                        )}
-                      </>
-                    </Flex>
-                  </>
-                )}
-              </Flex>
+              <ReportedComment
+                dsaReport={dsaReport}
+                onShowUserDrawer={onShowUserDrawer}
+              />
               {dsaReport.decision && (
                 <Flex direction="column">
                   <HorizontalGutter spacing={2}>
@@ -420,43 +255,12 @@ const SingleReportRoute: FunctionComponent<Props> & {
         setShowDecisionModal={setShowDecisionModal}
         showDecisionModal={showDecisionModal}
       />
-      <Modal open={showChangeStatusModal}>
-        {({ firstFocusableRef }) => (
-          <Card>
-            <Flex justifyContent="flex-end">
-              <CardCloseButton
-                onClick={onCloseChangeStatusModal}
-                ref={firstFocusableRef}
-              />
-            </Flex>
-            <ModalHeader>Update status</ModalHeader>
-            {/* TODO: Localize all of this */}
-            <Form onSubmit={onSubmitStatusUpdate}>
-              {({ handleSubmit, hasValidationErrors }) => (
-                <form onSubmit={handleSubmit}>
-                  <Flex direction="column" padding={2}>
-                    <HorizontalGutter>
-                      <div>
-                        Would you also like to update the status to In review
-                        since you've now taken an action on this report?
-                      </div>
-                      <Flex justifyContent="flex-end">
-                        <Button
-                          type="submit"
-                          iconLeft
-                          disabled={hasValidationErrors}
-                        >
-                          Update status
-                        </Button>
-                      </Flex>
-                    </HorizontalGutter>
-                  </Flex>
-                </form>
-              )}
-            </Form>
-          </Card>
-        )}
-      </Modal>
+      <ChangeStatusModal
+        showChangeStatusModal={showChangeStatusModal}
+        setShowChangeStatusModal={setShowChangeStatusModal}
+        reportID={dsaReport.id}
+        userID={viewer?.id}
+      />
     </div>
   );
 };
@@ -487,37 +291,13 @@ SingleReportRoute.routeConfig = createRouteConfig<
           detailedExplanation
         }
         comment {
-          id
-          deleted
-          body
-          story {
-            url
-            metadata {
-              title
-            }
-          }
-          rating
-          parent {
-            author {
-              id
-              username
-            }
-          }
-          createdAt
-          editing {
-            edited
-          }
-          author {
-            id
-            username
-          }
-
           ...CommentAuthorContainer_comment
           ...MediaContainer_comment
         }
         ...ReportHistory_dsaReport
         ...ReportShareButton_dsaReport
         ...ReportMakeDecisionModal_dsaReport
+        ...ReportedComment_dsaReport
       }
     }
   `,

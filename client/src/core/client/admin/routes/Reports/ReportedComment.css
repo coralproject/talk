@@ -1,0 +1,42 @@
+.commentMain {
+  flex-grow: 1;
+}
+
+.commentBox {
+  border: 1px solid var(--palette-grey-300);
+  padding: var(--spacing-3);
+  margin-top: var(--spacing-1);
+}
+
+.commentContent {
+  margin: var(--spacing-2) 0;
+}
+
+.commentUsernameButton {
+  padding: 0 0 0 var(--spacing-1);
+
+  span {
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-family: var(--font-family-primary);
+  }
+}
+
+.edited {
+  margin-left: var(--spacing-2);
+}
+
+.reportUsername {
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+}
+
+.label {
+  font-size: var(--font-size-1);
+  text-transform: uppercase;
+}
+
+.storyTitle {
+  font-size: var(--font-size-2);
+}
