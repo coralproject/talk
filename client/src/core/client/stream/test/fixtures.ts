@@ -439,7 +439,12 @@ export const baseComment = createFixture<GQLComment>({
   site: { id: "site-0" },
   story: baseStory,
   parent: NULL_VALUE,
-  viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
+  viewerActionPresence: {
+    reaction: false,
+    dontAgree: false,
+    flag: false,
+    illegal: false,
+  },
   tags: [],
   deleted: NULL_VALUE,
   reactions: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },

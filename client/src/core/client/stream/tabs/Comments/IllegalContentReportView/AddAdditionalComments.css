@@ -1,0 +1,13 @@
+.leftIcon {
+  padding-right: var(--spacing-1);
+}
+
+.additionalCommentURLs {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+}
+
+.error {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+}

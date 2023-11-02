@@ -10,7 +10,10 @@ import {
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLREJECTION_REASON_CODE,
+} from "coral-server/graph/schema/__generated__/types";
 
 /**
  * CommentModerationAction stores information around a moderation action that
@@ -40,6 +43,16 @@ export interface CommentModerationAction extends TenantResource {
    * moderation action.
    */
   status: GQLCOMMENT_STATUS;
+
+  /**
+   * reason is the GQLMODERATION_REASON_REASON for the decision, if it is
+   * a rejection
+   */
+  rejectionReason?: {
+    reason: GQLREJECTION_REASON_CODE;
+    legalGrounds?: string;
+    detailedExplanation?: string;
+  };
 
   /**
    * moderatorID is the ID of the User that created the moderation action. If

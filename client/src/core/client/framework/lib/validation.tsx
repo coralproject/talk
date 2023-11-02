@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import {
   EMAIL_DOMAIN_REGEX,
   EMAIL_REGEX,
+  ID_REGEX,
   PASSWORD_MIN_LENGTH,
   URL_REGEX,
   USERNAME_MAX_LENGTH,
@@ -114,6 +115,22 @@ export const validateImageURL = createValidator(
   validateImageURLFunc,
   INVALID_MEDIA_URL()
 );
+
+/**
+ * validateShareURL checks that a URL is valid and includes a valid commentID query param
+ */
+export const validateShareURL = (v: any) => {
+  if (!v) {
+    return false;
+  }
+  const shareURLArr = v.split("?commentID=");
+  if (!(shareURLArr.length === 2)) {
+    return false;
+  }
+  const isValidUrl = URL_REGEX.test(shareURLArr[0]);
+  const isValidCommentID = ID_REGEX.test(shareURLArr[1]);
+  return isValidUrl && isValidCommentID;
+};
 
 /**
  * validateURL is a Validator that checks that the URL only contains valid characters.
