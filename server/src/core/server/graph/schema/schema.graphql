@@ -4592,6 +4592,14 @@ type Notification {
   comment: Comment
 
   """
+  commentStatus is the optional status of the comment when the notification
+  was created. This allows for the context of the state of the comment to be
+  persisted even if the comment reference undergoes multiple moderation actions
+  since the notification was created.
+  """
+  commentStatus: COMMENT_STATUS
+
+  """
   dsaReport is the details of the DSA Report related to the notification.
   This is usually in reference to the comment that is also related to
   the notification.

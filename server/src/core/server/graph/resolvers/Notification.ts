@@ -23,6 +23,7 @@ export const NotificationResolver: Required<
 
     return comment;
   },
+  commentStatus: ({ commentStatus }) => commentStatus,
   dsaReport: async ({ reportID }, input, ctx) => {
     if (!reportID) {
       return null;

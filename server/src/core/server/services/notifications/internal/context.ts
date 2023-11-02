@@ -85,6 +85,7 @@ export class InternalNotificationContext {
           }
         ),
         commentID: comment.id,
+        commentStatus: comment.status,
       });
       result.attempted = true;
     } else if (type === NotificationType.COMMENT_APPROVED && comment) {
@@ -107,6 +108,7 @@ export class InternalNotificationContext {
           }
         ),
         commentID: comment.id,
+        commentStatus: comment.status,
       });
       result.attempted = true;
     } else if (type === NotificationType.COMMENT_REJECTED && comment) {
@@ -129,6 +131,7 @@ export class InternalNotificationContext {
           }
         ),
         commentID: comment.id,
+        commentStatus: comment.status,
       });
       result.attempted = true;
     }

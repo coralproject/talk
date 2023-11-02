@@ -7,16 +7,21 @@ import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import { Timestamp } from "coral-ui/components/v2";
 
-import { NotificationCommentContainer_comment } from "coral-stream/__generated__/NotificationCommentContainer_comment.graphql";
+import {
+  COMMENT_STATUS,
+  NotificationCommentContainer_comment,
+} from "coral-stream/__generated__/NotificationCommentContainer_comment.graphql";
 
 import styles from "./NotificationCommentContainer.css";
 
 interface Props {
   comment: NotificationCommentContainer_comment;
+  status: COMMENT_STATUS;
 }
 
 const NotificationCommentContainer: FunctionComponent<Props> = ({
   comment,
+  status,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -26,28 +31,28 @@ const NotificationCommentContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      {comment.status === GQLCOMMENT_STATUS.APPROVED && isOpen && (
+      {status === GQLCOMMENT_STATUS.APPROVED && isOpen && (
         <button className={styles.toggle} onClick={onToggleOpenClosed}>
           <Localized id="notification-comment-toggle-approved-open">
             Approved comment
           </Localized>
         </button>
       )}
-      {comment.status === GQLCOMMENT_STATUS.APPROVED && !isOpen && (
+      {status === GQLCOMMENT_STATUS.APPROVED && !isOpen && (
         <button className={styles.toggle} onClick={onToggleOpenClosed}>
           <Localized id="notification-comment-toggle-approved-closed">
             + Approved comment
           </Localized>
         </button>
       )}
-      {comment.status === GQLCOMMENT_STATUS.REJECTED && isOpen && (
+      {status === GQLCOMMENT_STATUS.REJECTED && isOpen && (
         <button className={styles.toggle} onClick={onToggleOpenClosed}>
           <Localized id="notification-comment-toggle-rejected-open">
             Rejected comment
           </Localized>
         </button>
       )}
-      {comment.status === GQLCOMMENT_STATUS.REJECTED && !isOpen && (
+      {status === GQLCOMMENT_STATUS.REJECTED && !isOpen && (
         <button className={styles.toggle} onClick={onToggleOpenClosed}>
           <Localized id="notification-comment-toggle-rejected-closed">
             + Rejected comment

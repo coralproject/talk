@@ -19,7 +19,7 @@ interface Props {
 }
 
 const NotificationContainer: FunctionComponent<Props> = ({
-  notification: { title, body, comment, createdAt },
+  notification: { title, body, comment, createdAt, commentStatus },
   viewer,
 }) => {
   const seen = useMemo(() => {
@@ -52,7 +52,10 @@ const NotificationContainer: FunctionComponent<Props> = ({
         {body && <div className={cn(styles.body)}>{body}</div>}
         {comment && (
           <div className={styles.contextItem}>
-            <NotificationCommentContainer comment={comment} />
+            <NotificationCommentContainer
+              comment={comment}
+              status={commentStatus ? commentStatus : comment.status}
+            />
           </div>
         )}
         <div className={styles.footer}>
@@ -78,7 +81,9 @@ const enhanced = withFragmentContainer<Props>({
       body
       comment {
         ...NotificationCommentContainer_comment
+        status
       }
+      commentStatus
     }
   `,
 })(NotificationContainer);

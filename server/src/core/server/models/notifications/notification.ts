@@ -1,5 +1,7 @@
 import { MongoContext } from "coral-server/data/context";
 
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+
 import { ConnectionInput, Query, resolveConnection } from "../helpers";
 import { TenantResource } from "../tenant";
 import { User } from "../user";
@@ -14,7 +16,9 @@ export interface Notification extends TenantResource {
   ownerID: string;
 
   reportID?: string;
+
   commentID?: string;
+  commentStatus?: GQLCOMMENT_STATUS;
 
   title?: string;
   body?: string;
