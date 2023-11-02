@@ -1,4 +1,4 @@
-import { FormApi } from "final-form";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
@@ -48,7 +48,7 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
   }, [setMakeDecisionSelection]);
 
   const onSubmitDecision = useCallback(
-    async (input: any, form: FormApi) => {
+    async (input: { legalGrounds?: string; explanation?: string }) => {
       if (dsaReport && userID && dsaReport.comment?.revision) {
         try {
           await makeReportDecision({
@@ -91,8 +91,9 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
               ref={firstFocusableRef}
             />
           </Flex>
-          <ModalHeader>Decision</ModalHeader>
-          {/* TODO: Localize all of this */}
+          <Localized id="reports-decisionModal-header">
+            <ModalHeader>Decision</ModalHeader>
+          </Localized>
           <Form
             onSubmit={onSubmitDecision}
             initialValues={{ decision: "ILLEGAL" }}
@@ -102,23 +103,29 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                 <Flex direction="column" padding={2}>
                   <HorizontalGutter>
                     <Flex alignItems="center" direction="column">
-                      <div className={styles.decisionModalThisComment}>
-                        Does this comment appear to contain illegal content?
-                      </div>
+                      <Localized id="reports-decisionModal-prompt">
+                        <div className={styles.decisionModalThisComment}>
+                          Does this comment appear to contain illegal content?
+                        </div>
+                      </Localized>
                       <Flex margin={2}>
-                        <Button
-                          onClick={onClickMakeDecisionContainsIllegal}
-                          active={makeDecisionSelection === "YES"}
-                          className={styles.yesButton}
-                        >
-                          Yes
-                        </Button>
-                        <Button
-                          onClick={onClickMakeDecisionDoesNotContainIllegal}
-                          active={makeDecisionSelection === "NO"}
-                        >
-                          No
-                        </Button>
+                        <Localized id="reports-decisionModal-yes">
+                          <Button
+                            onClick={onClickMakeDecisionContainsIllegal}
+                            active={makeDecisionSelection === "YES"}
+                            className={styles.yesButton}
+                          >
+                            Yes
+                          </Button>
+                        </Localized>
+                        <Localized id="reports-decisionModal-no">
+                          <Button
+                            onClick={onClickMakeDecisionDoesNotContainIllegal}
+                            active={makeDecisionSelection === "NO"}
+                          >
+                            No
+                          </Button>
+                        </Localized>
                       </Flex>
                     </Flex>
                     {makeDecisionSelection === "YES" && (
@@ -157,13 +164,15 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                     )}
                     {makeDecisionSelection !== null && (
                       <Flex justifyContent="flex-end">
-                        <Button
-                          type="submit"
-                          iconLeft
-                          disabled={hasValidationErrors}
-                        >
-                          Submit
-                        </Button>
+                        <Localized id="reports-decisionModal-submit">
+                          <Button
+                            type="submit"
+                            iconLeft
+                            disabled={hasValidationErrors}
+                          >
+                            Submit
+                          </Button>
+                        </Localized>
                       </Flex>
                     )}
                   </HorizontalGutter>

@@ -1,8 +1,10 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Form } from "react-final-form";
 
 import ModalHeader from "coral-admin/components/ModalHeader";
 import { useMutation } from "coral-framework/lib/relay";
+import { GQLDSAReportStatus } from "coral-framework/schema";
 import {
   Button,
   Card,
@@ -38,7 +40,7 @@ const ChangeStatusModal: FunctionComponent<Props> = ({
       await changeReportStatus({
         userID,
         reportID,
-        status: "UNDER_REVIEW",
+        status: GQLDSAReportStatus.UNDER_REVIEW,
       });
       setShowChangeStatusModal(false);
     }
@@ -54,25 +56,30 @@ const ChangeStatusModal: FunctionComponent<Props> = ({
               ref={firstFocusableRef}
             />
           </Flex>
-          <ModalHeader>Update status</ModalHeader>
-          {/* TODO: Localize all of this */}
+          <Localized id="reports-changeStatusModal-header">
+            <ModalHeader>Update status</ModalHeader>
+          </Localized>
           <Form onSubmit={onSubmitStatusUpdate}>
             {({ handleSubmit, hasValidationErrors }) => (
               <form onSubmit={handleSubmit}>
                 <Flex direction="column" padding={2}>
                   <HorizontalGutter>
-                    <div>
-                      Would you also like to update the status to In review
-                      since you've now taken an action on this report?
-                    </div>
+                    <Localized id="reports-changeStatusModal-prompt">
+                      <div>
+                        Would you also like to update the status to In review
+                        since you've now taken an action on this report?
+                      </div>
+                    </Localized>
                     <Flex justifyContent="flex-end">
-                      <Button
-                        type="submit"
-                        iconLeft
-                        disabled={hasValidationErrors}
-                      >
-                        Update status
-                      </Button>
+                      <Localized id="reports-changeStatusModal-updateButton">
+                        <Button
+                          type="submit"
+                          iconLeft
+                          disabled={hasValidationErrors}
+                        >
+                          Update status
+                        </Button>
+                      </Localized>
                     </Flex>
                   </HorizontalGutter>
                 </Flex>

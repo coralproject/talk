@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, { useCallback, useMemo, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
@@ -78,27 +79,30 @@ const ReportsTableContainer: React.FunctionComponent<Props> = (props) => {
     <MainLayout className={styles.root}>
       <IntersectionProvider>
         <Flex>
-          {/* TODO: Localize once confirmed with design */}
           {filterButton === "completed" ? (
-            <Button
-              className={styles.filterButton}
-              onClick={onShowCompleted}
-              variant="text"
-              color="dark"
-              uppercase={false}
-            >
-              Show closed reports
-            </Button>
+            <Localized id="reports-table-showClosedReports">
+              <Button
+                className={styles.filterButton}
+                onClick={onShowCompleted}
+                variant="text"
+                color="dark"
+                uppercase={false}
+              >
+                Show closed reports
+              </Button>
+            </Localized>
           ) : (
-            <Button
-              className={styles.filterButton}
-              onClick={onShowOpen}
-              variant="text"
-              color="dark"
-              uppercase={false}
-            >
-              Show open reports
-            </Button>
+            <Localized id="reports-table-showOpenReports">
+              <Button
+                className={styles.filterButton}
+                onClick={onShowOpen}
+                variant="text"
+                color="dark"
+                uppercase={false}
+              >
+                Show open reports
+              </Button>
+            </Localized>
           )}
           <ReportsSortMenu onChange={onSortChange} />
         </Flex>

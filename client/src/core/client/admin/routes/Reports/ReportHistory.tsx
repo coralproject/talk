@@ -15,6 +15,7 @@ import { useInView } from "coral-framework/lib/intersection";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import {
+  GQLDSAReportDecisionLegality,
   GQLDSAReportHistoryType,
   GQLDSAReportStatus,
 } from "coral-framework/schema";
@@ -28,7 +29,6 @@ import {
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import {
-  DSAReportDecisionLegality,
   DSAReportStatus,
   ReportHistory_dsaReport,
 } from "coral-admin/__generated__/ReportHistory_dsaReport.graphql";
@@ -52,13 +52,6 @@ export const statusMappings = {
   COMPLETED: "Completed",
   VOID: "Void",
   "%future added value": "Unknown status",
-};
-
-// TODO: Add localizations here
-const decisionMadeMapping = {
-  ILLEGAL: "contains illegal content",
-  LEGAL: "does not contain illegal content",
-  "%future added value": "Unknown decision",
 };
 
 const ReportHistory: FunctionComponent<Props> = ({
@@ -97,16 +90,6 @@ const ReportHistory: FunctionComponent<Props> = ({
     }
     return statusMappings[status];
   }, []);
-
-  const decisionMapping = useCallback(
-    (decision?: DSAReportDecisionLegality | null) => {
-      if (!decision) {
-        return "Unknown decision";
-      }
-      return decisionMadeMapping[decision];
-    },
-    []
-  );
 
   const onDeleteReportNoteButton = useCallback(
     async (id: string) => {
@@ -205,13 +188,14 @@ const ReportHistory: FunctionComponent<Props> = ({
                     {h?.type === GQLDSAReportHistoryType.STATUS_CHANGED && (
                       <>
                         {h.status === GQLDSAReportStatus.VOID ? (
-                          // TODO: Localize
-                          <div className={styles.reportHistoryText}>
-                            User deleted their account. Report is void.
-                          </div>
+                          <Localized id="reports-singleReport-reportVoid">
+                            <div className={styles.reportHistoryText}>
+                              User deleted their account. Report is void.
+                            </div>
+                          </Localized>
                         ) : (
                           <Localized
-                            id="reports-singleReport-changedStatus"
+                            id="reports-singleReport-history-changedStatus"
                             vars={{
                               status: statusMapping(h.status),
                               username: h.createdBy?.username,
@@ -229,7 +213,7 @@ const ReportHistory: FunctionComponent<Props> = ({
 
                     {h?.type === GQLDSAReportHistoryType.SHARE && (
                       <Localized
-                        id="reports-singleReport-sharedReport"
+                        id="reports-singleReport-history-sharedReport"
                         vars={{ username: h.createdBy?.username }}
                       >
                         <div
@@ -240,25 +224,51 @@ const ReportHistory: FunctionComponent<Props> = ({
 
                     {h?.type === GQLDSAReportHistoryType.DECISION_MADE && (
                       <>
-                        <Localized
-                          id="reports-singleReport-madeDecision"
-                          vars={{ username: h.createdBy?.username }}
-                        >
-                          <div className={styles.reportHistoryText}>{`${
-                            h.createdBy?.username
-                          } made a decision that this report ${decisionMapping(
-                            h.decision?.legality
-                          )}`}</div>
-                        </Localized>
+                        {h.decision?.legality ===
+                        GQLDSAReportDecisionLegality.ILLEGAL ? (
+                          <Localized
+                            id="reports-singleReport-history-madeDecision-illegal"
+                            vars={{
+                              username: h.createdBy?.username,
+                            }}
+                          >
+                            <div
+                              className={styles.reportHistoryText}
+                            >{`${h.createdBy?.username} made a decision that this report contains illegal content`}</div>
+                          </Localized>
+                        ) : (
+                          <Localized
+                            id="reports-singleReport-history-madeDecision-legal"
+                            vars={{
+                              username: h.createdBy?.username,
+                            }}
+                          >
+                            <div
+                              className={styles.reportHistoryText}
+                            >{`${h.createdBy?.username} made a decision that this report does not contain illegal content`}</div>
+                          </Localized>
+                        )}
                         {h.decision?.legality === "ILLEGAL" && (
                           <>
-                            <div className={styles.reportHistoryText}>
-                              Legal grounds: {`${h.decision?.legalGrounds}`}
-                            </div>
-                            <div className={styles.reportHistoryText}>
-                              Explanation:{" "}
-                              {`${h.decision?.detailedExplanation}`}
-                            </div>
+                            <Localized
+                              id="reports-singleReport-history-legalGrounds"
+                              vars={{ legalGrounds: h.decision?.legalGrounds }}
+                            >
+                              <div className={styles.reportHistoryText}>
+                                Legal grounds: {`${h.decision?.legalGrounds}`}
+                              </div>
+                            </Localized>
+                            <Localized
+                              id="reports-singleReport-history-explanation"
+                              vars={{
+                                explanation: h.decision?.detailedExplanation,
+                              }}
+                            >
+                              <div className={styles.reportHistoryText}>
+                                Explanation:{" "}
+                                {`${h.decision?.detailedExplanation}`}
+                              </div>
+                            </Localized>
                           </>
                         )}
                       </>

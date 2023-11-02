@@ -199,9 +199,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
               {dsaReport.decision && (
                 <Flex direction="column">
                   <HorizontalGutter spacing={2}>
-                    {/* <Localized id="reports-singleReport-comment"> */}
-                    <div className={styles.label}>Decision</div>
-                    {/* </Localized> */}
+                    <Localized id="reports-singleReport-decisionLabel">
+                      <div className={styles.label}>Decision</div>
+                    </Localized>
                     {dsaReport.decision.legality === "ILLEGAL" ? (
                       <>
                         <Flex direction="column">

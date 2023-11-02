@@ -1813,6 +1813,9 @@ reports-sortMenu-newest = Newest
 reports-sortMenu-oldest = Oldest
 reports-sortMenu-sortBy = Sort by
 
+reports-table-showClosedReports = Show closed reports
+reports-table-showOpenReports = Show open reports
+
 reports-singleReport-reportsLinkButton = <icon></icon> All DSA Reports
 reports-singleReport-reportID = Report ID
 reports-singleReport-shareButton = <icon></icon> CSV
@@ -1822,21 +1825,42 @@ reports-singleReport-reportDate = Report date
 reports-singleReport-lawBroken = What law was broken?
 reports-singleReport-explanation = Explanation
 reports-singleReport-comment = Comment
+reports-singleReport-comment-deleted = This comment is no longer available. The commenter has deleted their account.
 reports-singleReport-comment-edited = (edited)
+reports-singleReport-comment-viewCommentStream = View comment in stream
+reports-singleReport-comment-viewCommentModeration = View comment in moderation
 reports-singleReport-commentOn = Comment on
 reports-singleReport-history = History
 reports-singleReport-history-reportSubmitted = Illegal content report submitted
 reports-singleReport-history-addedNote = { $username } added a note
 reports-singleReport-history-deleteNoteButton = <icon></icon> Delete
-reports-singleReport-changedStatus = { $username } changed status to { $status }
-reports-singleReport-sharedReport = { $username } shared this report
+reports-singleReport-history-madeDecision-illegal = { $username } made a decision that this report contains illegal content
+reports-singleReport-history-madeDecision-legal = { $username } made a decision that this report does not contain illegal content
+reports-singleReport-history-legalGrounds = Legal grounds: { $legalGrounds }
+reports-singleReport-history-explanation = Explanation: { $explanation }
+reports-singleReport-history-changedStatus = { $username } changed status to { $status }
+reports-singleReport-reportVoid = User deleted their account. Report is void.
+reports-singleReport-history-sharedReport = { $username } shared this report
 reports-singleReport-note-field =
   .placeholder = Add your note...
 reports-singleReport-addUpdateButton = <icon></icon> Add update
+reports-singleReport-decisionLabel = Decision
 
 reports-reportStatusMenu-awaitingReview = Awaiting review
 reports-reportStatusMenu-inReview = In review
 reports-reportStatusMenu-completed = Completed
+
+reports-changeStatusModal-prompt = 
+  Would you also like to update the status to In review 
+  since you've now taken an action on this report?
+reports-changeStatusModal-updateButton = Update status
+reports-changeStatusModal-header = Update status
+
+reports-decisionModal-header = Decision
+reports-decisionModal-prompt = Does this comment appear to contain illegal content?
+reports-decisionModal-yes = Yes
+reports-decisionModal-no = No
+reports-decisionModal-submit = Submit
 
 # Control panel
 
