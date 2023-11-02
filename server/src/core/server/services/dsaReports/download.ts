@@ -28,7 +28,9 @@ export async function sendReportDownload(
   });
 
   // Generate the filename of the file that the user will download.
-  const filename = `coral-dsaReport-${report.referenceID}-${now}.zip`;
+  const filename = `coral-dsaReport-${report.referenceID}-${Math.abs(
+    now.getTime()
+  )}.zip`;
 
   res.writeHead(200, {
     "Content-Type": "application/octet-stream",
@@ -47,36 +49,11 @@ export async function sendReportDownload(
   const csv = stringify();
 
   // Add all the streams as files to the archive.
-  // TODO: Format now
-  archive.append(csv, { name: `report-${report.referenceID}-${now}.csv` });
+  archive.append(csv, {
+    name: `report-${report.referenceID}-${Math.abs(now.getTime())}.csv`,
+  });
 
   const reporter = await retrieveUser(mongo, tenant.id, report.userID);
-
-  // TODO: Also localize this
-  csv.write([
-    "Reference ID",
-    "Created at",
-    "Created by",
-    "Status",
-    "Law broken",
-    "Additional information",
-    "Decision legality",
-    "Decision legal grounds",
-    "Decision detailed explanation",
-  ]);
-  csv.write([
-    report.referenceID,
-    formatter.format(report.createdAt),
-    reporter?.username,
-    report.status,
-    report.lawBrokenDescription,
-    report.additionalInformation,
-    report.decision ? report.decision.legality : "",
-    report.decision ? report.decision.legalGrounds : "",
-    report.decision ? report.decision.detailedExplanation : "",
-  ]);
-
-  csv.write([]);
 
   // TODO: Handle archived comments too
   const reportedComment = await retrieveComment(
@@ -84,8 +61,8 @@ export async function sendReportDownload(
     tenant.id,
     report.commentID
   );
+  let reportedCommentAuthorUsername = "";
   if (reportedComment) {
-    let reportedCommentAuthorUsername = "";
     if (reportedComment.authorID) {
       const reportedCommentAuthor = await retrieveUser(
         mongo,
@@ -97,16 +74,25 @@ export async function sendReportDownload(
           ? reportedCommentAuthor.username
           : "";
     }
-    csv.write(["Commenter", "Comment", "Comment date"]);
-    csv.write([
-      reportedCommentAuthorUsername,
-      reportedComment.revisions[0].body,
-      formatter.format(reportedComment.createdAt),
-    ]);
   }
 
-  csv.write([]);
-  csv.write(["User", "Update type", "Update info", "Date"]);
+  // TODO: Also localize these
+  csv.write(["Timestamp", "User", "Action", "Details"]);
+  if (reportedComment) {
+    csv.write([
+      formatter.format(report.createdAt),
+      reporter?.username,
+      "Report submitted",
+      `Reference ID: ${report.referenceID}\nLaw broken: ${report.lawBrokenDescription}\nAdditional info: ${report.additionalInformation}\nComment author: ${reportedCommentAuthorUsername}\nComment body: ${reportedComment.revisions[0].body}\nComment ID: ${reportedComment.id}`,
+    ]);
+  } else {
+    csv.write([
+      formatter.format(report.createdAt),
+      reporter?.username,
+      "Report submitted",
+      `Reference ID: ${report.referenceID}\nLaw broken: ${report.lawBrokenDescription}\nAdditional info: ${report.additionalInformation}`,
+    ]);
+  }
 
   if (report.history) {
     for (const reportHistoryItem of report.history) {
@@ -118,41 +104,45 @@ export async function sendReportDownload(
       switch (reportHistoryItem.type) {
         case "STATUS_CHANGED":
           csv.write([
+            formatter.format(reportHistoryItem.createdAt),
             reportCommentAuthor?.username,
             "Changed status",
             reportHistoryItem.status,
-            formatter.format(reportHistoryItem.createdAt),
           ]);
           break;
         case "NOTE":
           csv.write([
+            formatter.format(reportHistoryItem.createdAt),
             reportCommentAuthor?.username,
             "Added note",
             reportHistoryItem.body,
-            formatter.format(reportHistoryItem.createdAt),
           ]);
           break;
         case "DECISION_MADE":
+          const details =
+            reportHistoryItem.decision?.legality === "ILLEGAL"
+              ? `Legality: Illegal\nLegal grounds: ${reportHistoryItem.decision.legalGrounds}\nExplanation: ${reportHistoryItem.decision.detailedExplanation}`
+              : "Legality: Legal";
           csv.write([
+            formatter.format(reportHistoryItem.createdAt),
             reportCommentAuthor?.username,
             "Made decision",
-            reportHistoryItem.decision?.legality ?? "",
-            formatter.format(reportHistoryItem.createdAt),
+            details,
           ]);
           break;
         case "SHARE":
           csv.write([
+            formatter.format(reportHistoryItem.createdAt),
             reportCommentAuthor?.username,
             "Downloaded report",
             "",
-            formatter.format(reportHistoryItem.createdAt),
           ]);
           break;
         default:
           csv.write([
+            formatter.format(reportHistoryItem.createdAt),
             reportCommentAuthor?.username,
             "",
-            formatter.format(reportHistoryItem.createdAt),
           ]);
       }
     }
