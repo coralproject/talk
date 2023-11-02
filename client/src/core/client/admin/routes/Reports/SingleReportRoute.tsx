@@ -116,15 +116,17 @@ const SingleReportRoute: FunctionComponent<Props> & {
             userID={viewer?.id}
             onChangeReportStatusCompleted={onChangeReportStatusCompleted}
           />
-          <Button
-            className={styles.decisionButton}
-            onClick={onClickMakeDecisionButton}
-            disabled={
-              dsaReport.status === "COMPLETED" || dsaReport.status === "VOID"
-            }
-          >
-            Make Decision
-          </Button>
+          <Localized id="reports-singleReport-makeDecisionButton">
+            <Button
+              className={styles.decisionButton}
+              onClick={onClickMakeDecisionButton}
+              disabled={
+                dsaReport.status === "COMPLETED" || dsaReport.status === "VOID"
+              }
+            >
+              Make Decision
+            </Button>
+          </Localized>
         </Flex>
         <Flex
           className={styles.autoMarginLeft}
@@ -159,7 +161,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
                     </Button>
                   ) : (
                     <Localized id="reports-singleReport-reporterNameNotAvailable">
-                      <div>Reporter name not available</div>
+                      <div className={styles.data}>
+                        Reporter name not available
+                      </div>
                     </Localized>
                   )}
                 </Flex>
@@ -205,29 +209,37 @@ const SingleReportRoute: FunctionComponent<Props> & {
                     {dsaReport.decision.legality === "ILLEGAL" ? (
                       <>
                         <Flex direction="column">
-                          <div className={styles.data}>
-                            This report appears to contain illegal content
-                          </div>
+                          <Localized id="reports-singleReport-decision-illegalContent">
+                            <div className={styles.data}>
+                              This report appears to contain illegal content
+                            </div>
+                          </Localized>
                         </Flex>
                         <Flex direction="column">
-                          <div className={styles.label}>Legal grounds</div>
+                          <Localized id="reports-singleReport-decision-legalGrounds">
+                            <div className={styles.label}>Legal grounds</div>
+                          </Localized>
                           <div className={styles.data}>
                             {`${dsaReport.decision.legalGrounds}`}
                           </div>
                         </Flex>
                         <Flex direction="column">
-                          <div className={styles.label}>
-                            Detailed explanation
-                          </div>
+                          <Localized id="reports-singleReport-decision-explanation">
+                            <div className={styles.label}>
+                              Detailed explanation
+                            </div>
+                          </Localized>
                           <div className={styles.data}>
                             {`${dsaReport.decision.detailedExplanation}`}
                           </div>
                         </Flex>
                       </>
                     ) : (
-                      <div className={styles.data}>
-                        This report does not appear to contain illegal content
-                      </div>
+                      <Localized id="reports-singleReport-decision-legal">
+                        <div className={styles.data}>
+                          This report does not appear to contain illegal content
+                        </div>
+                      </Localized>
                     )}
                   </HorizontalGutter>
                 </Flex>

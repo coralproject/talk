@@ -52,8 +52,8 @@ const ReportedComment: FunctionComponent<Props> = ({
         </Localized>
         <>
           {comment.deleted ? (
-            <Localized id="reports-singleReport-comment-deleted">
-              <div>
+            <Localized id="comments-tombstone-deleted">
+              <div className={styles.data}>
                 This comment is no longer available. The commenter has deleted
                 their account.
               </div>

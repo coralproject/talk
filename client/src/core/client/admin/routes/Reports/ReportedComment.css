@@ -40,3 +40,10 @@
 .storyTitle {
   font-size: var(--font-size-2);
 }
+
+.data {
+  color: var(--palette-grey-500);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-regular);
+  white-space: pre-wrap;
+}
