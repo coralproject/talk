@@ -6,6 +6,7 @@ import { graphql } from "react-relay";
 import ModalHeader from "coral-admin/components/ModalHeader";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
+import { GQLDSAReportDecisionLegality } from "coral-framework/schema";
 import {
   Button,
   Card,
@@ -54,7 +55,10 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
           await makeReportDecision({
             userID,
             reportID: dsaReport.id,
-            legality: makeDecisionSelection === "YES" ? "ILLEGAL" : "LEGAL",
+            legality:
+              makeDecisionSelection === "YES"
+                ? GQLDSAReportDecisionLegality.ILLEGAL
+                : GQLDSAReportDecisionLegality.LEGAL,
             legalGrounds:
               makeDecisionSelection === "YES" ? input.legalGrounds : undefined,
             detailedExplanation:
@@ -94,10 +98,7 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
           <Localized id="reports-decisionModal-header">
             <ModalHeader>Decision</ModalHeader>
           </Localized>
-          <Form
-            onSubmit={onSubmitDecision}
-            initialValues={{ decision: "ILLEGAL" }}
-          >
+          <Form onSubmit={onSubmitDecision}>
             {({ handleSubmit, hasValidationErrors }) => (
               <form onSubmit={handleSubmit}>
                 <Flex direction="column" padding={2}>

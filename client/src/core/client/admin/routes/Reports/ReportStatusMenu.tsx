@@ -55,20 +55,20 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
         value={value ?? "AWAITING_REVIEW"}
         disabled={value === "COMPLETED" || value === "VOID"}
       >
-        <Localized id="reports-reportStatusMenu-awaitingReview">
+        <Localized id="reports-status-awaitingReview">
           <Option value="AWAITING_REVIEW">Awaiting review</Option>
         </Localized>
-        <Localized id="reports-reportStatusMenu-inReview">
+        <Localized id="reports-status-inReview">
           <Option value="UNDER_REVIEW">In review</Option>
         </Localized>
-        <Localized id="reports-reportStatusMenu-completed">
+        <Localized id="reports-status-completed">
           <Option value="COMPLETED">Completed</Option>
         </Localized>
-        {/* <Localized id="reports-reportStatusMenu-awaitingReview"> */}
-        <Option hidden value="VOID">
-          Void
-        </Option>
-        {/* </Localized> */}
+        <Localized id="reports-status-void">
+          <Option hidden value="VOID">
+            Void
+          </Option>
+        </Localized>
       </SelectField>
     </>
   );

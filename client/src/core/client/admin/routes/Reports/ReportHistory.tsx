@@ -11,6 +11,8 @@ import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { getMessage } from "coral-framework/lib/i18n";
 import { useInView } from "coral-framework/lib/intersection";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
@@ -44,27 +46,42 @@ interface Props {
   userID?: string;
 }
 
-// TODO: Add localization strings
-// could share with reportstatusmenu localizations?
-export const statusMappings = {
-  AWAITING_REVIEW: "Awaiting review",
-  UNDER_REVIEW: "In review",
-  COMPLETED: "Completed",
-  VOID: "Void",
-  "%future added value": "Unknown status",
-};
-
 const ReportHistory: FunctionComponent<Props> = ({
   dsaReport,
   userID,
   setShowChangeStatusModal,
 }) => {
   const root = useShadowRootOrDocument();
+  const { localeBundles } = useCoralContext();
   const [reportHistoryStyles, setReportHistoryStyles] = useState(
     cn(styles.reportHistory, styles.fadeBottom)
   );
   const { inView, intersectionRef: bottomOfReportHistoryInViewRef } =
     useInView();
+
+  const statusMappings = {
+    AWAITING_REVIEW: getMessage(
+      localeBundles,
+      "reports-status-awaitingReview",
+      "Awaiting review"
+    ),
+    UNDER_REVIEW: getMessage(
+      localeBundles,
+      "reports-status-inReview",
+      "In review"
+    ),
+    COMPLETED: getMessage(
+      localeBundles,
+      "reports-status-completed",
+      "Completed"
+    ),
+    VOID: getMessage(localeBundles, "reports-status-void", "Void"),
+    "%future added value": getMessage(
+      localeBundles,
+      "reports-status-unknown",
+      "Unknown status"
+    ),
+  };
 
   useEffect(() => {
     if (inView) {

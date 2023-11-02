@@ -1846,9 +1846,11 @@ reports-singleReport-note-field =
 reports-singleReport-addUpdateButton = <icon></icon> Add update
 reports-singleReport-decisionLabel = Decision
 
-reports-reportStatusMenu-awaitingReview = Awaiting review
-reports-reportStatusMenu-inReview = In review
-reports-reportStatusMenu-completed = Completed
+reports-status-awaitingReview = Awaiting review
+reports-status-inReview = In review
+reports-status-completed = Completed
+reports-status-void = Void
+reports-status-unknown = Unknown status
 
 reports-changeStatusModal-prompt = 
   Would you also like to update the status to In review 
