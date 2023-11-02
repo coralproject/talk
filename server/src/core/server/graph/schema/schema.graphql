@@ -3586,12 +3586,6 @@ type DSAReport {
   such as a note added, status changed, or decision made
   """
   lastUpdated: Time
-
-  """
-  commentModerationActionID is the id of the associated comment moderation action if a legality
-  decision has been made for this DSAReport
-  """
-  commentModerationActionID: ID
 }
 
 type CommentRevisionPerspectiveMetadata {
@@ -6484,11 +6478,6 @@ input MakeDSAReportDecisionInput {
   reportID is the id of the DSAReport that is being decided on
   """
   reportID: ID!
-
-  """
-  storyID is the id of the story that the comment is on which the DSAReport decision is being made about
-  """
-  storyID: ID!
 
   """
   clientMutationId is required for Relay support.

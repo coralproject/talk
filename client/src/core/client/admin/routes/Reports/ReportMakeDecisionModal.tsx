@@ -65,7 +65,6 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
               makeDecisionSelection === "YES" ? input.explanation : undefined,
             commentID: dsaReport.comment?.id,
             commentRevisionID: dsaReport.comment.revision.id,
-            storyID: dsaReport.comment.story.id,
           });
           setShowDecisionModal(false);
         } catch (e) {
@@ -194,9 +193,6 @@ const enhanced = withFragmentContainer<Props>({
       comment {
         id
         revision {
-          id
-        }
-        story {
           id
         }
       }

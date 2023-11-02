@@ -1,11 +1,11 @@
+import { Config } from "coral-server/config";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
+import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import {
-  GQLCOMMENT_STATUS,
   GQLDSAReportDecisionLegality,
   GQLDSAReportStatus,
-  GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
-import { createCommentModerationAction } from "coral-server/models/action/moderation/comment";
 import {
   changeDSAReportStatus as changeReportStatus,
   createDSAReport as createReport,
@@ -15,6 +15,9 @@ import {
   makeDSAReportDecision as makeReportDecision,
 } from "coral-server/models/dsaReport/report";
 import { Tenant } from "coral-server/models/tenant";
+import { approveComment, rejectComment } from "coral-server/stacks";
+
+import { AugmentedRedis } from "../redis";
 
 export interface CreateDSAReportInput {
   commentID: string;
@@ -150,10 +153,9 @@ export interface MakeDSAReportDecisionInput {
   commentRevisionID: string;
   userID: string;
   reportID: string;
-  storyID: string;
   legality: GQLDSAReportDecisionLegality;
-  legalGrounds: string;
-  detailedExplanation: string;
+  legalGrounds?: string;
+  detailedExplanation?: string;
 }
 
 /**
@@ -167,61 +169,54 @@ export interface MakeDSAReportDecisionInput {
  */
 export async function makeDSAReportDecision(
   mongo: MongoContext,
+  redis: AugmentedRedis,
+  cache: DataCache,
+  config: Config,
+  broker: CoralEventPublisherBroker,
   tenant: Tenant,
   input: MakeDSAReportDecisionInput,
   now = new Date()
 ) {
+  // TODO: Send through rejection legalGrounds and detailedExplanation once backend support is available
   const {
     commentID,
-    storyID,
     commentRevisionID,
     userID,
-    legalGrounds,
-    detailedExplanation,
+    // legalGrounds,
+    // detailedExplanation,
   } = input;
 
-  let actionInput;
   // REJECT if ILLEGAL
   if (input.legality === GQLDSAReportDecisionLegality.ILLEGAL) {
-    actionInput = {
-      status: GQLCOMMENT_STATUS.REJECTED,
-      rejectionReason: {
-        reason: GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT,
-        legalGrounds,
-        detailedExplanation,
-      },
-    };
+    await rejectComment(
+      mongo,
+      redis,
+      cache,
+      config,
+      broker,
+      tenant,
+      commentID,
+      commentRevisionID,
+      userID,
+      now
+    );
     // APPROVE IF NOT ILLEGAL
   } else {
-    actionInput = {
-      status: GQLCOMMENT_STATUS.APPROVED,
-    };
-  }
-  const action = await createCommentModerationAction(
-    mongo,
-    tenant.id,
-    {
+    await approveComment(
+      mongo,
+      redis,
+      cache,
+      config,
+      broker,
+      tenant,
       commentID,
-      storyID,
       commentRevisionID,
-      moderatorID: userID,
-      ...actionInput,
-    },
-    now
-  );
-
-  if (!action) {
-    // TODO: Update error thrown
-    throw new Error();
+      userID,
+      now
+    );
   }
 
-  const result = await makeReportDecision(
-    mongo,
-    tenant.id,
-    input,
-    now,
-    action.id
-  );
+  const result = await makeReportDecision(mongo, tenant.id, input, now);
 
   const { dsaReport } = result;
   return dsaReport;

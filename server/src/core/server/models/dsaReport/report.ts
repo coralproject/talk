@@ -489,8 +489,8 @@ export interface MakeDSAReportDecisionInput {
   reportID: string;
   userID: string;
   legality: GQLDSAReportDecisionLegality;
-  legalGrounds: string;
-  detailedExplanation: string;
+  legalGrounds?: string;
+  detailedExplanation?: string;
 }
 
 export interface MakeDSAReportDecisionResultObject {
@@ -504,8 +504,7 @@ export async function makeDSAReportDecision(
   mongo: MongoContext,
   tenantID: string,
   input: MakeDSAReportDecisionInput,
-  now = new Date(),
-  commentModerationActionID: string
+  now = new Date()
 ): Promise<MakeDSAReportDecisionResultObject> {
   const { userID, legality, legalGrounds, detailedExplanation, reportID } =
     input;
@@ -537,14 +536,11 @@ export async function makeDSAReportDecision(
           legalGrounds,
           detailedExplanation,
         },
-        commentModerationActionID,
         status: GQLDSAReportStatus.COMPLETED,
       },
     },
     { returnOriginal: false }
   );
-
-  // TODO: Also needs to create a CommentModerationAction
 
   if (!updatedReport.value) {
     throw new Error();

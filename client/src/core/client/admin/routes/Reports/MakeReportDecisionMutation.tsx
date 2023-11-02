@@ -57,7 +57,6 @@ const MakeReportDecisionMutation = createMutation(
           detailedExplanation: input.detailedExplanation,
           commentID: input.commentID,
           commentRevisionID: input.commentRevisionID,
-          storyID: input.storyID,
           clientMutationId: (clientMutationId++).toString(),
         },
       },

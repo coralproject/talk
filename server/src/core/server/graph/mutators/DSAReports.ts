@@ -68,17 +68,23 @@ export const DSAReports = (ctx: GraphContext) => ({
     detailedExplanation,
     reportID,
     commentID,
-    storyID,
     commentRevisionID,
   }: GQLMakeDSAReportDecisionInput) =>
-    makeDSAReportDecision(ctx.mongo, ctx.tenant, {
-      userID,
-      legality,
-      legalGrounds,
-      detailedExplanation,
-      reportID,
-      commentID,
-      storyID,
-      commentRevisionID,
-    }),
+    makeDSAReportDecision(
+      ctx.mongo,
+      ctx.redis,
+      ctx.cache,
+      ctx.config,
+      ctx.broker,
+      ctx.tenant,
+      {
+        userID,
+        legality,
+        legalGrounds,
+        detailedExplanation,
+        reportID,
+        commentID,
+        commentRevisionID,
+      }
+    ),
 });
