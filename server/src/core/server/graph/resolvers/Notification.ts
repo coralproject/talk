@@ -28,6 +28,6 @@ export const NotificationResolver: Required<
       return null;
     }
 
-    return await ctx.loaders.DSAReports.find.load({ id: reportID });
+    return await ctx.loaders.DSAReports.dsaReport.load({ id: reportID });
   },
 };

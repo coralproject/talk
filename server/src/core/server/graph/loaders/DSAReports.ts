@@ -10,7 +10,7 @@ export interface FindDSAReportInput {
 }
 
 export default (ctx: GraphContext) => ({
-  find: new DataLoader(
+  dsaReport: new DataLoader(
     createManyBatchLoadFn((input: FindDSAReportInput) =>
       find(ctx.mongo, ctx.tenant, input)
     ),
