@@ -37,32 +37,37 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
   userID,
 }) => {
   const makeReportDecision = useMutation(MakeReportDecisionMutation);
-  const [makeDecisionSelection, setMakeDecisionSelection] = useState<
-    null | string
-  >(null);
+  const [makeDecisionSelection, setMakeDecisionSelection] =
+    useState<null | GQLDSAReportDecisionLegality>(null);
   const onClickMakeDecisionContainsIllegal = useCallback(() => {
-    setMakeDecisionSelection("YES");
+    setMakeDecisionSelection(GQLDSAReportDecisionLegality.ILLEGAL);
   }, [setMakeDecisionSelection]);
 
   const onClickMakeDecisionDoesNotContainIllegal = useCallback(() => {
-    setMakeDecisionSelection("NO");
+    setMakeDecisionSelection(GQLDSAReportDecisionLegality.LEGAL);
   }, [setMakeDecisionSelection]);
 
   const onSubmitDecision = useCallback(
     async (input: { legalGrounds?: string; explanation?: string }) => {
-      if (dsaReport && userID && dsaReport.comment?.revision) {
+      if (
+        dsaReport &&
+        userID &&
+        dsaReport.comment?.revision &&
+        makeDecisionSelection
+      ) {
         try {
           await makeReportDecision({
             userID,
             reportID: dsaReport.id,
-            legality:
-              makeDecisionSelection === "YES"
-                ? GQLDSAReportDecisionLegality.ILLEGAL
-                : GQLDSAReportDecisionLegality.LEGAL,
+            legality: makeDecisionSelection,
             legalGrounds:
-              makeDecisionSelection === "YES" ? input.legalGrounds : undefined,
+              makeDecisionSelection === GQLDSAReportDecisionLegality.ILLEGAL
+                ? input.legalGrounds
+                : undefined,
             detailedExplanation:
-              makeDecisionSelection === "YES" ? input.explanation : undefined,
+              makeDecisionSelection === GQLDSAReportDecisionLegality.ILLEGAL
+                ? input.explanation
+                : undefined,
             commentID: dsaReport.comment?.id,
             commentRevisionID: dsaReport.comment.revision.id,
           });
@@ -112,7 +117,10 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                         <Localized id="reports-decisionModal-yes">
                           <Button
                             onClick={onClickMakeDecisionContainsIllegal}
-                            active={makeDecisionSelection === "YES"}
+                            active={
+                              makeDecisionSelection ===
+                              GQLDSAReportDecisionLegality.ILLEGAL
+                            }
                             className={styles.yesButton}
                           >
                             Yes
@@ -121,14 +129,18 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                         <Localized id="reports-decisionModal-no">
                           <Button
                             onClick={onClickMakeDecisionDoesNotContainIllegal}
-                            active={makeDecisionSelection === "NO"}
+                            active={
+                              makeDecisionSelection ===
+                              GQLDSAReportDecisionLegality.LEGAL
+                            }
                           >
                             No
                           </Button>
                         </Localized>
                       </Flex>
                     </Flex>
-                    {makeDecisionSelection === "YES" && (
+                    {makeDecisionSelection ===
+                      GQLDSAReportDecisionLegality.ILLEGAL && (
                       <>
                         <Flex>
                           <Field
@@ -162,7 +174,7 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                         </Flex>
                       </>
                     )}
-                    {makeDecisionSelection !== null && (
+                    {makeDecisionSelection && (
                       <Flex justifyContent="flex-end">
                         <Localized id="reports-decisionModal-submit">
                           <Button
