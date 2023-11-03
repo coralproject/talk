@@ -153,32 +153,34 @@ export async function sendReportDownload(
           ]);
           break;
         case "DECISION_MADE":
-          const details =
-            reportHistoryItem.decision?.legality === "ILLEGAL"
-              ? `${translate(
-                  bundle,
-                  "Legality: Illegal",
-                  "dsaReportCSV-legality-illegal"
-                )}\n${translate(
-                  bundle,
-                  "Legal grounds",
-                  "dsaReportCSV-legalGrounds"
-                )}: ${reportHistoryItem.decision.legalGrounds}\n${translate(
-                  bundle,
-                  "Explanation",
-                  "dsaReportCSV-explanation"
-                )}: ${reportHistoryItem.decision.detailedExplanation}`
-              : `${translate(
-                  bundle,
-                  "Legality: Legal",
-                  "dsaReportCSV-legality-legal"
-                )}`;
-          csv.write([
-            formatter.format(reportHistoryItem.createdAt),
-            reportCommentAuthor?.username,
-            translate(bundle, "Made decision", "dsaReportCSV-madeDecision"),
-            details,
-          ]);
+          {
+            const details =
+              reportHistoryItem.decision?.legality === "ILLEGAL"
+                ? `${translate(
+                    bundle,
+                    "Legality: Illegal",
+                    "dsaReportCSV-legality-illegal"
+                  )}\n${translate(
+                    bundle,
+                    "Legal grounds",
+                    "dsaReportCSV-legalGrounds"
+                  )}: ${reportHistoryItem.decision.legalGrounds}\n${translate(
+                    bundle,
+                    "Explanation",
+                    "dsaReportCSV-explanation"
+                  )}: ${reportHistoryItem.decision.detailedExplanation}`
+                : `${translate(
+                    bundle,
+                    "Legality: Legal",
+                    "dsaReportCSV-legality-legal"
+                  )}`;
+            csv.write([
+              formatter.format(reportHistoryItem.createdAt),
+              reportCommentAuthor?.username,
+              translate(bundle, "Made decision", "dsaReportCSV-madeDecision"),
+              details,
+            ]);
+          }
           break;
         case "SHARE":
           csv.write([

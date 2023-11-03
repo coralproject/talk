@@ -7,7 +7,7 @@ type AdminDownloadOptions = Pick<AppOptions, "mongo" | "i18n">;
 
 export const reportDownloadHandler = ({
   mongo,
-  i18n
+  i18n,
 }: AdminDownloadOptions): RequestHandler<TenantCoralRequest> => {
   return async (req, res, next) => {
     const { tenant, now } = req.coral;
