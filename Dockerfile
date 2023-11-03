@@ -1,9 +1,9 @@
-FROM node:14-alpine
+FROM node:14-alpine AS builder
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
 
 # Install build dependancies.
-RUN apk --no-cache add git python3
+RUN apk --no-cache add git python3 build-base
 
 RUN npm install -g npm@8.0.0
 
@@ -61,6 +61,10 @@ RUN cd server && \
   npm run build && \
   npm prune --production && \
   cd ..
+
+# Copy previously built assets to a stock alpine image to reduce final size
+FROM node:14-alpine AS runner
+COPY --from=builder . .
 
 # Set working directory within server folder
 WORKDIR /usr/src/app/server
