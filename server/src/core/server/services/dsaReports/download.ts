@@ -9,13 +9,18 @@ import { DSAReport } from "coral-server/models/dsaReport";
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 
+import { I18n, translate } from "../i18n";
+
 export async function sendReportDownload(
   res: Response,
   mongo: MongoContext,
+  i18n: I18n,
   tenant: Tenant,
   report: Readonly<DSAReport>,
   now: Date
 ) {
+  const bundle = i18n.getBundle(tenant.locale);
+
   // Create the date formatter to format the dates for the CSV.
   const formatter = createDateFormatter(tenant.locale, {
     year: "numeric",
@@ -77,20 +82,49 @@ export async function sendReportDownload(
   }
 
   // TODO: Also localize these
-  csv.write(["Timestamp", "User", "Action", "Details"]);
+  csv.write([
+    translate(bundle, "Timestamp", "dsaReportCSV-timestamp"),
+    translate(bundle, "User", "dsaReportCSV-user"),
+    translate(bundle, "Action", "dsaReportCSV-action"),
+    translate(bundle, "Details", "dsaReportCSV-details"),
+  ]);
   if (reportedComment) {
     csv.write([
       formatter.format(report.createdAt),
       reporter?.username,
-      "Report submitted",
-      `Reference ID: ${report.referenceID}\nLaw broken: ${report.lawBrokenDescription}\nAdditional info: ${report.additionalInformation}\nComment author: ${reportedCommentAuthorUsername}\nComment body: ${reportedComment.revisions[0].body}\nComment ID: ${reportedComment.id}`,
+      translate(bundle, "Report submitted", "dsaReportCSV-reportSubmitted"),
+      `${translate(bundle, "Reference ID", "dsaReportCSV-referenceID")}: ${
+        report.referenceID
+      }\n${translate(bundle, "Legal detail", "dsaReportCSV-legalDetail")}: ${
+        report.lawBrokenDescription
+      }\n${translate(
+        bundle,
+        "Additional info",
+        "dsaReportCSV-additionalInfo"
+      )}: ${report.additionalInformation}\n${translate(
+        bundle,
+        "Comment author",
+        "dsaReportCSV-commentAuthor"
+      )}: ${reportedCommentAuthorUsername}\nComment body: ${
+        reportedComment.revisions[0].body
+      }\n${translate(bundle, "Comment ID", "dsaReportCSV-commentID")}: ${
+        reportedComment.id
+      }`,
     ]);
   } else {
     csv.write([
       formatter.format(report.createdAt),
       reporter?.username,
-      "Report submitted",
-      `Reference ID: ${report.referenceID}\nLaw broken: ${report.lawBrokenDescription}\nAdditional info: ${report.additionalInformation}`,
+      translate(bundle, "Report submitted", "dsaReportCSV-reportSubmitted"),
+      `${translate(bundle, "Reference ID", "dsaReportCSV-referenceID")}: ${
+        report.referenceID
+      }\n${translate(bundle, "Legal detail", "dsaReportCSV-legalDetail")}: ${
+        report.lawBrokenDescription
+      }\n${translate(
+        bundle,
+        "Additional info",
+        "dsaReportCSV-additionalInfo"
+      )}: ${report.additionalInformation}`,
     ]);
   }
 
@@ -106,7 +140,7 @@ export async function sendReportDownload(
           csv.write([
             formatter.format(reportHistoryItem.createdAt),
             reportCommentAuthor?.username,
-            "Changed status",
+            translate(bundle, "Changed status", "dsaReportCSV-changedStatus"),
             reportHistoryItem.status,
           ]);
           break;
@@ -114,19 +148,35 @@ export async function sendReportDownload(
           csv.write([
             formatter.format(reportHistoryItem.createdAt),
             reportCommentAuthor?.username,
-            "Added note",
+            translate(bundle, "Added note", "dsaReportCSV-addedNote"),
             reportHistoryItem.body,
           ]);
           break;
         case "DECISION_MADE":
           const details =
             reportHistoryItem.decision?.legality === "ILLEGAL"
-              ? `Legality: Illegal\nLegal grounds: ${reportHistoryItem.decision.legalGrounds}\nExplanation: ${reportHistoryItem.decision.detailedExplanation}`
-              : "Legality: Legal";
+              ? `${translate(
+                  bundle,
+                  "Legality: Illegal",
+                  "dsaReportCSV-legality-illegal"
+                )}\n${translate(
+                  bundle,
+                  "Legal grounds",
+                  "dsaReportCSV-legalGrounds"
+                )}: ${reportHistoryItem.decision.legalGrounds}\n${translate(
+                  bundle,
+                  "Explanation",
+                  "dsaReportCSV-explanation"
+                )}: ${reportHistoryItem.decision.detailedExplanation}`
+              : `${translate(
+                  bundle,
+                  "Legality: Legal",
+                  "dsaReportCSV-legality-legal"
+                )}`;
           csv.write([
             formatter.format(reportHistoryItem.createdAt),
             reportCommentAuthor?.username,
-            "Made decision",
+            translate(bundle, "Made decision", "dsaReportCSV-madeDecision"),
             details,
           ]);
           break;
@@ -134,7 +184,11 @@ export async function sendReportDownload(
           csv.write([
             formatter.format(reportHistoryItem.createdAt),
             reportCommentAuthor?.username,
-            "Downloaded report",
+            translate(
+              bundle,
+              "Downloaded report",
+              "dsaReportCSV-downloadedReport"
+            ),
             "",
           ]);
           break;

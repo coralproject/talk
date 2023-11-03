@@ -3,10 +3,11 @@ import { retrieveDSAReport } from "coral-server/models/dsaReport";
 import { sendReportDownload } from "coral-server/services/dsaReports";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-type AdminDownloadOptions = Pick<AppOptions, "mongo">;
+type AdminDownloadOptions = Pick<AppOptions, "mongo" | "i18n">;
 
 export const reportDownloadHandler = ({
   mongo,
+  i18n
 }: AdminDownloadOptions): RequestHandler<TenantCoralRequest> => {
   return async (req, res, next) => {
     const { tenant, now } = req.coral;
@@ -19,7 +20,7 @@ export const reportDownloadHandler = ({
     }
 
     try {
-      await sendReportDownload(res, mongo, tenant, report, now);
+      await sendReportDownload(res, mongo, i18n, tenant, report, now);
     } catch (err) {
       return next(err);
     }
