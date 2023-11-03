@@ -10,7 +10,6 @@ const ArrowsLeftIcon: FunctionComponent = () => {
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="1.5"
       ></path>
     </svg>
   );

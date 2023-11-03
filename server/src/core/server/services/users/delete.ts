@@ -16,6 +16,7 @@ import {
 
 import { moderate } from "../comments/moderation";
 import { AugmentedRedis } from "../redis";
+import { DSAReport } from "coral-server/models/dsaReport";
 
 const BATCH_SIZE = 500;
 
@@ -36,6 +37,10 @@ async function executeBulkOperations<T>(
 interface Batch {
   comments: any[];
   stories: any[];
+}
+
+interface DSAReportBatch {
+  dsaReports: any[];
 }
 
 async function deleteUserActionCounts(
@@ -175,37 +180,62 @@ async function moderateComments(
   }
 }
 
-async function deleteUserDSAReports(
+async function updateUserDSAReports(
   mongo: MongoContext,
   tenantID: string,
   userID: string,
-  now: Date
+  isArchived?: boolean
 ) {
-  const id = uuid();
-  await mongo.dsaReports().updateMany(
-    {
+  const batch: DSAReportBatch = {
+    dsaReports: [],
+  };
+
+  async function processBatch() {
+    const dsaReports = mongo.dsaReports();
+
+    await executeBulkOperations<DSAReport>(dsaReports, batch.dsaReports);
+    batch.dsaReports = [];
+  }
+
+  const collection =
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
+
+  const cursor = collection.find({
+    tenantID,
+    authorID: userID,
+  });
+  while (await cursor.hasNext()) {
+    const comment = await cursor.next();
+    if (!comment) {
+      continue;
+    }
+
+    const match = mongo.dsaReports().find({
       tenantID,
-      userID,
-      status: {
-        $in: [
-          GQLDSAReportStatus.AWAITING_REVIEW,
-          GQLDSAReportStatus.UNDER_REVIEW,
-        ],
-      },
-    },
-    {
-      $set: { status: GQLDSAReportStatus.VOID, userID: null },
-      $push: {
-        history: {
-          id,
-          createdBy: null,
-          createdAt: now,
-          type: GQLDSAReportHistoryType.STATUS_CHANGED,
-          status: GQLDSAReportStatus.VOID,
+      commentID: comment.id,
+    });
+
+    if (!match) {
+      continue;
+    }
+
+    batch.dsaReports.push({
+      updateMany: {
+        filter: { tenantID, commentID: comment.id },
+        update: {
+          $status: "VOID",
         },
       },
+    });
+
+    if (batch.dsaReports.length >= BATCH_SIZE) {
+      await processBatch();
     }
-  );
+  }
+
+  if (batch.dsaReports.length > 0) {
+    await processBatch();
+  }
 }
 
 async function deleteUserComments(
@@ -312,8 +342,11 @@ export async function deleteUser(
     await deleteUserComments(mongo, redis, config, userID, tenantID, now, true);
   }
 
-  // Delete the user's DSAReports and set their status to VOID
-  await deleteUserDSAReports(mongo, tenantID, userID, now);
+  // Update the user's comment's associated DSAReports; set their status to VOID
+  await updateUserDSAReports(mongo, tenantID, userID);
+  if (mongo.archive) {
+    await updateUserDSAReports(mongo, tenantID, userID, true);
+  }
 
   // Mark the user as deleted.
   const result = await mongo.users().findOneAndUpdate(
