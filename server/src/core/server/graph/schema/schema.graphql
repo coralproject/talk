@@ -4643,10 +4643,10 @@ type NotificationDSAReportDetails {
   id: ID!
 
   """
-  publicID is the public identifier that is human readable
+  referenceID is the friendly identifier that is human readable
   for the DSA report.
   """
-  publicID: String!
+  referenceID: String!
 
   """
   comment is the comment associated with the DSA report.
