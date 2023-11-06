@@ -43,8 +43,11 @@ import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
 
 import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
-import ModerationReason from "../ModerationReason/ModerationReason";
+import { default as ModerationReasonComponent, Props as ModerationReasonProps } from "../ModerationReason/ModerationReason";
 import styles from "./ModerateCard.css";
+
+const ModerationReason: FunctionComponent<ModerationReasonProps> = (props) =>
+  <Card className={styles.moderationReasonCard}><ModerationReasonComponent {...props} /></Card>;
 
 interface Props {
   id: string;

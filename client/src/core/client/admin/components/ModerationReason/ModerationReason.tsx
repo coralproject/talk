@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { Button, Card, Flex } from "coral-ui/components/v2";
+import { Box, Button, Flex } from "coral-ui/components/v2";
 
 import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
 
@@ -41,7 +41,7 @@ const ModerationReason: FunctionComponent<Props> = ({ onCancel, onReason }) => {
   }, [reasonCode, legalGrounds, detailedExplanation, onReason]);
 
   return (
-    <Card className={styles.root} data-testid="moderation-reason-modal">
+    <Box className={styles.root} data-testid="moderation-reason-modal">
       {view === "REASON" ? (
         <Reasons
           selected={reasonCode}
@@ -80,7 +80,7 @@ const ModerationReason: FunctionComponent<Props> = ({ onCancel, onReason }) => {
           </Button>
         </Localized>
       </Flex>
-    </Card>
+    </Box>
   );
 };
 
