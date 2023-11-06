@@ -89,7 +89,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
   }
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} data-testid="single-report-route">
       <Flex className={styles.reportsLink}>
         <Localized
           id="reports-singleReport-reportsLinkButton"
