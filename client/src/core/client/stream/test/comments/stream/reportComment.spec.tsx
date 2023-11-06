@@ -24,7 +24,7 @@ async function createTestRenderer(
         return stories[0];
       }),
       viewer: sinon.stub().returns(commenters[0]),
-      settings: sinon.stub().returns(settings),
+      settings: sinon.stub().returns({ ...settings, dsa: { enabled: true } }),
       ...resolver.Query,
     },
     Mutation: {
