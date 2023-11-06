@@ -1,22 +1,20 @@
 import { Collection, FilterQuery } from "mongodb";
-import { v4 as uuid } from "uuid";
 
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
+import { DSAReport } from "coral-server/models/dsaReport";
 import { Story } from "coral-server/models/story";
 import { retrieveTenant } from "coral-server/models/tenant";
 
 import {
   GQLCOMMENT_STATUS,
-  GQLDSAReportHistoryType,
   GQLDSAReportStatus,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { moderate } from "../comments/moderation";
 import { AugmentedRedis } from "../redis";
-import { DSAReport } from "coral-server/models/dsaReport";
 
 const BATCH_SIZE = 500;
 
@@ -213,6 +211,12 @@ async function updateUserDSAReports(
     const match = mongo.dsaReports().find({
       tenantID,
       commentID: comment.id,
+      status: {
+        $in: [
+          GQLDSAReportStatus.AWAITING_REVIEW,
+          GQLDSAReportStatus.UNDER_REVIEW,
+        ],
+      },
     });
 
     if (!match) {
@@ -221,7 +225,16 @@ async function updateUserDSAReports(
 
     batch.dsaReports.push({
       updateMany: {
-        filter: { tenantID, commentID: comment.id },
+        filter: {
+          tenantID,
+          commentID: comment.id,
+          status: {
+            $in: [
+              GQLDSAReportStatus.AWAITING_REVIEW,
+              GQLDSAReportStatus.UNDER_REVIEW,
+            ],
+          },
+        },
         update: {
           $status: "VOID",
         },
@@ -313,7 +326,8 @@ export async function deleteUser(
   config: Config,
   userID: string,
   tenantID: string,
-  now: Date
+  now: Date,
+  dsaEnabled: boolean
 ) {
   const user = await mongo.users().findOne({ id: userID, tenantID });
   if (!user) {
@@ -342,10 +356,13 @@ export async function deleteUser(
     await deleteUserComments(mongo, redis, config, userID, tenantID, now, true);
   }
 
+  // If DSA is enabled,
   // Update the user's comment's associated DSAReports; set their status to VOID
-  await updateUserDSAReports(mongo, tenantID, userID);
-  if (mongo.archive) {
-    await updateUserDSAReports(mongo, tenantID, userID, true);
+  if (dsaEnabled) {
+    await updateUserDSAReports(mongo, tenantID, userID);
+    if (mongo.archive) {
+      await updateUserDSAReports(mongo, tenantID, userID, true);
+    }
   }
 
   // Mark the user as deleted.
