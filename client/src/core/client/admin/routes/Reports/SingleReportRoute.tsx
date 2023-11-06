@@ -7,6 +7,7 @@ import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { createRouteConfig } from "coral-framework/lib/router";
+import { GQLDSAReportHistoryType } from "coral-framework/schema";
 import { ArrowsLeftIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
@@ -32,7 +33,11 @@ type Props = SingleReportRouteQueryResponse;
 const SingleReportRoute: FunctionComponent<Props> & {
   routeConfig: RouteProps;
 } = ({ dsaReport, viewer }) => {
-  const [showChangeStatusModal, setShowChangeStatusModal] = useState(false);
+  const [showChangeStatusModal, setShowChangeStatusModal] = useState<Exclude<
+    GQLDSAReportHistoryType,
+    | GQLDSAReportHistoryType.STATUS_CHANGED
+    | GQLDSAReportHistoryType.DECISION_MADE
+  > | null>(null);
 
   const formatter = useDateTimeFormatter({
     day: "2-digit",

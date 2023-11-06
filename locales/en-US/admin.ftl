@@ -1857,11 +1857,12 @@ reports-status-completed = Completed
 reports-status-void = Void
 reports-status-unknown = Unknown status
 
-reports-changeStatusModal-prompt = 
-  Would you also like to update the status to In review 
-  since you've now taken an action on this report?
-reports-changeStatusModal-updateButton = Update status
-reports-changeStatusModal-header = Update status
+reports-changeStatusModal-prompt-addNote = You have added a note. Would you like to update your status to In review.
+reports-changeStatusModal-prompt-downloadReport = You have downloaded the report. Would you like to update your status to In review.
+reports-changeStatusModal-prompt-madeDecision = You have made a decision. Would you like to update your status to Completed.
+reports-changeStatusModal-updateButton = Yes, update
+reports-changeStatusModal-dontUpdateButton = No
+reports-changeStatusModal-header = Update status?
 
 reports-decisionModal-header = Decision
 reports-decisionModal-prompt = Does this comment appear to contain illegal content?

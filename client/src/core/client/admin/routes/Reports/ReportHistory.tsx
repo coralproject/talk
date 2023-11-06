@@ -42,7 +42,13 @@ import DeleteReportNoteMutation from "./DeleteReportNoteMutation";
 
 interface Props {
   dsaReport: ReportHistory_dsaReport;
-  setShowChangeStatusModal: (show: boolean) => void;
+  setShowChangeStatusModal: (
+    changeType: Exclude<
+      GQLDSAReportHistoryType,
+      | GQLDSAReportHistoryType.STATUS_CHANGED
+      | GQLDSAReportHistoryType.DECISION_MADE
+    > | null
+  ) => void;
   userID?: string;
 }
 
@@ -100,13 +106,15 @@ const ReportHistory: FunctionComponent<Props> = ({
     year: "numeric",
   });
 
-  // TODO: Localization
-  const statusMapping = useCallback((status: DSAReportStatus | null) => {
-    if (!status) {
-      return "Unknown status";
-    }
-    return statusMappings[status];
-  }, []);
+  const statusMapping = useCallback(
+    (status: DSAReportStatus | null) => {
+      if (!status) {
+        return "Unknown status";
+      }
+      return statusMappings[status];
+    },
+    [statusMappings]
+  );
 
   const onDeleteReportNoteButton = useCallback(
     async (id: string) => {
@@ -132,7 +140,7 @@ const ReportHistory: FunctionComponent<Props> = ({
           }
         }, 0);
         if (dsaReport.status === GQLDSAReportStatus.AWAITING_REVIEW) {
-          setShowChangeStatusModal(true);
+          setShowChangeStatusModal(GQLDSAReportHistoryType.NOTE);
         }
       }
     },

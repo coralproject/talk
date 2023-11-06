@@ -9,7 +9,10 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { GQLDSAReportStatus } from "coral-framework/schema";
+import {
+  GQLDSAReportHistoryType,
+  GQLDSAReportStatus,
+} from "coral-framework/schema";
 import { DrawerDownloadIcon, SvgIcon } from "coral-ui/components/icons";
 import { Button } from "coral-ui/components/v2";
 
@@ -21,7 +24,13 @@ import AddReportShareMutation from "./AddReportShareMutation";
 
 interface Props {
   dsaReport: ReportShareButton_dsaReport;
-  setShowChangeStatusModal: (show: boolean) => void;
+  setShowChangeStatusModal: (
+    changeType: Exclude<
+      GQLDSAReportHistoryType,
+      | GQLDSAReportHistoryType.STATUS_CHANGED
+      | GQLDSAReportHistoryType.DECISION_MADE
+    > | null
+  ) => void;
   userID?: string;
 }
 
@@ -66,7 +75,7 @@ const ReportShareButton: FunctionComponent<Props> = ({
 
       // If still awaiting review, prompt user to update status to In review on download
       if (dsaReport.status === GQLDSAReportStatus.AWAITING_REVIEW) {
-        setShowChangeStatusModal(true);
+        setShowChangeStatusModal(GQLDSAReportHistoryType.SHARE);
       }
     } catch (error) {
       // eslint-disable-next-line no-console
