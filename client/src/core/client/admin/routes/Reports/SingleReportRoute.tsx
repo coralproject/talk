@@ -172,7 +172,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
                     </Localized>
                   )}
                 </Flex>
-                <Flex className={styles.reportDate} direction="column">
+                <Flex className={styles.autoMarginLeft} direction="column">
                   <Localized id="reports-singleReport-reportDate">
                     <div className={styles.label}>Report Date</div>
                   </Localized>

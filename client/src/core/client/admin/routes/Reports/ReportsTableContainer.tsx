@@ -76,7 +76,7 @@ const ReportsTableContainer: React.FunctionComponent<Props> = (props) => {
   }, [props]);
 
   return (
-    <MainLayout className={styles.root}>
+    <MainLayout className={styles.root} data-testid="dsaReports-container">
       <IntersectionProvider>
         <Flex>
           {filterButton === "completed" ? (
