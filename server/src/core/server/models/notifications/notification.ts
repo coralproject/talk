@@ -85,15 +85,14 @@ export const markLastSeenNotification = async (
     $set: { lastSeenNotificationDate: user.lastSeenNotificationDate },
   };
 
-  if (
+  const thereAreNewNotifications =
     user.lastSeenNotificationDate &&
-    user.lastSeenNotificationDate.getTime() < max.getTime()
-  ) {
-    change.$set.lastSeenNotificationDate = max;
-  } else if (
+    user.lastSeenNotificationDate.getTime() < max.getTime();
+  const userHasNeverSeenNotifications =
     user.lastSeenNotificationDate === null ||
-    user.lastSeenNotificationDate === undefined
-  ) {
+    user.lastSeenNotificationDate === undefined;
+
+  if (thereAreNewNotifications || userHasNeverSeenNotifications) {
     change.$set.lastSeenNotificationDate = max;
   }
 
