@@ -9,6 +9,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 
 import { MediaContainer } from "coral-admin/components/MediaContainer";
@@ -183,7 +184,7 @@ const ModerateCard: FunctionComponent<Props> = ({
     }
   }, [selected, div]);
 
-  // const [showModerationReason, setShowModerationReason] = useState(false);
+  const [showModerationReason, setShowModerationReason] = useState(false);
 
   const commentBody = useMemo(
     () =>
@@ -375,7 +376,7 @@ const ModerateCard: FunctionComponent<Props> = ({
                     onClick={
                       dsaFeaturesEnabled
                         ? () => {
-                            toggleVisibility();
+                            setShowModerationReason(true);// toggleVisibility();
                           }
                         : onReject
                     }
@@ -412,7 +413,7 @@ const ModerateCard: FunctionComponent<Props> = ({
                 [styles.miniButton]: mini,
               })}
             />
-            <ModerationReason onReason={onReason} onCancel={() => null} />
+            {showModerationReason && <ModerationReason onReason={onReason} onCancel={() => setShowModerationReason(false)} /> }
           </Flex>
           {moderatedBy}
         </Flex>

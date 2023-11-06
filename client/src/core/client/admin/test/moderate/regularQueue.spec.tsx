@@ -953,7 +953,7 @@ it("requires moderation reason when DSA features enabled", async () => {
   await waitFor(() => {
     expect(screen.queryByTestId("moderation-reason-modal")).toBeVisible();
   });
-  // BOOKMARK: continue here
+
   const reasonModal = screen.queryByTestId("moderation-reason-modal")!;
 
   const submitReasonButton = within(reasonModal).getByRole("button", {

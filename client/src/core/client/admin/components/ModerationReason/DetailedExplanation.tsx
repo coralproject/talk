@@ -25,13 +25,13 @@ const DetailedExplantion: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <Localized id={`moderationReason-rejectionReason-${code}`}>
+      <Localized id={`common-moderationReason-rejectionReason-${code}`}>
         <RadioButton value={code} name={code} key={code} checked>
           {unsnake(code)}
         </RadioButton>
       </Localized>
 
-      <Localized id="moderationReason-changeReason">
+      <Localized id="common-moderationReason-changeReason">
         <Button
           className={cn(styles.optionAction, styles.changeReason)}
           variant="none"
@@ -41,20 +41,20 @@ const DetailedExplantion: FunctionComponent<Props> = ({
         </Button>
       </Localized>
 
-      <Localized id="moderationReason-detailedExplanation">
+      <Localized id="common-moderationReason-detailedExplanation">
         <Label className={cn(styles.sectionLabel, styles.explanationLabel)}>
           Explanation
         </Label>
       </Localized>
 
       <Localized
-        id="moderationReason-detailedExplanation-placeholder"
+        id="common-moderationReason-detailedExplanation-placeholder"
         attrs={{ placeholder: true }}
       >
         <TextArea
           className={styles.detailedExplanation}
           placeholder="Add your explanation"
-          data-testid="moderation-reason-legal-grounds"
+          data-testid="moderation-reason-detailed-explanation"
           value={value || undefined}
           onChange={(e) => onChange(e.target.value)}
         />

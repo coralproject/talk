@@ -18,7 +18,7 @@ export interface Props {
 const AddExpanationButton: FunctionComponent<{ onClick: () => void }> = ({
   onClick,
 }) => (
-  <Localized id="moderationReason-addExplanation">
+  <Localized id="common-moderationReason-addExplanation">
     <Button
       onClick={onClick}
       className={styles.optionAction}
@@ -37,7 +37,7 @@ const Reasons: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <Localized id="moderationReason-reason">
+      <Localized id="common-moderationReason-reason">
         <span className={styles.sectionLabel}>Reason</span>
       </Localized>
 
@@ -49,7 +49,7 @@ const Reasons: FunctionComponent<Props> = ({
         )
         .map((code) => (
           <>
-            <Localized id={`moderationReason-rejectionReason-${code}`}>
+            <Localized id={`common-moderationReason-rejectionReason-${code}`}>
               <RadioButton
                 value={code}
                 name={code}
@@ -71,13 +71,13 @@ const Reasons: FunctionComponent<Props> = ({
           </>
         ))}
 
-      <Localized id="moderationReason-reason-moreReasons">
+      <Localized id="common-moderationReason-reason-moreReasons">
         <span className={styles.sectionLabel}>+ More reasons</span>
       </Localized>
 
       <>
         <Localized
-          id={`moderationReason-rejectionReason-${GQLREJECTION_REASON_CODE.OTHER}`}
+          id={`common-moderationReason-rejectionReason-${GQLREJECTION_REASON_CODE.OTHER}`}
         >
           <RadioButton
             value={GQLREJECTION_REASON_CODE.OTHER}

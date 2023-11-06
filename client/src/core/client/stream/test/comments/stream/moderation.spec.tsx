@@ -658,7 +658,7 @@ it("requires rection reason when dsaFeaturesEnabled", async () => {
               commentRevisionID: firstComment.revision!.id,
               reason: {
                 code: "OTHER",
-                additionalInfo: "really weird comment tbh",
+                detailedExplanation: "really weird comment tbh",
               },
             });
             return {

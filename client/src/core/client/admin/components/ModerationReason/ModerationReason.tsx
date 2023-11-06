@@ -58,7 +58,7 @@ const ModerationReason: FunctionComponent<Props> = ({ onCancel, onReason }) => {
       )}
 
       <Flex className={styles.buttons}>
-        <Localized id="moderationReason-cancel">
+        <Localized id="common-moderationReason-cancel">
           <Button
             className={styles.cancelButton}
             variant="outlined"
@@ -69,7 +69,7 @@ const ModerationReason: FunctionComponent<Props> = ({ onCancel, onReason }) => {
           </Button>
         </Localized>
 
-        <Localized id="moderationReason-reject">
+        <Localized id="common-moderationReason-reject">
           <Button
             className={styles.rejectButton}
             disabled={reasonCode === null}
