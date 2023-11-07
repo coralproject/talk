@@ -38,9 +38,10 @@
 .deleted {
   display: inline-block;
   padding-left: var(--spacing-2);
-  color: #DC8400;
+  color: #dc8400;
 }
 
 .notAvailable {
   color: var(--palette-text-100);
+  text-align: left;
 }
