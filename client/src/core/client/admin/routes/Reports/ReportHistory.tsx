@@ -135,7 +135,7 @@ const ReportHistory: FunctionComponent<Props> = ({
         // Wait for new note to appear then scroll down to it
         setTimeout(() => {
           const element = root.getElementById("reportHistory");
-          if (element) {
+          if (element && element.scroll) {
             element.scroll({ top: element.scrollHeight, behavior: "smooth" });
           }
         }, 0);

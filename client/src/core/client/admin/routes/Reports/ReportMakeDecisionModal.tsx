@@ -90,7 +90,7 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
     setShowDecisionModal(false);
   }, [setShowDecisionModal]);
   return (
-    <Modal open={showDecisionModal}>
+    <Modal open={showDecisionModal} data-testid="report-makeDecisionModal">
       {({ firstFocusableRef }) => (
         <Card>
           <Flex justifyContent="flex-end">
