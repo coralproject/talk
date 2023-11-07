@@ -31,6 +31,12 @@ export const wordListPhase: IntermediateModerationPhase = async ({
   if (banned.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
+      commentActions: [
+        {
+          actionType: ACTION_TYPE.FLAG,
+          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
+        },
+      ],
       moderationAction: {
         status: GQLCOMMENT_STATUS.REJECTED,
         moderatorID: null,

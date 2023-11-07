@@ -102,7 +102,6 @@ export interface ExternalModerationRequest {
   tenantDomain: string;
 }
 
-// BOOKMARK: (marcushaddon) do we need a new type to maintain type safety with joi?
 export type ExternalModerationResponse = Partial<
   Pick<PhaseResult, "status" | "tags">
 > & { actions: PhaseResult["commentActions"] };
