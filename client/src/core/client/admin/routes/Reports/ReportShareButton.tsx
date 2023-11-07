@@ -68,7 +68,6 @@ const ReportShareButton: FunctionComponent<Props> = ({
       const element = window.document.createElement("a");
       const file = new Blob([response], { type: "application/zip" });
       element.href = URL.createObjectURL(file);
-      // TODO: Should have date/time added since could be downloaded more than once?
       element.download = `dsaReport-${dsaReport.referenceID}`;
       window.document.body.appendChild(element);
       element.click();
