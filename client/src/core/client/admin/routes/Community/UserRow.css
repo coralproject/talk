@@ -1,17 +1,17 @@
 .usernameColumn {
-  vertical-align: top;
+  vertical-align: middle;
   word-break: break-word;
   padding-top: 15px;
   padding-bottom: 15px;
 }
 .emailColumn {
-  vertical-align: top;
+  vertical-align: middle;
   word-break: break-word;
   padding-top: 15px;
   padding-bottom: 15px;
 }
 .memberSinceColumn {
-  vertical-align: top;
+  vertical-align: middle;
   white-space: nowrap;
   padding-top: 15px;
   padding-bottom: 15px;
