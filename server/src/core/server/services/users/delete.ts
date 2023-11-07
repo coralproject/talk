@@ -181,7 +181,7 @@ async function moderateComments(
 async function updateUserDSAReports(
   mongo: MongoContext,
   tenantID: string,
-  userID: string,
+  authorID: string,
   isArchived?: boolean
 ) {
   const batch: DSAReportBatch = {
@@ -200,7 +200,7 @@ async function updateUserDSAReports(
 
   const cursor = collection.find({
     tenantID,
-    authorID: userID,
+    authorID,
   });
   while (await cursor.hasNext()) {
     const comment = await cursor.next();
@@ -236,7 +236,9 @@ async function updateUserDSAReports(
           },
         },
         update: {
-          $status: "VOID",
+          $set: {
+            status: "VOID",
+          },
         },
       },
     });
@@ -350,12 +352,6 @@ export async function deleteUser(
     await deleteUserActionCounts(mongo, userID, tenantID, true);
   }
 
-  // Delete the user's comments.
-  await deleteUserComments(mongo, redis, config, userID, tenantID, now);
-  if (mongo.archive) {
-    await deleteUserComments(mongo, redis, config, userID, tenantID, now, true);
-  }
-
   // If DSA is enabled,
   // Update the user's comment's associated DSAReports; set their status to VOID
   if (dsaEnabled) {
@@ -363,6 +359,12 @@ export async function deleteUser(
     if (mongo.archive) {
       await updateUserDSAReports(mongo, tenantID, userID, true);
     }
+  }
+
+  // Delete the user's comments.
+  await deleteUserComments(mongo, redis, config, userID, tenantID, now);
+  if (mongo.archive) {
+    await deleteUserComments(mongo, redis, config, userID, tenantID, now, true);
   }
 
   // Mark the user as deleted.

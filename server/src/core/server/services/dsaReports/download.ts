@@ -60,12 +60,19 @@ export async function sendReportDownload(
 
   const reporter = await retrieveUser(mongo, tenant.id, report.userID);
 
-  // TODO: Handle archived comments too
-  const reportedComment = await retrieveComment(
+  let reportedComment = await retrieveComment(
     mongo.comments(),
     tenant.id,
     report.commentID
   );
+  if (!reportedComment && mongo.archive) {
+    reportedComment = await retrieveComment(
+      mongo.archivedComments(),
+      tenant.id,
+      report.commentID
+    );
+  }
+
   let reportedCommentAuthorUsername = "";
   if (reportedComment) {
     if (reportedComment.authorID) {
@@ -81,7 +88,6 @@ export async function sendReportDownload(
     }
   }
 
-  // TODO: Also localize these
   csv.write([
     translate(bundle, "Timestamp", "dsaReportCSV-timestamp"),
     translate(bundle, "User", "dsaReportCSV-user"),
