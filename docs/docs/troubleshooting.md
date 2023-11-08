@@ -38,3 +38,15 @@ This depends greatly on what version of Coral you are using and which authentica
 
 Make sure you've enabled the option for “Coral Admin” under the "Configure" -> "Authentication" -> “Login with Single Sign On“ settings. This box must be checked to allow users with the MODERATOR or ADMIN roles to access the Moderation/Admin interface using the MODERATE button.
 
+## Comments are not loading when embedding the stream in a fixed position container
+
+Putting Coral inside a `position: fixed` element is not officially supported. If you do that, you can expect that users sometimes won't be able to load comments on stories which have about 30 or more comments. A workaround can be achieved if you attach a scroll event listener on the scrolling element inside the fixed container which will dispatch a resize event on the window whenever the user scrolls through the comments. This will force a re-rendering of the comment list and will therefore hide the bug, allowing your users to load all the comments on a story. In the following example, `.coral-scroller` is the scrolling/overflowing container of the coral comment stream:
+
+```js
+document.querySelector('.coral-scroller').addEventListener(
+    'scroll',
+    () => window.dispatchEvent(new Event('resize')),
+    { passive: true }
+);
+```
+
