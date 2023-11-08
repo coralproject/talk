@@ -224,6 +224,7 @@ export const settings = createFixture<GQLSettings>({
   emailDomainModeration: [],
   embeddedComments: {
     allowReplies: true,
+    oEmbedAllowedOrigins: [],
   },
   flairBadges: {
     flairBadgesEnabled: false,

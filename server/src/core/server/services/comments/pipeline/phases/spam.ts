@@ -114,7 +114,7 @@ export const spam: IntermediateModerationPhase = async ({
 
       return {
         status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
-        actions: [
+        commentActions: [
           {
             actionType: ACTION_TYPE.FLAG,
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,

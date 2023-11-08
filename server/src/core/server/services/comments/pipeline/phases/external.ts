@@ -103,8 +103,8 @@ export interface ExternalModerationRequest {
 }
 
 export type ExternalModerationResponse = Partial<
-  Pick<PhaseResult, "actions" | "status" | "tags">
->;
+  Pick<PhaseResult, "status" | "tags">
+> & { actions: PhaseResult["commentActions"] };
 
 const ExternalModerationResponseSchema = Joi.object().keys({
   actions: Joi.array().items(
@@ -267,6 +267,19 @@ async function processPhase(
   return validateResponse(body);
 }
 
+/**
+ * Our external API still just has a concept of "actions", while
+ * internally we distinguish beteween "moderationActions" and "commentActions"
+ */
+const mapActions = (
+  response: ExternalModerationResponse
+): Partial<PhaseResult> => {
+  return {
+    ...response,
+    commentActions: response.actions,
+  };
+};
+
 export const external: IntermediateModerationPhase = async (ctx) => {
   // Check to see if any custom moderation phases have been defined, if there is
   // none, exit now.
@@ -319,8 +332,10 @@ export const external: IntermediateModerationPhase = async (ctx) => {
         },
       });
 
+      const mappedResponse = mapActions(response);
+
       // Merge the results in. If we're finished, return now!
-      const finished = mergePhaseResult(response, result);
+      const finished = mergePhaseResult(mappedResponse, result);
       if (finished) {
         return result;
       }

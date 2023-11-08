@@ -57,13 +57,44 @@ const CommentsLinks: FunctionComponent<Props> = ({
   showGoToProfile,
 }) => {
   const { renderWindow, customScrollContainer } = useCoralContext();
+
+  // Find first keyboard focusable element for accessibility
+  const getFirstKeyboardFocusableElement = useCallback(() => {
+    const container = customScrollContainer ?? renderWindow.document;
+    let firstFocusableElement: Element | null = null;
+    let counter = 0;
+    const focusableElements = container.querySelectorAll(
+      'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+    );
+    while (
+      firstFocusableElement === null &&
+      counter < focusableElements.length
+    ) {
+      if (
+        !focusableElements[counter].hasAttribute("disabled") &&
+        !focusableElements[counter].getAttribute("aria-hidden") &&
+        !focusableElements[counter].getAttribute("hidden")
+      ) {
+        firstFocusableElement = focusableElements[counter];
+      }
+      counter++;
+    }
+    return firstFocusableElement;
+  }, [renderWindow, customScrollContainer]);
+
   const root = useShadowRootOrDocument();
   const onGoToArticleTop = useCallback(() => {
     if (customScrollContainer) {
       customScrollContainer.scrollTo({ top: 0 });
     }
     renderWindow.scrollTo({ top: 0 });
-  }, [renderWindow, customScrollContainer]);
+    // programmatically apply focus to first keyboard focusable element
+    // after scroll for accessibility
+    const firstKeyboardFocusableElement = getFirstKeyboardFocusableElement();
+    if (firstKeyboardFocusableElement instanceof HTMLElement) {
+      firstKeyboardFocusableElement.focus();
+    }
+  }, [renderWindow, customScrollContainer, getFirstKeyboardFocusableElement]);
   const onGoToCommentsTop = useCallback(() => {
     scrollToBeginning(root, renderWindow, customScrollContainer);
   }, [root, renderWindow, customScrollContainer]);

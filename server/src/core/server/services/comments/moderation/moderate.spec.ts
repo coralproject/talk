@@ -15,6 +15,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
+import { I18n } from "coral-server/services/i18n";
 
 jest.mock("coral-server/models/comment/comment");
 jest.mock("coral-server/stacks/helpers");
@@ -67,12 +68,13 @@ it("requires a valid rejection reason if dsaFeatures are enabled", async () => {
         mongoContext,
         redis,
         config,
+        new I18n("en-US"),
         tenant,
         input,
         new Date(),
         false,
         {
-          actionCounts: {}, // TODO: what should this be?
+          actionCounts: {},
         }
       )
   ).rejects.toThrow();

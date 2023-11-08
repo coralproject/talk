@@ -22,6 +22,7 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/schema/__generated__/types";
+import { I18n } from "coral-server/services/i18n";
 
 const JOB_NAME = "rejector";
 
@@ -30,6 +31,7 @@ export interface RejectorProcessorOptions {
   redis: AugmentedRedis;
   tenantCache: TenantCache;
   config: Config;
+  i18n: I18n;
 }
 
 export interface RejectorData {
@@ -75,6 +77,7 @@ const rejectArchivedComments = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string,
@@ -118,6 +121,7 @@ const rejectArchivedComments = async (
         mongo,
         redis,
         config,
+        i18n,
         tenant,
         input,
         now,
@@ -149,6 +153,7 @@ const rejectLiveComments = async (
   redis: AugmentedRedis,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string,
@@ -168,6 +173,7 @@ const rejectLiveComments = async (
         redis,
         cache,
         config,
+        i18n,
         null,
         tenant,
         comment.id,
@@ -197,6 +203,7 @@ const createJobProcessor =
     redis,
     tenantCache,
     config,
+    i18n,
   }: RejectorProcessorOptions): JobProcessor<RejectorData> =>
   async (job) => {
     // Pull out the job data.
@@ -238,6 +245,7 @@ const createJobProcessor =
       redis,
       cache,
       config,
+      i18n,
       tenant,
       authorID,
       moderatorID,
@@ -248,6 +256,7 @@ const createJobProcessor =
         mongo,
         redis,
         config,
+        i18n,
         tenant,
         authorID,
         moderatorID,

@@ -5,6 +5,7 @@ import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import { moderate } from "coral-server/services/comments/moderation";
+import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsNotSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
@@ -18,6 +19,7 @@ const approveComment = async (
   redis: AugmentedRedis,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   commentID: string,
@@ -33,6 +35,7 @@ const approveComment = async (
     mongo,
     redis,
     config,
+    i18n,
     tenant,
     {
       commentID,

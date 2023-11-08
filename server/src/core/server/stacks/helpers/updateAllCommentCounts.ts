@@ -1,3 +1,4 @@
+import { getTextHTML } from "coral-server/app/handlers";
 import { get, getCountRedisCacheKey } from "coral-server/app/middleware/cache";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -19,6 +20,7 @@ import {
   calculateCounts,
   calculateCountsDiff,
 } from "coral-server/services/comments/moderation";
+import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 import {
@@ -139,6 +141,7 @@ export default async function updateAllCommentCounts(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   input: UpdateAllCommentCountsInput,
   options: UpdateAllCommentCountsOptions = {
     updateStory: true,
@@ -186,12 +189,21 @@ export default async function updateAllCommentCounts(
           if (entry) {
             const { body } = entry;
 
-            // update count in jsonp data with new total comment count
+            // update count and textHtml in jsonp data with new total comment count
+            // and matching localized textHtml
             const bodyArr = body.split(",");
             for (let i = 0; i < bodyArr.length; i++) {
               if (bodyArr[i].startsWith('"count":')) {
                 bodyArr[i] = `"count":${totalCount}`;
-                break;
+              }
+              if (bodyArr[i].startsWith('"textHtml":')) {
+                const textHtml = getTextHTML(
+                  tenant,
+                  updatedStory.settings.mode,
+                  i18n,
+                  totalCount
+                );
+                bodyArr[i] = `"textHtml":"${textHtml.replace(/"/g, '\\"')}"`;
               }
             }
             const updatedEntry = {

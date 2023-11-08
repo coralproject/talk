@@ -1690,6 +1690,10 @@ EmbeddedCommentsConfiguration specifies the configuration for embedded comments.
 """
 type EmbeddedCommentsConfiguration {
   allowReplies: Boolean
+  """
+  oEmbedAllowedOrigins are the allowed origins for oEmbed API calls.
+  """
+  oEmbedAllowedOrigins: [String!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 """
@@ -5724,6 +5728,10 @@ EmbeddedCommentsConfigurationInput specifies the configuration for comment embed
 """
 input EmbeddedCommentsConfigurationInput {
   allowReplies: Boolean
+  """
+  oEmbedAllowedOrigins are the allowed origins for oEmbed API calls.
+  """
+  oEmbedAllowedOrigins: [String!]
 }
 
 """

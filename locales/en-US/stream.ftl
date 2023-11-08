@@ -474,9 +474,9 @@ comments-featured-label =
   Featured Comment from {$username} <RelativeTime></RelativeTime>
 comments-featured-gotoConversation = Go to conversation
 comments-featured-gotoConversation-label-with-username =
-  .aria-label = Go to this featured comment by user { $username } in the main comment stream
+  .aria-label = Go to conversation for this featured comment by user { $username } in the main comment stream
 comments-featured-gotoConversation-label-without-username =
-  .aria-label = Go to this featured comment in the main comment stream
+  .aria-label = Go to conversation for this featured comment in the main comment stream
 comments-featured-replies = Replies
 
 ## Profile Tab

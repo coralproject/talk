@@ -96,6 +96,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
         onClick={onToggleExpand}
         size="small"
         className={styles.button}
+        aria-expanded="false"
       >
         <ButtonSvgIcon Icon={AddIcon} size="xxs" className={styles.icon} />
         {media.__typename === "TwitterMedia" && (
@@ -129,6 +130,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           size="small"
           iconLeft
           className={styles.button}
+          aria-expanded="true"
         >
           <ButtonSvgIcon
             Icon={SubtractIcon}
