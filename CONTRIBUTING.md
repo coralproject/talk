@@ -187,7 +187,7 @@ the API and the runtime on the server that powers resolving data from data
 sources. This heavily influences a lot of the decisions around how we create and
 consume it's API internally and how we expose it to others to interact with.
 
-There are many GraphQL types in our [`schema.graphql`](hhttps://github.com/coralproject/talk/blob/main/server/src/core/server/graph/schema/schema.graphql)
+There are many GraphQL types in our [`schema.graphql`](https://github.com/coralproject/talk/blob/main/server/src/core/server/graph/schema/schema.graphql)
 that define the way we handle data in our API. We'll try to outline a few of
 them here with examples to help you understand their uses.
 
