@@ -1,0 +1,22 @@
+{
+  "name": "tenant",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "init": "tsc --init",
+    "build": "tsc --project tsconfig.json",
+    "start": "npm run build && node dist/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mongodb": "^3.1.22",
+    "@types/node": "^12.12.34",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "mongodb": "^3.5.9"
+  }
+}

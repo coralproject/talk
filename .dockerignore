@@ -8,6 +8,9 @@ coverage
 # don't include the dependancies
 node_modules
 
+# don't include utilities
+utilities/
+
 # don't include any logs
 npm-debug.log*
 
