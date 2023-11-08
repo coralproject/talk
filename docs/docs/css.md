@@ -23,7 +23,7 @@ Here is a CSS example that modifies some of the CSS Variables.
 }
 ```
 
-You can find all CSS Variables using the Web Inspector or navigate to https://github.com/coralproject/talk/blob/main/CSS_VARIABLES.md for a comprehensive list and additional information.
+You can find all CSS Variables using the Web Inspector or navigate to https://github.com/coralproject/talk/blob/main/client/CSS_VARIABLES.md for a comprehensive list and additional information.
 
 > **NOTE:** Before 6.3.0 Coral uses a different set of CSS Variables. Navigate to the link above to get information on upgrading.
 
@@ -33,7 +33,7 @@ If you would like to change the styling of any elements of the comment embed, we
 
 The easiest way to find the class name for the element you're looking for is to use the web inspector, and then update your stylesheet accordingly.
 
-You can also navigate to https://github.com/coralproject/talk/blob/main/src/core/client/stream/classes.ts to see available stable class names.
+You can also navigate to https://github.com/coralproject/talk/blob/main/client/src/core/client/stream/classes.ts to see available stable class names.
 
 ### Custom container class for theming
 
