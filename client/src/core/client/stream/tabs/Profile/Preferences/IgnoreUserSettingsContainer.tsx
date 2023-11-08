@@ -82,6 +82,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
             upperCase
             onClick={toggleManage}
             className={CLASSES.ignoredCommenters.manageButton}
+            aria-expanded="true"
           >
             Close
           </Button>
@@ -103,6 +104,7 @@ const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
               CLASSES.ignoredCommenters.manageButton
             )}
             aria-label="Manage ignored commenters"
+            aria-expanded="false"
           >
             Manage
           </Button>

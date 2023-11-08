@@ -293,6 +293,7 @@ export async function createTenant(
     emailDomainModeration: [],
     embeddedComments: {
       allowReplies: true,
+      oEmbedAllowedOrigins: [],
     },
     flairBadges: {
       flairBadgesEnabled: false,

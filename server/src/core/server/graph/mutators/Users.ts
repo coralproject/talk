@@ -185,6 +185,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.mongo,
       ctx.redis,
       ctx.config,
+      ctx.i18n,
       input.userID,
       ctx.tenant.id,
       ctx.now
