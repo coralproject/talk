@@ -6,14 +6,17 @@ $moderateCardButtonOutlineRejectColor: var(--palette-error-500);
   border-radius: var(--round-corners);
   width: 65px;
   height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
   color: $moderateCardButtonOutlineRejectColor;
   &:not(:disabled):active {
     background-color: $moderateCardButtonOutlineRejectColor;
     color: var(--palette-text-000);
   }
+}
+
+.open {
+  background-color: var(--palette-error-400);
+  color: var(--palette-text-000);
 }
 
 .readOnly {
@@ -42,6 +45,18 @@ $moderateCardButtonOutlineRejectColor: var(--palette-error-500);
   border-color: $moderateCardButtonOutlineRejectColor;
 }
 
-.icon {
+.xIcon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   color: inherit;
+}
+
+.arrowIcon {
+  position: absolute;
+  left: 75%;
+  top: 25%;
+  transform: translate(-50%, 25%);
+  width: 8px;
 }

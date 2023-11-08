@@ -376,10 +376,12 @@ const ModerateCard: FunctionComponent<Props> = ({
               {({ toggleVisibility, visible }) => {
                 return (
                   <RejectButton
+                    toggle={dsaFeaturesEnabled}
+                    open={showModerationReason}
                     onClick={
                       dsaFeaturesEnabled
                         ? () => {
-                            setShowModerationReason(true);// toggleVisibility();
+                            setShowModerationReason(!showModerationReason);// toggleVisibility();
                           }
                         : onReject
                     }
