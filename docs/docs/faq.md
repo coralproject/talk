@@ -12,11 +12,11 @@ You can also request help on GitHub by [submitting an issue](https://github.com/
 
 ## How can our dev team contribute to Coral?
 
-We are lucky to work with newsroom dev teams and individual contributors who span the world, and come from newsrooms of all sizes. You can read our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md) to get started, but feel free to reach out to us via GitHub too.
+We are lucky to work with newsroom dev teams and individual contributors who span the world, and come from newsrooms of all sizes. You can read our [Contribution Guide](https://github.com/coralproject/talk/blob/main/CONTRIBUTING.md) to get started, but feel free to reach out to us via GitHub too.
 
 ## What if we want to add a feature you don't have?
 
-Coral is open source, so you're free to develop additional functionality and [submit a pull request](https://github.com/coralproject.net/talk).
+Coral is open source, so you're free to develop additional functionality and [submit a pull request](https://github.com/coralproject/talk).
 
 ## Do you have GDPR features?
 
@@ -30,7 +30,7 @@ Import tools are still in development for version 5, but will be coming soon! Co
 
 ## Does Coral enforce unique usernames?
 
-We don't do this because your [SSO](https://docs.coralproject.net/sso) should be the single source of truth for all user account management, including usernames. If Coral were to reject or change usernames supplied by the SSO, there would be a conflict, as we only receive from your SSO and don't push changes to your user database. 
+We don't do this because your [SSO](https://docs.coralproject.net/sso) should be the single source of truth for all user account management, including usernames. If Coral were to reject or change usernames supplied by the SSO, there would be a conflict, as we only receive from your SSO and don't push changes to your user database.
 
 ## What support is available?
 
