@@ -55,4 +55,4 @@ Email templates are text based and support translations. Many of the transaction
 
 Coral does not currently support customizing email templates beyond the default templates.
 
-To view the current email text strings for US English visit: https://github.com/coralproject/talk/blob/develop/server/src/core/server/locales/en-US/email.ftl
+To view the current email text strings for US English visit: https://github.com/coralproject/talk/blob/main/server/src/core/server/locales/en-US/email.ftl
