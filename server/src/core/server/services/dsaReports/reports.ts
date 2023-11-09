@@ -15,7 +15,7 @@ import {
   makeDSAReportDecision as makeReportDecision,
 } from "coral-server/models/dsaReport/report";
 import { Tenant } from "coral-server/models/tenant";
-import { approveComment, rejectComment } from "coral-server/stacks";
+import { rejectComment } from "coral-server/stacks";
 
 import { AugmentedRedis } from "../redis";
 
@@ -189,20 +189,6 @@ export async function makeDSAReportDecision(
   // REJECT if ILLEGAL
   if (input.legality === GQLDSAReportDecisionLegality.ILLEGAL) {
     await rejectComment(
-      mongo,
-      redis,
-      cache,
-      config,
-      broker,
-      tenant,
-      commentID,
-      commentRevisionID,
-      userID,
-      now
-    );
-    // APPROVE IF NOT ILLEGAL
-  } else {
-    await approveComment(
       mongo,
       redis,
       cache,

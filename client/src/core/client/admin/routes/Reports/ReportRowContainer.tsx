@@ -4,6 +4,7 @@ import { graphql } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLDSAReportStatus } from "coral-framework/schema";
 import {
   NightMoonHalfIcon,
   SignBadgeCircleIcon,
@@ -35,11 +36,11 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
       return null;
     }
     switch (status) {
-      case "AWAITING_REVIEW":
+      case GQLDSAReportStatus.AWAITING_REVIEW:
         return <SvgIcon Icon={SignBadgeCircleIcon} />;
-      case "UNDER_REVIEW":
+      case GQLDSAReportStatus.UNDER_REVIEW:
         return <SvgIcon Icon={NightMoonHalfIcon} />;
-      case "COMPLETED":
+      case GQLDSAReportStatus.COMPLETED:
         return <SvgIcon Icon={SignBadgeCircleIcon} filled />;
       default:
         return <SvgIcon Icon={SignBadgeCircleIcon} />;

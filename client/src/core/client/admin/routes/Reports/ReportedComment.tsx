@@ -97,7 +97,6 @@ const ReportedComment: FunctionComponent<Props> = ({
                   )}
                   <div>
                     <div>
-                      {/* TODO: Do we want to show message that comment has been rejected? */}
                       <CommentContent className={styles.commentContent}>
                         {comment.body || ""}
                       </CommentContent>
