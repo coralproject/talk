@@ -28,9 +28,15 @@ interface ParseResult<T> {
   err?: Error;
 }
 
-const parseBool = (value: string) => {
+export const parseBool = (value: string) => {
   const lower = value.toLowerCase();
-  if (lower === "true" || lower === "t" || lower === "1") {
+  if (
+    lower === "true" ||
+    lower === "t" ||
+    lower === "1" ||
+    lower === "yes" ||
+    lower === "y"
+  ) {
     return true;
   } else {
     return false;
@@ -135,7 +141,7 @@ export const getArgs = (argv: string[], definition: ArgumentDefinition[]) => {
       if (def.valueType === ArgumentValueType.Command) {
         result.args.push({
           definition: def,
-          value: def.valueType.toString()
+          value: def.valueType.toString(),
         });
       } else {
         if (argv.length >= a + 2) {

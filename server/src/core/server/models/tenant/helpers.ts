@@ -10,29 +10,37 @@ import { AuthIntegrations } from "../settings";
 import { LEGACY_FEATURE_FLAGS, Tenant } from "./tenant";
 
 export const getDefaultReactionConfiguration = (
-  bundle: FluentBundle
-): Tenant["reaction"] => ({
-  // By default, the standard reaction style will use the Respect with the
-  // handshake.
-  label: translate(bundle, "Respect", "reaction-labelRespect"),
-  labelActive: translate(bundle, "Respected", "reaction-labelActiveRespected"),
-  sortLabel: translate(
-    bundle,
-    "Most Respected",
-    "reaction-sortLabelMostRespected"
-  ),
-  icon: "thumb_up",
-});
+  bundle?: FluentBundle
+): Tenant["reaction"] => {
+  return {
+    // By default, the standard reaction style will use the Respect with the
+    // handshake.
+    label: bundle
+      ? translate(bundle, "Respect", "reaction-labelRespect")
+      : "Respect",
+    labelActive: bundle
+      ? translate(bundle, "Respected", "reaction-labelActiveRespected")
+      : "Respected",
+    sortLabel: bundle
+      ? translate(bundle, "Most Respected", "reaction-sortLabelMostRespected")
+      : "Most Respected",
+    icon: "thumb_up",
+  };
+};
 
 export const getDefaultBadgeConfiguration = (
-  bundle: FluentBundle
-): Tenant["badges"] => ({
-  label: translate(bundle, "Staff", "staff-label"),
-  adminLabel: translate(bundle, "Staff", "staff-label"),
-  staffLabel: translate(bundle, "Staff", "staff-label"),
-  moderatorLabel: translate(bundle, "Staff", "staff-label"),
-  memberLabel: translate(bundle, "Member", "member-label"),
-});
+  bundle?: FluentBundle
+): Tenant["badges"] => {
+  return {
+    label: bundle ? translate(bundle, "Staff", "staff-label") : "Staff",
+    adminLabel: bundle ? translate(bundle, "Staff", "staff-label") : "Staff",
+    staffLabel: bundle ? translate(bundle, "Staff", "staff-label") : "Staff",
+    moderatorLabel: bundle
+      ? translate(bundle, "Staff", "staff-label")
+      : "Staff",
+    memberLabel: bundle ? translate(bundle, "Member", "member-label") : "Staff",
+  };
+};
 
 /**
  * hasFeatureFlag will check to see if the Tenant has a particular feature flag

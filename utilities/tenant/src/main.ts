@@ -1,7 +1,7 @@
 import { argv } from "process";
 import { ArgumentDefinition, ArgumentValueType, getArgs } from "./args";
 import { createMongo } from "./mongo";
-import { createTenant } from "./createTenant";
+import { create as createTenant } from "./createTenant";
 
 const argumentDefinitions: ArgumentDefinition[] = [
   {
