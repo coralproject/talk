@@ -46,3 +46,8 @@ notifications-commentWasApproved-title = Comment was approved
 notifications-commentWasApproved-body = The comment { $commentID } was approved.
 notifications-commentWasRejected-title = Comment was rejected
 notifications-commentWasRejected-body = The comment { $commentID } was rejected.
+notifications-commentWasRejectedAndIllegal-title = Comment was deemed to contain illegal content and was rejected
+notifications-commentWasRejectedAndIllegal-body =
+  The comment { $commentID } was rejected for containing illegal content.
+  The reason of which was: { $reason }
+notifications-rejectedReason-illegal-fraud = Comment contained fraudulent information.

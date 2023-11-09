@@ -3,10 +3,6 @@ import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import {
-  GQLDSAReportDecisionLegality,
-  GQLDSAReportStatus,
-} from "coral-server/graph/schema/__generated__/types";
-import {
   changeDSAReportStatus as changeReportStatus,
   createDSAReport as createReport,
   createDSAReportNote as createReportNote,
@@ -17,7 +13,15 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { rejectComment } from "coral-server/stacks";
 
-import { InternalNotificationContext } from "../notifications/internal/context";
+import {
+  GQLDSAReportDecisionLegality,
+  GQLDSAReportStatus,
+} from "coral-server/graph/schema/__generated__/types";
+
+import {
+  InternalNotificationContext,
+  NotificationType,
+} from "../notifications/internal/context";
 import { AugmentedRedis } from "../redis";
 
 export interface CreateDSAReportInput {
@@ -190,7 +194,7 @@ export async function makeDSAReportDecision(
 
   // REJECT if ILLEGAL
   if (input.legality === GQLDSAReportDecisionLegality.ILLEGAL) {
-    await rejectComment(
+    const comment = await rejectComment(
       mongo,
       redis,
       cache,
@@ -201,8 +205,18 @@ export async function makeDSAReportDecision(
       commentID,
       commentRevisionID,
       userID,
-      now
+      now,
+      undefined,
+      false
     );
+
+    if (comment.authorID) {
+      await notifications.create(tenant.id, tenant.locale, {
+        targetUserID: comment.authorID,
+        type: NotificationType.ILLEGAL_REJECTED,
+        comment,
+      });
+    }
   }
 
   const result = await makeReportDecision(mongo, tenant.id, input, now);

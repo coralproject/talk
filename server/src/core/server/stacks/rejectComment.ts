@@ -79,7 +79,8 @@ const rejectComment = async (
   commentRevisionID: string,
   moderatorID: string,
   now: Date,
-  request?: Request | undefined
+  request?: Request | undefined,
+  sendNotification = true
 ) => {
   const updateAllCommentCountsArgs = {
     actionCounts: {},
@@ -154,11 +155,13 @@ const rejectComment = async (
     });
   }
 
-  await notifications.create(tenant.id, tenant.locale, {
-    targetUserID: result.after.authorID!,
-    comment: result.after,
-    type: NotificationType.COMMENT_REJECTED,
-  });
+  if (sendNotification) {
+    await notifications.create(tenant.id, tenant.locale, {
+      targetUserID: result.after.authorID!,
+      comment: result.after,
+      type: NotificationType.COMMENT_REJECTED,
+    });
+  }
 
   // Return the resulting comment.
   return rollingResult;

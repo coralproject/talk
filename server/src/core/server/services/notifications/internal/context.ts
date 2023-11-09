@@ -16,6 +16,7 @@ export enum NotificationType {
   COMMENT_FEATURED = "COMMENT_FEATURED",
   COMMENT_APPROVED = "COMMENT_APPROVED",
   COMMENT_REJECTED = "COMMENT_REJECTED",
+  ILLEGAL_REJECTED = "ILLEGAL_REJECTED",
 }
 
 export interface CreateNotificationInput {
@@ -134,11 +135,61 @@ export class InternalNotificationContext {
         commentStatus: comment.status,
       });
       result.attempted = true;
+    } else if (type === NotificationType.ILLEGAL_REJECTED && comment) {
+      result.notification = await this.createIllegalRejectionNotification(
+        lang,
+        tenantID,
+        targetUserID,
+        comment,
+        now
+      );
+      result.attempted = true;
     }
 
     if (!result.notification && result.attempted) {
       this.logCreateNotificationError(tenantID, input);
     }
+  }
+
+  private async createIllegalRejectionNotification(
+    lang: LanguageCode,
+    tenantID: string,
+    targetUserID: string,
+    comment: Readonly<Comment>,
+    now: Date
+  ) {
+    const reason = this.translatePhrase(
+      lang,
+      "notifications-rejectedReason-illegal-fraud",
+      "Comment contained fraudulent information."
+    );
+
+    const notification = await createNotification(this.mongo, {
+      id: uuid(),
+      tenantID,
+      createdAt: now,
+      ownerID: targetUserID,
+      title: this.translatePhrase(
+        lang,
+        "notifications-commentWasRejectedAndIllegal-title",
+        "Comment was deemed to contain illegal content and was rejected"
+      ),
+      body: this.translatePhrase(
+        lang,
+        "notifications-commentWasRejectedAndIllegal-body",
+        `The comment ${comment.id} was rejected for containing illegal content.
+        The reason of which was: ${reason}
+        `,
+        {
+          commentID: comment.id,
+          reason,
+        }
+      ),
+      commentID: comment.id,
+      commentStatus: comment.status,
+    });
+
+    return notification;
   }
 
   private translatePhrase(
