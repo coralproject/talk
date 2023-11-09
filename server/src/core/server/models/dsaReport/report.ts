@@ -6,8 +6,9 @@ import {
   CommentNotFoundError,
   DuplicateDSAReportError,
 } from "coral-server/errors";
+import { FindDSAReportInput } from "coral-server/graph/loaders/DSAReports";
 import { FilterQuery } from "coral-server/models/helpers";
-import { TenantResource } from "coral-server/models/tenant";
+import { Tenant, TenantResource } from "coral-server/models/tenant";
 
 import { GQLDSAReportStatus } from "coral-server/graph/schema/__generated__/types";
 
@@ -144,4 +145,25 @@ export async function createDSAReport(
   return {
     dsaReport: report,
   };
+}
+
+export async function find(
+  mongo: MongoContext,
+  tenant: Tenant,
+  input: FindDSAReportInput
+) {
+  return findDSAReport(mongo, tenant.id, input.id);
+}
+
+export async function findDSAReport(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string
+): Promise<DSAReport | null> {
+  const result = await mongo.dsaReports().findOne({
+    tenantID,
+    id,
+  });
+
+  return result ?? null;
 }

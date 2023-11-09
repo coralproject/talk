@@ -1,8 +1,9 @@
 .smallTab {
-  padding-top: var(--spacing-3);
-  padding-bottom: var(--spacing-3);
-  padding-left: var(--spacing-3);
-  padding-right: var(--spacing-3);
+  padding: var(--spacing-3);
+}
+
+.condensedTab {
+  padding: var(--spacing-2);
 }
 
 .configureTab {

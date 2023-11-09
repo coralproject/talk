@@ -1,0 +1,11 @@
+.userBox {
+  padding-bottom: var(--spacing-2);
+}
+
+.title {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+
+  word-break: break-word;
+}

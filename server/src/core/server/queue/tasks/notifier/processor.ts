@@ -6,9 +6,9 @@ import logger from "coral-server/logger";
 import { JobProcessor } from "coral-server/queue/Task";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig } from "coral-server/services/jwt";
-import { NotificationCategory } from "coral-server/services/notifications/categories";
-import NotificationContext from "coral-server/services/notifications/context";
-import { Notification } from "coral-server/services/notifications/notification";
+import { NotificationCategory } from "coral-server/services/notifications/email/categories";
+import NotificationContext from "coral-server/services/notifications/email/context";
+import { Notification } from "coral-server/services/notifications/email/notification";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import {

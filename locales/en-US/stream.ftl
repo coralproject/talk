@@ -28,6 +28,8 @@ general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
 general-tabBar-reviewsTab = Reviews
 general-tabBar-configure = Configure
+general-tabBar-notifications = Notifications
+general-tabBar-notifications-hasNew = Notifications (has new)
 
 general-mainTablist =
   .aria-label = Main Tablist
@@ -1029,3 +1031,14 @@ stream-footer-links-discussions = More discussions
   .title = Go to more discussions
 stream-footer-navigation =
   .aria-label = Comments Footer
+
+## Notifications
+
+notifications-title = Notifications
+notifications-loadMore = Load More
+notification-comment-toggle-approved-open = Approved comment
+notification-comment-toggle-approved-closed = + Approved comment
+notification-comment-toggle-rejected-open = Rejected comment
+notification-comment-toggle-rejected-closed = + Rejected comment
+notification-comment-toggle-default-open = Comment
+notification-comment-toggle-default-closed = + Comment

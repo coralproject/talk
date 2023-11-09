@@ -5,6 +5,10 @@ import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import { moderate } from "coral-server/services/comments/moderation";
+import {
+  InternalNotificationContext,
+  NotificationType,
+} from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsNotSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
@@ -19,6 +23,7 @@ const approveComment = async (
   cache: DataCache,
   config: Config,
   broker: CoralEventPublisherBroker,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -77,6 +82,12 @@ const approveComment = async (
       await cache.users.populateUsers(tenant.id, [result.after.authorID]);
     }
   }
+
+  await notifications.create(tenant.id, tenant.locale, {
+    targetUserID: result.after.authorID!,
+    comment: result.after,
+    type: NotificationType.COMMENT_APPROVED,
+  });
 
   // Return the resulting comment.
   return result.after;

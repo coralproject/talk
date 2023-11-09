@@ -14,6 +14,7 @@ import {
   retrieveAllCommentsUserConnection,
   retrieveCommentsBySitesUserConnection,
 } from "coral-server/services/comments";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { rejectComment } from "coral-server/stacks";
@@ -30,6 +31,7 @@ export interface RejectorProcessorOptions {
   redis: AugmentedRedis;
   tenantCache: TenantCache;
   config: Config;
+  notifications: InternalNotificationContext;
 }
 
 export interface RejectorData {
@@ -149,6 +151,7 @@ const rejectLiveComments = async (
   redis: AugmentedRedis,
   cache: DataCache,
   config: Config,
+  notifications: InternalNotificationContext,
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string,
@@ -169,6 +172,7 @@ const rejectLiveComments = async (
         cache,
         config,
         null,
+        notifications,
         tenant,
         comment.id,
         revision.id,
@@ -197,6 +201,7 @@ const createJobProcessor =
     redis,
     tenantCache,
     config,
+    notifications,
   }: RejectorProcessorOptions): JobProcessor<RejectorData> =>
   async (job) => {
     // Pull out the job data.
@@ -238,6 +243,7 @@ const createJobProcessor =
       redis,
       cache,
       config,
+      notifications,
       tenant,
       authorID,
       moderatorID,

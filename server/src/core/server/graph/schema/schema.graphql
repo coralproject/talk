@@ -3170,6 +3170,27 @@ type User {
   bio is a user-defined biography.
   """
   bio: String
+
+  """
+  hasNewNotifications returns true if the user has received new notifications
+  since they last viewed their notifications tab.
+  """
+  hasNewNotifications: Boolean!
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  lastSeenNotificationDate is the date of the last notification the user viewed.
+  """
+  lastSeenNotificationDate: Time
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 }
 
 """
@@ -4536,6 +4557,128 @@ type Queues {
 }
 
 ################################################################################
+## Notifications
+################################################################################
+
+type Notification {
+  """
+  id is the uuid identifier for the notification.
+  """
+  id: ID!
+
+  """
+  ownerID is the string identifier for who this notification is directed to.
+  """
+  ownerID: ID!
+
+  """
+  createdAt is when this notification was created, used for sorting.
+  """
+  createdAt: Time!
+
+  """
+  title is the title text of this notification.
+  """
+  title: String
+
+  """
+  body is the text content of this notification.
+  """
+  body: String
+
+  """
+  comment is the optional comment that is linked to this notification.
+  """
+  comment: Comment
+
+  """
+  commentStatus is the optional status of the comment when the notification
+  was created. This allows for the context of the state of the comment to be
+  persisted even if the comment reference undergoes multiple moderation actions
+  since the notification was created.
+  """
+  commentStatus: COMMENT_STATUS
+
+  """
+  dsaReport is the details of the DSA Report related to the notification.
+  This is usually in reference to the comment that is also related to
+  the notification.
+  """
+  dsaReport: NotificationDSAReportDetails
+}
+
+type NotificationEdge {
+  """
+  node is the Flag for this edge.
+  """
+  node: Notification!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+type NotificationsConnection {
+  """
+  edges are a subset of FlagEdge's.
+  """
+  edges: [NotificationEdge!]!
+
+  """
+  nodes is a list of Flags.
+  """
+  nodes: [Notification!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
+type NotificationDSAReportDetails {
+  """
+  id is the primary identifier of the DSA report.
+  """
+  id: ID!
+
+  """
+  referenceID is the friendly identifier that is human readable
+  for the DSA report.
+  """
+  referenceID: String!
+
+  """
+  comment is the comment associated with the DSA report.
+  """
+  comment: Comment
+
+  """
+  user is the target user (of the comment) the DSA report pertains to.
+  """
+  user: User
+
+  """
+  lawBrokenDescription describes the law that was allegedly broken in the
+  DSA report.
+  """
+  lawBrokenDescription: String @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  additionalInformation is any further relevant details added by the user
+  who filed the DSA report.
+  """
+  additionalInformation: String @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  submissionID is the linking id that connects this DSA report to other reports
+  that may have been submitted at the same time by the same reporting user as
+  a collection of co-related DSA reports.
+  """
+  submissionID: ID @auth(roles: [ADMIN, MODERATOR])
+}
+
+################################################################################
 ## Query
 ################################################################################
 
@@ -4701,6 +4844,15 @@ type Query {
   emailDomain will return a specific emailDomain configuration if it exists.
   """
   emailDomain(id: ID!): EmailDomain @auth(roles: [ADMIN])
+
+  """
+  notifications will return a list of notifications for an ownerID.
+  """
+  notifications(
+    ownerID: ID!
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): NotificationsConnection!
 }
 
 ################################################################################
