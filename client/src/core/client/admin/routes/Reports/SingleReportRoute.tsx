@@ -8,7 +8,12 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { createRouteConfig } from "coral-framework/lib/router";
 import { GQLDSAReportHistoryType } from "coral-framework/schema";
-import { ArrowsLeftIcon, ButtonSvgIcon } from "coral-ui/components/icons";
+import {
+  ArrowsLeftIcon,
+  ButtonSvgIcon,
+  LegalHammerIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import {
   Button,
   Flex,
@@ -121,14 +126,19 @@ const SingleReportRoute: FunctionComponent<Props> & {
             userID={viewer?.id}
             onChangeReportStatusCompleted={onChangeReportStatusCompleted}
           />
-          <Localized id="reports-singleReport-makeDecisionButton">
+          <Localized
+            id="reports-singleReport-makeDecisionButton"
+            elems={{ icon: <SvgIcon Icon={LegalHammerIcon} /> }}
+          >
             <Button
               className={styles.decisionButton}
+              iconLeft
               onClick={onClickMakeDecisionButton}
               disabled={
                 dsaReport.status === "COMPLETED" || dsaReport.status === "VOID"
               }
             >
+              <SvgIcon Icon={LegalHammerIcon} />
               Make Decision
             </Button>
           </Localized>

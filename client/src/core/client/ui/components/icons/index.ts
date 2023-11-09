@@ -44,6 +44,7 @@ export { default as ImageFileLandscapeIcon } from "./ImageFileLandscapeIcon";
 export { default as ImageFileWarningIcon } from "./ImageFileWarningIcon";
 export { default as InformationCircleIcon } from "./InformationCircleIcon";
 export { default as LabFlaskExperimentIcon } from "./LabFlaskExperimentIcon";
+export { default as LegalHammerIcon } from "./LegalHammerIcon";
 export { default as LikeIcon } from "./LikeIcon";
 export { default as ListBulletsIcon } from "./ListBulletsIcon";
 export { default as LockIcon } from "./LockIcon";
