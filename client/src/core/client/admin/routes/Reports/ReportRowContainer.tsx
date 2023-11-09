@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
-  CheckCircleIcon,
+  NightMoonHalfIcon,
   SignBadgeCircleIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
@@ -19,8 +19,6 @@ import {
 interface Props {
   dsaReport: DSAReportData;
 }
-
-export const openStatuses = ["AWAITING_REVIEW", "UNDER_REVIEW"];
 
 const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
   const formatter = useDateTimeFormatter({
@@ -36,11 +34,16 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
     if (!status) {
       return null;
     }
-    return openStatuses.includes(status) ? (
-      <SvgIcon Icon={SignBadgeCircleIcon} />
-    ) : (
-      <SvgIcon Icon={CheckCircleIcon} />
-    );
+    switch (status) {
+      case "AWAITING_REVIEW":
+        return <SvgIcon Icon={SignBadgeCircleIcon} />;
+      case "UNDER_REVIEW":
+        return <SvgIcon Icon={NightMoonHalfIcon} />;
+      case "COMPLETED":
+        return <SvgIcon Icon={SignBadgeCircleIcon} filled />;
+      default:
+        return <SvgIcon Icon={SignBadgeCircleIcon} />;
+    }
   }, []);
 
   const onReportRowClick = useCallback(
