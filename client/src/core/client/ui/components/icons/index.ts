@@ -1,3 +1,4 @@
+export { default as ActiveNotificationBellIcon } from "./ActiveNotificationBellIcon";
 export { default as AddIcon } from "./AddIcon";
 export { default as AlarmBellIcon } from "./AlarmBellIcon";
 export { default as AlarmClockIcon } from "./AlarmClockIcon";
@@ -55,6 +56,7 @@ export { default as MultipleNeutralIcon } from "./MultipleNeutralIcon";
 export { default as NavigationMenuHorizontalIcon } from "./NavigationMenuHorizontalIcon";
 export { default as NavigationMenuVerticalIcon } from "./NavigationMenuVerticalIcon";
 export { default as NightMoonHalfIcon } from "./NightMoonHalfIcon";
+export { default as NotificationBellIcon } from "./NotificationBellIcon";
 export { default as PaperWriteIcon } from "./PaperWriteIcon";
 export { default as PencilIcon } from "./PencilIcon";
 export { default as QuestionCircleIcon } from "./QuestionCircleIcon";

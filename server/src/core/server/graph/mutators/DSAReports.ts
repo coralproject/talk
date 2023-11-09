@@ -76,6 +76,7 @@ export const DSAReports = (ctx: GraphContext) => ({
       ctx.cache,
       ctx.config,
       ctx.broker,
+      ctx.notifications,
       ctx.tenant,
       {
         userID,

@@ -17,6 +17,7 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { rejectComment } from "coral-server/stacks";
 
+import { InternalNotificationContext } from "../notifications/internal/context";
 import { AugmentedRedis } from "../redis";
 
 export interface CreateDSAReportInput {
@@ -173,6 +174,7 @@ export async function makeDSAReportDecision(
   cache: DataCache,
   config: Config,
   broker: CoralEventPublisherBroker,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   input: MakeDSAReportDecisionInput,
   now = new Date()
@@ -194,6 +196,7 @@ export async function makeDSAReportDecision(
       cache,
       config,
       broker,
+      notifications,
       tenant,
       commentID,
       commentRevisionID,

@@ -129,4 +129,6 @@ extend type Local {
   refreshStream: Boolean
 
   dsaFeaturesEnabled: Boolean
+
+  hasNewNotifications: Boolean
 }

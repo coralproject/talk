@@ -7,6 +7,8 @@ import {
   CommentNotFoundError,
   DuplicateDSAReportError,
 } from "coral-server/errors";
+import { FindDSAReportInput } from "coral-server/graph/loaders/DSAReports";
+
 import {
   Connection,
   ConnectionInput,
@@ -14,6 +16,7 @@ import {
   Query,
   resolveConnection,
 } from "coral-server/models/helpers";
+import { Tenant, TenantResource } from "coral-server/models/tenant";
 
 import {
   GQLDSAReportDecision,
@@ -22,8 +25,6 @@ import {
   GQLDSAReportStatus,
   GQLREPORT_SORT,
 } from "coral-server/graph/schema/__generated__/types";
-
-import { TenantResource } from "coral-server/models/tenant";
 
 export interface ReportHistoryItem {
   /**
@@ -164,20 +165,6 @@ export async function retrieveDSAReportConnection(
   const query = new Query(mongo.dsaReports()).where({ tenantID });
 
   return retrieveConnection(input, query);
-}
-
-export async function retrieveManyDSAReports(
-  mongo: MongoContext,
-  tenantID: string,
-  ids: ReadonlyArray<string>
-) {
-  const cursor = mongo.dsaReports().find({
-    id: { $in: ids },
-    tenantID,
-  });
-  const dsaReports = await cursor.toArray();
-
-  return ids.map((id) => dsaReports.find((report) => report.id === id) || null);
 }
 
 export async function retrieveDSAReport(
@@ -549,4 +536,25 @@ export async function makeDSAReportDecision(
   return {
     dsaReport: updatedReport.value,
   };
+}
+
+export async function find(
+  mongo: MongoContext,
+  tenant: Tenant,
+  input: FindDSAReportInput
+) {
+  return findDSAReport(mongo, tenant.id, input.id);
+}
+
+export async function findDSAReport(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string
+): Promise<DSAReport | null> {
+  const result = await mongo.dsaReports().findOne({
+    tenantID,
+    id,
+  });
+
+  return result ?? null;
 }

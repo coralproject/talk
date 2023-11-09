@@ -1,13 +1,14 @@
 import DataLoader from "dataloader";
 import { defaultTo } from "lodash";
 
-import TenantContext from "coral-server/graph/context";
 import {
-  DSAReport,
   DSAReportConnectionInput,
+  find,
   retrieveDSAReportConnection,
-  retrieveManyDSAReports,
 } from "coral-server/models/dsaReport";
+
+import GraphContext from "../context";
+import { createManyBatchLoadFn } from "./util";
 
 import {
   GQLDSAREPORT_STATUS_FILTER,
@@ -16,6 +17,10 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 type DSAReportConnectionFilterInput = DSAReportConnectionInput["filter"];
+
+export interface FindDSAReportInput {
+  id: string;
+}
 
 const statusFilter = (
   status?: GQLDSAREPORT_STATUS_FILTER[]
@@ -28,13 +33,7 @@ const statusFilter = (
   return {};
 };
 
-export default (ctx: TenantContext) => ({
-  dsaReport: new DataLoader<string, DSAReport | null>(
-    (ids) => retrieveManyDSAReports(ctx.mongo, ctx.tenant.id, ids),
-    {
-      cache: !ctx.disableCaching,
-    }
-  ),
+export default (ctx: GraphContext) => ({
   connection: ({ first, after, orderBy, status }: QueryToDsaReportsArgs) =>
     retrieveDSAReportConnection(ctx.mongo, ctx.tenant.id, {
       first: defaultTo(first, 20),
@@ -45,4 +44,13 @@ export default (ctx: TenantContext) => ({
         ...statusFilter(status),
       },
     }),
+  dsaReport: new DataLoader(
+    createManyBatchLoadFn((input: FindDSAReportInput) =>
+      find(ctx.mongo, ctx.tenant, input)
+    ),
+    {
+      cacheKeyFn: (input: FindDSAReportInput) => `${input.id}`,
+      cache: !ctx.disableCaching,
+    }
+  ),
 });
