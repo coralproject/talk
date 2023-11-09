@@ -618,7 +618,7 @@ export interface User extends TenantResource {
   bio?: string;
 }
 
-function hashPassword(password: string): Promise<string> {
+export function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
 
@@ -642,7 +642,7 @@ export interface FindOrCreateUserInput {
  * @param input the input for creating a User
  * @param now the current date
  */
-async function findOrCreateUserInput(
+export async function findOrCreateUserInput(
   tenantID: string,
   { id = uuid(), profile, email, ...input }: FindOrCreateUserInput,
   now: Date
