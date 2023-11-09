@@ -188,8 +188,8 @@ export async function makeDSAReportDecision(
     commentID,
     commentRevisionID,
     userID,
-    // legalGrounds,
-    // detailedExplanation,
+    legalGrounds,
+    detailedExplanation,
   } = input;
 
   // REJECT if ILLEGAL
@@ -215,6 +215,10 @@ export async function makeDSAReportDecision(
         targetUserID: comment.authorID,
         type: NotificationType.ILLEGAL_REJECTED,
         comment,
+        legal: {
+          grounds: legalGrounds,
+          explanation: detailedExplanation,
+        },
       });
     }
   }

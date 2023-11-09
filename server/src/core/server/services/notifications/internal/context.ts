@@ -19,12 +19,19 @@ export enum NotificationType {
   ILLEGAL_REJECTED = "ILLEGAL_REJECTED",
 }
 
+export interface LegalExplanation {
+  grounds?: string;
+  explanation?: string;
+}
+
 export interface CreateNotificationInput {
   targetUserID: string;
   type: NotificationType;
 
   comment?: Readonly<Comment>;
   report?: Readonly<DSAReport>;
+
+  legal?: LegalExplanation;
 }
 
 interface CreationResult {
@@ -48,7 +55,7 @@ export class InternalNotificationContext {
     lang: LanguageCode,
     input: CreateNotificationInput
   ) {
-    const { type, targetUserID, comment } = input;
+    const { type, targetUserID, comment, legal } = input;
 
     const existingUser = retrieveUser(this.mongo, tenantID, targetUserID);
     if (!existingUser) {
@@ -141,6 +148,7 @@ export class InternalNotificationContext {
         tenantID,
         targetUserID,
         comment,
+        legal,
         now
       );
       result.attempted = true;
@@ -156,13 +164,39 @@ export class InternalNotificationContext {
     tenantID: string,
     targetUserID: string,
     comment: Readonly<Comment>,
+    legal: LegalExplanation | undefined,
     now: Date
   ) {
-    const reason = this.translatePhrase(
+    const reason = legal
+      ? this.translatePhrase(
+          lang,
+          "notifications-dsaIllegalRejectedReason-information",
+          `Grounds:
+          ${legal?.grounds}
+          Explanation:
+          ${legal?.explanation}`,
+          {
+            grounds: legal.grounds,
+            explanation: legal.explanation,
+          }
+        )
+      : this.translatePhrase(
+          lang,
+          "notifications-dsaIllegalRejectedReason-informationNotFound",
+          "The reasoning for this decision cannot be found."
+        );
+
+    const body = this.translatePhrase(
       lang,
-      "notifications-rejectedReason-illegal-fraud",
-      "Comment contained fraudulent information."
-    );
+      "notifications-commentWasRejectedAndIllegal-body",
+      `The comment ${comment.id} was rejected for containing illegal content.
+      The reason of which was: ${reason}
+      `,
+      {
+        commentID: comment.id,
+        reason,
+      }
+    ).replace("\n", "<br/>");
 
     const notification = await createNotification(this.mongo, {
       id: uuid(),
@@ -174,17 +208,7 @@ export class InternalNotificationContext {
         "notifications-commentWasRejectedAndIllegal-title",
         "Comment was deemed to contain illegal content and was rejected"
       ),
-      body: this.translatePhrase(
-        lang,
-        "notifications-commentWasRejectedAndIllegal-body",
-        `The comment ${comment.id} was rejected for containing illegal content.
-        The reason of which was: ${reason}
-        `,
-        {
-          commentID: comment.id,
-          reason,
-        }
-      ),
+      body,
       commentID: comment.id,
       commentStatus: comment.status,
     });

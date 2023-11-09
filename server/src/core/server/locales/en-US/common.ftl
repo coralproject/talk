@@ -49,5 +49,15 @@ notifications-commentWasRejected-body = The comment { $commentID } was rejected.
 notifications-commentWasRejectedAndIllegal-title = Comment was deemed to contain illegal content and was rejected
 notifications-commentWasRejectedAndIllegal-body =
   The comment { $commentID } was rejected for containing illegal content.
-  The reason of which was: { $reason }
-notifications-rejectedReason-illegal-fraud = Comment contained fraudulent information.
+  The reason of which was:
+  <br/>
+  { $reason }
+notifications-dsaIllegalRejectedReason-information =
+  Grounds:
+  <br/>
+  { $grounds }
+  <br/>
+  Explanation:
+  <br/>
+  { $explanation }
+notifications-dsaIllegalRejectedReason-informationNotFound = The reasoning for this decision cannot be found.
