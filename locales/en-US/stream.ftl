@@ -153,7 +153,6 @@ comments-permalinkView-section =
 comments-permalinkView-viewFullDiscussion = View full discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
-comments-permalinkView-reportIllegalContent-backToComments = <Button></Button>Back to comments
 comments-permalinkView-reportIllegalContent-title = Report illegal content
 comments-permalinkView-reportIllegalContent-description = Under the Digital Services Act (DSA) you can 
   now report illegal content that you see in the comments. Please fill this form out to the best of 

@@ -29,9 +29,8 @@ const handleResp = async (res: Response) => {
     const response = await res.text();
     throw new Error(response);
   }
-
+  const type = res.headers.get("content-type");
   if (!res.ok) {
-    const type = res.headers.get("content-type");
     if (type && type.includes("application/json")) {
       const response = await res.json();
       throw extractTraceableError(response.error);
@@ -43,6 +42,10 @@ const handleResp = async (res: Response) => {
 
   if (res.status === 204) {
     return res.text();
+  }
+
+  if (type && type.includes("application/octet-stream")) {
+    return res.arrayBuffer();
   }
 
   return res.json();

@@ -1,0 +1,11 @@
+.decisionModalThisComment {
+  margin-right: var(--spacing-2);
+}
+
+.decisionModalTextArea {
+  flex-grow: 1;
+}
+
+.yesButton {
+  margin-right: var(--spacing-2);
+}

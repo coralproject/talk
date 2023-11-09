@@ -19,6 +19,27 @@ comment-counts-ratings-and-reviews =
 
 staff-label = Staff
 
+dsaReportCSV-timestamp = Timestamp
+dsaReportCSV-user = User
+dsaReportCSV-action = Action
+dsaReportCSV-details = Details
+dsaReportCSV-reportSubmitted = Report submitted
+dsaReportCSV-referenceID = Reference ID
+dsaReportCSV-legalDetail = Legal detail
+dsaReportCSV-additionalInfo = Additional info
+dsaReportCSV-commentAuthor = Comment author
+dsaReportCSV-commentBody = Comment body
+dsaReportCSV-commentID = Comment ID
+dsaReportCSV-changedStatus = Changed status
+dsaReportCSV-addedNote = Added note
+dsaReportCSV-madeDecision = Made decision
+dsaReportCSV-downloadedReport = Downloaded report
+dsaReportCSV-legality-illegal = Legality: Illegal
+dsaReportCSV-legality-legal = Legality: Legal
+dsaReportCSV-legalGrounds = Legal grounds
+dsaReportCSV-explanation = Explanation
+
+
 notifications-commentWasFeatured-title = Comment was featured
 notifications-commentWasFeatured-body = The comment { $commentID } was featured.
 notifications-commentWasApproved-title = Comment was approved

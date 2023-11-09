@@ -1,8 +1,22 @@
 import GraphContext from "coral-server/graph/context";
 import { createIllegalContent } from "coral-server/services/comments";
-import { createDSAReport } from "coral-server/services/dsaReports/reports";
+import {
+  addDSAReportNote,
+  addDSAReportShare,
+  changeDSAReportStatus,
+  createDSAReport,
+  deleteDSAReportNote,
+  makeDSAReportDecision,
+} from "coral-server/services/dsaReports/reports";
 
-import { GQLCreateDSAReportInput } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLAddDSAReportNoteInput,
+  GQLAddDSAReportShareInput,
+  GQLChangeDSAReportStatusInput,
+  GQLCreateDSAReportInput,
+  GQLDeleteDSAReportNoteInput,
+  GQLMakeDSAReportDecisionInput,
+} from "coral-server/graph/schema/__generated__/types";
 
 export const DSAReports = (ctx: GraphContext) => ({
   createDSAReport: async ({
@@ -35,4 +49,43 @@ export const DSAReports = (ctx: GraphContext) => ({
       );
     }
   },
+  addDSAReportNote: ({ userID, body, reportID }: GQLAddDSAReportNoteInput) =>
+    addDSAReportNote(ctx.mongo, ctx.tenant, { userID, body, reportID }),
+  addDSAReportShare: ({ userID, reportID }: GQLAddDSAReportShareInput) =>
+    addDSAReportShare(ctx.mongo, ctx.tenant, { userID, reportID }),
+  deleteDSAReportNote: ({ id, reportID }: GQLDeleteDSAReportNoteInput) =>
+    deleteDSAReportNote(ctx.mongo, ctx.tenant, { id, reportID }),
+  changeDSAReportStatus: ({
+    userID,
+    status,
+    reportID,
+  }: GQLChangeDSAReportStatusInput) =>
+    changeDSAReportStatus(ctx.mongo, ctx.tenant, { userID, status, reportID }),
+  makeDSAReportDecision: ({
+    userID,
+    legality,
+    legalGrounds,
+    detailedExplanation,
+    reportID,
+    commentID,
+    commentRevisionID,
+  }: GQLMakeDSAReportDecisionInput) =>
+    makeDSAReportDecision(
+      ctx.mongo,
+      ctx.redis,
+      ctx.cache,
+      ctx.config,
+      ctx.broker,
+      ctx.notifications,
+      ctx.tenant,
+      {
+        userID,
+        legality,
+        legalGrounds,
+        detailedExplanation,
+        reportID,
+        commentID,
+        commentRevisionID,
+      }
+    ),
 });

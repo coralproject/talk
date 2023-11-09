@@ -25,6 +25,7 @@ import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
+import { DSAReport } from "./DSAReport";
 import { EditInfo } from "./EditInfo";
 import { EmailDomain } from "./EmailDomain";
 import { ExternalMediaConfiguration } from "./ExternalMediaConfiguration";
@@ -107,6 +108,7 @@ const Resolvers: GQLResolver = {
   CommentStatusUpdatedPayload,
   Cursor,
   DisableCommenting,
+  DSAReport,
   EditInfo,
   EmailDomain,
   ExternalMediaConfiguration,
