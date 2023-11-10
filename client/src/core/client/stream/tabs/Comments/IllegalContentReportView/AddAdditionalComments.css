@@ -10,4 +10,6 @@
 .error {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-2);
+  color: var(--palette-error-500);
+  font-weight: var(--font-weight-primary-bold);
 }

@@ -172,8 +172,10 @@ comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButt
 comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton = Comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-button = <Button></Button>Add additional comments
 comments-permalinkView-reportIllegalContent-submit = Submit report
+comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = This comment was not found. Please add a URL for a valid comment.
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = Please add a valid comment URL.
 comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = Please add a unique comment URL. This is a duplicate of another comment you are reporting.
+comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've already reported this comment for illegal content. You cannot report it again.
 
 comments-rte-bold =
   .title = Bold
