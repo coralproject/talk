@@ -1,4 +1,10 @@
-import { act, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { commitLocalUpdate } from "relay-runtime";
 
@@ -937,8 +943,10 @@ it("requires moderation reason when DSA features enabled", async () => {
     }),
   });
 
+  const comment = reportedComments[0];
+
   const modCard = await screen.findByTestId(
-    `moderate-comment-card-${reportedComments[0].id}`
+    `moderate-comment-card-${comment.id}`
   );
 
   expect(modCard).toBeInTheDocument();
@@ -950,11 +958,13 @@ it("requires moderation reason when DSA features enabled", async () => {
     userEvent.click(rejectButton);
   });
 
+  const reasonModalID = `moderation-reason-modal-${comment.id}`;
+
   await waitFor(() => {
-    expect(screen.queryByTestId("moderation-reason-modal")).toBeVisible();
+    expect(screen.queryByTestId(reasonModalID)).toBeInTheDocument();
   });
 
-  const reasonModal = screen.queryByTestId("moderation-reason-modal")!;
+  const reasonModal = screen.queryByTestId(reasonModalID)!;
 
   const submitReasonButton = within(reasonModal).getByRole("button", {
     name: "Reject",
@@ -967,9 +977,13 @@ it("requires moderation reason when DSA features enabled", async () => {
 
   expect(abusiveOption).toBeInTheDocument();
 
-  act(() => userEvent.click(abusiveOption));
+  await act(async () => {
+    fireEvent.click(abusiveOption);
+  });
 
   expect(submitReasonButton).toBeEnabled();
 
-  act(() => userEvent.click(submitReasonButton));
+  await act(async () => {
+    fireEvent.click(submitReasonButton);
+  });
 });

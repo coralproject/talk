@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import key from "keymaster";
@@ -9,7 +8,6 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState,
 } from "react";
 
 import { MediaContainer } from "coral-admin/components/MediaContainer";
@@ -43,11 +41,8 @@ import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
 
 import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
-import { default as ModerationReasonComponent, Props as ModerationReasonProps } from "../ModerationReason/ModerationReason";
+import ModerationReason from "../ModerationReason/ModerationReason";
 import styles from "./ModerateCard.css";
-
-const ModerationReason: FunctionComponent<ModerationReasonProps> = (props) =>
-  <Card className={styles.moderationReasonCard}><ModerationReasonComponent {...props} /></Card>;
 
 interface Props {
   id: string;
@@ -186,8 +181,6 @@ const ModerateCard: FunctionComponent<Props> = ({
       div.current.focus();
     }
   }, [selected, div]);
-
-  const [showModerationReason, setShowModerationReason] = useState(false);
 
   const commentBody = useMemo(
     () =>
@@ -359,32 +352,32 @@ const ModerateCard: FunctionComponent<Props> = ({
           <Flex itemGutter style={{ position: "relative" }}>
             <Popover
               id={`reject-reason-${id}`}
-              // modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
+              modifiers={{
+                arrow: { enabled: false },
+                offset: { offset: "0, 4" },
+              }}
               body={({ toggleVisibility, visible }) => {
                 return (
-                  <ClickOutside
-                    onClickOutside={toggleVisibility}
-                  >
+                  <ClickOutside onClickOutside={toggleVisibility}>
                     <Dropdown className={styles.moderationReasonDropdown}>
-                      <ModerationReason onReason={onReason} onCancel={toggleVisibility}/>
+                      <ModerationReason
+                        onReason={onReason}
+                        onCancel={toggleVisibility}
+                        id={id}
+                      />
                     </Dropdown>
                   </ClickOutside>
                 );
               }}
-              placement="bottom-end"
+              placement="bottom-start"
             >
-              {({ toggleVisibility, visible }) => {
+              {({ toggleVisibility, visible, ref }) => {
                 return (
                   <RejectButton
+                    ref={ref}
                     toggle={dsaFeaturesEnabled}
-                    open={showModerationReason}
-                    onClick={
-                      dsaFeaturesEnabled
-                        ? () => {
-                            setShowModerationReason(!showModerationReason);// toggleVisibility();
-                          }
-                        : onReject
-                    }
+                    open={visible}
+                    onClick={dsaFeaturesEnabled ? toggleVisibility : onReject}
                     invert={status === "rejected"}
                     disabled={
                       status === "rejected" ||
@@ -418,7 +411,6 @@ const ModerateCard: FunctionComponent<Props> = ({
                 [styles.miniButton]: mini,
               })}
             />
-            {showModerationReason && <ModerationReason onReason={onReason} onCancel={() => setShowModerationReason(false)} /> }
           </Flex>
           {moderatedBy}
         </Flex>

@@ -18,12 +18,17 @@ type ReasonCode = GQLREJECTION_REASON_CODE;
 export interface Props {
   onCancel: () => void;
   onReason: (reason: Reason) => void;
+  id: string;
 }
 
-const ModerationReason: FunctionComponent<Props> = ({ onCancel, onReason }) => {
+const ModerationReason: FunctionComponent<Props> = ({
+  onCancel,
+  onReason,
+  id,
+}) => {
   const [view, setView] = useState<"REASON" | "EXPLANATION">("REASON");
   const [reasonCode, setReasonCode] = useState<ReasonCode | null>(null);
-  // TODO (marcushaddon): will we ever submit legal grounds via this component?
+
   const [legalGrounds] = useState<string | null>(null);
   const [detailedExplanation, setDetailedExplanation] = useState<string | null>(
     null
@@ -41,7 +46,7 @@ const ModerationReason: FunctionComponent<Props> = ({ onCancel, onReason }) => {
   }, [reasonCode, legalGrounds, detailedExplanation, onReason]);
 
   return (
-    <Box className={styles.root} data-testid="moderation-reason-modal">
+    <Box className={styles.root} data-testid={`moderation-reason-modal-${id}`}>
       {view === "REASON" ? (
         <Reasons
           selected={reasonCode}
@@ -72,7 +77,11 @@ const ModerationReason: FunctionComponent<Props> = ({ onCancel, onReason }) => {
         <Localized id="common-moderationReason-reject">
           <Button
             className={styles.rejectButton}
-            disabled={reasonCode === null}
+            disabled={
+              reasonCode === null ||
+              (reasonCode === GQLREJECTION_REASON_CODE.OTHER &&
+                !detailedExplanation)
+            }
             onClick={submitReason}
             color="alert"
           >
