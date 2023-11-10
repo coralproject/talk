@@ -36,9 +36,6 @@ const NotificationContainer: FunctionComponent<Props> = ({
     return createdAtDate.getTime() <= lastSeenDate.getTime();
   }, [createdAt, viewer]);
 
-  // eslint-disable-next-line no-console
-  console.log(body);
-
   return (
     <>
       <div
