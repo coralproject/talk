@@ -2,6 +2,7 @@ import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
+import { Comment } from "coral-server/models/comment";
 import {
   changeDSAReportStatus as changeReportStatus,
   createDSAReport as createReport,
@@ -9,6 +10,7 @@ import {
   createDSAReportShare as createReportShare,
   deleteDSAReportNote as deleteReportNote,
   makeDSAReportDecision as makeReportDecision,
+  retrieveDSAReport,
 } from "coral-server/models/dsaReport/report";
 import { Tenant } from "coral-server/models/tenant";
 import { rejectComment } from "coral-server/stacks";
@@ -180,6 +182,7 @@ export async function makeDSAReportDecision(
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
   tenant: Tenant,
+  comment: Readonly<Comment> | null,
   input: MakeDSAReportDecisionInput,
   now = new Date()
 ) {
@@ -190,11 +193,12 @@ export async function makeDSAReportDecision(
     userID,
     legalGrounds,
     detailedExplanation,
+    reportID,
   } = input;
 
   // REJECT if ILLEGAL
   if (input.legality === GQLDSAReportDecisionLegality.ILLEGAL) {
-    const comment = await rejectComment(
+    const rejectedComment = await rejectComment(
       mongo,
       redis,
       cache,
@@ -210,17 +214,33 @@ export async function makeDSAReportDecision(
       false
     );
 
-    if (comment.authorID) {
+    if (rejectedComment.authorID) {
       await notifications.create(tenant.id, tenant.locale, {
-        targetUserID: comment.authorID,
+        targetUserID: rejectedComment.authorID,
         type: NotificationType.ILLEGAL_REJECTED,
-        comment,
+        comment: rejectedComment,
         legal: {
+          legality: input.legality,
           grounds: legalGrounds,
           explanation: detailedExplanation,
         },
       });
     }
+  }
+
+  const report = await retrieveDSAReport(mongo, tenant.id, reportID);
+  if (report) {
+    await notifications.create(tenant.id, tenant.locale, {
+      targetUserID: report.userID,
+      type: NotificationType.DSA_REPORT_DECISION_MADE,
+      comment,
+      report,
+      legal: {
+        legality: input.legality,
+        grounds: legalGrounds,
+        explanation: detailedExplanation,
+      },
+    });
   }
 
   const result = await makeReportDecision(mongo, tenant.id, input, now);

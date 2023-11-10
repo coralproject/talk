@@ -12,14 +12,18 @@ import {
 import { retrieveUser } from "coral-server/models/user";
 import { I18n, translate } from "coral-server/services/i18n";
 
+import { GQLDSAReportDecisionLegality } from "coral-server/graph/schema/__generated__/types";
+
 export enum NotificationType {
   COMMENT_FEATURED = "COMMENT_FEATURED",
   COMMENT_APPROVED = "COMMENT_APPROVED",
   COMMENT_REJECTED = "COMMENT_REJECTED",
   ILLEGAL_REJECTED = "ILLEGAL_REJECTED",
+  DSA_REPORT_DECISION_MADE = "DSA_REPORT_DECISION_MADE",
 }
 
-export interface LegalExplanation {
+export interface Legality {
+  legality: GQLDSAReportDecisionLegality;
   grounds?: string;
   explanation?: string;
 }
@@ -28,10 +32,10 @@ export interface CreateNotificationInput {
   targetUserID: string;
   type: NotificationType;
 
-  comment?: Readonly<Comment>;
-  report?: Readonly<DSAReport>;
+  comment?: Readonly<Comment> | null;
+  report?: Readonly<DSAReport> | null;
 
-  legal?: LegalExplanation;
+  legal?: Legality;
 }
 
 interface CreationResult {
@@ -55,7 +59,7 @@ export class InternalNotificationContext {
     lang: LanguageCode,
     input: CreateNotificationInput
   ) {
-    const { type, targetUserID, comment, legal } = input;
+    const { type, targetUserID, comment, report, legal } = input;
 
     const existingUser = retrieveUser(this.mongo, tenantID, targetUserID);
     if (!existingUser) {
@@ -152,6 +156,21 @@ export class InternalNotificationContext {
         now
       );
       result.attempted = true;
+    } else if (
+      type === NotificationType.DSA_REPORT_DECISION_MADE &&
+      comment &&
+      report
+    ) {
+      result.notification = await this.createDSAReportDecisionMadeNotification(
+        lang,
+        tenantID,
+        targetUserID,
+        comment,
+        report,
+        legal,
+        now
+      );
+      result.attempted = true;
     }
 
     if (!result.notification && result.attempted) {
@@ -164,7 +183,7 @@ export class InternalNotificationContext {
     tenantID: string,
     targetUserID: string,
     comment: Readonly<Comment>,
-    legal: LegalExplanation | undefined,
+    legal: Legality | undefined,
     now: Date
   ) {
     const reason = legal
@@ -211,6 +230,100 @@ export class InternalNotificationContext {
       body,
       commentID: comment.id,
       commentStatus: comment.status,
+    });
+
+    return notification;
+  }
+
+  private async createDSAReportDecisionMadeNotification(
+    lang: LanguageCode,
+    tenantID: string,
+    targetUserID: string,
+    comment: Readonly<Comment>,
+    report: Readonly<DSAReport>,
+    legal: Legality | undefined,
+    now: Date
+  ) {
+    if (!legal) {
+      this.log.warn(
+        { reportID: report.id, commentID: comment.id, targetUserID },
+        "attempted to notify of DSA report decision when legality was null or undefined"
+      );
+      return null;
+    }
+
+    let decision = "";
+    let information: string | null = null;
+    if (legal.legality === GQLDSAReportDecisionLegality.LEGAL) {
+      decision = this.translatePhrase(
+        lang,
+        "notifications-dsaReportDecision-legal",
+        `The report ${report.id} was determined to be legal.`,
+        {
+          reportID: report.id,
+        }
+      );
+    }
+    if (legal.legality === GQLDSAReportDecisionLegality.ILLEGAL) {
+      decision = this.translatePhrase(
+        lang,
+        "notifications-dsaReportDecision-illegal",
+        `The report ${report.id} was determined to be illegal.`,
+        {
+          reportID: report.id,
+        }
+      );
+      information = this.translatePhrase(
+        lang,
+        "notifications-dsaReportDecision-legalInformation",
+        `Grounds:
+        <br/>
+        ${legal.grounds}
+        <br/>
+        Explanation:
+        <br/>
+        ${legal.explanation}`,
+        {
+          grounds: legal.grounds,
+          explanation: legal.explanation,
+        }
+      );
+    }
+
+    const body = this.translatePhrase(
+      lang,
+      information
+        ? "notifications-dsaReportDecisionMade-body-withInfo"
+        : "notifications-dsaReportDecisionMade-body-withoutInfo",
+      information
+        ? `${decision}
+      <br/>
+      ${information}`
+        : `${decision}`,
+      information
+        ? {
+            decision,
+            information,
+          }
+        : {
+            decision,
+          }
+    ).replace("\n", "<br/>");
+
+    const notification = await createNotification(this.mongo, {
+      id: uuid(),
+      tenantID,
+      createdAt: now,
+      ownerID: targetUserID,
+      title: this.translatePhrase(
+        lang,
+        "notifications-dsaReportDecisionMade-title",
+        "A decision was made on your DSA report"
+      ),
+      body,
+      commentID: comment.id,
+      commentStatus: comment.status,
+      reportID: report.id,
     });
 
     return notification;

@@ -46,6 +46,7 @@ notifications-commentWasApproved-title = Comment was approved
 notifications-commentWasApproved-body = The comment { $commentID } was approved.
 notifications-commentWasRejected-title = Comment was rejected
 notifications-commentWasRejected-body = The comment { $commentID } was rejected.
+
 notifications-commentWasRejectedAndIllegal-title = Comment was deemed to contain illegal content and was rejected
 notifications-commentWasRejectedAndIllegal-body =
   The comment { $commentID } was rejected for containing illegal content.
@@ -61,3 +62,20 @@ notifications-dsaIllegalRejectedReason-information =
   <br/>
   { $explanation }
 notifications-dsaIllegalRejectedReason-informationNotFound = The reasoning for this decision cannot be found.
+
+notifications-dsaReportDecisionMade-title = A decision was made on your DSA report
+notifications-dsaReportDecision-legal = The report { $reportID } was determined to be legal.
+notifications-dsaReportDecision-illegal = The report { $reportID } was determined to be illegal.
+notifications-dsaReportDecision-legalInformation =
+  Grounds:
+  <br/>
+  { $grounds }
+  <br/>
+  Explanation:
+  <br/>
+  { $explanation }
+notifications-dsaReportDecisionMade-body-withoutInfo = { $decision }
+notifications-dsaReportDecisionMade-body-withInfo =
+  { $decision }
+  <br/>
+  { $information }
