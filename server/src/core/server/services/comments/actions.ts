@@ -410,6 +410,7 @@ export async function createIllegalContent(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   commentActionsCache: CommentActionsCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -436,6 +437,7 @@ export async function createIllegalContent(
     mongo,
     redis,
     config,
+    i18n,
     broker,
     tenant,
     {

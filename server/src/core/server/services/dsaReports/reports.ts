@@ -17,6 +17,7 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { rejectComment } from "coral-server/stacks";
 
+import { I18n } from "../i18n";
 import { InternalNotificationContext } from "../notifications/internal/context";
 import { AugmentedRedis } from "../redis";
 
@@ -173,6 +174,7 @@ export async function makeDSAReportDecision(
   redis: AugmentedRedis,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
   tenant: Tenant,
@@ -195,6 +197,7 @@ export async function makeDSAReportDecision(
       redis,
       cache,
       config,
+      i18n,
       broker,
       notifications,
       tenant,
