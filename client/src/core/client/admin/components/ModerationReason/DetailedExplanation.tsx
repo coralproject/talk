@@ -26,7 +26,14 @@ const DetailedExplantion: FunctionComponent<Props> = ({
   return (
     <>
       <Localized id={`common-moderationReason-rejectionReason-${code}`}>
-        <RadioButton value={code} name={code} key={code} checked>
+        <RadioButton
+          tabIndex={-1}
+          aria-hidden
+          value={code}
+          name={code}
+          key={code}
+          checked
+        >
           {unsnake(code)}
         </RadioButton>
       </Localized>

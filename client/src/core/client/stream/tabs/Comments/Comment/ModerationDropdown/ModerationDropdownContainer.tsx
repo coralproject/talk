@@ -104,7 +104,11 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
           />
         </Dropdown>
       ) : view === "REJECT_REASON" ? (
-        <ModerationReason onReason={reject} onCancel={onDismiss} />
+        <ModerationReason
+          id={comment.id}
+          onReason={reject}
+          onCancel={onDismiss}
+        />
       ) : (
         <UserBanPopoverContainer
           comment={comment}

@@ -674,7 +674,6 @@ it("requires rection reason when dsaFeaturesEnabled", async () => {
       },
     });
   });
-  // const tabPane = await screen.findByTestId("current-tab-pane");
   const comment = screen.getByTestId(`comment-${firstComment.id}`);
 
   const caretButton = within(comment).getByLabelText("Moderate");
@@ -683,17 +682,15 @@ it("requires rection reason when dsaFeaturesEnabled", async () => {
 
   const rejectButton = within(comment).getByRole("button", { name: "Reject" });
 
-  await act(async () => {
+  act(() => {
     fireEvent.click(rejectButton);
   });
 
   await waitFor(() => {
-    expect(screen.queryByTestId("moderation-reason-modal")).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
-  const reasonModal = await within(comment).findByTestId(
-    "moderation-reason-modal"
-  );
+  const reasonModal = screen.getByRole("dialog");
 
   expect(reasonModal).toBeInTheDocument();
 

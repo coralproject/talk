@@ -45,15 +45,15 @@ const Reasons: FunctionComponent<Props> = ({
         .filter(
           (code) =>
             code !== GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT &&
+            code !== GQLREJECTION_REASON_CODE.BANNED_WORD &&
             code !== GQLREJECTION_REASON_CODE.OTHER
         )
         .map((code) => (
-          <>
+          <div key={code}>
             <Localized id={`common-moderationReason-rejectionReason-${code}`}>
               <RadioButton
                 value={code}
                 name={code}
-                key={code}
                 checked={selected === code}
                 onChange={(e) => {
                   if (e.target.checked) {
@@ -68,7 +68,7 @@ const Reasons: FunctionComponent<Props> = ({
             {selected === code && (
               <AddExpanationButton onClick={onAddExplanation} />
             )}
-          </>
+          </div>
         ))}
 
       <Localized id="common-moderationReason-reason-moreReasons">
