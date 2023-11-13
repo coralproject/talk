@@ -26,6 +26,7 @@ export const DSAReports = (ctx: GraphContext) => ({
         ctx.mongo,
         ctx.redis,
         ctx.config,
+        ctx.i18n,
         ctx.cache.commentActions,
         ctx.broker,
         ctx.tenant,
