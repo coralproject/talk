@@ -7221,14 +7221,14 @@ input RejectCommentInput {
   commentRevisionID: ID!
 
   """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-
-  """
   reason is the reason the comment is being rejected if DSA features are enabled.
   """
   reason: RejectCommentReasonInput
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
 }
 
 type RejectCommentPayload {

@@ -23,14 +23,20 @@ import {
 import {
   Button,
   Card,
+  ClickOutside,
+  Dropdown,
   Flex,
   HorizontalGutter,
+  Popover,
   TextLink,
   Timestamp,
 } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
+import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
+
 import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
+import ModerationReason from "../ModerationReason/ModerationReason";
 import ApproveButton from "./ApproveButton";
 import CommentAuthorContainer from "./CommentAuthorContainer";
 import FeatureButton from "./FeatureButton";
@@ -95,6 +101,8 @@ interface Props {
   suspectWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
   isArchived?: boolean;
   isArchiving?: boolean;
+  dsaFeaturesEnabled: boolean;
+  onReason: (reason: RejectCommentReasonInput) => void;
 }
 
 const ModerateCard: FunctionComponent<Props> = ({
@@ -137,6 +145,8 @@ const ModerateCard: FunctionComponent<Props> = ({
   suspectWords,
   isArchived,
   isArchiving,
+  onReason,
+  dsaFeaturesEnabled,
 }) => {
   const div = useRef<HTMLDivElement>(null);
 
@@ -341,22 +351,51 @@ const ModerateCard: FunctionComponent<Props> = ({
             </Localized>
           )}
           <Flex itemGutter>
-            <RejectButton
-              onClick={onReject}
-              invert={status === "rejected"}
-              disabled={
-                status === "rejected" ||
-                dangling ||
-                deleted ||
-                readOnly ||
-                isArchived ||
-                isArchiving
-              }
-              readOnly={readOnly}
-              className={cn({
-                [styles.miniButton]: mini,
-              })}
-            />
+            <Popover
+              id={`reject-reason-${id}`}
+              modifiers={{
+                arrow: { enabled: false },
+                offset: { offset: "0, 4" },
+              }}
+              body={({ toggleVisibility, visible }) => {
+                return (
+                  <ClickOutside onClickOutside={toggleVisibility}>
+                    <Dropdown className={styles.moderationReasonDropdown}>
+                      <ModerationReason
+                        onReason={onReason}
+                        onCancel={toggleVisibility}
+                        id={id}
+                      />
+                    </Dropdown>
+                  </ClickOutside>
+                );
+              }}
+              placement="bottom-start"
+            >
+              {({ toggleVisibility, visible, ref }) => {
+                return (
+                  <RejectButton
+                    ref={ref}
+                    toggle={dsaFeaturesEnabled}
+                    open={visible}
+                    onClick={dsaFeaturesEnabled ? toggleVisibility : onReject}
+                    invert={status === "rejected"}
+                    disabled={
+                      status === "rejected" ||
+                      dangling ||
+                      deleted ||
+                      readOnly ||
+                      isArchived ||
+                      isArchiving
+                    }
+                    readOnly={readOnly}
+                    className={cn({
+                      [styles.miniButton]: mini,
+                    })}
+                  />
+                );
+              }}
+            </Popover>
             <ApproveButton
               onClick={onApprove}
               invert={status === "approved"}

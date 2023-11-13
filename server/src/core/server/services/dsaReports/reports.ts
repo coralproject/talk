@@ -3,10 +3,6 @@ import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import {
-  GQLDSAReportDecisionLegality,
-  GQLDSAReportStatus,
-} from "coral-server/graph/schema/__generated__/types";
-import {
   changeDSAReportStatus as changeReportStatus,
   createDSAReport as createReport,
   createDSAReportNote as createReportNote,
@@ -16,6 +12,11 @@ import {
 } from "coral-server/models/dsaReport/report";
 import { Tenant } from "coral-server/models/tenant";
 import { rejectComment } from "coral-server/stacks";
+
+import {
+  GQLDSAReportDecisionLegality,
+  GQLDSAReportStatus,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { I18n } from "../i18n";
 import { InternalNotificationContext } from "../notifications/internal/context";

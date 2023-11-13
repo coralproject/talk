@@ -1,0 +1,15 @@
+.detailedExplanation {
+  margin-bottom: var(--spacing-3);
+}
+
+.explanationLabel {
+  margin-bottom: var(--spacing-2);
+}
+
+.changeReason {
+  margin-bottom: var(--spacing-3);
+}
+
+.detailedExplanation > textarea {
+  resize: none;
+}

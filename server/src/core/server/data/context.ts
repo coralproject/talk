@@ -93,7 +93,6 @@ export class MongoContextImpl implements MongoContext {
   public notifications(): Collection<Readonly<Notification>> {
     return createCollection<Notification>("notifications")(this.live);
   }
-
   public archivedComments(): Collection<Readonly<Comment>> {
     if (!this.archive) {
       throw new Error(

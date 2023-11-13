@@ -3,6 +3,7 @@ import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
+  GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
@@ -40,6 +41,9 @@ export const wordListPhase: IntermediateModerationPhase = async ({
       moderationAction: {
         status: GQLCOMMENT_STATUS.REJECTED,
         moderatorID: null,
+        rejectionReason: {
+          code: GQLREJECTION_REASON_CODE.BANNED_WORD,
+        },
       },
       metadata: {
         wordList: {
