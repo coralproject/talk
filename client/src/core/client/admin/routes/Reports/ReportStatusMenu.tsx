@@ -1,8 +1,27 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { getMessage } from "coral-framework/lib/i18n";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { useMutation } from "coral-framework/lib/relay";
-import { Option, SelectField } from "coral-ui/components/v2";
+import { GQLDSAReportStatus } from "coral-framework/schema";
+import {
+  ArrowsDownIcon,
+  ArrowsUpIcon,
+  ButtonSvgIcon,
+  SignBadgeCircleDuoIcon,
+  SignBadgeCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
+  Button,
+  ClickOutside,
+  Dropdown,
+  DropdownButton,
+  Flex,
+  Popover,
+} from "coral-ui/components/v2";
 
 import { DSAReportStatus } from "coral-admin/__generated__/SingleReportRouteQuery.graphql";
 
@@ -24,9 +43,59 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
   onChangeReportStatusCompleted,
 }) => {
   const changeReportStatus = useMutation(ChangeReportStatusMutation);
+  const { localeBundles } = useCoralContext();
+
+  const statusMappings = {
+    AWAITING_REVIEW: {
+      text: getMessage(
+        localeBundles,
+        "reports-status-awaitingReview",
+        "Awaiting review"
+      ),
+      icon: (
+        <SvgIcon
+          Icon={SignBadgeCircleIcon}
+          color="primary"
+          filled="primaryLight"
+        />
+      ),
+    },
+    UNDER_REVIEW: {
+      text: getMessage(localeBundles, "reports-status-inReview", "In review"),
+      icon: (
+        <SvgIcon
+          Icon={SignBadgeCircleDuoIcon}
+          filled="primaryLight"
+          color="primary"
+        />
+      ),
+    },
+    COMPLETED: {
+      text: getMessage(localeBundles, "reports-status-completed", "Completed"),
+      icon: <SvgIcon Icon={SignBadgeCircleIcon} filled color="primary" />,
+    },
+    VOID: {
+      text: getMessage(localeBundles, "reports-status-void", "Void"),
+      icon: <SvgIcon Icon={SignBadgeCircleIcon} filled color="primary" />,
+    },
+    "%future added value": {
+      text: getMessage(
+        localeBundles,
+        "reports-status-unknown",
+        "Unknown status"
+      ),
+      icon: (
+        <SvgIcon
+          Icon={SignBadgeCircleIcon}
+          color="primary"
+          filled="primaryLight"
+        />
+      ),
+    },
+  };
 
   const onChangeStatus = useCallback(
-    async (status: DSAReportStatus) => {
+    async (status: GQLDSAReportStatus) => {
       if (status === "COMPLETED") {
         onChangeReportStatusCompleted();
       } else {
@@ -49,27 +118,80 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
       >
         Status
       </label>
-      <SelectField
-        id="coral-reports-report-statusMenu"
-        onChange={(e) => onChangeStatus(e.target.value as DSAReportStatus)}
-        value={value ?? "AWAITING_REVIEW"}
-        disabled={value === "COMPLETED" || value === "VOID"}
+      <Popover
+        id=""
+        placement="bottom-end"
+        modifiers={{ arrow: { enabled: false }, offset: { offset: "0, 4" } }}
+        body={({ toggleVisibility }) => (
+          <ClickOutside onClickOutside={toggleVisibility}>
+            <IntersectionProvider>
+              <Dropdown className={styles.dropdown}>
+                <Localized id="reports-status-awaitingReview">
+                  <DropdownButton
+                    className={styles.dropdownButton}
+                    onClick={async () => {
+                      toggleVisibility();
+                      await onChangeStatus(GQLDSAReportStatus.AWAITING_REVIEW);
+                    }}
+                    icon={
+                      statusMappings[GQLDSAReportStatus.AWAITING_REVIEW].icon
+                    }
+                  >
+                    Awaiting Review
+                  </DropdownButton>
+                </Localized>
+                <Localized id="reports-status-inReview">
+                  <DropdownButton
+                    className={styles.dropdownButton}
+                    onClick={async () => {
+                      toggleVisibility();
+                      await onChangeStatus(GQLDSAReportStatus.UNDER_REVIEW);
+                    }}
+                    icon={statusMappings[GQLDSAReportStatus.UNDER_REVIEW].icon}
+                  >
+                    In review
+                  </DropdownButton>
+                </Localized>
+                <Localized id="reports-status-completed">
+                  <DropdownButton
+                    className={styles.dropdownButton}
+                    onClick={async () => {
+                      toggleVisibility();
+                      await onChangeStatus(GQLDSAReportStatus.COMPLETED);
+                    }}
+                    icon={statusMappings[GQLDSAReportStatus.COMPLETED].icon}
+                  >
+                    Completed
+                  </DropdownButton>
+                </Localized>
+              </Dropdown>
+            </IntersectionProvider>
+          </ClickOutside>
+        )}
       >
-        <Localized id="reports-status-awaitingReview">
-          <Option value="AWAITING_REVIEW">Awaiting review</Option>
-        </Localized>
-        <Localized id="reports-status-inReview">
-          <Option value="UNDER_REVIEW">In review</Option>
-        </Localized>
-        <Localized id="reports-status-completed">
-          <Option value="COMPLETED">Completed</Option>
-        </Localized>
-        <Localized id="reports-status-void">
-          <Option hidden value="VOID">
-            Void
-          </Option>
-        </Localized>
-      </SelectField>
+        {({ toggleVisibility, ref, visible }) => (
+          <Button
+            className={styles.toggleButton}
+            variant="outlined"
+            adornmentLeft
+            color="mono"
+            onClick={toggleVisibility}
+            ref={ref}
+            uppercase={false}
+          >
+            {value
+              ? statusMappings[value].icon
+              : statusMappings[GQLDSAReportStatus.AWAITING_REVIEW].icon}
+            <Flex alignItems="center">
+              {value
+                ? statusMappings[value].text
+                : statusMappings[GQLDSAReportStatus.AWAITING_REVIEW].text}
+            </Flex>
+            {!visible && <ButtonSvgIcon Icon={ArrowsDownIcon} size="xs" />}
+            {visible && <ButtonSvgIcon Icon={ArrowsUpIcon} size="xs" />}
+          </Button>
+        )}
+      </Popover>
     </>
   );
 };

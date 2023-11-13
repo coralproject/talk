@@ -9,7 +9,7 @@ export interface SvgIconProps {
   size?: string;
   color?: string;
   strokeWidth?: string;
-  filled?: boolean;
+  filled?: boolean | "primary" | "primaryLight";
   className?: string;
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLSpanElement>;
@@ -54,6 +54,9 @@ const SvgIcon: React.FC<SvgIconProps> = ({
     case "primary":
       colorStyle = styles.colorPrimary;
       break;
+    case "primaryLight":
+      colorStyle = styles.colorPrimaryLight;
+      break;
     case "error":
       colorStyle = styles.colorError;
       break;
@@ -80,6 +83,12 @@ const SvgIcon: React.FC<SvgIconProps> = ({
       break;
     case true:
       fillStyle = styles.filled;
+      break;
+    case "primary":
+      fillStyle = styles.primaryFill;
+      break;
+    case "primaryLight":
+      fillStyle = styles.primaryLightFill;
       break;
   }
 

@@ -70,6 +70,7 @@ export { default as SearchIcon } from "./SearchIcon";
 export { default as ShareExternalLinkIcon } from "./ShareExternalLinkIcon";
 export { default as ShareIcon } from "./ShareIcon";
 export { default as SignBadgeCircleIcon } from "./SignBadgeCircleIcon";
+export { default as SignBadgeCircleDuoIcon } from "./SignBadgeCircleDuoIcon";
 export { default as SingleNeutralActionsAddIcon } from "./SingleNeutralActionsAddIcon";
 export { default as SingleNeutralActionsBlockIcon } from "./SingleNeutralActionsBlockIcon";
 export { default as SingleNeutralCircleIcon } from "./SingleNeutralCircleIcon";

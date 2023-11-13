@@ -35,9 +35,15 @@
 }
 
 .colorPrimary svg {
-  color: $colors-teal-700;
-  stroke: $colors-teal-700;
+  color: $colors-teal-500;
+  stroke: $colors-teal-500;
 }
+
+.colorPrimaryLight svg {
+  color: $colors-teal-200;
+  stroke: $colors-teal-200;
+}
+
 .colorError svg {
   color: var(--palette-error-500);
   stroke: var(--palette-error-500);
@@ -71,4 +77,12 @@
 
 .filled svg {
   fill: currentColor;
+}
+
+.primaryFill svg {
+  fill: $colors-teal-500;
+}
+
+.primaryLightFill svg {
+  fill: $colors-teal-200;
 }
