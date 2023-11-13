@@ -3,11 +3,6 @@
   padding: var(--spacing-3);
 }
 
-.innerWrapper {
-  width: 190px;
-  flex-direction: column;
-}
-
 .sectionLabel {
   display: block;
   font-family: var(--font-family-primary);
@@ -25,22 +20,6 @@
 
 .buttons {
   margin-top: var(--spacing-1);
-}
-
-.detailedExplanation {
-  margin-bottom: var(--spacing-3);
-}
-
-.explanationLabel {
-  margin-bottom: var(--spacing-2);
-}
-
-.changeReason {
-  margin-bottom: var(--spacing-3);
-}
-
-.detailedExplanation > textarea {
-  resize: none;
 }
 
 .cancelButton {

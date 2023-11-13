@@ -4,11 +4,13 @@ import React, { FunctionComponent } from "react";
 
 import { GQLREJECTION_REASON_CODE } from "coral-framework/schema";
 import { Label, RadioButton } from "coral-ui/components/v2";
+import { TextArea } from "coral-ui/components/v3";
 import { Button } from "coral-ui/components/v3/Button/Button";
 
-import { TextArea } from "coral-ui/components/v3";
 import { unsnake } from "./formatting";
-import styles from "./ModerationReason.css";
+
+import styles from "./DetailedExplanation.css";
+import commonStyles from "./ModerationReason.css";
 
 export interface Props {
   onChange: (value: string) => void;
@@ -17,7 +19,7 @@ export interface Props {
   onBack: () => void;
 }
 
-const DetailedExplantion: FunctionComponent<Props> = ({
+const DetailedExplanation: FunctionComponent<Props> = ({
   code,
   value,
   onChange,
@@ -40,7 +42,7 @@ const DetailedExplantion: FunctionComponent<Props> = ({
 
       <Localized id="common-moderationReason-changeReason">
         <Button
-          className={cn(styles.optionAction, styles.changeReason)}
+          className={cn(commonStyles.optionAction, styles.changeReason)}
           variant="none"
           onClick={onBack}
         >
@@ -49,7 +51,9 @@ const DetailedExplantion: FunctionComponent<Props> = ({
       </Localized>
 
       <Localized id="common-moderationReason-detailedExplanation">
-        <Label className={cn(styles.sectionLabel, styles.explanationLabel)}>
+        <Label
+          className={cn(commonStyles.sectionLabel, styles.explanationLabel)}
+        >
           Explanation
         </Label>
       </Localized>
@@ -70,4 +74,4 @@ const DetailedExplantion: FunctionComponent<Props> = ({
   );
 };
 
-export default DetailedExplantion;
+export default DetailedExplanation;

@@ -7,7 +7,7 @@ import { Button } from "coral-ui/components/v3";
 
 import { unsnake } from "./formatting";
 
-import styles from "./ModerationReason.css";
+import commonStyles from "./ModerationReason.css";
 
 export interface Props {
   onCode: (code: GQLREJECTION_REASON_CODE) => void;
@@ -15,13 +15,13 @@ export interface Props {
   onAddExplanation: () => void;
 }
 
-const AddExpanationButton: FunctionComponent<{ onClick: () => void }> = ({
+const AddExplanationButton: FunctionComponent<{ onClick: () => void }> = ({
   onClick,
 }) => (
   <Localized id="common-moderationReason-addExplanation">
     <Button
       onClick={onClick}
-      className={styles.optionAction}
+      className={commonStyles.optionAction}
       variant="none"
       color="success"
     >
@@ -38,7 +38,7 @@ const Reasons: FunctionComponent<Props> = ({
   return (
     <>
       <Localized id="common-moderationReason-reason">
-        <span className={styles.sectionLabel}>Reason</span>
+        <span className={commonStyles.sectionLabel}>Reason</span>
       </Localized>
 
       {Object.values(GQLREJECTION_REASON_CODE)
@@ -66,13 +66,13 @@ const Reasons: FunctionComponent<Props> = ({
             </Localized>
 
             {selected === code && (
-              <AddExpanationButton onClick={onAddExplanation} />
+              <AddExplanationButton onClick={onAddExplanation} />
             )}
           </div>
         ))}
 
       <Localized id="common-moderationReason-reason-moreReasons">
-        <span className={styles.sectionLabel}>+ More reasons</span>
+        <span className={commonStyles.sectionLabel}>+ More reasons</span>
       </Localized>
 
       <>

@@ -1,11 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FormApi } from "final-form";
-import React, {
-  FunctionComponent,
-  useCallback,
-  useState,
-} from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
@@ -16,9 +12,6 @@ import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
-import { ViewFullDiscussionEvent } from "coral-stream/events";
-import { SetCommentIDMutation } from "coral-stream/mutations";
-import { ArrowLeftIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   CheckBox,
   Flex,

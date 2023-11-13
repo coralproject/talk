@@ -1,11 +1,10 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
+import { GQLREJECTION_REASON_CODE } from "coral-framework/schema";
 import { Box, Button, Flex } from "coral-ui/components/v2";
 
 import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
-
-import { Localized } from "@fluent/react/compat";
-import { GQLREJECTION_REASON_CODE } from "coral-framework/schema";
 
 import DetailedExplantion from "./DetailedExplanation";
 import Reasons from "./Reasons";

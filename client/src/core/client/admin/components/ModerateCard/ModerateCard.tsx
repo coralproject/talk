@@ -33,15 +33,16 @@ import {
 } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
+import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
+
 import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
+import ModerationReason from "../ModerationReason/ModerationReason";
 import ApproveButton from "./ApproveButton";
 import CommentAuthorContainer from "./CommentAuthorContainer";
 import FeatureButton from "./FeatureButton";
 import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
 
-import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
-import ModerationReason from "../ModerationReason/ModerationReason";
 import styles from "./ModerateCard.css";
 
 interface Props {
@@ -349,7 +350,7 @@ const ModerateCard: FunctionComponent<Props> = ({
               <div className={styles.decision}>DECISION</div>
             </Localized>
           )}
-          <Flex itemGutter style={{ position: "relative" }}>
+          <Flex itemGutter>
             <Popover
               id={`reject-reason-${id}`}
               modifiers={{

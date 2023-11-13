@@ -58,5 +58,4 @@ $moderateCardButtonOutlineRejectColor: var(--palette-error-500);
   left: 75%;
   top: 25%;
   transform: translate(-50%, 25%);
-  width: 8px;
 }
