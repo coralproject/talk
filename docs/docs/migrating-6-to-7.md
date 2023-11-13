@@ -57,6 +57,14 @@ html {
 
 4. If your site has a Content Security Policy that prohibits websocket (`wss://`) requests, you will need to update it to whitelist `wss://[your coral URL]/api/graphql/live` in order for live updates to function.
 
+## Native mobile applications
+
+- If the Coral embed is not loading in web view after this update, you may need to add in this call:
+
+```js
+webView.getSettings.setDomStorageEnabled(true);
+```
+
 ## After Coral has been updated to v7
 
 Once the update is complete and you are running v7, you may wish to undo some of the previous steps for better maintainability:

@@ -14,6 +14,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { moderate } from "../comments/moderation";
+import { I18n } from "../i18n";
 import { AugmentedRedis } from "../redis";
 
 const BATCH_SIZE = 500;
@@ -125,6 +126,7 @@ async function moderateComments(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   tenantID: string,
   filter: FilterQuery<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
@@ -160,6 +162,7 @@ async function moderateComments(
       mongo,
       redis,
       config,
+      i18n,
       tenant,
       {
         commentID: comment.id,
@@ -257,6 +260,7 @@ async function deleteUserComments(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   authorID: string,
   tenantID: string,
   now: Date,
@@ -269,6 +273,7 @@ async function deleteUserComments(
     mongo,
     redis,
     config,
+    i18n,
     tenantID,
     {
       tenantID,
@@ -287,6 +292,7 @@ async function deleteUserComments(
     mongo,
     redis,
     config,
+    i18n,
     tenantID,
     {
       tenantID,
@@ -326,6 +332,7 @@ export async function deleteUser(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   userID: string,
   tenantID: string,
   now: Date,
@@ -362,9 +369,18 @@ export async function deleteUser(
   }
 
   // Delete the user's comments.
-  await deleteUserComments(mongo, redis, config, userID, tenantID, now);
+  await deleteUserComments(mongo, redis, config, i18n, userID, tenantID, now);
   if (mongo.archive) {
-    await deleteUserComments(mongo, redis, config, userID, tenantID, now, true);
+    await deleteUserComments(
+      mongo,
+      redis,
+      config,
+      i18n,
+      userID,
+      tenantID,
+      now,
+      true
+    );
   }
 
   // Mark the user as deleted.

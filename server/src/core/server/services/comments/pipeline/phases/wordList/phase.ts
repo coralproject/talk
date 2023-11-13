@@ -31,12 +31,16 @@ export const wordListPhase: IntermediateModerationPhase = async ({
   if (banned.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
         },
       ],
+      moderationAction: {
+        status: GQLCOMMENT_STATUS.REJECTED,
+        moderatorID: null,
+      },
       metadata: {
         wordList: {
           bannedWords: banned.matches,
@@ -45,7 +49,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
     };
   } else if (banned.timedOut) {
     return {
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
@@ -68,7 +72,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
   if (tenant.premoderateSuspectWords && suspect.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
@@ -82,7 +86,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
     };
   } else if (suspect.isMatched) {
     return {
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
@@ -96,7 +100,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
     };
   } else if (suspect.timedOut) {
     return {
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,

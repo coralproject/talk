@@ -187,6 +187,10 @@ export const createTenantFixture = (
     dsa: {
       enabled: false,
     },
+    embeddedComments: {
+      allowReplies: true,
+      oEmbedAllowedOrigins: [],
+    },
   };
 
   return merge(fixture, defaults);

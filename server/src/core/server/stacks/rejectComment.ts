@@ -15,6 +15,7 @@ import {
   InternalNotificationContext,
   NotificationType,
 } from "coral-server/services/notifications/internal/context";
+import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
@@ -72,6 +73,7 @@ const rejectComment = async (
   redis: AugmentedRedis,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker | null,
   notifications: InternalNotificationContext,
   tenant: Tenant,
@@ -90,6 +92,7 @@ const rejectComment = async (
     mongo,
     redis,
     config,
+    i18n,
     tenant,
     {
       commentID,

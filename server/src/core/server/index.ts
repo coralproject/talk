@@ -388,6 +388,7 @@ class Server {
         mongo: this.mongo,
         redis: this.redis,
         config: this.config,
+        i18n: this.i18n,
         mailerQueue: this.tasks.mailer,
         archiverQueue: this.tasks.archiver,
         tenantCache: this.tenantCache,

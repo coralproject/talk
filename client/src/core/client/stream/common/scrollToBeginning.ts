@@ -12,6 +12,8 @@ function scrollToBeginning(
     } else {
       window.scrollTo({ top: getElementWindowTopOffset(window, tab) });
     }
+    // set keyboard focus to Comments button for accessibility
+    tab.getElementsByTagName("button")[0].focus();
   }
 }
 

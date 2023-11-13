@@ -179,7 +179,7 @@ jobs:
         name: Deploy Static Assets to GCS Bucket
         run: |
             CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
-            docker cp "${CONTAINER_ID}:/usr/src/app/dist/static" static/
+            docker cp "${CONTAINER_ID}:/usr/src/app/client/dist/static" static/
             docker rm "${CONTAINER_ID}"
             find ./static -type f -name "*.gz" -print -delete
             gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${PATCH_TAG}/"
@@ -187,7 +187,7 @@ jobs:
         name: Upload to Sentry
         run: |
             CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
-            docker cp "${CONTAINER_ID}:/usr/src/app/dist" dist/
+            docker cp "${CONTAINER_ID}:/usr/src/app/client/dist" dist/
             docker rm "${CONTAINER_ID}"
             npx @sentry/cli -V
             npx @sentry/cli releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}
