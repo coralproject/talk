@@ -111,7 +111,7 @@ export interface DSAReport extends TenantResource {
    * status keeps track of the current status of the DSA Report
    */
   status: GQLDSAReportStatus;
- 
+
   /**
    * history keeps track of the history of a DSAReport, including notes added, when status is changed,
    * and when an illegal content decision is made
