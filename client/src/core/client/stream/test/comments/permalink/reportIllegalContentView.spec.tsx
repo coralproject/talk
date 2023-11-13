@@ -114,10 +114,6 @@ it("includes and submits report illegal content form", async () => {
   await screen.findByText("Report illegal content");
   const currentTab = screen.getByTestId("current-tab-pane");
 
-  expect(
-    within(currentTab).getByRole("link", { name: "Back to comments" })
-  ).toBeVisible();
-
   const lawBrokenTextbox = within(currentTab).getByRole("textbox", {
     name: "What law do you believe has been broken? (required)",
   });

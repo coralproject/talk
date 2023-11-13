@@ -4,6 +4,7 @@ import React, { FunctionComponent } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap/CoralContext";
 import CLASSES from "coral-stream/classes";
+import NotificationsQuery from "coral-stream/tabs/Notifications/NotificationsQuery";
 import { HorizontalGutter, TabContent, TabPane } from "coral-ui/components/v2";
 
 import Comments from "../tabs/Comments";
@@ -18,10 +19,12 @@ type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
 
 export interface AppProps {
   activeTab: TabValue;
+  dsaFeaturesEnabled: boolean;
 }
 
 const App: FunctionComponent<AppProps> = (props) => {
   const { browserInfo } = useCoralContext();
+
   return (
     <Localized id="general-commentsEmbedSection" attrs={{ "aria-label": true }}>
       <HorizontalGutter
@@ -68,6 +71,15 @@ const App: FunctionComponent<AppProps> = (props) => {
             >
               <Configure />
             </TabPane>
+            {props.dsaFeaturesEnabled && (
+              <TabPane
+                className={CLASSES.notificationsTabPane.$root}
+                tabID="NOTIFICATIONS"
+                data-testid="current-tab-pane"
+              >
+                <NotificationsQuery />
+              </TabPane>
+            )}
           </TabContent>
         </div>
       </HorizontalGutter>

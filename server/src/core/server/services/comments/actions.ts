@@ -437,7 +437,6 @@ export async function createIllegalContent(
     mongo,
     redis,
     config,
-    // TODO: ADD internationalization
     i18n,
     broker,
     tenant,

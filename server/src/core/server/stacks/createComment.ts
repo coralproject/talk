@@ -58,6 +58,7 @@ import {
 } from "coral-server/services/comments/pipeline";
 import { WordListService } from "coral-server/services/comments/pipeline/phases/wordList/service";
 import { I18n } from "coral-server/services/i18n";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
@@ -98,6 +99,7 @@ const markCommentAsAnswered = async (
   config: Config,
   i18n: I18n,
   broker: CoralEventPublisherBroker,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   comment: Readonly<Comment>,
   story: Story,
@@ -148,6 +150,7 @@ const markCommentAsAnswered = async (
       config,
       i18n,
       broker,
+      notifications,
       tenant,
       comment.parentID,
       comment.parentRevisionID,
@@ -206,6 +209,7 @@ export default async function create(
   config: Config,
   i18n: I18n,
   broker: CoralEventPublisherBroker,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -392,6 +396,7 @@ export default async function create(
       config,
       i18n,
       broker,
+      notifications,
       tenant,
       comment,
       story,

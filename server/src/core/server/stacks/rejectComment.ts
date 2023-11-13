@@ -12,6 +12,10 @@ import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
+import {
+  InternalNotificationContext,
+  NotificationType,
+} from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
@@ -72,6 +76,7 @@ const rejectComment = async (
   config: Config,
   i18n: I18n,
   broker: CoralEventPublisherBroker | null,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -158,6 +163,12 @@ const rejectComment = async (
       commentRevisionID,
     });
   }
+
+  await notifications.create(tenant.id, tenant.locale, {
+    targetUserID: result.after.authorID!,
+    comment: result.after,
+    type: NotificationType.COMMENT_REJECTED,
+  });
 
   // Return the resulting comment.
   return rollingResult;

@@ -3,9 +3,7 @@ import cn from "classnames";
 import { FormApi } from "final-form";
 import React, {
   FunctionComponent,
-  MouseEvent,
   useCallback,
-  useMemo,
   useState,
 } from "react";
 import { Field, Form } from "react-final-form";
@@ -13,7 +11,6 @@ import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useUUID } from "coral-framework/hooks";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { parseBool } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
@@ -64,9 +61,7 @@ interface FormProps {
 
 const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const { comment, story, viewer, settings } = props;
-  const setCommentID = useMutation(SetCommentIDMutation);
   const createDSAReport = useMutation(CreateDSAReportMutation);
-  const { eventEmitter, window } = useCoralContext();
   const [additionalComments, setAdditionalComments] = useState<
     null | { id: string; url: string }[]
   >(null);
@@ -75,23 +70,6 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   >([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const submissionID = useUUID();
-
-  const onShowAllComments = useCallback(
-    (e: MouseEvent<any>) => {
-      ViewFullDiscussionEvent.emit(eventEmitter, {
-        commentID: comment && comment.id,
-      });
-      void setCommentID({ id: null });
-      // TODO: remove view param too
-      e.preventDefault();
-    },
-    [comment, eventEmitter, setCommentID]
-  );
-
-  const showAllCommentsHref = useMemo(() => {
-    const url = window.location.href;
-    return getURLWithCommentID(url, undefined);
-  }, [window.location.href]);
 
   const commentVisible = comment && isPublished(comment.status);
 
@@ -186,40 +164,6 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
       })}
     >
       <UserBoxContainer viewer={viewer} settings={settings} />
-      {showAllCommentsHref && (
-        <Localized
-          id="comments-permalinkView-reportIllegalContent-backToComments"
-          elems={{
-            Button: (
-              <ButtonSvgIcon
-                className={styles.leftIcon}
-                Icon={ArrowLeftIcon}
-                size="xs"
-              />
-            ),
-          }}
-        >
-          <Button
-            variant="flat"
-            color="primary"
-            fontSize="medium"
-            fontWeight="semiBold"
-            onClick={onShowAllComments}
-            href={showAllCommentsHref}
-            paddingSize="none"
-            target="_parent"
-            anchor
-            underline
-          >
-            <ButtonSvgIcon
-              className={styles.leftIcon}
-              Icon={ArrowLeftIcon}
-              size="xs"
-            />
-            Back to comments
-          </Button>
-        </Localized>
-      )}
       <Localized id="comments-permalinkView-reportIllegalContent-title">
         <div className={styles.title}>Report illegal content</div>
       </Localized>

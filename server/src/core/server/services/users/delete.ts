@@ -4,10 +4,14 @@ import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
+import { DSAReport } from "coral-server/models/dsaReport";
 import { Story } from "coral-server/models/story";
 import { retrieveTenant } from "coral-server/models/tenant";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLDSAReportStatus,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { moderate } from "../comments/moderation";
 import { I18n } from "../i18n";
@@ -32,6 +36,10 @@ async function executeBulkOperations<T>(
 interface Batch {
   comments: any[];
   stories: any[];
+}
+
+interface DSAReportBatch {
+  dsaReports: any[];
 }
 
 async function deleteUserActionCounts(
@@ -173,6 +181,81 @@ async function moderateComments(
   }
 }
 
+async function updateUserDSAReports(
+  mongo: MongoContext,
+  tenantID: string,
+  authorID: string,
+  isArchived?: boolean
+) {
+  const batch: DSAReportBatch = {
+    dsaReports: [],
+  };
+
+  async function processBatch() {
+    const dsaReports = mongo.dsaReports();
+
+    await executeBulkOperations<DSAReport>(dsaReports, batch.dsaReports);
+    batch.dsaReports = [];
+  }
+
+  const collection =
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
+
+  const cursor = collection.find({
+    tenantID,
+    authorID,
+  });
+  while (await cursor.hasNext()) {
+    const comment = await cursor.next();
+    if (!comment) {
+      continue;
+    }
+
+    const match = mongo.dsaReports().find({
+      tenantID,
+      commentID: comment.id,
+      status: {
+        $in: [
+          GQLDSAReportStatus.AWAITING_REVIEW,
+          GQLDSAReportStatus.UNDER_REVIEW,
+        ],
+      },
+    });
+
+    if (!match) {
+      continue;
+    }
+
+    batch.dsaReports.push({
+      updateMany: {
+        filter: {
+          tenantID,
+          commentID: comment.id,
+          status: {
+            $in: [
+              GQLDSAReportStatus.AWAITING_REVIEW,
+              GQLDSAReportStatus.UNDER_REVIEW,
+            ],
+          },
+        },
+        update: {
+          $set: {
+            status: "VOID",
+          },
+        },
+      },
+    });
+
+    if (batch.dsaReports.length >= BATCH_SIZE) {
+      await processBatch();
+    }
+  }
+
+  if (batch.dsaReports.length > 0) {
+    await processBatch();
+  }
+}
+
 async function deleteUserComments(
   mongo: MongoContext,
   redis: AugmentedRedis,
@@ -252,7 +335,8 @@ export async function deleteUser(
   i18n: I18n,
   userID: string,
   tenantID: string,
-  now: Date
+  now: Date,
+  dsaEnabled: boolean
 ) {
   const user = await mongo.users().findOne({ id: userID, tenantID });
   if (!user) {
@@ -273,6 +357,15 @@ export async function deleteUser(
   await deleteUserActionCounts(mongo, userID, tenantID, false);
   if (mongo.archive) {
     await deleteUserActionCounts(mongo, userID, tenantID, true);
+  }
+
+  // If DSA is enabled,
+  // Update the user's comment's associated DSAReports; set their status to VOID
+  if (dsaEnabled) {
+    await updateUserDSAReports(mongo, tenantID, userID);
+    if (mongo.archive) {
+      await updateUserDSAReports(mongo, tenantID, userID, true);
+    }
   }
 
   // Delete the user's comments.
