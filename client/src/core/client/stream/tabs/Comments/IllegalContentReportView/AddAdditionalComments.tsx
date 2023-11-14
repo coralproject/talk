@@ -143,6 +143,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
                 >
                   {additionalComment.url}
                 </div>
+                {/* todo: localize this button */}
                 <ButtonV2
                   color="mono"
                   variant="text"

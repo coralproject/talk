@@ -244,7 +244,7 @@ const ReportCommentForm: FunctionComponent<Props> = ({
                     underline
                     href={reportLink}
                   >
-                    Report illegal content
+                    Does this comment potentially contain illegal content?
                   </Button>
                 </Localized>
               )}
