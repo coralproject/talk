@@ -55,7 +55,6 @@ export { default as MultipleActionsChatIcon } from "./MultipleActionsChatIcon";
 export { default as MultipleNeutralIcon } from "./MultipleNeutralIcon";
 export { default as NavigationMenuHorizontalIcon } from "./NavigationMenuHorizontalIcon";
 export { default as NavigationMenuVerticalIcon } from "./NavigationMenuVerticalIcon";
-export { default as NightMoonHalfIcon } from "./NightMoonHalfIcon";
 export { default as NotificationBellIcon } from "./NotificationBellIcon";
 export { default as PaperWriteIcon } from "./PaperWriteIcon";
 export { default as PencilIcon } from "./PencilIcon";

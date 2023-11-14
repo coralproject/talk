@@ -35,8 +35,8 @@
 }
 
 .colorTeal svg {
-  color: $colors-teal-500;
-  stroke: $colors-teal-500;
+  color: $colors-teal-600;
+  stroke: $colors-teal-600;
 }
 
 .colorTealLight svg {
@@ -80,7 +80,7 @@
 }
 
 .tealFill svg {
-  fill: $colors-teal-500;
+  fill: $colors-teal-600;
 }
 
 .tealLightFill svg {

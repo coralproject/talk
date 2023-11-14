@@ -195,8 +195,10 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
                 ? statusMappings[value].text
                 : statusMappings[GQLDSAReportStatus.AWAITING_REVIEW].text}
             </Flex>
-            {!visible && <ButtonSvgIcon Icon={ArrowsDownIcon} size="xs" />}
-            {visible && <ButtonSvgIcon Icon={ArrowsUpIcon} size="xs" />}
+            <ButtonSvgIcon
+              Icon={visible ? ArrowsUpIcon : ArrowsDownIcon}
+              size="xs"
+            />
           </Button>
         )}
       </Popover>
