@@ -16,6 +16,7 @@ import { rejectComment } from "coral-server/stacks";
 import {
   GQLDSAReportDecisionLegality,
   GQLDSAReportStatus,
+  GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { I18n } from "../i18n";
@@ -182,13 +183,12 @@ export async function makeDSAReportDecision(
   input: MakeDSAReportDecisionInput,
   now = new Date()
 ) {
-  // TODO: Send through rejection legalGrounds and detailedExplanation once backend support is available
   const {
     commentID,
     commentRevisionID,
     userID,
-    // legalGrounds,
-    // detailedExplanation,
+    legalGrounds,
+    detailedExplanation,
   } = input;
 
   // REJECT if ILLEGAL
@@ -205,7 +205,12 @@ export async function makeDSAReportDecision(
       commentID,
       commentRevisionID,
       userID,
-      now
+      now,
+      {
+        code: GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT,
+        legalGrounds,
+        detailedExplanation,
+      }
     );
   }
 

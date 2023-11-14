@@ -151,9 +151,6 @@ export class InternalNotificationContext {
 
     const result = translate(bundle, text, key, args);
 
-    // eslint-disable-next-line no-console
-    console.log(result, args);
-
     return result;
   }
 
