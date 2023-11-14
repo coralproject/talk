@@ -12,6 +12,7 @@ import {
   makeDSAReportDecision as makeReportDecision,
   retrieveDSAReport,
 } from "coral-server/models/dsaReport/report";
+import { NotificationType } from "coral-server/models/notifications/notification";
 import { Tenant } from "coral-server/models/tenant";
 import { rejectComment } from "coral-server/stacks";
 import { Request } from "coral-server/types/express";
@@ -23,10 +24,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { I18n } from "../i18n";
-import {
-  InternalNotificationContext,
-  NotificationType,
-} from "../notifications/internal/context";
+import { InternalNotificationContext } from "../notifications/internal/context";
 import { AugmentedRedis } from "../redis";
 
 export interface CreateDSAReportInput {

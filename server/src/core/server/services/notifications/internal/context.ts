@@ -8,6 +8,7 @@ import { DSAReport } from "coral-server/models/dsaReport/report";
 import {
   createNotification,
   Notification,
+  NotificationType,
 } from "coral-server/models/notifications/notification";
 import { retrieveUser } from "coral-server/models/user";
 import { I18n, translate } from "coral-server/services/i18n";
@@ -16,14 +17,6 @@ import {
   GQLDSAReportDecisionLegality,
   GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
-
-export enum NotificationType {
-  COMMENT_FEATURED = "COMMENT_FEATURED",
-  COMMENT_APPROVED = "COMMENT_APPROVED",
-  COMMENT_REJECTED = "COMMENT_REJECTED",
-  ILLEGAL_REJECTED = "ILLEGAL_REJECTED",
-  DSA_REPORT_DECISION_MADE = "DSA_REPORT_DECISION_MADE",
-}
 
 export interface DSALegality {
   legality: GQLDSAReportDecisionLegality;
@@ -93,6 +86,7 @@ export class InternalNotificationContext {
       result.notification = await this.createFeatureCommentNotification(
         lang,
         tenantID,
+        type,
         targetUserID,
         comment,
         now
@@ -102,6 +96,7 @@ export class InternalNotificationContext {
       result.notification = await this.createApproveCommentNotification(
         lang,
         tenantID,
+        type,
         targetUserID,
         comment,
         now
@@ -111,6 +106,7 @@ export class InternalNotificationContext {
       result.notification = await this.createRejectCommentNotification(
         lang,
         tenantID,
+        type,
         targetUserID,
         comment,
         rejectionReason,
@@ -121,6 +117,7 @@ export class InternalNotificationContext {
       result.notification = await this.createIllegalRejectionNotification(
         lang,
         tenantID,
+        type,
         targetUserID,
         comment,
         legal,
@@ -135,6 +132,7 @@ export class InternalNotificationContext {
       result.notification = await this.createDSAReportDecisionMadeNotification(
         lang,
         tenantID,
+        type,
         targetUserID,
         comment,
         report,
@@ -152,6 +150,7 @@ export class InternalNotificationContext {
   private async createRejectCommentNotification(
     lang: LanguageCode,
     tenantID: string,
+    type: NotificationType,
     targetUserID: string,
     comment: Readonly<Comment>,
     rejectionReason?: RejectionReasonInput | null,
@@ -218,6 +217,7 @@ export class InternalNotificationContext {
     const notification = await createNotification(this.mongo, {
       id: uuid(),
       tenantID,
+      type,
       createdAt: now,
       ownerID: targetUserID,
       title: this.translatePhrase(
@@ -236,6 +236,7 @@ export class InternalNotificationContext {
   private async createFeatureCommentNotification(
     lang: LanguageCode,
     tenantID: string,
+    type: NotificationType,
     targetUserID: string,
     comment: Readonly<Comment>,
     now: Date
@@ -243,6 +244,7 @@ export class InternalNotificationContext {
     const notification = await createNotification(this.mongo, {
       id: uuid(),
       tenantID,
+      type,
       createdAt: now,
       ownerID: targetUserID,
       title: this.translatePhrase(
@@ -268,6 +270,7 @@ export class InternalNotificationContext {
   private async createApproveCommentNotification(
     lang: LanguageCode,
     tenantID: string,
+    type: NotificationType,
     targetUserID: string,
     comment: Readonly<Comment>,
     now: Date
@@ -275,6 +278,7 @@ export class InternalNotificationContext {
     const notification = await createNotification(this.mongo, {
       id: uuid(),
       tenantID,
+      type,
       createdAt: now,
       ownerID: targetUserID,
       title: this.translatePhrase(
@@ -300,6 +304,7 @@ export class InternalNotificationContext {
   private async createIllegalRejectionNotification(
     lang: LanguageCode,
     tenantID: string,
+    type: NotificationType,
     targetUserID: string,
     comment: Readonly<Comment>,
     legal: DSALegality | undefined,
@@ -339,6 +344,7 @@ export class InternalNotificationContext {
     const notification = await createNotification(this.mongo, {
       id: uuid(),
       tenantID,
+      type,
       createdAt: now,
       ownerID: targetUserID,
       title: this.translatePhrase(
@@ -357,6 +363,7 @@ export class InternalNotificationContext {
   private async createDSAReportDecisionMadeNotification(
     lang: LanguageCode,
     tenantID: string,
+    type: NotificationType,
     targetUserID: string,
     comment: Readonly<Comment>,
     report: Readonly<DSAReport>,
@@ -432,6 +439,7 @@ export class InternalNotificationContext {
     const notification = await createNotification(this.mongo, {
       id: uuid(),
       tenantID,
+      type,
       createdAt: now,
       ownerID: targetUserID,
       title: this.translatePhrase(
