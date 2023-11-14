@@ -52,7 +52,7 @@ const ReportedComment: FunctionComponent<Props> = ({
         </Localized>
         <>
           {comment.deleted ? (
-            <Localized id="comments-tombstone-deleted">
+            <Localized id="reports-singleReport-comment-deleted">
               <div className={styles.data}>
                 This comment is no longer available. The commenter has deleted
                 their account.
@@ -122,33 +122,35 @@ const ReportedComment: FunctionComponent<Props> = ({
                   </div>
                 </div>
               </Flex>
-              <Flex marginTop={2}>
-                <Localized id="reports-singleReport-comment-viewCommentStream">
-                  <Button
-                    variant="text"
-                    uppercase={false}
-                    color="mono"
-                    to={getURLWithCommentID(comment.story.url, comment.id)}
-                    target="_blank"
-                  >
-                    View comment in stream
-                  </Button>
-                </Localized>
-              </Flex>
-              <Flex marginTop={2}>
-                <Localized id="reports-singleReport-comment-viewCommentModeration">
-                  <Button
-                    variant="text"
-                    uppercase={false}
-                    color="mono"
-                    target="_blank"
-                    to={getModerationLink({
-                      commentID: comment.id,
-                    })}
-                  >
-                    View comment in moderation
-                  </Button>
-                </Localized>
+              <Flex>
+                <Flex marginTop={2} marginRight={3}>
+                  <Localized id="reports-singleReport-comment-viewCommentStream">
+                    <Button
+                      variant="text"
+                      uppercase={false}
+                      color="mono"
+                      to={getURLWithCommentID(comment.story.url, comment.id)}
+                      target="_blank"
+                    >
+                      View comment in stream
+                    </Button>
+                  </Localized>
+                </Flex>
+                <Flex marginTop={2}>
+                  <Localized id="reports-singleReport-comment-viewCommentModeration">
+                    <Button
+                      variant="text"
+                      uppercase={false}
+                      color="mono"
+                      target="_blank"
+                      to={getModerationLink({
+                        commentID: comment.id,
+                      })}
+                    >
+                      View comment in moderation
+                    </Button>
+                  </Localized>
+                </Flex>
               </Flex>
             </>
           )}

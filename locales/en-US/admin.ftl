@@ -1845,11 +1845,12 @@ reports-singleReport-note-field =
   .placeholder = Add your note...
 reports-singleReport-addUpdateButton = <icon></icon> Add update
 reports-singleReport-decisionLabel = <icon></icon> Decision
-reports-singleReport-decision-illegalContent = This report appears to contain illegal content
-reports-singleReport-decision-legal = This report does not appear to contain illegal content
 reports-singleReport-decision-legalGrounds = Legal grounds
 reports-singleReport-decision-explanation = Detailed explanation
 reports-singleReport-makeDecisionButton = <icon></icon> Decision
+reports-singleReport-decision-doesItContain = Does this comment contain illegal content?
+reports-singleReport-decision-doesItContain-yes = Yes
+reports-singleReport-decision-doesItContain-no = No
 
 reports-status-awaitingReview = Awaiting review
 reports-status-inReview = In review
