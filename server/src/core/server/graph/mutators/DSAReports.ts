@@ -90,6 +90,6 @@ export const DSAReports = (ctx: GraphContext) => ({
         commentID,
         commentRevisionID,
       },
-      ctx.req,
+      ctx.req
     ),
 });
