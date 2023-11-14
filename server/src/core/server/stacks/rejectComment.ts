@@ -169,6 +169,7 @@ const rejectComment = async (
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: result.after.authorID!,
       comment: result.after,
+      rejectionReason: reason,
       type: NotificationType.COMMENT_REJECTED,
     });
   }

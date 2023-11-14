@@ -44,8 +44,25 @@ notifications-commentWasFeatured-title = Comment was featured
 notifications-commentWasFeatured-body = The comment { $commentID } was featured.
 notifications-commentWasApproved-title = Comment was approved
 notifications-commentWasApproved-body = The comment { $commentID } was approved.
+
 notifications-commentWasRejected-title = Comment was rejected
 notifications-commentWasRejected-body = The comment { $commentID } was rejected.
+
+notifications-commentWasRejectedWithReason-code =
+  <br/>
+  { $code }
+notifications-commentWasRejectedWithReason-grounds =
+  <br/>
+  { $grounds }
+notifications-commentWasRejectedWithReason-explanation =
+  <br/>
+  { $explanation }
+notifications-commentWasRejectedWithReason-body =
+  The comment { $commentID } was rejected.
+  The reasons of which were:
+  { $code }
+  { $grounds }
+  { $explanation }
 
 notifications-commentWasRejectedAndIllegal-title = Comment was deemed to contain illegal content and was rejected
 notifications-commentWasRejectedAndIllegal-body =

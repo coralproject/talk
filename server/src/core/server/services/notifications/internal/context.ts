@@ -12,7 +12,10 @@ import {
 import { retrieveUser } from "coral-server/models/user";
 import { I18n, translate } from "coral-server/services/i18n";
 
-import { GQLDSAReportDecisionLegality } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLDSAReportDecisionLegality,
+  GQLREJECTION_REASON_CODE,
+} from "coral-server/graph/schema/__generated__/types";
 
 export enum NotificationType {
   COMMENT_FEATURED = "COMMENT_FEATURED",
@@ -22,10 +25,16 @@ export enum NotificationType {
   DSA_REPORT_DECISION_MADE = "DSA_REPORT_DECISION_MADE",
 }
 
-export interface Legality {
+export interface DSALegality {
   legality: GQLDSAReportDecisionLegality;
   grounds?: string;
   explanation?: string;
+}
+
+export interface RejectionReasonInput {
+  code: GQLREJECTION_REASON_CODE;
+  legalGrounds?: string | undefined;
+  detailedExplanation?: string | undefined;
 }
 
 export interface CreateNotificationInput {
@@ -33,9 +42,11 @@ export interface CreateNotificationInput {
   type: NotificationType;
 
   comment?: Readonly<Comment> | null;
+  rejectionReason?: RejectionReasonInput | null;
+
   report?: Readonly<DSAReport> | null;
 
-  legal?: Legality;
+  legal?: DSALegality;
 }
 
 interface CreationResult {
@@ -59,7 +70,8 @@ export class InternalNotificationContext {
     lang: LanguageCode,
     input: CreateNotificationInput
   ) {
-    const { type, targetUserID, comment, report, legal } = input;
+    const { type, targetUserID, comment, rejectionReason, report, legal } =
+      input;
 
     const existingUser = retrieveUser(this.mongo, tenantID, targetUserID);
     if (!existingUser) {
@@ -78,73 +90,32 @@ export class InternalNotificationContext {
     };
 
     if (type === NotificationType.COMMENT_FEATURED && comment) {
-      result.notification = await createNotification(this.mongo, {
-        id: uuid(),
+      result.notification = await this.createFeatureCommentNotification(
+        lang,
         tenantID,
-        createdAt: now,
-        ownerID: targetUserID,
-        title: this.translatePhrase(
-          lang,
-          "notifications-commentWasFeatured-title",
-          "Comment was featured"
-        ),
-        body: this.translatePhrase(
-          lang,
-          "notifications-commentWasFeatured-body",
-          `The comment ${comment.id} was featured.`,
-          {
-            commentID: comment.id,
-          }
-        ),
-        commentID: comment.id,
-        commentStatus: comment.status,
-      });
+        targetUserID,
+        comment,
+        now
+      );
       result.attempted = true;
     } else if (type === NotificationType.COMMENT_APPROVED && comment) {
-      result.notification = await createNotification(this.mongo, {
-        id: uuid(),
+      result.notification = await this.createApproveCommentNotification(
+        lang,
         tenantID,
-        createdAt: now,
-        ownerID: targetUserID,
-        title: this.translatePhrase(
-          lang,
-          "notifications-commentWasApproved-title",
-          "Comment was approved"
-        ),
-        body: this.translatePhrase(
-          lang,
-          "notifications-commentWasApproved-body",
-          `The comment ${comment.id} was approved.`,
-          {
-            commentID: comment.id,
-          }
-        ),
-        commentID: comment.id,
-        commentStatus: comment.status,
-      });
+        targetUserID,
+        comment,
+        now
+      );
       result.attempted = true;
     } else if (type === NotificationType.COMMENT_REJECTED && comment) {
-      result.notification = await createNotification(this.mongo, {
-        id: uuid(),
+      result.notification = await this.createRejectCommentNotification(
+        lang,
         tenantID,
-        createdAt: now,
-        ownerID: targetUserID,
-        title: this.translatePhrase(
-          lang,
-          "notifications-commentWasRejected-title",
-          "Comment was rejected"
-        ),
-        body: this.translatePhrase(
-          lang,
-          "notifications-commentWasRejected-body",
-          `The comment ${comment.id} was rejected.`,
-          {
-            commentID: comment.id,
-          }
-        ),
-        commentID: comment.id,
-        commentStatus: comment.status,
-      });
+        targetUserID,
+        comment,
+        rejectionReason,
+        now
+      );
       result.attempted = true;
     } else if (type === NotificationType.ILLEGAL_REJECTED && comment) {
       result.notification = await this.createIllegalRejectionNotification(
@@ -178,12 +149,160 @@ export class InternalNotificationContext {
     }
   }
 
+  private async createRejectCommentNotification(
+    lang: LanguageCode,
+    tenantID: string,
+    targetUserID: string,
+    comment: Readonly<Comment>,
+    rejectionReason?: RejectionReasonInput | null,
+    now = new Date()
+  ) {
+    const code =
+      rejectionReason && rejectionReason.code
+        ? this.translatePhrase(
+            lang,
+            "notifications-commentWasRejectedWithReason-code",
+            `<br/>
+          ${rejectionReason.code}`,
+            { code: rejectionReason.code }
+          )
+        : "";
+
+    const grounds =
+      rejectionReason && rejectionReason.legalGrounds
+        ? this.translatePhrase(
+            lang,
+            "notifications-commentWasRejectedWithReason-grounds",
+            `<br/>
+          ${rejectionReason.legalGrounds}`,
+            { grounds: rejectionReason.legalGrounds }
+          )
+        : "";
+    const explanation =
+      rejectionReason && rejectionReason.detailedExplanation
+        ? this.translatePhrase(
+            lang,
+            "notifications-commentWasRejectedWithReason-explanation",
+            `<br/>
+          ${rejectionReason.detailedExplanation}`,
+            { explanation: rejectionReason.detailedExplanation }
+          )
+        : "";
+
+    const body = rejectionReason
+      ? this.translatePhrase(
+          lang,
+          "notifications-commentWasRejectedWithReason-body",
+          `The comment ${comment.id} was rejected.
+          The reason of wich was:
+          ${code}
+          ${grounds}
+          ${explanation}
+          `,
+          {
+            commentID: comment.id,
+            code,
+            grounds,
+            explanation,
+          }
+        )
+      : this.translatePhrase(
+          lang,
+          "notifications-commentWasRejected-body",
+          `The comment ${comment.id} was rejected.`,
+          {
+            commentID: comment.id,
+          }
+        );
+
+    const notification = await createNotification(this.mongo, {
+      id: uuid(),
+      tenantID,
+      createdAt: now,
+      ownerID: targetUserID,
+      title: this.translatePhrase(
+        lang,
+        "notifications-commentWasRejected-title",
+        "Comment was rejected"
+      ),
+      body: body.replace("\n", "<br/>"),
+      commentID: comment.id,
+      commentStatus: comment.status,
+    });
+
+    return notification;
+  }
+
+  private async createFeatureCommentNotification(
+    lang: LanguageCode,
+    tenantID: string,
+    targetUserID: string,
+    comment: Readonly<Comment>,
+    now: Date
+  ) {
+    const notification = await createNotification(this.mongo, {
+      id: uuid(),
+      tenantID,
+      createdAt: now,
+      ownerID: targetUserID,
+      title: this.translatePhrase(
+        lang,
+        "notifications-commentWasFeatured-title",
+        "Comment was featured"
+      ),
+      body: this.translatePhrase(
+        lang,
+        "notifications-commentWasFeatured-body",
+        `The comment ${comment.id} was featured.`,
+        {
+          commentID: comment.id,
+        }
+      ),
+      commentID: comment.id,
+      commentStatus: comment.status,
+    });
+
+    return notification;
+  }
+
+  private async createApproveCommentNotification(
+    lang: LanguageCode,
+    tenantID: string,
+    targetUserID: string,
+    comment: Readonly<Comment>,
+    now: Date
+  ) {
+    const notification = await createNotification(this.mongo, {
+      id: uuid(),
+      tenantID,
+      createdAt: now,
+      ownerID: targetUserID,
+      title: this.translatePhrase(
+        lang,
+        "notifications-commentWasApproved-title",
+        "Comment was approved"
+      ),
+      body: this.translatePhrase(
+        lang,
+        "notifications-commentWasApproved-body",
+        `The comment ${comment.id} was approved.`,
+        {
+          commentID: comment.id,
+        }
+      ),
+      commentID: comment.id,
+      commentStatus: comment.status,
+    });
+
+    return notification;
+  }
+
   private async createIllegalRejectionNotification(
     lang: LanguageCode,
     tenantID: string,
     targetUserID: string,
     comment: Readonly<Comment>,
-    legal: Legality | undefined,
+    legal: DSALegality | undefined,
     now: Date
   ) {
     const reason = legal
@@ -241,7 +360,7 @@ export class InternalNotificationContext {
     targetUserID: string,
     comment: Readonly<Comment>,
     report: Readonly<DSAReport>,
-    legal: Legality | undefined,
+    legal: DSALegality | undefined,
     now: Date
   ) {
     if (!legal) {
