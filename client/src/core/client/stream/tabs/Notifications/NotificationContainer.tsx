@@ -3,6 +3,7 @@ import React, { FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import HTMLContent from "coral-stream/common/HTMLContent";
 import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { Timestamp } from "coral-ui/components/v2";
 
@@ -49,7 +50,11 @@ const NotificationContainer: FunctionComponent<Props> = ({
             <div className={styles.titleText}>{title}</div>
           </div>
         )}
-        {body && <div className={cn(styles.body)}>{body}</div>}
+        {body && (
+          <div className={cn(styles.body)}>
+            <HTMLContent>{body || ""}</HTMLContent>
+          </div>
+        )}
         {comment && (
           <div className={styles.contextItem}>
             <NotificationCommentContainer

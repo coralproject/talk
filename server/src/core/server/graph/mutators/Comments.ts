@@ -3,6 +3,7 @@ import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/common/lib/helpers/v
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { hasTag } from "coral-server/models/comment";
+import { NotificationType } from "coral-server/models/notifications/notification";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
@@ -14,7 +15,6 @@ import {
 } from "coral-server/services/comments/actions";
 import { CreateCommentMediaInput } from "coral-server/services/comments/media";
 import { publishCommentFeatured } from "coral-server/services/events";
-import { NotificationType } from "coral-server/services/notifications/internal/context";
 import { markSeen } from "coral-server/services/seenComments";
 import {
   approveComment,

@@ -8,14 +8,12 @@ import {
   hasTag,
   UpdateCommentStatus,
 } from "coral-server/models/comment";
+import { NotificationType } from "coral-server/models/notifications/notification";
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
-import {
-  InternalNotificationContext,
-  NotificationType,
-} from "coral-server/services/notifications/internal/context";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
@@ -87,7 +85,8 @@ const rejectComment = async (
     legalGrounds?: string | undefined;
     detailedExplanation?: string | undefined;
   },
-  request?: Request | undefined
+  request?: Request | undefined,
+  sendNotification = true
 ) => {
   const updateAllCommentCountsArgs = {
     actionCounts: {},
@@ -164,11 +163,14 @@ const rejectComment = async (
     });
   }
 
-  await notifications.create(tenant.id, tenant.locale, {
-    targetUserID: result.after.authorID!,
-    comment: result.after,
-    type: NotificationType.COMMENT_REJECTED,
-  });
+  if (sendNotification) {
+    await notifications.create(tenant.id, tenant.locale, {
+      targetUserID: result.after.authorID!,
+      comment: result.after,
+      rejectionReason: reason,
+      type: NotificationType.COMMENT_REJECTED,
+    });
+  }
 
   // Return the resulting comment.
   return rollingResult;

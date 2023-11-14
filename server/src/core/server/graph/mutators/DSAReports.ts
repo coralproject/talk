@@ -62,7 +62,7 @@ export const DSAReports = (ctx: GraphContext) => ({
     reportID,
   }: GQLChangeDSAReportStatusInput) =>
     changeDSAReportStatus(ctx.mongo, ctx.tenant, { userID, status, reportID }),
-  makeDSAReportDecision: ({
+  makeDSAReportDecision: async ({
     userID,
     legality,
     legalGrounds,
@@ -80,6 +80,7 @@ export const DSAReports = (ctx: GraphContext) => ({
       ctx.broker,
       ctx.notifications,
       ctx.tenant,
+      await ctx.loaders.Comments.comment.load(commentID),
       {
         userID,
         legality,
@@ -88,6 +89,7 @@ export const DSAReports = (ctx: GraphContext) => ({
         reportID,
         commentID,
         commentRevisionID,
-      }
+      },
+      ctx.req
     ),
 });

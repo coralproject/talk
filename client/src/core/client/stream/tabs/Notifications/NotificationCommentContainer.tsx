@@ -29,35 +29,61 @@ const NotificationCommentContainer: FunctionComponent<Props> = ({
     setIsOpen(!isOpen);
   }, [setIsOpen, isOpen]);
 
+  const hasBeenModerated =
+    status === GQLCOMMENT_STATUS.APPROVED ||
+    status === GQLCOMMENT_STATUS.REJECTED;
+
   return (
     <>
-      {status === GQLCOMMENT_STATUS.APPROVED && isOpen && (
-        <button className={styles.toggle} onClick={onToggleOpenClosed}>
-          <Localized id="notification-comment-toggle-approved-open">
-            Approved comment
-          </Localized>
-        </button>
+      {hasBeenModerated && (
+        <>
+          {status === GQLCOMMENT_STATUS.APPROVED && isOpen && (
+            <button className={styles.toggle} onClick={onToggleOpenClosed}>
+              <Localized id="notification-comment-toggle-approved-open">
+                Approved comment
+              </Localized>
+            </button>
+          )}
+          {status === GQLCOMMENT_STATUS.APPROVED && !isOpen && (
+            <button className={styles.toggle} onClick={onToggleOpenClosed}>
+              <Localized id="notification-comment-toggle-approved-closed">
+                + Approved comment
+              </Localized>
+            </button>
+          )}
+          {status === GQLCOMMENT_STATUS.REJECTED && isOpen && (
+            <button className={styles.toggle} onClick={onToggleOpenClosed}>
+              <Localized id="notification-comment-toggle-rejected-open">
+                Rejected comment
+              </Localized>
+            </button>
+          )}
+          {status === GQLCOMMENT_STATUS.REJECTED && !isOpen && (
+            <button className={styles.toggle} onClick={onToggleOpenClosed}>
+              <Localized id="notification-comment-toggle-rejected-closed">
+                + Rejected comment
+              </Localized>
+            </button>
+          )}
+        </>
       )}
-      {status === GQLCOMMENT_STATUS.APPROVED && !isOpen && (
-        <button className={styles.toggle} onClick={onToggleOpenClosed}>
-          <Localized id="notification-comment-toggle-approved-closed">
-            + Approved comment
-          </Localized>
-        </button>
-      )}
-      {status === GQLCOMMENT_STATUS.REJECTED && isOpen && (
-        <button className={styles.toggle} onClick={onToggleOpenClosed}>
-          <Localized id="notification-comment-toggle-rejected-open">
-            Rejected comment
-          </Localized>
-        </button>
-      )}
-      {status === GQLCOMMENT_STATUS.REJECTED && !isOpen && (
-        <button className={styles.toggle} onClick={onToggleOpenClosed}>
-          <Localized id="notification-comment-toggle-rejected-closed">
-            + Rejected comment
-          </Localized>
-        </button>
+      {!hasBeenModerated && (
+        <>
+          {isOpen && (
+            <button className={styles.toggle} onClick={onToggleOpenClosed}>
+              <Localized id="notification-comment-toggle-default-open">
+                Comment
+              </Localized>
+            </button>
+          )}
+          {!isOpen && (
+            <button className={styles.toggle} onClick={onToggleOpenClosed}>
+              <Localized id="notification-comment-toggle-default-closed">
+                + Comment
+              </Localized>
+            </button>
+          )}
+        </>
       )}
 
       {isOpen && (

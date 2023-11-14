@@ -44,5 +44,55 @@ notifications-commentWasFeatured-title = Comment was featured
 notifications-commentWasFeatured-body = The comment { $commentID } was featured.
 notifications-commentWasApproved-title = Comment was approved
 notifications-commentWasApproved-body = The comment { $commentID } was approved.
+
 notifications-commentWasRejected-title = Comment was rejected
 notifications-commentWasRejected-body = The comment { $commentID } was rejected.
+
+notifications-commentWasRejectedWithReason-code =
+  <br/>
+  { $code }
+notifications-commentWasRejectedWithReason-grounds =
+  <br/>
+  { $grounds }
+notifications-commentWasRejectedWithReason-explanation =
+  <br/>
+  { $explanation }
+notifications-commentWasRejectedWithReason-body =
+  The comment { $commentID } was rejected.
+  The reasons of which were:
+  { $code }
+  { $grounds }
+  { $explanation }
+
+notifications-commentWasRejectedAndIllegal-title = Comment was deemed to contain illegal content and was rejected
+notifications-commentWasRejectedAndIllegal-body =
+  The comment { $commentID } was rejected for containing illegal content.
+  The reason of which was:
+  <br/>
+  { $reason }
+notifications-dsaIllegalRejectedReason-information =
+  Grounds:
+  <br/>
+  { $grounds }
+  <br/>
+  Explanation:
+  <br/>
+  { $explanation }
+notifications-dsaIllegalRejectedReason-informationNotFound = The reasoning for this decision cannot be found.
+
+notifications-dsaReportDecisionMade-title = A decision was made on your DSA report
+notifications-dsaReportDecision-legal = The report { $reportID } was determined to be legal.
+notifications-dsaReportDecision-illegal = The report { $reportID } was determined to be illegal.
+notifications-dsaReportDecision-legalInformation =
+  Grounds:
+  <br/>
+  { $grounds }
+  <br/>
+  Explanation:
+  <br/>
+  { $explanation }
+notifications-dsaReportDecisionMade-body-withoutInfo = { $decision }
+notifications-dsaReportDecisionMade-body-withInfo =
+  { $decision }
+  <br/>
+  { $information }

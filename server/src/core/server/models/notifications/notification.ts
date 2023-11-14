@@ -6,9 +6,17 @@ import { ConnectionInput, Query, resolveConnection } from "../helpers";
 import { TenantResource } from "../tenant";
 import { User } from "../user";
 
+export enum NotificationType {
+  COMMENT_FEATURED = "COMMENT_FEATURED",
+  COMMENT_APPROVED = "COMMENT_APPROVED",
+  COMMENT_REJECTED = "COMMENT_REJECTED",
+  ILLEGAL_REJECTED = "ILLEGAL_REJECTED",
+  DSA_REPORT_DECISION_MADE = "DSA_REPORT_DECISION_MADE",
+}
+
 export interface Notification extends TenantResource {
   readonly id: string;
-
+  readonly type: NotificationType;
   readonly tenantID: string;
 
   createdAt: Date;
