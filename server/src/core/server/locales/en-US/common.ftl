@@ -39,6 +39,22 @@ dsaReportCSV-legality-legal = Legality: Legal
 dsaReportCSV-legalGrounds = Legal grounds
 dsaReportCSV-explanation = Explanation
 
+# Notifications
+
+notifications-illegalContentReportReviewed-title =
+  Your illegal content report has been reviewed
+
+notifications-illegalContentReportReviewed-decision-legal =
+  does not appear to contain illegal content
+notifications-illegalContentReportReviewed-decision-illegal =
+  does contain illegal content
+
+notifications-illegalContentReportReviewed-description =
+  On { $date } you reported a comment written by { $author } for
+  containing illegal content. After reviewing your report, our moderation
+  team has decided this comment { $decision }.
+
+# Notifications (old)
 
 notifications-commentWasFeatured-title = Comment was featured
 notifications-commentWasFeatured-body = The comment { $commentID } was featured.

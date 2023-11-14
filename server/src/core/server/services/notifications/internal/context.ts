@@ -379,61 +379,37 @@ export class InternalNotificationContext {
     }
 
     let decision = "";
-    let information: string | null = null;
     if (legal.legality === GQLDSAReportDecisionLegality.LEGAL) {
       decision = this.translatePhrase(
         lang,
-        "notifications-dsaReportDecision-legal",
-        `The report ${report.id} was determined to be legal.`,
-        {
-          reportID: report.id,
-        }
+        "notifications-illegalContentReportReviewed-decision-legal",
+        `does not appear to contain illegal content`
       );
     }
     if (legal.legality === GQLDSAReportDecisionLegality.ILLEGAL) {
       decision = this.translatePhrase(
         lang,
-        "notifications-dsaReportDecision-illegal",
-        `The report ${report.id} was determined to be illegal.`,
-        {
-          reportID: report.id,
-        }
-      );
-      information = this.translatePhrase(
-        lang,
-        "notifications-dsaReportDecision-legalInformation",
-        `Grounds:
-        <br/>
-        ${legal.grounds}
-        <br/>
-        Explanation:
-        <br/>
-        ${legal.explanation}`,
-        {
-          grounds: legal.grounds,
-          explanation: legal.explanation,
-        }
+        "notifications-illegalContentReportReviewed-decision-illegal",
+        `does contain illegal content`
       );
     }
 
+    const commentAuthor = comment.authorID
+      ? await retrieveUser(this.mongo, tenantID, comment.authorID)
+      : null;
+
     const body = this.translatePhrase(
       lang,
-      information
-        ? "notifications-dsaReportDecisionMade-body-withInfo"
-        : "notifications-dsaReportDecisionMade-body-withoutInfo",
-      information
-        ? `${decision}
-      <br/>
-      ${information}`
-        : `${decision}`,
-      information
-        ? {
-            decision,
-            information,
-          }
-        : {
-            decision,
-          }
+      "notifications-illegalContentReportReviewed-description",
+      `On ${report.createdAt.toDateString()} you reported a comment written by { $author } for
+      containing illegal content. After reviewing your report, our moderation
+      team has decided this comment { $decision }.`,
+      {
+        date: report.createdAt.toDateString(),
+        author:
+          commentAuthor && commentAuthor.username ? commentAuthor.username : "",
+        decision,
+      }
     ).replace("\n", "<br/>");
 
     const notification = await createNotification(this.mongo, {
@@ -444,8 +420,8 @@ export class InternalNotificationContext {
       ownerID: targetUserID,
       title: this.translatePhrase(
         lang,
-        "notifications-dsaReportDecisionMade-title",
-        "A decision was made on your DSA report"
+        "notifications-illegalContentReportReviewed-title",
+        "Your illegal content report has been reviewed"
       ),
       body,
       commentID: comment.id,
