@@ -5,6 +5,7 @@
 .additionalCommentURLs {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-2);
+  margin-right: var(--spacing-2);
 }
 
 .error {

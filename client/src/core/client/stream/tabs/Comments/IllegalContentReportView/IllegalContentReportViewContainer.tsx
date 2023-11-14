@@ -132,6 +132,15 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
     [setAdditionalComments, additionalComments]
   );
 
+  const onDeleteAdditionalComment = useCallback(
+    (id: string) => {
+      if (additionalComments) {
+        setAdditionalComments(additionalComments?.filter((c) => c.id !== id));
+      }
+    },
+    [setAdditionalComments, additionalComments]
+  );
+
   if (isSubmitted) {
     return (
       <>
@@ -314,6 +323,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                 </FormField>
                 <AddAdditionalComments
                   onAddAdditionalComment={onAddAdditionalComment}
+                  onDeleteAdditionalComment={onDeleteAdditionalComment}
                   additionalComments={additionalComments}
                   comment={comment}
                 />

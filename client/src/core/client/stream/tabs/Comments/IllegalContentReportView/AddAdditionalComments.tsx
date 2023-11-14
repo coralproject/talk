@@ -10,8 +10,13 @@ import { Field, useForm } from "react-final-form";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { validateShareURL } from "coral-framework/lib/validation";
-import { AddIcon, ButtonSvgIcon } from "coral-ui/components/icons";
-import { InputLabel, TextField } from "coral-ui/components/v2";
+import { AddIcon, BinIcon, ButtonSvgIcon } from "coral-ui/components/icons";
+import {
+  Button as ButtonV2,
+  Flex,
+  InputLabel,
+  TextField,
+} from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { IllegalContentReportViewContainer_comment as CommentData } from "coral-stream/__generated__/IllegalContentReportViewContainer_comment.graphql";
@@ -24,12 +29,14 @@ interface Props {
   additionalComments: { id: string; url: string }[] | null;
   comment: CommentData | null;
   onAddAdditionalComment: (id: string, url: string) => void;
+  onDeleteAdditionalComment: (id: string) => void;
 }
 
 const AddAdditionalComments: FunctionComponent<Props> = ({
   additionalComments,
   comment,
   onAddAdditionalComment,
+  onDeleteAdditionalComment,
 }) => {
   const form = useForm();
   const { localeBundles } = useCoralContext();
@@ -129,12 +136,25 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
         additionalComments.map(
           (additionalComment: { id: string; url: string }) => {
             return (
-              <div
-                className={styles.additionalCommentURLs}
-                key={additionalComment.id}
-              >
-                {additionalComment.url}
-              </div>
+              <Flex key={additionalComment.id} alignItems="center">
+                <div
+                  className={styles.additionalCommentURLs}
+                  key={additionalComment.id}
+                >
+                  {additionalComment.url}
+                </div>
+                <ButtonV2
+                  color="mono"
+                  variant="text"
+                  onClick={() =>
+                    onDeleteAdditionalComment(additionalComment.id)
+                  }
+                  iconLeft
+                >
+                  <ButtonSvgIcon Icon={BinIcon} />
+                  Delete
+                </ButtonV2>
+              </Flex>
             );
           }
         )}
