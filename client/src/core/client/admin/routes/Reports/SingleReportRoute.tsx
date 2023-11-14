@@ -128,7 +128,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
           />
           <Localized
             id="reports-singleReport-makeDecisionButton"
-            elems={{ icon: <SvgIcon Icon={LegalHammerIcon} /> }}
+            elems={{ icon: <SvgIcon filled Icon={LegalHammerIcon} /> }}
           >
             <Button
               className={styles.decisionButton}
@@ -138,8 +138,8 @@ const SingleReportRoute: FunctionComponent<Props> & {
                 dsaReport.status === "COMPLETED" || dsaReport.status === "VOID"
               }
             >
-              <SvgIcon Icon={LegalHammerIcon} />
-              Make Decision
+              <SvgIcon filled Icon={LegalHammerIcon} />
+              Decision
             </Button>
           </Localized>
         </Flex>
@@ -216,10 +216,22 @@ const SingleReportRoute: FunctionComponent<Props> & {
                 onShowUserDrawer={onShowUserDrawer}
               />
               {dsaReport.decision && (
-                <Flex direction="column">
-                  <HorizontalGutter spacing={2}>
-                    <Localized id="reports-singleReport-decisionLabel">
-                      <div className={styles.label}>Decision</div>
+                <Flex
+                  direction="column"
+                  className={styles.decisionWrapper}
+                  padding={2}
+                >
+                  <HorizontalGutter spacing={3}>
+                    <Localized
+                      id="reports-singleReport-decisionLabel"
+                      elems={{
+                        icon: <SvgIcon Icon={LegalHammerIcon} filled />,
+                      }}
+                    >
+                      <div className={styles.label}>
+                        <SvgIcon Icon={LegalHammerIcon} />
+                        Decision
+                      </div>
                     </Localized>
                     {dsaReport.decision.legality === "ILLEGAL" ? (
                       <>

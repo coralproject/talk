@@ -178,6 +178,10 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
             onClick={toggleVisibility}
             ref={ref}
             uppercase={false}
+            disabled={
+              value ===
+              (GQLDSAReportStatus.COMPLETED || GQLDSAReportStatus.VOID)
+            }
           >
             {value
               ? statusMappings[value].icon

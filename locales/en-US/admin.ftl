@@ -1844,12 +1844,12 @@ reports-singleReport-history-sharedReport = { $username } shared this report
 reports-singleReport-note-field =
   .placeholder = Add your note...
 reports-singleReport-addUpdateButton = <icon></icon> Add update
-reports-singleReport-decisionLabel = Decision
+reports-singleReport-decisionLabel = <icon></icon> Decision
 reports-singleReport-decision-illegalContent = This report appears to contain illegal content
 reports-singleReport-decision-legal = This report does not appear to contain illegal content
 reports-singleReport-decision-legalGrounds = Legal grounds
 reports-singleReport-decision-explanation = Detailed explanation
-reports-singleReport-makeDecisionButton = <icon></icon>Make decision
+reports-singleReport-makeDecisionButton = <icon></icon> Decision
 
 reports-status-awaitingReview = Awaiting review
 reports-status-inReview = In review
