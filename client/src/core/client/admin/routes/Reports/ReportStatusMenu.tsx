@@ -10,6 +10,8 @@ import {
   ArrowsDownIcon,
   ArrowsUpIcon,
   ButtonSvgIcon,
+  DeleteIcon,
+  QuestionCircleIcon,
   SignBadgeCircleDuoIcon,
   SignBadgeCircleIcon,
   SvgIcon,
@@ -78,13 +80,7 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
     },
     VOID: {
       text: getMessage(localeBundles, "reports-status-void", "Void"),
-      icon: (
-        <SvgIcon
-          Icon={SignBadgeCircleIcon}
-          filled="currentColor"
-          color="teal"
-        />
-      ),
+      icon: <SvgIcon Icon={DeleteIcon} color="teal" />,
     },
     "%future added value": {
       text: getMessage(
@@ -92,9 +88,7 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
         "reports-status-unknown",
         "Unknown status"
       ),
-      icon: (
-        <SvgIcon Icon={SignBadgeCircleIcon} color="teal" filled="tealLight" />
-      ),
+      icon: <SvgIcon Icon={QuestionCircleIcon} color="teal" />,
     },
   };
 

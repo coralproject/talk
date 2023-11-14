@@ -6,6 +6,7 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLDSAReportStatus } from "coral-framework/schema";
 import {
+  DeleteIcon,
   SignBadgeCircleDuoIcon,
   SignBadgeCircleIcon,
   SvgIcon,
@@ -56,6 +57,8 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
             color="teal"
           />
         );
+      case GQLDSAReportStatus.VOID:
+        return <SvgIcon Icon={DeleteIcon} color="teal" />;
       default:
         return (
           <SvgIcon Icon={SignBadgeCircleIcon} color="teal" filled="tealLight" />
