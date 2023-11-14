@@ -35,6 +35,7 @@ const DetailedExplanation: FunctionComponent<Props> = ({
           name={code}
           key={code}
           checked
+          readOnly
         >
           {unsnake(code)}
         </RadioButton>
