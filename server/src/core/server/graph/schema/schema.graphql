@@ -1948,12 +1948,24 @@ type RTEConfiguration {
   sarcasm: Boolean!
 }
 
+enum DSA_METHOD_OF_REDRESS {
+  NONE
+  EMAIL
+  URL
+}
+
 type DSAConfiguration {
   """
   enabled when true turns on the European Union DSA compliance
   features for commenting, reporting, and moderation flows.
   """
   enabled: Boolean!
+
+  """
+  methodOfRedress lets users know if and how they can appeal a
+  moderation decision
+  """
+  methodOfRedress: DSA_METHOD_OF_REDRESS!
 }
 
 """
@@ -6053,7 +6065,17 @@ DSAConfigurationInput specifies the configuration for DSA European Union
 moderation and reporting features.
 """
 input DSAConfigurationInput {
+  """
+  enabled when true turns on the European Union DSA compliance
+  features for commenting, reporting, and moderation flows.
+  """
   enabled: Boolean
+
+  """
+  methodOfRedress lets users know if and how they can appeal a
+  moderation decision
+  """
+  methodOfRedress: DSA_METHOD_OF_REDRESS
 }
 
 """

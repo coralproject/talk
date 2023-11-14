@@ -1612,7 +1612,16 @@ configure-general-rte-spoilerDesc =
   Words and phrases formatted as Spoiler are hidden behind a
   dark background until the reader chooses to reveal the text.
 
-configure-general-dsaConfig-title = DSA Features (TODO)
+configure-general-dsaConfig-title = Digital services act
+configure-general-dsaConfig-reportingAndModerationExperience =
+  DSA reporting and moderation experience
+configure-general-dsaConfig-methodOfRedress =
+  Select your method of redress
+configure-general-dsaConfig-methodOfRedress-explanation =
+  Let users know if and how they can appeal a moderation decision
+configure-general-dsaConfig-methodOfRedress-none = None
+configure-general-dsaConfig-methodOfRedress-email = Email
+configure-general-dsaConfig-methodOfRedress-url = URL
 
 configure-account-features-title = Commenter account management features
 configure-account-features-explanation =
