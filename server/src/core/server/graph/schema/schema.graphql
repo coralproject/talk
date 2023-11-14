@@ -1690,6 +1690,10 @@ EmbeddedCommentsConfiguration specifies the configuration for embedded comments.
 """
 type EmbeddedCommentsConfiguration {
   allowReplies: Boolean
+  """
+  oEmbedAllowedOrigins are the allowed origins for oEmbed API calls.
+  """
+  oEmbedAllowedOrigins: [String!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 """
@@ -6010,6 +6014,10 @@ EmbeddedCommentsConfigurationInput specifies the configuration for comment embed
 """
 input EmbeddedCommentsConfigurationInput {
   allowReplies: Boolean
+  """
+  oEmbedAllowedOrigins are the allowed origins for oEmbed API calls.
+  """
+  oEmbedAllowedOrigins: [String!]
 }
 
 """
@@ -7213,14 +7221,14 @@ input RejectCommentInput {
   commentRevisionID: ID!
 
   """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-
-  """
   reason is the reason the comment is being rejected if DSA features are enabled.
   """
   reason: RejectCommentReasonInput
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
 }
 
 type RejectCommentPayload {

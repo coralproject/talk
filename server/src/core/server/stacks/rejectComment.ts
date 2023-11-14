@@ -11,6 +11,7 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
+import { I18n } from "coral-server/services/i18n";
 import {
   InternalNotificationContext,
   NotificationType,
@@ -21,6 +22,7 @@ import { Request } from "coral-server/types/express";
 
 import {
   GQLCOMMENT_STATUS,
+  GQLREJECTION_REASON_CODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -72,6 +74,7 @@ const rejectComment = async (
   redis: AugmentedRedis,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker | null,
   notifications: InternalNotificationContext,
   tenant: Tenant,
@@ -79,6 +82,11 @@ const rejectComment = async (
   commentRevisionID: string,
   moderatorID: string,
   now: Date,
+  reason?: {
+    code: GQLREJECTION_REASON_CODE;
+    legalGrounds?: string | undefined;
+    detailedExplanation?: string | undefined;
+  },
   request?: Request | undefined,
   sendNotification = true
 ) => {
@@ -91,11 +99,13 @@ const rejectComment = async (
     mongo,
     redis,
     config,
+    i18n,
     tenant,
     {
       commentID,
       commentRevisionID,
       moderatorID,
+      rejectionReason: reason,
       status: GQLCOMMENT_STATUS.REJECTED,
     },
     now,

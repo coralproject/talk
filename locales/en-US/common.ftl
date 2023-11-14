@@ -23,3 +23,32 @@ common-error-traceID = Trace ID
 
 common-username =
   .aria-label = User { $username }
+
+common-moderationReason-reason = 
+  Reason
+common-moderationReason-addExplanation = 
+  Add explanation
+common-moderationReason-reject =
+  Reject
+common-moderationReason-cancel =
+  Cancel
+common-moderationReason-rejectionReason-OFFENSIVE =
+  Offensive
+common-moderationReason-rejectionReason-ABUSIVE = 
+  Abusive
+common-moderationReason-rejectionReason-SPAM =
+  Spam
+common-moderationReason-rejectionReason-BANNED_WORD =
+  Banned word
+common-moderationReason-rejectionReason-AD =
+  Ad
+common-moderationReason-reason-moreReasons =
+  + More reasons
+common-moderationReason-rejectionReason-OTHER = 
+  Other
+common-moderationReason-changeReason =
+  Change reason
+common-moderationReason-detailedExplanation =
+  Detailed explanation
+common-moderationReason-detailedExplanation-placeholder =
+   .placeholder = Add your explanation

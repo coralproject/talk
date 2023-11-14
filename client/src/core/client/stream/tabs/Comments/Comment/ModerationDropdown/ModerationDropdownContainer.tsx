@@ -6,8 +6,9 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
+import ModerationReason from "coral-admin/components/ModerationReason/ModerationReason";
 import { useViewerEvent } from "coral-framework/lib/events";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { ShowModerationPopoverEvent } from "coral-stream/events";
 import { Dropdown } from "coral-ui/components/v2";
@@ -17,11 +18,14 @@ import { ModerationDropdownContainer_settings } from "coral-stream/__generated__
 import { ModerationDropdownContainer_story } from "coral-stream/__generated__/ModerationDropdownContainer_story.graphql";
 import { ModerationDropdownContainer_viewer } from "coral-stream/__generated__/ModerationDropdownContainer_viewer.graphql";
 
+import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
 import UserBanPopoverContainer from "../UserBanPopover/UserBanPopoverContainer";
 import ModerationActionsContainer from "./ModerationActionsContainer";
+import RejectCommentMutation from "./RejectCommentMutation";
 
 export type ModerationDropdownView =
   | "MODERATE"
+  | "REJECT_REASON"
   | "BAN"
   | "SITE_BAN"
   | "CONFIRM_BAN";
@@ -45,6 +49,7 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
   scheduleUpdate,
   view: viewProp,
 }) => {
+  const rejectMutation = useMutation(RejectCommentMutation);
   const emitShowEvent = useViewerEvent(ShowModerationPopoverEvent);
   const [view, setView] = useState<ModerationDropdownView>(
     viewProp ?? "MODERATE"
@@ -58,6 +63,25 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
     setView("SITE_BAN");
     scheduleUpdate();
   }, [setView, scheduleUpdate]);
+  const onRectionReason = useCallback(() => {
+    setView("REJECT_REASON");
+    scheduleUpdate();
+  }, [setView, scheduleUpdate]);
+
+  const reject = useCallback(
+    async (reason: RejectCommentReasonInput) => {
+      if (!comment.revision) {
+        return;
+      }
+      await rejectMutation({
+        commentID: comment.id,
+        storyID: story.id,
+        commentRevisionID: comment.revision.id,
+        reason,
+      });
+    },
+    [comment.id, comment.revision, rejectMutation, story.id]
+  );
 
   // run once.
   useEffect(() => {
@@ -75,9 +99,16 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
             settings={settings}
             onDismiss={onDismiss}
             onBan={onBan}
+            onRejectionReason={onRectionReason}
             onSiteBan={onSiteBan}
           />
         </Dropdown>
+      ) : view === "REJECT_REASON" ? (
+        <ModerationReason
+          id={comment.id}
+          onReason={reject}
+          onCancel={onDismiss}
+        />
       ) : (
         <UserBanPopoverContainer
           comment={comment}

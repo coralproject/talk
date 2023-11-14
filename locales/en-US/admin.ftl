@@ -201,6 +201,9 @@ configure-moderationPhases-phaseNotFound = External moderation phase not found
 configure-moderationPhases-experimentalFeature =
   The custom moderation phases feature is currently in active development.
   Please <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
+configure-moderationPhases-dsaEnabled = 
+  You currently have DSA features enabled. External moderation is not
+  currently DSA compliant, and so is disabled.
 configure-moderationPhases-header-title = Moderation Phases
 configure-moderationPhases-description =
   Configure a external moderation phase to automate some moderation
@@ -906,11 +909,16 @@ configure-advanced-customCSS-containsFontFace =
   URL to a custom CSS stylesheet that contains all @font-face
   definitions needed by above stylesheet.
 
-configure-advanced-embeddedCommentReplies = Embedded comment replies
+configure-advanced-embeddedComments = Embedded comments
+configure-advanced-embeddedComments-subheader = For sites using oEmbed
 configure-advanced-embeddedCommentReplies-explanation = When enabled, a reply button
   will appear with each embedded comment to encourage additional discussion on that
   specific comment or story.
 configure-advanced-embeddedCommentReplies-label = Allow replies to embedded comments
+
+configure-advanced-oembedAllowedOrigins-header = oEmbed permitted domains
+configure-advanced-oembedAllowedOrigins-description = Domains that are permitted to make calls to the oEmbed API (ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
+configure-advanced-oembedAllowedOrigins-label = oEmbed permitted domains
 
 configure-advanced-permittedDomains = Permitted domains
 configure-advanced-permittedDomains-description =

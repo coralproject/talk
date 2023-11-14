@@ -40,6 +40,7 @@ import {
   publishCommentFlagCreated,
   publishCommentReactionCreated,
 } from "../events";
+import { I18n } from "../i18n";
 import { submitCommentAsSpam } from "../spam";
 
 export type CreateAction = CreateActionInput;
@@ -94,6 +95,7 @@ async function addCommentAction(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   input: Omit<CreateActionInput, "storyID" | "siteID" | "userID">,
@@ -157,7 +159,7 @@ async function addCommentAction(
     );
 
     // Update the comment counts onto other documents.
-    const counts = await updateAllCommentCounts(mongo, redis, config, {
+    const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
       tenant,
       actionCounts,
       before: oldComment,
@@ -182,6 +184,7 @@ export async function removeCommentAction(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -250,7 +253,7 @@ export async function removeCommentAction(
     }
 
     // Update the comment counts onto other documents.
-    const counts = await updateAllCommentCounts(mongo, redis, config, {
+    const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
       tenant,
       actionCounts,
       before: oldComment,
@@ -280,6 +283,7 @@ export async function createReaction(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -291,6 +295,7 @@ export async function createReaction(
     mongo,
     redis,
     config,
+    i18n,
     broker,
     tenant,
     {
@@ -331,18 +336,28 @@ export async function removeReaction(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: RemoveCommentReaction
 ) {
-  return removeCommentAction(mongo, redis, config, cache, broker, tenant, {
-    actionType: ACTION_TYPE.REACTION,
-    commentID: input.commentID,
-    commentRevisionID: input.commentRevisionID,
-    userID: author.id,
-  });
+  return removeCommentAction(
+    mongo,
+    redis,
+    config,
+    i18n,
+    cache,
+    broker,
+    tenant,
+    {
+      actionType: ACTION_TYPE.REACTION,
+      commentID: input.commentID,
+      commentRevisionID: input.commentRevisionID,
+      userID: author.id,
+    }
+  );
 }
 
 export type CreateCommentDontAgree = Pick<
@@ -354,6 +369,7 @@ export async function createDontAgree(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   commentActionsCache: CommentActionsCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -365,6 +381,7 @@ export async function createDontAgree(
     mongo,
     redis,
     config,
+    i18n,
     broker,
     tenant,
     {
@@ -393,6 +410,7 @@ export async function createIllegalContent(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   commentActionsCache: CommentActionsCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -419,6 +437,7 @@ export async function createIllegalContent(
     mongo,
     redis,
     config,
+    i18n,
     broker,
     tenant,
     {
@@ -448,18 +467,28 @@ export async function removeDontAgree(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   cache: DataCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
   input: RemoveCommentDontAgree
 ) {
-  return removeCommentAction(mongo, redis, config, cache, broker, tenant, {
-    actionType: ACTION_TYPE.DONT_AGREE,
-    commentID: input.commentID,
-    commentRevisionID: input.commentRevisionID,
-    userID: author.id,
-  });
+  return removeCommentAction(
+    mongo,
+    redis,
+    config,
+    i18n,
+    cache,
+    broker,
+    tenant,
+    {
+      actionType: ACTION_TYPE.DONT_AGREE,
+      commentID: input.commentID,
+      commentRevisionID: input.commentRevisionID,
+      userID: author.id,
+    }
+  );
 }
 
 export type CreateCommentFlag = Pick<
@@ -473,6 +502,7 @@ export async function createFlag(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   commentActionsCache: CommentActionsCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
@@ -485,6 +515,7 @@ export async function createFlag(
     mongo,
     redis,
     config,
+    i18n,
     broker,
     tenant,
     {

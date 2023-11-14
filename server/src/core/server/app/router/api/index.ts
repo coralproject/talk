@@ -109,7 +109,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.get("/oembed", cspSiteMiddleware(app), oembedHandler(app));
   router.get(
     "/services/oembed",
-    commentEmbedWhitelisted(app),
+    commentEmbedWhitelisted(app, true),
     cors(createCommentEmbedCorsOptionsDelegate(app.mongo)),
     oembedProviderHandler(app)
   );

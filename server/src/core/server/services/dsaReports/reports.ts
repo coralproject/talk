@@ -14,12 +14,15 @@ import {
 } from "coral-server/models/dsaReport/report";
 import { Tenant } from "coral-server/models/tenant";
 import { rejectComment } from "coral-server/stacks";
+import { Request } from "coral-server/types/express";
 
 import {
   GQLDSAReportDecisionLegality,
   GQLDSAReportStatus,
+  GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { I18n } from "../i18n";
 import {
   InternalNotificationContext,
   NotificationType,
@@ -179,14 +182,15 @@ export async function makeDSAReportDecision(
   redis: AugmentedRedis,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
   tenant: Tenant,
   comment: Readonly<Comment> | null,
   input: MakeDSAReportDecisionInput,
+  req: Request | undefined,
   now = new Date()
 ) {
-  // TODO: Send through rejection legalGrounds and detailedExplanation once backend support is available
   const {
     commentID,
     commentRevisionID,
@@ -203,6 +207,7 @@ export async function makeDSAReportDecision(
       redis,
       cache,
       config,
+      i18n,
       broker,
       notifications,
       tenant,
@@ -210,8 +215,13 @@ export async function makeDSAReportDecision(
       commentRevisionID,
       userID,
       now,
-      undefined,
-      false
+      {
+        code: GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT,
+        legalGrounds,
+        detailedExplanation,
+      },
+      req,
+      true
     );
 
     if (rejectedComment.authorID) {

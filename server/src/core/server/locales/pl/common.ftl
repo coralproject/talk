@@ -6,7 +6,6 @@ reaction-labelActiveRespected = Polecany
 reaction-sortLabelMostRespected = Najbardziej polecane
 
 comment-count =
-  <span class="{ $numberClass }">{ $number }</span>
   <span class="{ $textClass }">{ $number  ->
     [one] Komentarz
     [few] Komentarze

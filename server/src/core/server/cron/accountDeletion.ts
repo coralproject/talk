@@ -2,6 +2,7 @@ import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { retrieveLockedUserScheduledForDeletion } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { deleteUser } from "coral-server/services/users/delete";
@@ -16,6 +17,7 @@ interface Options {
   mongo: MongoContext;
   redis: AugmentedRedis;
   config: Config;
+  i18n: I18n;
   mailerQueue: MailerQueue;
   tenantCache: TenantCache;
 }
@@ -39,6 +41,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
   mongo,
   redis,
   config,
+  i18n,
   mailerQueue,
   tenantCache,
 }) => {
@@ -68,6 +71,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
         mongo,
         redis,
         config,
+        i18n,
         user.id,
         tenant.id,
         now,

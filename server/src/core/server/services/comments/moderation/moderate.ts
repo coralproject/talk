@@ -1,9 +1,12 @@
+import { ERROR_CODES } from "coral-common/common/lib/errors";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import {
   CommentNotFoundError,
   CommentRevisionNotFoundError,
+  OperationForbiddenError,
 } from "coral-server/errors";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
   createCommentModerationAction,
@@ -16,6 +19,7 @@ import {
   updateCommentStatus,
 } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
+import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { updateAllCommentCounts } from "coral-server/stacks/helpers";
 
@@ -25,6 +29,7 @@ export default async function moderate(
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   tenant: Tenant,
   input: Moderate,
   now: Date,
@@ -39,6 +44,18 @@ export default async function moderate(
     };
   }
 ) {
+  if (
+    tenant.dsa.enabled &&
+    input.status === GQLCOMMENT_STATUS.REJECTED &&
+    !input.rejectionReason
+  ) {
+    throw new OperationForbiddenError(
+      ERROR_CODES.VALIDATION,
+      "DSA features enabled, rejection reason is required",
+      "comment",
+      "moderate"
+    );
+  }
   // TODO: wrap these operations in a transaction?
   const commentsColl =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
@@ -113,6 +130,7 @@ export default async function moderate(
     mongo,
     redis,
     config,
+    i18n,
     {
       ...result,
       tenant,
