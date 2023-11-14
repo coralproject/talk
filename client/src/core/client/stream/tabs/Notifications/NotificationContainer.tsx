@@ -1,13 +1,23 @@
 import cn from "classnames";
-import React, { FunctionComponent, useMemo } from "react";
+import React, { ComponentType, FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
 import HTMLContent from "coral-stream/common/HTMLContent";
-import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import {
+  CheckCircleIcon,
+  LegalHammerIcon,
+  MessagesBubbleSquareIcon,
+  QuestionCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import { Timestamp } from "coral-ui/components/v2";
 
-import { NotificationContainer_notification } from "coral-stream/__generated__/NotificationContainer_notification.graphql";
+import {
+  NOTIFICATION_TYPE,
+  NotificationContainer_notification,
+} from "coral-stream/__generated__/NotificationContainer_notification.graphql";
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
 import NotificationCommentContainer from "./NotificationCommentContainer";
@@ -19,8 +29,28 @@ interface Props {
   notification: NotificationContainer_notification;
 }
 
+const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED) {
+    return CheckCircleIcon;
+  }
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
+    return CheckCircleIcon;
+  }
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
+    return MessagesBubbleSquareIcon;
+  }
+  if (type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) {
+    return MessagesBubbleSquareIcon;
+  }
+  if (type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE) {
+    return LegalHammerIcon;
+  }
+
+  return QuestionCircleIcon;
+};
+
 const NotificationContainer: FunctionComponent<Props> = ({
-  notification: { title, body, comment, createdAt, commentStatus },
+  notification: { type, title, body, comment, createdAt, commentStatus },
   viewer,
 }) => {
   const seen = useMemo(() => {
@@ -46,7 +76,7 @@ const NotificationContainer: FunctionComponent<Props> = ({
       >
         {title && (
           <div className={styles.title}>
-            <SvgIcon size="sm" Icon={CheckCircleIcon} />
+            <SvgIcon size="sm" Icon={getIcon(type)} />
             <div className={styles.titleText}>{title}</div>
           </div>
         )}
@@ -82,6 +112,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment NotificationContainer_notification on Notification {
       id
       createdAt
+      type
       title
       body
       comment {

@@ -8,13 +8,13 @@ import { DSAReport } from "coral-server/models/dsaReport/report";
 import {
   createNotification,
   Notification,
-  NotificationType,
 } from "coral-server/models/notifications/notification";
 import { retrieveUser } from "coral-server/models/user";
 import { I18n, translate } from "coral-server/services/i18n";
 
 import {
   GQLDSAReportDecisionLegality,
+  GQLNOTIFICATION_TYPE,
   GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -32,7 +32,7 @@ export interface RejectionReasonInput {
 
 export interface CreateNotificationInput {
   targetUserID: string;
-  type: NotificationType;
+  type: GQLNOTIFICATION_TYPE;
 
   comment?: Readonly<Comment> | null;
   rejectionReason?: RejectionReasonInput | null;
@@ -82,7 +82,7 @@ export class InternalNotificationContext {
       attempted: false,
     };
 
-    if (type === NotificationType.COMMENT_FEATURED && comment) {
+    if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED && comment) {
       result.notification = await this.createFeatureCommentNotification(
         lang,
         tenantID,
@@ -92,7 +92,7 @@ export class InternalNotificationContext {
         now
       );
       result.attempted = true;
-    } else if (type === NotificationType.COMMENT_APPROVED && comment) {
+    } else if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED && comment) {
       result.notification = await this.createApproveCommentNotification(
         lang,
         tenantID,
@@ -102,7 +102,7 @@ export class InternalNotificationContext {
         now
       );
       result.attempted = true;
-    } else if (type === NotificationType.COMMENT_REJECTED && comment) {
+    } else if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED && comment) {
       result.notification = await this.createRejectCommentNotification(
         lang,
         tenantID,
@@ -113,7 +113,7 @@ export class InternalNotificationContext {
         now
       );
       result.attempted = true;
-    } else if (type === NotificationType.ILLEGAL_REJECTED && comment) {
+    } else if (type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED && comment) {
       result.notification = await this.createIllegalRejectionNotification(
         lang,
         tenantID,
@@ -125,7 +125,7 @@ export class InternalNotificationContext {
       );
       result.attempted = true;
     } else if (
-      type === NotificationType.DSA_REPORT_DECISION_MADE &&
+      type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE &&
       comment &&
       report
     ) {
@@ -150,7 +150,7 @@ export class InternalNotificationContext {
   private async createRejectCommentNotification(
     lang: LanguageCode,
     tenantID: string,
-    type: NotificationType,
+    type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
     comment: Readonly<Comment>,
     rejectionReason?: RejectionReasonInput | null,
@@ -236,7 +236,7 @@ export class InternalNotificationContext {
   private async createFeatureCommentNotification(
     lang: LanguageCode,
     tenantID: string,
-    type: NotificationType,
+    type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
     comment: Readonly<Comment>,
     now: Date
@@ -270,7 +270,7 @@ export class InternalNotificationContext {
   private async createApproveCommentNotification(
     lang: LanguageCode,
     tenantID: string,
-    type: NotificationType,
+    type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
     comment: Readonly<Comment>,
     now: Date
@@ -304,7 +304,7 @@ export class InternalNotificationContext {
   private async createIllegalRejectionNotification(
     lang: LanguageCode,
     tenantID: string,
-    type: NotificationType,
+    type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
     comment: Readonly<Comment>,
     legal: DSALegality | undefined,
@@ -363,7 +363,7 @@ export class InternalNotificationContext {
   private async createDSAReportDecisionMadeNotification(
     lang: LanguageCode,
     tenantID: string,
-    type: NotificationType,
+    type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
     comment: Readonly<Comment>,
     report: Readonly<DSAReport>,

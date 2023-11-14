@@ -4693,6 +4693,15 @@ type Queues {
 ## Notifications
 ################################################################################
 
+enum NOTIFICATION_TYPE {
+  UNKNOWN
+  COMMENT_FEATURED
+  COMMENT_APPROVED
+  COMMENT_REJECTED
+  ILLEGAL_REJECTED
+  DSA_REPORT_DECISION_MADE
+}
+
 type Notification {
   """
   id is the uuid identifier for the notification.
@@ -4703,6 +4712,12 @@ type Notification {
   ownerID is the string identifier for who this notification is directed to.
   """
   ownerID: ID!
+
+  """
+  type defines the template type for this notification used to generate
+  it. Useful for sorting and filtering categorized notifications.
+  """
+  type: NOTIFICATION_TYPE
 
   """
   createdAt is when this notification was created, used for sorting.

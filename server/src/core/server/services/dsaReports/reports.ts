@@ -12,7 +12,6 @@ import {
   makeDSAReportDecision as makeReportDecision,
   retrieveDSAReport,
 } from "coral-server/models/dsaReport/report";
-import { NotificationType } from "coral-server/models/notifications/notification";
 import { Tenant } from "coral-server/models/tenant";
 import { rejectComment } from "coral-server/stacks";
 import { Request } from "coral-server/types/express";
@@ -20,6 +19,7 @@ import { Request } from "coral-server/types/express";
 import {
   GQLDSAReportDecisionLegality,
   GQLDSAReportStatus,
+  GQLNOTIFICATION_TYPE,
   GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -225,7 +225,7 @@ export async function makeDSAReportDecision(
     if (rejectedComment.authorID) {
       await notifications.create(tenant.id, tenant.locale, {
         targetUserID: rejectedComment.authorID,
-        type: NotificationType.ILLEGAL_REJECTED,
+        type: GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED,
         comment: rejectedComment,
         legal: {
           legality: input.legality,
@@ -240,7 +240,7 @@ export async function makeDSAReportDecision(
   if (report) {
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: report.userID,
-      type: NotificationType.DSA_REPORT_DECISION_MADE,
+      type: GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE,
       comment,
       report,
       legal: {
