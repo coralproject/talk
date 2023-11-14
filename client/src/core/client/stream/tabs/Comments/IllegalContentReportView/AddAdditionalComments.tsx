@@ -143,18 +143,22 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
                 >
                   {additionalComment.url}
                 </div>
-                {/* todo: localize this button */}
-                <ButtonV2
-                  color="mono"
-                  variant="text"
-                  onClick={() =>
-                    onDeleteAdditionalComment(additionalComment.id)
-                  }
-                  iconLeft
+                <Localized
+                  id="comments-permalinkView-reportIllegalContent-additionalComments-deleteButton"
+                  elems={{ icon: <ButtonSvgIcon Icon={BinIcon} /> }}
                 >
-                  <ButtonSvgIcon Icon={BinIcon} />
-                  Delete
-                </ButtonV2>
+                  <ButtonV2
+                    color="mono"
+                    variant="text"
+                    onClick={() =>
+                      onDeleteAdditionalComment(additionalComment.id)
+                    }
+                    iconLeft
+                  >
+                    <ButtonSvgIcon Icon={BinIcon} />
+                    Delete
+                  </ButtonV2>
+                </Localized>
               </Flex>
             );
           }

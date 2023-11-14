@@ -170,6 +170,24 @@ const ReportCommentForm: FunctionComponent<Props> = ({
                   </Localized>
                 </li>
               </ul>
+              {dsaFeaturesEnabled && (
+                <Localized id="comments-reportForm-reportIllegalContent-button">
+                  <Button
+                    className={styles.reportIllegalLink}
+                    variant="flat"
+                    color="primary"
+                    fontSize="medium"
+                    fontWeight="semiBold"
+                    paddingSize="none"
+                    target="_blank"
+                    anchor
+                    underline
+                    href={reportLink}
+                  >
+                    Does this comment potentially contain illegal content?
+                  </Button>
+                </Localized>
+              )}
               <Localized
                 id="comments-reportPopover-additionalInformation"
                 elems={{ optional: <span className={styles.detail} /> }}
@@ -230,23 +248,6 @@ const ReportCommentForm: FunctionComponent<Props> = ({
               </div>
               {submitError && (
                 <ValidationMessage>{submitError}</ValidationMessage>
-              )}
-              {dsaFeaturesEnabled && (
-                <Localized id="comments-reportForm-reportIllegalContent-button">
-                  <Button
-                    variant="flat"
-                    color="primary"
-                    fontSize="medium"
-                    fontWeight="semiBold"
-                    paddingSize="none"
-                    target="_blank"
-                    anchor
-                    underline
-                    href={reportLink}
-                  >
-                    Does this comment potentially contain illegal content?
-                  </Button>
-                </Localized>
               )}
               <Flex alignItems="center" justifyContent="flex-end">
                 <Localized id="comments-reportPopover-cancel">
