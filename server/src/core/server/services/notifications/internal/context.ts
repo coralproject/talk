@@ -310,34 +310,49 @@ export class InternalNotificationContext {
     legal: DSALegality | undefined,
     now: Date
   ) {
-    const reason = legal
+    const title = this.translatePhrase(
+      lang,
+      "notifications-commentRejected-title",
+      "Your comment has been rejected and removed from our site"
+    );
+
+    const reasonForRemoval = this.translatePhrase(
+      lang,
+      "notification-reasonForRemoval-illegal",
+      "Illegal content"
+    );
+
+    const details = legal
       ? this.translatePhrase(
           lang,
-          "notifications-dsaIllegalRejectedReason-information",
-          `Grounds:
-          ${legal?.grounds}
-          Explanation:
-          ${legal?.explanation}`,
+          "notifications-commentRejected-details-illegalContent",
+          `<b>REASON FOR REMOVAL</b><br/>
+        ${reasonForRemoval}<br/>
+        <b>LEGAL GROUNDS</b><br/>
+        ${legal.grounds}<br/>
+        <b>ADDITIONAL EXPLANATION</b><br/>
+        ${legal.explanation}`,
           {
-            grounds: legal.grounds,
-            explanation: legal.explanation,
+            reason: reasonForRemoval,
+            grounds: legal.grounds ?? "",
+            explanation: legal.explanation ?? "",
           }
         )
       : this.translatePhrase(
           lang,
-          "notifications-dsaIllegalRejectedReason-informationNotFound",
-          "The reasoning for this decision cannot be found."
+          "notifications-commentRejected-details-notFound",
+          "Details for this rejection cannot be found."
         );
 
-    const body = this.translatePhrase(
+    const description = this.translatePhrase(
       lang,
-      "notifications-commentWasRejectedAndIllegal-body",
-      `The comment ${comment.id} was rejected for containing illegal content.
-      The reason of which was: ${reason}
-      `,
+      "notifications-commentRejected-description",
+      `Our moderators have reviewed your comment determined your comment contains
+      violates our community guidelines or terms of service.<br/>
+      <br/>
+      ${details}`,
       {
-        commentID: comment.id,
-        reason,
+        details,
       }
     ).replace("\n", "<br/>");
 
@@ -347,12 +362,8 @@ export class InternalNotificationContext {
       type,
       createdAt: now,
       ownerID: targetUserID,
-      title: this.translatePhrase(
-        lang,
-        "notifications-commentWasRejectedAndIllegal-title",
-        "Comment was deemed to contain illegal content and was rejected"
-      ),
-      body,
+      title,
+      body: description,
       commentID: comment.id,
       commentStatus: comment.status,
     });

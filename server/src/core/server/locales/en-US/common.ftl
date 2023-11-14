@@ -54,6 +54,33 @@ notifications-illegalContentReportReviewed-description =
   containing illegal content. After reviewing your report, our moderation
   team has decided this comment { $decision }.
 
+notifications-commentRejected-title =
+  Your comment has been rejected and removed from our site
+notifications-commentRejected-description =
+  Our moderators have reviewed your comment and determined your comment contains content that violates our community guidelines or terms of service.
+  <br/>
+  <br/>
+  { $details }
+
+notifications-commentRejected-details-general =
+  <b>REASON FOR REMOVAL</b><br/>
+  { $reason }<br/>
+  <b>ADDITIONAL EXPLANATION</b><br/>
+  { $explanation }
+
+notifications-commentRejected-details-illegalContent =
+  <b>REASON FOR REMOVAL</b><br/>
+  <descriptItem>{ $reason }</descriptItem><br/>
+  <b>LEGAL GROUNDS</b><br/>
+  { $grounds }<br/>
+  <b>ADDITIONAL EXPLANATION</b><br/>
+  { $explanation }
+
+notification-reasonForRemoval-illegal = Illegal content
+
+notifications-commentRejected-details-notFound =
+  Details for this rejection cannot be found.
+
 # Notifications (old)
 
 notifications-commentWasFeatured-title = Comment was featured
