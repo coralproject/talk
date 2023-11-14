@@ -69,3 +69,8 @@
 .decisionWrapper {
   background-color: var(--palette-grey-100);
 }
+
+.decisionIcon {
+  color: var(--palette-grey-500);
+  margin-right: var(--spacing-1);
+}

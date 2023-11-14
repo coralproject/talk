@@ -244,22 +244,16 @@ const SingleReportRoute: FunctionComponent<Props> & {
                     padding={2}
                   >
                     <HorizontalGutter spacing={3}>
-                      <Localized
-                        id="reports-singleReport-decisionLabel"
-                        elems={{
-                          icon: (
-                            <SvgIcon
-                              Icon={LegalHammerIcon}
-                              filled="currentColor"
-                            />
-                          ),
-                        }}
-                      >
-                        <div className={styles.label}>
-                          <SvgIcon Icon={LegalHammerIcon} />
-                          Decision
-                        </div>
-                      </Localized>
+                      <Flex>
+                        <SvgIcon
+                          className={styles.decisionIcon}
+                          Icon={LegalHammerIcon}
+                          filled="currentColor"
+                        />
+                        <Localized id="reports-singleReport-decisionLabel">
+                          <div className={styles.label}>Decision</div>
+                        </Localized>
+                      </Flex>
                       <div>
                         <Localized id="reports-singleReport-decision-doesItContain">
                           <div className={styles.label}>
