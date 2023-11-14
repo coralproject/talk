@@ -1825,6 +1825,7 @@ reports-singleReport-reportDate = Report date
 reports-singleReport-lawBroken = What law was broken?
 reports-singleReport-explanation = Explanation
 reports-singleReport-comment = Comment
+reports-singleReport-comment-notAvailable = This comment is not available.
 reports-singleReport-comment-deleted = This comment is no longer available. The commenter has deleted their account.
 reports-singleReport-comment-edited = (edited)
 reports-singleReport-comment-viewCommentStream = View comment in stream

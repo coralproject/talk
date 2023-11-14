@@ -146,7 +146,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
           />
           <Localized
             id="reports-singleReport-makeDecisionButton"
-            elems={{ icon: <SvgIcon filled Icon={LegalHammerIcon} /> }}
+            elems={{
+              icon: <SvgIcon filled="currentColor" Icon={LegalHammerIcon} />,
+            }}
           >
             <Button
               className={styles.decisionButton}
@@ -156,7 +158,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
                 dsaReport.status === "COMPLETED" || dsaReport.status === "VOID"
               }
             >
-              <SvgIcon filled Icon={LegalHammerIcon} />
+              <SvgIcon filled="currentColor" Icon={LegalHammerIcon} />
               Decision
             </Button>
           </Localized>
@@ -245,7 +247,12 @@ const SingleReportRoute: FunctionComponent<Props> & {
                       <Localized
                         id="reports-singleReport-decisionLabel"
                         elems={{
-                          icon: <SvgIcon Icon={LegalHammerIcon} filled />,
+                          icon: (
+                            <SvgIcon
+                              Icon={LegalHammerIcon}
+                              filled="currentColor"
+                            />
+                          ),
                         }}
                       >
                         <div className={styles.label}>

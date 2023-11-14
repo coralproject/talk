@@ -38,29 +38,27 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
     switch (status) {
       case GQLDSAReportStatus.AWAITING_REVIEW:
         return (
-          <SvgIcon
-            Icon={SignBadgeCircleIcon}
-            color="primary"
-            filled="primaryLight"
-          />
+          <SvgIcon Icon={SignBadgeCircleIcon} color="teal" filled="tealLight" />
         );
       case GQLDSAReportStatus.UNDER_REVIEW:
         return (
           <SvgIcon
             Icon={SignBadgeCircleDuoIcon}
-            filled="primaryLight"
-            color="primary"
+            filled="tealLight"
+            color="teal"
           />
         );
       case GQLDSAReportStatus.COMPLETED:
-        return <SvgIcon Icon={SignBadgeCircleIcon} filled color="primary" />;
-      default:
         return (
           <SvgIcon
             Icon={SignBadgeCircleIcon}
-            color="primary"
-            filled="primaryLight"
+            filled="currentColor"
+            color="teal"
           />
+        );
+      default:
+        return (
+          <SvgIcon Icon={SignBadgeCircleIcon} color="teal" filled="tealLight" />
         );
     }
   }, []);

@@ -6,10 +6,10 @@ import styles from "./SvgIcon.css";
 
 export interface SvgIconProps {
   Icon: ComponentType;
-  size?: string;
-  color?: string;
-  strokeWidth?: string;
-  filled?: boolean | "primary" | "primaryLight";
+  size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl";
+  color?: "stream" | "teal" | "tealLight" | "error" | "success";
+  strokeWidth?: "regular" | "bold" | "semibold";
+  filled?: "none" | "currentColor" | "teal" | "tealLight";
   className?: string;
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLSpanElement>;
@@ -20,7 +20,7 @@ const SvgIcon: React.FC<SvgIconProps> = ({
   size = "sm",
   color = "inherit",
   strokeWidth = "regular",
-  filled = false,
+  filled = "none",
   className,
   forwardRef,
   ...rest
@@ -51,11 +51,11 @@ const SvgIcon: React.FC<SvgIconProps> = ({
     case "stream":
       colorStyle = styles.colorStream;
       break;
-    case "primary":
-      colorStyle = styles.colorPrimary;
+    case "teal":
+      colorStyle = styles.colorTeal;
       break;
-    case "primaryLight":
-      colorStyle = styles.colorPrimaryLight;
+    case "tealLight":
+      colorStyle = styles.colorTealLight;
       break;
     case "error":
       colorStyle = styles.colorError;
@@ -78,17 +78,17 @@ const SvgIcon: React.FC<SvgIconProps> = ({
 
   let fillStyle;
   switch (filled) {
-    case false:
+    case "none":
       fillStyle = styles.noFill;
       break;
-    case true:
+    case "currentColor":
       fillStyle = styles.filled;
       break;
-    case "primary":
-      fillStyle = styles.primaryFill;
+    case "teal":
+      fillStyle = styles.tealFill;
       break;
-    case "primaryLight":
-      fillStyle = styles.primaryLightFill;
+    case "tealLight":
+      fillStyle = styles.tealLightFill;
       break;
   }
 

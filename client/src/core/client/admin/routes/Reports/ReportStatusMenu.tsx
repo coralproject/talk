@@ -53,11 +53,7 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
         "Awaiting review"
       ),
       icon: (
-        <SvgIcon
-          Icon={SignBadgeCircleIcon}
-          color="primary"
-          filled="primaryLight"
-        />
+        <SvgIcon Icon={SignBadgeCircleIcon} color="teal" filled="tealLight" />
       ),
     },
     UNDER_REVIEW: {
@@ -65,18 +61,30 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
       icon: (
         <SvgIcon
           Icon={SignBadgeCircleDuoIcon}
-          filled="primaryLight"
-          color="primary"
+          filled="tealLight"
+          color="teal"
         />
       ),
     },
     COMPLETED: {
       text: getMessage(localeBundles, "reports-status-completed", "Completed"),
-      icon: <SvgIcon Icon={SignBadgeCircleIcon} filled color="primary" />,
+      icon: (
+        <SvgIcon
+          Icon={SignBadgeCircleIcon}
+          filled="currentColor"
+          color="teal"
+        />
+      ),
     },
     VOID: {
       text: getMessage(localeBundles, "reports-status-void", "Void"),
-      icon: <SvgIcon Icon={SignBadgeCircleIcon} filled color="primary" />,
+      icon: (
+        <SvgIcon
+          Icon={SignBadgeCircleIcon}
+          filled="currentColor"
+          color="teal"
+        />
+      ),
     },
     "%future added value": {
       text: getMessage(
@@ -85,11 +93,7 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
         "Unknown status"
       ),
       icon: (
-        <SvgIcon
-          Icon={SignBadgeCircleIcon}
-          color="primary"
-          filled="primaryLight"
-        />
+        <SvgIcon Icon={SignBadgeCircleIcon} color="teal" filled="tealLight" />
       ),
     },
   };
@@ -179,8 +183,8 @@ const ReportStatusMenu: FunctionComponent<Props> = ({
             ref={ref}
             uppercase={false}
             disabled={
-              value ===
-              (GQLDSAReportStatus.COMPLETED || GQLDSAReportStatus.VOID)
+              value === GQLDSAReportStatus.COMPLETED ||
+              value === GQLDSAReportStatus.VOID
             }
           >
             {value
