@@ -49,7 +49,7 @@ const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
           id="configure-moderationPhases-description"
           elems={{
             externalLink: (
-              <ExternalLink href="https://github.com/coralproject/talk/blob/main/EXTERNAL_MODERATION_PHASES.md#request-signing" />
+              <ExternalLink href="https://docs.coralproject.net/external-moderation-phases" />
             ),
           }}
         >
@@ -57,7 +57,7 @@ const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
             Configure a external moderation phase to automate some moderation
             actions. Moderation requests will be JSON encoded and signed. To
             learn more about moderation requests, visit our{" "}
-            <ExternalLink href="https://github.com/coralproject/talk/blob/main/EXTERNAL_MODERATION_PHASES.md#request-signing">
+            <ExternalLink href="https://docs.coralproject.net/external-moderation-phases">
               docs
             </ExternalLink>
             .
