@@ -156,63 +156,40 @@ export class InternalNotificationContext {
     rejectionReason?: RejectionReasonInput | null,
     now = new Date()
   ) {
-    const code =
-      rejectionReason && rejectionReason.code
-        ? this.translatePhrase(
-            lang,
-            "notifications-commentWasRejectedWithReason-code",
-            `<br/>
-          ${rejectionReason.code}`,
-            { code: rejectionReason.code }
-          )
-        : "";
+    const reason = this.translateReasonForRemval(
+      lang,
+      rejectionReason ? rejectionReason.code : null
+    );
 
-    const grounds =
-      rejectionReason && rejectionReason.legalGrounds
-        ? this.translatePhrase(
-            lang,
-            "notifications-commentWasRejectedWithReason-grounds",
-            `<br/>
-          ${rejectionReason.legalGrounds}`,
-            { grounds: rejectionReason.legalGrounds }
-          )
-        : "";
     const explanation =
       rejectionReason && rejectionReason.detailedExplanation
-        ? this.translatePhrase(
-            lang,
-            "notifications-commentWasRejectedWithReason-explanation",
-            `<br/>
-          ${rejectionReason.detailedExplanation}`,
-            { explanation: rejectionReason.detailedExplanation }
-          )
+        ? rejectionReason.detailedExplanation
         : "";
 
-    const body = rejectionReason
-      ? this.translatePhrase(
-          lang,
-          "notifications-commentWasRejectedWithReason-body",
-          `The comment ${comment.id} was rejected.
-          The reason of wich was:
-          ${code}
-          ${grounds}
-          ${explanation}
-          `,
-          {
-            commentID: comment.id,
-            code,
-            grounds,
-            explanation,
-          }
-        )
-      : this.translatePhrase(
-          lang,
-          "notifications-commentWasRejected-body",
-          `The comment ${comment.id} was rejected.`,
-          {
-            commentID: comment.id,
-          }
-        );
+    const details = this.translatePhrase(
+      lang,
+      "notifications-commentRejected-details-general",
+      `<b>REASON FOR REMOVAL</b><br/>
+      ${reason}<br/>
+      <b>ADDITIONAL EXPLANATION</b><br/>
+      ${explanation}`,
+      {
+        reason,
+        explanation,
+      }
+    );
+
+    const body = this.translatePhrase(
+      lang,
+      "notifications-commentRejected-description",
+      `Our moderators have reviewed your comment and determined your comment contains content that violates our community guidelines or terms of service.
+      <br/>
+      <br/>
+      ${details}`,
+      {
+        details,
+      }
+    ).replace("\n", "<br/>");
 
     const notification = await createNotification(this.mongo, {
       id: uuid(),
@@ -222,10 +199,10 @@ export class InternalNotificationContext {
       ownerID: targetUserID,
       title: this.translatePhrase(
         lang,
-        "notifications-commentWasRejected-title",
-        "Comment was rejected"
+        "notifications-commentRejected-title",
+        "Your comment has been rejected and removed from our site"
       ),
-      body: body.replace("\n", "<br/>"),
+      body,
       commentID: comment.id,
       commentStatus: comment.status,
     });
@@ -316,10 +293,9 @@ export class InternalNotificationContext {
       "Your comment has been rejected and removed from our site"
     );
 
-    const reasonForRemoval = this.translatePhrase(
+    const reasonForRemoval = this.translateReasonForRemval(
       lang,
-      "notification-reasonForRemoval-illegal",
-      "Illegal content"
+      GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT
     );
 
     const details = legal
@@ -443,6 +419,67 @@ export class InternalNotificationContext {
     return notification;
   }
 
+  private translateReasonForRemval(
+    lang: LanguageCode,
+    code: GQLREJECTION_REASON_CODE | null
+  ) {
+    if (code === GQLREJECTION_REASON_CODE.OFFENSIVE) {
+      return this.translatePhrase(
+        lang,
+        "notification-reasonForRemoval-offensive",
+        "Offensive"
+      );
+    }
+    if (code === GQLREJECTION_REASON_CODE.ABUSIVE) {
+      return this.translatePhrase(
+        lang,
+        "notification-reasonForRemoval-abusive",
+        "Abusive"
+      );
+    }
+    if (code === GQLREJECTION_REASON_CODE.SPAM) {
+      return this.translatePhrase(
+        lang,
+        "notification-reasonForRemoval-spam",
+        "Spam"
+      );
+    }
+    if (code === GQLREJECTION_REASON_CODE.BANNED_WORD) {
+      return this.translatePhrase(
+        lang,
+        "notification-reasonForRemoval-bannedWord",
+        "Banned word"
+      );
+    }
+    if (code === GQLREJECTION_REASON_CODE.AD) {
+      return this.translatePhrase(
+        lang,
+        "notification-reasonForRemoval-ad",
+        "Ad"
+      );
+    }
+    if (code === GQLREJECTION_REASON_CODE.OTHER) {
+      return this.translatePhrase(
+        lang,
+        "notification-reasonForRemoval-other",
+        "Other"
+      );
+    }
+    if (code === GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT) {
+      return this.translatePhrase(
+        lang,
+        "notification-reasonForRemoval-illegal",
+        "Illegal content"
+      );
+    }
+
+    return this.translatePhrase(
+      lang,
+      "notification-reasonForRemoval-unknown",
+      "Unknown"
+    );
+  }
+
   private translatePhrase(
     lang: LanguageCode,
     key: string,
@@ -450,7 +487,6 @@ export class InternalNotificationContext {
     args?: object | undefined
   ) {
     const bundle = this.i18n.getBundle(lang);
-
     const result = translate(bundle, text, key, args);
 
     return result;

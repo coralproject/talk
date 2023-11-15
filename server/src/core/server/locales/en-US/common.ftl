@@ -59,14 +59,7 @@ notifications-commentRejected-title =
 notifications-commentRejected-description =
   Our moderators have reviewed your comment and determined your comment contains content that violates our community guidelines or terms of service.
   <br/>
-  <br/>
   { $details }
-
-notifications-commentRejected-details-general =
-  <b>REASON FOR REMOVAL</b><br/>
-  { $reason }<br/>
-  <b>ADDITIONAL EXPLANATION</b><br/>
-  { $explanation }
 
 notifications-commentRejected-details-illegalContent =
   <b>REASON FOR REMOVAL</b><br/>
@@ -76,7 +69,20 @@ notifications-commentRejected-details-illegalContent =
   <b>ADDITIONAL EXPLANATION</b><br/>
   { $explanation }
 
+notifications-commentRejected-details-general =
+  <b>REASON FOR REMOVAL</b><br/>
+  { $reason }<br/>
+  <b>ADDITIONAL EXPLANATION</b><br/>
+  { $explanation }
+
+notification-reasonForRemoval-offensive = Offensive
+notification-reasonForRemoval-abusive = Abusive
+notification-reasonForRemoval-spam = Spam
+notification-reasonForRemoval-bannedWord = Banned word
+notification-reasonForRemoval-ad = Ad
+notification-reasonForRemoval-other = Other
 notification-reasonForRemoval-illegal = Illegal content
+notification-reasonForRemoval-unknown = Unknown
 
 notifications-commentRejected-details-notFound =
   Details for this rejection cannot be found.
