@@ -1,16 +1,30 @@
+import { FluentBundle } from "@fluent/bundle/compat";
 import cn from "classnames";
-import React, { FunctionComponent, useMemo } from "react";
+import React, { ComponentType, FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import HTMLContent from "coral-stream/common/HTMLContent";
-import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
+import {
+  CheckCircleIcon,
+  LegalHammerIcon,
+  MessagesBubbleSquareIcon,
+  QuestionCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import { Timestamp } from "coral-ui/components/v2";
 
-import { NotificationContainer_notification } from "coral-stream/__generated__/NotificationContainer_notification.graphql";
+import {
+  NOTIFICATION_TYPE,
+  NotificationContainer_notification,
+} from "coral-stream/__generated__/NotificationContainer_notification.graphql";
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
+import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
 import NotificationCommentContainer from "./NotificationCommentContainer";
+import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
 
 import styles from "./NotificationContainer.css";
 
@@ -19,10 +33,73 @@ interface Props {
   notification: NotificationContainer_notification;
 }
 
+const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED) {
+    return CheckCircleIcon;
+  }
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
+    return CheckCircleIcon;
+  }
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
+    return MessagesBubbleSquareIcon;
+  }
+  if (type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) {
+    return MessagesBubbleSquareIcon;
+  }
+  if (type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE) {
+    return LegalHammerIcon;
+  }
+
+  return QuestionCircleIcon;
+};
+
+const getTitle = (bundles: FluentBundle[], type: NOTIFICATION_TYPE | null) => {
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasBeenApproved",
+      "Your comment has been approved"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasBeenFeatured",
+      "Your comment has been featured"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasBeenRejected",
+      "Your comment has been rejected and removed from our site"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasBeenRejected",
+      "Your comment has been rejected and removed from our site"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE) {
+    return getMessage(
+      bundles,
+      "notifications-yourIllegalContentReportHasBeenReviewed",
+      "Your illegal content report has been reviewed"
+    );
+  }
+
+  return getMessage(bundles, "notifications-defaultTitle", "Notification");
+};
+
 const NotificationContainer: FunctionComponent<Props> = ({
-  notification: { title, body, comment, createdAt, commentStatus },
+  notification,
   viewer,
 }) => {
+  const { type, comment, createdAt, commentStatus } = notification;
+  const { localeBundles } = useCoralContext();
+
   const seen = useMemo(() => {
     if (!viewer) {
       return false;
@@ -44,16 +121,18 @@ const NotificationContainer: FunctionComponent<Props> = ({
           [styles.notSeen]: !seen,
         })}
       >
-        {title && (
-          <div className={styles.title}>
-            <SvgIcon size="sm" Icon={CheckCircleIcon} />
-            <div className={styles.titleText}>{title}</div>
+        <div className={styles.title}>
+          <SvgIcon size="sm" Icon={getIcon(type)} />
+          <div className={styles.titleText}>
+            {getTitle(localeBundles, type)}
           </div>
+        </div>
+        {(type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED ||
+          type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) && (
+          <RejectedCommentNotificationBody notification={notification} />
         )}
-        {body && (
-          <div className={cn(styles.body)}>
-            <HTMLContent>{body || ""}</HTMLContent>
-          </div>
+        {type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE && (
+          <DSAReportDecisionMadeNotificationBody notification={notification} />
         )}
         {comment && (
           <div className={styles.contextItem}>
@@ -82,13 +161,14 @@ const enhanced = withFragmentContainer<Props>({
     fragment NotificationContainer_notification on Notification {
       id
       createdAt
-      title
-      body
+      type
       comment {
         ...NotificationCommentContainer_comment
         status
       }
       commentStatus
+      ...RejectedCommentNotificationBody_notification
+      ...DSAReportDecisionMadeNotificationBody_notification
     }
   `,
 })(NotificationContainer);

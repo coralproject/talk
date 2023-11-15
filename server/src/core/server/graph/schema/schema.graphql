@@ -1948,12 +1948,24 @@ type RTEConfiguration {
   sarcasm: Boolean!
 }
 
+enum DSA_METHOD_OF_REDRESS {
+  NONE
+  EMAIL
+  URL
+}
+
 type DSAConfiguration {
   """
   enabled when true turns on the European Union DSA compliance
   features for commenting, reporting, and moderation flows.
   """
   enabled: Boolean!
+
+  """
+  methodOfRedress lets users know if and how they can appeal a
+  moderation decision
+  """
+  methodOfRedress: DSA_METHOD_OF_REDRESS!
 }
 
 """
@@ -4681,6 +4693,15 @@ type Queues {
 ## Notifications
 ################################################################################
 
+enum NOTIFICATION_TYPE {
+  UNKNOWN
+  COMMENT_FEATURED
+  COMMENT_APPROVED
+  COMMENT_REJECTED
+  ILLEGAL_REJECTED
+  DSA_REPORT_DECISION_MADE
+}
+
 type Notification {
   """
   id is the uuid identifier for the notification.
@@ -4693,19 +4714,15 @@ type Notification {
   ownerID: ID!
 
   """
+  type defines the template type for this notification used to generate
+  it. Useful for sorting and filtering categorized notifications.
+  """
+  type: NOTIFICATION_TYPE
+
+  """
   createdAt is when this notification was created, used for sorting.
   """
   createdAt: Time!
-
-  """
-  title is the title text of this notification.
-  """
-  title: String
-
-  """
-  body is the text content of this notification.
-  """
-  body: String
 
   """
   comment is the optional comment that is linked to this notification.
@@ -4719,6 +4736,17 @@ type Notification {
   since the notification was created.
   """
   commentStatus: COMMENT_STATUS
+
+  """
+  rejectionReason is an optional field that defines why a comment was rejected.
+  """
+  rejectionReason: REJECTION_REASON_CODE
+
+  """
+  decisionDetails is an optional field that contains further details pertaining
+  to DSA or moderation decisions.
+  """
+  decisionDetails: NotificationDecisionDetails
 
   """
   dsaReport is the details of the DSA Report related to the notification.
@@ -4764,6 +4792,11 @@ type NotificationDSAReportDetails {
   id: ID!
 
   """
+  createdAt is the date when this report was created
+  """
+  createdAt: Time!
+
+  """
   referenceID is the friendly identifier that is human readable
   for the DSA report.
   """
@@ -4797,6 +4830,23 @@ type NotificationDSAReportDetails {
   a collection of co-related DSA reports.
   """
   submissionID: ID @auth(roles: [ADMIN, MODERATOR])
+}
+
+type NotificationDecisionDetails {
+  """
+  legality defines whether the rejection reason is of legal or illegal state.
+  """
+  legality: DSAReportDecisionLegality
+
+  """
+  grounds is the legal grounds for which the rejection may have been made.
+  """
+  grounds: String
+
+  """
+  explanation gives further context to the reasons for rejection.
+  """
+  explanation: String
 }
 
 ################################################################################
@@ -6053,7 +6103,17 @@ DSAConfigurationInput specifies the configuration for DSA European Union
 moderation and reporting features.
 """
 input DSAConfigurationInput {
+  """
+  enabled when true turns on the European Union DSA compliance
+  features for commenting, reporting, and moderation flows.
+  """
   enabled: Boolean
+
+  """
+  methodOfRedress lets users know if and how they can appeal a
+  moderation decision
+  """
+  methodOfRedress: DSA_METHOD_OF_REDRESS
 }
 
 """
