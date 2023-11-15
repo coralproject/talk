@@ -3,6 +3,8 @@ import { MongoContext } from "coral-server/data/context";
 import {
   GQLCOMMENT_STATUS,
   GQLNOTIFICATION_TYPE,
+  GQLNotificationDecisionDetails,
+  GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { ConnectionInput, Query, resolveConnection } from "../helpers";
@@ -22,6 +24,9 @@ export interface Notification extends TenantResource {
 
   commentID?: string;
   commentStatus?: GQLCOMMENT_STATUS;
+
+  rejectionReason?: GQLREJECTION_REASON_CODE;
+  decisionDetails?: GQLNotificationDecisionDetails;
 
   title?: string;
   body?: string;

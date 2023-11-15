@@ -35,4 +35,6 @@ export const NotificationResolver: Required<
 
     return await ctx.loaders.DSAReports.dsaReport.load({ id: reportID });
   },
+  decisionDetails: ({ decisionDetails }) => decisionDetails,
+  rejectionReason: ({ rejectionReason }) => rejectionReason,
 };

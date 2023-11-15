@@ -4748,6 +4748,17 @@ type Notification {
   commentStatus: COMMENT_STATUS
 
   """
+  rejectionReason is an optional field that defines why a comment was rejected.
+  """
+  rejectionReason: REJECTION_REASON_CODE
+
+  """
+  decisionDetails is an optional field that contains further details pertaining
+  to DSA or moderation decisions.
+  """
+  decisionDetails: NotificationDecisionDetails
+
+  """
   dsaReport is the details of the DSA Report related to the notification.
   This is usually in reference to the comment that is also related to
   the notification.
@@ -4824,6 +4835,23 @@ type NotificationDSAReportDetails {
   a collection of co-related DSA reports.
   """
   submissionID: ID @auth(roles: [ADMIN, MODERATOR])
+}
+
+type NotificationDecisionDetails {
+  """
+  legality defines whether the rejection reason is of legal or illegal state.
+  """
+  legality: DSAReportDecisionLegality
+
+  """
+  grounds is the legal grounds for which the rejection may have been made.
+  """
+  grounds: String
+
+  """
+  explanation gives further context to the reasons for rejection.
+  """
+  explanation: String
 }
 
 ################################################################################

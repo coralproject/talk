@@ -342,6 +342,12 @@ export class InternalNotificationContext {
       body: description,
       commentID: comment.id,
       commentStatus: comment.status,
+      rejectionReason: GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT,
+      decisionDetails: {
+        legality: legal ? legal.legality : undefined,
+        grounds: legal ? legal.grounds : undefined,
+        explanation: legal ? legal.explanation : undefined,
+      },
     });
 
     return notification;
@@ -414,6 +420,11 @@ export class InternalNotificationContext {
       commentID: comment.id,
       commentStatus: comment.status,
       reportID: report.id,
+      decisionDetails: {
+        legality: legal.legality,
+        grounds: legal.grounds,
+        explanation: legal.explanation,
+      },
     });
 
     return notification;
