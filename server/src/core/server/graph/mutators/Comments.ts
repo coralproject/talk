@@ -3,7 +3,6 @@ import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/common/lib/helpers/v
 import GraphContext from "coral-server/graph/context";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/errors";
 import { hasTag } from "coral-server/models/comment";
-import { NotificationType } from "coral-server/models/notifications/notification";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
@@ -34,6 +33,7 @@ import {
   GQLEditCommentInput,
   GQLFeatureCommentInput,
   GQLMarkCommentsAsSeenInput,
+  GQLNOTIFICATION_TYPE,
   GQLRemoveCommentDontAgreeInput,
   GQLRemoveCommentReactionInput,
   GQLTAG,
@@ -289,7 +289,7 @@ export const Comments = (ctx: GraphContext) => ({
     await ctx.notifications.create(ctx.tenant.id, ctx.tenant.locale, {
       targetUserID: comment.authorID!,
       comment,
-      type: NotificationType.COMMENT_FEATURED,
+      type: GQLNOTIFICATION_TYPE.COMMENT_FEATURED,
     });
 
     // Return it to the next step.

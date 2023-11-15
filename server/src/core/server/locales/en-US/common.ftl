@@ -39,6 +39,55 @@ dsaReportCSV-legality-legal = Legality: Legal
 dsaReportCSV-legalGrounds = Legal grounds
 dsaReportCSV-explanation = Explanation
 
+# Notifications
+
+notifications-illegalContentReportReviewed-title =
+  Your illegal content report has been reviewed
+
+notifications-illegalContentReportReviewed-decision-legal =
+  does not appear to contain illegal content
+notifications-illegalContentReportReviewed-decision-illegal =
+  does contain illegal content
+
+notifications-illegalContentReportReviewed-description =
+  On { $date } you reported a comment written by { $author } for
+  containing illegal content. After reviewing your report, our moderation
+  team has decided this comment { $decision }.
+
+notifications-commentRejected-title =
+  Your comment has been rejected and removed from our site
+notifications-commentRejected-description =
+  Our moderators have reviewed your comment and determined your comment contains content that violates our community guidelines or terms of service.
+  <br/>
+  { $details }
+
+notifications-commentRejected-details-illegalContent =
+  <b>REASON FOR REMOVAL</b><br/>
+  <descriptItem>{ $reason }</descriptItem><br/>
+  <b>LEGAL GROUNDS</b><br/>
+  { $grounds }<br/>
+  <b>ADDITIONAL EXPLANATION</b><br/>
+  { $explanation }
+
+notifications-commentRejected-details-general =
+  <b>REASON FOR REMOVAL</b><br/>
+  { $reason }<br/>
+  <b>ADDITIONAL EXPLANATION</b><br/>
+  { $explanation }
+
+notification-reasonForRemoval-offensive = Offensive
+notification-reasonForRemoval-abusive = Abusive
+notification-reasonForRemoval-spam = Spam
+notification-reasonForRemoval-bannedWord = Banned word
+notification-reasonForRemoval-ad = Ad
+notification-reasonForRemoval-other = Other
+notification-reasonForRemoval-illegal = Illegal content
+notification-reasonForRemoval-unknown = Unknown
+
+notifications-commentRejected-details-notFound =
+  Details for this rejection cannot be found.
+
+# Notifications (old)
 
 notifications-commentWasFeatured-title = Comment was featured
 notifications-commentWasFeatured-body = The comment { $commentID } was featured.

@@ -1,22 +1,19 @@
 import { MongoContext } from "coral-server/data/context";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLNOTIFICATION_TYPE,
+  GQLNotificationDecisionDetails,
+  GQLREJECTION_REASON_CODE,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { ConnectionInput, Query, resolveConnection } from "../helpers";
 import { TenantResource } from "../tenant";
 import { User } from "../user";
 
-export enum NotificationType {
-  COMMENT_FEATURED = "COMMENT_FEATURED",
-  COMMENT_APPROVED = "COMMENT_APPROVED",
-  COMMENT_REJECTED = "COMMENT_REJECTED",
-  ILLEGAL_REJECTED = "ILLEGAL_REJECTED",
-  DSA_REPORT_DECISION_MADE = "DSA_REPORT_DECISION_MADE",
-}
-
 export interface Notification extends TenantResource {
   readonly id: string;
-  readonly type: NotificationType;
+  readonly type: GQLNOTIFICATION_TYPE;
   readonly tenantID: string;
 
   createdAt: Date;
@@ -28,8 +25,8 @@ export interface Notification extends TenantResource {
   commentID?: string;
   commentStatus?: GQLCOMMENT_STATUS;
 
-  title?: string;
-  body?: string;
+  rejectionReason?: GQLREJECTION_REASON_CODE;
+  decisionDetails?: GQLNotificationDecisionDetails;
 }
 
 type BaseConnectionInput = ConnectionInput<Notification>;

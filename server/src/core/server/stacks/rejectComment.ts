@@ -8,7 +8,6 @@ import {
   hasTag,
   UpdateCommentStatus,
 } from "coral-server/models/comment";
-import { NotificationType } from "coral-server/models/notifications/notification";
 import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
@@ -20,6 +19,7 @@ import { Request } from "coral-server/types/express";
 
 import {
   GQLCOMMENT_STATUS,
+  GQLNOTIFICATION_TYPE,
   GQLREJECTION_REASON_CODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
@@ -168,7 +168,7 @@ const rejectComment = async (
       targetUserID: result.after.authorID!,
       comment: result.after,
       rejectionReason: reason,
-      type: NotificationType.COMMENT_REJECTED,
+      type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
     });
   }
 
