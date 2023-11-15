@@ -6,7 +6,8 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLDSAReportStatus } from "coral-framework/schema";
 import {
-  NightMoonHalfIcon,
+  DeleteIcon,
+  SignBadgeCircleDuoIcon,
   SignBadgeCircleIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
@@ -37,13 +38,31 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
     }
     switch (status) {
       case GQLDSAReportStatus.AWAITING_REVIEW:
-        return <SvgIcon Icon={SignBadgeCircleIcon} />;
+        return (
+          <SvgIcon Icon={SignBadgeCircleIcon} color="teal" filled="tealLight" />
+        );
       case GQLDSAReportStatus.UNDER_REVIEW:
-        return <SvgIcon Icon={NightMoonHalfIcon} />;
+        return (
+          <SvgIcon
+            Icon={SignBadgeCircleDuoIcon}
+            filled="tealLight"
+            color="teal"
+          />
+        );
       case GQLDSAReportStatus.COMPLETED:
-        return <SvgIcon Icon={SignBadgeCircleIcon} filled />;
+        return (
+          <SvgIcon
+            Icon={SignBadgeCircleIcon}
+            filled="currentColor"
+            color="teal"
+          />
+        );
+      case GQLDSAReportStatus.VOID:
+        return <SvgIcon Icon={DeleteIcon} color="teal" />;
       default:
-        return <SvgIcon Icon={SignBadgeCircleIcon} />;
+        return (
+          <SvgIcon Icon={SignBadgeCircleIcon} color="teal" filled="tealLight" />
+        );
     }
   }, []);
 

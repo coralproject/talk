@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/common/lib/utils";
@@ -144,7 +144,7 @@ it("includes expected information about dsa report", async () => {
   );
 
   expect(
-    within(container).getByRole("combobox", { name: "Status" })
+    within(container).getByRole("button", { name: "Awaiting review" })
   ).toBeVisible();
 
   expect(within(container).getByText("What law was broken?")).toBeVisible();
@@ -201,15 +201,20 @@ it("change status of a report", async () => {
   const { container } = await createTestRenderer();
 
   // change status
-  const changeStatus = within(container).getByRole("combobox", {
-    name: "Status",
+  const changeStatus = within(container).getByRole("button", {
+    name: "Awaiting review",
   });
-  expect(changeStatus).toHaveValue("AWAITING_REVIEW");
-  userEvent.selectOptions(changeStatus, "In review");
+  userEvent.click(changeStatus);
+
+  const statusPopover = screen.getByRole("dialog");
+
+  const inReviewButton = within(statusPopover).getByText("In review");
+
+  fireEvent.click(inReviewButton);
+
   expect(
     await within(container).findByText("Markus changed status to In review")
   ).toBeVisible();
-  expect(changeStatus).toHaveValue("UNDER_REVIEW");
 });
 
 it("can make a legality decision on a report", async () => {
@@ -217,7 +222,7 @@ it("can make a legality decision on a report", async () => {
 
   // make report decision
   const makeDecisionButton = within(container).getByRole("button", {
-    name: "Make decision",
+    name: "Decision",
   });
   userEvent.click(makeDecisionButton);
   const makeDecisionModal = await screen.findByTestId(

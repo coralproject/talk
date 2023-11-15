@@ -65,3 +65,12 @@
   font-weight: var(--font-weight-primary-regular);
   white-space: pre-wrap;
 }
+
+.decisionWrapper {
+  background-color: var(--palette-grey-100);
+}
+
+.decisionIcon {
+  color: var(--palette-grey-500);
+  margin-right: var(--spacing-1);
+}
