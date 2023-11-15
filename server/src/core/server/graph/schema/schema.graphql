@@ -4802,6 +4802,11 @@ type NotificationDSAReportDetails {
   id: ID!
 
   """
+  createdAt is the date when this report was created
+  """
+  createdAt: Time!
+
+  """
   referenceID is the friendly identifier that is human readable
   for the DSA report.
   """

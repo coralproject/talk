@@ -6,6 +6,7 @@ export const NotificationDSAReportDetailsResolver: Required<
   GQLNotificationDSAReportDetailsTypeResolver<DSAReport>
 > = {
   id: ({ id }) => id,
+  createdAt: ({ createdAt }) => createdAt,
   referenceID: ({ referenceID }) => referenceID,
   comment: async ({ commentID }, input, ctx) => {
     if (!commentID) {

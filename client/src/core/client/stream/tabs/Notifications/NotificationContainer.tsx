@@ -22,6 +22,7 @@ import {
 } from "coral-stream/__generated__/NotificationContainer_notification.graphql";
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
+import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
 import NotificationCommentContainer from "./NotificationCommentContainer";
 import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
 
@@ -130,6 +131,9 @@ const NotificationContainer: FunctionComponent<Props> = ({
           type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) && (
           <RejectedCommentNotificationBody notification={notification} />
         )}
+        {type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE && (
+          <DSAReportDecisionMadeNotificationBody notification={notification} />
+        )}
         {comment && (
           <div className={styles.contextItem}>
             <NotificationCommentContainer
@@ -166,6 +170,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       commentStatus
       ...RejectedCommentNotificationBody_notification
+      ...DSAReportDecisionMadeNotificationBody_notification
     }
   `,
 })(NotificationContainer);

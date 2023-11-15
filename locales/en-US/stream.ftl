@@ -1070,3 +1070,8 @@ notifications-rejectionReason-ad = Ad
 notifications-rejectionReason-illegalContent = Illegal content
 notifications-rejectionReason-other = Other
 notifications-rejectionReason-unknown = Unknown
+
+notifications-reportDecisionMade-legal =
+  On { $date } you reported a comment written by { $author } for containing illegal content. After reviewing your report, our moderation team has decided this comment does not appear to contain illegal content.
+notifications-reportDecisionMade-illegal =
+  On { $date } you reported a comment written by { $author } for containing illegal content. After reviewing your report, our moderation team has decided this comment does contain illegal content.
