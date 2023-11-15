@@ -13,8 +13,6 @@ export const NotificationResolver: Required<
   ownerID: ({ ownerID }) => ownerID,
   type: ({ type }) => (type ? type : GQLNOTIFICATION_TYPE.UNKNOWN),
   createdAt: ({ createdAt }) => createdAt,
-  title: ({ title }) => title,
-  body: ({ body }) => body,
   comment: async ({ commentID }, input, ctx) => {
     if (!commentID) {
       return null;

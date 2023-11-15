@@ -4725,16 +4725,6 @@ type Notification {
   createdAt: Time!
 
   """
-  title is the title text of this notification.
-  """
-  title: String
-
-  """
-  body is the text content of this notification.
-  """
-  body: String
-
-  """
   comment is the optional comment that is linked to this notification.
   """
   comment: Comment

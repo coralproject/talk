@@ -84,7 +84,6 @@ export class InternalNotificationContext {
 
     if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED && comment) {
       result.notification = await this.createFeatureCommentNotification(
-        lang,
         tenantID,
         type,
         targetUserID,
@@ -94,7 +93,6 @@ export class InternalNotificationContext {
       result.attempted = true;
     } else if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED && comment) {
       result.notification = await this.createApproveCommentNotification(
-        lang,
         tenantID,
         type,
         targetUserID,
@@ -104,7 +102,6 @@ export class InternalNotificationContext {
       result.attempted = true;
     } else if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED && comment) {
       result.notification = await this.createRejectCommentNotification(
-        lang,
         tenantID,
         type,
         targetUserID,
@@ -115,7 +112,6 @@ export class InternalNotificationContext {
       result.attempted = true;
     } else if (type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED && comment) {
       result.notification = await this.createIllegalRejectionNotification(
-        lang,
         tenantID,
         type,
         targetUserID,
@@ -130,7 +126,6 @@ export class InternalNotificationContext {
       report
     ) {
       result.notification = await this.createDSAReportDecisionMadeNotification(
-        lang,
         tenantID,
         type,
         targetUserID,
@@ -148,7 +143,6 @@ export class InternalNotificationContext {
   }
 
   private async createRejectCommentNotification(
-    lang: LanguageCode,
     tenantID: string,
     type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
@@ -156,53 +150,12 @@ export class InternalNotificationContext {
     rejectionReason?: RejectionReasonInput | null,
     now = new Date()
   ) {
-    const reason = this.translateReasonForRemval(
-      lang,
-      rejectionReason ? rejectionReason.code : null
-    );
-
-    const explanation =
-      rejectionReason && rejectionReason.detailedExplanation
-        ? rejectionReason.detailedExplanation
-        : "";
-
-    const details = this.translatePhrase(
-      lang,
-      "notifications-commentRejected-details-general",
-      `<b>REASON FOR REMOVAL</b><br/>
-      ${reason}<br/>
-      <b>ADDITIONAL EXPLANATION</b><br/>
-      ${explanation}`,
-      {
-        reason,
-        explanation,
-      }
-    );
-
-    const body = this.translatePhrase(
-      lang,
-      "notifications-commentRejected-description",
-      `Our moderators have reviewed your comment and determined your comment contains content that violates our community guidelines or terms of service.
-      <br/>
-      <br/>
-      ${details}`,
-      {
-        details,
-      }
-    ).replace("\n", "<br/>");
-
     const notification = await createNotification(this.mongo, {
       id: uuid(),
       tenantID,
       type,
       createdAt: now,
       ownerID: targetUserID,
-      title: this.translatePhrase(
-        lang,
-        "notifications-commentRejected-title",
-        "Your comment has been rejected and removed from our site"
-      ),
-      body,
       commentID: comment.id,
       commentStatus: comment.status,
       rejectionReason: rejectionReason?.code ?? undefined,
@@ -215,7 +168,6 @@ export class InternalNotificationContext {
   }
 
   private async createFeatureCommentNotification(
-    lang: LanguageCode,
     tenantID: string,
     type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
@@ -228,19 +180,6 @@ export class InternalNotificationContext {
       type,
       createdAt: now,
       ownerID: targetUserID,
-      title: this.translatePhrase(
-        lang,
-        "notifications-commentWasFeatured-title",
-        "Comment was featured"
-      ),
-      body: this.translatePhrase(
-        lang,
-        "notifications-commentWasFeatured-body",
-        `The comment ${comment.id} was featured.`,
-        {
-          commentID: comment.id,
-        }
-      ),
       commentID: comment.id,
       commentStatus: comment.status,
     });
@@ -249,7 +188,6 @@ export class InternalNotificationContext {
   }
 
   private async createApproveCommentNotification(
-    lang: LanguageCode,
     tenantID: string,
     type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
@@ -262,19 +200,6 @@ export class InternalNotificationContext {
       type,
       createdAt: now,
       ownerID: targetUserID,
-      title: this.translatePhrase(
-        lang,
-        "notifications-commentWasApproved-title",
-        "Comment was approved"
-      ),
-      body: this.translatePhrase(
-        lang,
-        "notifications-commentWasApproved-body",
-        `The comment ${comment.id} was approved.`,
-        {
-          commentID: comment.id,
-        }
-      ),
       commentID: comment.id,
       commentStatus: comment.status,
     });
@@ -283,7 +208,6 @@ export class InternalNotificationContext {
   }
 
   private async createIllegalRejectionNotification(
-    lang: LanguageCode,
     tenantID: string,
     type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
@@ -291,59 +215,12 @@ export class InternalNotificationContext {
     legal: DSALegality | undefined,
     now: Date
   ) {
-    const title = this.translatePhrase(
-      lang,
-      "notifications-commentRejected-title",
-      "Your comment has been rejected and removed from our site"
-    );
-
-    const reasonForRemoval = this.translateReasonForRemval(
-      lang,
-      GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT
-    );
-
-    const details = legal
-      ? this.translatePhrase(
-          lang,
-          "notifications-commentRejected-details-illegalContent",
-          `<b>REASON FOR REMOVAL</b><br/>
-        ${reasonForRemoval}<br/>
-        <b>LEGAL GROUNDS</b><br/>
-        ${legal.grounds}<br/>
-        <b>ADDITIONAL EXPLANATION</b><br/>
-        ${legal.explanation}`,
-          {
-            reason: reasonForRemoval,
-            grounds: legal.grounds ?? "",
-            explanation: legal.explanation ?? "",
-          }
-        )
-      : this.translatePhrase(
-          lang,
-          "notifications-commentRejected-details-notFound",
-          "Details for this rejection cannot be found."
-        );
-
-    const description = this.translatePhrase(
-      lang,
-      "notifications-commentRejected-description",
-      `Our moderators have reviewed your comment determined your comment contains
-      violates our community guidelines or terms of service.<br/>
-      <br/>
-      ${details}`,
-      {
-        details,
-      }
-    ).replace("\n", "<br/>");
-
     const notification = await createNotification(this.mongo, {
       id: uuid(),
       tenantID,
       type,
       createdAt: now,
       ownerID: targetUserID,
-      title,
-      body: description,
       commentID: comment.id,
       commentStatus: comment.status,
       rejectionReason: GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT,
@@ -358,7 +235,6 @@ export class InternalNotificationContext {
   }
 
   private async createDSAReportDecisionMadeNotification(
-    lang: LanguageCode,
     tenantID: string,
     type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
@@ -375,52 +251,12 @@ export class InternalNotificationContext {
       return null;
     }
 
-    let decision = "";
-    if (legal.legality === GQLDSAReportDecisionLegality.LEGAL) {
-      decision = this.translatePhrase(
-        lang,
-        "notifications-illegalContentReportReviewed-decision-legal",
-        `does not appear to contain illegal content`
-      );
-    }
-    if (legal.legality === GQLDSAReportDecisionLegality.ILLEGAL) {
-      decision = this.translatePhrase(
-        lang,
-        "notifications-illegalContentReportReviewed-decision-illegal",
-        `does contain illegal content`
-      );
-    }
-
-    const commentAuthor = comment.authorID
-      ? await retrieveUser(this.mongo, tenantID, comment.authorID)
-      : null;
-
-    const body = this.translatePhrase(
-      lang,
-      "notifications-illegalContentReportReviewed-description",
-      `On ${report.createdAt.toDateString()} you reported a comment written by { $author } for
-      containing illegal content. After reviewing your report, our moderation
-      team has decided this comment { $decision }.`,
-      {
-        date: report.createdAt.toDateString(),
-        author:
-          commentAuthor && commentAuthor.username ? commentAuthor.username : "",
-        decision,
-      }
-    ).replace("\n", "<br/>");
-
     const notification = await createNotification(this.mongo, {
       id: uuid(),
       tenantID,
       type,
       createdAt: now,
       ownerID: targetUserID,
-      title: this.translatePhrase(
-        lang,
-        "notifications-illegalContentReportReviewed-title",
-        "Your illegal content report has been reviewed"
-      ),
-      body,
       commentID: comment.id,
       commentStatus: comment.status,
       reportID: report.id,
@@ -432,67 +268,6 @@ export class InternalNotificationContext {
     });
 
     return notification;
-  }
-
-  private translateReasonForRemval(
-    lang: LanguageCode,
-    code: GQLREJECTION_REASON_CODE | null
-  ) {
-    if (code === GQLREJECTION_REASON_CODE.OFFENSIVE) {
-      return this.translatePhrase(
-        lang,
-        "notification-reasonForRemoval-offensive",
-        "Offensive"
-      );
-    }
-    if (code === GQLREJECTION_REASON_CODE.ABUSIVE) {
-      return this.translatePhrase(
-        lang,
-        "notification-reasonForRemoval-abusive",
-        "Abusive"
-      );
-    }
-    if (code === GQLREJECTION_REASON_CODE.SPAM) {
-      return this.translatePhrase(
-        lang,
-        "notification-reasonForRemoval-spam",
-        "Spam"
-      );
-    }
-    if (code === GQLREJECTION_REASON_CODE.BANNED_WORD) {
-      return this.translatePhrase(
-        lang,
-        "notification-reasonForRemoval-bannedWord",
-        "Banned word"
-      );
-    }
-    if (code === GQLREJECTION_REASON_CODE.AD) {
-      return this.translatePhrase(
-        lang,
-        "notification-reasonForRemoval-ad",
-        "Ad"
-      );
-    }
-    if (code === GQLREJECTION_REASON_CODE.OTHER) {
-      return this.translatePhrase(
-        lang,
-        "notification-reasonForRemoval-other",
-        "Other"
-      );
-    }
-    if (code === GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT) {
-      return this.translatePhrase(
-        lang,
-        "notification-reasonForRemoval-illegal",
-        "Illegal content"
-      );
-    }
-
-    return this.translatePhrase(
-      lang,
-      "notification-reasonForRemoval-unknown",
-      "Unknown"
-    );
   }
 
   private translatePhrase(

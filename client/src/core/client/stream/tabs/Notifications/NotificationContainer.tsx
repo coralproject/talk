@@ -162,8 +162,6 @@ const enhanced = withFragmentContainer<Props>({
       id
       createdAt
       type
-      title
-      body
       comment {
         ...NotificationCommentContainer_comment
         status
