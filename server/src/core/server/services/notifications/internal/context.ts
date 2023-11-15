@@ -82,25 +82,30 @@ export class InternalNotificationContext {
       attempted: false,
     };
 
-    if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED && comment) {
-      result.notification = await this.createFeatureCommentNotification(
-        tenantID,
-        type,
-        targetUserID,
-        comment,
-        now
-      );
-      result.attempted = true;
-    } else if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED && comment) {
-      result.notification = await this.createApproveCommentNotification(
-        tenantID,
-        type,
-        targetUserID,
-        comment,
-        now
-      );
-      result.attempted = true;
-    } else if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED && comment) {
+    /*
+      For the time being, we are not doing approved and featured
+      comment notifications.
+    */
+    // if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED && comment) {
+    //   result.notification = await this.createFeatureCommentNotification(
+    //     tenantID,
+    //     type,
+    //     targetUserID,
+    //     comment,
+    //     now
+    //   );
+    //   result.attempted = true;
+    // } else if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED && comment) {
+    //   result.notification = await this.createApproveCommentNotification(
+    //     tenantID,
+    //     type,
+    //     targetUserID,
+    //     comment,
+    //     now
+    //   );
+    //   result.attempted = true;
+    // }
+    if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED && comment) {
       result.notification = await this.createRejectCommentNotification(
         tenantID,
         type,
