@@ -1,10 +1,12 @@
+import { FluentBundle } from "@fluent/bundle/compat";
 import cn from "classnames";
 import React, { ComponentType, FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
-import HTMLContent from "coral-stream/common/HTMLContent";
 import {
   CheckCircleIcon,
   LegalHammerIcon,
@@ -21,6 +23,7 @@ import {
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
 import NotificationCommentContainer from "./NotificationCommentContainer";
+import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
 
 import styles from "./NotificationContainer.css";
 
@@ -49,10 +52,53 @@ const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
   return QuestionCircleIcon;
 };
 
+const getTitle = (bundles: FluentBundle[], type: NOTIFICATION_TYPE | null) => {
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasBeenApproved",
+      "Your comment has been approved"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasBeenFeatured",
+      "Your comment has been featured"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasBeenRejected",
+      "Your comment has been rejected and removed from our site"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasBeenRejected",
+      "Your comment has been rejected and removed from our site"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE) {
+    return getMessage(
+      bundles,
+      "notifications-yourIllegalContentReportHasBeenReviewed",
+      "Your illegal content report has been reviewed"
+    );
+  }
+
+  return getMessage(bundles, "notifications-defaultTitle", "Notification");
+};
+
 const NotificationContainer: FunctionComponent<Props> = ({
-  notification: { type, title, body, comment, createdAt, commentStatus },
+  notification,
   viewer,
 }) => {
+  const { type, comment, createdAt, commentStatus } = notification;
+  const { localeBundles } = useCoralContext();
+
   const seen = useMemo(() => {
     if (!viewer) {
       return false;
@@ -74,16 +120,15 @@ const NotificationContainer: FunctionComponent<Props> = ({
           [styles.notSeen]: !seen,
         })}
       >
-        {title && (
-          <div className={styles.title}>
-            <SvgIcon size="sm" Icon={getIcon(type)} />
-            <div className={styles.titleText}>{title}</div>
+        <div className={styles.title}>
+          <SvgIcon size="sm" Icon={getIcon(type)} />
+          <div className={styles.titleText}>
+            {getTitle(localeBundles, type)}
           </div>
-        )}
-        {body && (
-          <div className={cn(styles.body)}>
-            <HTMLContent>{body || ""}</HTMLContent>
-          </div>
+        </div>
+        {(type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED ||
+          type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) && (
+          <RejectedCommentNotificationBody notification={notification} />
         )}
         {comment && (
           <div className={styles.contextItem}>
@@ -120,6 +165,7 @@ const enhanced = withFragmentContainer<Props>({
         status
       }
       commentStatus
+      ...RejectedCommentNotificationBody_notification
     }
   `,
 })(NotificationContainer);

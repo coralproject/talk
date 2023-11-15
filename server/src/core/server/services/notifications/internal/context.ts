@@ -205,6 +205,10 @@ export class InternalNotificationContext {
       body,
       commentID: comment.id,
       commentStatus: comment.status,
+      rejectionReason: rejectionReason?.code ?? undefined,
+      decisionDetails: {
+        explanation: rejectionReason?.detailedExplanation ?? undefined,
+      },
     });
 
     return notification;

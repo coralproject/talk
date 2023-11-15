@@ -1041,3 +1041,32 @@ notification-comment-toggle-rejected-open = Rejected comment
 notification-comment-toggle-rejected-closed = + Rejected comment
 notification-comment-toggle-default-open = Comment
 notification-comment-toggle-default-closed = + Comment
+
+notifications-yourIllegalContentReportHasBeenReviewed =
+  Your illegal content report has been reviewed
+notifications-yourCommentHasBeenRejected =
+  Your comment has been rejected and removed from our site
+notifications-yourCommentHasBeenApproved =
+  Your comment has been approved
+notifications-yourCommentHasBeenFeatured =
+  Your comment has been featured
+notifications-defaultTitle = Notification
+
+notifications-rejectedComment-body =
+  Our moderators have reviewed your comment and determined it contains content that violates our community guidelines or terms of service.
+notifications-reasonForRemoval = Reason for removal
+notifications-legalGrounds = Legal grounds
+notifications-additionalExplanation = Additional explanation
+
+notifications-dsaReportLegality-legal = Legal content
+notifications-dsaReportLegality-illegal = Illegal content
+notifications-dsaReportLegality-unknown = Unknown
+
+notifications-rejectionReason-offensive = Offensive
+notifications-rejectionReason-abusive = Abusive
+notifications-rejectionReason-spam = Spam
+notifications-rejectionReason-bannedWord = Banned word
+notifications-rejectionReason-ad = Ad
+notifications-rejectionReason-illegalContent = Illegal content
+notifications-rejectionReason-other = Other
+notifications-rejectionReason-unknown = Unknown
