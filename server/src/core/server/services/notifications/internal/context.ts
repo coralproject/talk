@@ -10,7 +10,7 @@ import {
   Notification,
 } from "coral-server/models/notifications/notification";
 import { retrieveUser } from "coral-server/models/user";
-import { I18n, translate } from "coral-server/services/i18n";
+import { I18n } from "coral-server/services/i18n";
 
 import {
   GQLDSAReportDecisionLegality,
@@ -50,11 +50,11 @@ interface CreationResult {
 export class InternalNotificationContext {
   private mongo: MongoContext;
   private log: Logger;
-  private i18n: I18n;
+  // private i18n: I18n;
 
   constructor(mongo: MongoContext, i18n: I18n, log: Logger) {
     this.mongo = mongo;
-    this.i18n = i18n;
+    // this.i18n = i18n;
     this.log = log;
   }
 
@@ -172,45 +172,45 @@ export class InternalNotificationContext {
     return notification;
   }
 
-  private async createFeatureCommentNotification(
-    tenantID: string,
-    type: GQLNOTIFICATION_TYPE,
-    targetUserID: string,
-    comment: Readonly<Comment>,
-    now: Date
-  ) {
-    const notification = await createNotification(this.mongo, {
-      id: uuid(),
-      tenantID,
-      type,
-      createdAt: now,
-      ownerID: targetUserID,
-      commentID: comment.id,
-      commentStatus: comment.status,
-    });
+  // private async createFeatureCommentNotification(
+  //   tenantID: string,
+  //   type: GQLNOTIFICATION_TYPE,
+  //   targetUserID: string,
+  //   comment: Readonly<Comment>,
+  //   now: Date
+  // ) {
+  //   const notification = await createNotification(this.mongo, {
+  //     id: uuid(),
+  //     tenantID,
+  //     type,
+  //     createdAt: now,
+  //     ownerID: targetUserID,
+  //     commentID: comment.id,
+  //     commentStatus: comment.status,
+  //   });
 
-    return notification;
-  }
+  //   return notification;
+  // }
 
-  private async createApproveCommentNotification(
-    tenantID: string,
-    type: GQLNOTIFICATION_TYPE,
-    targetUserID: string,
-    comment: Readonly<Comment>,
-    now: Date
-  ) {
-    const notification = await createNotification(this.mongo, {
-      id: uuid(),
-      tenantID,
-      type,
-      createdAt: now,
-      ownerID: targetUserID,
-      commentID: comment.id,
-      commentStatus: comment.status,
-    });
+  // private async createApproveCommentNotification(
+  //   tenantID: string,
+  //   type: GQLNOTIFICATION_TYPE,
+  //   targetUserID: string,
+  //   comment: Readonly<Comment>,
+  //   now: Date
+  // ) {
+  //   const notification = await createNotification(this.mongo, {
+  //     id: uuid(),
+  //     tenantID,
+  //     type,
+  //     createdAt: now,
+  //     ownerID: targetUserID,
+  //     commentID: comment.id,
+  //     commentStatus: comment.status,
+  //   });
 
-    return notification;
-  }
+  //   return notification;
+  // }
 
   private async createIllegalRejectionNotification(
     tenantID: string,
@@ -275,17 +275,17 @@ export class InternalNotificationContext {
     return notification;
   }
 
-  private translatePhrase(
-    lang: LanguageCode,
-    key: string,
-    text: string,
-    args?: object | undefined
-  ) {
-    const bundle = this.i18n.getBundle(lang);
-    const result = translate(bundle, text, key, args);
+  // private translatePhrase(
+  //   lang: LanguageCode,
+  //   key: string,
+  //   text: string,
+  //   args?: object | undefined
+  // ) {
+  //   const bundle = this.i18n.getBundle(lang);
+  //   const result = translate(bundle, text, key, args);
 
-    return result;
-  }
+  //   return result;
+  // }
 
   private logCreateNotificationError(
     tenantID: string,
