@@ -31,6 +31,7 @@
   background-color: var(--palette-grey-100);
   padding: var(--spacing-5) var(--spacing-7);
   width: 70%;
+  min-height: 100vh;
 
   .label {
     color: var(--palette-grey-500);

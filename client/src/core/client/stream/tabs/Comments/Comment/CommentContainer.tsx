@@ -30,14 +30,14 @@ import {
   withShowAuthPopupMutation,
 } from "coral-stream/common/AuthPopup";
 import { SetTraversalFocus } from "coral-stream/common/KeyboardShortcuts/SetTraversalFocus";
-import { MAX_REPLY_INDENT_DEPTH, URLViewType } from "coral-stream/constants";
+import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 import {
   ShowEditFormEvent,
   ShowReplyFormEvent,
   ViewConversationEvent,
 } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import { HyperlinkIcon, PencilIcon, SvgIcon } from "coral-ui/components/icons";
+import { PencilIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
   Flex,
@@ -107,7 +107,6 @@ interface Props {
   hideReplyButton?: boolean;
   hideShareButton?: boolean;
   hideModerationCarat?: boolean;
-  showCopyIllegalContentReportLinkButton?: boolean;
   collapsed?: boolean;
   toggleCollapsed?: () => void;
 
@@ -144,7 +143,6 @@ export const CommentContainer: FunctionComponent<Props> = ({
   hideReactionButton,
   hideReplyButton,
   hideShareButton,
-  showCopyIllegalContentReportLinkButton,
   story,
   toggleCollapsed,
   viewer,
@@ -738,17 +736,6 @@ export const CommentContainer: FunctionComponent<Props> = ({
                       story={story}
                       commentID={comment.id}
                       author={comment.author?.username}
-                    />
-                  )}
-                  {showCopyIllegalContentReportLinkButton && (
-                    <PermalinkButtonContainer
-                      story={story}
-                      commentID={comment.id}
-                      author={comment.author?.username}
-                      view={URLViewType.IllegalContentReport}
-                      buttonText="Copy link"
-                      buttonTextID="comments-permalinkButton-copyLink"
-                      ButtonIcon={HyperlinkIcon}
                     />
                   )}
                 </ButtonsBar>

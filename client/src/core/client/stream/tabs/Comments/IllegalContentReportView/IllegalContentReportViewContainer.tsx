@@ -1,16 +1,23 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FormApi } from "final-form";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useUUID } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { parseBool } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { required, requiredTrue } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
+import scrollToBeginning from "coral-stream/common/scrollToBeginning";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import {
@@ -23,6 +30,7 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 import { Button, CallOut, TextArea } from "coral-ui/components/v3";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { IllegalContentReportViewContainer_comment as CommentData } from "coral-stream/__generated__/IllegalContentReportViewContainer_comment.graphql";
 import { IllegalContentReportViewContainer_settings as SettingsData } from "coral-stream/__generated__/IllegalContentReportViewContainer_settings.graphql";
@@ -56,6 +64,8 @@ interface FormProps {
 const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const { comment, story, viewer, settings } = props;
   const createDSAReport = useMutation(CreateDSAReportMutation);
+  const { renderWindow, customScrollContainer } = useCoralContext();
+  const root = useShadowRootOrDocument();
   const [additionalComments, setAdditionalComments] = useState<
     null | { id: string; url: string }[]
   >(null);
@@ -64,6 +74,14 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   >([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const submissionID = useUUID();
+
+  const onGoToCommentsTop = useCallback(() => {
+    scrollToBeginning(root, renderWindow, customScrollContainer);
+  }, [root, renderWindow, customScrollContainer]);
+
+  useEffect(() => {
+    onGoToCommentsTop();
+  }, []);
 
   const commentVisible = comment && isPublished(comment.status);
 
@@ -246,6 +264,11 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                 </Flex>
               </>
             )}
+            <Localized id="comments-permalinkView-reportIllegalContent-confirmation-returnToComments">
+              <div className={styles.returnToComments}>
+                You may now close this tab to return to the comments
+              </div>
+            </Localized>
           </HorizontalGutter>
         </Flex>
       </HorizontalGutter>
@@ -300,7 +323,6 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                   hideReactionButton
                   hideReplyButton
                   hideShareButton
-                  showCopyIllegalContentReportLinkButton
                 />
               </DeletedTombstoneContainer>
             </RejectedTombstoneContainer>
@@ -309,17 +331,6 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
       )}
 
       <>
-        <CallOut>
-          <Localized id="comments-permalinkView-reportIllegalContent-callout-needMoreTime">
-            <div>Need more time to submit your report?</div>
-          </Localized>
-          <Localized id="comments-permalinkView-reportIllegalContent-callout-useCopyLink">
-            <p>
-              Use the "Copy link" button above to copy the URL of this comment
-              to your clipboard.
-            </p>
-          </Localized>
-        </CallOut>
         <Form onSubmit={onSubmit}>
           {({ handleSubmit, submitting, hasValidationErrors }) => (
             <form

@@ -71,3 +71,10 @@
 .errorList {
   margin: 0;
 }
+
+.returnToComments {
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-primary-semi-bold);
+  text-align: center;
+  margin-top: var(--spacing-4);
+}
