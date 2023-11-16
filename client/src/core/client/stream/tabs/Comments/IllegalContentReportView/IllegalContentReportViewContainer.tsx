@@ -182,27 +182,11 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
       </Localized>
       <Localized id="comments-permalinkView-reportIllegalContent-description">
         <p className={styles.description}>
-          Under the Digital Services Act (DSA), you can now report illegal
-          content that you see in the comments. Please fill this form out to the
-          best of your ability so our moderation team can make a decision and if
-          necessary consult with out site's legal department. Thank you for your
-          support in making our communities safer to engage in.
+          Please fill this form out to the best of your ability so our
+          moderation team can make a decision and if necessary consult with our
+          site's legal department.
         </p>
       </Localized>
-      {/* TODO: Add localization and update to actual copy and link to go to */}
-      <Button
-        variant="flat"
-        color="primary"
-        fontSize="medium"
-        fontWeight="semiBold"
-        // href={showAllCommentsHref}
-        paddingSize="none"
-        target="_blank"
-        anchor
-        underline
-      >
-        Some link
-      </Button>
       <Localized id="comments-permalinkView-reportIllegalContent-reportingComment">
         <div className={styles.reporting}>You are reporting this comment</div>
       </Localized>
@@ -248,22 +232,11 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
           </Localized>
           <Localized id="comments-permalinkView-reportIllegalContent-callout-useCopyLink">
             <p>
-              Use the "Copy link" button above to grab the URL to this comment
-              for you to come back to when you're ready (should note that it
-              does not save your progress).
+              Use the "Copy link" button above to copy the URL of this comment
+              to your clipboard.
             </p>
           </Localized>
         </CallOut>
-        <Localized id="comments-permalinkView-reportIllegalContent-directions">
-          <div className={styles.directions}>Directions</div>
-        </Localized>
-        <Localized id="comments-permalinkView-reportIllegalContent-directions-moreInfo">
-          <p className={styles.directionsMoreInfo}>
-            Another chance to give some instructions on what is required for
-            this form. Maybe some reference or links to the laws? Unclear at
-            this point.
-          </p>
-        </Localized>
         <Form onSubmit={onSubmit}>
           {({ handleSubmit, submitting, hasValidationErrors }) => (
             <form
@@ -282,7 +255,8 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                       <>
                         <Localized id="comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel">
                           <InputLabel htmlFor={input.name}>
-                            What law do you believe has been broken? (required)
+                            What law(s) do you believe has been broken?
+                            (required)
                           </InputLabel>
                         </Localized>
                         <TextField {...input} fullWidth id={input.name} />
@@ -306,8 +280,8 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                         </Localized>
                         <Localized id="comments-permalinkView-reportIllegalContent-additionalInformation-helperText">
                           <HelperText>
-                            To the best of your ability please give as much
-                            detail to help us investigate this further.
+                            Any detail you include will help us investigate this
+                            further
                           </HelperText>
                         </Localized>
                         <TextArea
@@ -337,7 +311,8 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                     {({ input }) => (
                       <Localized id="comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox">
                         <CheckBox {...input} id={input.name}>
-                          Bonafide belief statement
+                          I believe that the information included in this report
+                          is accurate and complete
                         </CheckBox>
                       </Localized>
                     )}

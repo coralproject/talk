@@ -129,7 +129,8 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
     <>
       <Localized id="comments-permalinkView-reportIllegalContent-additionalComments-inputLabel">
         <InputLabel>
-          Have other comments you'd like to report for breaking this law?
+          Would you like to report any other comments for containing illegal
+          content?
         </InputLabel>
       </Localized>
       {additionalComments &&
@@ -256,7 +257,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
                       size="xs"
                       className={styles.leftIcon}
                     />
-                    Add additional comments
+                    Add comment link
                   </Button>
                 </Localized>
               </>
