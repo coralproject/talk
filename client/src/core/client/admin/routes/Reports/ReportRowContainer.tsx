@@ -18,6 +18,8 @@ import {
   ReportRowContainer_dsaReport as DSAReportData,
 } from "coral-admin/__generated__/ReportRowContainer_dsaReport.graphql";
 
+import styles from "./ReportRowContainer.css";
+
 interface Props {
   dsaReport: DSAReportData;
 }
@@ -75,6 +77,7 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
 
   return (
     <TableRow
+      className={styles.tableRow}
       key={dsaReport.referenceID}
       onClick={() => onReportRowClick(dsaReport.id)}
     >
