@@ -19,7 +19,11 @@ import { required, requiredTrue } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import scrollToBeginning from "coral-stream/common/scrollToBeginning";
 import UserBoxContainer from "coral-stream/common/UserBox";
-import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
+import {
+  AlertCircleIcon,
+  CheckCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import {
   CheckBox,
   Flex,
@@ -240,27 +244,29 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                   </Localized>
                 </Flex>
                 <Flex>
-                  <ul className={styles.errorList}>
+                  <div className={styles.errorList}>
                     {submissionStatus
                       .filter((submission) => submission.status === "error")
                       .map((c) => {
                         return (
-                          <li key={c.id}>
+                          <div className={styles.errorInList} key={c.id}>
                             <div>{c.url}</div>
                             {c.error.message && (
-                              <Localized
-                                id="comments-permalinkView-reportIllegalContent-confirmation-errorMessage"
-                                vars={{ error: c.error.message }}
-                              >
+                              <Flex>
+                                <SvgIcon
+                                  Icon={AlertCircleIcon}
+                                  color="error"
+                                  className={styles.errorIcon}
+                                />
                                 <div className={styles.error}>
-                                  Error: {c.error.message}
+                                  {c.error.message}
                                 </div>
-                              </Localized>
+                              </Flex>
                             )}
-                          </li>
+                          </div>
                         );
                       })}
-                  </ul>
+                  </div>
                 </Flex>
               </>
             )}

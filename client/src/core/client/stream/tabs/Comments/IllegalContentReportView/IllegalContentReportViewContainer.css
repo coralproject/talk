@@ -70,6 +70,17 @@
 
 .errorList {
   margin: 0;
+  text-align: left;
+}
+
+.errorInList {
+  margin-top: var(--spacing-2);
+}
+
+.errorIcon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: var(--spacing-2);
 }
 
 .returnToComments {
