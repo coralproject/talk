@@ -10,8 +10,8 @@ import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
 import {
   CheckCircleIcon,
   LegalHammerIcon,
-  MessagesBubbleSquareIcon,
   QuestionCircleIcon,
+  RejectCommentBoxIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
 import { Timestamp } from "coral-ui/components/v2";
@@ -40,10 +40,10 @@ const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
     return CheckCircleIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
-    return MessagesBubbleSquareIcon;
+    return RejectCommentBoxIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) {
-    return MessagesBubbleSquareIcon;
+    return RejectCommentBoxIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE) {
     return LegalHammerIcon;
