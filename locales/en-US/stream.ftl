@@ -172,6 +172,12 @@ comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundEr
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = Please add a valid comment URL.
 comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = Please add a unique comment URL. This is a duplicate of another comment you are reporting.
 comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've already reported this comment for illegal content. You cannot report it again.
+comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
+comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
+  found to contain illegal content, it will be removed from the site and further action may be taken against the commenter.
+comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Thank you for submitting this report
+comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We apologize, but we were unable to submit report for the following:
+comments-permalinkView-reportIllegalContent-confirmation-errorMessage = Error: {$error}
 
 comments-rte-bold =
   .title = Bold

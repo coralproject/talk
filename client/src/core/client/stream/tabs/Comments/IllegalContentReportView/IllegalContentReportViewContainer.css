@@ -41,3 +41,33 @@
   font-family: var(--font-family-primary);
   font-size: var(--font-size-2);
 }
+
+.confirmation {
+  font-family: var(--font-family-primary);
+  width: 100%;
+}
+
+.innerConfirmation {
+  max-width: 550px;
+}
+
+.icon svg {
+  stroke-width: 1.2;
+}
+
+.confirmationHeader {
+  font-size: var(--font-size-5);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.confirmationDescription {
+  font-size: var(--font-size-3);
+}
+
+.error {
+  color: var(--palette-error-500);
+}
+
+.errorList {
+  margin: 0;
+}

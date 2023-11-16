@@ -12,6 +12,7 @@ import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { required } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
+import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   CheckBox,
   Flex,
@@ -142,30 +143,112 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   );
 
   if (isSubmitted) {
+    const allSuccessful =
+      submissionStatus.length ===
+      submissionStatus.filter((submission) => submission.status === "success")
+        .length;
     return (
-      <>
-        {/* TODO: Localize and update to add in any errors and style based on design */}
-        <div>
-          You have successfully submitted your illegal content report for the
-          following comments:
-        </div>
-        {submissionStatus
-          .filter((submission) => submission.status === "success")
-          .map((c) => {
-            return <div key={c.id}>{c.url}</div>;
-          })}
-        <div>The following comments were submitted with errors:</div>
-        {submissionStatus
-          .filter((submission) => submission.status === "error")
-          .map((c) => {
-            return (
-              <div key={c.id}>
-                <div>{c.url}</div>
-                {c.error.message && <div>Error: {c.error.message}</div>}
-              </div>
-            );
-          })}
-      </>
+      <HorizontalGutter
+        className={cn(styles.root, CLASSES.permalinkView.$root, {
+          [CLASSES.permalinkView.authenticated]: Boolean(viewer),
+          [CLASSES.permalinkView.unauthenticated]: !viewer,
+        })}
+      >
+        <UserBoxContainer viewer={viewer} settings={settings} />
+
+        <Flex
+          direction="column"
+          alignItems="center"
+          className={styles.confirmation}
+        >
+          <HorizontalGutter
+            spacing={2}
+            className={styles.innerConfirmation}
+            marginTop={4}
+          >
+            <Flex justifyContent="center">
+              <SvgIcon
+                size="xl"
+                Icon={CheckCircleIcon}
+                className={styles.icon}
+              />
+            </Flex>
+            {allSuccessful ? (
+              <>
+                <Flex justifyContent="center">
+                  <Localized id="comments-permalinkView-reportIllegalContent-confirmation-successHeader">
+                    <div className={styles.confirmationHeader}>
+                      We have received your illegal content report
+                    </div>
+                  </Localized>
+                </Flex>
+                <Flex justifyContent="center">
+                  <Localized id="comments-permalinkView-reportIllegalContent-confirmation-description">
+                    <div className={styles.confirmationDescription}>
+                      Your report will now be reviewed by our moderation team.
+                      You will receive a notification once a decision is made.
+                      If the content is found to contain illegal content, it
+                      will be removed from the site and further action may be
+                      taken against the commenter.
+                    </div>
+                  </Localized>
+                </Flex>
+              </>
+            ) : (
+              <>
+                <Flex justifyContent="center">
+                  <Localized id="comments-permalinkView-reportIllegalContent-confirmation-errorHeader">
+                    <div className={styles.confirmationHeader}>
+                      Thank you for submitting this report
+                    </div>
+                  </Localized>
+                </Flex>
+                <Flex justifyContent="center">
+                  <Localized id="comments-permalinkView-reportIllegalContent-confirmation-description">
+                    <div className={styles.confirmationDescription}>
+                      Your report will now be reviewed by our moderation team
+                      and you will receive a notification once a decision is
+                      made. If the content is found to contain illegal content,
+                      it will be removed from our site.
+                    </div>
+                  </Localized>
+                </Flex>
+                <Flex>
+                  <Localized id="comments-permalinkView-reportIllegalContent-confirmation-errorDescription">
+                    <CallOut color="error">
+                      We apologize, but we were unable to submit report for the
+                      following:
+                    </CallOut>
+                  </Localized>
+                </Flex>
+                <Flex>
+                  <ul className={styles.errorList}>
+                    {submissionStatus
+                      .filter((submission) => submission.status === "error")
+                      .map((c) => {
+                        return (
+                          <li key={c.id}>
+                            <div>{c.url}</div>
+                            {c.error.message && (
+                              <Localized
+                                id="comments-permalinkView-reportIllegalContent-confirmation-errorMessage"
+                                vars={{ error: c.error.message }}
+                              >
+                                <div className={styles.error}>
+                                  Error: {c.error.message}
+                                </div>
+                              </Localized>
+                            )}
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </Flex>
+              </>
+            )}
+          </HorizontalGutter>
+        </Flex>
+      </HorizontalGutter>
     );
   }
 
