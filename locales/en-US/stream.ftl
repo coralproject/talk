@@ -1048,7 +1048,7 @@ notifications-comment-hideRemovedComment = - Hide removed comment
 notifications-yourIllegalContentReportHasBeenReviewed =
   Your illegal content report has been reviewed
 notifications-yourCommentHasBeenRejected =
-  Your comment has been rejected and removed from our site
+  Your comment has been rejected
 notifications-yourCommentHasBeenApproved =
   Your comment has been approved
 notifications-yourCommentHasBeenFeatured =

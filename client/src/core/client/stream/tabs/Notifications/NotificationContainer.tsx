@@ -71,14 +71,14 @@ const getTitle = (bundles: FluentBundle[], type: NOTIFICATION_TYPE | null) => {
     return getMessage(
       bundles,
       "notifications-yourCommentHasBeenRejected",
-      "Your comment has been rejected and removed from our site"
+      "Your comment has been rejected"
     );
   }
   if (type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) {
     return getMessage(
       bundles,
       "notifications-yourCommentHasBeenRejected",
-      "Your comment has been rejected and removed from our site"
+      "Your comment has been rejected"
     );
   }
   if (type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE) {
