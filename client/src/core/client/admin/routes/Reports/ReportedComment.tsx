@@ -39,11 +39,6 @@ const ReportedComment: FunctionComponent<Props> = ({
   const { comment } = dsaReport;
   const inReplyTo = comment && comment.parent && comment.parent.author;
 
-  // TODO: Maybe show something like Comment not available in this case
-  if (!comment) {
-    return null;
-  }
-
   return (
     <Flex direction="column">
       <Flex direction="column" className={styles.commentMain}>
@@ -51,105 +46,124 @@ const ReportedComment: FunctionComponent<Props> = ({
           <div className={styles.label}>Comment</div>
         </Localized>
         <>
-          {comment.deleted ? (
-            <Localized id="comments-tombstone-deleted">
-              <div className={styles.data}>
-                This comment is no longer available. The commenter has deleted
-                their account.
-              </div>
+          {!comment ? (
+            <Localized id="reports-singleReport-comment-notAvailable">
+              <div className={styles.data}>This comment is not available.</div>
             </Localized>
           ) : (
             <>
-              <Flex className={styles.commentBox}>
-                <div>
-                  <div>
-                    <Flex alignItems="center">
-                      {comment.author?.username && (
-                        <>
-                          <UsernameButton
-                            className={styles.commentUsernameButton}
-                            username={comment.author.username}
-                            onClick={() => onShowUserDrawer(comment.author?.id)}
-                          />
-                          <CommentAuthorContainer comment={comment} />
-                        </>
-                      )}
-                      <Timestamp>{comment.createdAt}</Timestamp>
-                      {comment.editing.edited && (
-                        <Localized id="reports-singleReport-comment-edited">
-                          <span className={styles.edited}>(edited)</span>
-                        </Localized>
-                      )}
-                    </Flex>
-                    {inReplyTo && inReplyTo.username && (
-                      <InReplyTo
-                        className={styles.reportUsername}
-                        onUsernameClick={() => onShowUserDrawer(inReplyTo.id)}
-                      >
-                        {inReplyTo.username}
-                      </InReplyTo>
-                    )}
+              {comment.deleted ? (
+                <Localized id="reports-singleReport-comment-deleted">
+                  <div className={styles.data}>
+                    This comment is no longer available. The commenter has
+                    deleted their account.
                   </div>
-                  {comment.rating && (
+                </Localized>
+              ) : (
+                <>
+                  <Flex className={styles.commentBox}>
                     <div>
-                      <StarRating rating={comment.rating} />
-                    </div>
-                  )}
-                  <div>
-                    <div>
-                      <CommentContent className={styles.commentContent}>
-                        {comment.body || ""}
-                      </CommentContent>
-                      <MediaContainer comment={comment} />
-                    </div>
-                  </div>
-                  <div>
-                    <HorizontalGutter spacing={3}>
+                      <div>
+                        <Flex alignItems="center">
+                          {comment.author?.username && (
+                            <>
+                              <UsernameButton
+                                className={styles.commentUsernameButton}
+                                username={comment.author.username}
+                                onClick={() =>
+                                  onShowUserDrawer(comment.author?.id)
+                                }
+                              />
+                              <CommentAuthorContainer comment={comment} />
+                            </>
+                          )}
+                          <Timestamp>{comment.createdAt}</Timestamp>
+                          {comment.editing.edited && (
+                            <Localized id="reports-singleReport-comment-edited">
+                              <span className={styles.edited}>(edited)</span>
+                            </Localized>
+                          )}
+                        </Flex>
+                        {inReplyTo && inReplyTo.username && (
+                          <InReplyTo
+                            className={styles.reportUsername}
+                            onUsernameClick={() =>
+                              onShowUserDrawer(inReplyTo.id)
+                            }
+                          >
+                            {inReplyTo.username}
+                          </InReplyTo>
+                        )}
+                      </div>
+                      {comment.rating && (
+                        <div>
+                          <StarRating rating={comment.rating} />
+                        </div>
+                      )}
                       <div>
                         <div>
-                          <Localized id="reports-singleReport-commentOn">
-                            <span className={styles.label}>Comment on</span>
-                          </Localized>
-                          <span>:</span>
-                        </div>
-                        <div>
-                          <span className={styles.storyTitle}>
-                            {comment.story?.metadata?.title ?? <NotAvailable />}
-                          </span>
+                          <CommentContent className={styles.commentContent}>
+                            {comment.body || ""}
+                          </CommentContent>
+                          <MediaContainer comment={comment} />
                         </div>
                       </div>
-                    </HorizontalGutter>
-                  </div>
-                </div>
-              </Flex>
-              <Flex marginTop={2}>
-                <Localized id="reports-singleReport-comment-viewCommentStream">
-                  <Button
-                    variant="text"
-                    uppercase={false}
-                    color="mono"
-                    to={getURLWithCommentID(comment.story.url, comment.id)}
-                    target="_blank"
-                  >
-                    View comment in stream
-                  </Button>
-                </Localized>
-              </Flex>
-              <Flex marginTop={2}>
-                <Localized id="reports-singleReport-comment-viewCommentModeration">
-                  <Button
-                    variant="text"
-                    uppercase={false}
-                    color="mono"
-                    target="_blank"
-                    to={getModerationLink({
-                      commentID: comment.id,
-                    })}
-                  >
-                    View comment in moderation
-                  </Button>
-                </Localized>
-              </Flex>
+                      <div>
+                        <HorizontalGutter spacing={3}>
+                          <div>
+                            <div>
+                              <Localized id="reports-singleReport-commentOn">
+                                <span className={styles.label}>Comment on</span>
+                              </Localized>
+                              <span>:</span>
+                            </div>
+                            <div>
+                              <span className={styles.storyTitle}>
+                                {comment.story?.metadata?.title ?? (
+                                  <NotAvailable />
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        </HorizontalGutter>
+                      </div>
+                    </div>
+                  </Flex>
+                  <Flex>
+                    <Flex marginTop={2} marginRight={3}>
+                      <Localized id="reports-singleReport-comment-viewCommentStream">
+                        <Button
+                          variant="text"
+                          uppercase={false}
+                          color="mono"
+                          to={getURLWithCommentID(
+                            comment.story.url,
+                            comment.id
+                          )}
+                          target="_blank"
+                        >
+                          View comment in stream
+                        </Button>
+                      </Localized>
+                    </Flex>
+                    <Flex marginTop={2}>
+                      <Localized id="reports-singleReport-comment-viewCommentModeration">
+                        <Button
+                          variant="text"
+                          uppercase={false}
+                          color="mono"
+                          target="_blank"
+                          to={getModerationLink({
+                            commentID: comment.id,
+                          })}
+                        >
+                          View comment in moderation
+                        </Button>
+                      </Localized>
+                    </Flex>
+                  </Flex>
+                </>
+              )}
             </>
           )}
         </>

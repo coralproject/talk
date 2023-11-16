@@ -35,7 +35,7 @@ const InReplyTo: FunctionComponent<Props> = ({
       <SvgIcon
         className={styles.icon}
         size="xs"
-        filled
+        filled="currentColor"
         Icon={EmailActionReplyIcon}
       />{" "}
       <Localized

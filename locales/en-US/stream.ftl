@@ -170,10 +170,13 @@ comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Have
 comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = Bonafide belief statement
 comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton = <Button></Button>Add comment URL
 comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton = Comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-deleteButton = <icon></icon> Delete
 comments-permalinkView-reportIllegalContent-additionalComments-button = <Button></Button>Add additional comments
 comments-permalinkView-reportIllegalContent-submit = Submit report
+comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = This comment was not found. Please add a URL for a valid comment.
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = Please add a valid comment URL.
 comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = Please add a unique comment URL. This is a duplicate of another comment you are reporting.
+comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've already reported this comment for illegal content. You cannot report it again.
 
 comments-rte-bold =
   .title = Bold
@@ -747,7 +750,7 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dismiss
 
-comments-reportForm-reportIllegalContent-button = Report illegal content
+comments-reportForm-reportIllegalContent-button = Does this comment potentially contain illegal content?
 
 ## Archived Report Comment Popover
 

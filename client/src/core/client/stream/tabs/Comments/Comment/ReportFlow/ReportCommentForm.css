@@ -87,3 +87,7 @@
 .cancel {
   margin-right: var(--spacing-2);
 }
+
+.reportIllegalLink {
+  margin-bottom: var(--spacing-3);
+}

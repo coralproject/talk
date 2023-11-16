@@ -168,7 +168,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
             icon={
               <SvgIcon
                 className={styles.featured}
-                filled
+                filled="currentColor"
                 Icon={RatingStarIcon}
               />
             }

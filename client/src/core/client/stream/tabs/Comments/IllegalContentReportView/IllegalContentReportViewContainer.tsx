@@ -121,6 +121,26 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
     ]
   );
 
+  const onAddAdditionalComment = useCallback(
+    (id: string, url: string) => {
+      if (additionalComments) {
+        setAdditionalComments([...additionalComments, { id, url }]);
+      } else {
+        setAdditionalComments([{ id, url }]);
+      }
+    },
+    [setAdditionalComments, additionalComments]
+  );
+
+  const onDeleteAdditionalComment = useCallback(
+    (id: string) => {
+      if (additionalComments) {
+        setAdditionalComments(additionalComments?.filter((c) => c.id !== id));
+      }
+    },
+    [setAdditionalComments, additionalComments]
+  );
+
   if (isSubmitted) {
     return (
       <>
@@ -302,8 +322,9 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                   </Field>
                 </FormField>
                 <AddAdditionalComments
+                  onAddAdditionalComment={onAddAdditionalComment}
+                  onDeleteAdditionalComment={onDeleteAdditionalComment}
                   additionalComments={additionalComments}
-                  setAdditionalComments={setAdditionalComments}
                   comment={comment}
                 />
                 <FormField>

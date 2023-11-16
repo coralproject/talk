@@ -1,8 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import React, {
-  Dispatch,
   FunctionComponent,
-  SetStateAction,
   useCallback,
   useMemo,
   useState,
@@ -12,26 +10,33 @@ import { Field, useForm } from "react-final-form";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { validateShareURL } from "coral-framework/lib/validation";
-import { AddIcon, ButtonSvgIcon } from "coral-ui/components/icons";
-import { InputLabel, TextField } from "coral-ui/components/v2";
+import { AddIcon, BinIcon, ButtonSvgIcon } from "coral-ui/components/icons";
+import {
+  Button as ButtonV2,
+  Flex,
+  InputLabel,
+  TextField,
+} from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { IllegalContentReportViewContainer_comment as CommentData } from "coral-stream/__generated__/IllegalContentReportViewContainer_comment.graphql";
 
 import styles from "./AddAdditionalComments.css";
 
+import AdditionalCommentQuery from "./AdditionalCommentQuery";
+
 interface Props {
   additionalComments: { id: string; url: string }[] | null;
   comment: CommentData | null;
-  setAdditionalComments: Dispatch<
-    SetStateAction<{ id: string; url: string }[] | null>
-  >;
+  onAddAdditionalComment: (id: string, url: string) => void;
+  onDeleteAdditionalComment: (id: string) => void;
 }
 
 const AddAdditionalComments: FunctionComponent<Props> = ({
   additionalComments,
-  setAdditionalComments,
   comment,
+  onAddAdditionalComment,
+  onDeleteAdditionalComment,
 }) => {
   const form = useForm();
   const { localeBundles } = useCoralContext();
@@ -40,6 +45,10 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
   const [addAdditionalCommentError, setAddAdditionalCommentError] = useState<
     null | string
   >(null);
+  const [newComment, setNewComment] = useState<null | {
+    id: string;
+    url: string;
+  }>(null);
 
   const isValidShareURL = useCallback((value: string) => {
     return validateShareURL(value);
@@ -60,6 +69,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
           "comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError",
           "Please add a valid comment URL."
         );
+        setNewComment(null);
         setAddAdditionalCommentError(validCommentURLError);
         return;
       }
@@ -74,35 +84,46 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
           "comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError",
           "Please add a unique comment URL. This is a duplicate of another comment you are reporting."
         );
+        setNewComment(null);
         setAddAdditionalCommentError(uniqueCommentURLError);
         return;
       }
-      setAddAdditionalCommentError(null);
-      const newAdditionalCommentObj = {
-        id: newAdditionalCommentID,
-        url: newAdditionalComment,
-      };
-      if (additionalComments) {
-        setAdditionalComments([...additionalComments, newAdditionalCommentObj]);
-      } else {
-        setAdditionalComments([newAdditionalCommentObj]);
-      }
-      // clear additionalComment form input value now that it's been added
-      form.change("additionalComment", undefined);
-    }
-    if (!additionalComments || additionalComments.length < 9) {
-      setShowAddAdditionalComment(false);
+      setNewComment({ id: newAdditionalCommentID, url: newAdditionalComment });
     }
   }, [
-    setAdditionalComments,
-    additionalComments,
-    setShowAddAdditionalComment,
+    form,
     isValidShareURL,
     setAddAdditionalCommentError,
     comment,
-    form,
     localeBundles,
+    setNewComment,
+    additionalComments,
   ]);
+
+  const onAddCommentSuccess = useCallback(
+    (id: string, url: string) => {
+      onAddAdditionalComment(id, url);
+      form.change("additionalComment", undefined);
+      setShowAddAdditionalComment(false);
+      setNewComment(null);
+      setAddAdditionalCommentError(null);
+    },
+    [
+      onAddAdditionalComment,
+      form,
+      setShowAddAdditionalComment,
+      setNewComment,
+      setAddAdditionalCommentError,
+    ]
+  );
+
+  const onAddCommentError = useCallback(
+    (error: string) => {
+      setAddAdditionalCommentError(error);
+      setNewComment(null);
+    },
+    [setAddAdditionalCommentError, setNewComment]
+  );
 
   return (
     <>
@@ -115,15 +136,40 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
         additionalComments.map(
           (additionalComment: { id: string; url: string }) => {
             return (
-              <div
-                className={styles.additionalCommentURLs}
-                key={additionalComment.id}
-              >
-                {additionalComment.url}
-              </div>
+              <Flex key={additionalComment.id} alignItems="center">
+                <div
+                  className={styles.additionalCommentURLs}
+                  key={additionalComment.id}
+                >
+                  {additionalComment.url}
+                </div>
+                <Localized
+                  id="comments-permalinkView-reportIllegalContent-additionalComments-deleteButton"
+                  elems={{ icon: <ButtonSvgIcon Icon={BinIcon} /> }}
+                >
+                  <ButtonV2
+                    color="mono"
+                    variant="text"
+                    onClick={() =>
+                      onDeleteAdditionalComment(additionalComment.id)
+                    }
+                    iconLeft
+                  >
+                    <ButtonSvgIcon Icon={BinIcon} />
+                    Delete
+                  </ButtonV2>
+                </Localized>
+              </Flex>
             );
           }
         )}
+      {newComment && (
+        <AdditionalCommentQuery
+          additionalComment={newComment}
+          onAddCommentError={onAddCommentError}
+          onAddCommentSuccess={onAddCommentSuccess}
+        />
+      )}
       <>
         {!maxCommentsEntered && (
           <>
@@ -150,7 +196,9 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
                   )}
                 </Field>
                 {addAdditionalCommentError && (
-                  <div className="error">{addAdditionalCommentError}</div>
+                  <div className={styles.error}>
+                    {addAdditionalCommentError}
+                  </div>
                 )}
                 <Localized
                   id="comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton"
@@ -182,34 +230,36 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
                 </Localized>
               </>
             ) : (
-              <Localized
-                id="comments-permalinkView-reportIllegalContent-additionalComments-button"
-                elems={{
-                  Button: (
+              <>
+                <Localized
+                  id="comments-permalinkView-reportIllegalContent-additionalComments-button"
+                  elems={{
+                    Button: (
+                      <ButtonSvgIcon
+                        Icon={AddIcon}
+                        size="xs"
+                        className={styles.leftIcon}
+                      />
+                    ),
+                  }}
+                >
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    fontSize="small"
+                    paddingSize="small"
+                    upperCase
+                    onClick={() => setShowAddAdditionalComment(true)}
+                  >
                     <ButtonSvgIcon
                       Icon={AddIcon}
                       size="xs"
                       className={styles.leftIcon}
                     />
-                  ),
-                }}
-              >
-                <Button
-                  color="primary"
-                  variant="outlined"
-                  fontSize="small"
-                  paddingSize="small"
-                  upperCase
-                  onClick={() => setShowAddAdditionalComment(true)}
-                >
-                  <ButtonSvgIcon
-                    Icon={AddIcon}
-                    size="xs"
-                    className={styles.leftIcon}
-                  />
-                  Add additional comments
-                </Button>
-              </Localized>
+                    Add additional comments
+                  </Button>
+                </Localized>
+              </>
             )}
           </>
         )}

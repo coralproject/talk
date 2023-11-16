@@ -1,13 +1,21 @@
 import { Localized } from "@fluent/react/compat";
 import { RouteProps } from "found";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
 import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { createRouteConfig } from "coral-framework/lib/router";
-import { GQLDSAReportHistoryType } from "coral-framework/schema";
+import {
+  GQLDSAReportDecisionLegality,
+  GQLDSAReportHistoryType,
+} from "coral-framework/schema";
 import {
   ArrowsLeftIcon,
   ButtonSvgIcon,
@@ -16,6 +24,7 @@ import {
 } from "coral-ui/components/icons";
 import {
   Button,
+  Divider,
   Flex,
   HorizontalGutter,
   Spinner,
@@ -89,6 +98,15 @@ const SingleReportRoute: FunctionComponent<Props> & {
     setShowDecisionModal(true);
   }, [setShowDecisionModal]);
 
+  const reportDecisionTimestamp = useMemo(() => {
+    const decisionMadeHistory = dsaReport?.history?.filter(
+      (h) => h?.type === GQLDSAReportHistoryType.DECISION_MADE
+    );
+    return decisionMadeHistory && decisionMadeHistory.length > 0
+      ? decisionMadeHistory[0]!.createdAt
+      : null;
+  }, [dsaReport]);
+
   if (!dsaReport) {
     return <NotFound />;
   }
@@ -128,7 +146,9 @@ const SingleReportRoute: FunctionComponent<Props> & {
           />
           <Localized
             id="reports-singleReport-makeDecisionButton"
-            elems={{ icon: <SvgIcon Icon={LegalHammerIcon} /> }}
+            elems={{
+              icon: <SvgIcon filled="currentColor" Icon={LegalHammerIcon} />,
+            }}
           >
             <Button
               className={styles.decisionButton}
@@ -138,8 +158,8 @@ const SingleReportRoute: FunctionComponent<Props> & {
                 dsaReport.status === "COMPLETED" || dsaReport.status === "VOID"
               }
             >
-              <SvgIcon Icon={LegalHammerIcon} />
-              Make Decision
+              <SvgIcon filled="currentColor" Icon={LegalHammerIcon} />
+              Decision
             </Button>
           </Localized>
         </Flex>
@@ -216,48 +236,74 @@ const SingleReportRoute: FunctionComponent<Props> & {
                 onShowUserDrawer={onShowUserDrawer}
               />
               {dsaReport.decision && (
-                <Flex direction="column">
-                  <HorizontalGutter spacing={2}>
-                    <Localized id="reports-singleReport-decisionLabel">
-                      <div className={styles.label}>Decision</div>
-                    </Localized>
-                    {dsaReport.decision.legality === "ILLEGAL" ? (
-                      <>
-                        <Flex direction="column">
-                          <Localized id="reports-singleReport-decision-illegalContent">
+                <>
+                  <Divider />
+                  <Flex
+                    direction="column"
+                    className={styles.decisionWrapper}
+                    padding={2}
+                  >
+                    <HorizontalGutter spacing={3}>
+                      <Flex>
+                        <SvgIcon
+                          className={styles.decisionIcon}
+                          Icon={LegalHammerIcon}
+                          filled="currentColor"
+                        />
+                        <Localized id="reports-singleReport-decisionLabel">
+                          <div className={styles.label}>Decision</div>
+                        </Localized>
+                      </Flex>
+                      <div>
+                        <Localized id="reports-singleReport-decision-doesItContain">
+                          <div className={styles.label}>
+                            Does this comment contain illegal content?
+                          </div>
+                        </Localized>
+                        {dsaReport.decision.legality ===
+                        GQLDSAReportDecisionLegality.ILLEGAL ? (
+                          <Localized id="reports-singleReport-decision-doesItContain-yes">
+                            <div className={styles.data}>Yes</div>
+                          </Localized>
+                        ) : (
+                          <Localized id="reports-singleReport-decision-doesItContain-no">
+                            <div className={styles.data}>No</div>
+                          </Localized>
+                        )}
+                      </div>
+                      {dsaReport.decision.legality ===
+                        GQLDSAReportDecisionLegality.ILLEGAL && (
+                        <>
+                          <Flex direction="column">
+                            <Localized id="reports-singleReport-decision-legalGrounds">
+                              <div className={styles.label}>Legal grounds</div>
+                            </Localized>
                             <div className={styles.data}>
-                              This report appears to contain illegal content
+                              {`${dsaReport.decision.legalGrounds}`}
                             </div>
-                          </Localized>
-                        </Flex>
-                        <Flex direction="column">
-                          <Localized id="reports-singleReport-decision-legalGrounds">
-                            <div className={styles.label}>Legal grounds</div>
-                          </Localized>
-                          <div className={styles.data}>
-                            {`${dsaReport.decision.legalGrounds}`}
-                          </div>
-                        </Flex>
-                        <Flex direction="column">
-                          <Localized id="reports-singleReport-decision-explanation">
-                            <div className={styles.label}>
-                              Detailed explanation
+                          </Flex>
+                          <Flex direction="column">
+                            <Localized id="reports-singleReport-decision-explanation">
+                              <div className={styles.label}>
+                                Detailed explanation
+                              </div>
+                            </Localized>
+                            <div className={styles.data}>
+                              {`${dsaReport.decision.detailedExplanation}`}
                             </div>
-                          </Localized>
-                          <div className={styles.data}>
-                            {`${dsaReport.decision.detailedExplanation}`}
-                          </div>
-                        </Flex>
-                      </>
-                    ) : (
-                      <Localized id="reports-singleReport-decision-legal">
-                        <div className={styles.data}>
-                          This report does not appear to contain illegal content
-                        </div>
-                      </Localized>
-                    )}
-                  </HorizontalGutter>
-                </Flex>
+                          </Flex>
+                          {reportDecisionTimestamp && (
+                            <Flex direction="column">
+                              <div className={styles.label}>
+                                {formatter(reportDecisionTimestamp)}
+                              </div>
+                            </Flex>
+                          )}
+                        </>
+                      )}
+                    </HorizontalGutter>
+                  </Flex>
+                </>
               )}
             </HorizontalGutter>
           </Flex>
@@ -311,6 +357,16 @@ SingleReportRoute.routeConfig = createRouteConfig<
         reporter {
           id
           username
+        }
+        history {
+          id
+          createdAt
+          type
+          decision {
+            legality
+            legalGrounds
+            detailedExplanation
+          }
         }
         decision {
           legality

@@ -34,10 +34,16 @@
   width: var(--font-size-icon-xl);
 }
 
-.colorPrimary svg {
-  color: $colors-teal-700;
-  stroke: $colors-teal-700;
+.colorTeal svg {
+  color: $colors-teal-600;
+  stroke: $colors-teal-600;
 }
+
+.colorTealLight svg {
+  color: $colors-teal-200;
+  stroke: $colors-teal-200;
+}
+
 .colorError svg {
   color: var(--palette-error-500);
   stroke: var(--palette-error-500);
@@ -71,4 +77,12 @@
 
 .filled svg {
   fill: currentColor;
+}
+
+.tealFill svg {
+  fill: $colors-teal-600;
+}
+
+.tealLightFill svg {
+  fill: $colors-teal-200;
 }

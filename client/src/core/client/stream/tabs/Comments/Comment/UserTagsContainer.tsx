@@ -87,7 +87,7 @@ const UserTagsContainer: FunctionComponent<Props> = ({
             <SvgIcon
               size="xs"
               className={styles.icon}
-              filled
+              filled="currentColor"
               Icon={RatingStarIcon}
             />
             <Localized id="qa-expert-tag">expert</Localized>
