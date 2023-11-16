@@ -1056,7 +1056,7 @@ notifications-yourCommentHasBeenFeatured =
 notifications-defaultTitle = Notification
 
 notifications-rejectedComment-body =
-  Our moderators have reviewed your comment and determined it contains content that violates our community guidelines or terms of service.
+  The content of your comment was against our community guidelines. The comment has been removed.
 notifications-reasonForRemoval = Reason for removal
 notifications-legalGrounds = Legal grounds
 notifications-additionalExplanation = Additional explanation

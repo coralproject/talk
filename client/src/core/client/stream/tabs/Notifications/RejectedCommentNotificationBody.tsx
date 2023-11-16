@@ -123,8 +123,8 @@ const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
     <div className={styles.body}>
       <Localized id="notifications-rejectedComment-body">
         <p>
-          Our moderators have reviewed your comment and determined it contains
-          content that violates our community guidelines or terms of service.
+          The content of your comment was against our community guidelines. The
+          comment has been removed.
         </p>
       </Localized>
       {type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED &&
