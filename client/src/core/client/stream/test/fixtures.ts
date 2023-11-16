@@ -3,6 +3,7 @@ import {
   GQLComment,
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
   GQLSettings,
@@ -137,6 +138,9 @@ export const settings = createFixture<GQLSettings>({
   },
   dsa: {
     enabled: false,
+    methodOfRedress: {
+      method: GQLDSA_METHOD_OF_REDRESS.NONE,
+    },
   },
 });
 

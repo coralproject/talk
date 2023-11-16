@@ -1954,6 +1954,24 @@ enum DSA_METHOD_OF_REDRESS {
   URL
 }
 
+type DSAMethodOfRedressConfiguration {
+  """
+  method defines the type of redress that is available to the
+  users about DSA decisions.
+  """
+  method: DSA_METHOD_OF_REDRESS!
+
+  """
+  email is the email used when method is set to EMAIL.
+  """
+  email: String
+
+  """
+  url is the url that is used when method is set to URL.
+  """
+  url: String
+}
+
 type DSAConfiguration {
   """
   enabled when true turns on the European Union DSA compliance
@@ -1965,7 +1983,7 @@ type DSAConfiguration {
   methodOfRedress lets users know if and how they can appeal a
   moderation decision
   """
-  methodOfRedress: DSA_METHOD_OF_REDRESS!
+  methodOfRedress: DSAMethodOfRedressConfiguration!
 }
 
 """
@@ -6099,6 +6117,28 @@ input FlairBadgeConfigurationInput {
 }
 
 """
+DSAMethodOfRedressConfigurationInput specifies the methods of redress and
+their configuration values for users disputing DSA reporting decisions.
+"""
+input DSAMethodOfRedressConfigurationInput {
+  """
+  method defines the type of redress that is available to the
+  users about DSA decisions.
+  """
+  method: DSA_METHOD_OF_REDRESS
+
+  """
+  email is the email used when method is set to EMAIL.
+  """
+  email: String
+
+  """
+  url is the url that is used when method is set to URL.
+  """
+  url: String
+}
+
+"""
 DSAConfigurationInput specifies the configuration for DSA European Union
 moderation and reporting features.
 """
@@ -6113,7 +6153,7 @@ input DSAConfigurationInput {
   methodOfRedress lets users know if and how they can appeal a
   moderation decision
   """
-  methodOfRedress: DSA_METHOD_OF_REDRESS
+  methodOfRedress: DSAMethodOfRedressConfigurationInput
 }
 
 """

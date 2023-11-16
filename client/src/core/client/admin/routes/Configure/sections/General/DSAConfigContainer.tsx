@@ -2,7 +2,10 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { FieldSet, FormField, HelperText, Label } from "coral-ui/components/v2";
+
+import { DSAConfigContainer_settings } from "coral-admin/__generated__/DSAConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
@@ -14,16 +17,24 @@ graphql`
   fragment DSAConfigContainer_formValues on Settings {
     dsa {
       enabled
-      methodOfRedress
+      methodOfRedress {
+        method
+        url
+        email
+      }
     }
   }
 `;
 
 interface Props {
   disabled: boolean;
+  settings: DSAConfigContainer_settings;
 }
 
-export const DSAConfigContainer: FunctionComponent<Props> = ({ disabled }) => {
+export const DSAConfigContainer: FunctionComponent<Props> = ({
+  disabled,
+  settings,
+}) => {
   return (
     <ConfigBox
       data-testid="configure-general-dsaConfig"
@@ -52,10 +63,27 @@ export const DSAConfigContainer: FunctionComponent<Props> = ({ disabled }) => {
           </HelperText>
         </Localized>
         <DSAMethodOfRedressOptions
-          name="dsa.methodOfRedress"
           disabled={disabled}
+          defaultMethod={settings?.dsa?.methodOfRedress?.method ?? null}
         />
       </FormField>
     </ConfigBox>
   );
 };
+
+const enhanced = withFragmentContainer<Props>({
+  settings: graphql`
+    fragment DSAConfigContainer_settings on Settings {
+      dsa {
+        enabled
+        methodOfRedress {
+          method
+          url
+          email
+        }
+      }
+    }
+  `,
+})(DSAConfigContainer);
+
+export default enhanced;

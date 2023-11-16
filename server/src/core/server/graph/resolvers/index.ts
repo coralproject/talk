@@ -25,6 +25,8 @@ import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
+import { DSAConfiguration } from "./DSAConfiguration";
+import { DSAMethodOfRedressConfiguration } from "./DSAMethodOfRedressConfiguration";
 import { DSAReport } from "./DSAReport";
 import { EditInfo } from "./EditInfo";
 import { EmailDomain } from "./EmailDomain";
@@ -171,6 +173,8 @@ const Resolvers: GQLResolver = {
   AuthenticationTargetFilter,
   Notification,
   NotificationDSAReportDetails,
+  DSAConfiguration,
+  DSAMethodOfRedressConfiguration,
 };
 
 export default Resolvers;
