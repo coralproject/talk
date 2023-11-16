@@ -65,7 +65,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
         const validCommentURLError = getMessage(
           localeBundles,
           "comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError",
-          "Please add a valid comment URL."
+          "This is not a valid URL. Please enter a valid comment URL"
         );
         setNewComment(null);
         setAddAdditionalCommentError(validCommentURLError);
@@ -80,7 +80,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
         const uniqueCommentURLError = getMessage(
           localeBundles,
           "comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError",
-          "Please add a unique comment URL. This is a duplicate of another comment you are reporting."
+          "You've already added this comment to this report. Please add a unique comment URL"
         );
         setNewComment(null);
         setAddAdditionalCommentError(uniqueCommentURLError);

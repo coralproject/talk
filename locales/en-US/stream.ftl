@@ -167,10 +167,10 @@ comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButt
 comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton = Comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-deleteButton = <icon></icon> Delete
 comments-permalinkView-reportIllegalContent-submit = Submit report
-comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = This comment was not found. Please add a URL for a valid comment.
-comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = Please add a valid comment URL.
-comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = Please add a unique comment URL. This is a duplicate of another comment you are reporting.
-comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've already reported this comment for illegal content. You cannot report it again.
+comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = Comment not found. Please enter a valid comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = This is not a valid URL. Please enter a valid comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = You've already added this comment to this report. Please add a unique comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing illegal content. You may only report a comment for this reason one time.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
 comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
   found to contain illegal content, it will be removed from the site and further action may be taken against the commenter.
