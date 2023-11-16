@@ -18,6 +18,8 @@ import {
   REJECTION_REASON_CODE,
 } from "coral-stream/__generated__/RejectedCommentNotificationBody_notification.graphql";
 
+import NotificationCommentContainer from "./NotificationCommentContainer";
+
 import styles from "./RejectedCommentNotificationBody.css";
 
 interface Props {
@@ -106,7 +108,7 @@ const stringIsNullOrEmpty = (value: string) => {
 const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
   notification,
 }) => {
-  const { type, decisionDetails, rejectionReason } = notification;
+  const { type, decisionDetails, rejectionReason, comment } = notification;
 
   const { localeBundles } = useCoralContext();
 
@@ -179,6 +181,23 @@ const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
           )}
         </div>
       )}
+      {comment && (
+        <div>
+          <NotificationCommentContainer
+            comment={comment}
+            openedStateText={
+              <Localized id="notifications-comment-hideRemovedComment">
+                - Hide removed comment
+              </Localized>
+            }
+            closedStateText={
+              <Localized id="notifications-comment-showRemovedComment">
+                + Show removed comment
+              </Localized>
+            }
+          />
+        </div>
+      )}
     </div>
   );
 };
@@ -192,6 +211,9 @@ const enhanced = withFragmentContainer<Props>({
         legality
         grounds
         explanation
+      }
+      comment {
+        ...NotificationCommentContainer_comment
       }
     }
   `,

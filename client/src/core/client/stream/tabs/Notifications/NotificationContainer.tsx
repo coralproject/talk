@@ -23,7 +23,6 @@ import {
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
 import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
-import NotificationCommentContainer from "./NotificationCommentContainer";
 import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
 
 import styles from "./NotificationContainer.css";
@@ -97,7 +96,7 @@ const NotificationContainer: FunctionComponent<Props> = ({
   notification,
   viewer,
 }) => {
-  const { type, comment, createdAt, commentStatus } = notification;
+  const { type, createdAt } = notification;
   const { localeBundles } = useCoralContext();
 
   const seen = useMemo(() => {
@@ -134,14 +133,6 @@ const NotificationContainer: FunctionComponent<Props> = ({
         {type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE && (
           <DSAReportDecisionMadeNotificationBody notification={notification} />
         )}
-        {comment && (
-          <div className={styles.contextItem}>
-            <NotificationCommentContainer
-              comment={comment}
-              status={commentStatus ? commentStatus : comment.status}
-            />
-          </div>
-        )}
         <div className={styles.footer}>
           <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
         </div>
@@ -162,11 +153,10 @@ const enhanced = withFragmentContainer<Props>({
       id
       createdAt
       type
+      commentStatus
       comment {
         ...NotificationCommentContainer_comment
-        status
       }
-      commentStatus
       ...RejectedCommentNotificationBody_notification
       ...DSAReportDecisionMadeNotificationBody_notification
     }

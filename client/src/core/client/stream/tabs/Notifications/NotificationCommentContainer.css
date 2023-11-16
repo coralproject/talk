@@ -6,11 +6,11 @@
 
   background-color: transparent;
 
-  color: var(--palette-primary-300);
+  color: var(--palette-primary-500);
   font-family: var(--font-family-primary);
   font-style: normal;
-  font-weight: var(--font-weight-primary-bold);
-  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-1);
 
   &:hover,
   &.mouseHover {
