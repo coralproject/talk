@@ -9,7 +9,7 @@ import { getURLWithCommentID } from "coral-framework/helpers";
 import { useUUID } from "coral-framework/hooks";
 import { parseBool } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { required } from "coral-framework/lib/validation";
+import { required, requiredTrue } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
@@ -389,7 +389,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                     name="bonafideBeliefStatement"
                     type="checkbox"
                     parse={parseBool}
-                    validate={required}
+                    validate={requiredTrue}
                   >
                     {({ input }) => (
                       <Localized id="comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox">
@@ -409,7 +409,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                     <div key={submitError.id}>{submitError.error.message}</div>
                   );
                 })}
-              <Flex alignItems="center" justifyContent="flex-end">
+              <Flex alignItems="center" justifyContent="flex-end" marginTop={3}>
                 <Localized id="comments-permalinkView-reportIllegalContent-submit">
                   <Button
                     color="secondary"
