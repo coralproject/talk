@@ -177,6 +177,7 @@ comments-permalinkView-reportIllegalContent-confirmation-description = Your repo
 comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Thank you for submitting this report
 comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We apologize, but we were unable to submit report for the following:
 comments-permalinkView-reportIllegalContent-confirmation-errorMessage = Error: {$error}
+comments-permalinkView-reportIllegalContent-confirmation-returnToComments = You may now close this tab to return to the comments
 
 comments-rte-bold =
   .title = Bold
