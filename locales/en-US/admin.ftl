@@ -1883,11 +1883,13 @@ reports-changeStatusModal-updateButton = Yes, update
 reports-changeStatusModal-dontUpdateButton = No
 reports-changeStatusModal-header = Update status?
 
-reports-decisionModal-header = Decision
+reports-decisionModal-header = Report decision
 reports-decisionModal-prompt = Does this comment appear to contain illegal content?
 reports-decisionModal-yes = Yes
 reports-decisionModal-no = No
 reports-decisionModal-submit = Submit
+reports-decisionModal-lawBrokenLabel = Law broken
+reports-decisionModal-detailedExplanationLabel = Detailed explanation
 
 # Control panel
 
