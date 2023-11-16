@@ -1078,3 +1078,10 @@ notifications-reportDecisionMade-legal =
   On { $date } you reported a comment written by { $author } for containing illegal content. After reviewing your report, our moderation team has decided this comment does not appear to contain illegal content.
 notifications-reportDecisionMade-illegal =
   On { $date } you reported a comment written by { $author } for containing illegal content. After reviewing your report, our moderation team has decided this comment does contain illegal content.
+
+notifications-methodOfRedress-none =
+  All moderation decisions are final and cannot be appealed
+notifications-methodOfRedress-email =
+  To appeal a decision that appears here please contact { $email }
+notifications-methodOfRedress-url =
+  To appeal a decision that appears here please visit { $url }

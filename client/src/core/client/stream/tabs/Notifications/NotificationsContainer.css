@@ -5,7 +5,25 @@
 .title {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);
-  font-size: var(--font-size-3);
+  font-size: var(--font-size-4);
 
   word-break: break-word;
+
+  margin-bottom: var(--spacing-2);
+}
+
+.methodOfRedress {
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+  padding-top: var(--spacing-2);
+  padding-bottom: var(--spacing-2);
+
+  background-color: var(--palette-primary-100);
+
+  font-family: var(--font-family-primary);
+  color: var(--palette-text-200);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+
+  margin-bottom: var(--spacing-2);
 }
