@@ -187,7 +187,9 @@ export const createTenantFixture = (
     emailDomainModeration: [],
     dsa: {
       enabled: false,
-      methodOfRedress: GQLDSA_METHOD_OF_REDRESS.NONE,
+      methodOfRedress: {
+        method: GQLDSA_METHOD_OF_REDRESS.NONE,
+      },
     },
     embeddedComments: {
       allowReplies: true,
