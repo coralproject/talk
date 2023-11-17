@@ -8,6 +8,10 @@ import { getMessage } from "coral-framework/lib/i18n";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import { URLViewType } from "coral-stream/constants";
+import {
+  ButtonSvgIcon,
+  ShareExternalLinkIcon,
+} from "coral-ui/components/icons";
 import { Button } from "coral-ui/components/v3";
 
 import { ArchivedReportFlowContainer_comment } from "coral-stream/__generated__/ArchivedReportFlowContainer_comment.graphql";
@@ -93,22 +97,26 @@ const ArchivedReportFlowContainer: FunctionComponent<Props> = ({
       </Localized>
 
       {dsaFeaturesEnabled && (
-        <Localized id="comments-reportForm-reportIllegalContent-button">
-          <Button
-            className={styles.illegalContentReportButton}
-            variant="flat"
-            color="primary"
-            fontSize="medium"
-            fontWeight="semiBold"
-            paddingSize="none"
-            target="_blank"
-            anchor
-            underline
-            href={reportLink}
-          >
-            Does this comment potentially contain illegal content?
-          </Button>
-        </Localized>
+        <Button
+          className={styles.illegalContentReportButton}
+          variant="flat"
+          color="primary"
+          fontSize="medium"
+          fontWeight="semiBold"
+          paddingSize="none"
+          target="_blank"
+          anchor
+          underline
+          href={reportLink}
+        >
+          <Localized id="comments-reportForm-reportIllegalContent-button">
+            <span>Does this comment potentially contain illegal content?</span>
+          </Localized>
+          <ButtonSvgIcon
+            className={styles.linkIcon}
+            Icon={ShareExternalLinkIcon}
+          />
+        </Button>
       )}
 
       <Localized id="comments-archivedReportPopover-needALink">
