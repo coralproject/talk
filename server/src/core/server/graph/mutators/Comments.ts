@@ -146,7 +146,7 @@ export const Comments = (ctx: GraphContext) => ({
         commentRevisionID,
       }
     ),
-  createIllegalContent: ({
+  createIllegalContent: async ({
     commentID,
     commentRevisionID,
   }: GQLCreateIllegalContentInput) =>
@@ -159,6 +159,7 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.broker,
       ctx.tenant,
       ctx.user!,
+      await ctx.loaders.Comments.comment.load(commentID),
       {
         commentID,
         commentRevisionID,
