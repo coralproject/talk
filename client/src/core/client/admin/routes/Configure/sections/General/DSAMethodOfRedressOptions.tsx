@@ -7,7 +7,9 @@ import React, {
 } from "react";
 import { Field } from "react-final-form";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
+import { getMessage } from "coral-framework/lib/i18n";
 import {
   validateEmail,
   validateURL,
@@ -62,6 +64,8 @@ const DSAMethodOfRedressOptions: FunctionComponent<Props> = ({
   disabled,
   className,
 }) => {
+  const { localeBundles } = useCoralContext();
+
   const [mode, setMode] = useState<DSA_METHOD_OF_REDRESS | null>(defaultMethod);
 
   const onChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +77,17 @@ const DSAMethodOfRedressOptions: FunctionComponent<Props> = ({
       setMode(null);
     }
   }, []);
+
+  const emailPlaceholder = getMessage(
+    localeBundles,
+    "configure-general-dsaConfig-methodOfRedress-email-placeholder",
+    "moderation@example.com"
+  );
+  const urlPlaceholder = getMessage(
+    localeBundles,
+    "configure-general-dsaConfig-methodOfRedress-url-placeholder",
+    "https://moderation.example.com"
+  );
 
   return (
     <div className={className}>
@@ -141,6 +156,7 @@ const DSAMethodOfRedressOptions: FunctionComponent<Props> = ({
                 spellCheck={false}
                 fullWidth
                 meta={meta}
+                placeholder={emailPlaceholder}
               />
             </div>
           )}
@@ -190,6 +206,7 @@ const DSAMethodOfRedressOptions: FunctionComponent<Props> = ({
                 spellCheck={false}
                 fullWidth
                 meta={meta}
+                placeholder={urlPlaceholder}
               />
             </div>
           )}

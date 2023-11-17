@@ -1633,7 +1633,9 @@ configure-general-dsaConfig-methodOfRedress-explanation =
   Let users know if and how they can appeal a moderation decision
 configure-general-dsaConfig-methodOfRedress-none = None
 configure-general-dsaConfig-methodOfRedress-email = Email
+configure-general-dsaConfig-methodOfRedress-email-placeholder = moderation@example.com
 configure-general-dsaConfig-methodOfRedress-url = URL
+configure-general-dsaConfig-methodOfRedress-url-placeholder = https://moderation.example.com
 
 configure-account-features-title = Commenter account management features
 configure-account-features-explanation =
