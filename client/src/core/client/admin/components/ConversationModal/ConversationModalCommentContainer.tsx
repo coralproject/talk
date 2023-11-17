@@ -20,8 +20,11 @@ import {
 import { RemoveIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
+  ClickOutside,
+  Dropdown,
   Flex,
   HorizontalGutter,
+  Popover,
   Timestamp,
 } from "coral-ui/components/v2";
 
@@ -32,6 +35,8 @@ import { CommentContent, InReplyTo, UsernameButton } from "../Comment";
 import { Circle, Line } from "../Timeline";
 import ConversationModalRepliesQuery from "./ConversationModalRepliesQuery";
 
+import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
+import ModerationReason from "../ModerationReason/ModerationReason";
 import styles from "./ConversationModalCommentContainer.css";
 
 interface Props {
@@ -52,10 +57,11 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
   const rejectComment = useMutation(RejectCommentMutation);
   const { match } = useRouter();
   const { storyID, siteID, section } = parseModerationOptions(match);
-  const [{ moderationQueueSort }] =
+  const [{ moderationQueueSort, dsaFeaturesEnabled }] =
     useLocal<ConversationModalCommentContainerLocal>(graphql`
       fragment ConversationModalCommentContainerLocal on Local {
         moderationQueueSort
+        dsaFeaturesEnabled
       }
     `);
   const commentAuthorClick = useCallback(() => {
@@ -72,28 +78,32 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
   const onShowReplies = useCallback(() => {
     setShowReplies(true);
   }, []);
-  const onRejectComment = useCallback(async () => {
-    if (!comment.revision) {
-      return;
-    }
-    await rejectComment({
-      commentID: comment.id,
-      commentRevisionID: comment.revision.id,
+  const onRejectComment = useCallback(
+    async (reason?: RejectCommentReasonInput) => {
+      if (!comment.revision) {
+        return;
+      }
+      await rejectComment({
+        commentID: comment.id,
+        commentRevisionID: comment.revision.id,
+        storyID,
+        siteID,
+        section,
+        orderBy: moderationQueueSort,
+        reason,
+      });
+    },
+    [
+      comment.id,
+      comment.revision,
+      match,
+      moderationQueueSort,
+      rejectComment,
       storyID,
       siteID,
       section,
-      orderBy: moderationQueueSort,
-    });
-  }, [
-    comment.id,
-    comment.revision,
-    match,
-    moderationQueueSort,
-    rejectComment,
-    storyID,
-    siteID,
-    section,
-  ]);
+    ]
+  );
   const rejectButtonOptions = useMemo((): {
     localization: string;
     variant: "regular" | "outlined";
@@ -170,24 +180,50 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
               </Flex>
             </Flex>
             <Flex>
-              <Localized
-                id={rejectButtonOptions.localization}
-                attrs={{ "aria-label": true }}
-                elems={{ icon: <SvgIcon size="xs" Icon={RemoveIcon} /> }}
+              <Popover
+                id={`reject-reason-${comment.id}`}
+                placement="bottom-start"
+                body={({ toggleVisibility, visible }) => (
+                  <ClickOutside onClickOutside={toggleVisibility}>
+                    <Dropdown>
+                      <ModerationReason
+                        id={comment.id}
+                        onCancel={toggleVisibility}
+                        onReason={(reason) => {
+                          void onRejectComment(reason);
+                          toggleVisibility();
+                        }}
+                      />
+                    </Dropdown>
+                  </ClickOutside>
+                )}
               >
-                <Button
-                  className={styles.rejectButton}
-                  color="alert"
-                  variant={rejectButtonOptions.variant}
-                  iconLeft
-                  disabled={rejectButtonOptions.disabled}
-                  onClick={onRejectComment}
-                  aria-label={rejectButtonOptions.ariaLabel}
-                >
-                  <SvgIcon size="xs" Icon={RemoveIcon} />
-                  {rejectButtonOptions.text}
-                </Button>
-              </Localized>
+                {({ toggleVisibility, ref }) => (
+                  <Localized
+                    id={rejectButtonOptions.localization}
+                    attrs={{ "aria-label": true }}
+                    elems={{ icon: <SvgIcon size="xs" Icon={RemoveIcon} /> }}
+                  >
+                    <Button
+                      ref={ref}
+                      className={styles.rejectButton}
+                      color="alert"
+                      variant={rejectButtonOptions.variant}
+                      iconLeft
+                      disabled={rejectButtonOptions.disabled}
+                      onClick={
+                        dsaFeaturesEnabled
+                          ? toggleVisibility
+                          : () => onRejectComment()
+                      }
+                      aria-label={rejectButtonOptions.ariaLabel}
+                    >
+                      <SvgIcon size="xs" Icon={RemoveIcon} />
+                      {rejectButtonOptions.text}
+                    </Button>
+                  </Localized>
+                )}
+              </Popover>
             </Flex>
           </Flex>
         </HorizontalGutter>
