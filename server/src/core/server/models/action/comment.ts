@@ -386,7 +386,7 @@ export async function retrieveManyUserActionPresence(
       }
     }
   } else {
-    const cursor = mongo.commentActions().find(
+    const liveCursor = mongo.commentActions().find(
       {
         tenantID,
         userID,
@@ -401,7 +401,26 @@ export async function retrieveManyUserActionPresence(
       }
     );
 
-    actions = await cursor.toArray();
+    actions = await liveCursor.toArray();
+
+    if (actions.length === 0 && mongo.archive) {
+      const archivedCursor = mongo.archivedCommentActions().find(
+        {
+          tenantID,
+          userID,
+          commentID: { $in: commentIDs },
+        },
+        {
+          // We only need the commentID and actionType from the database.
+          projection: {
+            commentID: 1,
+            actionType: 1,
+          },
+        }
+      );
+
+      actions = await archivedCursor.toArray();
+    }
   }
 
   // For each of the actions returned by the query, group the actions by the
