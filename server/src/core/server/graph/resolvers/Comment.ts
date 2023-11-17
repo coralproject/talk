@@ -198,14 +198,21 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         commentID: id,
       },
     }),
-  viewerActionPresence: (c, input, ctx, info) => {
+  viewerActionPresence: async (c, input, ctx, info) => {
     if (!ctx.user) {
       return null;
     }
 
     setCacheHint(info, { scope: CacheScope.Private });
 
-    return ctx.loaders.Comments.retrieveMyActionPresence.load(c.id);
+    const story = await ctx.loaders.Stories.find.load({ id: c.storyID });
+    if (!story) {
+      throw new StoryNotFoundError(c.storyID);
+    }
+
+    return ctx.loaders.Comments.retrieveMyActionPresence.load(
+      `${c.id}:${!!story.isArchived}`
+    );
   },
 
   parentCount: (c) => getDepth(c),

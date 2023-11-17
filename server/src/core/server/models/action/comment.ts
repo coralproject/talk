@@ -369,7 +369,8 @@ export async function retrieveManyUserActionPresence(
   commentActionsCache: CommentActionsCache,
   tenantID: string,
   userID: string | null,
-  commentIDs: string[]
+  commentIDs: string[],
+  isArchived = false
 ): Promise<GQLActionPresence[]> {
   let actions: Readonly<CommentAction>[] = [];
 
@@ -386,7 +387,11 @@ export async function retrieveManyUserActionPresence(
       }
     }
   } else {
-    const liveCursor = mongo.commentActions().find(
+    const collection =
+      mongo.archive && isArchived
+        ? mongo.archivedCommentActions()
+        : mongo.commentActions();
+    const cursor = collection.find(
       {
         tenantID,
         userID,
@@ -401,26 +406,7 @@ export async function retrieveManyUserActionPresence(
       }
     );
 
-    actions = await liveCursor.toArray();
-
-    if (actions.length === 0 && mongo.archive) {
-      const archivedCursor = mongo.archivedCommentActions().find(
-        {
-          tenantID,
-          userID,
-          commentID: { $in: commentIDs },
-        },
-        {
-          // We only need the commentID and actionType from the database.
-          projection: {
-            commentID: 1,
-            actionType: 1,
-          },
-        }
-      );
-
-      actions = await archivedCursor.toArray();
-    }
+    actions = await cursor.toArray();
   }
 
   // For each of the actions returned by the query, group the actions by the
