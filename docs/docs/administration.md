@@ -47,7 +47,7 @@ There is also a clock icon in the top right of the page. When you click the icon
 
 You can set the default language Coral uses in **Admin** > **Configure** > **General**.
 
-You can see what languages Coral currently supports here: https://github.com/coralproject/talk/tree/master/src/locales
+You can see what languages Coral currently supports here: https://github.com/coralproject/talk/tree/develop/locales
 
 ### Comment Stream Settings
 
