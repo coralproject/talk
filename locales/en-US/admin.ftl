@@ -1612,7 +1612,19 @@ configure-general-rte-spoilerDesc =
   Words and phrases formatted as Spoiler are hidden behind a
   dark background until the reader chooses to reveal the text.
 
-configure-general-dsaConfig-title = Digital services act
+configure-general-dsaConfig-title = Digital Services Act feature set
+configure-general-dsaConfig-description =
+  The EU Digital Services Act (DSA) requires that publishers in or targeting EU citizens provide certain features to their commenters and moderators.
+  <br/>
+  <br/>
+  Coral's DSA toolset includes:
+  <br/>
+  <ul style="padding-inline-start: var(--spacing-5);">
+    <li>A dedicated flow for comments reported as illegal</li>
+    <li>Compulsory moderation reasons for every rejected comment</li>
+    <li>Commenter notifications for illegal comment reporting and rejected comments</li>
+    <li>Compulsory text explaining methods of redress/appeal, if any</li>
+  </ul>
 configure-general-dsaConfig-reportingAndModerationExperience =
   DSA reporting and moderation experience
 configure-general-dsaConfig-methodOfRedress =
