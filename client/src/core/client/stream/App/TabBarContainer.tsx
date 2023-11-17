@@ -49,9 +49,11 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   const handleSetActiveTab = useCallback(
     (tab: SetActiveTabInput["tab"]) => {
       void setActiveTab({ tab });
-      void setCommentID({ id: null });
-      const pathName = window.location.pathname;
-      history.pushState(null, "", pathName);
+      if (tab === "COMMENTS") {
+        void setCommentID({ id: null });
+        const pathName = window.location.pathname;
+        history.pushState(null, "", pathName);
+      }
     },
     [setActiveTab, setCommentID, window]
   );
