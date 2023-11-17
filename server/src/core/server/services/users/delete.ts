@@ -11,9 +11,11 @@ import { retrieveTenant } from "coral-server/models/tenant";
 import {
   GQLCOMMENT_STATUS,
   GQLDSAReportStatus,
+  GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { moderate } from "../comments/moderation";
+import { Moderate } from "../comments/moderation/moderate";
 import { I18n } from "../i18n";
 import { AugmentedRedis } from "../redis";
 
@@ -131,7 +133,8 @@ async function moderateComments(
   filter: FilterQuery<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
   now: Date,
-  isArchived = false
+  isArchived = false,
+  rejectionReason?: Moderate["rejectionReason"]
 ) {
   const tenant = await retrieveTenant(mongo, tenantID);
   if (!tenant) {
@@ -169,6 +172,7 @@ async function moderateComments(
         commentRevisionID: getLatestRevision(comment).id,
         moderatorID: null,
         status: targetStatus,
+        rejectionReason,
       },
       now,
       isArchived,
@@ -309,7 +313,11 @@ async function deleteUserComments(
     },
     GQLCOMMENT_STATUS.REJECTED,
     now,
-    isArchived
+    isArchived,
+    {
+      code: GQLREJECTION_REASON_CODE.OTHER,
+      detailedExplanation: "User account deleted",
+    }
   );
 
   const collection =
