@@ -1889,7 +1889,11 @@ reports-decisionModal-yes = Yes
 reports-decisionModal-no = No
 reports-decisionModal-submit = Submit
 reports-decisionModal-lawBrokenLabel = Law broken
+reports-decisionModal-lawBrokenTextfield =
+  .placeholder = Add law...
 reports-decisionModal-detailedExplanationLabel = Detailed explanation
+reports-decisionModal-detailedExplanationTextarea =
+  .placeholder = Add explanation...
 
 # Control panel
 

@@ -164,11 +164,16 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                                     Law broken
                                   </InputLabel>
                                 </Localized>
-                                <TextField
-                                  className={styles.decisionModalTextArea}
-                                  placeholder="Add your note..."
-                                  {...input}
-                                />
+                                <Localized
+                                  id="reports-decisionModal-lawBrokenTextfield"
+                                  attrs={{ placeholder: true }}
+                                >
+                                  <TextField
+                                    className={styles.decisionModalTextArea}
+                                    placeholder="Add law..."
+                                    {...input}
+                                  />
+                                </Localized>
                               </Flex>
                             )}
                           </Field>
@@ -189,11 +194,16 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                                     Detailed explanation
                                   </InputLabel>
                                 </Localized>
-                                <Textarea
-                                  className={styles.decisionModalTextArea}
-                                  placeholder="Add your note..."
-                                  {...input}
-                                />
+                                <Localized
+                                  id="reports-decisionModal-detailedExplanationTextarea"
+                                  attrs={{ placeholder: true }}
+                                >
+                                  <Textarea
+                                    className={styles.decisionModalTextArea}
+                                    placeholder="Add explanation..."
+                                    {...input}
+                                  />
+                                </Localized>
                               </Flex>
                             )}
                           </Field>
