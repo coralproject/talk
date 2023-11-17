@@ -86,7 +86,8 @@ const rejectComment = async (
     detailedExplanation?: string | undefined;
   },
   request?: Request | undefined,
-  sendNotification = true
+  sendNotification = true,
+  isArchived = false
 ) => {
   const updateAllCommentCountsArgs = {
     actionCounts: {},
@@ -107,7 +108,7 @@ const rejectComment = async (
       status: GQLCOMMENT_STATUS.REJECTED,
     },
     now,
-    undefined,
+    isArchived,
     updateAllCommentCountsArgs
   );
 
@@ -153,7 +154,7 @@ const rejectComment = async (
 
   // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
   // see CORL-935 in jira
-  if (broker && counts) {
+  if (broker && counts && !isArchived) {
     // Publish changes to the event publisher.
     await publishChanges(broker, {
       ...updateStatus,

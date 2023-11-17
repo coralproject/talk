@@ -1,6 +1,7 @@
 import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
+import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { Comment } from "coral-server/models/comment";
 import {
@@ -12,6 +13,7 @@ import {
   makeDSAReportDecision as makeReportDecision,
   retrieveDSAReport,
 } from "coral-server/models/dsaReport/report";
+import { isStoryArchived, retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { rejectComment } from "coral-server/stacks";
 import { Request } from "coral-server/types/express";
@@ -198,6 +200,18 @@ export async function makeDSAReportDecision(
     reportID,
   } = input;
 
+  if (!comment) {
+    throw new CommentNotFoundError(commentID);
+  }
+
+  const story = await retrieveStory(mongo, tenant.id, comment.storyID);
+
+  if (!story) {
+    throw new StoryNotFoundError(comment.storyID);
+  }
+
+  const isArchived = isStoryArchived(story);
+
   // REJECT if ILLEGAL
   if (input.legality === GQLDSAReportDecisionLegality.ILLEGAL) {
     const rejectedComment = await rejectComment(
@@ -219,7 +233,8 @@ export async function makeDSAReportDecision(
         detailedExplanation,
       },
       req,
-      true
+      true,
+      isArchived
     );
 
     if (rejectedComment.authorID) {
