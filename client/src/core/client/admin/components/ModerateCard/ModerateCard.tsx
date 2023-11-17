@@ -362,7 +362,10 @@ const ModerateCard: FunctionComponent<Props> = ({
                   <ClickOutside onClickOutside={toggleVisibility}>
                     <Dropdown>
                       <ModerationReason
-                        onReason={onReason}
+                        onReason={(reason) => {
+                          onReason(reason);
+                          toggleVisibility();
+                        }}
                         onCancel={toggleVisibility}
                         id={id}
                       />
