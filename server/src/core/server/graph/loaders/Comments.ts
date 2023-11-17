@@ -170,6 +170,11 @@ const mapVisibleComment = (user?: Pick<User, "role">) => {
   };
 };
 
+interface ActionPresenceArgs {
+  commentID: string;
+  isArchived: boolean;
+}
+
 /**
  * mapVisibleComments will map each comment an array to an array of Comment and
  * null.
@@ -250,38 +255,31 @@ export default (ctx: GraphContext) => ({
       isArchived
     ).then(primeCommentsFromConnection(ctx));
   },
-  retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
-    async (stateIDs: string[]) => {
-      if (!ctx.user) {
-        // This should only ever be accessed when a user is logged in. It should
-        // be safe to get the user here, but we'll throw an error anyways just
-        // in case.
-        throw new Error("can't get action presence of an undefined user");
-      }
-
-      const requestData = stateIDs.map((id) => {
-        const split = id.split(":");
-        return {
-          commentID: split[0],
-          isArchived: split[1] === "true",
-        };
-      });
-
-      const commentIDs = requestData.map((rd) => rd.commentID);
-      const hasArchivedData = requestData.some((rd) => rd.isArchived);
-
-      const result = await retrieveManyUserActionPresence(
-        ctx.mongo,
-        ctx.cache.commentActions,
-        ctx.tenant.id,
-        ctx.user.id,
-        commentIDs,
-        hasArchivedData
-      );
-
-      return result;
+  retrieveMyActionPresence: new DataLoader<
+    ActionPresenceArgs,
+    GQLActionPresence
+  >(async (args: ActionPresenceArgs[]) => {
+    if (!ctx.user) {
+      // This should only ever be accessed when a user is logged in. It should
+      // be safe to get the user here, but we'll throw an error anyways just
+      // in case.
+      throw new Error("can't get action presence of an undefined user");
     }
-  ),
+
+    const commentIDs = args.map((rd) => rd.commentID);
+    const hasArchivedData = args.some((rd) => rd.isArchived);
+
+    const result = await retrieveManyUserActionPresence(
+      ctx.mongo,
+      ctx.cache.commentActions,
+      ctx.tenant.id,
+      ctx.user.id,
+      commentIDs,
+      hasArchivedData
+    );
+
+    return result;
+  }),
   forUser: (userID: string, { first, orderBy, after }: UserToCommentsArgs) =>
     retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
       first: defaultTo(first, 10),

@@ -210,9 +210,10 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       throw new StoryNotFoundError(c.storyID);
     }
 
-    return ctx.loaders.Comments.retrieveMyActionPresence.load(
-      `${c.id}:${!!story.isArchived}`
-    );
+    return ctx.loaders.Comments.retrieveMyActionPresence.load({
+      commentID: c.id,
+      isArchived: !!story.isArchived,
+    });
   },
 
   parentCount: (c) => getDepth(c),
