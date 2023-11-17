@@ -182,6 +182,10 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
             <Flex>
               <Popover
                 id={`reject-reason-${comment.id}`}
+                modifiers={{
+                  arrow: { enabled: false },
+                  offset: { offset: "0, 4" },
+                }}
                 placement="bottom-start"
                 body={({ toggleVisibility, visible }) => (
                   <ClickOutside onClickOutside={toggleVisibility}>
