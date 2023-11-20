@@ -170,6 +170,11 @@ const mapVisibleComment = (user?: Pick<User, "role">) => {
   };
 };
 
+interface ActionPresenceArgs {
+  commentID: string;
+  isArchived: boolean;
+}
+
 /**
  * mapVisibleComments will map each comment an array to an array of Comment and
  * null.
@@ -250,24 +255,31 @@ export default (ctx: GraphContext) => ({
       isArchived
     ).then(primeCommentsFromConnection(ctx));
   },
-  retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
-    (commentIDs: string[]) => {
-      if (!ctx.user) {
-        // This should only ever be accessed when a user is logged in. It should
-        // be safe to get the user here, but we'll throw an error anyways just
-        // in case.
-        throw new Error("can't get action presence of an undefined user");
-      }
-
-      return retrieveManyUserActionPresence(
-        ctx.mongo,
-        ctx.cache.commentActions,
-        ctx.tenant.id,
-        ctx.user.id,
-        commentIDs
-      );
+  retrieveMyActionPresence: new DataLoader<
+    ActionPresenceArgs,
+    GQLActionPresence
+  >(async (args: ActionPresenceArgs[]) => {
+    if (!ctx.user) {
+      // This should only ever be accessed when a user is logged in. It should
+      // be safe to get the user here, but we'll throw an error anyways just
+      // in case.
+      throw new Error("can't get action presence of an undefined user");
     }
-  ),
+
+    const commentIDs = args.map((rd) => rd.commentID);
+    const hasArchivedData = args.some((rd) => rd.isArchived);
+
+    const result = await retrieveManyUserActionPresence(
+      ctx.mongo,
+      ctx.cache.commentActions,
+      ctx.tenant.id,
+      ctx.user.id,
+      commentIDs,
+      hasArchivedData
+    );
+
+    return result;
+  }),
   forUser: (userID: string, { first, orderBy, after }: UserToCommentsArgs) =>
     retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
       first: defaultTo(first, 10),

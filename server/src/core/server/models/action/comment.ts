@@ -369,7 +369,8 @@ export async function retrieveManyUserActionPresence(
   commentActionsCache: CommentActionsCache,
   tenantID: string,
   userID: string | null,
-  commentIDs: string[]
+  commentIDs: string[],
+  isArchived = false
 ): Promise<GQLActionPresence[]> {
   let actions: Readonly<CommentAction>[] = [];
 
@@ -386,7 +387,11 @@ export async function retrieveManyUserActionPresence(
       }
     }
   } else {
-    const cursor = mongo.commentActions().find(
+    const collection =
+      mongo.archive && isArchived
+        ? mongo.archivedCommentActions()
+        : mongo.commentActions();
+    const cursor = collection.find(
       {
         tenantID,
         userID,
