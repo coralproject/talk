@@ -1080,6 +1080,8 @@ notifications-reportDecisionMade-illegal =
 notifications-methodOfRedress-none =
   All moderation decisions are final and cannot be appealed
 notifications-methodOfRedress-email =
-  To appeal a decision that appears here please contact { $email }
+  To appeal a decision that appears here please contact <a>{ $email }</a>
 notifications-methodOfRedress-url =
-  To appeal a decision that appears here please visit { $url }
+  To appeal a decision that appears here please visit <a>{ $url }</a>
+
+notifications-youDoNotCurrentlyHaveAny = You do not currently have any notifications
