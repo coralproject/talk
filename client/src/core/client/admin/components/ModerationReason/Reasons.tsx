@@ -35,8 +35,6 @@ const Reasons: FunctionComponent<Props> = ({
   onCode,
   onAddExplanation,
 }) => {
-  /* eslint-disable */
-  console.log({ GQLREJECTION_REASON_CODE })
   return (
     <>
       <Localized id="common-moderationReason-reason">
