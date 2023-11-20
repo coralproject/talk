@@ -1085,3 +1085,5 @@ notifications-methodOfRedress-email =
   To appeal a decision that appears here please contact { $email }
 notifications-methodOfRedress-url =
   To appeal a decision that appears here please visit { $url }
+
+notifications-youDoNotCurrentlyHaveAny = You do not currently have any notifications
