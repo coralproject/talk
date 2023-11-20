@@ -13,8 +13,10 @@ import {
   CardCloseButton,
   Flex,
   HorizontalGutter,
+  InputLabel,
   Modal,
   Textarea,
+  TextField,
 } from "coral-ui/components/v2";
 
 import MakeReportDecisionMutation from "./MakeReportDecisionMutation";
@@ -100,12 +102,12 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
             />
           </Flex>
           <Localized id="reports-decisionModal-header">
-            <ModalHeader>Decision</ModalHeader>
+            <ModalHeader>Report decision</ModalHeader>
           </Localized>
           <Form onSubmit={onSubmitDecision}>
             {({ handleSubmit, hasValidationErrors }) => (
               <form onSubmit={handleSubmit}>
-                <Flex direction="column" padding={2}>
+                <Flex direction="column" paddingTop={2}>
                   <HorizontalGutter>
                     <Flex alignItems="center" direction="column">
                       <Localized id="reports-decisionModal-prompt">
@@ -113,9 +115,11 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                           Does this comment appear to contain illegal content?
                         </div>
                       </Localized>
-                      <Flex margin={2}>
+                      <Flex margin={2} className={styles.buttonWrapper}>
                         <Localized id="reports-decisionModal-yes">
                           <Button
+                            variant="outlined"
+                            fullWidth
                             onClick={onClickMakeDecisionContainsIllegal}
                             active={
                               makeDecisionSelection ===
@@ -128,6 +132,8 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                         </Localized>
                         <Localized id="reports-decisionModal-no">
                           <Button
+                            variant="outlined"
+                            fullWidth
                             onClick={onClickMakeDecisionDoesNotContainIllegal}
                             active={
                               makeDecisionSelection ===
@@ -149,11 +155,26 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                             validate={required}
                           >
                             {({ input }) => (
-                              <Textarea
-                                className={styles.decisionModalTextArea}
-                                placeholder="Legal grounds"
-                                {...input}
-                              />
+                              <Flex direction="column" className={styles.input}>
+                                <Localized id="reports-decisionModal-lawBrokenLabel">
+                                  <InputLabel
+                                    htmlFor={input.name}
+                                    className={styles.inputLabel}
+                                  >
+                                    Law broken
+                                  </InputLabel>
+                                </Localized>
+                                <Localized
+                                  id="reports-decisionModal-lawBrokenTextfield"
+                                  attrs={{ placeholder: true }}
+                                >
+                                  <TextField
+                                    className={styles.decisionModalTextArea}
+                                    placeholder="Add law..."
+                                    {...input}
+                                  />
+                                </Localized>
+                              </Flex>
                             )}
                           </Field>
                         </Flex>
@@ -164,29 +185,44 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                             validate={required}
                           >
                             {({ input }) => (
-                              <Textarea
-                                className={styles.decisionModalTextArea}
-                                placeholder="Explanation"
-                                {...input}
-                              />
+                              <Flex direction="column" className={styles.input}>
+                                <Localized id="reports-decisionModal-detailedExplanationLabel">
+                                  <InputLabel
+                                    htmlFor={input.name}
+                                    className={styles.inputLabel}
+                                  >
+                                    Detailed explanation
+                                  </InputLabel>
+                                </Localized>
+                                <Localized
+                                  id="reports-decisionModal-detailedExplanationTextarea"
+                                  attrs={{ placeholder: true }}
+                                >
+                                  <Textarea
+                                    className={styles.decisionModalTextArea}
+                                    placeholder="Add explanation..."
+                                    {...input}
+                                  />
+                                </Localized>
+                              </Flex>
                             )}
                           </Field>
                         </Flex>
                       </>
                     )}
-                    {makeDecisionSelection && (
-                      <Flex justifyContent="flex-end">
-                        <Localized id="reports-decisionModal-submit">
-                          <Button
-                            type="submit"
-                            iconLeft
-                            disabled={hasValidationErrors}
-                          >
-                            Submit
-                          </Button>
-                        </Localized>
-                      </Flex>
-                    )}
+                    <Flex justifyContent="flex-end">
+                      <Localized id="reports-decisionModal-submit">
+                        <Button
+                          type="submit"
+                          iconLeft
+                          disabled={
+                            hasValidationErrors || !makeDecisionSelection
+                          }
+                        >
+                          Submit
+                        </Button>
+                      </Localized>
+                    </Flex>
                   </HorizontalGutter>
                 </Flex>
               </form>

@@ -243,7 +243,7 @@ const ReportHistory: FunctionComponent<Props> = ({
                       >
                         <div
                           className={styles.reportHistoryText}
-                        >{`${h.createdBy?.username} shared this report`}</div>
+                        >{`${h.createdBy?.username} downloaded this report`}</div>
                       </Localized>
                     )}
 

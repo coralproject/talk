@@ -1872,7 +1872,7 @@ reports-singleReport-history-legalGrounds = Legal grounds: { $legalGrounds }
 reports-singleReport-history-explanation = Explanation: { $explanation }
 reports-singleReport-history-changedStatus = { $username } changed status to { $status }
 reports-singleReport-reportVoid = User deleted their account. Report is void.
-reports-singleReport-history-sharedReport = { $username } shared this report
+reports-singleReport-history-sharedReport = { $username } downloaded this report
 reports-singleReport-note-field =
   .placeholder = Add your note...
 reports-singleReport-addUpdateButton = <icon></icon> Add update
@@ -1897,11 +1897,17 @@ reports-changeStatusModal-updateButton = Yes, update
 reports-changeStatusModal-dontUpdateButton = No
 reports-changeStatusModal-header = Update status?
 
-reports-decisionModal-header = Decision
+reports-decisionModal-header = Report decision
 reports-decisionModal-prompt = Does this comment appear to contain illegal content?
 reports-decisionModal-yes = Yes
 reports-decisionModal-no = No
 reports-decisionModal-submit = Submit
+reports-decisionModal-lawBrokenLabel = Law broken
+reports-decisionModal-lawBrokenTextfield =
+  .placeholder = Add law...
+reports-decisionModal-detailedExplanationLabel = Detailed explanation
+reports-decisionModal-detailedExplanationTextarea =
+  .placeholder = Add explanation...
 
 # Control panel
 

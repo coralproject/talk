@@ -127,7 +127,7 @@ it("includes and submits report illegal content form", async () => {
   const additionalInfo = within(currentTab).getByTestId("additionalInfo");
   userEvent.type(additionalInfo, "more info");
   const bonafideBelief = within(currentTab).getByRole("checkbox", {
-    name: "Bonafide belief statement",
+    name: "I believe that the information included in this report is accurate and complete",
   });
   userEvent.click(bonafideBelief);
 

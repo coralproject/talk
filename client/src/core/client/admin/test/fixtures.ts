@@ -767,6 +767,9 @@ export const baseComment = createFixture<GQLComment>({
   revision: {
     media: NULL_VALUE,
     actionCounts: {
+      illegal: {
+        total: 0,
+      },
       flag: {
         reasons: {
           COMMENT_REPORTED_SPAM: 0,
@@ -924,6 +927,9 @@ export const reportedComments = createFixtures<GQLComment>(
       revision: {
         id: "comment-0-revision-0",
         actionCounts: {
+          illegal: {
+            total: 0,
+          },
           flag: {
             reasons: {
               COMMENT_DETECTED_BANNED_WORD: 1,
@@ -1038,6 +1044,9 @@ export const reportedComments = createFixtures<GQLComment>(
       revision: {
         id: "comment-1-revision-1",
         actionCounts: {
+          illegal: {
+            total: 0,
+          },
           flag: {
             reasons: {
               COMMENT_REPORTED_OFFENSIVE: 3,
@@ -1115,6 +1124,9 @@ export const reportedComments = createFixtures<GQLComment>(
       revision: {
         id: "comment-2-revision-2",
         actionCounts: {
+          illegal: {
+            total: 0,
+          },
           flag: {
             reasons: {
               COMMENT_REPORTED_SPAM: 1,
@@ -1179,6 +1191,9 @@ export const reportedComments = createFixtures<GQLComment>(
       revision: {
         id: "comment-3-revision-3",
         actionCounts: {
+          illegal: {
+            total: 0,
+          },
           flag: {
             reasons: {
               COMMENT_REPORTED_SPAM: 1,
@@ -1227,6 +1242,9 @@ export const reportedComments = createFixtures<GQLComment>(
       revision: {
         id: "comment-4-revision-4",
         actionCounts: {
+          illegal: {
+            total: 0,
+          },
           flag: {
             reasons: {
               COMMENT_REPORTED_SPAM: 1,

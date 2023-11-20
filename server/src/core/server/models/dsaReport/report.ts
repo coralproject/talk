@@ -55,7 +55,7 @@ export interface ReportHistoryItem {
   /**
    * status is the new status if this report history item is a status change
    */
-  status?: string;
+  status?: GQLDSAReportStatus;
 
   /**
    * decision is the legality decision made about the DSAReport
@@ -496,11 +496,20 @@ export async function makeDSAReportDecision(
   const { userID, legality, legalGrounds, detailedExplanation, reportID } =
     input;
 
-  // Create a new ID for the DSAReportHistoryItem.
-  const id = uuid();
+  // Create new IDs for the DSAReportHistoryItems.
+  const statusChangeHistoryId = uuid();
+  const decisionMadeHistoryId = uuid();
 
   const statusChangeHistoryItem = {
-    id,
+    id: statusChangeHistoryId,
+    createdBy: userID,
+    createdAt: now,
+    type: DSAReportHistoryType.STATUS_CHANGED,
+    status: GQLDSAReportStatus.COMPLETED,
+  };
+
+  const decisionMadeHistoryItem = {
+    id: decisionMadeHistoryId,
     createdBy: userID,
     createdAt: now,
     type: DSAReportHistoryType.DECISION_MADE,
@@ -515,7 +524,7 @@ export async function makeDSAReportDecision(
     { id: reportID, tenantID },
     {
       $push: {
-        history: statusChangeHistoryItem,
+        history: { $each: [statusChangeHistoryItem, decisionMadeHistoryItem] },
       },
       $set: {
         decision: {

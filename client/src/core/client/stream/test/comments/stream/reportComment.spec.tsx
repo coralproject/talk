@@ -204,9 +204,9 @@ it("report comment includes link to report illegal content", async () => {
   });
   userEvent.click(reportButton);
   const form = within(comment).getByTestId("report-comment-form");
-  const reportIllegalContentButton = within(form).getByText(
-    "Does this comment potentially contain illegal content?"
-  );
+  const reportIllegalContentButton = within(form).getByRole("link", {
+    name: "Does this comment potentially contain illegal content? share-external-link-1",
+  });
   expect(reportIllegalContentButton).toHaveAttribute(
     "href",
     "https://www.test.com/story-0?commentID=comment-0&view=illegalContentReport"

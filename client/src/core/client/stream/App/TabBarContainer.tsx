@@ -1,9 +1,15 @@
 import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
-import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import {
+  useLocal,
+  useMutation,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
 import { Ability, can } from "coral-framework/permissions";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
+import { SetCommentIDMutation } from "coral-stream/mutations";
 
 import { TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
 import { TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
@@ -30,6 +36,8 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   settings,
   setActiveTab,
 }) => {
+  const setCommentID = useMutation(SetCommentIDMutation);
+  const { window } = useCoralContext();
   const [{ activeTab, dsaFeaturesEnabled, hasNewNotifications }] =
     useLocal<TabBarContainerLocal>(graphql`
       fragment TabBarContainerLocal on Local {
@@ -41,8 +49,13 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   const handleSetActiveTab = useCallback(
     (tab: SetActiveTabInput["tab"]) => {
       void setActiveTab({ tab });
+      if (tab === "COMMENTS") {
+        void setCommentID({ id: null });
+        const pathName = window.location.pathname;
+        history.pushState(null, "", pathName);
+      }
     },
-    [setActiveTab]
+    [setActiveTab, setCommentID, window]
   );
 
   const showDiscussionsTab = useMemo(

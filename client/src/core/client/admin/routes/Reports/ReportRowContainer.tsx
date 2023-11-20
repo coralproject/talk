@@ -18,6 +18,8 @@ import {
   ReportRowContainer_dsaReport as DSAReportData,
 } from "coral-admin/__generated__/ReportRowContainer_dsaReport.graphql";
 
+import styles from "./ReportRowContainer.css";
+
 interface Props {
   dsaReport: DSAReportData;
 }
@@ -75,6 +77,7 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
 
   return (
     <TableRow
+      className={styles.tableRow}
       key={dsaReport.referenceID}
       onClick={() => onReportRowClick(dsaReport.id)}
     >
@@ -88,7 +91,11 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
       </TableCell>
       <TableCell>{dsaReport.reporter?.username}</TableCell>
       <TableCell>{dsaReport.referenceID}</TableCell>
-      <TableCell>{dsaReport.lawBrokenDescription}</TableCell>
+      <TableCell>
+        <div className={styles.lawBrokenCell}>
+          {dsaReport.lawBrokenDescription}
+        </div>
+      </TableCell>
       <TableCell>{dsaReport.comment?.author?.username}</TableCell>
       <TableCell>{statusIconMapping(dsaReport.status)}</TableCell>
     </TableRow>

@@ -74,6 +74,17 @@ export const required = createValidator(
 );
 
 /**
+ * requiredTrue is a Validator that checks that the value is truthy and not equal to false.
+ */
+export const requiredTrue = createValidator(
+  (v) =>
+    Array.isArray(v)
+      ? v.length > 0
+      : v !== "" && v !== null && v !== undefined && v !== false,
+  VALIDATION_REQUIRED()
+);
+
+/**
  * validateEmail is a Validator that checks that the value is an email.
  */
 export const validateEmail = createValidator(

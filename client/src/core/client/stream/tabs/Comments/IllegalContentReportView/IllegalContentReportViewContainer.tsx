@@ -1,17 +1,29 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FormApi } from "final-form";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useUUID } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { parseBool } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { required } from "coral-framework/lib/validation";
+import { required, requiredTrue } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
+import scrollToBeginning from "coral-stream/common/scrollToBeginning";
 import UserBoxContainer from "coral-stream/common/UserBox";
+import {
+  AlertCircleIcon,
+  CheckCircleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import {
   CheckBox,
   Flex,
@@ -22,6 +34,7 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 import { Button, CallOut, TextArea } from "coral-ui/components/v3";
+import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { IllegalContentReportViewContainer_comment as CommentData } from "coral-stream/__generated__/IllegalContentReportViewContainer_comment.graphql";
 import { IllegalContentReportViewContainer_settings as SettingsData } from "coral-stream/__generated__/IllegalContentReportViewContainer_settings.graphql";
@@ -55,6 +68,8 @@ interface FormProps {
 const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const { comment, story, viewer, settings } = props;
   const createDSAReport = useMutation(CreateDSAReportMutation);
+  const { renderWindow, customScrollContainer } = useCoralContext();
+  const root = useShadowRootOrDocument();
   const [additionalComments, setAdditionalComments] = useState<
     null | { id: string; url: string }[]
   >(null);
@@ -63,6 +78,14 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   >([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const submissionID = useUUID();
+
+  const onGoToCommentsTop = useCallback(() => {
+    scrollToBeginning(root, renderWindow, customScrollContainer);
+  }, [root, renderWindow, customScrollContainer]);
+
+  useEffect(() => {
+    onGoToCommentsTop();
+  }, []);
 
   const commentVisible = comment && isPublished(comment.status);
 
@@ -142,30 +165,119 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   );
 
   if (isSubmitted) {
+    const allSuccessful =
+      submissionStatus.length ===
+      submissionStatus.filter((submission) => submission.status === "success")
+        .length;
     return (
-      <>
-        {/* TODO: Localize and update to add in any errors and style based on design */}
-        <div>
-          You have successfully submitted your illegal content report for the
-          following comments:
-        </div>
-        {submissionStatus
-          .filter((submission) => submission.status === "success")
-          .map((c) => {
-            return <div key={c.id}>{c.url}</div>;
-          })}
-        <div>The following comments were submitted with errors:</div>
-        {submissionStatus
-          .filter((submission) => submission.status === "error")
-          .map((c) => {
-            return (
-              <div key={c.id}>
-                <div>{c.url}</div>
-                {c.error.message && <div>Error: {c.error.message}</div>}
+      <HorizontalGutter
+        className={cn(styles.root, CLASSES.permalinkView.$root, {
+          [CLASSES.permalinkView.authenticated]: Boolean(viewer),
+          [CLASSES.permalinkView.unauthenticated]: !viewer,
+        })}
+      >
+        <UserBoxContainer viewer={viewer} settings={settings} />
+
+        <Flex
+          direction="column"
+          alignItems="center"
+          className={styles.confirmation}
+        >
+          <HorizontalGutter
+            spacing={2}
+            className={styles.innerConfirmation}
+            marginTop={4}
+          >
+            <Flex justifyContent="center">
+              <SvgIcon
+                size="xl"
+                Icon={CheckCircleIcon}
+                className={styles.icon}
+              />
+            </Flex>
+            {allSuccessful ? (
+              <>
+                <Flex justifyContent="center">
+                  <Localized id="comments-permalinkView-reportIllegalContent-confirmation-successHeader">
+                    <div className={styles.confirmationHeader}>
+                      We have received your illegal content report
+                    </div>
+                  </Localized>
+                </Flex>
+                <Flex justifyContent="center">
+                  <Localized id="comments-permalinkView-reportIllegalContent-confirmation-description">
+                    <div className={styles.confirmationDescription}>
+                      Your report will now be reviewed by our moderation team.
+                      You will receive a notification once a decision is made.
+                      If the content is found to contain illegal content, it
+                      will be removed from the site and further action may be
+                      taken against the commenter.
+                    </div>
+                  </Localized>
+                </Flex>
+              </>
+            ) : (
+              <>
+                <Flex justifyContent="center">
+                  <Localized id="comments-permalinkView-reportIllegalContent-confirmation-errorHeader">
+                    <div className={styles.confirmationHeader}>
+                      Thank you for submitting this report
+                    </div>
+                  </Localized>
+                </Flex>
+                <Flex justifyContent="center">
+                  <Localized id="comments-permalinkView-reportIllegalContent-confirmation-description">
+                    <div className={styles.confirmationDescription}>
+                      Your report will now be reviewed by our moderation team
+                      and you will receive a notification once a decision is
+                      made. If the content is found to contain illegal content,
+                      it will be removed from our site.
+                    </div>
+                  </Localized>
+                </Flex>
+                <Flex>
+                  <Localized id="comments-permalinkView-reportIllegalContent-confirmation-errorDescription">
+                    <CallOut color="error">
+                      We apologize, but we were unable to submit report for the
+                      following:
+                    </CallOut>
+                  </Localized>
+                </Flex>
+                <Flex>
+                  <div className={styles.errorList}>
+                    {submissionStatus
+                      .filter((submission) => submission.status === "error")
+                      .map((c) => {
+                        return (
+                          <div className={styles.errorInList} key={c.id}>
+                            <div>{c.url}</div>
+                            {c.error.message && (
+                              <Flex>
+                                <SvgIcon
+                                  Icon={AlertCircleIcon}
+                                  color="error"
+                                  className={styles.errorIcon}
+                                />
+                                <div className={styles.error}>
+                                  {c.error.message}
+                                </div>
+                              </Flex>
+                            )}
+                          </div>
+                        );
+                      })}
+                  </div>
+                </Flex>
+              </>
+            )}
+            <Localized id="comments-permalinkView-reportIllegalContent-confirmation-returnToComments">
+              <div className={styles.returnToComments}>
+                You may now close this tab to return to the comments
               </div>
-            );
-          })}
-      </>
+            </Localized>
+          </HorizontalGutter>
+        </Flex>
+      </HorizontalGutter>
     );
   }
 
@@ -182,27 +294,11 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
       </Localized>
       <Localized id="comments-permalinkView-reportIllegalContent-description">
         <p className={styles.description}>
-          Under the Digital Services Act (DSA), you can now report illegal
-          content that you see in the comments. Please fill this form out to the
-          best of your ability so our moderation team can make a decision and if
-          necessary consult with out site's legal department. Thank you for your
-          support in making our communities safer to engage in.
+          Please fill this form out to the best of your ability so our
+          moderation team can make a decision and if necessary consult with our
+          site's legal department.
         </p>
       </Localized>
-      {/* TODO: Add localization and update to actual copy and link to go to */}
-      <Button
-        variant="flat"
-        color="primary"
-        fontSize="medium"
-        fontWeight="semiBold"
-        // href={showAllCommentsHref}
-        paddingSize="none"
-        target="_blank"
-        anchor
-        underline
-      >
-        Some link
-      </Button>
       <Localized id="comments-permalinkView-reportIllegalContent-reportingComment">
         <div className={styles.reporting}>You are reporting this comment</div>
       </Localized>
@@ -233,7 +329,6 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                   hideReactionButton
                   hideReplyButton
                   hideShareButton
-                  showCopyIllegalContentReportLinkButton
                 />
               </DeletedTombstoneContainer>
             </RejectedTombstoneContainer>
@@ -242,28 +337,6 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
       )}
 
       <>
-        <CallOut>
-          <Localized id="comments-permalinkView-reportIllegalContent-callout-needMoreTime">
-            <div>Need more time to submit your report?</div>
-          </Localized>
-          <Localized id="comments-permalinkView-reportIllegalContent-callout-useCopyLink">
-            <p>
-              Use the "Copy link" button above to grab the URL to this comment
-              for you to come back to when you're ready (should note that it
-              does not save your progress).
-            </p>
-          </Localized>
-        </CallOut>
-        <Localized id="comments-permalinkView-reportIllegalContent-directions">
-          <div className={styles.directions}>Directions</div>
-        </Localized>
-        <Localized id="comments-permalinkView-reportIllegalContent-directions-moreInfo">
-          <p className={styles.directionsMoreInfo}>
-            Another chance to give some instructions on what is required for
-            this form. Maybe some reference or links to the laws? Unclear at
-            this point.
-          </p>
-        </Localized>
         <Form onSubmit={onSubmit}>
           {({ handleSubmit, submitting, hasValidationErrors }) => (
             <form
@@ -282,7 +355,8 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                       <>
                         <Localized id="comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel">
                           <InputLabel htmlFor={input.name}>
-                            What law do you believe has been broken? (required)
+                            What law(s) do you believe has been broken?
+                            (required)
                           </InputLabel>
                         </Localized>
                         <TextField {...input} fullWidth id={input.name} />
@@ -306,8 +380,8 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                         </Localized>
                         <Localized id="comments-permalinkView-reportIllegalContent-additionalInformation-helperText">
                           <HelperText>
-                            To the best of your ability please give as much
-                            detail to help us investigate this further.
+                            Any detail you include will help us investigate this
+                            further
                           </HelperText>
                         </Localized>
                         <TextArea
@@ -332,12 +406,13 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                     name="bonafideBeliefStatement"
                     type="checkbox"
                     parse={parseBool}
-                    validate={required}
+                    validate={requiredTrue}
                   >
                     {({ input }) => (
                       <Localized id="comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox">
                         <CheckBox {...input} id={input.name}>
-                          Bonafide belief statement
+                          I believe that the information included in this report
+                          is accurate and complete
                         </CheckBox>
                       </Localized>
                     )}
@@ -351,7 +426,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                     <div key={submitError.id}>{submitError.error.message}</div>
                   );
                 })}
-              <Flex alignItems="center" justifyContent="flex-end">
+              <Flex alignItems="center" justifyContent="flex-end" marginTop={3}>
                 <Localized id="comments-permalinkView-reportIllegalContent-submit">
                   <Button
                     color="secondary"

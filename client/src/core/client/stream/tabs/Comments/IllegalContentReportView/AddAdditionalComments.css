@@ -14,3 +14,7 @@
   color: var(--palette-error-500);
   font-weight: var(--font-weight-primary-bold);
 }
+
+.addButton {
+  margin-left: var(--spacing-2);
+}

@@ -40,8 +40,6 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
 }) => {
   const form = useForm();
   const { localeBundles } = useCoralContext();
-  const [showAddAdditionalComment, setShowAddAdditionalComment] =
-    useState(false);
   const [addAdditionalCommentError, setAddAdditionalCommentError] = useState<
     null | string
   >(null);
@@ -67,7 +65,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
         const validCommentURLError = getMessage(
           localeBundles,
           "comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError",
-          "Please add a valid comment URL."
+          "This is not a valid URL. Please enter a valid comment URL"
         );
         setNewComment(null);
         setAddAdditionalCommentError(validCommentURLError);
@@ -82,7 +80,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
         const uniqueCommentURLError = getMessage(
           localeBundles,
           "comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError",
-          "Please add a unique comment URL. This is a duplicate of another comment you are reporting."
+          "You've already added this comment to this report. Please add a unique comment URL"
         );
         setNewComment(null);
         setAddAdditionalCommentError(uniqueCommentURLError);
@@ -104,17 +102,10 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
     (id: string, url: string) => {
       onAddAdditionalComment(id, url);
       form.change("additionalComment", undefined);
-      setShowAddAdditionalComment(false);
       setNewComment(null);
       setAddAdditionalCommentError(null);
     },
-    [
-      onAddAdditionalComment,
-      form,
-      setShowAddAdditionalComment,
-      setNewComment,
-      setAddAdditionalCommentError,
-    ]
+    [onAddAdditionalComment, form, setNewComment, setAddAdditionalCommentError]
   );
 
   const onAddCommentError = useCallback(
@@ -129,7 +120,8 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
     <>
       <Localized id="comments-permalinkView-reportIllegalContent-additionalComments-inputLabel">
         <InputLabel>
-          Have other comments you'd like to report for breaking this law?
+          Would you like to report any other comments for containing illegal
+          content?
         </InputLabel>
       </Localized>
       {additionalComments &&
@@ -173,93 +165,60 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
       <>
         {!maxCommentsEntered && (
           <>
-            {showAddAdditionalComment ? (
-              <>
-                <Field
-                  name={`additionalComment`}
-                  id={`reportIllegalContent-additionalComment`}
-                >
-                  {({ input }: any) => (
-                    <>
-                      <Localized id="comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton">
-                        <InputLabel htmlFor={input.name}>
-                          Comment URL
-                        </InputLabel>
-                      </Localized>
-                      <TextField
-                        {...input}
-                        fullWidth
-                        id={input.name}
-                        value={input.value}
-                      />
-                    </>
-                  )}
-                </Field>
-                {addAdditionalCommentError && (
-                  <div className={styles.error}>
-                    {addAdditionalCommentError}
-                  </div>
-                )}
-                <Localized
-                  id="comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton"
-                  elems={{
-                    Button: (
-                      <ButtonSvgIcon
-                        Icon={AddIcon}
-                        size="xs"
-                        className={styles.leftIcon}
-                      />
-                    ),
-                  }}
-                >
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    fontSize="small"
-                    paddingSize="small"
-                    upperCase
-                    onClick={onAddCommentURL}
-                  >
-                    <ButtonSvgIcon
-                      Icon={AddIcon}
-                      size="xs"
-                      className={styles.leftIcon}
+            <Field
+              name={`additionalComment`}
+              id={`reportIllegalContent-additionalComment`}
+            >
+              {({ input }: any) => (
+                <Flex direction="column">
+                  <Flex marginBottom={2}>
+                    <Localized id="comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton">
+                      <InputLabel htmlFor={input.name}>Comment URL</InputLabel>
+                    </Localized>
+                  </Flex>
+                  <Flex>
+                    <TextField
+                      {...input}
+                      fullWidth
+                      id={input.name}
+                      value={input.value}
                     />
-                    Add comment URL
-                  </Button>
-                </Localized>
-              </>
-            ) : (
-              <>
-                <Localized
-                  id="comments-permalinkView-reportIllegalContent-additionalComments-button"
-                  elems={{
-                    Button: (
-                      <ButtonSvgIcon
-                        Icon={AddIcon}
-                        size="xs"
-                        className={styles.leftIcon}
-                      />
-                    ),
-                  }}
-                >
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    fontSize="small"
-                    paddingSize="small"
-                    upperCase
-                    onClick={() => setShowAddAdditionalComment(true)}
-                  >
-                    <ButtonSvgIcon
-                      Icon={AddIcon}
-                      size="xs"
-                      className={styles.leftIcon}
-                    />
-                    Add additional comments
-                  </Button>
-                </Localized>
-              </>
+                    <Localized
+                      id="comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton"
+                      elems={{
+                        Button: (
+                          <ButtonSvgIcon
+                            Icon={AddIcon}
+                            size="xs"
+                            className={styles.leftIcon}
+                          />
+                        ),
+                      }}
+                    >
+                      <Button
+                        className={styles.addButton}
+                        color="primary"
+                        variant="outlined"
+                        fontSize="small"
+                        paddingSize="small"
+                        upperCase
+                        onClick={onAddCommentURL}
+                        disabled={!input.value || !!addAdditionalCommentError}
+                      >
+                        <ButtonSvgIcon
+                          Icon={AddIcon}
+                          size="xs"
+                          className={styles.leftIcon}
+                        />
+                        Add
+                      </Button>
+                    </Localized>
+                  </Flex>
+                </Flex>
+              )}
+            </Field>
+            {addAdditionalCommentError && (
+              <div className={styles.error}>{addAdditionalCommentError}</div>
             )}
           </>
         )}

@@ -237,11 +237,11 @@ it("can make a legality decision on a report", async () => {
   });
   expect(submitButton).toBeDisabled();
   const legalGroundsTextbox =
-    within(makeDecisionModal).getByPlaceholderText("Legal grounds");
+    within(makeDecisionModal).getByPlaceholderText("Add law...");
   userEvent.type(legalGroundsTextbox, "Legal grounds for illegal content");
   expect(submitButton).toBeDisabled();
   const explanationTextbox =
-    within(makeDecisionModal).getByPlaceholderText("Explanation");
+    within(makeDecisionModal).getByPlaceholderText("Add explanation...");
   userEvent.type(explanationTextbox, "Explanation of why is illegal content");
   expect(submitButton).toBeEnabled();
   userEvent.click(submitButton);

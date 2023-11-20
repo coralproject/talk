@@ -25,7 +25,7 @@ export const render = (
       const commentNotFoundError = getMessage(
         localeBundles,
         "comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError",
-        "This comment was not found. Please add a URL for a valid comment."
+        "Comment not found. Please enter a valid comment URL"
       );
       onAddCommentError(commentNotFoundError, additionalComment.id);
       return null;
@@ -34,7 +34,7 @@ export const render = (
       const previouslyReportedError = getMessage(
         localeBundles,
         "comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError",
-        "You've already reported this comment for illegal content. You cannot report it again."
+        "You've previously reported this comment for containing illegal content. You may only report a comment for this reason one time."
       );
       onAddCommentError(previouslyReportedError, additionalComment.id);
       return null;

@@ -91,3 +91,9 @@
 .reportIllegalLink {
   margin-bottom: var(--spacing-3);
 }
+
+.linkIcon {
+  margin-left: var(--spacing-1);
+  display: inline-block;
+  vertical-align: middle;
+}

@@ -12,6 +12,10 @@ import {
   validateMaxLength,
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
+import {
+  ButtonSvgIcon,
+  ShareExternalLinkIcon,
+} from "coral-ui/components/icons";
 import { Flex, RadioButton } from "coral-ui/components/v2";
 import { Button, ValidationMessage } from "coral-ui/components/v3";
 
@@ -171,22 +175,28 @@ const ReportCommentForm: FunctionComponent<Props> = ({
                 </li>
               </ul>
               {dsaFeaturesEnabled && (
-                <Localized id="comments-reportForm-reportIllegalContent-button">
-                  <Button
-                    className={styles.reportIllegalLink}
-                    variant="flat"
-                    color="primary"
-                    fontSize="medium"
-                    fontWeight="semiBold"
-                    paddingSize="none"
-                    target="_blank"
-                    anchor
-                    underline
-                    href={reportLink}
-                  >
-                    Does this comment potentially contain illegal content?
-                  </Button>
-                </Localized>
+                <Button
+                  className={styles.reportIllegalLink}
+                  variant="flat"
+                  color="primary"
+                  fontSize="medium"
+                  fontWeight="semiBold"
+                  paddingSize="none"
+                  target="_blank"
+                  anchor
+                  underline
+                  href={reportLink}
+                >
+                  <Localized id="comments-reportForm-reportIllegalContent-button">
+                    <span>
+                      Does this comment potentially contain illegal content?
+                    </span>
+                  </Localized>
+                  <ButtonSvgIcon
+                    className={styles.linkIcon}
+                    Icon={ShareExternalLinkIcon}
+                  />
+                </Button>
               )}
               <Localized
                 id="comments-reportPopover-additionalInformation"
