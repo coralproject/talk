@@ -11,6 +11,7 @@ import { retrieveTenant } from "coral-server/models/tenant";
 import {
   GQLCOMMENT_STATUS,
   GQLDSAReportStatus,
+  GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { moderate } from "../comments/moderation";
@@ -131,7 +132,8 @@ async function moderateComments(
   filter: FilterQuery<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
   now: Date,
-  isArchived = false
+  isArchived = false,
+  rejectionReason?: GQLREJECTION_REASON_CODE
 ) {
   const tenant = await retrieveTenant(mongo, tenantID);
   if (!tenant) {
@@ -169,6 +171,9 @@ async function moderateComments(
         commentRevisionID: getLatestRevision(comment).id,
         moderatorID: null,
         status: targetStatus,
+        rejectionReason: rejectionReason
+          ? { code: rejectionReason }
+          : undefined,
       },
       now,
       isArchived,
@@ -309,7 +314,8 @@ async function deleteUserComments(
     },
     GQLCOMMENT_STATUS.REJECTED,
     now,
-    isArchived
+    isArchived,
+    GQLREJECTION_REASON_CODE.OTHER
   );
 
   const collection =
