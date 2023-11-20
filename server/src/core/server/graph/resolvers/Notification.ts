@@ -1,4 +1,3 @@
-import { CommentNotFoundError } from "coral-server/errors";
 import { Notification } from "coral-server/models/notifications/notification";
 
 import {
@@ -18,12 +17,7 @@ export const NotificationResolver: Required<
       return null;
     }
 
-    const comment = await ctx.loaders.Comments.comment.load(commentID);
-    if (!comment) {
-      throw new CommentNotFoundError(commentID);
-    }
-
-    return comment;
+    return await ctx.loaders.Comments.comment.load(commentID);
   },
   commentStatus: ({ commentStatus }) => commentStatus,
   dsaReport: async ({ reportID }, input, ctx) => {
