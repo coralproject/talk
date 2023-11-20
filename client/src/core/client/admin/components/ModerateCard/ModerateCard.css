@@ -111,10 +111,6 @@ $moderateCardLinkTextColor: $colors-teal-700;
   padding-bottom: var(--spacing-1);
 }
 
-.moderationReasonDropdown {
-  opacity: 1;
-}
-
 .moderationReasonCard {
  padding: 0;
  margin: 0;
