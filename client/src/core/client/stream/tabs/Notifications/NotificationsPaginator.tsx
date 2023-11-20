@@ -85,6 +85,8 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
               a: (
                 <a
                   href={`mailto: ${props.query.settings.dsa.methodOfRedress.email}`}
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   {props.query.settings.dsa.methodOfRedress.email}
                 </a>
@@ -103,7 +105,11 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
             }}
             elems={{
               a: (
-                <a href={`${props.query.settings.dsa.methodOfRedress.url}`}>
+                <a
+                  href={`${props.query.settings.dsa.methodOfRedress.url}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {props.query.settings.dsa.methodOfRedress.url}
                 </a>
               ),
