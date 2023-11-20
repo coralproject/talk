@@ -12,10 +12,10 @@ import {
   GQLCOMMENT_STATUS,
   GQLDSAReportStatus,
   GQLREJECTION_REASON_CODE,
+  GQLRejectionReason,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { moderate } from "../comments/moderation";
-import { Moderate } from "../comments/moderation/moderate";
 import { I18n } from "../i18n";
 import { AugmentedRedis } from "../redis";
 
@@ -134,7 +134,7 @@ async function moderateComments(
   targetStatus: GQLCOMMENT_STATUS,
   now: Date,
   isArchived = false,
-  rejectionReason?: Moderate["rejectionReason"]
+  rejectionReason?: GQLRejectionReason
 ) {
   const tenant = await retrieveTenant(mongo, tenantID);
   if (!tenant) {
