@@ -236,7 +236,9 @@ export const settings = createFixture<GQLSettings>({
   },
   dsa: {
     enabled: false,
-    methodOfRedress: GQLDSA_METHOD_OF_REDRESS.NONE,
+    methodOfRedress: {
+      method: GQLDSA_METHOD_OF_REDRESS.NONE,
+    },
   },
 });
 

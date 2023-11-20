@@ -1038,17 +1038,17 @@ stream-footer-navigation =
 
 notifications-title = Notifications
 notifications-loadMore = Load More
-notification-comment-toggle-approved-open = Approved comment
-notification-comment-toggle-approved-closed = + Approved comment
-notification-comment-toggle-rejected-open = Rejected comment
-notification-comment-toggle-rejected-closed = + Rejected comment
-notification-comment-toggle-default-open = Comment
+
+notification-comment-toggle-default-open = - Comment
 notification-comment-toggle-default-closed = + Comment
+
+notifications-comment-showRemovedComment = + Show removed comment
+notifications-comment-hideRemovedComment = - Hide removed comment
 
 notifications-yourIllegalContentReportHasBeenReviewed =
   Your illegal content report has been reviewed
 notifications-yourCommentHasBeenRejected =
-  Your comment has been rejected and removed from our site
+  Your comment has been rejected
 notifications-yourCommentHasBeenApproved =
   Your comment has been approved
 notifications-yourCommentHasBeenFeatured =
@@ -1056,7 +1056,7 @@ notifications-yourCommentHasBeenFeatured =
 notifications-defaultTitle = Notification
 
 notifications-rejectedComment-body =
-  Our moderators have reviewed your comment and determined it contains content that violates our community guidelines or terms of service.
+  The content of your comment was against our community guidelines. The comment has been removed.
 notifications-reasonForRemoval = Reason for removal
 notifications-legalGrounds = Legal grounds
 notifications-additionalExplanation = Additional explanation
@@ -1078,3 +1078,10 @@ notifications-reportDecisionMade-legal =
   On { $date } you reported a comment written by { $author } for containing illegal content. After reviewing your report, our moderation team has decided this comment does not appear to contain illegal content.
 notifications-reportDecisionMade-illegal =
   On { $date } you reported a comment written by { $author } for containing illegal content. After reviewing your report, our moderation team has decided this comment does contain illegal content.
+
+notifications-methodOfRedress-none =
+  All moderation decisions are final and cannot be appealed
+notifications-methodOfRedress-email =
+  To appeal a decision that appears here please contact { $email }
+notifications-methodOfRedress-url =
+  To appeal a decision that appears here please visit { $url }

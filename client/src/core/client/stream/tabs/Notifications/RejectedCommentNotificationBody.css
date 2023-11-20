@@ -31,3 +31,8 @@
 .detailItem {
   margin-bottom: var(--spacing-2);
 }
+
+.contextItem {
+  margin-left: var(--spacing-5);
+  margin-bottom: var(--spacing-2);
+}

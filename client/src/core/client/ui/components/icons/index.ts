@@ -62,6 +62,7 @@ export { default as QuestionCircleIcon } from "./QuestionCircleIcon";
 export { default as QuestionHelpMessageIcon } from "./QuestionHelpMessageIcon";
 export { default as RatingHalfStarIcon } from "./RatingHalfStarIcon";
 export { default as RatingStarIcon } from "./RatingStarIcon";
+export { default as RejectCommentBoxIcon } from "./RejectCommentBoxIcon";
 export { default as RemoveIcon } from "./RemoveIcon";
 export { default as RemoveCircleIcon } from "./RemoveCircleIcon";
 export { default as SubtractIcon } from "./SubtractIcon";
