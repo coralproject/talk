@@ -38,6 +38,10 @@ dsaReportCSV-legality-illegal = Legality: Illegal
 dsaReportCSV-legality-legal = Legality: Legal
 dsaReportCSV-legalGrounds = Legal grounds
 dsaReportCSV-explanation = Explanation
+dsaReportCSV-status-awaitingReview = Awaiting review
+dsaReportCSV-status-inReview = In review
+dsaReportCSV-status-completed = Completed
+dsaReportCSV-status-void = Void
 
 # Notifications
 

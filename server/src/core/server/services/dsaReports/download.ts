@@ -4,6 +4,7 @@ import { Response } from "express";
 
 import { createDateFormatter } from "coral-common/common/lib/date";
 import { MongoContext } from "coral-server/data/context";
+import { GQLDSAReportStatus } from "coral-server/graph/schema/__generated__/types";
 import { retrieveComment } from "coral-server/models/comment";
 import { DSAReport } from "coral-server/models/dsaReport";
 import { Tenant } from "coral-server/models/tenant";
@@ -135,6 +136,21 @@ export async function sendReportDownload(
   }
 
   if (report.history) {
+    const getStatusText = (status: GQLDSAReportStatus) => {
+      const mapping = {
+        AWAITING_REVIEW: {
+          text: "Awaiting review",
+          id: "dsaReportCSV-status-awaitingReview",
+        },
+        UNDER_REVIEW: {
+          text: "In review",
+          id: "dsaReportCSV-status-inReview",
+        },
+        COMPLETED: { text: "Completed", id: "dsaReportCSV-status-completed" },
+        VOID: { text: "Void", id: "dsaReportCSV-status-void" },
+      };
+      return mapping[status];
+    };
     for (const reportHistoryItem of report.history) {
       const reportCommentAuthor = await retrieveUser(
         mongo,
@@ -147,7 +163,13 @@ export async function sendReportDownload(
             formatter.format(reportHistoryItem.createdAt),
             reportCommentAuthor?.username,
             translate(bundle, "Changed status", "dsaReportCSV-changedStatus"),
-            reportHistoryItem.status,
+            reportHistoryItem.status
+              ? translate(
+                  bundle,
+                  getStatusText(reportHistoryItem.status).text,
+                  getStatusText(reportHistoryItem.status).id
+                )
+              : reportHistoryItem.status,
           ]);
           break;
         case "NOTE":
