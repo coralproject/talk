@@ -45,6 +45,7 @@ export const DSAReports = (ctx: GraphContext) => ({
         ctx.broker,
         ctx.tenant,
         ctx.user,
+        await ctx.loaders.Comments.comment.load(commentID),
         { commentID, commentRevisionID },
         ctx.now
       );

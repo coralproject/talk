@@ -230,6 +230,7 @@ export async function createAction(
   mongo: MongoContext,
   tenantID: string,
   input: CreateActionInput,
+  isArchived: boolean,
   now = new Date()
 ): Promise<CreateActionResultObject> {
   const { metadata, additionalDetails, ...rest } = input;
@@ -263,8 +264,13 @@ export async function createAction(
     $setOnInsert: action,
   };
 
+  const collection =
+    mongo.archive && isArchived
+      ? mongo.archivedCommentActions()
+      : mongo.commentActions();
+
   // Insert the action into the database using an upsert operation.
-  const result = await mongo.commentActions().findOneAndUpdate(filter, update, {
+  const result = await collection.findOneAndUpdate(filter, update, {
     // We are using this to create a action, so we need to upsert it.
     upsert: true,
 
@@ -295,11 +301,12 @@ export async function createActions(
   mongo: MongoContext,
   tenantID: string,
   inputs: CreateActionInput[],
+  isArchived: boolean,
   now = new Date()
 ): Promise<CreateActionResultObject[]> {
   // TODO: (wyattjoh) replace with a batch write.
   return Promise.all(
-    inputs.map((input) => createAction(mongo, tenantID, input, now))
+    inputs.map((input) => createAction(mongo, tenantID, input, isArchived, now))
   );
 }
 

@@ -49,10 +49,17 @@ export async function addCommentActions(
   mongo: MongoContext,
   tenant: Tenant,
   inputs: CreateAction[],
-  now = new Date()
+  now = new Date(),
+  isArchived = false
 ) {
   // Create each of the actions, returning each of the action results.
-  const results = await createActions(mongo, tenant.id, inputs, now);
+  const results = await createActions(
+    mongo,
+    tenant.id,
+    inputs,
+    isArchived,
+    now
+  );
 
   // Get the actions that were upserted, we only want to increment the action
   // counts of actions that were just created.
@@ -65,7 +72,8 @@ export async function addCommentActionCounts(
   mongo: MongoContext,
   tenant: Tenant,
   oldComment: Readonly<Comment>,
-  action: EncodedCommentActionCounts
+  action: EncodedCommentActionCounts,
+  isArchived = false
 ) {
   // Grab the last revision (the most recent).
   const revision = getLatestRevision(oldComment);
@@ -76,7 +84,8 @@ export async function addCommentActionCounts(
     tenant.id,
     oldComment.id,
     revision.id,
-    action
+    action,
+    isArchived
   );
   if (!updatedComment) {
     // TODO: (wyattjoh) return a better error.
@@ -102,11 +111,23 @@ async function addCommentAction(
   author: User,
   now = new Date()
 ): Promise<AddCommentAction> {
-  const oldComment = await retrieveComment(
+  let oldComment = await retrieveComment(
     mongo.comments(),
     tenant.id,
     input.commentID
   );
+  let isArchived = false;
+  if (!oldComment && mongo.archive) {
+    oldComment = await retrieveComment(
+      mongo.archivedComments(),
+      tenant.id,
+      input.commentID
+    );
+    if (oldComment) {
+      isArchived = true;
+    }
+  }
+
   if (!oldComment) {
     throw new CommentNotFoundError(input.commentID);
   }
@@ -142,7 +163,13 @@ async function addCommentAction(
   };
 
   // Update the actions for the comment.
-  const commentActions = await addCommentActions(mongo, tenant, [action], now);
+  const commentActions = await addCommentActions(
+    mongo,
+    tenant,
+    [action],
+    now,
+    isArchived
+  );
   if (commentActions.length > 0) {
     // Get the comment action.
     const [commentAction] = commentActions;
@@ -155,7 +182,8 @@ async function addCommentAction(
       mongo,
       tenant,
       oldComment,
-      actionCounts
+      actionCounts,
+      isArchived
     );
 
     // Update the comment counts onto other documents.
@@ -167,12 +195,15 @@ async function addCommentAction(
     });
 
     // Publish changes to the event publisher.
-    await publishChanges(broker, {
-      ...counts,
-      before: oldComment,
-      after: updatedComment,
-      commentRevisionID: input.commentRevisionID,
-    });
+    // Do not publish if comment is archived
+    if (!isArchived) {
+      await publishChanges(broker, {
+        ...counts,
+        before: oldComment,
+        after: updatedComment,
+        commentRevisionID: input.commentRevisionID,
+      });
+    }
 
     return { comment: updatedComment, action: commentAction };
   }
@@ -415,25 +446,21 @@ export async function createIllegalContent(
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   user: User,
+  comment: Readonly<Comment> | null,
   input: CreateIllegalContent,
   now = new Date()
 ) {
   let revisionID = input.commentRevisionID;
 
-  const retrievedComment = await retrieveComment(
-    mongo.comments(),
-    tenant.id,
-    input.commentID
-  );
-  if (!retrievedComment) {
+  if (!comment) {
     throw new CommentNotFoundError(input.commentID);
   }
 
   if (!revisionID) {
-    revisionID = getLatestRevision(retrievedComment).id;
+    revisionID = getLatestRevision(comment).id;
   }
 
-  const { comment, action } = await addCommentAction(
+  const { comment: commentUpdated, action } = await addCommentAction(
     mongo,
     redis,
     config,
@@ -455,7 +482,7 @@ export async function createIllegalContent(
     await commentActionsCache.add(action);
   }
 
-  return comment;
+  return commentUpdated;
 }
 
 export type RemoveCommentDontAgree = Pick<
