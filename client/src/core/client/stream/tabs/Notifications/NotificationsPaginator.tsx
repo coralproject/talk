@@ -81,8 +81,17 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
             vars={{
               email: props.query.settings.dsa.methodOfRedress.email,
             }}
+            elems={{
+              a: (
+                <a
+                  href={`mailto: ${props.query.settings.dsa.methodOfRedress.email}`}
+                >
+                  {props.query.settings.dsa.methodOfRedress.email}
+                </a>
+              ),
+            }}
           >
-            {`To appeal a decision that appears here please contact ${props.query.settings.dsa.methodOfRedress.email}`}
+            <span>{`To appeal a decision that appears here please contact ${props.query.settings.dsa.methodOfRedress.email}`}</span>
           </Localized>
         )}
         {props.query.settings.dsa.methodOfRedress.method ===
@@ -92,8 +101,15 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
             vars={{
               url: props.query.settings.dsa.methodOfRedress.url,
             }}
+            elems={{
+              a: (
+                <a href={`${props.query.settings.dsa.methodOfRedress.url}`}>
+                  {props.query.settings.dsa.methodOfRedress.url}
+                </a>
+              ),
+            }}
           >
-            {`To appeal a decision that appears here please visit ${props.query.settings.dsa.methodOfRedress.url}`}
+            <span>{`To appeal a decision that appears here please visit ${props.query.settings.dsa.methodOfRedress.url}`}</span>
           </Localized>
         )}
       </div>
