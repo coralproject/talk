@@ -1069,6 +1069,10 @@ notifications-rejectionReason-spam = Spam
 notifications-rejectionReason-bannedWord = Banned word
 notifications-rejectionReason-ad = Ad
 notifications-rejectionReason-illegalContent = Illegal content
+notifications-rejectionReason-harassmentBullying = Harassment or bullying
+notifications-rejectionReason-misinformation = Misinformation
+notifications-rejectionReason-hateSpeech = Hate speech
+notifications-rejectionReason-irrelevant = Irrelevant content
 notifications-rejectionReason-other = Other
 notifications-rejectionReason-unknown = Unknown
 

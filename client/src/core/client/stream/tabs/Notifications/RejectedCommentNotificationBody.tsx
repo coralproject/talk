@@ -90,6 +90,36 @@ const getGeneralReason = (
       "Illegal content"
     );
   }
+
+  if (reason === GQLREJECTION_REASON_CODE.HARASSMENT_BULLYING) {
+    return getMessage(
+      bundles,
+      "notifications-rejectionReason-harassmentBullying",
+      "Harassment or bullying"
+    );
+  }
+  if (reason === GQLREJECTION_REASON_CODE.MISINFORMATION) {
+    return getMessage(
+      bundles,
+      "notifications-rejectionReason-misinformation",
+      "Misinformation"
+    );
+  }
+  if (reason === GQLREJECTION_REASON_CODE.HATE_SPEECH) {
+    return getMessage(
+      bundles,
+      "notifications-rejectionReason-hateSpeech",
+      "Hate speech"
+    );
+  }
+  if (reason === GQLREJECTION_REASON_CODE.IRRELEVANT_CONTENT) {
+    return getMessage(
+      bundles,
+      "notifications-rejectionReason-irrelevant",
+      "Irrelevant content"
+    );
+  }
+
   if (reason === GQLREJECTION_REASON_CODE.OTHER) {
     return getMessage(bundles, "notifications-rejectionReason-other", "Other");
   }
