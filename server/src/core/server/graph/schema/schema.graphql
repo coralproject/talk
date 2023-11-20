@@ -3419,6 +3419,26 @@ enum REJECTION_REASON_CODE {
   ILLEGAL_CONTENT
 
   """
+  HARASSMENT_BULLYING represents a rejection of a comment for being harassment or bullying.
+  """
+  HARASSMENT_BULLYING
+
+  """
+  MISINFORMATION represents a rejection of a comment for being misinformation.
+  """
+  MISINFORMATION
+
+  """
+  HATE_SPEECH represents a rejection of a comment for being hate speech.
+  """
+  HATE_SPEECH
+
+  """
+  IRRELEVANT_CONTENT represents a rejection of a comment for being irrelevant to the conversation.
+  """
+  IRRELEVANT_CONTENT
+
+  """
   OTHER is reserved for reasons that arent adequately described by the other options.
   """
   OTHER

@@ -42,6 +42,14 @@ common-moderationReason-rejectionReason-BANNED_WORD =
   Banned word
 common-moderationReason-rejectionReason-AD =
   Ad
+common-moderationReason-rejectionReason-HARASSMENT_BULLYING = 
+  Harassment / bullying
+common-moderationReason-rejectionReason-MISINFORMATION = 
+  Misinformation
+common-moderationReason-rejectionReason-HATE_SPEECH = 
+  Hate speech
+common-moderationReason-rejectionReason-IRRELEVANT_CONTENT = 
+  Irrelevant content
 common-moderationReason-reason-moreReasons =
   + More reasons
 common-moderationReason-rejectionReason-OTHER = 
