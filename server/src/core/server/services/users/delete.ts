@@ -6,7 +6,7 @@ import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { DSAReport } from "coral-server/models/dsaReport";
 import { Story } from "coral-server/models/story";
-import { retrieveTenant, Tenant } from "coral-server/models/tenant";
+import { retrieveTenant } from "coral-server/models/tenant";
 
 import {
   GQLCOMMENT_STATUS,
@@ -16,7 +16,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { moderate } from "../comments/moderation";
-import { I18n, translate } from "../i18n";
+import { I18n } from "../i18n";
 import { AugmentedRedis } from "../redis";
 
 const BATCH_SIZE = 500;
@@ -129,13 +129,18 @@ async function moderateComments(
   redis: AugmentedRedis,
   config: Config,
   i18n: I18n,
-  tenant: Tenant,
+  tenantID: string,
   filter: FilterQuery<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
   now: Date,
   isArchived = false,
   rejectionReason?: GQLRejectionReason
 ) {
+  const tenant = await retrieveTenant(mongo, tenantID);
+  if (!tenant) {
+    throw new Error("unable to retrieve tenant");
+  }
+
   const coll =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
   const comments = coll.find(filter);
@@ -265,10 +270,6 @@ async function deleteUserComments(
   now: Date,
   isArchived?: boolean
 ) {
-  const tenant = await retrieveTenant(mongo, tenantID);
-  if (!tenant) {
-    throw new Error("unable to retrieve tenant");
-  }
   // Approve any comments that have children.
   // This allows the children to be visible after
   // the comment is deleted.
@@ -277,7 +278,7 @@ async function deleteUserComments(
     redis,
     config,
     i18n,
-    tenant,
+    tenantID,
     {
       tenantID,
       authorID,
@@ -289,13 +290,6 @@ async function deleteUserComments(
     isArchived
   );
 
-  const bundle = i18n.getBundle(tenant.locale);
-  const translatedExplanation = translate(
-    bundle,
-    "User account deleted",
-    "common-accountDeleted"
-  );
-
   // reject any comments that don't have children
   // This gets rid of any empty/childless deleted comments.
   await moderateComments(
@@ -303,7 +297,7 @@ async function deleteUserComments(
     redis,
     config,
     i18n,
-    tenant,
+    tenantID,
     {
       tenantID,
       authorID,
@@ -322,7 +316,7 @@ async function deleteUserComments(
     isArchived,
     {
       code: GQLREJECTION_REASON_CODE.OTHER,
-      detailedExplanation: translatedExplanation,
+      detailedExplanation: "User account deleted",
     }
   );
 

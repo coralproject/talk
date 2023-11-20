@@ -60,6 +60,3 @@ common-moderationReason-detailedExplanation =
   Detailed explanation
 common-moderationReason-detailedExplanation-placeholder =
    .placeholder = Add your explanation
-
-common-accountDeleted =
-  User account was deleted.
