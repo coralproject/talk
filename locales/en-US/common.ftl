@@ -60,5 +60,7 @@ common-moderationReason-detailedExplanation =
 common-moderationReason-detailedExplanation-placeholder =
    .placeholder = Add your explanation
 
+common-userBanned =
+  User was banned.
 common-accountDeleted =
   User account was deleted.
