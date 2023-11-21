@@ -43,6 +43,7 @@
 
 .illegalContentReportButton {
   margin-bottom: var(--spacing-2);
+  white-space: initial;
 }
 
 .linkIcon {
