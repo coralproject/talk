@@ -203,7 +203,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
                         paddingSize="small"
                         upperCase
                         onClick={onAddCommentURL}
-                        disabled={!input.value || !!addAdditionalCommentError}
+                        disabled={!input.value}
                       >
                         <ButtonSvgIcon
                           Icon={AddIcon}
