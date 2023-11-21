@@ -1472,7 +1472,7 @@ export async function ban(
   const tranlsatedExplanation = translate(
     bundle,
     "common-userBanned",
-    "User banned"
+    "User banned."
   );
   const rejectionReason = {
     code: GQLREJECTION_REASON_CODE.OTHER,
