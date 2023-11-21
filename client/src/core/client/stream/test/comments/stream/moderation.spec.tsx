@@ -694,11 +694,6 @@ it("requires rection reason when dsaFeaturesEnabled", async () => {
 
   expect(reasonModal).toBeInTheDocument();
 
-  const submitReasonButton = within(reasonModal).getByRole("button", {
-    name: "Reject",
-  });
-  expect(submitReasonButton).toBeDisabled();
-
   const otherOption = within(reasonModal).getByLabelText("other", {
     exact: false,
   });
@@ -709,9 +704,15 @@ it("requires rection reason when dsaFeaturesEnabled", async () => {
     fireEvent.click(otherOption);
   });
 
+  const submitReasonButton = within(reasonModal).getByRole("button", {
+    name: "Reject",
+  });
+  expect(submitReasonButton).toBeDisabled();
+
   const additionalInfo = within(reasonModal).getByTestId(
     "moderation-reason-detailed-explanation"
   );
+
   act(() => {
     fireEvent.change(additionalInfo, {
       target: { value: "really weird comment tbh" },
