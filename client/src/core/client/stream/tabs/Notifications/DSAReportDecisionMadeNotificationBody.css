@@ -12,3 +12,9 @@
 .body > p {
   margin-bottom: var(--spacing-3);
 }
+
+.body > span > strong {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+}
