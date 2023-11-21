@@ -95,7 +95,7 @@ export async function sendReportDownload(
     translate(bundle, "Action", "dsaReportCSV-action"),
     translate(bundle, "Details", "dsaReportCSV-details"),
   ]);
-  if (reportedComment) {
+  if (reportedComment && report.status !== GQLDSAReportStatus.VOID) {
     csv.write([
       formatter.format(report.createdAt),
       reporter?.username,

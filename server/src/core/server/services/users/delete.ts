@@ -1,4 +1,5 @@
 import { Collection, FilterQuery } from "mongodb";
+import { v4 as uuid } from "uuid";
 
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -10,6 +11,7 @@ import { retrieveTenant } from "coral-server/models/tenant";
 
 import {
   GQLCOMMENT_STATUS,
+  GQLDSAReportHistoryType,
   GQLDSAReportStatus,
   GQLREJECTION_REASON_CODE,
   GQLRejectionReason,
@@ -230,6 +232,16 @@ async function updateUserDSAReports(
       continue;
     }
 
+    const id = uuid();
+
+    const statusChangeHistoryItem = {
+      id,
+      createdBy: null,
+      createdAt: new Date(),
+      status: GQLDSAReportStatus.VOID,
+      type: GQLDSAReportHistoryType.STATUS_CHANGED,
+    };
+
     batch.dsaReports.push({
       updateMany: {
         filter: {
@@ -245,6 +257,9 @@ async function updateUserDSAReports(
         update: {
           $set: {
             status: "VOID",
+          },
+          $push: {
+            history: statusChangeHistoryItem,
           },
         },
       },
