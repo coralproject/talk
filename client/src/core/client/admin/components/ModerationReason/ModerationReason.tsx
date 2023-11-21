@@ -56,7 +56,10 @@ const ModerationReason: FunctionComponent<Props> = ({
         />
       ) : (
         <DetailedExplanation
-          onBack={() => setView("REASON")}
+          onBack={() => {
+            setView("REASON");
+            setReasonCode(null);
+          }}
           code={reasonCode!}
           value={detailedExplanation}
           onChange={setDetailedExplanation}
