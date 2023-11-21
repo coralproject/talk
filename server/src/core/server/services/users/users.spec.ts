@@ -18,6 +18,7 @@ import { updateRole, updateUserBan } from "./users";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { demoteMember, promoteMember } from ".";
+import { I18n } from "../i18n";
 
 describe("updateUserBan", () => {
   afterEach(jest.clearAllMocks);
@@ -52,6 +53,7 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
+          new I18n("en-US"),
           commenter,
           badUser.id,
           "Test message",
@@ -73,6 +75,7 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
+          new I18n("en-US"),
           staff,
           badUser.id,
           "Test message",
@@ -99,6 +102,7 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
+          new I18n("en-US"),
           siteAMod,
           badUser.id,
           "Test message",
@@ -122,6 +126,7 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
+          new I18n("en-US"),
           orgMod,
           badUser.id,
           "Test message",
@@ -153,6 +158,7 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
+      new I18n("en-US"),
       admin,
       bannedOnSiteA.id,
       "Test message",
@@ -187,6 +193,7 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
+      new I18n("en-US"),
       admin,
       bannedOnSiteB.id,
       "TEST MESSAGE",
@@ -213,6 +220,7 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
+      new I18n("en-US"),
       admin,
       notBannedUser.id,
       "TEST MESSAGE",
@@ -239,6 +247,7 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
+      new I18n("en-US"),
       admin,
       unbannedUser.id,
       "Test Message",
@@ -255,6 +264,7 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
+      new I18n("en-US"),
       admin,
       unbannedUser.id,
       "Test Message",

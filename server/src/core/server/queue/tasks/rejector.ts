@@ -22,6 +22,7 @@ import { rejectComment } from "coral-server/stacks";
 import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
+  GQLRejectionReason,
 } from "coral-server/graph/schema/__generated__/types";
 import { I18n } from "coral-server/services/i18n";
 
@@ -41,6 +42,7 @@ export interface RejectorData {
   moderatorID: string;
   tenantID: string;
   siteIDs?: string[];
+  reason?: GQLRejectionReason;
 }
 
 function getBatch(
@@ -83,6 +85,7 @@ const rejectArchivedComments = async (
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string,
+  reason?: GQLRejectionReason,
   siteIDs?: string[]
 ) => {
   // Get the current time.
@@ -106,6 +109,7 @@ const rejectArchivedComments = async (
         commentRevisionID: revision.id,
         status: GQLCOMMENT_STATUS.REJECTED,
         moderatorID,
+        reason,
       };
 
       const updateAllCommentCountsArgs = {
@@ -160,6 +164,7 @@ const rejectLiveComments = async (
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string,
+  reason?: GQLRejectionReason,
   siteIDs?: string[]
 ) => {
   // Get the current time.
@@ -183,7 +188,8 @@ const rejectLiveComments = async (
         comment.id,
         revision.id,
         moderatorID,
-        now
+        now,
+        reason
       );
     }
     // If there was not another page, abort processing.
@@ -212,7 +218,7 @@ const createJobProcessor =
   }: RejectorProcessorOptions): JobProcessor<RejectorData> =>
   async (job) => {
     // Pull out the job data.
-    const { authorID, moderatorID, tenantID, siteIDs } = job.data;
+    const { authorID, moderatorID, tenantID, siteIDs, reason } = job.data;
     const log = logger.child(
       {
         jobID: job.id,
@@ -255,6 +261,7 @@ const createJobProcessor =
       tenant,
       authorID,
       moderatorID,
+      reason,
       siteIDs
     );
     if (mongo.archive) {
@@ -266,6 +273,7 @@ const createJobProcessor =
         tenant,
         authorID,
         moderatorID,
+        reason,
         siteIDs
       );
     }

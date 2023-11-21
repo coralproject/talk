@@ -346,6 +346,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.user!,
       userID,
       message,
+      ctx.i18n,
       rejectExistingComments,
       siteIDs,
       ctx.now
@@ -365,6 +366,7 @@ export const Users = (ctx: GraphContext) => ({
         ctx.mailerQueue,
         ctx.rejectorQueue,
         ctx.tenant,
+        ctx.i18n,
         ctx.user!,
         userID,
         message,
