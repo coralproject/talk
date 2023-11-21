@@ -50,12 +50,11 @@ common-moderationReason-rejectionReason-HATE_SPEECH =
   Hate speech
 common-moderationReason-rejectionReason-IRRELEVANT_CONTENT = 
   Irrelevant content
-common-moderationReason-reason-moreReasons =
-  + More reasons
 common-moderationReason-rejectionReason-OTHER = 
   Other
 common-moderationReason-changeReason =
-  Change reason
+  &lt; Change reason
+common-moderationReason-reasonLabel = Reason
 common-moderationReason-detailedExplanation =
   Detailed explanation
 common-moderationReason-detailedExplanation-placeholder =

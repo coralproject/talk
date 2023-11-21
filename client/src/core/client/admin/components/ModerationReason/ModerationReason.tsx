@@ -6,7 +6,7 @@ import { Box, Button, Flex } from "coral-ui/components/v2";
 
 import { RejectCommentReasonInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
 
-import DetailedExplantion from "./DetailedExplanation";
+import DetailedExplanation from "./DetailedExplanation";
 import Reasons from "./Reasons";
 
 import styles from "./ModerationReason.css";
@@ -49,11 +49,13 @@ const ModerationReason: FunctionComponent<Props> = ({
       {view === "REASON" ? (
         <Reasons
           selected={reasonCode}
-          onCode={setReasonCode}
-          onAddExplanation={() => setView("EXPLANATION")}
+          onCode={(code) => {
+            setReasonCode(code);
+            setView("EXPLANATION");
+          }}
         />
       ) : (
-        <DetailedExplantion
+        <DetailedExplanation
           onBack={() => setView("REASON")}
           code={reasonCode!}
           value={detailedExplanation}
@@ -61,32 +63,39 @@ const ModerationReason: FunctionComponent<Props> = ({
         />
       )}
 
-      <Flex className={styles.buttons}>
-        <Localized id="common-moderationReason-cancel">
-          <Button
-            className={styles.cancelButton}
-            variant="outlined"
-            color="mono"
-            onClick={onCancel}
-          >
-            Cancel
-          </Button>
-        </Localized>
+      <Flex marginTop={2} direction="column">
+        {reasonCode && (
+          <Flex>
+            <Localized id="common-moderationReason-reject">
+              <Button
+                className={styles.rejectButton}
+                disabled={
+                  reasonCode === null ||
+                  (reasonCode === GQLREJECTION_REASON_CODE.OTHER &&
+                    !detailedExplanation)
+                }
+                onClick={submitReason}
+                color="alert"
+                fullWidth
+              >
+                Reject
+              </Button>
+            </Localized>
+          </Flex>
+        )}
 
-        <Localized id="common-moderationReason-reject">
-          <Button
-            className={styles.rejectButton}
-            disabled={
-              reasonCode === null ||
-              (reasonCode === GQLREJECTION_REASON_CODE.OTHER &&
-                !detailedExplanation)
-            }
-            onClick={submitReason}
-            color="alert"
-          >
-            Reject
-          </Button>
-        </Localized>
+        <Flex>
+          <Localized id="common-moderationReason-cancel">
+            <Button
+              variant="outlined"
+              color="mono"
+              onClick={onCancel}
+              fullWidth
+            >
+              Cancel
+            </Button>
+          </Localized>
+        </Flex>
       </Flex>
     </Box>
   );
