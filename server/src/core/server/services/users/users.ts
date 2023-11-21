@@ -1471,8 +1471,8 @@ export async function ban(
   const bundle = i18n.getBundle(tenant.locale);
   const tranlsatedExplanation = translate(
     bundle,
-    "User banned",
-    "common-userBanned"
+    "common-userBanned",
+    "User banned"
   );
   const rejectionReason = {
     code: GQLREJECTION_REASON_CODE.OTHER,
