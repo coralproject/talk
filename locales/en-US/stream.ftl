@@ -748,7 +748,7 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dismiss
 
-comments-reportForm-reportIllegalContent-button = Does this comment potentially contain illegal content?
+comments-reportForm-reportIllegalContent-button = This comment contains illegal content
 
 ## Archived Report Comment Popover
 
