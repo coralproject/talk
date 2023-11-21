@@ -167,15 +167,24 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
 
           {props.showNotificationsTab && (
             <Tab
-              className={cn(CLASSES.tabBar.notifications, {
-                [CLASSES.tabBar.activeTab]: props.activeTab === "NOTIFICATIONS",
-                [styles.condensedTab]: matches,
-                [styles.smallTab]: !matches,
-              })}
+              className={cn(
+                CLASSES.tabBar.notifications,
+                styles.notificationsTab,
+                {
+                  [CLASSES.tabBar.activeTab]:
+                    props.activeTab === "NOTIFICATIONS",
+                  [styles.notificationsTabSmall]: !matches,
+                }
+              )}
               tabID="NOTIFICATIONS"
               variant="streamPrimary"
             >
-              <div>
+              <div
+                className={cn({
+                  [styles.notificationsIcon]: matches,
+                  [styles.notificationsIconSmall]: !matches,
+                })}
+              >
                 <SvgIcon
                   size="md"
                   Icon={
