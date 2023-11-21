@@ -9,6 +9,7 @@ import {
 } from "coral-server/test/fixtures";
 import {
   createMockDataCache,
+  createMockI18n,
   createMockMailer,
   createMockMongoContex,
   createMockRejector,
@@ -36,6 +37,7 @@ describe("updateUserBan", () => {
     tenantID,
     role: GQLUSER_ROLE.ADMIN,
   });
+  const i18n = createMockI18n("User was banned.");
 
   /* eslint-disable-next-line */
   const userService = require("coral-server/models/user");
@@ -53,7 +55,7 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
-          new I18n("en-US"),
+          i18n,
           commenter,
           badUser.id,
           "Test message",
@@ -102,7 +104,7 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
-          new I18n("en-US"),
+          i18n,
           siteAMod,
           badUser.id,
           "Test message",
@@ -126,7 +128,7 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
-          new I18n("en-US"),
+          i18n,
           orgMod,
           badUser.id,
           "Test message",
@@ -158,7 +160,7 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
-      new I18n("en-US"),
+      i18n,
       admin,
       bannedOnSiteA.id,
       "Test message",
@@ -193,7 +195,7 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
-      new I18n("en-US"),
+      i18n,
       admin,
       bannedOnSiteB.id,
       "TEST MESSAGE",
@@ -220,7 +222,7 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
-      new I18n("en-US"),
+      i18n,
       admin,
       notBannedUser.id,
       "TEST MESSAGE",
@@ -247,7 +249,7 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
-      new I18n("en-US"),
+      i18n,
       admin,
       unbannedUser.id,
       "Test Message",
@@ -264,7 +266,7 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
-      new I18n("en-US"),
+      i18n,
       admin,
       unbannedUser.id,
       "Test Message",
