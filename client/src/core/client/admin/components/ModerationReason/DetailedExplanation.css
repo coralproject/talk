@@ -4,12 +4,18 @@
 
 .explanationLabel {
   margin-bottom: var(--spacing-2);
+  margin-top: var(--spacing-2);
 }
 
 .changeReason {
   margin-bottom: var(--spacing-3);
+  padding: 0;
 }
 
 .detailedExplanation > textarea {
   resize: none;
+}
+
+.code {
+  font-family: var(--font-family-primary);
 }

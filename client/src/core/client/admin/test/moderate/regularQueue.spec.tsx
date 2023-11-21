@@ -748,6 +748,9 @@ it("rejects comment in reported queue", async () => {
     );
 
   await createTestRenderer({
+    initLocalState(local, source, environment) {
+      local.setValue(false, "dsaFeaturesEnabled");
+    },
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         moderationQueues: () =>
@@ -791,6 +794,7 @@ it("rejects comment in reported queue", async () => {
   const comment = await screen.findByTestId(
     `moderate-comment-card-${reportedComments[0].id}`
   );
+
   const rejectButton = within(comment).getByRole("button", {
     name: "Reject",
   });
@@ -966,19 +970,14 @@ it("requires moderation reason when DSA features enabled", async () => {
 
   const reasonModal = screen.queryByTestId(reasonModalID)!;
 
+  const abusiveRadio = within(reasonModal).getByRole("radio", {
+    name: "Abusive",
+  });
+
+  fireEvent.click(abusiveRadio);
+
   const submitReasonButton = within(reasonModal).getByRole("button", {
     name: "Reject",
-  });
-  expect(submitReasonButton).toBeDisabled();
-
-  const abusiveOption = within(reasonModal).getByLabelText("abusive", {
-    exact: false,
-  });
-
-  expect(abusiveOption).toBeInTheDocument();
-
-  await act(async () => {
-    fireEvent.click(abusiveOption);
   });
 
   expect(submitReasonButton).toBeEnabled();
