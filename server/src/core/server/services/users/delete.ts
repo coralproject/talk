@@ -1,4 +1,5 @@
 import { Collection, FilterQuery } from "mongodb";
+import { v4 as uuid } from "uuid";
 
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -6,17 +7,18 @@ import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { DSAReport } from "coral-server/models/dsaReport";
 import { Story } from "coral-server/models/story";
-import { retrieveTenant } from "coral-server/models/tenant";
+import { retrieveTenant, Tenant } from "coral-server/models/tenant";
 
 import {
   GQLCOMMENT_STATUS,
+  GQLDSAReportHistoryType,
   GQLDSAReportStatus,
   GQLREJECTION_REASON_CODE,
   GQLRejectionReason,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { moderate } from "../comments/moderation";
-import { I18n } from "../i18n";
+import { I18n, translate } from "../i18n";
 import { AugmentedRedis } from "../redis";
 
 const BATCH_SIZE = 500;
@@ -129,18 +131,13 @@ async function moderateComments(
   redis: AugmentedRedis,
   config: Config,
   i18n: I18n,
-  tenantID: string,
+  tenant: Tenant,
   filter: FilterQuery<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
   now: Date,
   isArchived = false,
   rejectionReason?: GQLRejectionReason
 ) {
-  const tenant = await retrieveTenant(mongo, tenantID);
-  if (!tenant) {
-    throw new Error("unable to retrieve tenant");
-  }
-
   const coll =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
   const comments = coll.find(filter);
@@ -230,6 +227,16 @@ async function updateUserDSAReports(
       continue;
     }
 
+    const id = uuid();
+
+    const statusChangeHistoryItem = {
+      id,
+      createdBy: null,
+      createdAt: new Date(),
+      status: GQLDSAReportStatus.VOID,
+      type: GQLDSAReportHistoryType.STATUS_CHANGED,
+    };
+
     batch.dsaReports.push({
       updateMany: {
         filter: {
@@ -245,6 +252,9 @@ async function updateUserDSAReports(
         update: {
           $set: {
             status: "VOID",
+          },
+          $push: {
+            history: statusChangeHistoryItem,
           },
         },
       },
@@ -270,6 +280,10 @@ async function deleteUserComments(
   now: Date,
   isArchived?: boolean
 ) {
+  const tenant = await retrieveTenant(mongo, tenantID);
+  if (!tenant) {
+    throw new Error("unable to retrieve tenant");
+  }
   // Approve any comments that have children.
   // This allows the children to be visible after
   // the comment is deleted.
@@ -278,7 +292,7 @@ async function deleteUserComments(
     redis,
     config,
     i18n,
-    tenantID,
+    tenant,
     {
       tenantID,
       authorID,
@@ -290,6 +304,13 @@ async function deleteUserComments(
     isArchived
   );
 
+  const bundle = i18n.getBundle(tenant.locale);
+  const translatedExplanation = translate(
+    bundle,
+    "User account deleted",
+    "common-accountDeleted"
+  );
+
   // reject any comments that don't have children
   // This gets rid of any empty/childless deleted comments.
   await moderateComments(
@@ -297,7 +318,7 @@ async function deleteUserComments(
     redis,
     config,
     i18n,
-    tenantID,
+    tenant,
     {
       tenantID,
       authorID,
@@ -316,7 +337,7 @@ async function deleteUserComments(
     isArchived,
     {
       code: GQLREJECTION_REASON_CODE.OTHER,
-      detailedExplanation: "User account deleted",
+      detailedExplanation: translatedExplanation,
     }
   );
 

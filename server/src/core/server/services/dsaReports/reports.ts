@@ -233,7 +233,7 @@ export async function makeDSAReportDecision(
         detailedExplanation,
       },
       req,
-      true,
+      false, // set to false because we're about to notify below
       isArchived
     );
 

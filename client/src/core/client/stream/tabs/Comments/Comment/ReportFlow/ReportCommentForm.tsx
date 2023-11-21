@@ -185,12 +185,11 @@ const ReportCommentForm: FunctionComponent<Props> = ({
                   target="_blank"
                   anchor
                   underline
+                  textAlign="left"
                   href={reportLink}
                 >
                   <Localized id="comments-reportForm-reportIllegalContent-button">
-                    <span>
-                      Does this comment potentially contain illegal content?
-                    </span>
+                    <span>This comment contains illegal content</span>
                   </Localized>
                   <ButtonSvgIcon
                     className={styles.linkIcon}

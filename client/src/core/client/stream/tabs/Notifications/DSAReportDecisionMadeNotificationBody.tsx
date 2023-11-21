@@ -34,8 +34,15 @@ const DSAReportDecisionMadeNotificationBody: FunctionComponent<Props> = ({
               date,
               author: username,
             }}
+            elems={{ strong: <strong /> }}
           >
-            {`On ${date} you reported a comment written by ${username} for containing illegal content. After reviewing your report, our moderation team has decided this comment does not appear to contain illegal content.`}
+            <span>
+              On <strong>{date}</strong> you reported a comment written by{" "}
+              <strong>{username}</strong> for containing illegal content. After
+              reviewing your report, our moderation team has decide this comment{" "}
+              <strong>does not appear to contain illegal content.</strong> Thank
+              you for helping to keep our community safe.
+            </span>
           </Localized>
         )}
       {decisionDetails &&
@@ -46,8 +53,17 @@ const DSAReportDecisionMadeNotificationBody: FunctionComponent<Props> = ({
               date,
               author: username,
             }}
+            elems={{ strong: <strong /> }}
           >
-            {`On ${date} you reported a comment written by ${username} for containing illegal content. After reviewing your report, our moderation team has decided this comment does contain illegal content.`}
+            <span>
+              On <strong>{date}</strong> you reported a comment written by{" "}
+              <strong>{username}</strong> for containing illegal content. After
+              reviewing your report, our moderation team has decided this
+              comment <strong>does contain illegal content</strong> and has been
+              removed. Further action may be taken against the commenter,
+              however you will not be notified of any additional steps. Thank
+              you for helping to keep our community safe.
+            </span>
           </Localized>
         )}
     </div>

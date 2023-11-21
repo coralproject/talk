@@ -18,16 +18,6 @@
   text-decoration: underline;
 }
 
-.buttons {
-  margin-top: var(--spacing-1);
-}
-
-.cancelButton {
-  width: 109px;
-  align-self: flex-start;
-}
-
 .rejectButton {
-  width: 73px;
-  margin-left: auto;
+  margin-bottom: var(--spacing-2);
 }

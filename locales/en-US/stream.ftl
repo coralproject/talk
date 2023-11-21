@@ -748,7 +748,7 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dismiss
 
-comments-reportForm-reportIllegalContent-button = Does this comment potentially contain illegal content?
+comments-reportForm-reportIllegalContent-button = This comment contains illegal content
 
 ## Archived Report Comment Popover
 
@@ -1069,13 +1069,17 @@ notifications-rejectionReason-spam = Spam
 notifications-rejectionReason-bannedWord = Banned word
 notifications-rejectionReason-ad = Ad
 notifications-rejectionReason-illegalContent = Illegal content
+notifications-rejectionReason-harassmentBullying = Harassment or bullying
+notifications-rejectionReason-misinformation = Misinformation
+notifications-rejectionReason-hateSpeech = Hate speech
+notifications-rejectionReason-irrelevant = Irrelevant content
 notifications-rejectionReason-other = Other
 notifications-rejectionReason-unknown = Unknown
 
 notifications-reportDecisionMade-legal =
-  On { $date } you reported a comment written by { $author } for containing illegal content. After reviewing your report, our moderation team has decided this comment does not appear to contain illegal content.
+  On <strong>{ $date }</strong> you reported a comment written by <strong>{ $author }</strong> for containing illegal content. After reviewing your report, our moderation team has decided this comment <strong>does not appear to contain illegal content.</strong> Thank you for helping to keep our community safe.
 notifications-reportDecisionMade-illegal =
-  On { $date } you reported a comment written by { $author } for containing illegal content. After reviewing your report, our moderation team has decided this comment does contain illegal content.
+  On <strong>{ $date }</strong> you reported a comment written by <strong>{ $author }</strong> for containing illegal content. After reviewing your report, our moderation team has decided this comment <strong>does contain illegal content</strong> and has been removed. Further action may be taken against the commenter, however you will not be notified of any additional steps. Thank you for helping to keep our community safe.
 
 notifications-methodOfRedress-none =
   All moderation decisions are final and cannot be appealed

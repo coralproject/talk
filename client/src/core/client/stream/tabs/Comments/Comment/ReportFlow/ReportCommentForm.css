@@ -90,6 +90,7 @@
 
 .reportIllegalLink {
   margin-bottom: var(--spacing-3);
+  white-space: initial;
 }
 
 .linkIcon {
