@@ -62,4 +62,4 @@ common-moderationReason-detailedExplanation-placeholder =
    .placeholder = Add your explanation
 
 common-userBanned =
-  User banned.
+  User was banned.
