@@ -49,7 +49,7 @@ export const DSAConfigContainer: FunctionComponent<Props> = ({
   const descriptionText = getMessage(
     localeBundles,
     "configure-general-dsaConfig-description",
-    `The EU Digital Services Act (DSA) requires that publishers in or targeting EU citizens provide certain features to their commenters and moderators.
+    `The EU Digital Services Act (DSA) requires that publishers based in the EU or targeting EU citizens provide certain features to their commenters and moderators.
     <br/>
     <br/>
     Coral's DSA toolset includes:
