@@ -9,3 +9,7 @@ export const MAX_REPLY_INDENT_DEPTH = 7;
 export const NUM_INITIAL_COMMENTS = 20;
 
 export const RTE_ELEMENT_ID = "Coral-RTE";
+
+export const enum URLViewType {
+  IllegalContentReport = "illegalContentReport",
+}

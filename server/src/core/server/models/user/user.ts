@@ -616,6 +616,12 @@ export interface User extends TenantResource {
    * bio is a user deifned biography
    */
   bio?: string;
+
+  /**
+   * lastSeenNotificationDate is the date of the last notification the user loaded (viewed)
+   * in their notification tab.
+   */
+  lastSeenNotificationDate?: Date | null;
 }
 
 function hashPassword(password: string): Promise<string> {

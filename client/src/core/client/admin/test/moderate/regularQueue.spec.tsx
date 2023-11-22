@@ -1,4 +1,10 @@
-import { act, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { commitLocalUpdate } from "relay-runtime";
 
@@ -742,6 +748,9 @@ it("rejects comment in reported queue", async () => {
     );
 
   await createTestRenderer({
+    initLocalState(local, source, environment) {
+      local.setValue(false, "dsaFeaturesEnabled");
+    },
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         moderationQueues: () =>
@@ -785,6 +794,7 @@ it("rejects comment in reported queue", async () => {
   const comment = await screen.findByTestId(
     `moderate-comment-card-${reportedComments[0].id}`
   );
+
   const rejectButton = within(comment).getByRole("button", {
     name: "Reject",
   });
@@ -850,7 +860,7 @@ it("doesnt show comments from banned users whose commens have been rejected", as
           }),
       },
       Mutation: {
-        banUser: createMutationResolverStub<MutationToBanUserResolver>(
+        rejectComment: createMutationResolverStub<MutationToBanUserResolver>(
           ({ variables }) => {
             return {};
           }
@@ -876,5 +886,103 @@ it("doesnt show comments from banned users whose commens have been rejected", as
     expect(
       screen.queryByTestId(`moderate-comment-card-${reportedComments[0].id}`)
     ).toBeNull();
+  });
+});
+
+it("requires moderation reason when DSA features enabled", async () => {
+  const rejectCommentStub =
+    createMutationResolverStub<MutationToRejectCommentResolver>(
+      ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          commentID: reportedComments[0].id,
+          commentRevisionID: reportedComments[0].revision!.id,
+          reason: {
+            code: "ABUSIVE",
+          },
+        });
+        return {};
+      }
+    );
+  await createTestRenderer({
+    initLocalState(local, source, environment) {
+      local.setValue(true, "dsaFeaturesEnabled");
+    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        moderationQueues: () =>
+          pureMerge(emptyModerationQueues, {
+            reported: {
+              count: 2,
+              comments:
+                createQueryResolverStub<ModerationQueueToCommentsResolver>(
+                  ({ variables }) => {
+                    expectAndFail(variables).toEqual({
+                      first: 5,
+                      orderBy: "CREATED_AT_DESC",
+                    });
+                    return {
+                      edges: [
+                        {
+                          node: reportedComments[0],
+                          cursor: reportedComments[0].createdAt,
+                        },
+                        {
+                          node: reportedComments[1],
+                          cursor: reportedComments[1].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: reportedComments[1].createdAt,
+                        hasNextPage: false,
+                      },
+                    };
+                  }
+                ) as any,
+            },
+          }),
+      },
+      Mutation: {
+        rejectComment: rejectCommentStub,
+      },
+    }),
+  });
+
+  const comment = reportedComments[0];
+
+  const modCard = await screen.findByTestId(
+    `moderate-comment-card-${comment.id}`
+  );
+
+  expect(modCard).toBeInTheDocument();
+
+  const rejectButton = within(modCard).getByLabelText("Reject");
+  expect(rejectButton).toBeVisible();
+  // click it
+  act(() => {
+    userEvent.click(rejectButton);
+  });
+
+  const reasonModalID = `moderation-reason-modal-${comment.id}`;
+
+  await waitFor(() => {
+    expect(screen.queryByTestId(reasonModalID)).toBeInTheDocument();
+  });
+
+  const reasonModal = screen.queryByTestId(reasonModalID)!;
+
+  const abusiveRadio = within(reasonModal).getByRole("radio", {
+    name: "Abusive",
+  });
+
+  fireEvent.click(abusiveRadio);
+
+  const submitReasonButton = within(reasonModal).getByRole("button", {
+    name: "Reject",
+  });
+
+  expect(submitReasonButton).toBeEnabled();
+
+  await act(async () => {
+    fireEvent.click(submitReasonButton);
   });
 });

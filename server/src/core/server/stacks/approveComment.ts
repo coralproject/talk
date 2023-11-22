@@ -6,11 +6,15 @@ import { getLatestRevision } from "coral-server/models/comment";
 import { Tenant } from "coral-server/models/tenant";
 import { moderate } from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsNotSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLNOTIFICATION_TYPE,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { publishChanges } from "./helpers";
 
@@ -21,6 +25,7 @@ const approveComment = async (
   config: Config,
   i18n: I18n,
   broker: CoralEventPublisherBroker,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -80,6 +85,12 @@ const approveComment = async (
       await cache.users.populateUsers(tenant.id, [result.after.authorID]);
     }
   }
+
+  await notifications.create(tenant.id, tenant.locale, {
+    targetUserID: result.after.authorID!,
+    comment: result.after,
+    type: GQLNOTIFICATION_TYPE.COMMENT_APPROVED,
+  });
 
   // Return the resulting comment.
   return result.after;

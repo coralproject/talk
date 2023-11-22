@@ -45,7 +45,7 @@ const StarRatingIcon: FunctionComponent<Props> = ({
     >
       <SvgIcon
         Icon={Icon}
-        filled={filled}
+        filled={filled ? "currentColor" : "none"}
         className={cn(
           styles.icons,
           !readOnly && styles.interactive,

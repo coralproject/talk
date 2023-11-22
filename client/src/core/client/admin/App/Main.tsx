@@ -18,17 +18,18 @@ import styles from "./Main.css";
 interface Props {
   viewer: PropTypesOf<typeof UserMenuContainer>["viewer"] &
     PropTypesOf<typeof NavigationContainer>["viewer"];
+  settings: PropTypesOf<typeof NavigationContainer>["settings"];
   children: React.ReactNode;
 }
 
-const Main: FunctionComponent<Props> = ({ children, viewer }) => (
+const Main: FunctionComponent<Props> = ({ children, viewer, settings }) => (
   <div className={styles.root}>
     <AppBar gutterBegin gutterEnd>
       <Begin itemGutter="double">
         <div className={styles.logoContainer}>
           <LogoHorizontal />
         </div>
-        <NavigationContainer viewer={viewer} />
+        <NavigationContainer viewer={viewer} settings={settings} />
       </Begin>
       <End>
         <DecisionHistoryButton />

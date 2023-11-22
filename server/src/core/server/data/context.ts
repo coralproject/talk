@@ -4,9 +4,11 @@ import { Config } from "coral-server/config";
 import { CommentAction } from "coral-server/models/action/comment";
 import { CommentModerationAction } from "coral-server/models/action/moderation/comment";
 import { Comment } from "coral-server/models/comment";
+import { DSAReport } from "coral-server/models/dsaReport";
 import { createCollection } from "coral-server/models/helpers";
 import { Invite } from "coral-server/models/invite";
 import { MigrationRecord } from "coral-server/models/migration";
+import { Notification } from "coral-server/models/notifications/notification";
 import { PersistedQuery } from "coral-server/models/queries";
 import { SeenComments } from "coral-server/models/seenComments/seenComments";
 import { Site } from "coral-server/models/site";
@@ -35,6 +37,8 @@ export interface MongoContext {
     Readonly<CommentModerationAction>
   >;
   seenComments(): Collection<Readonly<SeenComments>>;
+  dsaReports(): Collection<Readonly<DSAReport>>;
+  notifications(): Collection<Readonly<Notification>>;
 }
 
 export class MongoContextImpl implements MongoContext {
@@ -82,6 +86,12 @@ export class MongoContextImpl implements MongoContext {
   }
   public seenComments(): Collection<Readonly<SeenComments>> {
     return createCollection<SeenComments>("seenComments")(this.live);
+  }
+  public dsaReports(): Collection<Readonly<DSAReport>> {
+    return createCollection<DSAReport>("dsaReports")(this.live);
+  }
+  public notifications(): Collection<Readonly<Notification>> {
+    return createCollection<Notification>("notifications")(this.live);
   }
   public archivedComments(): Collection<Readonly<Comment>> {
     if (!this.archive) {

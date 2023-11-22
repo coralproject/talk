@@ -25,6 +25,8 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
 
   filled?: SvgIconProps["filled"];
 
+  color?: SvgIconProps["color"];
+
   strokeWidth?: SvgIconProps["strokeWidth"];
 
   /** Internal: Forwarded Ref */

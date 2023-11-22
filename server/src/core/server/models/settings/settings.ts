@@ -321,6 +321,7 @@ export type Settings = GlobalModerationSettings &
     | "announcement"
     | "memberBios"
     | "embeddedComments"
+    | "dsa"
   > & {
     /**
      * auth is the set of configured authentication integrations.
@@ -416,4 +417,12 @@ export const defaultRTEConfiguration: RTEConfiguration = {
   enabled: true,
   spoiler: false,
   strikethrough: false,
+};
+
+export interface DSAConfiguration {
+  enabled: boolean;
+}
+
+export const defaultDSAConfiguration: DSAConfiguration = {
+  enabled: false,
 };
