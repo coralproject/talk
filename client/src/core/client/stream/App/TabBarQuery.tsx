@@ -11,12 +11,15 @@ import ErrorReporterSetUserContainer from "./ErrorReporterSetUserContainer";
 import TabBarContainer from "./TabBarContainer";
 
 const TabBarQuery: FunctionComponent = () => {
-  const [{ storyID, storyURL }] = useLocal<TabBarQueryLocal>(graphql`
-    fragment TabBarQueryLocal on Local {
-      storyID
-      storyURL
-    }
-  `);
+  const [{ storyID, storyURL, hasNewNotifications }, setLocal] =
+    useLocal<TabBarQueryLocal>(graphql`
+      fragment TabBarQueryLocal on Local {
+        storyID
+        storyURL
+        hasNewNotifications
+      }
+    `);
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -24,6 +27,7 @@ const TabBarQuery: FunctionComponent = () => {
           viewer {
             ...TabBarContainer_viewer
             ...ErrorReporterSetUserContainer_viewer
+            hasNewNotifications
           }
           story(id: $storyID, url: $storyURL) {
             ...TabBarContainer_story
@@ -45,6 +49,13 @@ const TabBarQuery: FunctionComponent = () => {
         const ErrorReporterSetUser = props ? (
           <ErrorReporterSetUserContainer viewer={props.viewer} />
         ) : null;
+
+        if (hasNewNotifications === null) {
+          setLocal({
+            hasNewNotifications:
+              props && props.viewer ? props.viewer.hasNewNotifications : false,
+          });
+        }
 
         return (
           <>

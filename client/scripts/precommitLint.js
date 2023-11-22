@@ -26,12 +26,12 @@ sgf((err, results) => {
 
   const eslintFiles = [];
   for (const item of results) {
-    const { filename } = item;
+    const { filename, status } = item;
 
     // only include valid, filtered extensions
     // this is primarily to keep eslint rampaging
     // over non-source files
-    if (!matchesExtension(extensions, filename)) {
+    if (!matchesExtension(extensions, filename) || status === "Deleted") {
       continue;
     }
 

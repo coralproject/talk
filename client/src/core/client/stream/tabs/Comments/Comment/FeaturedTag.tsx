@@ -11,7 +11,7 @@ interface Props {
 
 const FeaturedTag: FunctionComponent<Props> = ({ collapsed }) => {
   return collapsed ? (
-    <SvgIcon color="stream" filled Icon={RatingStarIcon} />
+    <SvgIcon color="stream" filled="currentColor" Icon={RatingStarIcon} />
   ) : (
     <div>
       <Tag

@@ -103,6 +103,9 @@ interface Props {
 
   hideAnsweredTag?: boolean;
   hideReportButton?: boolean;
+  hideReactionButton?: boolean;
+  hideReplyButton?: boolean;
+  hideShareButton?: boolean;
   hideModerationCarat?: boolean;
   collapsed?: boolean;
   toggleCollapsed?: () => void;
@@ -137,6 +140,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
   settings,
   showConversationLink,
   hideReportButton,
+  hideReactionButton,
+  hideReplyButton,
+  hideShareButton,
   story,
   toggleCollapsed,
   viewer,
@@ -678,28 +684,31 @@ export const CommentContainer: FunctionComponent<Props> = ({
                 className={CLASSES.comment.actionBar.$root}
               >
                 <ButtonsBar className={styles.actionBar}>
-                  <ReactionButtonContainer
-                    comment={comment}
-                    settings={settings}
-                    viewer={viewer}
-                    readOnly={
-                      isViewerBanned ||
-                      isViewerSuspended ||
-                      isViewerWarned ||
-                      story.isArchived ||
-                      story.isArchiving
-                    }
-                    className={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.reactButton
-                    )}
-                    reactedClassName={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.reactedButton
-                    )}
-                    isQA={story.settings.mode === GQLSTORY_MODE.QA}
-                  />
+                  {!hideReactionButton && (
+                    <ReactionButtonContainer
+                      comment={comment}
+                      settings={settings}
+                      viewer={viewer}
+                      readOnly={
+                        isViewerBanned ||
+                        isViewerSuspended ||
+                        isViewerWarned ||
+                        story.isArchived ||
+                        story.isArchiving
+                      }
+                      className={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.reactButton
+                      )}
+                      reactedClassName={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.reactedButton
+                      )}
+                      isQA={story.settings.mode === GQLSTORY_MODE.QA}
+                    />
+                  )}
                   {!disableReplies &&
+                    !hideReplyButton &&
                     !isViewerBanned &&
                     !isViewerSuspended &&
                     !isViewerWarned &&
@@ -722,15 +731,13 @@ export const CommentContainer: FunctionComponent<Props> = ({
                         )}
                       />
                     )}
-                  <PermalinkButtonContainer
-                    story={story}
-                    commentID={comment.id}
-                    author={comment.author?.username}
-                    className={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.shareButton
-                    )}
-                  />
+                  {!hideShareButton && (
+                    <PermalinkButtonContainer
+                      story={story}
+                      commentID={comment.id}
+                      author={comment.author?.username}
+                    />
+                  )}
                 </ButtonsBar>
                 <ButtonsBar>
                   {!isViewerBanned &&

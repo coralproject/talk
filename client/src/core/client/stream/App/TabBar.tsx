@@ -5,10 +5,12 @@ import useGetMessage from "coral-framework/lib/i18n/useGetMessage";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import {
+  ActiveNotificationBellIcon,
   CogIcon,
   ConversationChatIcon,
   ConversationQuestionWarningIcon,
   MessagesBubbleSquareIcon,
+  NotificationBellIcon,
   RatingStarIcon,
   SingleNeutralCircleIcon,
   SvgIcon,
@@ -17,7 +19,12 @@ import { MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
 
 import styles from "./TabBar.css";
 
-type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
+type TabValue =
+  | "COMMENTS"
+  | "PROFILE"
+  | "DISCUSSIONS"
+  | "NOTIFICATIONS"
+  | "%future added value";
 
 export interface Props {
   activeTab: TabValue;
@@ -25,6 +32,8 @@ export interface Props {
   showProfileTab: boolean;
   showDiscussionsTab: boolean;
   showConfigureTab: boolean;
+  showNotificationsTab: boolean;
+  hasNewNotifications: boolean;
   mode:
     | "COMMENTS"
     | "QA"
@@ -153,6 +162,38 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                   <SvgIcon size="md" Icon={CogIcon} />
                 </div>
               )}
+            </Tab>
+          )}
+
+          {props.showNotificationsTab && (
+            <Tab
+              className={cn(
+                CLASSES.tabBar.notifications,
+                styles.notificationsTab,
+                {
+                  [CLASSES.tabBar.activeTab]:
+                    props.activeTab === "NOTIFICATIONS",
+                  [styles.notificationsTabSmall]: !matches,
+                }
+              )}
+              tabID="NOTIFICATIONS"
+              variant="streamPrimary"
+            >
+              <div
+                className={cn({
+                  [styles.notificationsIcon]: matches,
+                  [styles.notificationsIconSmall]: !matches,
+                })}
+              >
+                <SvgIcon
+                  size="md"
+                  Icon={
+                    props.hasNewNotifications
+                      ? ActiveNotificationBellIcon
+                      : NotificationBellIcon
+                  }
+                ></SvgIcon>
+              </div>
             </Tab>
           )}
         </TabBar>

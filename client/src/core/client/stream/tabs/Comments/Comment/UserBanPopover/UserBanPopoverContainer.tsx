@@ -16,6 +16,7 @@ import {
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
+import { GQLREJECTION_REASON_CODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import {
   AlertCircleIcon,
@@ -136,12 +137,21 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         ),
         siteIDs: siteBan || viewerScoped ? [story.site.id] : [],
       });
+
       if (!rejected && comment.revision) {
         await reject({
           commentID: comment.id,
           commentRevisionID: comment.revision.id,
           storyID: story.id,
           noEmit: true,
+          reason: {
+            code: GQLREJECTION_REASON_CODE.OTHER,
+            detailedExplanation: getMessage(
+              localeBundles,
+              "common-userBanned",
+              "User was banned."
+            ),
+          },
         });
       }
     } catch (e) {

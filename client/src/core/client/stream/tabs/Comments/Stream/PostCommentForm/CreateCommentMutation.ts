@@ -337,6 +337,7 @@ export const CreateCommentMutation = createMutation(
                     reaction: false,
                     dontAgree: false,
                     flag: false,
+                    illegal: false,
                   },
                   replies: {
                     edges: [],
