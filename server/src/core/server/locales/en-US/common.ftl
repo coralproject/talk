@@ -149,3 +149,6 @@ notifications-dsaReportDecisionMade-body-withInfo =
   { $decision }
   <br/>
   { $information }
+
+common-accountDeleted =
+  User account was deleted.
