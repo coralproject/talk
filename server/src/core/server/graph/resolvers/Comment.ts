@@ -32,6 +32,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
+import { isQA, isRatingsAndReviews } from "../loaders/Comments";
 import { setCacheHint } from "../setCacheHint";
 
 export const maybeLoadOnlyID = async (
@@ -213,6 +214,8 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     return ctx.loaders.Comments.retrieveMyActionPresence.load({
       commentID: c.id,
       isArchived: !!story.isArchived,
+      isRR: isRatingsAndReviews(ctx.tenant, story),
+      isQA: isQA(ctx.tenant, story),
     });
   },
 
