@@ -6,12 +6,16 @@ export function mergePhaseResult(
   result: Partial<PhaseResult>,
   final: Partial<PhaseResult>
 ) {
-  const { actions = [], tags = [], metadata = {} } = final;
+  const { commentActions = [], tags = [], metadata = {} } = final;
 
   // If this result contained actions, then we should push it into the
   // other actions.
-  if (result.actions) {
-    final.actions = [...actions, ...result.actions];
+  if (result.commentActions) {
+    final.commentActions = [...commentActions, ...result.commentActions];
+  }
+
+  if (result.moderationAction) {
+    final.moderationAction = result.moderationAction;
   }
 
   // If this result contained metadata, then we should merge it into the

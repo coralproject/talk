@@ -22,6 +22,7 @@ export const Actions = (ctx: GraphContext) => ({
       ctx.config,
       ctx.i18n,
       ctx.broker,
+      ctx.notifications,
       ctx.tenant,
       input.commentID,
       input.commentRevisionID,
@@ -33,7 +34,6 @@ export const Actions = (ctx: GraphContext) => ({
   rejectComment: async (input: GQLRejectCommentInput) => {
     // Validate that this user is allowed to moderate this comment
     await validateUserModerationScopes(ctx, ctx.user!, input);
-
     return rejectComment(
       ctx.mongo,
       ctx.redis,
@@ -41,11 +41,13 @@ export const Actions = (ctx: GraphContext) => ({
       ctx.config,
       ctx.i18n,
       ctx.broker,
+      ctx.notifications,
       ctx.tenant,
       input.commentID,
       input.commentRevisionID,
       ctx.user!.id,
-      ctx.now
+      ctx.now,
+      input.reason
     );
   },
   reviewCommentFlag: async (input: GQLReviewCommentFlagInput) => {

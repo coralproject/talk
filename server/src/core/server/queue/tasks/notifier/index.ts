@@ -9,7 +9,7 @@ import { JWTSigningConfig } from "coral-server/services/jwt";
 import {
   categories,
   NotificationCategory,
-} from "coral-server/services/notifications/categories";
+} from "coral-server/services/notifications/email/categories";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { createJobProcessor, JOB_NAME, NotifierData } from "./processor";
