@@ -152,7 +152,7 @@ const ReportedComment: FunctionComponent<Props> = ({
                           <Button
                             variant="text"
                             uppercase={false}
-                            color="mono"
+                            color="regular"
                             to={getURLWithCommentID(
                               comment.story.url,
                               comment.id
@@ -169,7 +169,7 @@ const ReportedComment: FunctionComponent<Props> = ({
                         <Button
                           variant="text"
                           uppercase={false}
-                          color="mono"
+                          color="regular"
                           target="_blank"
                           to={getModerationLink({
                             commentID: comment.id,
