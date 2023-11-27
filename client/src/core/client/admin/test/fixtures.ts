@@ -851,6 +851,7 @@ export const dsaReports = createFixtures<GQLDSAReport>([
     additionalInformation:
       "The additional information supporting why that law is alleged to have been broken",
     history: [],
+    relatedReports: { edges: [], pageInfo: { hasNextPage: false } },
   },
   {
     id: "dsa-report-2",
@@ -869,6 +870,7 @@ export const dsaReports = createFixtures<GQLDSAReport>([
         "A detailed explanation of why it is a violation of Law number 2",
     },
     history: [],
+    relatedReports: { edges: [], pageInfo: { hasNextPage: false } },
   },
 ]);
 
