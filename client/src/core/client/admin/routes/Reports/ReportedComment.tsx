@@ -15,6 +15,7 @@ import {
   getURLWithCommentID,
 } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import {
   Button,
   Flex,
@@ -130,22 +131,39 @@ const ReportedComment: FunctionComponent<Props> = ({
                     </div>
                   </Flex>
                   <Flex>
-                    <Flex marginTop={2} marginRight={3}>
-                      <Localized id="reports-singleReport-comment-viewCommentStream">
-                        <Button
-                          variant="text"
-                          uppercase={false}
-                          color="mono"
-                          to={getURLWithCommentID(
-                            comment.story.url,
-                            comment.id
-                          )}
-                          target="_blank"
-                        >
-                          View comment in stream
-                        </Button>
-                      </Localized>
-                    </Flex>
+                    {comment.status === GQLCOMMENT_STATUS.REJECTED ? (
+                      <Flex marginTop={2} marginRight={3}>
+                        <Flex alignItems="center" justifyContent="flex-start">
+                          <Localized id="reports-singleReport-comment-rejected">
+                            <div className={styles.commentReported}>
+                              Rejected
+                            </div>
+                          </Localized>
+                          <Localized id="reports-singleReport-comment-unavailableInStream">
+                            <div className={styles.commentNotAvailableInStream}>
+                              Unavailable in stream
+                            </div>
+                          </Localized>
+                        </Flex>
+                      </Flex>
+                    ) : (
+                      <Flex marginTop={2} marginRight={3}>
+                        <Localized id="reports-singleReport-comment-viewCommentStream">
+                          <Button
+                            variant="text"
+                            uppercase={false}
+                            color="mono"
+                            to={getURLWithCommentID(
+                              comment.story.url,
+                              comment.id
+                            )}
+                            target="_blank"
+                          >
+                            View comment in stream
+                          </Button>
+                        </Localized>
+                      </Flex>
+                    )}
                     <Flex marginTop={2}>
                       <Localized id="reports-singleReport-comment-viewCommentModeration">
                         <Button
@@ -201,6 +219,7 @@ const enhanced = withFragmentContainer<Props>({
             title
           }
         }
+        status
         ...CommentAuthorContainer_comment
         ...MediaContainer_comment
       }
