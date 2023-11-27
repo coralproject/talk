@@ -64,7 +64,7 @@ const enhanced = withFragmentContainer<Props>({
   dsaReport: graphql`
     fragment RelatedReports_dsaReport on DSAReport
     @argumentDefinitions(
-      count: { type: "Int", defaultValue: 20 }
+      count: { type: "Int", defaultValue: 10 }
       cursor: { type: "Cursor" }
       orderBy: { type: "REPORT_SORT", defaultValue: CREATED_AT_DESC }
     ) {

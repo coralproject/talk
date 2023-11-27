@@ -58,7 +58,7 @@ export default (ctx: GraphContext) => ({
   relatedReports: (
     submissionID: string,
     id: string,
-    { first, orderBy }: DSAReportToRelatedReportsArgs
+    { first, orderBy, after }: DSAReportToRelatedReportsArgs
   ) =>
     retrieveDSAReportRelatedReportsConnection(
       ctx.mongo,
@@ -68,6 +68,7 @@ export default (ctx: GraphContext) => ({
       {
         first: defaultTo(first, 10),
         orderBy: defaultTo(orderBy, GQLREPORT_SORT.CREATED_AT_DESC),
+        after,
       }
     ),
 });

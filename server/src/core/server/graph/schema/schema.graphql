@@ -3662,6 +3662,10 @@ type DSAReport {
   """
   lastUpdated: Time
 
+  """
+  relatedReports are DSAReports that share a submissionID and were submitted at the same time
+  in one illegal content report
+  """
   relatedReports(
     first: Int = 10 @constraint(max: 50)
     orderBy: REPORT_SORT = CREATED_AT_DESC
