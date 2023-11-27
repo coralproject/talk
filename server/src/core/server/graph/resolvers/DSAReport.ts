@@ -1,6 +1,11 @@
+import { defaultTo } from "lodash";
+
 import * as dsaReport from "coral-server/models/dsaReport";
 
-import { GQLDSAReportTypeResolver } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLDSAReportTypeResolver,
+  GQLREPORT_SORT,
+} from "coral-server/graph/schema/__generated__/types";
 
 export const DSAReport: GQLDSAReportTypeResolver<dsaReport.DSAReport> = {
   reporter: (report, args, ctx) => {
@@ -32,5 +37,12 @@ export const DSAReport: GQLDSAReportTypeResolver<dsaReport.DSAReport> = {
     } else {
       return null;
     }
+  },
+  relatedReports: ({ submissionID, id }, { first, after, orderBy }, ctx) => {
+    return ctx.loaders.DSAReports.relatedReports(submissionID, id, {
+      first: defaultTo(first, 10),
+      after,
+      orderBy: defaultTo(orderBy, GQLREPORT_SORT.CREATED_AT_DESC),
+    });
   },
 };

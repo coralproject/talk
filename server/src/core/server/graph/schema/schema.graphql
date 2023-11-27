@@ -3661,6 +3661,12 @@ type DSAReport {
   such as a note added, status changed, or decision made
   """
   lastUpdated: Time
+
+  relatedReports(
+    first: Int = 10 @constraint(max: 50)
+    orderBy: REPORT_SORT = CREATED_AT_DESC
+    after: Cursor
+  ): DSAReportsConnection!
 }
 
 type CommentRevisionPerspectiveMetadata {

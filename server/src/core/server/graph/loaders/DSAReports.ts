@@ -5,12 +5,14 @@ import {
   DSAReportConnectionInput,
   find,
   retrieveDSAReportConnection,
+  retrieveDSAReportRelatedReportsConnection,
 } from "coral-server/models/dsaReport";
 
 import GraphContext from "../context";
 import { createManyBatchLoadFn } from "./util";
 
 import {
+  DSAReportToRelatedReportsArgs,
   GQLDSAREPORT_STATUS_FILTER,
   GQLREPORT_SORT,
   QueryToDsaReportsArgs,
@@ -53,4 +55,19 @@ export default (ctx: GraphContext) => ({
       cache: !ctx.disableCaching,
     }
   ),
+  relatedReports: (
+    submissionID: string,
+    id: string,
+    { first, orderBy }: DSAReportToRelatedReportsArgs
+  ) =>
+    retrieveDSAReportRelatedReportsConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      submissionID,
+      id,
+      {
+        first: defaultTo(first, 10),
+        orderBy: defaultTo(orderBy, GQLREPORT_SORT.CREATED_AT_DESC),
+      }
+    ),
 });
