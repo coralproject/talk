@@ -710,6 +710,12 @@ it("requires rejection reason when dsaFeaturesEnabled", async () => {
   });
   expect(submitReasonButton).toBeDisabled();
 
+  const addAdditionalInfoButton = within(reasonModal).getByRole("button", {
+    name: "Add explanation",
+  });
+
+  fireEvent.click(addAdditionalInfoButton);
+
   const additionalInfo = within(reasonModal).getByTestId(
     "moderation-reason-detailed-explanation"
   );
