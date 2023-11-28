@@ -11,35 +11,74 @@ import { Request } from "coral-server/types/express";
 
 export interface Parameters {
   apiKey: string;
+  blog: string;
   comment: Readonly<Comment>;
   story: Readonly<Story>;
   author: Readonly<User>;
   userIP: string | undefined;
   userAgent: string | undefined;
   referrer: string | undefined;
+  recheckReason?: string | undefined;
 }
 
-const createBody = (params: Parameters) => {
-  const { comment, story, author, userIP, userAgent, referrer } = params;
-  const latestRevision = getLatestRevision(comment);
-  const username = author ? (author.username ? author.username : "") : "";
+export interface AkismetSpamCheckPayload {
+  api_key: string;
+  blog: string;
 
-  return {
-    user_ip: userIP,
-    user_agent: userAgent,
+  user_ip: string;
+  user_agent: string;
+  referrer: string;
+
+  permalink: string;
+  comment_type: string;
+  comment_author: string;
+  comment_content: string;
+  is_test: boolean;
+  comment_date_gmt: string;
+
+  recheck_reason?: string;
+}
+
+const createBody = (params: Parameters): AkismetSpamCheckPayload => {
+  const {
+    comment,
+    story,
+    author,
+    userIP,
+    userAgent,
     referrer,
+    recheckReason,
+    apiKey,
+    blog,
+  } = params;
+  const latestRevision = getLatestRevision(comment);
+
+  const body: AkismetSpamCheckPayload = {
+    api_key: apiKey,
+    blog,
+
+    user_ip: userIP || "",
+    user_agent: userAgent || "",
+    referrer: referrer || "",
 
     permalink: story.url,
 
     comment_type: "comment",
-    comment_author: username,
+    comment_author: author?.username || "",
     comment_content: latestRevision ? latestRevision.body : "",
-    comment_date_gmt: latestRevision
-      ? latestRevision.createdAt.toISOString()
-      : "",
 
     is_test: false,
+
+    comment_date_gmt: latestRevision
+      ? latestRevision.createdAt.toISOString()
+      : new Date().toISOString(),
   };
+
+  if (recheckReason) {
+    body.recheck_reason = recheckReason;
+  }
+
+  return body;
 };
 
 const submitSpam = async (params: Parameters) => {
@@ -118,6 +157,7 @@ export const submitCommentAsNotSpam = async (
     apiKey: tenant.integrations.akismet.key
       ? tenant.integrations.akismet.key
       : "",
+    blog: tenant.integrations.akismet.site || "",
     comment,
     story,
     author,
@@ -161,11 +201,13 @@ export const submitCommentAsSpam = async (
     apiKey: tenant.integrations.akismet.key
       ? tenant.integrations.akismet.key
       : "",
+    blog: tenant.integrations.akismet.site || "",
     comment,
     story,
     author,
     userIP,
     userAgent,
     referrer,
+    recheckReason: comment.revisions.length > 1 ? "edit" : undefined,
   });
 };
