@@ -647,7 +647,7 @@ it("can copy comment embed code", async () => {
   window.prompt = jsdomPrompt;
 });
 
-it("requires rection reason when dsaFeaturesEnabled", async () => {
+it("requires rejection reason when dsaFeaturesEnabled", async () => {
   await act(async () => {
     await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
@@ -659,6 +659,7 @@ it("requires rection reason when dsaFeaturesEnabled", async () => {
               reason: {
                 code: "OTHER",
                 detailedExplanation: "really weird comment tbh",
+                customReason: "custom reason",
               },
             });
             return {
@@ -716,6 +717,17 @@ it("requires rection reason when dsaFeaturesEnabled", async () => {
   act(() => {
     fireEvent.change(additionalInfo, {
       target: { value: "really weird comment tbh" },
+    });
+  });
+
+  expect(submitReasonButton).toBeDisabled();
+
+  const customReason =
+    within(reasonModal).getByPlaceholderText("Add your reason");
+
+  act(() => {
+    fireEvent.change(customReason, {
+      target: { value: "custom reason" },
     });
   });
 
