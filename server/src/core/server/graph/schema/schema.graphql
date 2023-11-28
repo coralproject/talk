@@ -3488,7 +3488,7 @@ type CommentModerationAction {
   """
   reason is the reason the comment was rejected, if it was rejected
   """
-  reason: RejectionReason
+  rejectionReason: RejectionReason
 
   """
   createdAt is the time that the CommentModerationAction was created.
