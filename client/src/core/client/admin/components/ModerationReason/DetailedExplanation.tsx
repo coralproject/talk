@@ -19,17 +19,20 @@ export interface Props {
   explanationValue: string | null;
   customReasonValue: string | null;
   onBack: () => void;
+  linkClassName?: string;
 }
 
-const AddExplanationButton: FunctionComponent<{ onClick: () => void }> = ({
-  onClick,
-}) => (
+const AddExplanationButton: FunctionComponent<{
+  onClick: () => void;
+  linkClassName?: string;
+}> = ({ onClick, linkClassName }) => (
   <Localized id="common-moderationReason-addExplanation">
     <Button
       onClick={onClick}
-      className={commonStyles.optionAction}
-      variant="none"
-      color="success"
+      className={cn(linkClassName, commonStyles.optionAction)}
+      variant="flat"
+      color="primary"
+      underline
     >
       + Add explanation
     </Button>
@@ -43,15 +46,20 @@ const DetailedExplanation: FunctionComponent<Props> = ({
   onBack,
   customReasonValue,
   onChangeCustomReason,
+  linkClassName,
 }) => {
-  const [showAddExplanation, setShowAddExplanation] = useState(
-    !!(code === GQLREJECTION_REASON_CODE.OTHER)
-  );
+  const [showAddExplanation, setShowAddExplanation] = useState(false);
 
   return (
     <>
       <Localized id="common-moderationReason-changeReason">
-        <Button className={styles.changeReason} variant="none" onClick={onBack}>
+        <Button
+          className={cn(linkClassName, styles.changeReason)}
+          variant="flat"
+          onClick={onBack}
+          color="primary"
+          underline
+        >
           &lt; Change reason
         </Button>
       </Localized>

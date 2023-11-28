@@ -18,12 +18,14 @@ export interface Props {
   onCancel: () => void;
   onReason: (reason: Reason) => void;
   id: string;
+  linkClassName?: string;
 }
 
 const ModerationReason: FunctionComponent<Props> = ({
   onCancel,
   onReason,
   id,
+  linkClassName,
 }) => {
   const [view, setView] = useState<"REASON" | "EXPLANATION">("REASON");
   const [reasonCode, setReasonCode] = useState<ReasonCode | null>(null);
@@ -75,6 +77,7 @@ const ModerationReason: FunctionComponent<Props> = ({
           onChangeExplanation={setDetailedExplanation}
           customReasonValue={otherCustomReason}
           onChangeCustomReason={setOtherCustomReason}
+          linkClassName={linkClassName}
         />
       )}
 
