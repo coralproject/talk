@@ -84,6 +84,7 @@ const rejectComment = async (
     code: GQLREJECTION_REASON_CODE;
     legalGrounds?: string | undefined;
     detailedExplanation?: string | undefined;
+    customReason?: string | undefined;
   },
   request?: Request | undefined,
   sendNotification = true,

@@ -59,6 +59,9 @@ common-moderationReason-detailedExplanation =
   Detailed explanation
 common-moderationReason-detailedExplanation-placeholder =
    .placeholder = Add your explanation
+common-moderationReason-customReason = Custom reason (required)
+common-moderationReason-customReason-placeholder =
+   .placeholder = Add your reason
 
 common-userBanned =
   User was banned.
