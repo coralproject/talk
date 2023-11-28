@@ -9,6 +9,8 @@ import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import { Request } from "coral-server/types/express";
 
+import { Comment as AkismetComment } from "akismet-api";
+
 export interface Parameters {
   apiKey: string;
   blog: string;
@@ -21,42 +23,16 @@ export interface Parameters {
   recheckReason?: string | undefined;
 }
 
-export interface AkismetSpamCheckPayload {
-  api_key: string;
-  blog: string;
-
-  user_ip: string;
-  user_agent: string;
-  referrer: string;
-
-  permalink: string;
-  comment_type: string;
-  comment_author: string;
-  comment_content: string;
-  is_test: boolean;
-  comment_date_gmt: string;
-
+export type AkismetSpamCheckPayload = AkismetComment & {
   recheck_reason?: string;
-}
+};
 
 const createBody = (params: Parameters): AkismetSpamCheckPayload => {
-  const {
-    comment,
-    story,
-    author,
-    userIP,
-    userAgent,
-    referrer,
-    recheckReason,
-    apiKey,
-    blog,
-  } = params;
+  const { comment, story, author, userIP, userAgent, referrer, recheckReason } =
+    params;
   const latestRevision = getLatestRevision(comment);
 
   const body: AkismetSpamCheckPayload = {
-    api_key: apiKey,
-    blog,
-
     user_ip: userIP || "",
     user_agent: userAgent || "",
     referrer: referrer || "",

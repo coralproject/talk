@@ -1,4 +1,4 @@
-import { Client } from "akismet-api";
+import { AkismetClient } from "akismet-api";
 
 import { SpamCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
@@ -57,7 +57,7 @@ export const spam: IntermediateModerationPhase = async ({
   }
 
   // Create the Akismet client.
-  const client = new Client({
+  const client = new AkismetClient({
     key: integration.key,
     blog: integration.site,
   });
@@ -96,8 +96,6 @@ export const spam: IntermediateModerationPhase = async ({
     log.trace("checking comment for spam");
 
     const payload: AkismetSpamCheckPayload = {
-      api_key: integration.key,
-      blog: integration.site,
       user_ip: userIP, // REQUIRED
       referrer, // REQUIRED
       user_agent: userAgent, // REQUIRED
