@@ -13,3 +13,17 @@
   text-transform: uppercase;
   color: var(--palette-grey-500);
 }
+
+.rejected {
+  color: var(--palette-text-000);
+  background-color: var(--palette-error-500);
+  text-transform: uppercase;
+  padding: var(--spacing-1) var(--spacing-2);
+  width: fit-content;
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.info {
+  font-size: var(--font-size-2);
+}

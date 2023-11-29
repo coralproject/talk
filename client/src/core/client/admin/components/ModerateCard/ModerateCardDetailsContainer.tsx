@@ -59,7 +59,15 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   onUsernameClick,
   settings,
 }) => {
-  const [activeTab, setActiveTab] = useState<DetailsTabs>("INFO");
+  const hasDecision =
+    comment.status === GQLCOMMENT_STATUS.REJECTED &&
+    comment.statusHistory.edges[0] &&
+    comment.statusHistory.edges[0].node.rejectionReason &&
+    comment.statusHistory.edges[0].node.rejectionReason.code;
+
+  const [activeTab, setActiveTab] = useState<DetailsTabs>(
+    hasDecision ? "DECISION" : "INFO"
+  );
 
   const onTabClick = useCallback(
     (id: string) => setActiveTab(id as DetailsTabs),
@@ -82,12 +90,6 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
     comment.revision &&
     comment.revision.actionCounts.reaction.total > 0
   );
-
-  const hasDecision =
-    comment.status === GQLCOMMENT_STATUS.REJECTED &&
-    comment.statusHistory.edges[0] &&
-    comment.statusHistory.edges[0].node.rejectionReason &&
-    comment.statusHistory.edges[0].node.rejectionReason.code;
 
   return (
     <HorizontalGutter>

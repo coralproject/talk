@@ -3459,6 +3459,11 @@ type RejectionReason {
   detailedExplanation is any additional information the user wishes to provide.
   """
   detailedExplanation: String
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
 }
 
 type CommentModerationAction {
@@ -3494,6 +3499,11 @@ type CommentModerationAction {
   createdAt is the time that the CommentModerationAction was created.
   """
   createdAt: Time!
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
 }
 
 type CommentModerationActionEdge {
