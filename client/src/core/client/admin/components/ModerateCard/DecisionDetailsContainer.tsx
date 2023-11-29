@@ -17,6 +17,7 @@ interface Props {
 
 const DecisionDetailsContainer: FunctionComponent<Props> = ({ comment }) => {
   const statusHistory = comment.statusHistory.edges[0].node;
+  const { rejectionReason, createdAt } = statusHistory;
 
   return (
     <HorizontalGutter className={styles.wrapper} padding={3}>
@@ -29,52 +30,48 @@ const DecisionDetailsContainer: FunctionComponent<Props> = ({ comment }) => {
             <div className={styles.rejected}>Rejected</div>
           </Localized>
         </Flex>
-        {statusHistory.rejectionReason && statusHistory.rejectionReason.code && (
+        {rejectionReason && rejectionReason.code && (
           <Flex direction="column" className={styles.full}>
             <Localized id="moderate-decisionDetails-reasonLabel">
               <div className={styles.label}>Reason</div>
             </Localized>
-            <Localized id="">
-              <div className={styles.info}>
-                {unsnake(statusHistory.rejectionReason.code)}
-              </div>
+            <Localized
+              id={`common-moderationReason-rejectionReason-${rejectionReason.code}`}
+            >
+              <div className={styles.info}>{unsnake(rejectionReason.code)}</div>
             </Localized>
           </Flex>
         )}
       </Flex>
-      {statusHistory.rejectionReason?.legalGrounds && (
+      {rejectionReason?.legalGrounds && (
         <Flex direction="column">
           <Localized id="moderate-decisionDetails-lawBrokenLabel">
             <div className={styles.label}>Law broken</div>
           </Localized>
-          <div className={styles.info}>
-            {statusHistory.rejectionReason?.legalGrounds}
-          </div>
+          <div className={styles.info}>{rejectionReason?.legalGrounds}</div>
         </Flex>
       )}
-      {statusHistory.rejectionReason?.customReason && (
+      {rejectionReason?.customReason && (
         <Flex direction="column">
           <Localized id="moderate-decisionDetails-customReasonLabel">
             <div className={styles.label}>Custom reason</div>
           </Localized>
-          <div className={styles.info}>
-            {statusHistory.rejectionReason?.customReason}
-          </div>
+          <div className={styles.info}>{rejectionReason?.customReason}</div>
         </Flex>
       )}
-      {statusHistory.rejectionReason?.detailedExplanation && (
+      {rejectionReason?.detailedExplanation && (
         <Flex direction="column">
           <Localized id="moderate-decisionDetails-detailedExplanationLabel">
             <div className={styles.label}>Detailed explanation</div>
           </Localized>
           <div className={styles.info}>
-            {statusHistory.rejectionReason?.detailedExplanation}
+            {rejectionReason?.detailedExplanation}
           </div>
         </Flex>
       )}
       <Flex>
         <div className={styles.label}>
-          <Timestamp>{statusHistory.createdAt}</Timestamp>
+          <Timestamp>{createdAt}</Timestamp>
         </div>
       </Flex>
     </HorizontalGutter>
@@ -89,7 +86,6 @@ const enhanced = withFragmentContainer<Props>({
         edges {
           node {
             createdAt
-            status
             rejectionReason {
               code
               legalGrounds
