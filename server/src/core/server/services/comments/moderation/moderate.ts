@@ -45,7 +45,7 @@ export default async function moderate(
   }
 ) {
   if (
-    tenant.dsa.enabled &&
+    tenant.dsa?.enabled &&
     input.status === GQLCOMMENT_STATUS.REJECTED &&
     !input.rejectionReason
   ) {

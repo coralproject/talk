@@ -2,6 +2,7 @@ import {
   GQLAuth,
   GQLAuthenticationTargetFilter,
   GQLCOMMENT_BODY_FORMAT,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLEmailConfiguration,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
@@ -421,8 +422,14 @@ export const defaultRTEConfiguration: RTEConfiguration = {
 
 export interface DSAConfiguration {
   enabled: boolean;
+  methodOfRedress: {
+    method: GQLDSA_METHOD_OF_REDRESS;
+  };
 }
 
 export const defaultDSAConfiguration: DSAConfiguration = {
   enabled: false,
+  methodOfRedress: {
+    method: GQLDSA_METHOD_OF_REDRESS.NONE,
+  },
 };
