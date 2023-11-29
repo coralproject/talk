@@ -1,4 +1,4 @@
-// import { Localized } from "@fluent/react/compat";
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -8,6 +8,7 @@ import { Flex, HorizontalGutter, Timestamp } from "coral-ui/components/v2";
 import { DecisionDetailsContainer_comment } from "coral-admin/__generated__/DecisionDetailsContainer_comment.graphql";
 
 import styles from "./DecisionDetailsContainer.css";
+
 import { unsnake } from "../ModerationReason/formatting";
 
 interface Props {
@@ -21,21 +22,31 @@ const DecisionDetailsContainer: FunctionComponent<Props> = ({ comment }) => {
     <HorizontalGutter className={styles.wrapper} padding={3}>
       <Flex>
         <Flex direction="column" className={styles.full}>
-          <div className={styles.label}>Decision</div>
-          <div className={styles.rejected}>Rejected</div>
+          <Localized id="moderate-decisionDetails-decisionLabel">
+            <div className={styles.label}>Decision</div>
+          </Localized>
+          <Localized id="moderate-decisionDetails-rejected">
+            <div className={styles.rejected}>Rejected</div>
+          </Localized>
         </Flex>
         {statusHistory.rejectionReason && statusHistory.rejectionReason.code && (
           <Flex direction="column" className={styles.full}>
-            <div className={styles.label}>Reason</div>
-            <div className={styles.info}>
-              {unsnake(statusHistory.rejectionReason.code)}
-            </div>
+            <Localized id="moderate-decisionDetails-reasonLabel">
+              <div className={styles.label}>Reason</div>
+            </Localized>
+            <Localized id="">
+              <div className={styles.info}>
+                {unsnake(statusHistory.rejectionReason.code)}
+              </div>
+            </Localized>
           </Flex>
         )}
       </Flex>
       {statusHistory.rejectionReason?.legalGrounds && (
         <Flex direction="column">
-          <div className={styles.label}>Law broken</div>
+          <Localized id="moderate-decisionDetails-lawBrokenLabel">
+            <div className={styles.label}>Law broken</div>
+          </Localized>
           <div className={styles.info}>
             {statusHistory.rejectionReason?.legalGrounds}
           </div>
@@ -43,7 +54,9 @@ const DecisionDetailsContainer: FunctionComponent<Props> = ({ comment }) => {
       )}
       {statusHistory.rejectionReason?.customReason && (
         <Flex direction="column">
-          <div className={styles.label}>Custom reason</div>
+          <Localized id="moderate-decisionDetails-customReasonLabel">
+            <div className={styles.label}>Custom reason</div>
+          </Localized>
           <div className={styles.info}>
             {statusHistory.rejectionReason?.customReason}
           </div>
@@ -51,7 +64,9 @@ const DecisionDetailsContainer: FunctionComponent<Props> = ({ comment }) => {
       )}
       {statusHistory.rejectionReason?.detailedExplanation && (
         <Flex direction="column">
-          <div className={styles.label}>Detailed explanation</div>
+          <Localized id="moderate-decisionDetails-detailedExplanationLabel">
+            <div className={styles.label}>Detailed explanation</div>
+          </Localized>
           <div className={styles.info}>
             {statusHistory.rejectionReason?.detailedExplanation}
           </div>

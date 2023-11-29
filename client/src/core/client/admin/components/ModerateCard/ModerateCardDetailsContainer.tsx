@@ -13,6 +13,7 @@ import {
   CheckDoubleIcon,
   LikeIcon,
   ListBulletsIcon,
+  ModerationDecisionIcon,
   PencilIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
@@ -97,9 +98,10 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
         {hasDecision && (
           <Tab tabID="DECISION" classes={styles}>
             <Flex alignItems="center" itemGutter>
-              {/* TODO: Update this icon */}
-              <SvgIcon Icon={ListBulletsIcon} />
-              {/* TODO: Add this translation */}
+              <SvgIcon
+                className={styles.decisionIcon}
+                Icon={ModerationDecisionIcon}
+              />
               <Localized id="moderateCardDetails-tab-decision">
                 <span>Decision</span>
               </Localized>
