@@ -198,6 +198,16 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         commentID: id,
       },
     }),
+  illegalContent: ({ id }, { first, after }, ctx) =>
+    ctx.loaders.CommentActions.connection({
+      first: defaultTo(first, 10),
+      after,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      filter: {
+        actionType: ACTION_TYPE.ILLEGAL,
+        commentID: id,
+      },
+    }),
   viewerActionPresence: async (c, input, ctx, info) => {
     if (!ctx.user) {
       return null;

@@ -158,6 +158,12 @@ export interface CommentAction extends TenantResource {
    * the section will be null here.
    */
   section?: string;
+
+  /**
+   * reportID is the id of the DSAReport that was created when the comment was flagged
+  as potentially containing illegal content. Only exists for illegal content flag type.
+   */
+  reportID?: string;
 }
 
 const ActionSchema = Joi.compile([
