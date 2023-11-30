@@ -801,6 +801,11 @@ export const baseComment = createFixture<GQLComment>({
     pageInfo: { endCursor: null, hasNextPage: false },
     nodes: [],
   },
+  illegalContent: {
+    edges: [],
+    pageInfo: { endCursor: null, hasNextPage: false },
+    nodes: [],
+  },
   story: stories[0],
   site: sites[0],
   parent: NULL_VALUE,
