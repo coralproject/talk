@@ -64,6 +64,12 @@ export interface CommentModerationAction extends TenantResource {
    * createdAt is the time that the moderation action was created on.
    */
   createdAt: Date;
+
+  /**
+   * reportID is the DSAReport on which an illegal content decision was made that led to
+   * this comment moderation action.
+   */
+  reportID?: string;
 }
 
 export type CreateCommentModerationActionInput = Omit<
