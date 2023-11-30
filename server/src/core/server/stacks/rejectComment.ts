@@ -164,7 +164,10 @@ const rejectComment = async (
     });
   }
 
-  if (sendNotification) {
+  if (
+    sendNotification &&
+    !(reason?.code === GQLREJECTION_REASON_CODE.BANNED_WORD)
+  ) {
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: result.after.authorID!,
       comment: result.after,

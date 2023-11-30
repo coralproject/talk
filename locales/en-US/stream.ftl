@@ -1074,6 +1074,7 @@ notifications-rejectionReason-misinformation = This comment contains misinformat
 notifications-rejectionReason-hateSpeech = This comment contains hate speech
 notifications-rejectionReason-irrelevant = This comment is irrelevant to the discussion
 notifications-rejectionReason-other = Other
+notifications-rejectionReason-other-customReason = Other - { $customReason }
 notifications-rejectionReason-unknown = Unknown
 
 notifications-reportDecisionMade-legal =
