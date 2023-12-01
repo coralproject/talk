@@ -29,4 +29,5 @@ export const NotificationResolver: Required<
   },
   decisionDetails: ({ decisionDetails }) => decisionDetails,
   rejectionReason: ({ rejectionReason }) => rejectionReason,
+  customReason: ({ customReason }) => customReason,
 };
