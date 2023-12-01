@@ -13,6 +13,7 @@ import moderate, { Moderate } from "./moderate";
 
 import {
   GQLCOMMENT_STATUS,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 import { I18n } from "coral-server/services/i18n";
@@ -23,7 +24,10 @@ jest.mock("coral-server/models/action/moderation/comment");
 
 it("requires a valid rejection reason if dsaFeatures are enabled", async () => {
   const tenant = createTenantFixture({
-    dsa: { enabled: true },
+    dsa: {
+      enabled: true,
+      methodOfRedress: { method: GQLDSA_METHOD_OF_REDRESS.NONE },
+    },
   });
   const config = {} as Config;
   const story = createStoryFixture({ tenantID: tenant.id });
