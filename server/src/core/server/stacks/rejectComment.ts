@@ -86,6 +86,7 @@ const rejectComment = async (
     detailedExplanation?: string | undefined;
     customReason?: string | undefined;
   },
+  reportID?: string,
   request?: Request | undefined,
   sendNotification = true,
   isArchived = false
@@ -107,6 +108,7 @@ const rejectComment = async (
       moderatorID,
       rejectionReason: reason,
       status: GQLCOMMENT_STATUS.REJECTED,
+      reportID,
     },
     now,
     isArchived,

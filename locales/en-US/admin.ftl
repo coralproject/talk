@@ -1015,6 +1015,7 @@ moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
 moderate-marker-bannedWord = Banned word
 moderate-marker-bio = Bio
+moderate-marker-illegal = Illegal content
 moderate-marker-possibleBannedWord = Possible Banned Word
 moderate-marker-suspectWord = Suspect word
 moderate-marker-possibleSuspectWord = Possible Suspect Word
@@ -1036,6 +1037,8 @@ moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
 moderate-flagDetails-bio = Bio
 moderate-flagDetails-other = Other
+moderate-flagDetails-illegalContent = Illegal content
+moderate-flagDetails-viewDSAReport = View DSA Report
 
 moderate-flagDetails-toxicityScore = Toxicity Score
 moderate-toxicityLabel-likely = Likely <score></score>

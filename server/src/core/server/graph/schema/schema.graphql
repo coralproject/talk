@@ -366,6 +366,12 @@ type Flag {
   createdAt is when this flag was created.
   """
   createdAt: Time!
+
+  """
+  reportID is the id of the DSAReport that was created when the comment was flagged
+  as potentially containing illegal content. Only exists for illegal content flag type.
+  """
+  reportID: String
 }
 
 type FlagEdge {
@@ -4182,6 +4188,14 @@ type Comment @cacheControl(maxAge: 5) {
   """
   flags(first: Int = 10 @constraint(max: 50), after: Cursor): FlagsConnection!
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  illegalContent is the illegal content flags left by users.
+  """
+  illegalContent(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): FlagsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
   viewerActionPresence stores the presence information for all the actions

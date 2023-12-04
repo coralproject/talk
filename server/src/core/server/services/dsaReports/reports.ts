@@ -232,6 +232,7 @@ export async function makeDSAReportDecision(
         legalGrounds,
         detailedExplanation,
       },
+      reportID,
       req,
       false, // set to false because we're about to notify below
       isArchived

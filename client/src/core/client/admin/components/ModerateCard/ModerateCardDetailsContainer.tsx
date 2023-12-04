@@ -50,6 +50,7 @@ function hasFlagDetails(c: ModerateCardDetailsContainer_comment) {
         c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_ABUSIVE +
         c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_OTHER +
         c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_BIO +
+        c.revision.actionCounts.illegal.total +
         c.revision.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM >
         0 || c.revision.metadata.perspective
     : false;
@@ -199,6 +200,9 @@ const enhanced = withFragmentContainer<Props>({
       }
       revision {
         actionCounts {
+          illegal {
+            total
+          }
           flag {
             reasons {
               COMMENT_REPORTED_OFFENSIVE
