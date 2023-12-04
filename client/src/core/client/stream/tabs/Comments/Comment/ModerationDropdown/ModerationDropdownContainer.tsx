@@ -23,6 +23,8 @@ import UserBanPopoverContainer from "../UserBanPopover/UserBanPopoverContainer";
 import ModerationActionsContainer from "./ModerationActionsContainer";
 import RejectCommentMutation from "./RejectCommentMutation";
 
+import styles from "./ModerationDropdownContainer.css";
+
 export type ModerationDropdownView =
   | "MODERATE"
   | "REJECT_REASON"
@@ -108,6 +110,7 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
           id={comment.id}
           onReason={reject}
           onCancel={onDismiss}
+          linkClassName={styles.link}
         />
       ) : (
         <UserBanPopoverContainer

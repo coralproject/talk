@@ -3459,6 +3459,11 @@ type RejectionReason {
   detailedExplanation is any additional information the user wishes to provide.
   """
   detailedExplanation: String
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
 }
 
 type CommentModerationAction {
@@ -7337,6 +7342,11 @@ input RejectCommentReasonInput {
   detailedExplanation is any additional information the user wishes to provide.
   """
   detailedExplanation: String
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
 }
 
 input RejectCommentInput {
