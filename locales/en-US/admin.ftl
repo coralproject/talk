@@ -1911,6 +1911,9 @@ reports-decisionModal-detailedExplanationLabel = Detailed explanation
 reports-decisionModal-detailedExplanationTextarea =
   .placeholder = Add explanation...
 
+reports-relatedReports-label = Related reports
+reports-relatedReports-reportIDLabel = Report ID
+
 # Control panel
 
 controlPanel-redis-redis = Redis
