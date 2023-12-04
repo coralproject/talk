@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-// import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
+import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import bunyan from "bunyan";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
@@ -134,20 +134,21 @@ export default function createWebpackConfig(
       insert: insertLinkTag,
     }),
     ...ifBuild(
-      // isProduction &&
-      //   new OptimizeCssnanoPlugin({
-      //     sourceMap: !disableSourcemaps,
-      //     cssnanoOptions: {
-      //       preset: [
-      //         "default",
-      //         {
-      //           discardComments: {
-      //             removeAll: true,
-      //           },
-      //         },
-      //       ],
-      //     },
-      //   }),
+      isProduction
+        ? (new OptimizeCssnanoPlugin({
+            sourceMap: !disableSourcemaps,
+            cssnanoOptions: {
+              preset: [
+                "default",
+                {
+                  discardComments: {
+                    removeAll: true,
+                  },
+                },
+              ],
+            },
+          }) as Plugin)
+        : null,
       // Pre-compress all the assets as they will be served as is.
       new CompressionPlugin({})
     ),
