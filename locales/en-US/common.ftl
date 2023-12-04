@@ -65,5 +65,3 @@ common-moderationReason-customReason-placeholder =
 
 common-userBanned =
   User was banned.
-common-accountDeleted =
-  User account was deleted.
