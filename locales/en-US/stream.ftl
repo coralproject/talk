@@ -1063,17 +1063,18 @@ notifications-dsaReportLegality-legal = Legal content
 notifications-dsaReportLegality-illegal = Illegal content
 notifications-dsaReportLegality-unknown = Unknown
 
-notifications-rejectionReason-offensive = Offensive
-notifications-rejectionReason-abusive = Abusive
-notifications-rejectionReason-spam = Spam
+notifications-rejectionReason-offensive = This comment contains offensive language
+notifications-rejectionReason-abusive = This comment contains abusive language
+notifications-rejectionReason-spam = This comment is spam
 notifications-rejectionReason-bannedWord = Banned word
-notifications-rejectionReason-ad = Ad
-notifications-rejectionReason-illegalContent = Illegal content
-notifications-rejectionReason-harassmentBullying = Harassment or bullying
-notifications-rejectionReason-misinformation = Misinformation
-notifications-rejectionReason-hateSpeech = Hate speech
-notifications-rejectionReason-irrelevant = Irrelevant content
+notifications-rejectionReason-ad = This comment is an advertisement
+notifications-rejectionReason-illegalContent = This comment contains illegal content
+notifications-rejectionReason-harassmentBullying = This comment contains harassing or bullying language
+notifications-rejectionReason-misinformation = This comment contains misinformation
+notifications-rejectionReason-hateSpeech = This comment contains hate speech
+notifications-rejectionReason-irrelevant = This comment is irrelevant to the discussion
 notifications-rejectionReason-other = Other
+notifications-rejectionReason-other-customReason = Other - { $customReason }
 notifications-rejectionReason-unknown = Unknown
 
 notifications-reportDecisionMade-legal =

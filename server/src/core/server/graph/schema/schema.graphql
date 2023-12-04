@@ -4821,6 +4821,11 @@ type Notification {
   decisionDetails: NotificationDecisionDetails
 
   """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
+
+  """
   dsaReport is the details of the DSA Report related to the notification.
   This is usually in reference to the comment that is also related to
   the notification.

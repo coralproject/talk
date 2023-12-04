@@ -27,6 +27,7 @@ export interface Notification extends TenantResource {
 
   rejectionReason?: GQLREJECTION_REASON_CODE;
   decisionDetails?: GQLNotificationDecisionDetails;
+  customReason?: string;
 }
 
 type BaseConnectionInput = ConnectionInput<Notification>;
