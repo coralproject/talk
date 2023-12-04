@@ -383,11 +383,13 @@ export async function retrieveManyUserActionPresence(
   tenantID: string,
   userID: string | null,
   commentIDs: string[],
+  useCache = true,
   isArchived = false
 ): Promise<GQLActionPresence[]> {
   let actions: Readonly<CommentAction>[] = [];
 
-  const cacheAvailable = await commentActionsCache.available(tenantID);
+  const cacheAvailable =
+    useCache && (await commentActionsCache.available(tenantID));
   if (cacheAvailable) {
     const actionsFromCache = await commentActionsCache.findMany(
       tenantID,
