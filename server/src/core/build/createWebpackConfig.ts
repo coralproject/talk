@@ -40,7 +40,7 @@ const logger = bunyan.createLogger({
 });
 
 interface CreateWebpackOptions {
-  appendPlugins?: Array<Plugin | null>;
+  appendPlugins?: any[];
   watch?: boolean;
 }
 
@@ -134,20 +134,21 @@ export default function createWebpackConfig(
       insert: insertLinkTag,
     }),
     ...ifBuild(
-      isProduction &&
-        new OptimizeCssnanoPlugin({
-          sourceMap: !disableSourcemaps,
-          cssnanoOptions: {
-            preset: [
-              "default",
-              {
-                discardComments: {
-                  removeAll: true,
+      isProduction
+        ? (new OptimizeCssnanoPlugin({
+            sourceMap: !disableSourcemaps,
+            cssnanoOptions: {
+              preset: [
+                "default",
+                {
+                  discardComments: {
+                    removeAll: true,
+                  },
                 },
-              },
-            ],
-          },
-        }),
+              ],
+            },
+          }) as Plugin)
+        : null,
       // Pre-compress all the assets as they will be served as is.
       new CompressionPlugin({})
     ),
