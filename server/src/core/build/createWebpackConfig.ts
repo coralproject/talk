@@ -11,7 +11,11 @@ import path from "path";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import TerserPlugin from "terser-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
-import webpack, { Configuration, Plugin } from "webpack";
+import webpack, {
+  Configuration,
+  DevtoolModuleFilenameTemplateInfo,
+  Plugin,
+} from "webpack";
 import WebpackAssetsManifest from "webpack-assets-manifest";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
@@ -24,7 +28,6 @@ import paths from "./paths";
 /**
  * filterPlugins will filter out null values from the array of plugins, allowing
  * easy embedded ternaries.
- *
  * @param plugins array of plugins and null values
  */
 const filterPlugins = (plugins: Array<Plugin | null>): Plugin[] =>
@@ -37,7 +40,7 @@ const logger = bunyan.createLogger({
 });
 
 interface CreateWebpackOptions {
-  appendPlugins?: any[];
+  appendPlugins?: Array<Plugin | null>;
   watch?: boolean;
 }
 
@@ -91,12 +94,12 @@ export default function createWebpackConfig(
   /**
    * ifWatch will only include the nodes if we're in watch mode.
    */
-  const ifWatch = watch ? (...nodes: any[]) => nodes : () => [];
+  const ifWatch = watch ? (...nodes: Array<Plugin | null>) => nodes : () => [];
 
   /**
    * ifBuild will only include the nodes if we're in build mode.
    */
-  const ifBuild = !watch ? (...nodes: any[]) => nodes : () => [];
+  const ifBuild = !watch ? (...nodes: Array<Plugin | null>) => nodes : () => [];
 
   const localesOptions = {
     pathToLocales: paths.appLocales,
@@ -247,7 +250,9 @@ export default function createWebpackConfig(
       // We inferred the "public path" (such as / or /my-project) from homepage.
       publicPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
-      devtoolModuleFilenameTemplate: (info: any) =>
+      devtoolModuleFilenameTemplate: (
+        info: DevtoolModuleFilenameTemplateInfo
+      ) =>
         path
           .relative(paths.appSrc, info.absoluteResourcePath)
           .replace(/\\/g, "/"),
@@ -577,13 +582,17 @@ export default function createWebpackConfig(
       ...ifWatch(
         // We run eslint in a separate process to have a quicker build.
         new ForkTsCheckerWebpackPlugin({
-          eslint: true,
-          typescript: require.resolve("typescript"),
+          eslint: { enabled: true, files: "src/**/*.{js,ts,tsx}" },
+          typescript: {
+            typescriptPath: require.resolve("typescript"),
+            configFile: paths.appTsconfig,
+            diagnosticOptions: { syntactic: true },
+          },
           async: true,
+          // diagnosticOptions: { syntactic: true },
           // TODO: (cvle) For some reason if incremental build is turned on it does not find lint errors during initial build.
-          useTypescriptIncrementalApi: false,
-          checkSyntacticErrors: true,
-          tsconfig: paths.appTsconfig,
+          // useTypescriptIncrementalApi: false,
+          // checkSyntacticErrors: true,
         })
       ),
       // Makes some environment variables available to the JS code, for example:
