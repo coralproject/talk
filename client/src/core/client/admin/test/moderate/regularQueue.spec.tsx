@@ -619,6 +619,7 @@ it("approves comment in reported queue", async () => {
               edges: [
                 {
                   node: {
+                    createdAt: "2023-06-01T14:21:21.890Z",
                     id: "mod-action",
                     status: GQLCOMMENT_STATUS.APPROVED,
                     moderator: {
@@ -727,6 +728,7 @@ it("rejects comment in reported queue", async () => {
               edges: [
                 {
                   node: {
+                    createdAt: "2023-06-01T14:21:21.890Z",
                     id: "mod-action",
                     status: GQLCOMMENT_STATUS.REJECTED,
                     moderator: {

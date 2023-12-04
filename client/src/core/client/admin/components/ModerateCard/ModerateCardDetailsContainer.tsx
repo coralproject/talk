@@ -8,10 +8,12 @@ import React, {
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import {
   CheckDoubleIcon,
   LikeIcon,
   ListBulletsIcon,
+  ModerationDecisionIcon,
   PencilIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
@@ -22,6 +24,7 @@ import { ModerateCardDetailsContainer_settings } from "coral-admin/__generated__
 
 import AutomatedActionsContainer from "./AutomatedActionsContainer";
 import CommentRevisionContainer from "./CommentRevisionContainer";
+import DecisionDetailsContainer from "./DecisionDetailsContainer";
 import FlagDetailsContainer from "./FlagDetailsContainer";
 import LinkDetailsContainer from "./LinkDetailsContainer";
 import ReactionDetailsQuery from "./ReactionDetailsQuery";
@@ -34,7 +37,12 @@ interface Props {
   onUsernameClick: (id?: string) => void;
 }
 
-type DetailsTabs = "INFO" | "REACTIONS" | "HISTORY" | "EXTERNAL_MOD";
+type DetailsTabs =
+  | "INFO"
+  | "REACTIONS"
+  | "HISTORY"
+  | "EXTERNAL_MOD"
+  | "DECISION";
 
 function hasFlagDetails(c: ModerateCardDetailsContainer_comment) {
   return c.revision
@@ -52,7 +60,15 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   onUsernameClick,
   settings,
 }) => {
-  const [activeTab, setActiveTab] = useState<DetailsTabs>("INFO");
+  const hasDecision =
+    comment.status === GQLCOMMENT_STATUS.REJECTED &&
+    comment.statusHistory.edges[0] &&
+    comment.statusHistory.edges[0].node.rejectionReason &&
+    comment.statusHistory.edges[0].node.rejectionReason.code;
+
+  const [activeTab, setActiveTab] = useState<DetailsTabs>(
+    hasDecision ? "DECISION" : "INFO"
+  );
 
   const onTabClick = useCallback(
     (id: string) => setActiveTab(id as DetailsTabs),
@@ -79,6 +95,19 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
   return (
     <HorizontalGutter>
       <TabBar variant="default" activeTab={activeTab} onTabClick={onTabClick}>
+        {hasDecision && (
+          <Tab tabID="DECISION" classes={styles}>
+            <Flex alignItems="center" itemGutter>
+              <SvgIcon
+                className={styles.decisionIcon}
+                Icon={ModerationDecisionIcon}
+              />
+              <Localized id="moderateCardDetails-tab-decision">
+                <span>Decision</span>
+              </Localized>
+            </Flex>
+          </Tab>
+        )}
         <Tab tabID="INFO" classes={styles}>
           <Flex alignItems="center" itemGutter>
             <SvgIcon Icon={ListBulletsIcon} />
@@ -118,6 +147,9 @@ const ModerateCardDetailsContainer: FunctionComponent<Props> = ({
           </Tab>
         )}
       </TabBar>
+      {activeTab === "DECISION" && (
+        <DecisionDetailsContainer comment={comment} />
+      )}
       {activeTab === "INFO" && (
         <>
           <LinkDetailsContainer comment={comment} settings={settings} />
@@ -156,6 +188,15 @@ const enhanced = withFragmentContainer<Props>({
       editing {
         edited
       }
+      statusHistory(first: 1) {
+        edges {
+          node {
+            rejectionReason {
+              code
+            }
+          }
+        }
+      }
       revision {
         actionCounts {
           flag {
@@ -193,6 +234,7 @@ const enhanced = withFragmentContainer<Props>({
       ...CommentRevisionContainer_comment
       ...LinkDetailsContainer_comment
       ...AutomatedActionsContainer_comment
+      ...DecisionDetailsContainer_comment
     }
   `,
   settings: graphql`

@@ -3493,12 +3493,17 @@ type CommentModerationAction {
   """
   reason is the reason the comment was rejected, if it was rejected
   """
-  reason: RejectionReason
+  rejectionReason: RejectionReason
 
   """
   createdAt is the time that the CommentModerationAction was created.
   """
   createdAt: Time!
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
 }
 
 type CommentModerationActionEdge {

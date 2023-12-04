@@ -1046,6 +1046,13 @@ moderate-linkDetails-label = Copy link to this comment
 moderate-in-stream-link-copy = In Stream
 moderate-in-moderation-link-copy = In Moderation
 
+moderate-decisionDetails-decisionLabel = Decision
+moderate-decisionDetails-rejected = Rejected
+moderate-decisionDetails-reasonLabel = Reason
+moderate-decisionDetails-lawBrokenLabel = Law broken
+moderate-decisionDetails-customReasonLabel = Custom reason
+moderate-decisionDetails-detailedExplanationLabel = Detailed explanation
+
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
 moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.
@@ -1108,6 +1115,7 @@ moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
 moderateCardDetails-tab-info = Info
+moderateCardDetails-tab-decision = Decision
 moderateCardDetails-tab-edits = Edit history
 moderateCardDetails-tab-automatedActions = Automated actions
 moderateCardDetails-tab-reactions = Reactions
