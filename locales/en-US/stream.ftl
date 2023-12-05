@@ -173,7 +173,7 @@ comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have
 comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
   found to contain illegal content, it will be removed from the site and further action may be taken against the commenter.
 comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Thank you for submitting this report
-comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We were unable to submit report for the following reason:
+comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We were unable to submit your report for the following reason(s):
 comments-permalinkView-reportIllegalContent-confirmation-returnToComments = You may now close this tab to return to the comments
 
 comments-rte-bold =
