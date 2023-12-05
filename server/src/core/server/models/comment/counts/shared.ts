@@ -110,7 +110,7 @@ export async function recalculateSharedModerationQueueQueueCounts(
   // twice.
   await redis
     .pipeline()
-    // eslint-disable @typescript-eslint/no-unsafe-argument
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     .hmset(key, ...flatten(Object.entries(queueCounts)))
     .set(freshKey, now.getTime(), "EX", COUNT_FRESHNESS_EXPIRY_SECONDS)
     .exec();
