@@ -158,6 +158,12 @@ export interface CommentAction extends TenantResource {
    * the section will be null here.
    */
   section?: string;
+
+  /**
+   * reportID is the id of the DSAReport that was created when the comment was flagged
+  as potentially containing illegal content. Only exists for illegal content flag type.
+   */
+  reportID?: string;
 }
 
 const ActionSchema = Joi.compile([
@@ -377,11 +383,13 @@ export async function retrieveManyUserActionPresence(
   tenantID: string,
   userID: string | null,
   commentIDs: string[],
+  useCache = true,
   isArchived = false
 ): Promise<GQLActionPresence[]> {
   let actions: Readonly<CommentAction>[] = [];
 
-  const cacheAvailable = await commentActionsCache.available(tenantID);
+  const cacheAvailable =
+    useCache && (await commentActionsCache.available(tenantID));
   if (cacheAvailable) {
     const actionsFromCache = await commentActionsCache.findMany(
       tenantID,

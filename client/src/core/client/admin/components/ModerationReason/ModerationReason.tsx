@@ -18,18 +18,23 @@ export interface Props {
   onCancel: () => void;
   onReason: (reason: Reason) => void;
   id: string;
+  linkClassName?: string;
 }
 
 const ModerationReason: FunctionComponent<Props> = ({
   onCancel,
   onReason,
   id,
+  linkClassName,
 }) => {
   const [view, setView] = useState<"REASON" | "EXPLANATION">("REASON");
   const [reasonCode, setReasonCode] = useState<ReasonCode | null>(null);
 
   const [legalGrounds] = useState<string | null>(null);
   const [detailedExplanation, setDetailedExplanation] = useState<string | null>(
+    null
+  );
+  const [otherCustomReason, setOtherCustomReason] = useState<string | null>(
     null
   );
 
@@ -41,8 +46,15 @@ const ModerationReason: FunctionComponent<Props> = ({
           ? legalGrounds
           : undefined,
       detailedExplanation: detailedExplanation || undefined,
+      customReason: otherCustomReason || undefined,
     });
-  }, [reasonCode, legalGrounds, detailedExplanation, onReason]);
+  }, [
+    reasonCode,
+    legalGrounds,
+    detailedExplanation,
+    onReason,
+    otherCustomReason,
+  ]);
 
   return (
     <Box className={styles.root} data-testid={`moderation-reason-modal-${id}`}>
@@ -61,8 +73,11 @@ const ModerationReason: FunctionComponent<Props> = ({
             setReasonCode(null);
           }}
           code={reasonCode!}
-          value={detailedExplanation}
-          onChange={setDetailedExplanation}
+          explanationValue={detailedExplanation}
+          onChangeExplanation={setDetailedExplanation}
+          customReasonValue={otherCustomReason}
+          onChangeCustomReason={setOtherCustomReason}
+          linkClassName={linkClassName}
         />
       )}
 
@@ -75,7 +90,7 @@ const ModerationReason: FunctionComponent<Props> = ({
                 disabled={
                   reasonCode === null ||
                   (reasonCode === GQLREJECTION_REASON_CODE.OTHER &&
-                    !detailedExplanation)
+                    !otherCustomReason)
                 }
                 onClick={submitReason}
                 color="alert"

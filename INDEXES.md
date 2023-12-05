@@ -6,6 +6,22 @@ The goal of this document is to date-mark the indexes you add to support the cha
 
 If you are releasing, you can use this readme to check all the indexes prior to the release you are deploying and have a good idea of what indexes you might need to deploy to Mongo along with your release of a new Coral Docker image to kubernetes.
 
+## 2023-11-24
+
+```
+db.dsaReports.createIndex({ tenantID: 1, id: 1 }, { unique: true });
+```
+
+- This index creates the uniqueness constraint for the `tenantID` and `id` fields on the `dsaReports`
+
+```
+db.dsaReports.createIndex({ status: 1, createdAt: 1, tenantID: 1 });
+db.dsaReports.createIndex({ referenceID: 1, tenantID: 1 });
+db.dsaReports.createIndex({ submissionID: 1, tenantID: 1 });
+```
+
+- These indices are used to optimize pagination of `dsaReports` and allow them to be retrieved by their `referenceID`, `submissionID` efficiently.
+
 ## 2023-10-18
 
 ```

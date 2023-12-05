@@ -28,6 +28,7 @@ export interface RejectionReasonInput {
   code: GQLREJECTION_REASON_CODE;
   legalGrounds?: string | undefined;
   detailedExplanation?: string | undefined;
+  customReason?: string | undefined;
 }
 
 export interface CreateNotificationInput {
@@ -164,6 +165,7 @@ export class InternalNotificationContext {
       commentID: comment.id,
       commentStatus: comment.status,
       rejectionReason: rejectionReason?.code ?? undefined,
+      customReason: rejectionReason?.customReason ?? undefined,
       decisionDetails: {
         explanation: rejectionReason?.detailedExplanation ?? undefined,
       },
