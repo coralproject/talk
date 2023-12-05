@@ -153,3 +153,6 @@ notifications-dsaReportDecisionMade-body-withInfo =
 
 common-accountDeleted =
   User account was deleted.
+
+common-userBanned =
+  User was banned.
