@@ -238,8 +238,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                 <Flex>
                   <Localized id="comments-permalinkView-reportIllegalContent-confirmation-errorDescription">
                     <CallOut color="error">
-                      We apologize, but we were unable to submit report for the
-                      following:
+                      We were unable to submit report for the following reason:
                     </CallOut>
                   </Localized>
                 </Flex>
