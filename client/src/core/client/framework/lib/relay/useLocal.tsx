@@ -32,7 +32,6 @@ function isAdvancedUpdater(t: LocalUpdater<any>): t is AdvancedUpdater {
 /**
  * applySimplified takes selections defined in a fragment, an object
  * containing data changes and smartly applies it to the record proxy.
- *
  * @param record Record Proxy poing to Local Record
  * @param selections Selections of the fragment
  * @param data Data you want to set
@@ -42,6 +41,7 @@ function applySimplified(
   selections: ReadonlyArray<any>,
   data: any
 ) {
+  // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
   const keys = Object.keys(data);
   keys.forEach((k) => {
     const field = selections.find((s) => s.alias === k || s.name === k);
@@ -50,11 +50,14 @@ function applySimplified(
     }
     switch (field.kind) {
       case "ScalarField":
+        // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
         record.setValue(data[k], field.name);
         return;
       case "LinkedField":
         applySimplified(
+          // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
           record.getOrCreateLinkedRecord(field.name, field.concreteType),
+          // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
           field.selections,
           data[k]
         );
@@ -74,12 +77,11 @@ function applySimplified(
  * Example:
  * ```
  * const [local, setLocal] = useLocal<Local>(graphql`
- *   fragment ProfileLocal on Local {
- *      profileTab
- *    }
+ * fragment ProfileLocal on Local {
+ * profileTab
+ * }
  * `);
  * ```
- *
  * @param fragmentSpec graphql fragment
  */
 function useLocal<T>(
@@ -96,10 +98,10 @@ function useLocal<T>(
     return relayEnvironment.lookup(selector);
   }, [selector, relayEnvironment]);
 
-  const [local, setLocal] = useState<T>(() => snapshot.data as any);
+  const [local, setLocal] = useState<T>(() => snapshot.data);
 
   useEffectWhenChanged(() => {
-    setLocal(snapshot.data as any);
+    setLocal(snapshot.data);
   }, [snapshot]);
 
   const localUpdate = useCallback(
@@ -123,7 +125,7 @@ function useLocal<T>(
 
   useEffect(() => {
     const subscription = relayEnvironment.subscribe(snapshot, (update) =>
-      setLocal(update.data as any)
+      setLocal(update.data)
     );
     return () => {
       subscription.dispose();

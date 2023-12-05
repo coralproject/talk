@@ -31,15 +31,18 @@ export class WordList {
    * collection system.
    */
   private readonly cache = new WeakMap<Options, Lists>();
-  private readonly sanitizer = createSanitize(new JSDOM("", {}).window as any, {
-    // We need normalized text nodes to mark nodes for suspect/banned words.
-    normalize: true,
-    // Allow all RTE features to be displayed.
-    features: ALL_FEATURES,
-    config: {
-      FORBID_TAGS: WORDLIST_FORBID_TAGS,
-    },
-  });
+  private readonly sanitizer = createSanitize(
+    new JSDOM("", {}).window as unknown,
+    {
+      // We need normalized text nodes to mark nodes for suspect/banned words.
+      normalize: true,
+      // Allow all RTE features to be displayed.
+      features: ALL_FEATURES,
+      config: {
+        FORBID_TAGS: WORDLIST_FORBID_TAGS,
+      },
+    }
+  );
 
   private generate(locale: LanguageCode, list: string[], timeout: number) {
     // If a word list has no entries, then we can make a simple tester.
@@ -57,7 +60,6 @@ export class WordList {
 
   /**
    * create will create the List's.
-   *
    * @param options options used to generate Lists
    */
   private create(options: Options, timeout: number): Lists {
@@ -70,7 +72,6 @@ export class WordList {
   /**
    * lists will create/return a cached set of testers for the provided word
    * lists.
-   *
    * @param options the options object that is also used as the cache key
    */
   private lists(options: Options, cache: boolean, timeout: number): Lists {
@@ -100,7 +101,6 @@ export class WordList {
   /**
    * test will test the string against the selected list. The generated lists
    * are cached and re-used on subsequent calls.
-   *
    * @param options the options object that is also used as the cache key
    * @param listName the list to test against
    * @param timeout the length of time that the test should wait for before

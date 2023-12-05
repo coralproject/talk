@@ -17,8 +17,8 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 type Defaults<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? Defaults<U>[]
+  [P in keyof T]?: T[P] extends Array<infer U>
+    ? Array<Defaults<U>>
     : T[P] extends object
     ? Defaults<T[P]>
     : T[P];

@@ -643,7 +643,6 @@ export interface FindOrCreateUserInput {
 
 /**
  * findOrCreateUserInput converts the FindOrCreateUserInput input into aUse.
- *
  * @param tenantID ID of the Tenant to create the user for
  * @param input the input for creating a User
  * @param now the current date
@@ -877,7 +876,6 @@ export async function retrieveUserWithEmail(
 
 /**
  * updateUserRole updates a given User's role.
- *
  * @param mongo mongodb database to interact with
  * @param tenantID Tenant ID where the User resides
  * @param id ID of the User that we are updating
@@ -1260,7 +1258,6 @@ export async function updateUserFromSSO(
 /**
  * setUserUsername will set the username of the User if the username hasn't
  * already been used before.
- *
  * @param mongo the database handle
  * @param tenantID the ID to the Tenant
  * @param id the ID of the User where we are setting the username on
@@ -1311,7 +1308,6 @@ export async function setUserUsername(
 
 /**
  * updateUsername will set the username of the User.
- *
  * @param mongo the database handle
  * @param tenantID the ID to the Tenant
  * @param id the ID of the User where we are setting the username on
@@ -1366,7 +1362,6 @@ export async function updateUserUsername(
 /**
  * setUserEmail will set the email address of the User if they don't already
  * have one associated with them, and it hasn't been used before.
- *
  * @param mongo the database handle
  * @param tenantID the ID to the Tenant
  * @param id the ID of the User where we are setting the email address on
@@ -1430,7 +1425,6 @@ export async function setUserEmail(
 
 /**
  * updateUserEmail will update a given User's email address to the one provided.
- *
  * @param mongo the database that we are interacting with
  * @param tenantID the Tenant ID of the Tenant where the User exists
  * @param id the User ID that we are updating
@@ -1487,7 +1481,6 @@ export async function updateUserEmail(
 /**
  * updateUserBio will update the bio associated with a User. If the bio
  * is not provided, it will be unset.
- *
  * @param mongo the database that we are interacting with
  * @param tenantID the Tenant ID of the Tenant where the User exists
  * @param id the User ID that we are updating
@@ -1534,7 +1527,6 @@ export async function updateUserBio(
 /**
  * updateUserAvatar will update the avatar associated with a User. If the avatar
  * is not provided, it will be unset.
- *
  * @param mongo the database that we are interacting with
  * @param tenantID the Tenant ID of the Tenant where the User exists
  * @param id the User ID that we are updating
@@ -1582,7 +1574,6 @@ export async function updateUserAvatar(
  * setUserLocalProfile will set the local profile for a User if they don't
  * already have one associated with them and the profile doesn't exist on any
  * other User already.
- *
  * @param mongo the database handle
  * @param tenantID the ID to the Tenant
  * @param id the ID of the User where we are setting the local profile on
@@ -1826,7 +1817,6 @@ async function retrieveConnection(
 
 /**
  * premodUser will set a user to mandatory premod.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being banned
@@ -1891,7 +1881,6 @@ export async function premodUser(
 
 /**
  * removeUserPremod will lift a user premod  requirement
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their ban lifted
@@ -2005,7 +1994,6 @@ export async function siteBanUser(
 
 /**
  * banUser will ban a specific user from interacting with the site.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being banned
@@ -2120,7 +2108,6 @@ export async function removeUserSiteBan(
 /**
  * removeUserBan will lift a user ban from a User allowing them to interact with
  * the site again.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their ban lifted
@@ -2194,7 +2181,6 @@ export async function removeUserBan(
 /**
  * suspendUser will suspend a user for a specific time range from interacting
  * with the site.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being suspended
@@ -2277,7 +2263,6 @@ export async function suspendUser(
 
 /**
  * removeUserSuspensions will lift any active suspensions.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the User having their suspension lifted
@@ -2398,7 +2383,6 @@ export async function warnUser(
 /**
  * removeUserWarning will remove a warning from a User allowing them to interact with
  * the site again.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their warning removed
@@ -2468,7 +2452,6 @@ export async function removeUserWarning(
 /**
  * acknowledgeWarning will remove a warning from a User allowing them to interact with
  * the site again.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their warning removed
@@ -2578,7 +2561,6 @@ export async function sendModMessageUser(
 /**
  * acknowledgeOwnModMessage will acknowledge a moderation message that was
  * sent to the user.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their warning removed
@@ -2776,7 +2758,6 @@ export function consolidateUserStatus(
 /**
  * createOrRetrieveUserPasswordResetID will create/retrieve a password reset ID
  * on the User.
- *
  * @param mongo MongoDB instance to interact with
  * @param tenantID Tenant ID that the User exists on
  * @param id ID of the User that we are creating a reset ID with
@@ -3206,7 +3187,6 @@ export async function updateUserMediaSettings(
 /**
  * insertUserNotificationDigests will push the notification contexts onto the
  * User so that notifications can now be queued.
- *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param id the ID of the User to insert the digests onto
@@ -3261,7 +3241,6 @@ export async function insertUserNotificationDigests(
 /**
  * pullUserNotificationDigests will pull notification digests for a given User
  * so it can be added to the mailer queue.
- *
  * @param mongo the database to pull digests from
  * @param tenantID the tenant ID to pull digests for
  * @param frequency the frequency that we're scanning for to limit the digest
@@ -3291,7 +3270,6 @@ export async function pullUserNotificationDigests(
 /**
  * retrieveUserScheduledForDeletion will return a user that is scheduled for
  * deletion as well as create a reschedule date in the future.
- *
  * @param mongo the database to pull scheduled users to delete from
  * @param tenantID the tenant ID to pull users that have been scheduled for
  * deletion on
@@ -3331,7 +3309,6 @@ export async function retrieveLockedUserScheduledForDeletion(
 
 /**
  * createModeratorNote will add a note to a users account
- *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param id the ID of the User who is the subject of the note
@@ -3375,7 +3352,6 @@ export async function createModeratorNote(
 
 /**
  * deleteModeratorNote will remove a note from a user profile
- *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param userID the ID of the user

@@ -11,7 +11,6 @@ const ISO_8601_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/;
 
 /**
  * isISOString will return true if the string matches a ISO 8601 date.
- *
  * @param value value to test if it matches the ISO 8601 format
  */
 function isISOString(value: string) {
@@ -23,7 +22,6 @@ const KEY = "$date";
 /**
  * transform will walk the passed object and transform any dates that it
  * encounters into special objects that can be parsed back into dates.
- *
  * @param value the value to transform
  */
 function transform(value: any): any {
@@ -63,14 +61,13 @@ function transform(value: any): any {
 /**
  * stringify will serialize the data into JSON with special consideration for
  * Date values.
- *
  * @param data the data to stringify
  */
 export function stringify(data: any) {
   return JSON.stringify(transform(data));
 }
 
-function reviver(key: string, value: any) {
+function reviver(key: string, value: unknown) {
   // The first time we encounter the date object, it will be at it's deepest
   // nesting, so it will currently be a string. Parse the string, and return it
   // so that we can parse it and return it.
@@ -100,7 +97,6 @@ function reviver(key: string, value: any) {
 /**
  * parse will parse deserialize the data from JSON with support for Date values
  * that have been encoded with stringify.
- *
  * @param data the data to parse
  */
 export function parse(data: string) {

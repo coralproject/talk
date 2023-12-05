@@ -57,7 +57,6 @@ export function isResetToken(token: ResetToken | object): token is ResetToken {
 /**
  * generateResetURL will generate a reset URL that will send the user to the redirect
  * after they have reset their password.
- *
  * @param mongo MongoDB instance to interact with
  * @param tenant Tenant that the user exists on
  * @param config the convict config object

@@ -27,7 +27,7 @@ export default async function publishChanges(
   broker: CoralEventPublisherBroker,
   input: PublishChangesInput
 ) {
-  const promises: Promise<any>[] = [];
+  const promises: Array<Promise<any>> = [];
 
   // Publish changes.
   promises.push(

@@ -16,7 +16,7 @@ import Entrypoints, { Entrypoint, RawEntrypoint } from "./entrypoints";
  * TODO: (cvle) Unsure if we need this. Does `webpack-assets-manifest` always
  * eventually create a valid manifest? Needs more investigation. Setting it to
  * a high number for now.
- **/
+ */
 const INVALID_MANIFEST_MAX_RETRIES = 9999;
 
 export interface Asset {

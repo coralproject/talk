@@ -7,18 +7,18 @@
 /**
  * isPromise detects whether given object is a promise or not.
  */
-const isPromise = <T extends any>(obj: any): obj is PromiseLike<T> =>
+const isPromise = (obj: any): obj is PromiseLike<any> =>
   !!obj &&
   (typeof obj === "object" || typeof obj === "function") &&
   typeof obj.then === "function";
 
 /**
  * Wrap a jest matcher so if the expectation fails, it also fails the test.
- *
  * @param func the jest matcher that will be wrapped.
  */
 const wrapMatcher = (func: any) => {
   const wrappedMatcher: any = {};
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const keys = Object.keys(func);
   keys.forEach((k) => {
     if (typeof func[k] === "function") {
@@ -28,6 +28,7 @@ const wrapMatcher = (func: any) => {
           if (isPromise(result)) {
             return result.then(undefined, (e) => {
               // Remove this function from stacktrace.
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
               Error.captureStackTrace(e, wrappedMatcher[k]);
               fail(e);
               throw e;
@@ -36,6 +37,7 @@ const wrapMatcher = (func: any) => {
           return result;
         } catch (e) {
           // Remove this function from stacktrace.
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           Error.captureStackTrace(e, wrappedMatcher[k]);
           fail(e);
           throw e;
@@ -49,8 +51,8 @@ const wrapMatcher = (func: any) => {
   return wrappedMatcher;
 };
 
-const expectAndFail = (...args: any[]) => {
-  const matcher = (global as any).expect(...args);
+const expectAndFail = (...args: unknown[]) => {
+  const matcher = (global as unknown).expect(...args);
   return wrapMatcher(matcher);
 };
 

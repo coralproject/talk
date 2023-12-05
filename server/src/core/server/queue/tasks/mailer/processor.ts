@@ -79,7 +79,6 @@ function send(client: SMTPClient, message: Message): Promise<Message> {
 
 /**
  * juiceHTML will juice the HTML to inline the CSS and minify it.
- *
  * @param input html string to juice
  */
 export function juiceHTML(input: string) {
@@ -108,7 +107,6 @@ function createMessageTranslator(i18n: I18n) {
   /**
    * translateMessage will translate the message to the specified locale as well
    * a juice the contents.
-   *
    * @param tenant the tenant
    * @param templateName the name of the template to base the translations off of
    * @param locale the locale to translate the email content into
@@ -147,7 +145,7 @@ function createMessageTranslator(i18n: I18n) {
     }
 
     // Configure the purification.
-    const purify = createDOMPurify(dom.window as any);
+    const purify = createDOMPurify(dom.window as unknown);
 
     // Strip the l10n attributes from the email HTML.
     purify.sanitize(dom.window.document.documentElement, {
@@ -238,11 +236,15 @@ export const createJobProcessor = (
   const translateMessage = createMessageTranslator(i18n);
 
   return async (job) => {
-    const { value: data, error: err } = MailerDataSchema.validate(job.data, {
-      stripUnknown: true,
-      presence: "required",
-      abortEarly: false,
-    });
+    const {
+      value: data,
+      error: err,
+    }: { value: MailerData; error?: Joi.ValidationError } =
+      MailerDataSchema.validate(job.data, {
+        stripUnknown: true,
+        presence: "required",
+        abortEarly: false,
+      });
     if (err) {
       logger.error(
         {
@@ -310,7 +312,10 @@ export const createJobProcessor = (
         data
       );
     } catch (e) {
-      throw new WrappedInternalError(e, "could not translate the message");
+      throw new WrappedInternalError(
+        e as Error,
+        "could not translate the message"
+      );
     }
 
     log.trace(
@@ -356,7 +361,10 @@ export const createJobProcessor = (
         // Create the transport based on the smtp uri.
         transport = new SMTPClient(opts);
       } catch (e) {
-        throw new WrappedInternalError(e, "could not create email transport");
+        throw new WrappedInternalError(
+          e as Error,
+          "could not create email transport"
+        );
       }
 
       // Set the transport back into the cache.
@@ -385,10 +393,16 @@ export const createJobProcessor = (
       log.warn({ err: e }, "reset smtp transport due to a send error");
 
       if (isLastAttempt(job)) {
-        throw new WrappedInternalError(e, "could not send email, not retrying");
+        throw new WrappedInternalError(
+          e as Error,
+          "could not send email, not retrying"
+        );
       }
 
-      throw new WrappedInternalError(e, "could not send email, will retry");
+      throw new WrappedInternalError(
+        e as Error,
+        "could not send email, will retry"
+      );
     }
 
     // Increment the sent email counter.

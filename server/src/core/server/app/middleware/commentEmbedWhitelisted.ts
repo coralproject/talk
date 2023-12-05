@@ -12,11 +12,12 @@ export const commentEmbedWhitelisted =
   ({ mongo }: Pick<AppOptions, "mongo">, oembedAPI = false): RequestHandler =>
   async (req, res, next) => {
     // First try to get the commentID from the query params
-    let { commentID } = req.query;
+    let commentID: string | undefined = req.query.commentID;
 
     // For the Oembed endpoint, will need to get commentID from the url
     if (!commentID) {
-      const urlToParse = new URL(req.query.url);
+      const url: string | undefined = req.query.url;
+      const urlToParse = new URL(url);
       commentID = urlToParse.searchParams.get("commentID");
     }
 
@@ -57,7 +58,6 @@ export const commentEmbedWhitelisted =
 /**
  * Creates the options for the "cors" middleware which whitelists
  * site origins for the single comment embed.
- *
  * @param mongo the database connection
  * @returns CorsOptionsDelegate
  */

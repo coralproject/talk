@@ -67,11 +67,11 @@ export function useMutation<I, R>(
 ): MutationProp<typeof mutation> {
   const context = useCoralContext();
   return useCallback<MutationProp<typeof mutation>>(
-    ((input: I) => {
+    (input: I) => {
       // TODO: (cvle) Naming of these events are deprecated.
       context.eventEmitter.emit(`mutation.${mutation.name}`, input);
       return mutation.commit(context.relayEnvironment, input, context);
-    }) as any,
+    },
     [context]
   );
 }
@@ -79,7 +79,6 @@ export function useMutation<I, R>(
 /**
  * withMutation creates a HOC that injects the mutation as
  * a property.
- *
  * @deprecated use `useMutation` instead
  */
 export function withMutation<N extends string, I, R>(

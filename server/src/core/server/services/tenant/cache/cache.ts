@@ -19,6 +19,7 @@ import { parse, stringify } from "./json";
 const TENANT_CACHE_CHANNEL_VERSION = 1;
 const TENANT_CACHE_CHANNEL = `TENANT_CACHE_CHANNEL_V${TENANT_CACHE_CHANNEL_VERSION}`;
 
+// eslint-disable-next-line no-shadow
 enum EVENTS {
   UPDATE = "UPDATE",
   DELETE = "DELETE",
@@ -146,6 +147,7 @@ export default class TenantCache {
     if (this.cachingEnabled) {
       // Attach to messages on this connection so we can receive updates when
       // the tenant are changed.
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       this.redis.on("message", this.onMessage.bind(this));
     }
   }
@@ -320,7 +322,6 @@ export default class TenantCache {
   /**
    * This allows you to subscribe to new Tenant updates. This will also return
    * a function that when called, unsubscribes you from updates.
-   *
    * @param updateCallback the function to be called when there is an updated Tenant.
    * @param deleteCallback the function to be called when a tenant needs to be purged
    */
@@ -352,7 +353,6 @@ export default class TenantCache {
   /**
    * update will update the value for Tenant in the local cache and publish
    * a change notification that will be used to keep the other nodes in sync.
-   *
    * @param conn a redis connection used to publish the change notification
    * @param tenant the updated Tenant object
    */

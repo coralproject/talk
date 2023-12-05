@@ -38,6 +38,7 @@ import {
 /**
  * LEGACY_FEATURE_FLAGS are feature flags, that are no longer used.
  */
+// eslint-disable-next-line no-shadow
 export enum LEGACY_FEATURE_FLAGS {
   ENABLE_AMP = "ENABLE_AMP",
   FLATTEN_REPLIES = "FLATTEN_REPLIES",
@@ -139,7 +140,6 @@ export interface TenantComputedProperties {
 }
 /**
  * create will create a new Tenant.
- *
  * @param mongo the MongoDB connection used to create the tenant.
  * @param i18n i18n instance
  * @param input the customizable parts of the Tenant available during creation

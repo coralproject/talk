@@ -39,7 +39,6 @@ export interface CreateDSAReportInput {
 
 /**
  * createDSAReport creates a new DSAReport
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for creating the DSAReport
@@ -65,7 +64,6 @@ export interface AddDSAReportNoteInput {
 
 /**
  * addDSAReportNote adds a note to the history of a DSAReport
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for adding the note
@@ -90,7 +88,6 @@ export interface AddDSAReportShareInput {
 
 /**
  * addDSAReportNote adds a share item to the history of a DSAReport
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for adding the share item
@@ -115,7 +112,6 @@ export interface DeleteDSAReportNoteInput {
 
 /**
  * deleteDSAReportNote deletes a note from the history of a DSAReport
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for deleting the note
@@ -141,7 +137,6 @@ export interface ChangeDSAReportStatusInput {
 /**
  * changeDSAReportStatus changes the status of a DSAReport
  * and also adds the status change to its history
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for changing the status
@@ -171,7 +166,6 @@ export interface MakeDSAReportDecisionInput {
 /**
  * makeDSAReportDecison makes an illegal vs legal decision for a DSAReport
  * and also adds the decision to its history
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for making the decision

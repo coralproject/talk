@@ -70,11 +70,12 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const createDSAReport = useMutation(CreateDSAReportMutation);
   const { renderWindow, customScrollContainer } = useCoralContext();
   const root = useShadowRootOrDocument();
-  const [additionalComments, setAdditionalComments] = useState<
-    null | { id: string; url: string }[]
-  >(null);
+  const [additionalComments, setAdditionalComments] = useState<null | Array<{
+    id: string;
+    url: string;
+  }>>(null);
   const [submissionStatus, setSubmissionStatus] = useState<
-    { id: string; status: string; error?: any; url: string }[]
+    Array<{ id: string; status: string; error?: any; url: string }>
   >([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const submissionID = useUUID();

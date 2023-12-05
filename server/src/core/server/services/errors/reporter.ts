@@ -20,7 +20,6 @@ export abstract class ErrorReporter {
   /**
    * shouldReport will return if a particular error should be reported to the
    * reporter.
-   *
    * @param err the error to test if it should be reported or not.
    */
   public shouldReport(err: any): boolean {

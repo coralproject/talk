@@ -93,7 +93,6 @@ interface RotateSigningSecretOptions<T extends {}> {
 /**
  * getSecretKIDsToDeprecate will return all the keys that should be deprecated
  * from the first phase of the rolling process.
- *
  * @param signingSecrets the keys returned by the query operation
  */
 const getSecretKIDsToDeprecate = (signingSecrets: SigningSecret[]) =>

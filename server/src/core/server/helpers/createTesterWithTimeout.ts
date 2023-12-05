@@ -24,7 +24,6 @@ function sumPriorLengths(items: string[], index: number): number {
 /**
  * createTesterWithTimeout will create a tester that after the timeout, will
  * return null instead of a boolean.
- *
  * @param regexp the regular expression to wrap
  * @param timeout the timeout to use
  */
@@ -36,7 +35,7 @@ export default function createTesterWithTimeout(
   const script = new vm.Script("testString.split(regexp)");
 
   // Create a null context object to isolate it with primitives.
-  const sandbox = Object.create(null);
+  const sandbox: unknown = Object.create(null);
   sandbox.regexp = regexp;
   sandbox.testString = "";
 
