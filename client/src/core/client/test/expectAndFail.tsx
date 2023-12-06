@@ -51,8 +51,9 @@ const wrapMatcher = (func: any) => {
   return wrappedMatcher;
 };
 
-const expectAndFail = (...args: unknown[]) => {
-  const matcher = (global as unknown).expect(...args);
+const expectAndFail = (...args: any[]) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const matcher = (global as any).expect(...args);
   return wrapMatcher(matcher);
 };
 

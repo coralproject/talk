@@ -33,12 +33,14 @@ const PermalinkPopover: FunctionComponent<Props> = ({
     emitShowEvent({ commentID });
   }, [emitShowEvent, commentID]);
 
-  const timeout: any = useRef<any>(null);
+  const timeout = useRef<NodeJS.Timeout | null>(null);
 
   // clear time out when we de-scope
   useEffect(() => {
     return function cleanup() {
-      clearTimeout(timeout);
+      if (timeout && timeout.current) {
+        clearTimeout(timeout.current);
+      }
     };
   }, [timeout]);
 
@@ -47,7 +49,9 @@ const PermalinkPopover: FunctionComponent<Props> = ({
   }, [toggleVisibility]);
 
   const onCopied = useCallback(() => {
-    clearTimeout(timeout);
+    if (timeout && timeout.current) {
+      clearTimeout(timeout.current);
+    }
     timeout.current = setTimeout(timeoutCallback, 750);
   }, [timeout, timeoutCallback]);
 

@@ -56,8 +56,11 @@ function hasExpertTag(
 // isn't smart enough to see that the nested fragments
 // on the comment container are compatible.
 export function commentHasTags(story: any, comment: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const staffTag = hasStaffTag(comment);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const expertTag = hasExpertTag(story, comment);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const memberTag = hasMemberTag(comment);
   const hasTags = staffTag || expertTag || memberTag;
 

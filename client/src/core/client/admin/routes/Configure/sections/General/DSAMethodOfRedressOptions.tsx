@@ -15,6 +15,7 @@ import {
   validateURL,
   Validator,
 } from "coral-framework/lib/validation";
+import { GQLDSA_METHOD_OF_REDRESS } from "coral-framework/schema";
 import { RadioButton } from "coral-ui/components/v2";
 
 import { DSA_METHOD_OF_REDRESS } from "coral-admin/__generated__/DSAConfigContainer_formValues.graphql";
@@ -35,24 +36,18 @@ interface Props {
   className?: string;
 }
 
-export enum DSAMethodOfRedress {
-  NONE = "NONE",
-  EMAIL = "EMAIL",
-  URL = "URL",
-}
-
 export const parseVal = (v: any, name: string) => {
-  if (v === DSAMethodOfRedress.NONE) {
-    return DSAMethodOfRedress.NONE;
+  if (v === GQLDSA_METHOD_OF_REDRESS.NONE) {
+    return GQLDSA_METHOD_OF_REDRESS.NONE;
   }
-  if (v === DSAMethodOfRedress.EMAIL) {
-    return DSAMethodOfRedress.EMAIL;
+  if (v === GQLDSA_METHOD_OF_REDRESS.EMAIL) {
+    return GQLDSA_METHOD_OF_REDRESS.EMAIL;
   }
-  if (v === DSAMethodOfRedress.URL) {
-    return DSAMethodOfRedress.URL;
+  if (v === GQLDSA_METHOD_OF_REDRESS.URL) {
+    return GQLDSA_METHOD_OF_REDRESS.URL;
   }
 
-  return DSAMethodOfRedress.NONE;
+  return GQLDSA_METHOD_OF_REDRESS.NONE;
 };
 
 export const format = (v: string, name: string) => {
@@ -69,10 +64,10 @@ const DSAMethodOfRedressOptions: FunctionComponent<Props> = ({
   const [mode, setMode] = useState<DSA_METHOD_OF_REDRESS | null>(defaultMethod);
 
   const onChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
-    if (ev.target?.value === DSAMethodOfRedress.EMAIL) {
-      setMode(DSAMethodOfRedress.EMAIL);
-    } else if (ev.target?.value === DSAMethodOfRedress.URL) {
-      setMode(DSAMethodOfRedress.URL);
+    if (ev.target?.value === GQLDSA_METHOD_OF_REDRESS.EMAIL) {
+      setMode(GQLDSA_METHOD_OF_REDRESS.EMAIL);
+    } else if (ev.target?.value === GQLDSA_METHOD_OF_REDRESS.URL) {
+      setMode(GQLDSA_METHOD_OF_REDRESS.URL);
     } else {
       setMode(null);
     }
@@ -94,7 +89,7 @@ const DSAMethodOfRedressOptions: FunctionComponent<Props> = ({
       <Field
         name={"dsa.methodOfRedress.method"}
         type="radio"
-        value={DSAMethodOfRedress.NONE}
+        value={GQLDSA_METHOD_OF_REDRESS.NONE}
         parse={parseVal}
         format={format}
       >
@@ -117,7 +112,7 @@ const DSAMethodOfRedressOptions: FunctionComponent<Props> = ({
       <Field
         name={"dsa.methodOfRedress.method"}
         type="radio"
-        value={DSAMethodOfRedress.EMAIL}
+        value={GQLDSA_METHOD_OF_REDRESS.EMAIL}
         parse={parseVal}
         format={format}
       >
@@ -137,7 +132,7 @@ const DSAMethodOfRedressOptions: FunctionComponent<Props> = ({
           </RadioButton>
         )}
       </Field>
-      {mode === DSAMethodOfRedress.EMAIL && (
+      {mode === GQLDSA_METHOD_OF_REDRESS.EMAIL && (
         <Field
           name="dsa.methodOfRedress.email"
           parse={parseEmptyAsNull}
@@ -166,7 +161,7 @@ const DSAMethodOfRedressOptions: FunctionComponent<Props> = ({
         name={"dsa.methodOfRedress.method"}
         type="radio"
         parse={parseVal}
-        value={DSAMethodOfRedress.URL}
+        value={GQLDSA_METHOD_OF_REDRESS.URL}
         format={format}
       >
         {({ input }) => {
@@ -187,7 +182,7 @@ const DSAMethodOfRedressOptions: FunctionComponent<Props> = ({
           );
         }}
       </Field>
-      {mode === DSAMethodOfRedress.URL && (
+      {mode === GQLDSA_METHOD_OF_REDRESS.URL && (
         <Field
           name="dsa.methodOfRedress.url"
           parse={parseEmptyAsNull}

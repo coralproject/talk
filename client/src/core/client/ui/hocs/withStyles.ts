@@ -14,7 +14,7 @@ function withStyles<T>(
   return withPropsOnChange<any, any>(["classes"], (props) => {
     const result = { ...styles };
     if (props.classes) {
-      Object.keys(props.classes).forEach((k) => {
+      Object.keys(props.classes as {}).forEach((k) => {
         if ((styles as any)[k]) {
           (result as any)[k] += ` ${props.classes[k]}`;
         }

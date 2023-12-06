@@ -123,7 +123,8 @@ export function useViewerEvent<T>(
 ): keyof T extends never ? () => void : (data: T) => void {
   const { eventEmitter } = useCoralContext();
   return ((data?: T) => {
-    viewerEvent.emit(eventEmitter, data);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    viewerEvent.emit(eventEmitter, data as any);
   }) as any;
 }
 
@@ -142,6 +143,7 @@ export function useViewerNetworkEvent<
     ) => ViewerNetworkEventStarted<T> {
   const { eventEmitter } = useCoralContext();
   return ((data?: T) => {
-    return viewerNetworkEvent.begin(eventEmitter, data);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return viewerNetworkEvent.begin(eventEmitter, data as any);
   }) as any;
 }

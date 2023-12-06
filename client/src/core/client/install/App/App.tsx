@@ -26,7 +26,7 @@ const App: FunctionComponent = () => {
         await checkInstall({});
         setState("success");
       } catch (err) {
-        setError(err.message);
+        setError(err.message as string);
         setState("failure");
         if (err.code !== ERROR_CODES.RATE_LIMIT_EXCEEDED) {
           await context.clearSession("");

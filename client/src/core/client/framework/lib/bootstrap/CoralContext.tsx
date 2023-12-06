@@ -102,7 +102,8 @@ export interface CoralContext {
   customScrollContainer?: HTMLElement;
 }
 
-export const CoralReactContext = React.createContext<CoralContext>({});
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+export const CoralReactContext = React.createContext<CoralContext>({} as any);
 
 export const useCoralContext = () => React.useContext(CoralReactContext);
 

@@ -25,7 +25,7 @@ export const parseEmptyAsNull = (v: any) => {
 };
 
 export const parseWithDOMPurify: any = (v: any) => {
-  if (v === "") {
+  if (v === "" || !(typeof v === "string")) {
     return null;
   }
   return DOMPurify.sanitize(v);
@@ -39,7 +39,7 @@ export const formatEmpty = (v: any) => {
 };
 
 export const parsePercentage = (v: any) => {
-  if (v === "") {
+  if (v === "" || !(typeof v === "number")) {
     return null;
   }
   if (isNaN(v)) {
@@ -48,7 +48,7 @@ export const parsePercentage = (v: any) => {
   return v / 100;
 };
 export const formatPercentage = (v: any) => {
-  if (v === null || v === undefined) {
+  if (v === null || v === undefined || !(typeof v === "number")) {
     return "";
   }
   if (isNaN(v)) {
@@ -64,6 +64,9 @@ export const formatBool = (v: boolean) => {
 };
 
 export const parseInteger = (v: any) => {
+  if (typeof v !== "string") {
+    return v;
+  }
   const result = Number.parseInt(v, 10);
   if (isNaN(result)) {
     return v;

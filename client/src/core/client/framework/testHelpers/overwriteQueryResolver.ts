@@ -28,8 +28,9 @@ type OverwriteQueryResolverTemplate<T extends Resolvers = any> = {
  * @param original original resolver object
  * @param overwrite overwrite resolver object or value
  */
-function overwriteRecursive(original: any, overwrite: unknown) {
+function overwriteRecursive(original: any, overwrite: any) {
   let ret = original;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   Object.keys(overwrite).forEach((k) => {
     ret = {
       ...original,

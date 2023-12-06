@@ -52,6 +52,7 @@ import {
 } from "coral-common/common/lib/permissions/types";
 import styles from "./BanModal.css";
 
+// eslint-disable-next-line no-shadow
 export enum UpdateType {
   ALL_SITES = "ALL_SITES",
   SPECIFIC_SITES = "SPECIFIC_SITES",

@@ -78,8 +78,10 @@ function getMatchingPatterns(patterns: PatternMap, args: any[]): MatchedItem[] {
   }
 }
 
-function createMockImplementation(originalFunction: (...args: any[]) => void) {
-  return (...args: any[]) => {
+function createMockImplementation(
+  originalFunction: (...args: unknown[]) => void
+) {
+  return (...args: unknown[]) => {
     const muted = getMatchingPatterns(mutePatterns, args);
     if (muted.length) {
       matchedMute.push(...muted);

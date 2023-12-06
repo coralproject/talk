@@ -28,6 +28,7 @@ function createSubscriptionFunction(
   const fn: SubscribeFunction = (operation, variables, cacheConfig) => {
     return Observable.create<GraphQLResponse>((sink) => {
       const subscription = subscriptionClient.subscribe(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         operation as any,
         variables,
         {

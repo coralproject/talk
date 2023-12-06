@@ -1,3 +1,4 @@
+import { EventEmitter2 } from "eventemitter2";
 import sinon from "sinon";
 
 import withEventEmitter from "./withEventEmitter";
@@ -24,7 +25,10 @@ it("should emit special events like `ready`", () => {
       });
     },
   };
-  withEventEmitter(fakeStreamEventEmitter as any, embedEventEmitterMock as any);
+  withEventEmitter(
+    fakeStreamEventEmitter as unknown as EventEmitter2,
+    embedEventEmitterMock as unknown as EventEmitter2
+  );
   expect(emitStub.callCount).toBe(cases.length);
 });
 
@@ -50,7 +54,10 @@ it("should emit viewer events", () => {
       });
     },
   };
-  withEventEmitter(fakeStreamEventEmitter as any, embedEventEmitterMock as any);
+  withEventEmitter(
+    fakeStreamEventEmitter as unknown as EventEmitter2,
+    embedEventEmitterMock as unknown as EventEmitter2
+  );
   expect(emitStub.callCount).toBe(cases.length);
 });
 
@@ -93,8 +100,8 @@ it("should emit deprecated events when activated", () => {
     },
   };
   withEventEmitter(
-    fakeStreamEventEmitter as any,
-    embedEventEmitterMock as any,
+    fakeStreamEventEmitter as unknown as EventEmitter2,
+    embedEventEmitterMock as unknown as EventEmitter2,
     enableDeprecatedEvents
   );
   expect(emitStub.callCount).toBe(cases.length);
@@ -139,8 +146,8 @@ it("should not emit deprecated events when activated", () => {
     },
   };
   withEventEmitter(
-    fakeStreamEventEmitter as any,
-    embedEventEmitterMock as any,
+    fakeStreamEventEmitter as unknown as EventEmitter2,
+    embedEventEmitterMock as unknown as EventEmitter2,
     enableDeprecatedEvents
   );
   expect(emitStub.callCount).toBe(1);
@@ -156,6 +163,9 @@ it("should not emit unknown events", () => {
       callback("unknown", "value");
     },
   };
-  withEventEmitter(fakeStreamEventEmitter as any, embedEventEmitterMock as any);
+  withEventEmitter(
+    fakeStreamEventEmitter as unknown as EventEmitter2,
+    embedEventEmitterMock as unknown as EventEmitter2
+  );
   expect(emitStub.callCount).toBe(0);
 });

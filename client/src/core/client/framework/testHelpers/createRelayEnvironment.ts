@@ -132,7 +132,7 @@ function createSubscribe(
       const sel = subscriptionSelections[0];
       const subscription = {
         field: sel.name.value,
-        variables: resolveArguments(variables, sel.arguments),
+        variables: resolveArguments(variables, sel.arguments as any[]),
         dispatch: (response: any) => {
           sink.next({
             data: {
@@ -164,7 +164,9 @@ export default function createRelayEnvironment(
         muteErrors: params.network.muteNetworkErrors,
       }),
       params.network.subscriptionHandler
-        ? (createSubscribe(params.network.subscriptionHandler) as any)
+        ? (createSubscribe(
+            params.network.subscriptionHandler
+          ) as unknown as SubscribeFunction)
         : undefined
     );
   }

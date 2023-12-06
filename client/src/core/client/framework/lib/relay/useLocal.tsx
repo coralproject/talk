@@ -98,10 +98,12 @@ function useLocal<T>(
     return relayEnvironment.lookup(selector);
   }, [selector, relayEnvironment]);
 
-  const [local, setLocal] = useState<T>(() => snapshot.data);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const [local, setLocal] = useState<T>(() => snapshot.data as any);
 
   useEffectWhenChanged(() => {
-    setLocal(snapshot.data);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    setLocal(snapshot.data as any);
   }, [snapshot]);
 
   const localUpdate = useCallback(
@@ -125,7 +127,8 @@ function useLocal<T>(
 
   useEffect(() => {
     const subscription = relayEnvironment.subscribe(snapshot, (update) =>
-      setLocal(update.data)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      setLocal(update.data as any)
     );
     return () => {
       subscription.dispose();

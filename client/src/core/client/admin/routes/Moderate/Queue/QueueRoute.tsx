@@ -244,7 +244,7 @@ const createQueueRoute = (
       }
 
       const queue =
-        data.moderationQueues[Object.keys(data.moderationQueues)[0]];
+        data.moderationQueues[Object.keys(data.moderationQueues as {})[0]];
 
       return (
         <Component

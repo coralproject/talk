@@ -93,7 +93,8 @@ export function useSubscription<V>(
   const context = useCoralContext();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   return useCallback<SubscriptionProp<typeof subscription>>(
-    (variables: V) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    ((variables: V) => {
       // TODO: (cvle) Do we need to keep this one around? Was replaced by `subscription.${name}.subscribe`,`subscription.${name}.unsubscribe`, `subscription.${name}.data`
       context.eventEmitter.emit(`subscription.${subscription.name}`, variables);
       return subscription.subscribe(
@@ -101,7 +102,7 @@ export function useSubscription<V>(
         variables,
         context
       );
-    },
+    }) as any,
     [context, subscription]
   );
 }

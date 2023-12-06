@@ -19,7 +19,7 @@ export default function combineEventHandlers<A, B>(a: A, b: B): A & B;
 export default function combineEventHandlers(...propObjects: any[]): any {
   const result: any = {};
   propObjects.forEach((o) => {
-    Object.keys(o).forEach((k) => {
+    Object.keys(o as {}).forEach((k) => {
       if (k in result) {
         const prev = result[k];
         result[k] = (...args: any[]) => {

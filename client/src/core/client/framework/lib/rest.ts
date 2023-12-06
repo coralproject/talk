@@ -33,7 +33,7 @@ const handleResp = async (res: Response) => {
   if (!res.ok) {
     if (type && type.includes("application/json")) {
       const response = await res.json();
-      throw extractTraceableError(response.error);
+      throw extractTraceableError(response.error as Error);
     } else {
       const response = await res.text();
       throw new Error(response);
@@ -97,7 +97,7 @@ export class RestClient {
       const response = await fetch(`${this.uri}${path}`, buildOptions(opts));
       return handleResp(response);
     } catch (error) {
-      assertOnline(error);
+      assertOnline(error as Error);
       throw error;
     }
   }

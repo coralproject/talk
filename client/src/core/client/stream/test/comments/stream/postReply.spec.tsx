@@ -115,7 +115,7 @@ it("post a reply", async () => {
   // Write reply .
   act(() => rte.props.onChange("<b>Hello world!</b>"));
 
-  timekeeper.freeze(new Date(baseComment.createdAt));
+  timekeeper.freeze(new Date(baseComment.createdAt as Date));
   act(() => {
     form.props.onSubmit();
   });

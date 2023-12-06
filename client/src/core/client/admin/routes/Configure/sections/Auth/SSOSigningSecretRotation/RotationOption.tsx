@@ -1,6 +1,7 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
+// eslint-disable-next-line no-shadow
 export enum RotateOptions {
   NOW = "NOW",
   IN1DAY = "IN1DAY",

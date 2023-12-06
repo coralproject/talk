@@ -43,7 +43,7 @@ const initLocalState = (
   localRecord.setValue(false, "hasNewNotifications");
 };
 
-export default function create(params: CreateTestRendererParams) {
+export default function create(params: CreateTestRendererParams<GQLResolver>) {
   return createTestRenderer("stream", <AppContainer disableListeners />, {
     ...params,
     initLocalState: (localRecord, source, environment) => {
@@ -52,7 +52,7 @@ export default function create(params: CreateTestRendererParams) {
   });
 }
 
-export function createContext(params: CreateTestRendererParams) {
+export function createContext(params: CreateTestRendererParams<GQLResolver>) {
   return createTestContext("stream", {
     ...params,
     initLocalState: (localRecord, source, environment) => {

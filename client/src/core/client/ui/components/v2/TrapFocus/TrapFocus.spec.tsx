@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { noop } from "lodash";
-import React from "react";
+import React, { ElementType } from "react";
 import { create } from "react-test-renderer";
 import sinon from "sinon";
 
@@ -10,7 +10,7 @@ import { PropTypesOf } from "coral-ui/types";
 import { UIContextProps } from "../UIContext";
 import TrapFocus from "./TrapFocus";
 
-const FakeFocusable: any = class FakeFocusable extends React.Component {
+const FakeFocusable: ElementType<any> = class FakeFocusable extends React.Component {
   public focus = sinon.spy();
   public render() {
     return null;
