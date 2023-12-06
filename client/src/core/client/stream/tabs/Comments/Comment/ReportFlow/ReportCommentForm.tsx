@@ -1,10 +1,11 @@
 import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { get } from "lodash";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { Field, FieldProps, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import { OnSubmit } from "coral-framework/lib/form";
 import { useLocal } from "coral-framework/lib/relay";
 import {
@@ -12,6 +13,7 @@ import {
   validateMaxLength,
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
+import { ShowReportPopoverEvent } from "coral-stream/events";
 import {
   ButtonSvgIcon,
   ShareExternalLinkIcon,
@@ -74,6 +76,13 @@ const ReportCommentForm: FunctionComponent<Props> = ({
       }
     `
   );
+
+  const emitReportEvent = useViewerEvent(ShowReportPopoverEvent);
+
+  // Run once.
+  useEffect(() => {
+    emitReportEvent({ commentID: id });
+  }, []);
 
   return (
     <div
