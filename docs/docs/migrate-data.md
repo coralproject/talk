@@ -59,7 +59,7 @@ export CORAL_SITE_ID=""
 
 # This importer tool is designed to work with Coral at the following migration
 # version. This is the newest file in the
-# https://github.com/coralproject/talk/tree/develop/src/core/server/services/migrate/migrations
+# https://github.com/coralproject/talk/tree/develop/server/src/core/server/services/migrate/migrations
 # directory for your version of Coral.
 export CORAL_MIGRATION_ID="1582929716101"
 
