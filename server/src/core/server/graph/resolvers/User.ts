@@ -89,4 +89,17 @@ export const User: GQLUserTypeResolver<user.User> = {
     return ctx.loaders.Stories.story.loadMany(results.map(({ _id }) => _id));
   },
   mediaSettings: ({ mediaSettings = {} }) => mediaSettings,
+  hasNewNotifications: ({ lastSeenNotificationDate }, input, ctx) => {
+    if (!ctx.user) {
+      return false;
+    }
+
+    return ctx.loaders.Notifications.hasNewNotifications(
+      ctx.user.id,
+      ctx.user.lastSeenNotificationDate ?? new Date(0)
+    );
+  },
+  lastSeenNotificationDate: ({ lastSeenNotificationDate }) => {
+    return lastSeenNotificationDate ?? new Date(0);
+  },
 };

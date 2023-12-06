@@ -3,7 +3,7 @@
 ## General
 
 general-commentsEmbedSection =
-  .aria-label = Reacties insluiten
+  .aria-label = Reacties embedden
 
 general-moderate = Modereren
 general-archived = Gearchiveerd
@@ -175,7 +175,7 @@ comments-rte-externalImage =
 
 comments-remainingCharacters = { $remaining } overgebleven karakters
 
-comments-postCommentFormFake-signInAndJoin = Meld je aan of Registreer je in 1 minuut om een reactie te kunnen plaatsen.
+comments-postCommentFormFake-signInAndJoin = Aanmelden of registreren om een reactie te kunnen plaatsen.
 
 comments-postCommentForm-rteLabel = Plaats een reactie
 
@@ -251,13 +251,13 @@ comments-userPopover-ignore = Negeren
 comments-userIgnorePopover-ignoreUser = Negeer {$username}?
 comments-userIgnorePopover-description =
   Wanneer je een gebruiker negeert, dan worden
-  alle reacties van deze gebruiker niet meer getoond aan je.
+  alle reacties van deze gebruiker voor jou verborgen.
   Je kunt dit later ongedaan maken in je profiel.
 comments-userIgnorePopover-ignore = Negeren
 comments-userIgnorePopover-cancel = Annuleren
 
 comments-userBanPopover-title = Blokkeer {$username}?
-comments-userSiteBanPopover-title = Ban {$username} from this site?
+comments-userSiteBanPopover-title = Ban {$username} van deze site?
 comments-userBanPopover-description =
   Eenmaal geblokkeerd, zal deze gebruiker niet meer in staat zijn om
   om reacties te plaatsen.
@@ -273,7 +273,7 @@ comments-moderationDropdown-approve = Goedkeuren
 comments-moderationDropdown-approved = Goedgekeurd
 comments-moderationDropdown-reject = Afwijzen
 comments-moderationDropdown-rejected = Afgewezen
-comments-moderationDropdown-ban = Blokkeer Gebruiker
+comments-moderationDropdown-ban = Blokkeer gebruiker
 comments-moderationDropdown-siteBan = Site Ban
 comments-moderationDropdown-banned = Geblokkeerd
 comments-moderationDropdown-goToModerate =
@@ -446,7 +446,7 @@ profile-preferencesTab = Voorkeuren
 ### Bio
 profile-bio-title = Bio
 profile-bio-description =
-  Schrijf een bio om openbaar weer te geven op je commentaarprofiel. Moet
+  Schrijf een bio om openbaar weer te geven op je profiel. Moet
   minder dan 100 tekens bevatten.
 profile-bio-remove = Verwijderen
 profile-bio-update = Bijwerken
@@ -465,7 +465,7 @@ profile-accountDeletion-cancelAccountDeletion =
 
 ### Comment History
 profile-commentHistory-section =
-  .aria-label = Reactie Geschiedenis
+  .aria-label = Eerdere reacties
 profile-historyComment-commentLabel =
   Reactie <RelativeTime></RelativeTime> op { $storyTitle }
 profile-historyComment-viewConversation = Bekijk discussie
@@ -542,7 +542,7 @@ profile-account-changePassword = Wijzig wachtwoord
 profile-account-changePassword-oldPassword = Oud wachtwoord
 profile-account-changePassword-forgotPassword = Wachtwoord vergeten?
 profile-account-changePassword-newPassword = Nieuw wachtwoord
-profile-account-changePassword-button = Change wachtwoord
+profile-account-changePassword-button = Verander wachtwoord
 profile-account-changePassword-updated =
   Je wachtwoord is gewijzigd
 profile-account-changePassword-password = wachtwoord
@@ -661,7 +661,7 @@ profile-account-changePassword-change = Wijzigen
 profile-notificationsTab = Notificaties
 profile-account-notifications-emailNotifications = E-mail notificaties
 profile-account-notifications-emailNotifications = E-mail notificaties
-profile-account-notifications-receiveWhen = Ontvang notificaties als:
+profile-account-notifications-receiveWhen = Ontvang notificaties wanneer:
 profile-account-notifications-onReply = Mijn reactie een antwoord ontvangt
 profile-account-notifications-onFeatured = Mijn reactie is opgenomen in de lijst
 profile-account-notifications-onStaffReplies = Een medewerker reageert op mijn reactie
@@ -749,9 +749,9 @@ profile-changeUsername-edit = Bewerk
 profile-changeUsername-change = Wijzigen
   .aria-label = Wijzig gebruikernaam
 profile-changeUsername-heading = Bewerk je gebruikersnaam
-profile-changeUsername-heading-changeYourUsername = Change your username
-profile-changeUsername-desc = Wijzig de gebruikersnaam die bij al je vroegere en toekomstige reacties zal verschijnen. <strong>Gebruikersnamen kunnen gewijzigd worden ééns per { framework-timeago-time }.</strong>
-profile-changeUsername-desc-text = Wijzig de gebruikersnaam die bij al je vroegere en toekomstige reacties zal verschijnen. Gebruikersnamen kunnen gewijzigd worden ééns per { framework-timeago-time }.
+profile-changeUsername-heading-changeYourUsername = Verander je gebruikersnaam
+profile-changeUsername-desc = Wijzig de gebruikersnaam die bij al je vroegere en toekomstige reacties zal verschijnen. <strong>Gebruikersnamen kunnen ééns per { framework-timeago-time } gewijzigd worden.</strong>
+profile-changeUsername-desc-text = Wijzig de gebruikersnaam die bij al je vroegere en toekomstige reacties zal verschijnen. Gebruikersnamen kunnen ééns per { framework-timeago-time } gewijzigd worden.
 profile-changeUsername-current = Huidige gebruikersnaam
 profile-changeUsername-newUsername-label = Nieuwe gebruikersnaam
 profile-changeUsername-confirmNewUsername-label = Bevestig nieuwe gebruikersnaam

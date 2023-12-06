@@ -3,6 +3,7 @@ import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
+  GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 
 import {
@@ -31,12 +32,19 @@ export const wordListPhase: IntermediateModerationPhase = async ({
   if (banned.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
         },
       ],
+      moderationAction: {
+        status: GQLCOMMENT_STATUS.REJECTED,
+        moderatorID: null,
+        rejectionReason: {
+          code: GQLREJECTION_REASON_CODE.BANNED_WORD,
+        },
+      },
       metadata: {
         wordList: {
           bannedWords: banned.matches,
@@ -45,7 +53,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
     };
   } else if (banned.timedOut) {
     return {
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
@@ -68,7 +76,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
   if (tenant.premoderateSuspectWords && suspect.isMatched) {
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
@@ -82,7 +90,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
     };
   } else if (suspect.isMatched) {
     return {
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
@@ -96,7 +104,7 @@ export const wordListPhase: IntermediateModerationPhase = async ({
     };
   } else if (suspect.timedOut) {
     return {
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,

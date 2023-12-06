@@ -48,6 +48,7 @@ export interface RadioButtonProps {
   onFocus: EventHandler<FocusEvent<HTMLElement>>;
   onBlur: EventHandler<FocusEvent<HTMLElement>>;
   keyboardFocus: boolean;
+  tabIndex?: number;
 }
 
 export class RadioButton extends Component<RadioButtonProps> {
@@ -55,15 +56,29 @@ export class RadioButton extends Component<RadioButtonProps> {
     randomID: uuid(),
   };
   public render() {
-    const { className, classes, id, light, children, keyboardFocus, ...rest } =
-      this.props;
+    const {
+      className,
+      classes,
+      id,
+      light,
+      children,
+      keyboardFocus,
+      tabIndex,
+      ...rest
+    } = this.props;
 
     const rootClassName = cn(classes.root, className);
     const finalID = id || this.state.randomID;
 
     return (
       <Flex alignItems="center" className={rootClassName}>
-        <input className={classes.input} type="radio" id={finalID} {...rest} />
+        <input
+          className={classes.input}
+          type="radio"
+          id={finalID}
+          {...rest}
+          tabIndex={tabIndex}
+        />
         <label
           className={cn(classes.label, {
             [classes.labelLight]: light,

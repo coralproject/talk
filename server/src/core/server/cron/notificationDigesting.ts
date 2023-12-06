@@ -5,7 +5,7 @@ import { MongoContext } from "coral-server/data/context";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { DigestibleTemplate } from "coral-server/queue/tasks/mailer/templates";
 import { JWTSigningConfig } from "coral-server/services/jwt";
-import NotificationContext from "coral-server/services/notifications/context";
+import NotificationContext from "coral-server/services/notifications/email/context";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";

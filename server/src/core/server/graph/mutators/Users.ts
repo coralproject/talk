@@ -188,7 +188,8 @@ export const Users = (ctx: GraphContext) => ({
       ctx.i18n,
       input.userID,
       ctx.tenant.id,
-      ctx.now
+      ctx.now,
+      ctx.tenant.dsa?.enabled
     );
   },
   cancelAccountDeletion: async (
@@ -345,6 +346,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.user!,
       userID,
       message,
+      ctx.i18n,
       rejectExistingComments,
       siteIDs,
       ctx.now
@@ -364,6 +366,7 @@ export const Users = (ctx: GraphContext) => ({
         ctx.mailerQueue,
         ctx.rejectorQueue,
         ctx.tenant,
+        ctx.i18n,
         ctx.user!,
         userID,
         message,

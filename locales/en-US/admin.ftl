@@ -60,6 +60,7 @@ navigation-community = Community
 navigation-stories = Stories
 navigation-configure = Configure
 navigation-dashboard = Dashboard
+navigation-reports = DSA Reports
 
 ## User Menu
 userMenu-signOut = Sign Out
@@ -200,6 +201,9 @@ configure-moderationPhases-phaseNotFound = External moderation phase not found
 configure-moderationPhases-experimentalFeature =
   The custom moderation phases feature is currently in active development.
   Please <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
+configure-moderationPhases-dsaEnabled = 
+  You currently have DSA features enabled. External moderation is not
+  currently DSA compliant, and so is disabled.
 configure-moderationPhases-header-title = Moderation Phases
 configure-moderationPhases-description =
   Configure a external moderation phase to automate some moderation
@@ -1011,6 +1015,7 @@ moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
 moderate-marker-bannedWord = Banned word
 moderate-marker-bio = Bio
+moderate-marker-illegal = Illegal content
 moderate-marker-possibleBannedWord = Possible Banned Word
 moderate-marker-suspectWord = Suspect word
 moderate-marker-possibleSuspectWord = Possible Suspect Word
@@ -1032,6 +1037,8 @@ moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
 moderate-flagDetails-bio = Bio
 moderate-flagDetails-other = Other
+moderate-flagDetails-illegalContent = Illegal content
+moderate-flagDetails-viewDSAReport = View DSA Report
 
 moderate-flagDetails-toxicityScore = Toxicity Score
 moderate-toxicityLabel-likely = Likely <score></score>
@@ -1041,6 +1048,13 @@ moderate-toxicityLabel-maybe = Maybe <score></score>
 moderate-linkDetails-label = Copy link to this comment
 moderate-in-stream-link-copy = In Stream
 moderate-in-moderation-link-copy = In Moderation
+
+moderate-decisionDetails-decisionLabel = Decision
+moderate-decisionDetails-rejected = Rejected
+moderate-decisionDetails-reasonLabel = Reason
+moderate-decisionDetails-lawBrokenLabel = Law broken
+moderate-decisionDetails-customReasonLabel = Custom reason
+moderate-decisionDetails-detailedExplanationLabel = Detailed explanation
 
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
@@ -1104,6 +1118,7 @@ moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
 moderateCardDetails-tab-info = Info
+moderateCardDetails-tab-decision = Decision
 moderateCardDetails-tab-edits = Edit history
 moderateCardDetails-tab-automatedActions = Automated actions
 moderateCardDetails-tab-reactions = Reactions
@@ -1608,6 +1623,31 @@ configure-general-rte-spoilerDesc =
   Words and phrases formatted as Spoiler are hidden behind a
   dark background until the reader chooses to reveal the text.
 
+configure-general-dsaConfig-title = Digital Services Act feature set
+configure-general-dsaConfig-description =
+  The EU Digital Services Act (DSA) requires that publishers based in the EU or targeting EU citizens provide certain features to their commenters and moderators.
+  <br/>
+  <br/>
+  Coral's DSA toolset includes:
+  <br/>
+  <ul style="padding-inline-start: var(--spacing-5);">
+    <li>A dedicated flow for comments reported as illegal</li>
+    <li>Compulsory moderation reasons for every rejected comment</li>
+    <li>Commenter notifications for illegal comment reporting and rejected comments</li>
+    <li>Compulsory text explaining methods of redress/appeal, if any</li>
+  </ul>
+configure-general-dsaConfig-reportingAndModerationExperience =
+  DSA reporting and moderation experience
+configure-general-dsaConfig-methodOfRedress =
+  Select your method of redress
+configure-general-dsaConfig-methodOfRedress-explanation =
+  Let users know if and how they can appeal a moderation decision
+configure-general-dsaConfig-methodOfRedress-none = None
+configure-general-dsaConfig-methodOfRedress-email = Email
+configure-general-dsaConfig-methodOfRedress-email-placeholder = moderation@example.com
+configure-general-dsaConfig-methodOfRedress-url = URL
+configure-general-dsaConfig-methodOfRedress-url-placeholder = https://moderation.example.com
+
 configure-account-features-title = Commenter account management features
 configure-account-features-explanation =
   You can enable and disable certain features for your commenters to use
@@ -1800,6 +1840,90 @@ conversation-modal-rejectButton = <icon></icon>Reject
   .aria-label = Reject
 conversation-modal-rejectButton-rejected = <icon></icon>Rejected
   .aria-label = Rejected
+
+# DSA Reports tab
+reportsTable-column-created = Created
+reportsTable-column-lastUpdated = Last updated
+reportsTable-column-reportedBy = Reported by
+reportsTable-column-reference = Reference
+reportsTable-column-lawBroken = Law broken
+reportsTable-column-commentAuthor = Comment author
+reportsTable-column-status = Status
+reportsTable-emptyReports = There are no DSA reports to display.
+
+reports-sortMenu-newest = Newest
+reports-sortMenu-oldest = Oldest
+reports-sortMenu-sortBy = Sort by
+
+reports-table-showClosedReports = Show closed reports
+reports-table-showOpenReports = Show open reports
+
+reports-singleReport-reportsLinkButton = <icon></icon> All DSA Reports
+reports-singleReport-reportID = Report ID
+reports-singleReport-shareButton = <icon></icon> CSV
+reports-singleReport-reporter = Reporter
+reports-singleReport-reporterNameNotAvailable = Reporter name not available
+reports-singleReport-reportDate = Report date
+reports-singleReport-lawBroken = What law was broken?
+reports-singleReport-explanation = Explanation
+reports-singleReport-comment = Comment
+reports-singleReport-comment-notAvailable = This comment is not available.
+reports-singleReport-comment-deleted = This comment is no longer available. The commenter has deleted their account.
+reports-singleReport-comment-edited = (edited)
+reports-singleReport-comment-viewCommentStream = View comment in stream
+reports-singleReport-comment-viewCommentModeration = View comment in moderation
+reports-singleReport-comment-rejected = Rejected
+reports-singleReport-comment-unavailableInStream = Unavailable in stream
+reports-singleReport-commentOn = Comment on
+reports-singleReport-history = History
+reports-singleReport-history-reportSubmitted = Illegal content report submitted
+reports-singleReport-history-addedNote = { $username } added a note
+reports-singleReport-history-deleteNoteButton = <icon></icon> Delete
+reports-singleReport-history-madeDecision-illegal = { $username } made a decision that this report contains illegal content
+reports-singleReport-history-madeDecision-legal = { $username } made a decision that this report does not contain illegal content
+reports-singleReport-history-legalGrounds = Legal grounds: { $legalGrounds }
+reports-singleReport-history-explanation = Explanation: { $explanation }
+reports-singleReport-history-changedStatus = { $username } changed status to { $status }
+reports-singleReport-reportVoid = User deleted their account. Report is void.
+reports-singleReport-history-sharedReport = { $username } downloaded this report
+reports-singleReport-note-field =
+  .placeholder = Add your note...
+reports-singleReport-addUpdateButton = <icon></icon> Add update
+reports-singleReport-decisionLabel = Decision
+reports-singleReport-decision-legalGrounds = Legal grounds
+reports-singleReport-decision-explanation = Detailed explanation
+reports-singleReport-makeDecisionButton = <icon></icon> Decision
+reports-singleReport-decision-doesItContain = Does this comment contain illegal content?
+reports-singleReport-decision-doesItContain-yes = Yes
+reports-singleReport-decision-doesItContain-no = No
+
+reports-status-awaitingReview = Awaiting review
+reports-status-inReview = In review
+reports-status-completed = Completed
+reports-status-void = Void
+reports-status-unknown = Unknown status
+
+reports-changeStatusModal-prompt-addNote = You have added a note. Would you like to update your status to In review.
+reports-changeStatusModal-prompt-downloadReport = You have downloaded the report. Would you like to update your status to In review.
+reports-changeStatusModal-prompt-madeDecision = You have made a decision. Would you like to update your status to Completed.
+reports-changeStatusModal-updateButton = Yes, update
+reports-changeStatusModal-dontUpdateButton = No
+reports-changeStatusModal-header = Update status?
+
+reports-decisionModal-header = Report decision
+reports-decisionModal-prompt = Does this comment appear to contain illegal content?
+reports-decisionModal-yes = Yes
+reports-decisionModal-no = No
+reports-decisionModal-submit = Submit
+reports-decisionModal-lawBrokenLabel = Law broken
+reports-decisionModal-lawBrokenTextfield =
+  .placeholder = Add law...
+reports-decisionModal-detailedExplanationLabel = Detailed explanation
+reports-decisionModal-detailedExplanationTextarea =
+  .placeholder = Add explanation...
+
+reports-relatedReports-label = Related reports
+reports-relatedReports-reportIDLabel = Report ID
 
 # Control panel
 

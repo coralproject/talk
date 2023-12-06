@@ -2,6 +2,7 @@ import {
   GQLAuth,
   GQLAuthenticationTargetFilter,
   GQLCOMMENT_BODY_FORMAT,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLEmailConfiguration,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
@@ -321,6 +322,7 @@ export type Settings = GlobalModerationSettings &
     | "announcement"
     | "memberBios"
     | "embeddedComments"
+    | "dsa"
   > & {
     /**
      * auth is the set of configured authentication integrations.
@@ -416,4 +418,18 @@ export const defaultRTEConfiguration: RTEConfiguration = {
   enabled: true,
   spoiler: false,
   strikethrough: false,
+};
+
+export interface DSAConfiguration {
+  enabled: boolean;
+  methodOfRedress: {
+    method: GQLDSA_METHOD_OF_REDRESS;
+  };
+}
+
+export const defaultDSAConfiguration: DSAConfiguration = {
+  enabled: false,
+  methodOfRedress: {
+    method: GQLDSA_METHOD_OF_REDRESS.NONE,
+  },
 };

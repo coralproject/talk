@@ -3,6 +3,7 @@ import {
   GQLComment,
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
   GQLSettings,
@@ -135,6 +136,12 @@ export const settings = createFixture<GQLSettings>({
     flairBadgesEnabled: true,
     badges: [{ name: "subscriber", url: "https://wwww.example.com/image.jpg" }],
   },
+  dsa: {
+    enabled: false,
+    methodOfRedress: {
+      method: GQLDSA_METHOD_OF_REDRESS.NONE,
+    },
+  },
 });
 
 export const site = createFixtures<GQLSite>([
@@ -237,6 +244,7 @@ export const baseUser = createFixture<GQLUser>({
     },
   ],
   avatar: NULL_VALUE,
+  hasNewNotifications: false,
 });
 
 export const userWithModMessageHistory = createFixture<GQLUser>(
@@ -435,7 +443,12 @@ export const baseComment = createFixture<GQLComment>({
   site: { id: "site-0" },
   story: baseStory,
   parent: NULL_VALUE,
-  viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
+  viewerActionPresence: {
+    reaction: false,
+    dontAgree: false,
+    flag: false,
+    illegal: false,
+  },
   tags: [],
   deleted: NULL_VALUE,
   reactions: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
