@@ -5,7 +5,8 @@ import { PermissionMap } from "./types";
 export type AbilityType =
   | "CHANGE_CONFIGURATION"
   | "INVITE_USERS"
-  | "VIEW_STATISTICS";
+  | "VIEW_STATISTICS"
+  | "MODERATE_DSA_REPORTS";
 interface PermissionContext {
   TODO: never;
 }
@@ -18,6 +19,10 @@ const permissionMap: PermissionMap<AbilityType, PermissionContext> = {
     [GQLUSER_ROLE.ADMIN]: () => true,
   },
   VIEW_STATISTICS: {
+    [GQLUSER_ROLE.ADMIN]: () => true,
+    [GQLUSER_ROLE.MODERATOR]: () => true,
+  },
+  MODERATE_DSA_REPORTS: {
     [GQLUSER_ROLE.ADMIN]: () => true,
     [GQLUSER_ROLE.MODERATOR]: () => true,
   },

@@ -40,6 +40,7 @@ const initLocalState = (
   if (params.initLocalState) {
     params.initLocalState(localRecord, source, environment);
   }
+  localRecord.setValue(false, "hasNewNotifications");
 };
 
 export default function create(params: CreateTestRendererParams) {

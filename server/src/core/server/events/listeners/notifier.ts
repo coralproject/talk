@@ -1,5 +1,5 @@
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
-import { categories } from "coral-server/services/notifications/categories";
+import { categories } from "coral-server/services/notifications/email/categories";
 
 import {
   CommentFeaturedCoralEventPayload,

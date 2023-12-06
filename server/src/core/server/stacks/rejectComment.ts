@@ -12,12 +12,15 @@ import { Tenant } from "coral-server/models/tenant";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
 
 import {
   GQLCOMMENT_STATUS,
+  GQLNOTIFICATION_TYPE,
+  GQLREJECTION_REASON_CODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -71,12 +74,22 @@ const rejectComment = async (
   config: Config,
   i18n: I18n,
   broker: CoralEventPublisherBroker | null,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
   moderatorID: string,
   now: Date,
-  request?: Request | undefined
+  reason?: {
+    code: GQLREJECTION_REASON_CODE;
+    legalGrounds?: string | undefined;
+    detailedExplanation?: string | undefined;
+    customReason?: string | undefined;
+  },
+  reportID?: string,
+  request?: Request | undefined,
+  sendNotification = true,
+  isArchived = false
 ) => {
   const updateAllCommentCountsArgs = {
     actionCounts: {},
@@ -93,10 +106,12 @@ const rejectComment = async (
       commentID,
       commentRevisionID,
       moderatorID,
+      rejectionReason: reason,
       status: GQLCOMMENT_STATUS.REJECTED,
+      reportID,
     },
     now,
-    undefined,
+    isArchived,
     updateAllCommentCountsArgs
   );
 
@@ -142,13 +157,25 @@ const rejectComment = async (
 
   // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
   // see CORL-935 in jira
-  if (broker && counts) {
+  if (broker && counts && !isArchived) {
     // Publish changes to the event publisher.
     await publishChanges(broker, {
       ...updateStatus,
       ...counts,
       moderatorID,
       commentRevisionID,
+    });
+  }
+
+  if (
+    sendNotification &&
+    !(reason?.code === GQLREJECTION_REASON_CODE.BANNED_WORD)
+  ) {
+    await notifications.create(tenant.id, tenant.locale, {
+      targetUserID: result.after.authorID!,
+      comment: result.after,
+      rejectionReason: reason,
+      type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
     });
   }
 

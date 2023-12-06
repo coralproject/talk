@@ -10,6 +10,7 @@ interface Props {
   nodes: ReadonlyArray<{
     flagger: { id: string; username: string | null } | null;
     additionalDetails: string | null;
+    reportID?: string | null;
   }>;
   onUsernameClick: (id?: string) => void;
 }
@@ -39,6 +40,7 @@ const FlagDetails: FunctionComponent<Props> = ({
             )
           }
           details={flag.additionalDetails}
+          reportID={flag.reportID}
         />
       ))}
     </FlagDetailsCategory>

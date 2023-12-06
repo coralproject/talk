@@ -3,17 +3,25 @@ import cn from "classnames";
 import { get } from "lodash";
 import React, { FunctionComponent, useEffect } from "react";
 import { Field, FieldProps, Form } from "react-final-form";
+import { graphql } from "react-relay";
 
 import { useViewerEvent } from "coral-framework/lib/events";
 import { OnSubmit } from "coral-framework/lib/form";
+import { useLocal } from "coral-framework/lib/relay";
 import {
   customMessage,
   validateMaxLength,
 } from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import { ShowReportPopoverEvent } from "coral-stream/events";
+import {
+  ButtonSvgIcon,
+  ShareExternalLinkIcon,
+} from "coral-ui/components/icons";
 import { Flex, RadioButton } from "coral-ui/components/v2";
 import { Button, ValidationMessage } from "coral-ui/components/v3";
+
+import { ReportCommentFormLocal } from "coral-stream/__generated__/ReportCommentFormLocal.graphql";
 
 import styles from "./ReportCommentForm.css";
 
@@ -42,6 +50,7 @@ interface Props {
   onCancel: () => void;
   onSubmit: OnSubmit<any>;
   biosEnabled: boolean;
+  reportLink: string;
 }
 
 export interface FormProps {
@@ -57,8 +66,17 @@ const ReportCommentForm: FunctionComponent<Props> = ({
   onCancel,
   onSubmit,
   id,
+  reportLink,
   biosEnabled,
 }) => {
+  const [{ dsaFeaturesEnabled }] = useLocal<ReportCommentFormLocal>(
+    graphql`
+      fragment ReportCommentFormLocal on Local {
+        dsaFeaturesEnabled
+      }
+    `
+  );
+
   const emitReportEvent = useViewerEvent(ShowReportPopoverEvent);
 
   // Run once.
@@ -165,6 +183,29 @@ const ReportCommentForm: FunctionComponent<Props> = ({
                   </Localized>
                 </li>
               </ul>
+              {dsaFeaturesEnabled && (
+                <Button
+                  className={styles.reportIllegalLink}
+                  variant="flat"
+                  color="primary"
+                  fontSize="medium"
+                  fontWeight="semiBold"
+                  paddingSize="none"
+                  target="_blank"
+                  anchor
+                  underline
+                  textAlign="left"
+                  href={reportLink}
+                >
+                  <Localized id="comments-reportForm-reportIllegalContent-button">
+                    <span>This comment contains illegal content</span>
+                  </Localized>
+                  <ButtonSvgIcon
+                    className={styles.linkIcon}
+                    Icon={ShareExternalLinkIcon}
+                  />
+                </Button>
+              )}
               <Localized
                 id="comments-reportPopover-additionalInformation"
                 elems={{ optional: <span className={styles.detail} /> }}

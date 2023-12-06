@@ -113,7 +113,7 @@ const UserRow: FunctionComponent<Props> = (props) => (
             {
               <ButtonSvgIcon
                 size="xs"
-                filled
+                filled="currentColor"
                 Icon={NavigationMenuHorizontalIcon}
               />
             }

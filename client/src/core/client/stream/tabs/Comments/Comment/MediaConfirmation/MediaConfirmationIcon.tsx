@@ -21,7 +21,7 @@ const MediaConfirmationIcon: FunctionComponent<Props> = ({ media }) => {
       {media.type === "twitter" && (
         <SvgIcon
           className={styles.twitterIcon}
-          filled
+          filled="currentColor"
           Icon={SocialMediaTwitterIcon}
         />
       )}
