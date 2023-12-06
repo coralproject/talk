@@ -17,6 +17,7 @@ export class WebhookCoralEventListener
     CoralEventType.STORY_CREATED,
     CoralEventType.COMMENT_CREATED,
     CoralEventType.COMMENT_REPLY_CREATED,
+    CoralEventType.COMMENT_LEFT_MODERATION_QUEUE,
   ];
 
   private readonly queue: WebhookQueue;
