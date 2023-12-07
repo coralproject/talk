@@ -583,7 +583,7 @@ export default function createWebpackConfig(
       ...ifWatch(
         // We run eslint in a separate process to have a quicker build.
         new ForkTsCheckerWebpackPlugin({
-          eslint: { enabled: true, files: "src/**/*.{js,ts,tsx}" },
+          eslint: { enabled: true, files: "src/core/server/**/*.{js,ts,tsx}" },
           typescript: {
             typescriptPath: require.resolve("typescript"),
             configFile: paths.appTsconfig,
