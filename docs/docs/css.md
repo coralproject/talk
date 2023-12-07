@@ -23,7 +23,7 @@ Here is a CSS example that modifies some of the CSS Variables.
 }
 ```
 
-You can find all CSS Variables using the Web Inspector or navigate to https://github.com/coralproject/talk/blob/main/client/CSS_VARIABLES.md for a comprehensive list and additional information.
+You can find all CSS Variables using the Web Inspector or navigate to [https://github.com/coralproject/talk/blob/main/client/CSS_VARIABLES.md](https://github.com/coralproject/talk/blob/main/client/CSS_VARIABLES.md) for a comprehensive list and additional information.
 
 > **NOTE:** Before 6.3.0 Coral uses a different set of CSS Variables. Navigate to the link above to get information on upgrading.
 
