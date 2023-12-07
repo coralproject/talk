@@ -12,11 +12,11 @@ export const commentEmbedWhitelisted =
   ({ mongo }: Pick<AppOptions, "mongo">, oembedAPI = false): RequestHandler =>
   async (req, res, next) => {
     // First try to get the commentID from the query params
-    let commentID: string | undefined = req.query.commentID;
+    let commentID: string | null = req.query.commentID;
 
     // For the Oembed endpoint, will need to get commentID from the url
     if (!commentID) {
-      const url: string | undefined = req.query.url;
+      const url: string = req.query.url;
       const urlToParse = new URL(url);
       commentID = urlToParse.searchParams.get("commentID");
     }

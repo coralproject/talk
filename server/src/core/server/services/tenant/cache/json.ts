@@ -67,7 +67,7 @@ export function stringify(data: any) {
   return JSON.stringify(transform(data));
 }
 
-function reviver(key: string, value: unknown) {
+function reviver(key: string, value: any) {
   // The first time we encounter the date object, it will be at it's deepest
   // nesting, so it will currently be a string. Parse the string, and return it
   // so that we can parse it and return it.
@@ -85,6 +85,7 @@ function reviver(key: string, value: unknown) {
   if (
     isPlainObject(value) &&
     KEY in value &&
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     Object.keys(value).length === 1 &&
     value[KEY] instanceof Date
   ) {

@@ -32,7 +32,8 @@ export class WordList {
    */
   private readonly cache = new WeakMap<Options, Lists>();
   private readonly sanitizer = createSanitize(
-    new JSDOM("", {}).window as unknown,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    new JSDOM("", {}).window as any,
     {
       // We need normalized text nodes to mark nodes for suspect/banned words.
       normalize: true,

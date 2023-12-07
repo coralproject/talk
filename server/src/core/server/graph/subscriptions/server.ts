@@ -216,7 +216,7 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
       }
 
       // Extract the users clientID from the request.
-      const clientID = extractClientID(connectionParams);
+      const clientID: string = extractClientID(connectionParams);
       if (clientID) {
         opts.clientID = clientID;
       }
@@ -282,11 +282,11 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
       if (!(err instanceof CoralError)) {
         // eslint-disable-next-line no-ex-assign
         err = new WrappedInternalError(
-          err,
+          err as Error,
           "could not setup websocket connection"
         );
       }
-      const { message } = err.serializeExtensions(
+      const { message }: { message: string } = err.serializeExtensions(
         options.i18n.getDefaultBundle()
       );
 

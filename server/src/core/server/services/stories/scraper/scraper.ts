@@ -135,6 +135,7 @@ class Scraper {
 
       return html;
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       throw new ScrapeFailed(url, err);
     }
   }

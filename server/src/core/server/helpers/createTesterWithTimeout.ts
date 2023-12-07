@@ -35,11 +35,12 @@ export default function createTesterWithTimeout(
   const script = new vm.Script("testString.split(regexp)");
 
   // Create a null context object to isolate it with primitives.
-  const sandbox: unknown = Object.create(null);
+  const sandbox = Object.create(null);
   sandbox.regexp = regexp;
   sandbox.testString = "";
 
   // Turn the sandbox into a context.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const ctx = vm.createContext(sandbox);
 
   return (testString: string) => {

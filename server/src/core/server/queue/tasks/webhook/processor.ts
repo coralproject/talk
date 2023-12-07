@@ -168,7 +168,10 @@ export function createJobProcessor({
       // Execute the queued operations.
       .exec();
 
-    let failures = failuresString ? parseInt(failuresString, 10) : null;
+    let failures =
+      failuresString && typeof failuresString === "string"
+        ? parseInt(failuresString, 10)
+        : null;
     if (res.ok && failures && failures > 0) {
       // The webhook delivery was a success, and there were previous failures.
       // Remove the failures record.
@@ -179,7 +182,10 @@ export function createJobProcessor({
 
       // If the failure count is higher than the allowed maximum, disable the
       // endpoint.
-      failures = failuresString ? parseInt(failuresString, 10) : null;
+      failures =
+        failuresString && typeof failuresString === "string"
+          ? parseInt(failuresString, 10)
+          : null;
       if (failures && failures >= MAXIMUM_FAILURE_COUNT) {
         log.warn(
           { failures, maxFailures: MAXIMUM_FAILURE_COUNT },

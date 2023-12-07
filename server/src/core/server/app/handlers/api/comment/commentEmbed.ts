@@ -141,6 +141,7 @@ export const commentEmbedJSONPHandler =
           : tenant.embeddedComments?.allowReplies;
 
         const sanitized = transform(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           new JSDOM("", {}).window as any,
           commentRevision.body
         );
