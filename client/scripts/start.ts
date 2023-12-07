@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import chalk from "chalk";
-import webpack from "webpack";
+import webpack, { Compiler, MultiCompiler } from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import { createCompiler, prepareUrls } from "./WebpackDevServerUtils";
 
@@ -64,7 +64,7 @@ const devSocket = {
 };
 
 // Create a webpack compiler that is configured with custom messages.
-const compiler = createCompiler({
+const compiler: Compiler | MultiCompiler = createCompiler({
   webpack,
   config: webpackConfig,
   appName: "Coral",
@@ -100,6 +100,7 @@ devServer.listen(PORT, HOST, (err: Error) => {
 });
 
 ["SIGINT", "SIGTERM"].forEach((sig: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   process.once(sig, () => {
     devServer.close();
     process.exit();
