@@ -590,10 +590,6 @@ export default function createWebpackConfig(
             diagnosticOptions: { syntactic: true },
           },
           async: true,
-          // diagnosticOptions: { syntactic: true },
-          // TODO: (cvle) For some reason if incremental build is turned on it does not find lint errors during initial build.
-          // useTypescriptIncrementalApi: false,
-          // checkSyntacticErrors: true,
         })
       ),
       // Makes some environment variables available to the JS code, for example:
