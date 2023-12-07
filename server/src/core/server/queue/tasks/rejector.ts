@@ -14,6 +14,7 @@ import {
   retrieveAllCommentsUserConnection,
   retrieveCommentsBySitesUserConnection,
 } from "coral-server/services/comments";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { rejectComment } from "coral-server/stacks";
@@ -21,7 +22,9 @@ import { rejectComment } from "coral-server/stacks";
 import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
+  GQLRejectionReason,
 } from "coral-server/graph/schema/__generated__/types";
+import { I18n } from "coral-server/services/i18n";
 
 const JOB_NAME = "rejector";
 
@@ -30,6 +33,8 @@ export interface RejectorProcessorOptions {
   redis: AugmentedRedis;
   tenantCache: TenantCache;
   config: Config;
+  notifications: InternalNotificationContext;
+  i18n: I18n;
 }
 
 export interface RejectorData {
@@ -37,6 +42,7 @@ export interface RejectorData {
   moderatorID: string;
   tenantID: string;
   siteIDs?: string[];
+  reason?: GQLRejectionReason;
 }
 
 function getBatch(
@@ -75,9 +81,11 @@ const rejectArchivedComments = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
   config: Config,
+  i18n: I18n,
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string,
+  reason?: GQLRejectionReason,
   siteIDs?: string[]
 ) => {
   // Get the current time.
@@ -101,6 +109,7 @@ const rejectArchivedComments = async (
         commentRevisionID: revision.id,
         status: GQLCOMMENT_STATUS.REJECTED,
         moderatorID,
+        reason,
       };
 
       const updateAllCommentCountsArgs = {
@@ -118,6 +127,7 @@ const rejectArchivedComments = async (
         mongo,
         redis,
         config,
+        i18n,
         tenant,
         input,
         now,
@@ -149,9 +159,12 @@ const rejectLiveComments = async (
   redis: AugmentedRedis,
   cache: DataCache,
   config: Config,
+  notifications: InternalNotificationContext,
+  i18n: I18n,
   tenant: Readonly<Tenant>,
   authorID: string,
   moderatorID: string,
+  reason?: GQLRejectionReason,
   siteIDs?: string[]
 ) => {
   // Get the current time.
@@ -168,12 +181,15 @@ const rejectLiveComments = async (
         redis,
         cache,
         config,
+        i18n,
         null,
+        notifications,
         tenant,
         comment.id,
         revision.id,
         moderatorID,
-        now
+        now,
+        reason
       );
     }
     // If there was not another page, abort processing.
@@ -197,10 +213,12 @@ const createJobProcessor =
     redis,
     tenantCache,
     config,
+    notifications,
+    i18n,
   }: RejectorProcessorOptions): JobProcessor<RejectorData> =>
   async (job) => {
     // Pull out the job data.
-    const { authorID, moderatorID, tenantID, siteIDs } = job.data;
+    const { authorID, moderatorID, tenantID, siteIDs, reason } = job.data;
     const log = logger.child(
       {
         jobID: job.id,
@@ -238,9 +256,12 @@ const createJobProcessor =
       redis,
       cache,
       config,
+      notifications,
+      i18n,
       tenant,
       authorID,
       moderatorID,
+      reason,
       siteIDs
     );
     if (mongo.archive) {
@@ -248,9 +269,11 @@ const createJobProcessor =
         mongo,
         redis,
         config,
+        i18n,
         tenant,
         authorID,
         moderatorID,
+        reason,
         siteIDs
       );
     }

@@ -28,6 +28,8 @@ general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
 general-tabBar-reviewsTab = Reviews
 general-tabBar-configure = Configure
+general-tabBar-notifications = Notifications
+general-tabBar-notifications-hasNew = Notifications (has new)
 
 general-mainTablist =
   .aria-label = Main Tablist
@@ -145,10 +147,34 @@ comments-permalinkPopover-permalinkToComment =
 comments-permalinkButton-share = Share
 comments-permalinkButton =
   .aria-label = Share comment by {$username}
+comments-permalinkButton-copyReportLink = Report link
 comments-permalinkView-section =
   .aria-label = Single Conversation
 comments-permalinkView-viewFullDiscussion = View full discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
+
+comments-permalinkView-reportIllegalContent-title = Report illegal content
+comments-permalinkView-reportIllegalContent-description = Please fill this form out to the best of your ability so our moderation team can make a decision and if necessary consult with our site's legal department.
+comments-permalinkView-reportIllegalContent-reportingComment = You are reporting this comment
+comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel = What law do you believe has been broken? (required)
+comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel = Please include additional information why this comment is illegal (required)
+comments-permalinkView-reportIllegalContent-additionalInformation-helperText = Any detail you include will help us investigate this further
+comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Would you like to report any other comments for containing illegal content?
+comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = I believe that the information included in this report is accurate and complete
+comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton = <Button></Button>Add
+comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton = Comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-deleteButton = <icon></icon> Delete
+comments-permalinkView-reportIllegalContent-submit = Submit report
+comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = Comment not found. Please enter a valid comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = This is not a valid URL. Please enter a valid comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = You've already added this comment to this report. Please add a unique comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing illegal content. You may only report a comment for this reason one time.
+comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
+comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
+  found to contain illegal content, it will be removed from the site and further action may be taken against the commenter.
+comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Thank you for submitting this report
+comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We were unable to submit your report for the following reason(s):
+comments-permalinkView-reportIllegalContent-confirmation-returnToComments = You may now close this tab to return to the comments
 
 comments-rte-bold =
   .title = Bold
@@ -450,9 +476,9 @@ comments-featured-label =
   Featured Comment from {$username} <RelativeTime></RelativeTime>
 comments-featured-gotoConversation = Go to conversation
 comments-featured-gotoConversation-label-with-username =
-  .aria-label = Go to this featured comment by user { $username } in the main comment stream
+  .aria-label = Go to conversation for this featured comment by user { $username } in the main comment stream
 comments-featured-gotoConversation-label-without-username =
-  .aria-label = Go to this featured comment in the main comment stream
+  .aria-label = Go to conversation for this featured comment in the main comment stream
 comments-featured-replies = Replies
 
 ## Profile Tab
@@ -721,6 +747,8 @@ comments-reportPopover-receivedMessage =
   We’ve received your message. Reports from members like you keep the community safe.
 
 comments-reportPopover-dismiss = Dismiss
+
+comments-reportForm-reportIllegalContent-button = This comment contains illegal content
 
 ## Archived Report Comment Popover
 
@@ -1003,3 +1031,62 @@ stream-footer-links-discussions = More discussions
   .title = Go to more discussions
 stream-footer-navigation =
   .aria-label = Comments Footer
+
+## Notifications
+
+notifications-title = Notifications
+notifications-loadMore = Load More
+
+notification-comment-toggle-default-open = - Comment
+notification-comment-toggle-default-closed = + Comment
+
+notifications-comment-showRemovedComment = + Show removed comment
+notifications-comment-hideRemovedComment = - Hide removed comment
+
+notifications-yourIllegalContentReportHasBeenReviewed =
+  Your illegal content report has been reviewed
+notifications-yourCommentHasBeenRejected =
+  Your comment has been rejected
+notifications-yourCommentHasBeenApproved =
+  Your comment has been approved
+notifications-yourCommentHasBeenFeatured =
+  Your comment has been featured
+notifications-defaultTitle = Notification
+
+notifications-rejectedComment-body =
+  The content of your comment was against our community guidelines. The comment has been removed.
+notifications-reasonForRemoval = Reason for removal
+notifications-legalGrounds = Legal grounds
+notifications-additionalExplanation = Additional explanation
+
+notifications-dsaReportLegality-legal = Legal content
+notifications-dsaReportLegality-illegal = Illegal content
+notifications-dsaReportLegality-unknown = Unknown
+
+notifications-rejectionReason-offensive = This comment contains offensive language
+notifications-rejectionReason-abusive = This comment contains abusive language
+notifications-rejectionReason-spam = This comment is spam
+notifications-rejectionReason-bannedWord = Banned word
+notifications-rejectionReason-ad = This comment is an advertisement
+notifications-rejectionReason-illegalContent = This comment contains illegal content
+notifications-rejectionReason-harassmentBullying = This comment contains harassing or bullying language
+notifications-rejectionReason-misinformation = This comment contains misinformation
+notifications-rejectionReason-hateSpeech = This comment contains hate speech
+notifications-rejectionReason-irrelevant = This comment is irrelevant to the discussion
+notifications-rejectionReason-other = Other
+notifications-rejectionReason-other-customReason = Other - { $customReason }
+notifications-rejectionReason-unknown = Unknown
+
+notifications-reportDecisionMade-legal =
+  On <strong>{ $date }</strong> you reported a comment written by <strong>{ $author }</strong> for containing illegal content. After reviewing your report, our moderation team has decided this comment <strong>does not appear to contain illegal content.</strong> Thank you for helping to keep our community safe.
+notifications-reportDecisionMade-illegal =
+  On <strong>{ $date }</strong> you reported a comment written by <strong>{ $author }</strong> for containing illegal content. After reviewing your report, our moderation team has decided this comment <strong>does contain illegal content</strong> and has been removed. Further action may be taken against the commenter, however you will not be notified of any additional steps. Thank you for helping to keep our community safe.
+
+notifications-methodOfRedress-none =
+  All moderation decisions are final and cannot be appealed
+notifications-methodOfRedress-email =
+  To appeal a decision that appears here please contact <a>{ $email }</a>
+notifications-methodOfRedress-url =
+  To appeal a decision that appears here please visit <a>{ $url }</a>
+
+notifications-youDoNotCurrentlyHaveAny = You do not currently have any notifications

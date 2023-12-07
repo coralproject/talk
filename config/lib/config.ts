@@ -71,6 +71,12 @@ export interface StaticConfig {
    * be kept before being auto-archived.
    */
   autoArchiveOlderThanMs: number;
+
+  /**
+   * dsaFeaturesEnabled is true when the DSA European Union features for content
+   * moderation and illegal reporting are enabled on the tenant.
+   */
+  dsaFeaturesEnabled?: boolean;
 }
 
 export interface EmbedBootstrapConfig {

@@ -66,6 +66,7 @@ const RejectCommentMutation = createMutation(
               commentID: input.commentID,
               commentRevisionID: input.commentRevisionID,
               clientMutationId: (clientMutationId++).toString(),
+              reason: input.reason,
             },
           },
           optimisticResponse: {

@@ -11,6 +11,7 @@ import { Token, User } from "coral-server/models/user";
 import {
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLMODERATION_MODE,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -184,6 +185,16 @@ export const createTenantFixture = (
     flattenReplies: false,
     disableDefaultFonts: false,
     emailDomainModeration: [],
+    dsa: {
+      enabled: false,
+      methodOfRedress: {
+        method: GQLDSA_METHOD_OF_REDRESS.NONE,
+      },
+    },
+    embeddedComments: {
+      allowReplies: true,
+      oEmbedAllowedOrigins: [],
+    },
   };
 
   return merge(fixture, defaults);

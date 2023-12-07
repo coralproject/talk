@@ -143,11 +143,14 @@ const populateStaticConfig = (staticConfig: StaticConfig, req: Request) => {
     req.coral.tenant?.featureFlags?.filter(validFeatureFlagsFilter(req.user)) ||
     [];
   const flattenReplies = req.coral.tenant?.flattenReplies || false;
+  const dsaFeaturesEnabled = req.coral.tenant?.dsa?.enabled ?? false;
+
   return {
     ...staticConfig,
     featureFlags,
     tenantDomain: req.coral.tenant?.domain,
     flattenReplies,
+    dsaFeaturesEnabled,
   };
 };
 

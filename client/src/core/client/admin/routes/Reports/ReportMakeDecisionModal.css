@@ -1,0 +1,32 @@
+.decisionModalThisComment {
+  margin-right: var(--spacing-2);
+}
+
+.decisionModalTextArea {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.decisionModalTextArea::placeholder {
+  color: var(--palette-grey-400);
+}
+
+.yesButton {
+  margin-right: var(--spacing-2);
+}
+
+.buttonWrapper {
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+}
+
+.inputLabel {
+  margin-bottom: var(--spacing-1);
+  text-transform: uppercase;
+  color: var(--palette-grey-500);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-1);
+}

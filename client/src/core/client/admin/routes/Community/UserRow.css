@@ -1,17 +1,17 @@
 .usernameColumn {
-  vertical-align: top;
+  vertical-align: middle;
   word-break: break-word;
   padding-top: 15px;
   padding-bottom: 15px;
 }
 .emailColumn {
-  vertical-align: top;
+  vertical-align: middle;
   word-break: break-word;
   padding-top: 15px;
   padding-bottom: 15px;
 }
 .memberSinceColumn {
-  vertical-align: top;
+  vertical-align: middle;
   white-space: nowrap;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -38,9 +38,10 @@
 .deleted {
   display: inline-block;
   padding-left: var(--spacing-2);
-  color: #DC8400;
+  color: #dc8400;
 }
 
 .notAvailable {
   color: var(--palette-text-100);
+  text-align: left;
 }

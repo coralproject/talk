@@ -1,4 +1,7 @@
-import { defaultRTEConfiguration } from "coral-server/models/settings";
+import {
+  defaultDSAConfiguration,
+  defaultRTEConfiguration,
+} from "coral-server/models/settings";
 import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import {
   areRepliesFlattened,
@@ -54,10 +57,15 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     return deprecated;
   },
   embeddedComments: (
-    { embeddedComments = { allowReplies: true } },
+    { embeddedComments = { allowReplies: true, oEmbedAllowedOrigins: [] } },
     args,
     ctx
-  ) => embeddedComments,
+  ) => {
+    return {
+      allowReplies: embeddedComments.allowReplies ?? true,
+      oEmbedAllowedOrigins: embeddedComments.oEmbedAllowedOrigins ?? [],
+    };
+  },
   flairBadges: ({
     flairBadges = { flairBadgesEnabled: false, badges: [] },
   }) => {
@@ -69,4 +77,5 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     }
     return flairBadges;
   },
+  dsa: ({ dsa = defaultDSAConfiguration }) => dsa,
 };

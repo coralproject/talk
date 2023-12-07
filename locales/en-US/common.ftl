@@ -23,3 +23,45 @@ common-error-traceID = Trace ID
 
 common-username =
   .aria-label = User { $username }
+
+common-moderationReason-reason = 
+  Reason
+common-moderationReason-addExplanation = 
+  Add explanation
+common-moderationReason-reject =
+  Reject
+common-moderationReason-cancel =
+  Cancel
+common-moderationReason-rejectionReason-OFFENSIVE =
+  Offensive
+common-moderationReason-rejectionReason-ABUSIVE = 
+  Abusive
+common-moderationReason-rejectionReason-SPAM =
+  Spam
+common-moderationReason-rejectionReason-BANNED_WORD =
+  Banned word
+common-moderationReason-rejectionReason-AD =
+  Ad
+common-moderationReason-rejectionReason-HARASSMENT_BULLYING = 
+  Harassment / bullying
+common-moderationReason-rejectionReason-MISINFORMATION = 
+  Misinformation
+common-moderationReason-rejectionReason-HATE_SPEECH = 
+  Hate speech
+common-moderationReason-rejectionReason-IRRELEVANT_CONTENT = 
+  Irrelevant content
+common-moderationReason-rejectionReason-OTHER = 
+  Other
+common-moderationReason-changeReason =
+  &lt; Change reason
+common-moderationReason-reasonLabel = Reason
+common-moderationReason-detailedExplanation =
+  Detailed explanation
+common-moderationReason-detailedExplanation-placeholder =
+   .placeholder = Add your explanation
+common-moderationReason-customReason = Custom reason (required)
+common-moderationReason-customReason-placeholder =
+   .placeholder = Add your reason
+
+common-userBanned =
+  User was banned.

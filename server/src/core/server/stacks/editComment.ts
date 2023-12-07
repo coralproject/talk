@@ -17,7 +17,7 @@ import {
   EncodedCommentActionCounts,
   filterDuplicateActions,
 } from "coral-server/models/action/comment";
-import { createCommentModerationAction } from "coral-server/models/action/moderation/comment";
+
 import {
   editComment,
   EditCommentInput,
@@ -34,6 +34,7 @@ import { resolveStoryMode, retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { isSiteBanned } from "coral-server/models/user/helpers";
+import { moderate } from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
@@ -44,6 +45,7 @@ import {
 } from "coral-server/services/comments/media";
 import { processForModeration } from "coral-server/services/comments/pipeline";
 import { WordListService } from "coral-server/services/comments/pipeline/phases/wordList/service";
+import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
@@ -83,6 +85,7 @@ export default async function edit(
   wordList: WordListService,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   author: User,
@@ -103,7 +106,7 @@ export default async function edit(
     throw new CommentNotFoundError(input.id);
   }
 
-  // If the original comment was a reply, then get it's parent!
+  // If the original comment was a reply, then get its parent!
   const { parentID, parentRevisionID, siteID } = originalStaleComment;
   const parent = await retrieveParent(mongo, tenant.id, {
     parentID,
@@ -179,33 +182,36 @@ export default async function edit(
   }
 
   // Run the comment through the moderation phases.
-  const { body, status, metadata, actions } = await processForModeration({
-    action: "EDIT",
-    log,
-    mongo,
-    redis,
-    config,
-    wordList,
-    tenant,
-    story,
-    storyMode,
-    parent,
-    comment: {
-      ...originalStaleComment,
-      ...input,
-      authorID: author.id,
-    },
-    media,
-    author,
-    req,
-    now,
-  });
+  const { body, status, metadata, commentActions, moderationAction } =
+    await processForModeration({
+      action: "EDIT",
+      log,
+      mongo,
+      redis,
+      config,
+      wordList,
+      tenant,
+      story,
+      storyMode,
+      parent,
+      comment: {
+        ...originalStaleComment,
+        ...input,
+        authorID: author.id,
+      },
+      media,
+      author,
+      req,
+      now,
+    });
 
   let actionCounts: EncodedCommentActionCounts = {};
-  if (actions.length > 0) {
+  if (commentActions.length > 0) {
     // Encode the new action counts that are going to be added to the new
     // revision.
-    actionCounts = encodeActionCounts(...filterDuplicateActions(actions));
+    actionCounts = encodeActionCounts(
+      ...filterDuplicateActions(commentActions)
+    );
   }
 
   // Perform the edit.
@@ -232,11 +238,11 @@ export default async function edit(
 
   // If there were actions to insert, then insert them into the commentActions
   // collection.
-  if (actions.length > 0) {
+  if (commentActions.length > 0) {
     await addCommentActions(
       mongo,
       tenant,
-      actions.map(
+      commentActions.map(
         (action): CreateAction => ({
           ...action,
           commentID: result.after.id,
@@ -253,25 +259,30 @@ export default async function edit(
     );
   }
 
-  // If the comment status changed as a result of a pipeline operation, create a
-  // moderation action (but don't associate it with a moderator).
-  if (result.before.status !== result.after.status) {
-    await createCommentModerationAction(
+  if (moderationAction) {
+    // Actually add the actions to the database. This will not interact with the
+    // counts at all.
+    await moderate(
       mongo,
-      tenant.id,
+      redis,
+      config,
+      i18n,
+      tenant,
       {
-        storyID: story.id,
+        ...moderationAction,
         commentID: result.after.id,
-        commentRevisionID: result.revision.id,
-        status: result.after.status,
-        moderatorID: null,
+        commentRevisionID: lastRevision.id,
       },
-      now
+      now,
+      false,
+      {
+        actionCounts,
+      }
     );
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo, redis, config, {
+  const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
     tenant,
     actionCounts,
     ...result,

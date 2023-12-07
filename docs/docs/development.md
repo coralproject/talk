@@ -109,7 +109,7 @@ We’re so proud to have received submissions from a lot of 3rd party contributo
 translating Coral into their own languages.
 
 You can see what languages Coral currently supports here:
-https://github.com/coralproject/talk/tree/main/src/locales
+https://github.com/coralproject/talk/tree/main/locales
 
 Coral uses the [fluent](http://projectfluent.org/) library and store our
 translations in [FTL](http://projectfluent.org/fluent/guide/) files in

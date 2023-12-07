@@ -124,8 +124,6 @@ const UserRoleChangeContainer: FunctionComponent<Props> = ({
 
   const handleOnChangeMembershipScopes = useCallback(
     async (siteIDs: string[]) => {
-      /* eslint-disable */
-      console.log("changing membership scopes");
       await updateUserMembershipScopes({
         userID: user.id,
         membershipScopes: {

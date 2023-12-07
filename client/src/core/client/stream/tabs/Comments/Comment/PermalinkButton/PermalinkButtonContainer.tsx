@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { ComponentType, FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
@@ -11,22 +11,30 @@ import PermalinkButton from "./PermalinkButton";
 interface Props {
   story: StoryData;
   commentID: string;
-  className?: string;
   author?: string | null;
+  view?: string;
+  buttonText?: string;
+  buttonTextID?: string;
+  ButtonIcon?: ComponentType;
 }
 
 export const PermalinkButtonContainer: FunctionComponent<Props> = ({
   story,
   commentID,
-  className,
   author,
+  view,
+  buttonText,
+  buttonTextID,
+  ButtonIcon,
 }) => {
   return (
     <PermalinkButton
-      className={className}
       commentID={commentID}
-      url={getURLWithCommentID(story.url, commentID)}
+      url={getURLWithCommentID(story.url, commentID, view)}
       author={author}
+      buttonText={buttonText}
+      buttonTextID={buttonTextID}
+      ButtonIcon={ButtonIcon}
     />
   );
 };

@@ -1,0 +1,4 @@
+.shareButton {
+  margin-left: var(--spacing-2);
+  background-color: var(--palette-background-body);
+}

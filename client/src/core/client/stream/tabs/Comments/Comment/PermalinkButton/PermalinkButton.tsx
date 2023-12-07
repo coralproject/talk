@@ -1,5 +1,5 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, { ComponentType, FunctionComponent } from "react";
 import Responsive from "react-responsive";
 
 import CLASSES from "coral-stream/classes";
@@ -15,16 +15,22 @@ interface PermalinkProps {
   commentID: string;
   url: string;
   author?: string | null;
-  className?: string;
+  buttonText?: string;
+  buttonTextID?: string;
+  ButtonIcon?: ComponentType;
 }
 
 const Permalink: FunctionComponent<PermalinkProps> = ({
   commentID,
   url,
   author,
-  className,
+  buttonText,
+  buttonTextID,
+  ButtonIcon,
 }) => {
   const popoverID = `permalink-popover-${commentID}`;
+  const text = buttonText ?? "Share";
+  const textID = buttonTextID ?? "comments-permalinkButton-share";
   return (
     <Localized id="comments-permalinkPopover" attrs={{ description: true }}>
       <Popover
@@ -65,10 +71,13 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
               className={CLASSES.comment.actionBar.shareButton}
             >
               <Flex alignItems="center" container="span">
-                <SvgIcon className={styles.icon} Icon={ShareIcon} />
+                <SvgIcon
+                  className={styles.icon}
+                  Icon={ButtonIcon ?? ShareIcon}
+                />
                 <Responsive minWidth={400}>
-                  <Localized id="comments-permalinkButton-share">
-                    <span>Share</span>
+                  <Localized id={textID}>
+                    <span>{text}</span>
                   </Localized>
                 </Responsive>
               </Flex>
