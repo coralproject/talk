@@ -289,7 +289,6 @@
     "final-form-arrays": "^3.0.2",
     "flat": "^5.0.0",
     "fluent-intl-polyfill": "^0.1.0",
-    "fork-ts-checker-webpack-plugin": "6.5.0",
     "found": "^0.5.9",
     "found-relay": "^0.8.2",
     "graphql-schema-linter": "^0.4.0",

@@ -3,7 +3,6 @@ import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import bunyan from "bunyan";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { identity, uniq } from "lodash";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -433,8 +432,7 @@ export default function createWebpackConfig(
                 {
                   loader: "thread-loader",
                   options: {
-                    // there should be 1 cpu for the fork-ts-checker-webpack-plugin
-                    workers: maxCores - 1,
+                    workers: maxCores,
                     poolTimeout: watch ? Infinity : 500, // set this to Infinity in watch mode - see https://github.com/webpack-contrib/thread-loader
                   },
                 },
@@ -578,20 +576,6 @@ export default function createWebpackConfig(
       ],
     },
     plugins: [
-      // TODO: (cvle) this should work in build too but for some reasons it terminates the build afterwards.
-      // Preventing from running post build steps.
-      ...ifWatch(
-        // We run eslint in a separate process to have a quicker build.
-        new ForkTsCheckerWebpackPlugin({
-          eslint: { enabled: true, files: "src/core/server/**/*.{js,ts,tsx}" },
-          typescript: {
-            typescriptPath: require.resolve("typescript"),
-            configFile: paths.appTsconfig,
-            diagnosticOptions: { syntactic: true },
-          },
-          async: true,
-        })
-      ),
       // Makes some environment variables available to the JS code, for example:
       // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
       new webpack.DefinePlugin(envStringified),
