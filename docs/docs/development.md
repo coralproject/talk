@@ -58,7 +58,13 @@ to start the installation wizard.
 
 To see the comment stream goto http://localhost:8080/.
 
-To run linting and tests use the following commands:
+### To modify environment variables:
+
+Place and modify a `.env` file within `server/`.
+
+Similar to other applications, development environment variables are picked up from a `.env` file. However, since Coral is a mono-repo, you need to create this file within the `server/` folder. This allows Coral's web server to pick up on the configuration at its relative startup root.
+
+### To run linting and tests use the following commands:
 
 ```bash
 # Run the linters.
