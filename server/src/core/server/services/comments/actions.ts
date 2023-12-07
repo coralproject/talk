@@ -435,6 +435,7 @@ export async function createDontAgree(
 
 export type CreateIllegalContent = Pick<CreateActionInput, "commentID"> & {
   commentRevisionID?: string;
+  reportID?: string;
 };
 
 export async function createIllegalContent(
@@ -471,7 +472,7 @@ export async function createIllegalContent(
       actionType: ACTION_TYPE.ILLEGAL,
       commentID: input.commentID,
       commentRevisionID: revisionID,
-      // additionalDetails: input.additionalDetails,
+      reportID: input.reportID,
     },
     user,
     now

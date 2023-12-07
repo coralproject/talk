@@ -27,7 +27,7 @@ export const DSAReports = (ctx: GraphContext) => ({
     submissionID,
     commentRevisionID,
   }: GQLCreateDSAReportInput) => {
-    await createDSAReport(ctx.mongo, ctx.tenant, {
+    const report = await createDSAReport(ctx.mongo, ctx.tenant, {
       commentID,
       userID,
       lawBrokenDescription,
@@ -46,7 +46,7 @@ export const DSAReports = (ctx: GraphContext) => ({
         ctx.tenant,
         ctx.user,
         await ctx.loaders.Comments.comment.load(commentID),
-        { commentID, commentRevisionID },
+        { commentID, commentRevisionID, reportID: report.id },
         ctx.now
       );
     }

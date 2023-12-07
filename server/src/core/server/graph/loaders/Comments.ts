@@ -58,7 +58,7 @@ const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
   return {};
 };
 
-const isRatingsAndReviews = (
+export const isRatingsAndReviews = (
   tenant: Pick<Tenant, "featureFlags">,
   story: Story
 ) => {
@@ -68,7 +68,7 @@ const isRatingsAndReviews = (
   );
 };
 
-const isQA = (tenant: Pick<Tenant, "featureFlags">, story: Story) => {
+export const isQA = (tenant: Pick<Tenant, "featureFlags">, story: Story) => {
   return (
     hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA) &&
     story.settings.mode === GQLSTORY_MODE.QA
@@ -173,6 +173,8 @@ const mapVisibleComment = (user?: Pick<User, "role">) => {
 interface ActionPresenceArgs {
   commentID: string;
   isArchived: boolean;
+  isQA: boolean;
+  isRR: boolean;
 }
 
 /**
@@ -268,6 +270,7 @@ export default (ctx: GraphContext) => ({
 
     const commentIDs = args.map((rd) => rd.commentID);
     const hasArchivedData = args.some((rd) => rd.isArchived);
+    const hasRROrQA = args.some((rd) => rd.isQA || rd.isRR);
 
     const result = await retrieveManyUserActionPresence(
       ctx.mongo,
@@ -275,6 +278,7 @@ export default (ctx: GraphContext) => ({
       ctx.tenant.id,
       ctx.user.id,
       commentIDs,
+      !(hasRROrQA || hasArchivedData),
       hasArchivedData
     );
 

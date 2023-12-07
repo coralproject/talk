@@ -152,6 +152,7 @@ export const PROTECTED_EMAIL_DOMAINS = new Set<string>([
   "live.no",
   "yahoo.no",
   "hotmail.no",
+  "rr.com"
 ]);
 
 export const FLAIR_BADGE_NAME_REGEX = "^[\\w.-]+$";

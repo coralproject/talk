@@ -1,0 +1,23 @@
+.label {
+  font-size: var(--font-size-1);
+  text-transform: uppercase;
+}
+
+.button {
+  background-color: var(--palette-grey-200);
+  color: var(--palette-grey-500);
+  text-align: left;
+}
+
+.reportIDLabel {
+  text-transform: uppercase;
+}
+
+.referenceID {
+  margin-left: var(--spacing-2);
+  text-decoration: underline;
+}
+
+.arrowIcon {
+  margin-left: auto;
+}

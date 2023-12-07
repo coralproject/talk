@@ -19,7 +19,7 @@ comment-counts-ratings-and-reviews =
 
 staff-label = Staff
 
-dsaReportCSV-timestamp = Timestamp
+dsaReportCSV-timestamp = Timestamp (UTC)
 dsaReportCSV-user = User
 dsaReportCSV-action = Action
 dsaReportCSV-details = Details
@@ -30,6 +30,7 @@ dsaReportCSV-additionalInfo = Additional info
 dsaReportCSV-commentAuthor = Comment author
 dsaReportCSV-commentBody = Comment body
 dsaReportCSV-commentID = Comment ID
+dsaReportCSV-commentMediaUrl = Comment media url
 dsaReportCSV-changedStatus = Changed status
 dsaReportCSV-addedNote = Added note
 dsaReportCSV-madeDecision = Made decision
@@ -149,3 +150,6 @@ notifications-dsaReportDecisionMade-body-withInfo =
   { $decision }
   <br/>
   { $information }
+
+common-accountDeleted =
+  User account was deleted.

@@ -13,9 +13,6 @@
 .optionAction {
   padding: 0;
   margin: var(--spacing-1) 0;
-  color: $colors-teal-600;
-  font-weight: var(--font-weight-secondary-regular);
-  text-decoration: underline;
 }
 
 .rejectButton {
