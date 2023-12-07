@@ -13,7 +13,7 @@ payload.
 When a comment is created or edited, it will be processed by moderation phases in
 a predefined order. Any external moderation phase is run last, and only if all
 other moderation phases before it do not return a status. The current set of
-moderation phases is listed in order [here](https://github.com/coralproject/talk/blob/main/src/core/server/services/comments/pipeline/phases/index.ts).
+moderation phases is listed in order [here](https://github.com/coralproject/talk/blob/main/server/src/core/server/services/comments/pipeline/phases/index.ts).
 
 Once you have received a moderation request, you must respond within the
 provided timeout else the phase will be skipped and it will continue. It is
@@ -28,6 +28,7 @@ The external moderation phase must respond with one of the following:
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 ## Table of Contents
 
 - [Request Signing](#request-signing)

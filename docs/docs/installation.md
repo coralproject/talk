@@ -128,7 +128,7 @@ the following from your `talk` directory to do this:
 SIGNING_SECRET="$(openssl rand -base64 48)"
 
 # Add a randomly generated secret to your .env file.
-cat >> .env <<EOF
+cat >> server/.env <<EOF
 SIGNING_SECRET=${SIGNING_SECRET}
 EOF
 ```

@@ -126,8 +126,8 @@ This can ensure that code reviews contain more meaningful feedback tied to the
 contribution rather than nit-picking on stylistic choices.
 
 Reviewers must ensure that linting and tests pass in CI and locally prior to a
-review taking place. You can do this by running `npm run generate` followed by
-`npm run lint` and `npm run test`.
+review taking place. You can do this by running `sh scripts/generate.sh` followed by
+`sh scripts/lint.sh`. You can run `npm run test` in `/server` and `/client`.
 
 ### Review the feature/fixes
 
@@ -186,7 +186,7 @@ the API and the runtime on the server that powers resolving data from data
 sources. This heavily influences a lot of the decisions around how we create and
 consume it's API internally and how we expose it to others to interact with.
 
-There are many GraphQL types in our [`schema.graphql`](https://github.com/coralproject/talk/blob/main/src/core/server/graph/schema/schema.graphql)
+There are many GraphQL types in our [`schema.graphql`](https://github.com/coralproject/talk/blob/main/server/src/core/server/graph/schema/schema.graphql)
 that define the way we handle data in our API. We'll try to outline a few of
 them here with examples to help you understand their uses.
 
@@ -433,7 +433,7 @@ fragment on Comment {
 ```
 
 Here we see the `@auth` directive. It has documentation describing the various
-parameters allowed located in the [`schema.graphql`](https://github.com/coralproject/talk/blob/main/src/core/server/graph/schema/schema.graphql)
+parameters allowed located in the [`schema.graphql`](https://github.com/coralproject/talk/blob/main/server/src/core/server/graph/schema/schema.graphql)
 file, we'll discuss below what this particular set of parameters can be read as:
 
 - The roles that are allowed to access this information are `MODERATOR` and
