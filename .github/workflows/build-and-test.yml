@@ -74,7 +74,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./client/node_modules
-          key: modules-client-${{ hashFiles('package-lock.json') }}
+          key: modules-client-n18-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
       -
         name: Cache Dependencies
@@ -82,7 +82,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./common/node_modules
-          key: modules-common-${{ hashFiles('package-lock.json') }}
+          key: modules-common-n18-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
       -
         name: Cache Dependencies
@@ -90,7 +90,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./server/node_modules
-          key: modules-server-${{ hashFiles('package-lock.json') }}
+          key: modules-server-n18-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
       -
         name: npm ci
@@ -150,3 +150,15 @@ jobs:
               REVISION_HASH=${GITHUB_SHA}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release
           cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release
+# Build tag push the release candidate image when the branch name begins with release-
+      -
+        name: Build, Tag, Push RC (Test)
+        uses: docker/build-push-action@v4
+        if: startsWith( github.ref, 'refs/heads/feat/upgrade-to-node-18')
+        with:
+          push: true
+          tags: ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-test-${{ env.SHORT_SHA }}
+          build-args: |
+              REVISION_HASH=${GITHUB_SHA}
+          cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-test
+          cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-test
