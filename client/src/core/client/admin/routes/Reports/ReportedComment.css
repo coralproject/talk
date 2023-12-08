@@ -47,3 +47,34 @@
   font-weight: var(--font-weight-primary-regular);
   white-space: pre-wrap;
 }
+
+.commentReported {
+  padding-top: calc(var(--spacing-1) / 2);
+  padding-bottom: calc(var(--spacing-1) / 2);
+  padding-right: calc(var(--spacing-1));
+  padding-left: calc(var(--spacing-1));
+
+  background-color: var(--palette-error-500);
+
+  border-color: var(--palette-error-500);
+  border-style: solid;
+  border-radius: 3px;
+
+  color: var(--palette-text-000);
+
+  text-transform: uppercase;
+
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+
+  margin-right: var(--spacing-1);
+}
+
+.commentNotAvailableInStream {
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-primary-regular);
+  font-family: var(--font-family-primary);
+
+  color: var(--palette-grey-400);
+}

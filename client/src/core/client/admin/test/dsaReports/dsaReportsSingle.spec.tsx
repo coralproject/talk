@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/common/lib/utils";
 import {
+  GQLCOMMENT_STATUS,
   GQLDSAReportDecisionLegality,
   GQLDSAReportHistoryType,
   GQLDSAReportStatus,
@@ -25,7 +26,8 @@ beforeEach(async () => {
 });
 
 const createTestRenderer = async (
-  params: CreateTestRendererParams<GQLResolver> = {}
+  params: CreateTestRendererParams<GQLResolver> = {},
+  commentStatus?: GQLCOMMENT_STATUS
 ) => {
   const { context } = createContext({
     ...params,
@@ -34,7 +36,17 @@ const createTestRenderer = async (
         Query: {
           settings: () => settings,
           viewer: () => adminViewer,
-          dsaReport: () => dsaReports[0],
+          dsaReport: () => {
+            return {
+              ...dsaReports[0],
+              comment: commentStatus
+                ? {
+                    ...dsaReports[0].comment,
+                    status: commentStatus,
+                  }
+                : dsaReports[0].comment,
+            };
+          },
         },
         Mutation: {
           addDSAReportNote: ({ variables }) => {
@@ -249,5 +261,22 @@ it("can make a legality decision on a report", async () => {
     await within(container).findByText(
       "Markus made a decision that this report contains illegal content"
     )
+  );
+});
+
+it("stream link is unavailable when comment is already rejected", async () => {
+  const { container } = await createTestRenderer(
+    undefined,
+    GQLCOMMENT_STATUS.REJECTED
+  );
+
+  expect(await within(container).findByText("Rejected"));
+  expect(await within(container).findByText("Unavailable in stream"));
+
+  expect(
+    within(container).getByRole("link", { name: "View comment in moderation" })
+  ).toHaveProperty(
+    "href",
+    "http://localhost/admin/moderate/comment/comment-regular-0"
   );
 });

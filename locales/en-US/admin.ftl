@@ -1015,6 +1015,7 @@ moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
 moderate-marker-bannedWord = Banned word
 moderate-marker-bio = Bio
+moderate-marker-illegal = Illegal content
 moderate-marker-possibleBannedWord = Possible Banned Word
 moderate-marker-suspectWord = Suspect word
 moderate-marker-possibleSuspectWord = Possible Suspect Word
@@ -1036,6 +1037,8 @@ moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
 moderate-flagDetails-bio = Bio
 moderate-flagDetails-other = Other
+moderate-flagDetails-illegalContent = Illegal content
+moderate-flagDetails-viewDSAReport = View DSA Report
 
 moderate-flagDetails-toxicityScore = Toxicity Score
 moderate-toxicityLabel-likely = Likely <score></score>
@@ -1045,6 +1048,13 @@ moderate-toxicityLabel-maybe = Maybe <score></score>
 moderate-linkDetails-label = Copy link to this comment
 moderate-in-stream-link-copy = In Stream
 moderate-in-moderation-link-copy = In Moderation
+
+moderate-decisionDetails-decisionLabel = Decision
+moderate-decisionDetails-rejected = Rejected
+moderate-decisionDetails-reasonLabel = Reason
+moderate-decisionDetails-lawBrokenLabel = Law broken
+moderate-decisionDetails-customReasonLabel = Custom reason
+moderate-decisionDetails-detailedExplanationLabel = Detailed explanation
 
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
@@ -1108,6 +1118,7 @@ moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
 moderateCardDetails-tab-info = Info
+moderateCardDetails-tab-decision = Decision
 moderateCardDetails-tab-edits = Edit history
 moderateCardDetails-tab-automatedActions = Automated actions
 moderateCardDetails-tab-reactions = Reactions
@@ -1861,6 +1872,8 @@ reports-singleReport-comment-deleted = This comment is no longer available. The 
 reports-singleReport-comment-edited = (edited)
 reports-singleReport-comment-viewCommentStream = View comment in stream
 reports-singleReport-comment-viewCommentModeration = View comment in moderation
+reports-singleReport-comment-rejected = Rejected
+reports-singleReport-comment-unavailableInStream = Unavailable in stream
 reports-singleReport-commentOn = Comment on
 reports-singleReport-history = History
 reports-singleReport-history-reportSubmitted = Illegal content report submitted
@@ -1908,6 +1921,9 @@ reports-decisionModal-lawBrokenTextfield =
 reports-decisionModal-detailedExplanationLabel = Detailed explanation
 reports-decisionModal-detailedExplanationTextarea =
   .placeholder = Add explanation...
+
+reports-relatedReports-label = Related reports
+reports-relatedReports-reportIDLabel = Report ID
 
 # Control panel
 

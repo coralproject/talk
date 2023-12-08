@@ -84,7 +84,9 @@ const rejectComment = async (
     code: GQLREJECTION_REASON_CODE;
     legalGrounds?: string | undefined;
     detailedExplanation?: string | undefined;
+    customReason?: string | undefined;
   },
+  reportID?: string,
   request?: Request | undefined,
   sendNotification = true,
   isArchived = false
@@ -106,6 +108,7 @@ const rejectComment = async (
       moderatorID,
       rejectionReason: reason,
       status: GQLCOMMENT_STATUS.REJECTED,
+      reportID,
     },
     now,
     isArchived,
@@ -164,7 +167,10 @@ const rejectComment = async (
     });
   }
 
-  if (sendNotification) {
+  if (
+    sendNotification &&
+    !(reason?.code === GQLREJECTION_REASON_CODE.BANNED_WORD)
+  ) {
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: result.after.authorID!,
       comment: result.after,

@@ -167,6 +167,23 @@ export async function retrieveDSAReportConnection(
   return retrieveConnection(input, query);
 }
 
+export async function retrieveDSAReportRelatedReportsConnection(
+  mongo: MongoContext,
+  tenantID: string,
+  submissionID: string,
+  id: string,
+  input: DSAReportConnectionInput
+): Promise<Readonly<Connection<Readonly<DSAReport>>>> {
+  // Create the query.
+  const query = new Query(mongo.dsaReports()).where({
+    tenantID,
+    submissionID,
+    id: { $ne: id },
+  });
+
+  return retrieveConnection(input, query);
+}
+
 export async function retrieveDSAReport(
   mongo: MongoContext,
   tenantID: string,
