@@ -157,7 +157,7 @@ jobs:
         if: startsWith( github.ref, 'refs/heads/feat/upgrade-to-node-18')
         with:
           push: true
-          tags: ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-test-${{ env.SHORT_SHA }}
+          tags: ${{ env.IMAGE_REPOSITORY }}:node-18-test-${{ env.SHORT_SHA }}
           build-args: |
               REVISION_HASH=${GITHUB_SHA}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-test
