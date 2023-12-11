@@ -25,9 +25,10 @@ export const parseEmptyAsNull = (v: any) => {
 };
 
 export const parseWithDOMPurify: any = (v: any) => {
-  if (v === "" || !(typeof v === "string")) {
+  if (v === "") {
     return null;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return DOMPurify.sanitize(v);
 };
 
@@ -39,18 +40,20 @@ export const formatEmpty = (v: any) => {
 };
 
 export const parsePercentage = (v: any) => {
-  if (v === "" || !(typeof v === "number")) {
+  if (v === "") {
     return null;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   if (isNaN(v)) {
     return v;
   }
   return v / 100;
 };
 export const formatPercentage = (v: any) => {
-  if (v === null || v === undefined || !(typeof v === "number")) {
+  if (v === null || v === undefined) {
     return "";
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   if (isNaN(v)) {
     return v;
   }
@@ -64,9 +67,7 @@ export const formatBool = (v: boolean) => {
 };
 
 export const parseInteger = (v: any) => {
-  if (typeof v !== "string") {
-    return v;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const result = Number.parseInt(v, 10);
   if (isNaN(result)) {
     return v;

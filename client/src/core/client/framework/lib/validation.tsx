@@ -88,7 +88,8 @@ export const requiredTrue = createValidator(
  * validateEmail is a Validator that checks that the value is an email.
  */
 export const validateEmail = createValidator(
-  (v) => !v || !(typeof v === "string") || EMAIL_REGEX.test(v),
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  (v) => !v || EMAIL_REGEX.test(v),
   INVALID_EMAIL()
 );
 
@@ -97,7 +98,8 @@ export const validateEmail = createValidator(
  * at the beginning and including at least one dot.
  */
 export const validateEmailDomain = createValidator(
-  (v) => !v || !(typeof v === "string") || EMAIL_DOMAIN_REGEX.test(v),
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  (v) => !v || EMAIL_DOMAIN_REGEX.test(v),
   INVALID_EMAIL_DOMAIN()
 );
 
@@ -105,7 +107,8 @@ export const validateEmailDomain = createValidator(
  * validateUsernameCharacters is a Validator that checks that the username only contains valid characters.
  */
 export const validateUsernameCharacters = createValidator(
-  (v) => !v || !(typeof v === "string") || USERNAME_REGEX.test(v),
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  (v) => !v || USERNAME_REGEX.test(v),
   INVALID_CHARACTERS()
 );
 
@@ -131,14 +134,16 @@ export const validateImageURL = createValidator(
  * validateShareURL checks that a URL is valid and includes a valid commentID query param
  */
 export const validateShareURL = (v: any) => {
-  if (!v || !(typeof v === "string")) {
+  if (!v) {
     return false;
   }
   const shareURLArr = v.split("?commentID=");
   if (!(shareURLArr.length === 2)) {
     return false;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const isValidUrl = URL_REGEX.test(shareURLArr[0]);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const isValidCommentID = ID_REGEX.test(shareURLArr[1]);
   return isValidUrl && isValidCommentID;
 };
@@ -147,7 +152,8 @@ export const validateShareURL = (v: any) => {
  * validateURL is a Validator that checks that the URL only contains valid characters.
  */
 export const validateURL = createValidator(
-  (v) => !v || !(typeof v === "string") || URL_REGEX.test(v),
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  (v) => !v || URL_REGEX.test(v),
   INVALID_URL()
 );
 
@@ -265,11 +271,8 @@ export const validateUsernameEquals = createValidator(
  * validateWholeNumber is a Validator that checks for a valid whole number.
  */
 export const validateWholeNumber = createValidator(
-  (v) =>
-    !v ||
-    v === 0 ||
-    !(typeof v === "string") ||
-    Number.isInteger(parseFloat(v)),
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  (v) => !v || v === 0 || Number.isInteger(parseFloat(v)),
   NOT_A_WHOLE_NUMBER()
 );
 
@@ -352,6 +355,7 @@ export type Condition<T = any, V = any> = (value: T, values: V) => boolean;
 /**
  * composeSomeConditions will return true when some of the conditions return
  * true, false if all return false.
+ *
  * @param conditions conditions to use
  */
 export function composeSomeConditions<T = any, V = any>(
