@@ -163,10 +163,9 @@ export default function createRelayEnvironment(
         logResult: params.network.logNetwork,
         muteErrors: params.network.muteNetworkErrors,
       }),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       params.network.subscriptionHandler
-        ? (createSubscribe(
-            params.network.subscriptionHandler
-          ) as unknown as SubscribeFunction)
+        ? (createSubscribe(params.network.subscriptionHandler) as any)
         : undefined
     );
   }

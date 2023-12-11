@@ -1357,19 +1357,15 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // Subscribe to keypress events.
   useEffect(() => {
     renderWindow.addEventListener("keypress", handleWindowKeypress);
-    root.addEventListener(
-      "keypress",
-      handleKeypress as unknown as EventListenerOrEventListenerObject
-    );
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    root.addEventListener("keypress", handleKeypress as any);
 
     return () => {
       if (renderWindow.removeEventListener) {
         renderWindow.removeEventListener("keypress", handleWindowKeypress);
       }
-      root.removeEventListener(
-        "keypress",
-        handleKeypress as unknown as EventListenerOrEventListenerObject
-      );
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      root.removeEventListener("keypress", handleKeypress as any);
     };
   }, [handleKeypress, handleWindowKeypress, renderWindow, root]);
 

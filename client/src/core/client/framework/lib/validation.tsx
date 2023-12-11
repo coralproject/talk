@@ -278,10 +278,8 @@ export const validateWholeNumber = createValidator(
  */
 export const validateWholeNumberGreaterThan = (x: number) =>
   createValidator(
-    (v) =>
-      v === null ||
-      !(typeof v === "string") ||
-      (Number.isInteger(parseFloat(v)) && parseFloat(v) > x),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    (v) => v === null || (Number.isInteger(parseFloat(v)) && v > x),
     NOT_A_WHOLE_NUMBER_GREATER_THAN(x)
   );
 
@@ -290,10 +288,8 @@ export const validateWholeNumberGreaterThan = (x: number) =>
  */
 export const validateWholeNumberGreaterThanOrEqual = (x: number) =>
   createValidator(
-    (v) =>
-      v === null ||
-      !(typeof v === "string") ||
-      (Number.isInteger(parseFloat(v)) && parseFloat(v) >= x),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    (v) => v === null || (Number.isInteger(parseFloat(v)) && v >= x),
     NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL(x)
   );
 
@@ -305,10 +301,8 @@ export const validateWholeNumberBetween = (min: number, max: number) =>
     (v) =>
       !v ||
       v === 0 ||
-      !(typeof v === "string") ||
-      (Number.isInteger(parseFloat(v)) &&
-        parseFloat(v) >= min &&
-        parseFloat(v) <= max),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      (Number.isInteger(parseFloat(v)) && v >= min && v <= max),
     NOT_A_WHOLE_NUMBER_BETWEEN(min, max)
   );
 

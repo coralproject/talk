@@ -117,7 +117,7 @@ export async function retrieveTodayCommentMetrics(
       continue;
     }
 
-    const isSiteMod = isSiteModerator(moderator as Readonly<User>);
+    const isSiteMod = isSiteModerator(moderator);
     if (isSiteMod && !moderator.moderationScopes.siteIDs?.includes(siteID)) {
       const count = moderatorComments.get(moderator.id as string)?.size ?? 0;
       siteModsNotResponsibleForSiteCommentCount += count;
@@ -180,7 +180,7 @@ export async function retrieveAllTimeStaffCommentMetrics(
       continue;
     }
 
-    const isSiteMod = isSiteModerator(moderator as Readonly<User>);
+    const isSiteMod = isSiteModerator(moderator);
     if (isSiteMod && !moderator.moderationScopes.siteIDs?.includes(siteID)) {
       const count = moderatorComments.get(moderator.id as string)?.size ?? 0;
       siteModsNotResponsibleForSiteCommentCount += count;
