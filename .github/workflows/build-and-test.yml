@@ -74,7 +74,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./client/node_modules
-          key: modules-client-n18-${{ hashFiles('package-lock.json') }}
+          key: modules-client-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
       -
         name: Cache Dependencies
@@ -82,7 +82,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./common/node_modules
-          key: modules-common-n18-${{ hashFiles('package-lock.json') }}
+          key: modules-common-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
       -
         name: Cache Dependencies
@@ -90,7 +90,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./server/node_modules
-          key: modules-server-n18-${{ hashFiles('package-lock.json') }}
+          key: modules-server-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
       -
         name: npm ci
