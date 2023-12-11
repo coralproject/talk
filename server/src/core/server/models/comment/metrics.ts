@@ -15,7 +15,6 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { User } from "../user";
 import { PUBLISHED_STATUSES } from "./constants";
 import { hasTag } from "./helpers";
 
@@ -117,6 +116,7 @@ export async function retrieveTodayCommentMetrics(
       continue;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const isSiteMod = isSiteModerator(moderator);
     if (isSiteMod && !moderator.moderationScopes.siteIDs?.includes(siteID)) {
       const count = moderatorComments.get(moderator.id as string)?.size ?? 0;
@@ -180,6 +180,7 @@ export async function retrieveAllTimeStaffCommentMetrics(
       continue;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const isSiteMod = isSiteModerator(moderator);
     if (isSiteMod && !moderator.moderationScopes.siteIDs?.includes(siteID)) {
       const count = moderatorComments.get(moderator.id as string)?.size ?? 0;
