@@ -186,6 +186,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
     setBanError,
     siteBan,
     setSpamBanned,
+    dsaFeaturesEnabled,
   ]);
 
   if (view === "CONFIRM_BAN") {

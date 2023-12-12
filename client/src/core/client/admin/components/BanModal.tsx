@@ -315,6 +315,7 @@ const BanModal: FunctionComponent<Props> = ({
     reasonCode,
     detailedExplanation,
     otherCustomReason,
+    dsaFeaturesEnabled,
   ]);
 
   const {
