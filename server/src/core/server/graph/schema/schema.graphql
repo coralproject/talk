@@ -1956,18 +1956,32 @@ type RTEConfiguration {
 }
 
 type TooManyPeriodsConfig {
+  """
+  enabled decides whether the too many periods config is enabled or not.
+  """
   enabled: Boolean!
 }
 
 type PremoderateEmailAddressConfiguration {
+  """
+  tooManyPeriods is the configuration for premoderating emails
+  that have too many periods.
+  """
   tooManyPeriods: TooManyPeriodsConfig
 }
 
 input TooManyPeriodsConfigInput {
+  """
+  enabled decides whether the too many periods config is enabled or not.
+  """
   enabled: Boolean
 }
 
 input PremoderateEmailAddressConfigurationInput {
+  """
+  tooManyPeriods is the configuration for premoderating emails
+  that have too many periods.
+  """
   tooManyPeriods: TooManyPeriodsConfigInput
 }
 
@@ -2310,7 +2324,10 @@ type Settings @cacheControl(maxAge: 30) {
   """
   dsa: DSAConfiguration!
 
-
+  """
+  premoderateEmailAddress is the configuration for finding specific email
+  addresses at sign up and premoderating them according to various rules.
+  """
   premoderateEmailAddress: PremoderateEmailAddressConfiguration
 }
 
@@ -6454,6 +6471,10 @@ input SettingsInput {
   """
   dsa: DSAConfigurationInput
 
+  """
+  premoderateEmailAddress is the configuration for finding specific email
+  addresses at sign up and premoderating them according to various rules.
+  """
   premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
 }
 
