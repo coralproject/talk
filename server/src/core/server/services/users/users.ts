@@ -115,9 +115,11 @@ import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import {
   GQLAuthIntegrations,
+  GQLREJECTION_REASON_CODE,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { I18n, translate } from "../i18n";
 import { AugmentedRedis } from "../redis";
 import {
   generateAdminDownloadLink,
@@ -1419,6 +1421,7 @@ export async function ban(
   banner: User,
   userID: string,
   message: string,
+  i18n: I18n,
   rejectExistingComments: boolean,
   siteIDs?: string[] | null,
   now = new Date()
@@ -1500,6 +1503,17 @@ export async function ban(
 
   let user: Readonly<User>;
 
+  const bundle = i18n.getBundle(tenant.locale);
+  const tranlsatedExplanation = translate(
+    bundle,
+    "common-userBanned",
+    "User banned."
+  );
+  const rejectionReason = {
+    code: GQLREJECTION_REASON_CODE.OTHER,
+    detailedExplanation: tranlsatedExplanation,
+  };
+
   // Perform a site ban
   if (siteIDs && siteIDs.length > 0) {
     user = await siteBanUser(
@@ -1517,6 +1531,7 @@ export async function ban(
         authorID: userID,
         moderatorID: banner.id,
         siteIDs,
+        reason: rejectionReason,
       });
     }
     const cacheAvailable = await cache.available(tenant.id);
@@ -1574,6 +1589,7 @@ export async function ban(
         tenantID: tenant.id,
         authorID: userID,
         moderatorID: banner.id,
+        reason: rejectionReason,
       });
     }
   }
@@ -1626,6 +1642,7 @@ export async function updateUserBan(
   mailer: MailerQueue,
   rejector: RejectorQueue,
   tenant: Tenant,
+  i18n: I18n,
   banner: User,
   userID: string,
   message: string,
@@ -1721,11 +1738,21 @@ export async function updateUserBan(
 
       // if any new bans and rejectExistingCommments, reject existing comments
       if (rejectExistingComments) {
+        const bundle = i18n.getBundle(tenant.locale);
+        const detailedExplanation = translate(
+          bundle,
+          "common-userBanned",
+          "User was banned."
+        );
         await rejector.add({
           tenantID: tenant.id,
           authorID: targetUser.id,
           moderatorID: banner.id,
           siteIDs: idsToBan,
+          reason: {
+            code: GQLREJECTION_REASON_CODE.OTHER,
+            detailedExplanation,
+          },
         });
       }
 

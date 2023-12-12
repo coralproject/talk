@@ -23,6 +23,7 @@ import { dotize } from "coral-server/utils/dotize";
 
 import {
   GQLAnnouncement,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
   GQLSettings,
@@ -293,10 +294,17 @@ export async function createTenant(
     emailDomainModeration: [],
     embeddedComments: {
       allowReplies: true,
+      oEmbedAllowedOrigins: [],
     },
     flairBadges: {
       flairBadgesEnabled: false,
       badges: [],
+    },
+    dsa: {
+      enabled: false,
+      methodOfRedress: {
+        method: GQLDSA_METHOD_OF_REDRESS.NONE,
+      },
     },
   };
 

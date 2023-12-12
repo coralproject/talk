@@ -43,7 +43,7 @@ import {
 import { ensureFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { isSiteBanned } from "coral-server/models/user/helpers";
-import { removeTag } from "coral-server/services/comments";
+import { moderate, removeTag } from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
@@ -57,6 +57,8 @@ import {
   processForModeration,
 } from "coral-server/services/comments/pipeline";
 import { WordListService } from "coral-server/services/comments/pipeline/phases/wordList/service";
+import { I18n } from "coral-server/services/i18n";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
@@ -95,7 +97,9 @@ const markCommentAsAnswered = async (
   redis: AugmentedRedis,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   comment: Readonly<Comment>,
   story: Story,
@@ -144,7 +148,9 @@ const markCommentAsAnswered = async (
       redis,
       cache,
       config,
+      i18n,
       broker,
+      notifications,
       tenant,
       comment.parentID,
       comment.parentRevisionID,
@@ -201,7 +207,9 @@ export default async function create(
   wordList: WordListService,
   cache: DataCache,
   config: Config,
+  i18n: I18n,
   broker: CoralEventPublisherBroker,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -343,11 +351,11 @@ export default async function create(
   // is added, that it can already know that the comment is already in the
   // queue.
   let actionCounts: EncodedCommentActionCounts = {};
-  if (result.actions.length > 0) {
+  if (result.commentActions.length > 0) {
     // Determine the unique actions, we will use this to compute the comment
     // action counts. This should match what is added below.
     actionCounts = encodeActionCounts(
-      ...filterDuplicateActions(result.actions)
+      ...filterDuplicateActions(result.commentActions)
     );
   }
 
@@ -386,7 +394,9 @@ export default async function create(
       redis,
       cache,
       config,
+      i18n,
       broker,
+      notifications,
       tenant,
       comment,
       story,
@@ -419,13 +429,13 @@ export default async function create(
     log.trace("pushed child comment id onto parent");
   }
 
-  if (result.actions.length > 0) {
+  if (result.commentActions.length > 0) {
     // Actually add the actions to the database. This will not interact with the
     // counts at all.
     await addCommentActions(
       mongo,
       tenant,
-      result.actions.map(
+      result.commentActions.map(
         (action): CreateAction => ({
           ...action,
           commentID: comment.id,
@@ -442,8 +452,30 @@ export default async function create(
     );
   }
 
+  if (result.moderationAction) {
+    // Actually add the actions to the database. This will not interact with the
+    // counts at all.
+    await moderate(
+      mongo,
+      redis,
+      config,
+      i18n,
+      tenant,
+      {
+        ...result.moderationAction,
+        commentID: comment.id,
+        commentRevisionID: revision.id,
+      },
+      now,
+      false,
+      {
+        actionCounts,
+      }
+    );
+  }
+
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo, redis, config, {
+  const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
     tenant,
     actionCounts,
     after: comment,

@@ -25,6 +25,9 @@ import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
 import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
+import { DSAConfiguration } from "./DSAConfiguration";
+import { DSAMethodOfRedressConfiguration } from "./DSAMethodOfRedressConfiguration";
+import { DSAReport } from "./DSAReport";
 import { EditInfo } from "./EditInfo";
 import { EmailDomain } from "./EmailDomain";
 import { ExternalMediaConfiguration } from "./ExternalMediaConfiguration";
@@ -45,6 +48,8 @@ import { ModMessageStatus } from "./ModMessageStatus";
 import { ModMessageStatusHistory } from "./ModMessageStatusHistory";
 import { Mutation } from "./Mutation";
 import { NewCommentersConfiguration } from "./NewCommentersConfiguration";
+import { NotificationResolver as Notification } from "./Notification";
+import { NotificationDSAReportDetailsResolver as NotificationDSAReportDetails } from "./NotificationDSAReportDetails";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
 import { PremoderateEmailAddressConfiguration } from "./PremoderateEmailAddress";
 import { PremodStatus } from "./PremodStatus";
@@ -106,6 +111,7 @@ const Resolvers: GQLResolver = {
   CommentStatusUpdatedPayload,
   Cursor,
   DisableCommenting,
+  DSAReport,
   EditInfo,
   EmailDomain,
   ExternalMediaConfiguration,
@@ -167,6 +173,10 @@ const Resolvers: GQLResolver = {
   LocalAuthIntegration,
   AuthenticationTargetFilter,
   PremoderateEmailAddressConfiguration,
+  Notification,
+  NotificationDSAReportDetails,
+  DSAConfiguration,
+  DSAMethodOfRedressConfiguration,
 };
 
 export default Resolvers;

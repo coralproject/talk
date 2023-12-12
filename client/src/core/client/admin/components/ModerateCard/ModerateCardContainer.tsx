@@ -1,8 +1,11 @@
 import { useRouter } from "found";
 import React, {
   FunctionComponent,
+  Reducer,
   useCallback,
+  useEffect,
   useMemo,
+  useReducer,
   useState,
 } from "react";
 import { graphql } from "react-relay";
@@ -31,6 +34,7 @@ import { ModerateCardContainer_settings } from "coral-admin/__generated__/Modera
 import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import { ModerateCardContainerLocal } from "coral-admin/__generated__/ModerateCardContainerLocal.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
+import { RejectCommentInput } from "coral-stream/__generated__/RejectCommentMutation.graphql";
 
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
@@ -70,6 +74,19 @@ function isFeatured(comment: ModerateCardContainer_comment) {
   return comment.tags.some((t) => t.code === GQLTAG.FEATURED);
 }
 
+interface RejectionState {
+  showModerationReason: boolean;
+  rejecting: boolean;
+  reason?: RejectCommentInput["reason"];
+}
+
+type RejectionAction =
+  | { action: "INDICATE_REJECT" }
+  | { action: "CONFIRM_REASON"; reason: RejectCommentInput["reason"] }
+  | { action: "REJECTION_COMPLETE" };
+
+type RejectionReducer = Reducer<RejectionState, RejectionAction>;
+
 const ModerateCardContainer: FunctionComponent<Props> = ({
   comment,
   settings,
@@ -94,10 +111,11 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const { match, router } = useRouter();
 
-  const [{ moderationQueueSort }] =
+  const [{ moderationQueueSort, dsaFeaturesEnabled }] =
     useLocal<ModerateCardContainerLocal>(graphql`
       fragment ModerateCardContainerLocal on Local {
         moderationQueueSort
+        dsaFeaturesEnabled
       }
     `);
 
@@ -109,6 +127,27 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   );
 
   const [showBanModal, setShowBanModal] = useState(false);
+  const [{ rejecting, reason: rejectionReason }, dispatch] =
+    useReducer<RejectionReducer>( // TODO use dispatch
+      (state, input) => {
+        switch (input.action) {
+          case "INDICATE_REJECT":
+            return dsaFeaturesEnabled
+              ? { showModerationReason: true, rejecting: false }
+              : { showModerationReason: false, rejecting: true };
+          case "CONFIRM_REASON":
+            return {
+              showModerationReason: false,
+              rejecting: true,
+              reason: input.reason,
+            };
+          case "REJECTION_COMPLETE":
+            return { showModerationReason: false, rejecting: false };
+        }
+      },
+      { showModerationReason: false, rejecting: false }
+    );
+
   const handleApprove = useCallback(async () => {
     if (!comment.revision) {
       return;
@@ -159,11 +198,15 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     await rejectComment({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
+      reason: rejectionReason,
       storyID,
       siteID,
       section,
       orderBy: moderationQueueSort,
     });
+
+    dispatch({ action: "REJECTION_COMPLETE" });
+
     if (loadNext) {
       loadNext();
     }
@@ -179,6 +222,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     loadNext,
     moderationQueueSort,
     onModerated,
+    rejectionReason,
   ]);
 
   const handleFeature = useCallback(() => {
@@ -276,6 +320,12 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
 
   const handleBanConfirm = useCallback(() => setShowBanModal(false), []);
 
+  useEffect(() => {
+    if (rejecting) {
+      void handleReject();
+    }
+  }, [handleReject, rejecting]);
+
   // Only highlight comments that have been flagged for containing a banned or
   // suspect word.
   const highlight = useMemo(() => {
@@ -319,7 +369,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           featured={isFeatured(comment)}
           viewContextHref={comment.permalink}
           onApprove={handleApprove}
-          onReject={handleReject}
+          onReject={() => dispatch({ action: "INDICATE_REJECT" })}
           onFeature={onFeature}
           onUsernameClick={onUsernameClicked}
           onConversationClick={
@@ -357,6 +407,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           isArchived={comment.story.isArchived}
           isArchiving={comment.story.isArchiving}
+          dsaFeaturesEnabled={!!dsaFeaturesEnabled}
+          onReason={(reason) => dispatch({ action: "CONFIRM_REASON", reason })}
         />
       </FadeInTransition>
       {comment.author && (

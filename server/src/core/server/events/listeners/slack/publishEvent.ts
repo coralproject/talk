@@ -103,9 +103,12 @@ export default class SlackPublishEvent {
     );
     const commentLink = getURLWithCommentID(this.story.url, this.comment.id);
 
-    const body = getHTMLPlainText(getLatestRevision(this.comment).body);
+    // We truncate to less than 3000 characters to stay under Slack limits
+    const truncatedBody = getHTMLPlainText(
+      getLatestRevision(this.comment).body
+    ).slice(0, 2999);
     return {
-      text: body,
+      text: truncatedBody,
       blocks: [
         {
           type: "section",
@@ -121,7 +124,7 @@ export default class SlackPublishEvent {
           block_id: "body-block",
           text: {
             type: "plain_text",
-            text: body,
+            text: truncatedBody,
           },
         },
         {

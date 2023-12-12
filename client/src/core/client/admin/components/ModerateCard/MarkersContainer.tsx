@@ -191,6 +191,16 @@ const markers: Array<
         </Localized>
       )) ||
     null,
+  (c) =>
+    (c.revision && c.revision.actionCounts.illegal.total > 0 && (
+      <Marker key={keyCounter++} color="reported">
+        <Localized id="moderate-marker-illegal">
+          <span>Illegal content</span>
+        </Localized>{" "}
+        <MarkerCount>{c.revision.actionCounts.illegal.total}</MarkerCount>
+      </Marker>
+    )) ||
+    null,
 ];
 
 export const MarkersContainer: React.FunctionComponent<
@@ -243,6 +253,9 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
       }
       revision {
         actionCounts {
+          illegal {
+            total
+          }
           flag {
             reasons {
               COMMENT_REPORTED_SPAM

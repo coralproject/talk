@@ -1,0 +1,38 @@
+.body {
+  margin-left: var(--spacing-5);
+  margin-bottom: var(--spacing-2);
+
+  width: calc(100% - var(--spacing-4));
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+}
+
+.body > p {
+  margin-bottom: var(--spacing-3);
+}
+
+.details {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+}
+
+.detailLabel {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+  text-transform: uppercase;
+
+  margin-bottom: var(--spacing-1);
+}
+
+.detailItem {
+  margin-bottom: var(--spacing-2);
+}
+
+.contextItem {
+  margin-left: var(--spacing-5);
+  margin-bottom: var(--spacing-2);
+}

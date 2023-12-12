@@ -927,9 +927,12 @@ export async function updateCommentActionCounts(
   tenantID: string,
   id: string,
   revisionID: string,
-  actionCounts: EncodedCommentActionCounts
+  actionCounts: EncodedCommentActionCounts,
+  isArchived = false
 ) {
-  const result = await mongo.comments().findOneAndUpdate(
+  const collection =
+    isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
+  const result = await collection.findOneAndUpdate(
     { id, tenantID },
     // Update all the specific action counts that are associated with each of
     // the counts.

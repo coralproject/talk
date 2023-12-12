@@ -617,6 +617,12 @@ export interface User extends TenantResource {
    */
   bio?: string;
 
+  /**
+   * lastSeenNotificationDate is the date of the last notification the user loaded (viewed)
+   * in their notification tab.
+   */
+  lastSeenNotificationDate?: Date | null;
+
   premoderatedBecauseOfEmailAt?: Date;
 }
 

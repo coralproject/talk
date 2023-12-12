@@ -59,7 +59,7 @@ it("renders configure advanced", async () => {
   const { configureContainer } = await createTestRenderer();
   expect(within(configureContainer).getByLabelText("Custom CSS")).toBeDefined();
   expect(
-    within(configureContainer).getByText("Embedded comment replies")
+    within(configureContainer).getByText("Embedded comments")
   ).toBeDefined();
   expect(
     within(configureContainer).getByText("Comment stream live updates")
@@ -223,7 +223,7 @@ it("change embedded comments allow replies", async () => {
   });
 
   const embeddedCommentReplies = within(advancedContainer).getByTestId(
-    "embedded-comment-replies-config"
+    "embedded-comments-config"
   );
 
   const offField = within(embeddedCommentReplies).getByText("Off");
@@ -237,6 +237,46 @@ it("change embedded comments allow replies", async () => {
   expect(saveChangesButton).toBeDisabled();
 
   // Should have successfully sent with server.
+  await waitFor(() => {
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+  });
+});
+
+it("change oembed permitted domains", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(
+          variables.settings.embeddedComments?.oEmbedAllowedOrigins
+        ).toEqual(["http://localhost:8080"]);
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const { advancedContainer, saveChangesButton } = await createTestRenderer({
+    resolvers,
+  });
+
+  const oembedAllowedOriginsConfig = within(advancedContainer).getByTestId(
+    "embedded-comments-config"
+  );
+
+  const allowedOriginsTextArea = within(oembedAllowedOriginsConfig).getByRole(
+    "textbox"
+  );
+
+  userEvent.type(allowedOriginsTextArea, "http://");
+
+  userEvent.click(saveChangesButton);
+
+  expect(within(advancedContainer).getByText("Invalid URL"));
+
+  userEvent.type(allowedOriginsTextArea, "localhost:8080");
+
+  userEvent.click(saveChangesButton);
+
   await waitFor(() => {
     expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
   });

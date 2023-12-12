@@ -258,6 +258,13 @@ type DontAgreeActionCounts {
   total: Int!
 }
 
+type IllegalActionCounts {
+  """
+  total is the total number of illegal actions against a given item.
+  """
+  total: Int!
+}
+
 type Reacter {
   username: String
   userID: String
@@ -359,6 +366,12 @@ type Flag {
   createdAt is when this flag was created.
   """
   createdAt: Time!
+
+  """
+  reportID is the id of the DSAReport that was created when the comment was flagged
+  as potentially containing illegal content. Only exists for illegal content flag type.
+  """
+  reportID: String
 }
 
 type FlagEdge {
@@ -427,6 +440,11 @@ type ActionCounts {
   restricted to administrators and moderators.
   """
   flag: FlagActionCounts! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  illegal returns the counts for the illegal content action on on item.
+  """
+  illegal: IllegalActionCounts!
 }
 
 """
@@ -449,6 +467,11 @@ type ActionPresence {
   flag is true when a flag action was left on an item.
   """
   flag: Boolean!
+
+  """
+  flag is true when an illegal content actions was left on an item.
+  """
+  illegal: Boolean!
 }
 
 ################################################################################
@@ -1673,6 +1696,10 @@ EmbeddedCommentsConfiguration specifies the configuration for embedded comments.
 """
 type EmbeddedCommentsConfiguration {
   allowReplies: Boolean
+  """
+  oEmbedAllowedOrigins are the allowed origins for oEmbed API calls.
+  """
+  oEmbedAllowedOrigins: [String!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 """
@@ -1710,7 +1737,6 @@ type BadgeConfiguration {
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
 """
-
 type FlairBadge {
   name: String!
   url: String!
@@ -1734,6 +1760,7 @@ enum WEBHOOK_EVENT_NAME {
   STORY_CREATED
   COMMENT_CREATED
   COMMENT_REPLY_CREATED
+  COMMENT_LEFT_MODERATION_QUEUE
 }
 
 type WebhookEndpoint {
@@ -1942,6 +1969,44 @@ input TooManyPeriodsConfigInput {
 
 input PremoderateEmailAddressConfigurationInput {
   tooManyPeriods: TooManyPeriodsConfigInput
+}
+
+enum DSA_METHOD_OF_REDRESS {
+  NONE
+  EMAIL
+  URL
+}
+
+type DSAMethodOfRedressConfiguration {
+  """
+  method defines the type of redress that is available to the
+  users about DSA decisions.
+  """
+  method: DSA_METHOD_OF_REDRESS!
+
+  """
+  email is the email used when method is set to EMAIL.
+  """
+  email: String
+
+  """
+  url is the url that is used when method is set to URL.
+  """
+  url: String
+}
+
+type DSAConfiguration {
+  """
+  enabled when true turns on the European Union DSA compliance
+  features for commenting, reporting, and moderation flows.
+  """
+  enabled: Boolean!
+
+  """
+  methodOfRedress lets users know if and how they can appeal a
+  moderation decision
+  """
+  methodOfRedress: DSAMethodOfRedressConfiguration!
 }
 
 """
@@ -2238,6 +2303,13 @@ type Settings @cacheControl(maxAge: 30) {
   they are enabled and any configured image urls
   """
   flairBadges: FlairBadgeConfiguration
+
+  """
+  dsa specifies the configuration for the European Union's DSA compliance
+  features and whether they are enabled.
+  """
+  dsa: DSAConfiguration!
+
 
   premoderateEmailAddress: PremoderateEmailAddressConfiguration
 }
@@ -2673,6 +2745,13 @@ type UserStatus {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+}
+
+enum DSAREPORT_STATUS_FILTER {
+  AWAITING_REVIEW
+  UNDER_REVIEW
+  COMPLETED
+  VOID
 }
 
 enum USER_STATUS_FILTER {
@@ -3165,6 +3244,27 @@ type User {
   filter.
   """
   premoderatedBecauseOfEmailAt: Time @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  hasNewNotifications returns true if the user has received new notifications
+  since they last viewed their notifications tab.
+  """
+  hasNewNotifications: Boolean!
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  lastSeenNotificationDate is the date of the last notification the user viewed.
+  """
+  lastSeenNotificationDate: Time
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
 }
 
 """
@@ -3237,6 +3337,41 @@ type SitesConnection {
   pageInfo: PageInfo!
 }
 
+"""
+DSAReportEdge represents a unique DSAReport in a DSAReportConnection.
+"""
+type DSAReportEdge {
+  """
+  node is the DSAReport for this edge.
+  """
+  node: DSAReport!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+"""
+DSAReportsConnection represents a subset of a DSA reports list.
+"""
+type DSAReportsConnection {
+  """
+  edges are a subset of DSAReportEdge's.
+  """
+  edges: [DSAReportEdge!]!
+
+  """
+  nodes is a list of DSAReports.
+  """
+  nodes: [DSAReport!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
 ################################################################################
 ## Comment
 ################################################################################
@@ -3285,6 +3420,85 @@ enum COMMENT_STATUS {
   SYSTEM_WITHHELD
 }
 
+enum REJECTION_REASON_CODE {
+  """
+  OFFENSIVE represents a rejection of a comment for being offensive.
+  """
+  OFFENSIVE
+
+  """
+  ABUSIVE represents a rejection of a comment for being abusive.
+  """
+  ABUSIVE
+
+  """
+  SPAM represents a rejection of a comment for being spam.
+  """
+  SPAM
+
+  """
+  BANNED_WORD represents a rejection of a comment for containing a banned word.
+  """
+  BANNED_WORD
+
+  """
+  AD represents a rejection of a comment for being and ad.
+  """
+  AD
+
+  """
+  ILLEGAL_CONTENT represents a rejection of a comment for containing illegal content.
+  """
+  ILLEGAL_CONTENT
+
+  """
+  HARASSMENT_BULLYING represents a rejection of a comment for being harassment or bullying.
+  """
+  HARASSMENT_BULLYING
+
+  """
+  MISINFORMATION represents a rejection of a comment for being misinformation.
+  """
+  MISINFORMATION
+
+  """
+  HATE_SPEECH represents a rejection of a comment for being hate speech.
+  """
+  HATE_SPEECH
+
+  """
+  IRRELEVANT_CONTENT represents a rejection of a comment for being irrelevant to the conversation.
+  """
+  IRRELEVANT_CONTENT
+
+  """
+  OTHER is reserved for reasons that arent adequately described by the other options.
+  """
+  OTHER
+}
+
+type RejectionReason {
+  """
+  code is the reason that the comment was rejected
+  """
+  code: REJECTION_REASON_CODE!
+
+  """
+  legalGrounds is the specific laws broken as described by the reporter
+  """
+  legalGrounds: String
+
+  """
+  detailedExplanation is any additional information the user wishes to provide.
+  """
+  detailedExplanation: String
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
+}
+
 type CommentModerationAction {
   id: ID!
 
@@ -3310,9 +3524,19 @@ type CommentModerationAction {
   moderator: User
 
   """
+  reason is the reason the comment was rejected, if it was rejected
+  """
+  rejectionReason: RejectionReason
+
+  """
   createdAt is the time that the CommentModerationAction was created.
   """
   createdAt: Time!
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
 }
 
 type CommentModerationActionEdge {
@@ -3342,6 +3566,154 @@ type CommentModerationActionConnection {
   pageInfo is information to aid in pagination.
   """
   pageInfo: PageInfo!
+}
+
+"""
+DSAReportStatus keeps track of where a DSAReport is in the process of being reviewed
+"""
+enum DSAReportStatus {
+  AWAITING_REVIEW
+  UNDER_REVIEW
+  COMPLETED
+  """
+  VOID is set for a DSAReport if its reported comment/user are deleted while the report is in review
+  """
+  VOID
+}
+
+"""
+DSAReportDecision keeps track of whether a DSAReport was determined illegal or not
+"""
+enum DSAReportDecisionLegality {
+  LEGAL
+  ILLEGAL
+}
+
+enum DSAReportHistoryType {
+  STATUS_CHANGED
+  NOTE
+  DECISION_MADE
+  SHARE
+}
+
+type DSAReportDecision {
+  legality: DSAReportDecisionLegality!
+  legalGrounds: String
+  detailedExplanation: String
+}
+
+type DSAReportHistoryItem {
+  id: ID!
+
+  """
+  type is the kind of DSA report history item this is
+  """
+  type: DSAReportHistoryType
+
+  """
+  createdAt is when this report history item was created
+  """
+  createdAt: Time!
+
+  """
+  createdBy is the user who added this report history item
+  """
+  createdBy: User
+
+  """
+  decision is included if the report history item is making a decision
+  """
+  decision: DSAReportDecision
+
+  """
+  note is included as an explanation for a report history item decision
+  """
+  note: String
+
+  """
+  status is the new status if the report history item type changes the status
+  """
+  status: DSAReportStatus
+
+  """
+  body is the text added if the report history item decision is a note added
+  """
+  body: String
+}
+
+type DSAReport {
+  id: ID!
+
+  """
+  referenceID is a human-friendly ID to keep track of the DSAReport
+  """
+  referenceID: String!
+
+  """
+  submissionID keeps track of comments that were submitted together in one form
+  """
+  submissionID: String!
+
+  """
+  user who submitted the DSAReport
+  """
+  reporter: User
+
+  """
+  comment reported as containing illegal content
+  """
+  comment: Comment
+
+  """
+  createdAt is when the DSAReport was created
+  """
+  createdAt: Time!
+
+  """
+  status of DSAReport
+  """
+  status: DSAReportStatus
+
+  """
+  lawBrokenDescription is the text entered by the submitting user to describe
+  which law is broken by the reported comment
+  """
+  lawBrokenDescription: String!
+
+  """
+  additionalInformation is more explanation entereted by the submitting user to
+  describe how the comment breaks the law
+  """
+  additionalInformation: String!
+
+  """
+  decision is the determination of whether the reported comment is illegal or not, as well as
+  the legal grounds for the decision and additional detailed explanation of decision
+  """
+  decision: DSAReportDecision
+
+  """
+  history includes report history items such as notes added to a report, when a report's
+  status is changed, and if a decision is made regarding whether the related comment contains
+  illegal content or not
+  """
+  history: [DSAReportHistoryItem]
+
+  """
+  lastUpdated is when the DSAReport last had an action created and added to its history,
+  such as a note added, status changed, or decision made
+  """
+  lastUpdated: Time
+
+  """
+  relatedReports are DSAReports that share a submissionID and were submitted at the same time
+  in one illegal content report
+  """
+  relatedReports(
+    first: Int = 10 @constraint(max: 50)
+    orderBy: REPORT_SORT = CREATED_AT_DESC
+    after: Cursor
+  ): DSAReportsConnection!
 }
 
 type CommentRevisionPerspectiveMetadata {
@@ -3845,6 +4217,14 @@ type Comment @cacheControl(maxAge: 5) {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
+  illegalContent is the illegal content flags left by users.
+  """
+  illegalContent(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): FlagsConnection! @auth(roles: [ADMIN, MODERATOR])
+
+  """
   viewerActionPresence stores the presence information for all the actions
   left by the current User on this Comment.
   """
@@ -4019,6 +4399,11 @@ enum COMMENT_SORT {
   CREATED_AT_ASC
   REPLIES_DESC
   REACTION_DESC
+}
+
+enum REPORT_SORT {
+  CREATED_AT_DESC
+  CREATED_AT_ASC
 }
 
 """
@@ -4404,6 +4789,171 @@ type Queues {
 }
 
 ################################################################################
+## Notifications
+################################################################################
+
+enum NOTIFICATION_TYPE {
+  UNKNOWN
+  COMMENT_FEATURED
+  COMMENT_APPROVED
+  COMMENT_REJECTED
+  ILLEGAL_REJECTED
+  DSA_REPORT_DECISION_MADE
+}
+
+type Notification {
+  """
+  id is the uuid identifier for the notification.
+  """
+  id: ID!
+
+  """
+  ownerID is the string identifier for who this notification is directed to.
+  """
+  ownerID: ID!
+
+  """
+  type defines the template type for this notification used to generate
+  it. Useful for sorting and filtering categorized notifications.
+  """
+  type: NOTIFICATION_TYPE
+
+  """
+  createdAt is when this notification was created, used for sorting.
+  """
+  createdAt: Time!
+
+  """
+  comment is the optional comment that is linked to this notification.
+  """
+  comment: Comment
+
+  """
+  commentStatus is the optional status of the comment when the notification
+  was created. This allows for the context of the state of the comment to be
+  persisted even if the comment reference undergoes multiple moderation actions
+  since the notification was created.
+  """
+  commentStatus: COMMENT_STATUS
+
+  """
+  rejectionReason is an optional field that defines why a comment was rejected.
+  """
+  rejectionReason: REJECTION_REASON_CODE
+
+  """
+  decisionDetails is an optional field that contains further details pertaining
+  to DSA or moderation decisions.
+  """
+  decisionDetails: NotificationDecisionDetails
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
+
+  """
+  dsaReport is the details of the DSA Report related to the notification.
+  This is usually in reference to the comment that is also related to
+  the notification.
+  """
+  dsaReport: NotificationDSAReportDetails
+}
+
+type NotificationEdge {
+  """
+  node is the Flag for this edge.
+  """
+  node: Notification!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+type NotificationsConnection {
+  """
+  edges are a subset of FlagEdge's.
+  """
+  edges: [NotificationEdge!]!
+
+  """
+  nodes is a list of Flags.
+  """
+  nodes: [Notification!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
+type NotificationDSAReportDetails {
+  """
+  id is the primary identifier of the DSA report.
+  """
+  id: ID!
+
+  """
+  createdAt is the date when this report was created
+  """
+  createdAt: Time!
+
+  """
+  referenceID is the friendly identifier that is human readable
+  for the DSA report.
+  """
+  referenceID: String!
+
+  """
+  comment is the comment associated with the DSA report.
+  """
+  comment: Comment
+
+  """
+  user is the target user (of the comment) the DSA report pertains to.
+  """
+  user: User
+
+  """
+  lawBrokenDescription describes the law that was allegedly broken in the
+  DSA report.
+  """
+  lawBrokenDescription: String @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  additionalInformation is any further relevant details added by the user
+  who filed the DSA report.
+  """
+  additionalInformation: String @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  submissionID is the linking id that connects this DSA report to other reports
+  that may have been submitted at the same time by the same reporting user as
+  a collection of co-related DSA reports.
+  """
+  submissionID: ID @auth(roles: [ADMIN, MODERATOR])
+}
+
+type NotificationDecisionDetails {
+  """
+  legality defines whether the rejection reason is of legal or illegal state.
+  """
+  legality: DSAReportDecisionLegality
+
+  """
+  grounds is the legal grounds for which the rejection may have been made.
+  """
+  grounds: String
+
+  """
+  explanation gives further context to the reasons for rejection.
+  """
+  explanation: String
+}
+
+################################################################################
 ## Query
 ################################################################################
 
@@ -4569,6 +5119,31 @@ type Query {
   emailDomain will return a specific emailDomain configuration if it exists.
   """
   emailDomain(id: ID!): EmailDomain @auth(roles: [ADMIN])
+
+  """
+  dsaReports are the list of dsaReports
+  """
+  dsaReports(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+    orderBy: REPORT_SORT = CREATED_AT_DESC
+    status: [DSAREPORT_STATUS_FILTER!]
+    query: String
+  ): DSAReportsConnection! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  dsaReport returns a specific dsaReport.
+  """
+  dsaReport(id: ID!): DSAReport
+
+  """
+  notifications will return a list of notifications for an ownerID.
+  """
+  notifications(
+    ownerID: ID!
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): NotificationsConnection!
 }
 
 ################################################################################
@@ -5593,6 +6168,10 @@ EmbeddedCommentsConfigurationInput specifies the configuration for comment embed
 """
 input EmbeddedCommentsConfigurationInput {
   allowReplies: Boolean
+  """
+  oEmbedAllowedOrigins are the allowed origins for oEmbed API calls.
+  """
+  oEmbedAllowedOrigins: [String!]
 }
 
 """
@@ -5621,6 +6200,46 @@ including whether they are enabled and their image urls.
 input FlairBadgeConfigurationInput {
   flairBadgesEnabled: Boolean
   flairBadgeURLs: [String!]
+}
+
+"""
+DSAMethodOfRedressConfigurationInput specifies the methods of redress and
+their configuration values for users disputing DSA reporting decisions.
+"""
+input DSAMethodOfRedressConfigurationInput {
+  """
+  method defines the type of redress that is available to the
+  users about DSA decisions.
+  """
+  method: DSA_METHOD_OF_REDRESS
+
+  """
+  email is the email used when method is set to EMAIL.
+  """
+  email: String
+
+  """
+  url is the url that is used when method is set to URL.
+  """
+  url: String
+}
+
+"""
+DSAConfigurationInput specifies the configuration for DSA European Union
+moderation and reporting features.
+"""
+input DSAConfigurationInput {
+  """
+  enabled when true turns on the European Union DSA compliance
+  features for commenting, reporting, and moderation flows.
+  """
+  enabled: Boolean
+
+  """
+  methodOfRedress lets users know if and how they can appeal a
+  moderation decision
+  """
+  methodOfRedress: DSAMethodOfRedressConfigurationInput
 }
 
 """
@@ -5828,6 +6447,13 @@ input SettingsInput {
   """
   flairBadges: FlairBadgeConfigurationInput
 
+
+  """
+  dsa specifies the configuration for DSA European Union moderation and
+  reporting features.
+  """
+  dsa: DSAConfigurationInput
+
   premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
 }
 
@@ -5971,6 +6597,30 @@ type CreateCommentDontAgreePayload {
   clientMutationId: String!
 }
 
+input CreateIllegalContentInput {
+  """
+  commentID is the id of the comment reported for illegal content.
+  """
+  commentID: ID!
+
+  """
+  commentRevisionID is the revision ID of the comment reported for illegal content.
+  """
+  commentRevisionID: ID!
+}
+
+type CreateIllegalContentPayload {
+  """
+  comment is the Comment that the illegal content report was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 ##################
 ## removeCommentDontAgree
 ##################
@@ -6043,6 +6693,237 @@ type CreateCommentFlagPayload {
   comment is the Comment that the Flag was created on.
   """
   comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input AddDSAReportNoteInput {
+  """
+  id of the user who added the note to the DSAReport
+  """
+  userID: ID!
+
+  """
+  body is the text of the note added to the DSAReport
+  """
+  body: String!
+
+  """
+  reportID is the id of the DSAReport to which the note is being added
+  """
+  reportID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type AddDSAReportNotePayload {
+  """
+  dsaReport is the DSAReport that the note was added to
+  """
+  dsaReport: DSAReport
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input AddDSAReportShareInput {
+  """
+  id of the user who shared the DSAReport
+  """
+  userID: ID!
+
+  """
+  reportID is the id of the DSAReport which was downloaded to share
+  """
+  reportID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type AddDSAReportSharePayload {
+  """
+  dsaReport is the DSAReport that was downloaded to share
+  """
+  dsaReport: DSAReport
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input DeleteDSAReportNoteInput {
+  """
+  id of the note to be deleted from DSAReport history
+  """
+  id: ID!
+
+  """
+  reportID is the id of the DSAReport from which the note is to be deleted
+  """
+  reportID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteDSAReportNotePayload {
+  """
+  dsaReport is the DSAReport from which the note was deleted
+  """
+  dsaReport: DSAReport
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input MakeDSAReportDecisionInput {
+  """
+  id of the user who made a decision for the DSAReport
+  """
+  userID: ID!
+
+  """
+  legality is the legality decision made for the DSAReport
+  """
+  legality: DSAReportDecisionLegality!
+
+  """
+  legal grounds is an overview of the law broken as part of illegal content decision
+  """
+  legalGrounds: String
+
+  """
+  detailedExplanation provides more information as part of illegal content decision
+  """
+  detailedExplanation: String
+
+  """
+  commentID is the id of the comment about which the DSAReport legality decision is being made
+  """
+  commentID: ID!
+
+  """
+  commentRevisionID is the revision id of the comment about which the DSAReport legality decision is being made
+  """
+  commentRevisionID: ID!
+
+  """
+  reportID is the id of the DSAReport that is being decided on
+  """
+  reportID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type MakeDSAReportDecisionPayload {
+  """
+  dsaReport is the DSAReport that was decided on
+  """
+  dsaReport: DSAReport
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input ChangeDSAReportStatusInput {
+  """
+  id of the user who changed the status of the DSAReport
+  """
+  userID: ID!
+
+  """
+  status is the new status of the DSAReport
+  """
+  status: DSAReportStatus!
+
+  """
+  reportID is the id of the DSAReport that is having its status changed
+  """
+  reportID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type ChangeDSAReportStatusPayload {
+  """
+  dsaReport is the DSAReport that had its status changed
+  """
+  dsaReport: DSAReport
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input CreateDSAReportInput {
+  """
+  id of the reported comment
+  """
+  commentID: ID!
+
+  """
+  id of the user who submitted the DSAReport
+  """
+  userID: ID!
+
+  """
+  lawBrokenDescription is the text entered by the submitting user to describe
+  which law is broken by the reported comment
+  """
+  lawBrokenDescription: String!
+
+  """
+  additionalInformation is more explanation entereted by the submitting user to
+  describe how the comment breaks the law
+  """
+  additionalInformation: String!
+
+  """
+  submissionID keeps track of comments that were submitted together in one form
+  """
+  submissionID: ID
+
+  """
+  commentRevisionID is the revision ID for the comment for which a DSA report is being submitted.
+  """
+  commentRevisionID: String
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateDSAReportPayload {
+  """
+  dsaReport is the report that was newly created
+  """
+  dsaReport: DSAReport
 
   """
   clientMutationId is required for Relay support.
@@ -6500,6 +7381,28 @@ type ApproveCommentPayload {
 # rejectComment
 ##################
 
+input RejectCommentReasonInput {
+  """
+  code is the enumerated code for the reason the comment is being rejected.
+  """
+  code: REJECTION_REASON_CODE!
+
+  """
+  legalGrounds is the specific laws broken as described by the reporter.
+  """
+  legalGrounds: String
+
+  """
+  detailedExplanation is any additional information the user wishes to provide.
+  """
+  detailedExplanation: String
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
+}
+
 input RejectCommentInput {
   """
   commentID is the ID of the Comment that was rejected.
@@ -6510,6 +7413,11 @@ input RejectCommentInput {
   commentRevisionID is the ID of the CommentRevision that is being rejected.
   """
   commentRevisionID: ID!
+
+  """
+  reason is the reason the comment is being rejected if DSA features are enabled.
+  """
+  reason: RejectCommentReasonInput
 
   """
   clientMutationId is required for Relay support.
@@ -9767,6 +10675,42 @@ type Mutation {
   flushRedis flushes the redis instance.
   """
   flushRedis(input: FlushRedisInput!): FlushRedisPayload! @auth(roles: [ADMIN])
+
+  """
+  createDSAReport creates a DSAReport for the provided comment
+  """
+  createDSAReport(input: CreateDSAReportInput!): CreateDSAReportPayload!
+
+  """
+  addDSAReportNote adds a note to the history for a DSAReport
+  """
+  addDSAReportNote(input: AddDSAReportNoteInput!): AddDSAReportNotePayload!
+
+  """
+  addDSAReportShare adds that the report was downloaded and shared to the history for a DSAReport
+  """
+  addDSAReportShare(input: AddDSAReportShareInput!): AddDSAReportSharePayload!
+
+  """
+  deleteDSAReportNote deletes a note from the history for a DSAReport
+  """
+  deleteDSAReportNote(
+    input: DeleteDSAReportNoteInput!
+  ): DeleteDSAReportNotePayload!
+
+  """
+  changeDSAReportStatus changes the status of a DSAReport and adds the status change to the history for a DSAReport
+  """
+  changeDSAReportStatus(
+    input: ChangeDSAReportStatusInput!
+  ): ChangeDSAReportStatusPayload!
+
+  """
+  makeDSAReportDecision makes a legality decision for a DSAReport and adds the decision to the history for a DSAReport
+  """
+  makeDSAReportDecision(
+    input: MakeDSAReportDecisionInput!
+  ): MakeDSAReportDecisionPayload!
 }
 
 ##################

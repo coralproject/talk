@@ -10,12 +10,18 @@ import ValidationMessage from "../../ValidationMessage";
 import styles from "./AllowedOriginsTextarea.css";
 
 interface Props {
+  name: string;
   defaultValue?: ReadonlyArray<string>;
+  disabled?: boolean;
 }
 
-const AllowedOriginsTextarea: FunctionComponent<Props> = ({ defaultValue }) => (
+const AllowedOriginsTextarea: FunctionComponent<Props> = ({
+  name,
+  defaultValue,
+  disabled = false,
+}) => (
   <Field
-    name="allowedOrigins"
+    name={name}
     parse={parseStringList}
     format={formatStringList}
     validate={validateStrictURLList}
@@ -32,6 +38,7 @@ const AllowedOriginsTextarea: FunctionComponent<Props> = ({ defaultValue }) => (
           autoCapitalize="off"
           spellCheck={false}
           fullwidth
+          disabled={disabled}
         />
         <ValidationMessage meta={meta} />
       </>
