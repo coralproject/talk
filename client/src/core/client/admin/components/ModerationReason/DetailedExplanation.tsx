@@ -119,7 +119,10 @@ const DetailedExplanation: FunctionComponent<Props> = ({
           </Localized>
         </>
       ) : (
-        <AddExplanationButton onClick={() => setShowAddExplanation(true)} />
+        <AddExplanationButton
+          onClick={() => setShowAddExplanation(true)}
+          linkClassName={linkClassName}
+        />
       )}
     </>
   );

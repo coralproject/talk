@@ -8875,6 +8875,8 @@ input BanUserInput {
   whether or not to reject all the user's previous comments when banning them.
   """
   rejectExistingComments: Boolean
+
+  rejectionReason: RejectCommentReasonInput
 }
 
 type BanUserPayload {
@@ -8916,6 +8918,8 @@ input UpdateUserBanInput {
   on sites on which the user has been newly banned, if any.
   """
   rejectExistingComments: Boolean
+
+  rejectionReason: RejectCommentReasonInput
 
   """
   clientMutationID is required for relay support

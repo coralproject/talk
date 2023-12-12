@@ -336,6 +336,7 @@ export const Users = (ctx: GraphContext) => ({
     message,
     rejectExistingComments = false,
     siteIDs,
+    rejectionReason,
   }: GQLBanUserInput) =>
     ban(
       ctx.mongo,
@@ -349,6 +350,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.i18n,
       rejectExistingComments,
       siteIDs,
+      rejectionReason,
       ctx.now
     ),
   updateUserBan:
@@ -358,6 +360,7 @@ export const Users = (ctx: GraphContext) => ({
       rejectExistingComments = false,
       banSiteIDs,
       unbanSiteIDs,
+      rejectionReason,
     }: GQLUpdateUserBanInput) =>
     async () =>
       updateUserBan(
@@ -373,6 +376,7 @@ export const Users = (ctx: GraphContext) => ({
         rejectExistingComments,
         banSiteIDs,
         unbanSiteIDs,
+        rejectionReason,
         ctx.now
       ),
   warn: async (input: GQLWarnUserInput) =>

@@ -8,13 +8,18 @@ import React, {
   useState,
 } from "react";
 import { Form } from "react-final-form";
+import { graphql } from "react-relay";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import { extractDomain } from "coral-common/common/lib/email";
+import {
+  isOrgModerator,
+  isSiteModerator,
+} from "coral-common/common/lib/permissions/types";
 import { useGetMessage } from "coral-framework/lib/i18n";
-import { useMutation } from "coral-framework/lib/relay";
-import { GQLUSER_ROLE } from "coral-framework/schema";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
+import { GQLREJECTION_REASON_CODE, GQLUSER_ROLE } from "coral-framework/schema";
 import {
   ArrowsDownIcon,
   ArrowsUpIcon,
@@ -32,6 +37,7 @@ import {
 } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
+import { BanModalLocal } from "coral-admin/__generated__/BanModalLocal.graphql";
 import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
@@ -40,16 +46,14 @@ import BanDomainMutation from "./BanDomainMutation";
 import BanUserMutation from "./BanUserMutation";
 import ModalHeader from "./ModalHeader";
 import ModalHeaderUsername from "./ModalHeaderUsername";
+import DetailedExplanation from "./ModerationReason/DetailedExplanation";
+import Reasons from "./ModerationReason/Reasons";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import UpdateUserBanMutation from "./UpdateUserBanMutation";
 import ChangeStatusModal from "./UserStatus/ChangeStatusModal";
 import { getTextForUpdateType } from "./UserStatus/helpers";
 import UserStatusSitesList from "./UserStatus/UserStatusSitesList";
 
-import {
-  isOrgModerator,
-  isSiteModerator,
-} from "coral-common/common/lib/permissions/types";
 import styles from "./BanModal.css";
 
 export enum UpdateType {
@@ -140,6 +144,12 @@ const BanModal: FunctionComponent<Props> = ({
   const updateUserBan = useMutation(UpdateUserBanMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
 
+  const [{ dsaFeaturesEnabled }] = useLocal<BanModalLocal>(graphql`
+    fragment BanModalLocal on Local {
+      dsaFeaturesEnabled
+    }
+  `);
+
   const getMessage = useGetMessage();
   const getDefaultMessage = useMemo((): string => {
     return getMessage(
@@ -203,6 +213,17 @@ const BanModal: FunctionComponent<Props> = ({
     ({ domain }) => domain === emailDomain
   );
 
+  const [view, setView] = useState<"REASON" | "EXPLANATION">("REASON");
+  const [reasonCode, setReasonCode] = useState<GQLREJECTION_REASON_CODE | null>(
+    null
+  );
+  const [detailedExplanation, setDetailedExplanation] = useState<string | null>(
+    null
+  );
+  const [otherCustomReason, setOtherCustomReason] = useState<string | null>(
+    null
+  );
+
   const canBanDomain =
     (viewer.role === GQLUSER_ROLE.ADMIN ||
       (viewer.role === GQLUSER_ROLE.MODERATOR && !isSiteModerator(viewer))) &&
@@ -227,6 +248,13 @@ const BanModal: FunctionComponent<Props> = ({
             userID, // Should be defined because the modal shouldn't open if author is null
             message: customizeMessage ? emailMessage : getDefaultMessage,
             rejectExistingComments,
+            rejectionReason: rejectExistingComments
+              ? {
+                  code: reasonCode!,
+                  detailedExplanation,
+                  customReason: otherCustomReason,
+                }
+              : undefined,
             siteIDs: viewerIsScoped
               ? viewer?.moderationScopes?.sites?.map(({ id }) => id)
               : [],
@@ -243,6 +271,13 @@ const BanModal: FunctionComponent<Props> = ({
             banSiteIDs,
             unbanSiteIDs,
             rejectExistingComments,
+            rejectionReason: rejectExistingComments
+              ? {
+                  code: reasonCode!,
+                  detailedExplanation,
+                  customReason: otherCustomReason,
+                }
+              : undefined,
           });
         } catch (err) {
           return { [FORM_ERROR]: err.message };
@@ -281,6 +316,9 @@ const BanModal: FunctionComponent<Props> = ({
     removeUserBan,
     createDomainBan,
     emailDomain,
+    reasonCode,
+    detailedExplanation,
+    otherCustomReason,
   ]);
 
   const {
@@ -296,7 +334,16 @@ const BanModal: FunctionComponent<Props> = ({
   const requiresSiteBanUpdates =
     updateType === UpdateType.SPECIFIC_SITES ||
     (updateType === UpdateType.ALL_SITES && viewerIsSingleSiteMod);
-  const disableForm = requiresSiteBanUpdates && !pendingSiteBanUpdates;
+  // disable if reject all comments doesn't have a reason if dsa is enabled
+  // also disable if Other reason and not a custom reason included
+  const requiresRejectionReason =
+    rejectExistingComments &&
+    !!dsaFeaturesEnabled &&
+    (!reasonCode ||
+      (reasonCode === GQLREJECTION_REASON_CODE.OTHER && !otherCustomReason));
+  const disableForm =
+    (requiresSiteBanUpdates && !pendingSiteBanUpdates) ||
+    requiresRejectionReason;
 
   return (
     <ChangeStatusModal
@@ -421,6 +468,38 @@ const BanModal: FunctionComponent<Props> = ({
                             : rejectExistingCommentsMessage}
                         </CheckBox>
                       </Localized>
+                    )}
+                    {rejectExistingComments && dsaFeaturesEnabled && (
+                      <Flex
+                        marginTop={2}
+                        direction="column"
+                        marginLeft={2}
+                        padding={2}
+                        className={styles.rejectExistingReason}
+                      >
+                        {view === "REASON" ? (
+                          <Reasons
+                            selected={reasonCode}
+                            onCode={(code) => {
+                              setReasonCode(code);
+                              setView("EXPLANATION");
+                            }}
+                          />
+                        ) : (
+                          <DetailedExplanation
+                            onBack={() => {
+                              setView("REASON");
+                              setReasonCode(null);
+                            }}
+                            code={reasonCode!}
+                            explanationValue={detailedExplanation}
+                            onChangeExplanation={setDetailedExplanation}
+                            customReasonValue={otherCustomReason}
+                            onChangeCustomReason={setOtherCustomReason}
+                            linkClassName={styles.rejectionReasonLink}
+                          />
+                        )}
+                      </Flex>
                     )}
                   </Flex>
                   {/* EMAIL BAN */}

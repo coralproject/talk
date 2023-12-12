@@ -115,6 +115,7 @@ import { sendConfirmationEmail } from "coral-server/services/users/auth";
 import {
   GQLAuthIntegrations,
   GQLREJECTION_REASON_CODE,
+  GQLRejectionReason,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -1389,6 +1390,7 @@ export async function ban(
   i18n: I18n,
   rejectExistingComments: boolean,
   siteIDs?: string[] | null,
+  rejectionReason?: GQLRejectionReason,
   now = new Date()
 ) {
   // Get the user being banned to check to see if the user already has an
@@ -1467,17 +1469,6 @@ export async function ban(
   }
 
   let user: Readonly<User>;
-
-  const bundle = i18n.getBundle(tenant.locale);
-  const tranlsatedExplanation = translate(
-    bundle,
-    "common-userBanned",
-    "User banned."
-  );
-  const rejectionReason = {
-    code: GQLREJECTION_REASON_CODE.OTHER,
-    detailedExplanation: tranlsatedExplanation,
-  };
 
   // Perform a site ban
   if (siteIDs && siteIDs.length > 0) {
@@ -1614,6 +1605,7 @@ export async function updateUserBan(
   rejectExistingComments: boolean,
   banSiteIDs?: string[] | null,
   unbanSiteIDs?: string[] | null,
+  rejectionReason?: GQLRejectionReason,
   now = new Date()
 ) {
   // Ensure valid role
@@ -1703,21 +1695,12 @@ export async function updateUserBan(
 
       // if any new bans and rejectExistingCommments, reject existing comments
       if (rejectExistingComments) {
-        const bundle = i18n.getBundle(tenant.locale);
-        const detailedExplanation = translate(
-          bundle,
-          "common-userBanned",
-          "User was banned."
-        );
         await rejector.add({
           tenantID: tenant.id,
           authorID: targetUser.id,
           moderatorID: banner.id,
           siteIDs: idsToBan,
-          reason: {
-            code: GQLREJECTION_REASON_CODE.OTHER,
-            detailedExplanation,
-          },
+          reason: rejectionReason,
         });
       }
 
