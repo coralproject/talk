@@ -114,12 +114,11 @@ import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import {
   GQLAuthIntegrations,
-  GQLREJECTION_REASON_CODE,
   GQLRejectionReason,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { I18n, translate } from "../i18n";
+import { I18n } from "../i18n";
 import { AugmentedRedis } from "../redis";
 import {
   generateAdminDownloadLink,
