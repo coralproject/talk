@@ -8876,6 +8876,10 @@ input BanUserInput {
   """
   rejectExistingComments: Boolean
 
+  """
+  rejectionReason is the reason provided for why any existing comments are being
+  rejected if DSA is enabled
+  """
   rejectionReason: RejectCommentReasonInput
 }
 
@@ -8919,6 +8923,10 @@ input UpdateUserBanInput {
   """
   rejectExistingComments: Boolean
 
+  """
+  rejectionReason is the reason provided for why any existing comments are being
+  rejected if DSA is enabled
+  """
   rejectionReason: RejectCommentReasonInput
 
   """

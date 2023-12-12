@@ -241,6 +241,14 @@ const BanModal: FunctionComponent<Props> = ({
   }, [viewerIsSingleSiteMod, viewer.moderationScopes]);
 
   const onFormSubmit = useCallback(async () => {
+    const rejectionReason =
+      rejectExistingComments && dsaFeaturesEnabled
+        ? {
+            code: reasonCode!,
+            detailedExplanation,
+            customReason: otherCustomReason,
+          }
+        : undefined;
     switch (updateType) {
       case UpdateType.ALL_SITES:
         try {
@@ -248,13 +256,7 @@ const BanModal: FunctionComponent<Props> = ({
             userID, // Should be defined because the modal shouldn't open if author is null
             message: customizeMessage ? emailMessage : getDefaultMessage,
             rejectExistingComments,
-            rejectionReason: rejectExistingComments
-              ? {
-                  code: reasonCode!,
-                  detailedExplanation,
-                  customReason: otherCustomReason,
-                }
-              : undefined,
+            rejectionReason,
             siteIDs: viewerIsScoped
               ? viewer?.moderationScopes?.sites?.map(({ id }) => id)
               : [],
@@ -271,13 +273,7 @@ const BanModal: FunctionComponent<Props> = ({
             banSiteIDs,
             unbanSiteIDs,
             rejectExistingComments,
-            rejectionReason: rejectExistingComments
-              ? {
-                  code: reasonCode!,
-                  detailedExplanation,
-                  customReason: otherCustomReason,
-                }
-              : undefined,
+            rejectionReason,
           });
         } catch (err) {
           return { [FORM_ERROR]: err.message };
@@ -334,16 +330,15 @@ const BanModal: FunctionComponent<Props> = ({
   const requiresSiteBanUpdates =
     updateType === UpdateType.SPECIFIC_SITES ||
     (updateType === UpdateType.ALL_SITES && viewerIsSingleSiteMod);
-  // disable if reject all comments doesn't have a reason if dsa is enabled
-  // also disable if Other reason and not a custom reason included
-  const requiresRejectionReason =
+  const requiresRejectionReasonForDSA =
     rejectExistingComments &&
     !!dsaFeaturesEnabled &&
     (!reasonCode ||
       (reasonCode === GQLREJECTION_REASON_CODE.OTHER && !otherCustomReason));
+
   const disableForm =
     (requiresSiteBanUpdates && !pendingSiteBanUpdates) ||
-    requiresRejectionReason;
+    requiresRejectionReasonForDSA;
 
   return (
     <ChangeStatusModal
