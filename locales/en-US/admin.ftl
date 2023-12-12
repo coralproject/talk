@@ -877,6 +877,17 @@ configure-moderation-emailDomains-confirmDelete = Deleting this email domain wil
 configure-moderation-emailDomains-form-description-add = Add a domain and select the action that should be taken when on every new account created using the specified domain.
 configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
 
+#### Pre-moderate  Email Address Configuration
+
+configure-moderation-premoderateEmailAddress-title = Email address
+configure-moderation-premoderateEmailAddress-enabled =
+  Pre-moderate emails with too many periods
+configure-moderation-premoderateEmailAddress-enabled-description =
+  If a user has three or more periods in the first part of their
+  email address (before the @), set their status to pre-moderate
+  comments. Emails with 3 or more periods can have a very high spam
+  correlation. It can be useful to pro-actively pre-moderate them.
+
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
 configure-wordList-banned-explanation =
@@ -1029,6 +1040,7 @@ moderate-marker-abusive = Abusive
 moderate-marker-newCommenter = New commenter
 moderate-marker-repeatPost = Repeat comment
 moderate-marker-other = Other
+moderate-marker-preMod-userEmail = User email
 
 moderate-markers-details = Details
 moderate-flagDetails-latestReports = Latest reports

@@ -288,10 +288,15 @@ export interface StoryConfiguration {
   disableLazy: boolean;
 }
 
+export enum NewUserModeration {
+  BAN = "BAN",
+  PREMOD = "PREMOD",
+}
+
 export interface EmailDomain {
   id: string;
   domain: string;
-  newUserModeration: "BAN" | "PREMOD";
+  newUserModeration: NewUserModeration;
 }
 
 export interface FlairBadge {
@@ -302,6 +307,12 @@ export interface FlairBadge {
 export interface FlairBadgeConfig {
   flairBadgesEnabled?: boolean;
   badges?: FlairBadge[];
+}
+
+export interface PremoderateEmailAddressConfig {
+  tooManyPeriods?: {
+    enabled?: boolean;
+  };
 }
 
 export type Settings = GlobalModerationSettings &
@@ -412,6 +423,8 @@ export type Settings = GlobalModerationSettings &
     forReviewQueue?: boolean;
 
     flairBadges?: FlairBadgeConfig;
+
+    premoderateEmailAddress?: PremoderateEmailAddressConfig;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {
