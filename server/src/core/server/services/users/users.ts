@@ -118,7 +118,6 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { I18n } from "../i18n";
 import { AugmentedRedis } from "../redis";
 import {
   generateAdminDownloadLink,
