@@ -129,6 +129,9 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         userID: user.id,
         commentID: comment.id,
         rejectExistingComments: !siteBan,
+        rejectionReason: {
+          code: GQLREJECTION_REASON_CODE.SPAM,
+        },
         message: getMessage(
           localeBundles,
           "common-banEmailTemplate",
@@ -145,12 +148,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
           storyID: story.id,
           noEmit: true,
           reason: {
-            code: GQLREJECTION_REASON_CODE.OTHER,
-            detailedExplanation: getMessage(
-              localeBundles,
-              "common-userBanned",
-              "User was banned."
-            ),
+            code: GQLREJECTION_REASON_CODE.SPAM,
           },
         });
       }
