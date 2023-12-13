@@ -1955,6 +1955,36 @@ type RTEConfiguration {
   sarcasm: Boolean!
 }
 
+type TooManyPeriodsConfig {
+  """
+  enabled decides whether the too many periods config is enabled or not.
+  """
+  enabled: Boolean!
+}
+
+type PremoderateEmailAddressConfiguration {
+  """
+  tooManyPeriods is the configuration for premoderating emails
+  that have too many periods.
+  """
+  tooManyPeriods: TooManyPeriodsConfig
+}
+
+input TooManyPeriodsConfigInput {
+  """
+  enabled decides whether the too many periods config is enabled or not.
+  """
+  enabled: Boolean
+}
+
+input PremoderateEmailAddressConfigurationInput {
+  """
+  tooManyPeriods is the configuration for premoderating emails
+  that have too many periods.
+  """
+  tooManyPeriods: TooManyPeriodsConfigInput
+}
+
 enum DSA_METHOD_OF_REDRESS {
   NONE
   EMAIL
@@ -2293,6 +2323,12 @@ type Settings @cacheControl(maxAge: 30) {
   features and whether they are enabled.
   """
   dsa: DSAConfiguration!
+
+  """
+  premoderateEmailAddress is the configuration for finding specific email
+  addresses at sign up and premoderating them according to various rules.
+  """
+  premoderateEmailAddress: PremoderateEmailAddressConfiguration
 }
 
 ################################################################################
@@ -3218,6 +3254,13 @@ type User {
   bio is a user-defined biography.
   """
   bio: String
+
+  """
+  premoderatedBecauseOfEmailAt is set when a user was set to pre-moderated
+  comments for having an email that was caught by the email pre-moderation
+  filter.
+  """
+  premoderatedBecauseOfEmailAt: Time @auth(roles: [MODERATOR, ADMIN])
 
   """
   hasNewNotifications returns true if the user has received new notifications
@@ -6421,11 +6464,18 @@ input SettingsInput {
   """
   flairBadges: FlairBadgeConfigurationInput
 
+
   """
   dsa specifies the configuration for DSA European Union moderation and
   reporting features.
   """
   dsa: DSAConfigurationInput
+
+  """
+  premoderateEmailAddress is the configuration for finding specific email
+  addresses at sign up and premoderating them according to various rules.
+  """
+  premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
 }
 
 """
