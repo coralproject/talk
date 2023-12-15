@@ -160,6 +160,7 @@ export class UserCache implements IDataCache {
     return {
       ...parsed,
       createdAt: new Date(parsed.createdAt),
+      lastFeaturedDate: new Date(parsed.lastFeaturedDate),
       status: {
         ...parsed.status,
         suspension: {
