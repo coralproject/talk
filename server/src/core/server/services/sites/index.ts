@@ -25,7 +25,7 @@ export async function findSiteByURL(
   return retrieveSiteByOrigin(mongo, tenantID, origin);
 }
 
-function conformURLToOrigins(allowedOrigins?: string[]) {
+export function conformURLToOrigins(allowedOrigins?: string[]) {
   if (allowedOrigins) {
     return {
       allowedOrigins: getURLOrigins(allowedOrigins),
