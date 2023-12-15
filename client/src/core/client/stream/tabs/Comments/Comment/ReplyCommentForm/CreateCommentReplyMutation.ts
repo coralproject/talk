@@ -393,6 +393,7 @@ async function commit(
                   reaction: false,
                   dontAgree: false,
                   flag: false,
+                  illegal: false,
                 },
                 story: {
                   id: input.storyID,

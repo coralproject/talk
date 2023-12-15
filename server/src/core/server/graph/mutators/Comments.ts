@@ -7,6 +7,7 @@ import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
   createFlag,
+  createIllegalContent,
   createReaction,
   removeDontAgree,
   removeReaction,
@@ -28,9 +29,11 @@ import {
   GQLCreateCommentInput,
   GQLCreateCommentReactionInput,
   GQLCreateCommentReplyInput,
+  GQLCreateIllegalContentInput,
   GQLEditCommentInput,
   GQLFeatureCommentInput,
   GQLMarkCommentsAsSeenInput,
+  GQLNOTIFICATION_TYPE,
   GQLRemoveCommentDontAgreeInput,
   GQLRemoveCommentReactionInput,
   GQLTAG,
@@ -54,7 +57,9 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.wordList,
         ctx.cache,
         ctx.config,
+        ctx.i18n,
         ctx.broker,
+        ctx.notifications,
         ctx.tenant,
         ctx.user!,
         {
@@ -84,6 +89,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.wordList,
         ctx.cache,
         ctx.config,
+        ctx.i18n,
         ctx.broker,
         ctx.tenant,
         ctx.user!,
@@ -111,6 +117,7 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.mongo,
       ctx.redis,
       ctx.config,
+      ctx.i18n,
       ctx.cache,
       ctx.broker,
       ctx.tenant,
@@ -129,6 +136,7 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.mongo,
       ctx.redis,
       ctx.config,
+      ctx.i18n,
       ctx.cache,
       ctx.broker,
       ctx.tenant,
@@ -137,6 +145,26 @@ export const Comments = (ctx: GraphContext) => ({
         commentID,
         commentRevisionID,
       }
+    ),
+  createIllegalContent: async ({
+    commentID,
+    commentRevisionID,
+  }: GQLCreateIllegalContentInput) =>
+    createIllegalContent(
+      ctx.mongo,
+      ctx.redis,
+      ctx.config,
+      ctx.i18n,
+      ctx.cache.commentActions,
+      ctx.broker,
+      ctx.tenant,
+      ctx.user!,
+      await ctx.loaders.Comments.comment.load(commentID),
+      {
+        commentID,
+        commentRevisionID,
+      },
+      ctx.now
     ),
   createDontAgree: ({
     commentID,
@@ -147,6 +175,7 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.mongo,
       ctx.redis,
       ctx.config,
+      ctx.i18n,
       ctx.cache.commentActions,
       ctx.broker,
       ctx.tenant,
@@ -170,6 +199,7 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.mongo,
       ctx.redis,
       ctx.config,
+      ctx.i18n,
       ctx.cache,
       ctx.broker,
       ctx.tenant,
@@ -189,6 +219,7 @@ export const Comments = (ctx: GraphContext) => ({
       ctx.mongo,
       ctx.redis,
       ctx.config,
+      ctx.i18n,
       ctx.cache.commentActions,
       ctx.broker,
       ctx.tenant,
@@ -229,7 +260,9 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.redis,
         ctx.cache,
         ctx.config,
+        ctx.i18n,
         ctx.broker,
+        ctx.notifications,
         ctx.tenant,
         commentID,
         commentRevisionID,
@@ -253,6 +286,12 @@ export const Comments = (ctx: GraphContext) => ({
 
     // Publish that the comment was featured.
     await publishCommentFeatured(ctx.broker, comment);
+
+    await ctx.notifications.create(ctx.tenant.id, ctx.tenant.locale, {
+      targetUserID: comment.authorID!,
+      comment,
+      type: GQLNOTIFICATION_TYPE.COMMENT_FEATURED,
+    });
 
     // Return it to the next step.
     return comment;

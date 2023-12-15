@@ -77,6 +77,8 @@ const CLASSES = {
     configure: "coral coral-tabBar-tab coral-tabBar-configure",
 
     activeTab: "coral-tabBar-tab-active",
+
+    notifications: "coral coral-tabBar-tab coral-tabBar-notifications",
   },
 
   /**
@@ -140,6 +142,10 @@ const CLASSES = {
      * settings is the button for the "Settings" tab.
      */
     settings: "coral coral-tabBarSecondary-tab coral-tabBarMyProfile-settings",
+  },
+
+  tabBarNotifications: {
+    loadMore: "coral coral-tabBarNotifications-loadMore",
   },
 
   /**

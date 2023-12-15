@@ -2,6 +2,7 @@ import {
   GQLAuth,
   GQLAuthenticationTargetFilter,
   GQLCOMMENT_BODY_FORMAT,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLEmailConfiguration,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
@@ -287,10 +288,15 @@ export interface StoryConfiguration {
   disableLazy: boolean;
 }
 
+export enum NewUserModeration {
+  BAN = "BAN",
+  PREMOD = "PREMOD",
+}
+
 export interface EmailDomain {
   id: string;
   domain: string;
-  newUserModeration: "BAN" | "PREMOD";
+  newUserModeration: NewUserModeration;
 }
 
 export interface FlairBadge {
@@ -301,6 +307,12 @@ export interface FlairBadge {
 export interface FlairBadgeConfig {
   flairBadgesEnabled?: boolean;
   badges?: FlairBadge[];
+}
+
+export interface PremoderateEmailAddressConfig {
+  tooManyPeriods?: {
+    enabled?: boolean;
+  };
 }
 
 export type Settings = GlobalModerationSettings &
@@ -321,6 +333,7 @@ export type Settings = GlobalModerationSettings &
     | "announcement"
     | "memberBios"
     | "embeddedComments"
+    | "dsa"
   > & {
     /**
      * auth is the set of configured authentication integrations.
@@ -410,10 +423,26 @@ export type Settings = GlobalModerationSettings &
     forReviewQueue?: boolean;
 
     flairBadges?: FlairBadgeConfig;
+
+    premoderateEmailAddress?: PremoderateEmailAddressConfig;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {
   enabled: true,
   spoiler: false,
   strikethrough: false,
+};
+
+export interface DSAConfiguration {
+  enabled: boolean;
+  methodOfRedress: {
+    method: GQLDSA_METHOD_OF_REDRESS;
+  };
+}
+
+export const defaultDSAConfiguration: DSAConfiguration = {
+  enabled: false,
+  methodOfRedress: {
+    method: GQLDSA_METHOD_OF_REDRESS.NONE,
+  },
 };

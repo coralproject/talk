@@ -39,7 +39,7 @@ interface StoryCountJSONPQuery {
   ref: string;
 }
 
-function getTextHTML(
+export function getTextHTML(
   tenant: Readonly<Tenant>,
   storyMode: GQLSTORY_MODE | undefined | null,
   i18n: I18n,

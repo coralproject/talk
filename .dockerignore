@@ -12,6 +12,9 @@ coverage
 node_modules
 **/node_modules
 
+# don't include utilities
+utilities/
+
 # don't include any logs
 npm-debug.log*
 **/npm-debug.log*

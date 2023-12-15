@@ -1,0 +1,6 @@
+.textInput {
+  margin-top: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+  margin-left: var(--spacing-5);
+  margin-right: var(--spacing-6);
+}

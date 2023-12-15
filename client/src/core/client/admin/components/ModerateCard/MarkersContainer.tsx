@@ -34,6 +34,15 @@ const markers: Array<
     )) ||
     null,
   (c) =>
+    (c.status === "PREMOD" &&
+      c.author &&
+      c.author.premoderatedBecauseOfEmailAt && (
+        <Localized id="moderate-marker-preMod-userEmail" key={keyCounter++}>
+          <Marker color="pending">User email</Marker>
+        </Localized>
+      )) ||
+    null,
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_LINKS && (
         <Localized id="moderate-marker-link" key={keyCounter++}>
@@ -182,6 +191,16 @@ const markers: Array<
         </Localized>
       )) ||
     null,
+  (c) =>
+    (c.revision && c.revision.actionCounts.illegal.total > 0 && (
+      <Marker key={keyCounter++} color="reported">
+        <Localized id="moderate-marker-illegal">
+          <span>Illegal content</span>
+        </Localized>{" "}
+        <MarkerCount>{c.revision.actionCounts.illegal.total}</MarkerCount>
+      </Marker>
+    )) ||
+    null,
 ];
 
 export const MarkersContainer: React.FunctionComponent<
@@ -229,8 +248,14 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
       tags {
         code
       }
+      author {
+        premoderatedBecauseOfEmailAt
+      }
       revision {
         actionCounts {
+          illegal {
+            total
+          }
           flag {
             reasons {
               COMMENT_REPORTED_SPAM

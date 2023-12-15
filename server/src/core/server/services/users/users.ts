@@ -66,6 +66,7 @@ import {
   mergeUserSiteModerationScopes,
   NotificationSettingsInput,
   premodUser,
+  PremodUserReason,
   pullUserMembershipScopes,
   pullUserSiteModerationScopes,
   removeActiveUserSuspensions,
@@ -114,14 +115,17 @@ import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import {
   GQLAuthIntegrations,
+  GQLREJECTION_REASON_CODE,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { I18n, translate } from "../i18n";
 import { AugmentedRedis } from "../redis";
 import {
   generateAdminDownloadLink,
   generateDownloadLink,
 } from "./download/token";
+import { shouldPremodDueToLikelySpamEmail } from "./emailPremodFilter";
 import {
   checkForNewUserEmailDomainModeration,
   validateEmail,
@@ -172,7 +176,18 @@ export async function findOrCreate(
 
   try {
     // Try to find or create the user.
-    const { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+    let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+
+    if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+      user = await premodUser(
+        mongo,
+        tenant.id,
+        user.id,
+        undefined,
+        now,
+        PremodUserReason.EmailPremodFilter
+      );
+    }
 
     return user;
   } catch (err) {
@@ -182,7 +197,18 @@ export async function findOrCreate(
     if (err instanceof DuplicateUserError) {
       // Retry the operation once more, if this operation fails, the error will
       // exit this function.
-      const { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+      let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+
+      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+        user = await premodUser(
+          mongo,
+          tenant.id,
+          user.id,
+          undefined,
+          now,
+          PremodUserReason.EmailPremodFilter
+        );
+      }
 
       return user;
     }
@@ -201,12 +227,23 @@ export async function findOrCreate(
 
       // Create the user again this time, but associate the duplicate email to
       // the user account.
-      const { user } = await findOrCreateUser(
+      let { user } = await findOrCreateUser(
         mongo,
         tenant.id,
         { ...rest, duplicateEmail: email },
         now
       );
+
+      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+        user = await premodUser(
+          mongo,
+          tenant.id,
+          user.id,
+          undefined,
+          now,
+          PremodUserReason.EmailPremodFilter
+        );
+      }
 
       return user;
     }
@@ -1384,6 +1421,7 @@ export async function ban(
   banner: User,
   userID: string,
   message: string,
+  i18n: I18n,
   rejectExistingComments: boolean,
   siteIDs?: string[] | null,
   now = new Date()
@@ -1465,6 +1503,17 @@ export async function ban(
 
   let user: Readonly<User>;
 
+  const bundle = i18n.getBundle(tenant.locale);
+  const tranlsatedExplanation = translate(
+    bundle,
+    "common-userBanned",
+    "User banned."
+  );
+  const rejectionReason = {
+    code: GQLREJECTION_REASON_CODE.OTHER,
+    detailedExplanation: tranlsatedExplanation,
+  };
+
   // Perform a site ban
   if (siteIDs && siteIDs.length > 0) {
     user = await siteBanUser(
@@ -1482,6 +1531,7 @@ export async function ban(
         authorID: userID,
         moderatorID: banner.id,
         siteIDs,
+        reason: rejectionReason,
       });
     }
     const cacheAvailable = await cache.available(tenant.id);
@@ -1539,6 +1589,7 @@ export async function ban(
         tenantID: tenant.id,
         authorID: userID,
         moderatorID: banner.id,
+        reason: rejectionReason,
       });
     }
   }
@@ -1591,6 +1642,7 @@ export async function updateUserBan(
   mailer: MailerQueue,
   rejector: RejectorQueue,
   tenant: Tenant,
+  i18n: I18n,
   banner: User,
   userID: string,
   message: string,
@@ -1686,11 +1738,21 @@ export async function updateUserBan(
 
       // if any new bans and rejectExistingCommments, reject existing comments
       if (rejectExistingComments) {
+        const bundle = i18n.getBundle(tenant.locale);
+        const detailedExplanation = translate(
+          bundle,
+          "common-userBanned",
+          "User was banned."
+        );
         await rejector.add({
           tenantID: tenant.id,
           authorID: targetUser.id,
           moderatorID: banner.id,
           siteIDs: idsToBan,
+          reason: {
+            code: GQLREJECTION_REASON_CODE.OTHER,
+            detailedExplanation,
+          },
         });
       }
 
@@ -1757,7 +1819,7 @@ export async function premod(
   mongo: MongoContext,
   cache: DataCache,
   tenant: Tenant,
-  moderator: User,
+  moderator: User | null,
   userID: string,
   now = new Date()
 ) {
@@ -1779,7 +1841,7 @@ export async function premod(
     mongo,
     tenant.id,
     userID,
-    moderator.id,
+    moderator ? moderator.id : undefined,
     now
   );
 

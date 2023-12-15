@@ -21,7 +21,7 @@ $moderateCardReasonTextColor: var(--palette-text-500);
 }
 
 .flagger {
-  margin-right: var(--mini-unit);
+  margin-right: var(--spacing-1);
   padding: var(--spacing-1);
   margin-left: calc(-1 * var(--spacing-1));
 
@@ -36,4 +36,8 @@ $moderateCardReasonTextColor: var(--palette-text-500);
     border-radius: var(--round-corners);
     border-style: none;
   }
+}
+
+.viewReportButton {
+  padding: var(--spacing-1) !important;
 }

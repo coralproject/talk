@@ -127,4 +127,8 @@ extend type Local {
 
   # Refreshes stream for refresh comments button
   refreshStream: Boolean
+
+  dsaFeaturesEnabled: Boolean
+
+  hasNewNotifications: Boolean
 }

@@ -26,6 +26,7 @@ import { ModerationActionsContainer_local } from "coral-stream/__generated__/Mod
 import { ModerationActionsContainer_settings } from "coral-stream/__generated__/ModerationActionsContainer_settings.graphql";
 import { ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
 import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
+import { ModerationActionsContainerLocal } from "coral-stream/__generated__/ModerationActionsContainerLocal.graphql";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
 import CopyCommentEmbedCodeContainer from "./CopyCommentEmbedCodeContainer";
@@ -44,6 +45,7 @@ interface Props {
   onDismiss: () => void;
   onBan: () => void;
   onSiteBan: () => void;
+  onRejectionReason: () => void;
 }
 
 const ModerationActionsContainer: FunctionComponent<Props> = ({
@@ -54,6 +56,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   onDismiss,
   onBan,
   onSiteBan,
+  onRejectionReason,
 }) => {
   const [{ accessToken }] = useLocal<ModerationActionsContainer_local>(graphql`
     fragment ModerationActionsContainer_local on Local {
@@ -69,6 +72,13 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
 
   const linkModerateStory = useModerationLink({ storyID: story.id });
   const linkModerateComment = useModerationLink({ commentID: comment.id });
+
+  const [{ dsaFeaturesEnabled }] =
+    useLocal<ModerationActionsContainerLocal>(graphql`
+      fragment ModerationActionsContainerLocal on Local {
+        dsaFeaturesEnabled
+      }
+    `);
 
   const moderationLinkSuffix =
     !!accessToken &&
@@ -111,12 +121,15 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     if (!comment.revision) {
       return;
     }
+    if (dsaFeaturesEnabled) {
+      return onRejectionReason();
+    }
     await reject({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
       storyID: story.id,
     });
-  }, [approve, comment, story]);
+  }, [comment, story, reject, dsaFeaturesEnabled, onRejectionReason]);
   const onFeature = useCallback(() => {
     if (!comment.revision) {
       return;
@@ -135,6 +148,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     });
     onDismiss();
   }, [unfeature, onDismiss, story, comment]);
+
   const approved = comment.status === "APPROVED";
   const rejected = comment.status === "REJECTED";
   const featured = comment.tags.some((t) => t.code === "FEATURED");
@@ -154,7 +168,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
             icon={
               <SvgIcon
                 className={styles.featured}
-                filled
+                filled="currentColor"
                 Icon={RatingStarIcon}
               />
             }

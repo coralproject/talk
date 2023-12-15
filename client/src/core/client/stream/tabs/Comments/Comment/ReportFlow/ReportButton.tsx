@@ -40,7 +40,8 @@ const ReportButton: FunctionComponent<Props> = ({
   const isReported =
     comment.viewerActionPresence &&
     (comment.viewerActionPresence.flag ||
-      comment.viewerActionPresence.dontAgree);
+      comment.viewerActionPresence.dontAgree ||
+      comment.viewerActionPresence.illegal);
 
   const signIn = useCallback(() => {
     void showAuthPopup({ view: "SIGN_IN" });
@@ -126,6 +127,7 @@ const enhanced = withShowAuthPopupMutation(
         viewerActionPresence {
           dontAgree
           flag
+          illegal
         }
       }
     `,
