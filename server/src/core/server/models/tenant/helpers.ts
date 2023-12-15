@@ -38,7 +38,9 @@ export const getDefaultBadgeConfiguration = (
     moderatorLabel: bundle
       ? translate(bundle, "Staff", "staff-label")
       : "Staff",
-    memberLabel: bundle ? translate(bundle, "Member", "member-label") : "Staff",
+    memberLabel: bundle
+      ? translate(bundle, "Member", "member-label")
+      : "Member",
   };
 };
 
