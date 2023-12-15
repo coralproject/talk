@@ -54,24 +54,29 @@ const getLegalReason = (
 
 const getGeneralReason = (
   bundles: FluentBundle[],
-  reason: REJECTION_REASON_CODE | null
+  reason: REJECTION_REASON_CODE | null,
+  customReason: string | null
 ) => {
   if (reason === GQLREJECTION_REASON_CODE.OFFENSIVE) {
     return getMessage(
       bundles,
       "notifications-rejectionReason-offensive",
-      "Offensive"
+      "This comment contains offensive language"
     );
   }
   if (reason === GQLREJECTION_REASON_CODE.ABUSIVE) {
     return getMessage(
       bundles,
       "notifications-rejectionReason-abusive",
-      "Abusive"
+      "This comment contains abusive language"
     );
   }
   if (reason === GQLREJECTION_REASON_CODE.SPAM) {
-    return getMessage(bundles, "notifications-rejectionReason-spam", "Spam");
+    return getMessage(
+      bundles,
+      "notifications-rejectionReason-spam",
+      "This comment is spam"
+    );
   }
   if (reason === GQLREJECTION_REASON_CODE.BANNED_WORD) {
     return getMessage(
@@ -81,13 +86,17 @@ const getGeneralReason = (
     );
   }
   if (reason === GQLREJECTION_REASON_CODE.AD) {
-    return getMessage(bundles, "notifications-rejectionReason-ad", "Ad");
+    return getMessage(
+      bundles,
+      "notifications-rejectionReason-ad",
+      "This comment is an advertisement"
+    );
   }
   if (reason === GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT) {
     return getMessage(
       bundles,
       "notifications-rejectionReason-illegalContent",
-      "Illegal content"
+      "This comment contains illegal content"
     );
   }
 
@@ -95,33 +104,46 @@ const getGeneralReason = (
     return getMessage(
       bundles,
       "notifications-rejectionReason-harassmentBullying",
-      "Harassment or bullying"
+      "This comment contains harassing or bullying language"
     );
   }
   if (reason === GQLREJECTION_REASON_CODE.MISINFORMATION) {
     return getMessage(
       bundles,
       "notifications-rejectionReason-misinformation",
-      "Misinformation"
+      "This comment contains misinformation"
     );
   }
   if (reason === GQLREJECTION_REASON_CODE.HATE_SPEECH) {
     return getMessage(
       bundles,
       "notifications-rejectionReason-hateSpeech",
-      "Hate speech"
+      "This comment contains hate speech"
     );
   }
   if (reason === GQLREJECTION_REASON_CODE.IRRELEVANT_CONTENT) {
     return getMessage(
       bundles,
       "notifications-rejectionReason-irrelevant",
-      "Irrelevant content"
+      "This comment is irrelevant to the discussion"
     );
   }
 
   if (reason === GQLREJECTION_REASON_CODE.OTHER) {
-    return getMessage(bundles, "notifications-rejectionReason-other", "Other");
+    if (customReason) {
+      return getMessage(
+        bundles,
+        "notifications-rejectionReason-other-customReason",
+        `Other - ${customReason}`,
+        { vars: { customReason } }
+      );
+    } else {
+      return getMessage(
+        bundles,
+        "notifications-rejectionReason-other",
+        "Other"
+      );
+    }
   }
 
   return getMessage(
@@ -138,7 +160,8 @@ const stringIsNullOrEmpty = (value: string) => {
 const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
   notification,
 }) => {
-  const { type, decisionDetails, rejectionReason, comment } = notification;
+  const { type, decisionDetails, rejectionReason, customReason, comment } =
+    notification;
 
   const { localeBundles } = useCoralContext();
 
@@ -165,7 +188,7 @@ const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
               <div className={styles.detailLabel}>Reason for removal</div>
             </Localized>
             <div className={styles.detailItem}>
-              {getGeneralReason(localeBundles, rejectionReason)}
+              {getGeneralReason(localeBundles, rejectionReason, customReason)}
             </div>
             {hasExplanation && (
               <>
@@ -237,6 +260,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment RejectedCommentNotificationBody_notification on Notification {
       type
       rejectionReason
+      customReason
       decisionDetails {
         legality
         grounds

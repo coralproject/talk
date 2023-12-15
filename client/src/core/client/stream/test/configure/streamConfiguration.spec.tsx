@@ -63,7 +63,7 @@ const createTestRenderer = async (
   return { tabPane, applyButton, form };
 };
 
-it.only("change premod", async () => {
+it("change premod", async () => {
   const updateStorySettingsStub =
     createMutationResolverStub<MutationToUpdateStorySettingsResolver>(
       ({ variables }) => {

@@ -36,6 +36,7 @@ import styles from "./SingleReportRoute.css";
 
 import NotFound from "../NotFound";
 import ChangeStatusModal from "./ChangeStatusModal";
+import RelatedReports from "./RelatedReports";
 import ReportedComment from "./ReportedComment";
 import ReportHistory from "./ReportHistory";
 import ReportMakeDecisionModal from "./ReportMakeDecisionModal";
@@ -235,6 +236,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
                 dsaReport={dsaReport}
                 onShowUserDrawer={onShowUserDrawer}
               />
+              <RelatedReports dsaReport={dsaReport} />
               {dsaReport.decision && (
                 <>
                   <Divider />
@@ -381,6 +383,7 @@ SingleReportRoute.routeConfig = createRouteConfig<
         ...ReportShareButton_dsaReport
         ...ReportMakeDecisionModal_dsaReport
         ...ReportedComment_dsaReport
+        ...RelatedReports_dsaReport
       }
     }
   `,

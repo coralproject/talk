@@ -32,6 +32,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
+import { isQA, isRatingsAndReviews } from "../loaders/Comments";
 import { setCacheHint } from "../setCacheHint";
 
 export const maybeLoadOnlyID = async (
@@ -198,6 +199,16 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         commentID: id,
       },
     }),
+  illegalContent: ({ id }, { first, after }, ctx) =>
+    ctx.loaders.CommentActions.connection({
+      first: defaultTo(first, 10),
+      after,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      filter: {
+        actionType: ACTION_TYPE.ILLEGAL,
+        commentID: id,
+      },
+    }),
   viewerActionPresence: async (c, input, ctx, info) => {
     if (!ctx.user) {
       return null;
@@ -213,6 +224,8 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     return ctx.loaders.Comments.retrieveMyActionPresence.load({
       commentID: c.id,
       isArchived: !!story.isArchived,
+      isRR: isRatingsAndReviews(ctx.tenant, story),
+      isQA: isQA(ctx.tenant, story),
     });
   },
 

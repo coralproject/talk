@@ -51,6 +51,7 @@ export { default as ListBulletsIcon } from "./ListBulletsIcon";
 export { default as LockIcon } from "./LockIcon";
 export { default as MessagesBubbleSquareIcon } from "./MessagesBubbleSquareIcon";
 export { default as MessagesBubbleSquareWarningIcon } from "./MessagesBubbleSquareWarningIcon";
+export { default as ModerationDecisionIcon } from "./ModerationDecisionIcon";
 export { default as MultipleActionsChatIcon } from "./MultipleActionsChatIcon";
 export { default as MultipleNeutralIcon } from "./MultipleNeutralIcon";
 export { default as NavigationMenuHorizontalIcon } from "./NavigationMenuHorizontalIcon";

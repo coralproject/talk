@@ -4,7 +4,7 @@ title: Environment Variables
 
 The following environment variables can be set to configure the Coral Server. You
 can expose them in your shell via `export NODE_ENV=development` or by placing
-the variables in a `.env` file in the root of the project in a simple
+the variables in a `.env` file under the `server/` directory of the project in a simple
 `NODE_ENV=development` format delimited by newlines.
 
 ## Required Configuration Variables

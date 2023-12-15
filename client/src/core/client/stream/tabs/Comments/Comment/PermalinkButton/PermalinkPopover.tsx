@@ -31,7 +31,7 @@ const PermalinkPopover: FunctionComponent<Props> = ({
   // Run once.
   useEffect(() => {
     emitShowEvent({ commentID });
-  }, [emitShowEvent, commentID]);
+  }, []);
 
   const timeout: any = useRef<any>(null);
 

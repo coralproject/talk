@@ -877,6 +877,17 @@ configure-moderation-emailDomains-confirmDelete = Deleting this email domain wil
 configure-moderation-emailDomains-form-description-add = Add a domain and select the action that should be taken when on every new account created using the specified domain.
 configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
 
+#### Pre-moderate  Email Address Configuration
+
+configure-moderation-premoderateEmailAddress-title = Email address
+configure-moderation-premoderateEmailAddress-enabled =
+  Pre-moderate emails with too many periods
+configure-moderation-premoderateEmailAddress-enabled-description =
+  If a user has three or more periods in the first part of their
+  email address (before the @), set their status to pre-moderate
+  comments. Emails with 3 or more periods can have a very high spam
+  correlation. It can be useful to pro-actively pre-moderate them.
+
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
 configure-wordList-banned-explanation =
@@ -1015,6 +1026,7 @@ moderate-marker-preMod = Pre-mod
 moderate-marker-link = Link
 moderate-marker-bannedWord = Banned word
 moderate-marker-bio = Bio
+moderate-marker-illegal = Illegal content
 moderate-marker-possibleBannedWord = Possible Banned Word
 moderate-marker-suspectWord = Suspect word
 moderate-marker-possibleSuspectWord = Possible Suspect Word
@@ -1028,6 +1040,7 @@ moderate-marker-abusive = Abusive
 moderate-marker-newCommenter = New commenter
 moderate-marker-repeatPost = Repeat comment
 moderate-marker-other = Other
+moderate-marker-preMod-userEmail = User email
 
 moderate-markers-details = Details
 moderate-flagDetails-latestReports = Latest reports
@@ -1036,6 +1049,8 @@ moderate-flagDetails-abusive = Abusive
 moderate-flagDetails-spam = Spam
 moderate-flagDetails-bio = Bio
 moderate-flagDetails-other = Other
+moderate-flagDetails-illegalContent = Illegal content
+moderate-flagDetails-viewDSAReport = View DSA Report
 
 moderate-flagDetails-toxicityScore = Toxicity Score
 moderate-toxicityLabel-likely = Likely <score></score>
@@ -1045,6 +1060,13 @@ moderate-toxicityLabel-maybe = Maybe <score></score>
 moderate-linkDetails-label = Copy link to this comment
 moderate-in-stream-link-copy = In Stream
 moderate-in-moderation-link-copy = In Moderation
+
+moderate-decisionDetails-decisionLabel = Decision
+moderate-decisionDetails-rejected = Rejected
+moderate-decisionDetails-reasonLabel = Reason
+moderate-decisionDetails-lawBrokenLabel = Law broken
+moderate-decisionDetails-customReasonLabel = Custom reason
+moderate-decisionDetails-detailedExplanationLabel = Detailed explanation
 
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
@@ -1108,6 +1130,7 @@ moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
 moderateCardDetails-tab-info = Info
+moderateCardDetails-tab-decision = Decision
 moderateCardDetails-tab-edits = Edit history
 moderateCardDetails-tab-automatedActions = Automated actions
 moderateCardDetails-tab-reactions = Reactions
@@ -1861,6 +1884,8 @@ reports-singleReport-comment-deleted = This comment is no longer available. The 
 reports-singleReport-comment-edited = (edited)
 reports-singleReport-comment-viewCommentStream = View comment in stream
 reports-singleReport-comment-viewCommentModeration = View comment in moderation
+reports-singleReport-comment-rejected = Rejected
+reports-singleReport-comment-unavailableInStream = Unavailable in stream
 reports-singleReport-commentOn = Comment on
 reports-singleReport-history = History
 reports-singleReport-history-reportSubmitted = Illegal content report submitted
@@ -1908,6 +1933,9 @@ reports-decisionModal-lawBrokenTextfield =
 reports-decisionModal-detailedExplanationLabel = Detailed explanation
 reports-decisionModal-detailedExplanationTextarea =
   .placeholder = Add explanation...
+
+reports-relatedReports-label = Related reports
+reports-relatedReports-reportIDLabel = Report ID
 
 # Control panel
 

@@ -2,3 +2,14 @@
   text-transform: uppercase;
   font-size: var(--font-size-2);
 }
+
+.decisionIcon {
+  height: 1.125rem;
+  width: 1.75rem;
+  margin: 0 var(--spacing-1) 0 0 !important;
+}
+
+.decisionIcon svg {
+  height: 1.125rem;
+  width: 1.75rem;
+}

@@ -70,12 +70,23 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
     [comment.flags.nodes]
   );
 
+  const illegalContent = comment.illegalContent.nodes;
+
   return (
     <>
       <Localized id="moderate-flagDetails-latestReports">
         <p className={styles.latestReports}>Latest reports</p>
       </Localized>
       <HorizontalGutter size="oneAndAHalf">
+        <FlagDetails
+          category={
+            <Localized id="moderate-flagDetails-illegalContent">
+              <span>Illegal content</span>
+            </Localized>
+          }
+          nodes={illegalContent}
+          onUsernameClick={onUsernameClick}
+        />
         <FlagDetails
           category={
             <Localized id="moderate-flagDetails-offensive">
@@ -137,6 +148,16 @@ const enhanced = withFragmentContainer<Props>({
           }
           reason
           additionalDetails
+        }
+      }
+      illegalContent {
+        nodes {
+          flagger {
+            username
+            id
+          }
+          additionalDetails
+          reportID
         }
       }
       revision {

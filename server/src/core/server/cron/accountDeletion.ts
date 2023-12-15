@@ -75,7 +75,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
         user.id,
         tenant.id,
         now,
-        tenant.dsa.enabled
+        tenant.dsa?.enabled
       );
 
       // If the user has an email, then send them a confirmation that their account
