@@ -534,6 +534,24 @@ export class UserBioTooLongError extends CoralError {
   }
 }
 
+export class DSAReportLawBrokenTooLongError extends CoralError {
+  constructor(commentID: string) {
+    super({
+      code: ERROR_CODES.DSA_REPORT_LAW_BROKEN_TOO_LONG,
+      context: { pub: { commentID } },
+    });
+  }
+}
+
+export class DSAReportAdditionalInfoTooLongError extends CoralError {
+  constructor(commentID: string) {
+    super({
+      code: ERROR_CODES.DSA_REPORT_ADDITIONAL_INFO_TOO_LONG,
+      context: { pub: { commentID } },
+    });
+  }
+}
+
 export class UserNotFoundError extends CoralError {
   constructor(userID: string) {
     super({ code: ERROR_CODES.USER_NOT_FOUND, context: { pub: { userID } } });

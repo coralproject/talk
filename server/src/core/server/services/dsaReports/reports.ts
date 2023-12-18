@@ -1,7 +1,12 @@
 import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
-import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
+import {
+  CommentNotFoundError,
+  DSAReportAdditionalInfoTooLongError,
+  DSAReportLawBrokenTooLongError,
+  StoryNotFoundError,
+} from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { Comment } from "coral-server/models/comment";
 import {
@@ -28,6 +33,10 @@ import {
 import { I18n } from "../i18n";
 import { InternalNotificationContext } from "../notifications/internal/context";
 import { AugmentedRedis } from "../redis";
+import {
+  MAX_DSA_ADDITIONAL_INFO_LENGTH,
+  MAX_DSA_LAW_BROKEN_LENGTH,
+} from "coral-common/common/lib/constants";
 
 export interface CreateDSAReportInput {
   commentID: string;
@@ -52,6 +61,14 @@ export async function createDSAReport(
   input: CreateDSAReportInput,
   now = new Date()
 ) {
+  if (input.lawBrokenDescription.length > MAX_DSA_LAW_BROKEN_LENGTH) {
+    throw new DSAReportLawBrokenTooLongError(input.commentID);
+  }
+
+  if (input.additionalInformation.length > MAX_DSA_ADDITIONAL_INFO_LENGTH) {
+    throw new DSAReportAdditionalInfoTooLongError(input.commentID);
+  }
+
   const result = await createReport(mongo, tenant.id, input, now);
   const { dsaReport } = result;
   return dsaReport;
