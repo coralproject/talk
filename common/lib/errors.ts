@@ -455,4 +455,16 @@ export enum ERROR_CODES {
    * flair badge with a name that includes invalid characters.
    */
   INVALID_FLAIR_BADGE_NAME = "INVALID_FLAIR_BADGE_NAME",
+
+  /**
+   * DSA_LAW_BROKEN_TOO_LONG is thrown when someone tries to add an explanation for what
+   * law is believed to have been broken to a DSA report that is too long
+   */
+  DSA_LAW_BROKEN_TOO_LONG = "DSA_LAW_BROKEN_TOO_LONG",
+
+  /**
+   * DSA_LAW_BROKEN_TOO_LONG is thrown when someone tries to add additional information
+   * to a DSA report that is too long
+   */
+  DSA_ADDITIONAL_INFO_TOO_LONG = "DSA_ADDITIONAL_INFO_TOO_LONG",
 }
