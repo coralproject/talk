@@ -1,3 +1,7 @@
+import {
+  MAX_DSA_ADDITIONAL_INFO_LENGTH,
+  MAX_DSA_LAW_BROKEN_LENGTH,
+} from "coral-common/common/lib/constants";
 import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
@@ -33,10 +37,6 @@ import {
 import { I18n } from "../i18n";
 import { InternalNotificationContext } from "../notifications/internal/context";
 import { AugmentedRedis } from "../redis";
-import {
-  MAX_DSA_ADDITIONAL_INFO_LENGTH,
-  MAX_DSA_LAW_BROKEN_LENGTH,
-} from "coral-common/common/lib/constants";
 
 export interface CreateDSAReportInput {
   commentID: string;
