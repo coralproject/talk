@@ -4,9 +4,10 @@ import React, {
   EventHandler,
   FunctionComponent,
   KeyboardEvent,
+  Ref,
 } from "react";
 
-import { withStyles } from "coral-ui/hocs";
+import { withForwardRef, withStyles } from "coral-ui/hocs";
 
 import styles from "./TextArea.css";
 
@@ -24,6 +25,7 @@ export interface TextAreaProps {
   onChange?: EventHandler<ChangeEvent<HTMLTextAreaElement>>;
   onKeyPress?: EventHandler<KeyboardEvent>;
   onKeyDown?: EventHandler<KeyboardEvent>;
+  forwardRef?: Ref<HTMLTextAreaElement>;
 }
 
 const TextArea: FunctionComponent<TextAreaProps> = ({
@@ -33,6 +35,7 @@ const TextArea: FunctionComponent<TextAreaProps> = ({
   color,
   className,
   classes,
+  forwardRef,
   ...rest
 }) => {
   const rootClassName = cn(classes.root, className);
@@ -50,6 +53,7 @@ const TextArea: FunctionComponent<TextAreaProps> = ({
         name={name}
         value={value}
         placeholder={placeholder}
+        ref={forwardRef}
         {...rest}
       ></textarea>
     </div>
@@ -61,5 +65,5 @@ TextArea.defaultProps = {
   placeholder: "",
 } as Partial<TextAreaProps>;
 
-const enhanced = withStyles(styles)(TextArea);
+const enhanced = withForwardRef(withStyles(styles)(TextArea));
 export default enhanced;
