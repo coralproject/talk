@@ -1089,9 +1089,7 @@ it("requires moderation reason when DSA features enabled", async () => {
   const rejectButton = within(modCard).getByLabelText("Reject");
   expect(rejectButton).toBeVisible();
   // click it
-  act(() => {
-    userEvent.click(rejectButton);
-  });
+  fireEvent.click(rejectButton);
 
   const reasonModalID = `moderation-reason-modal-${comment.id}`;
 
@@ -1113,7 +1111,5 @@ it("requires moderation reason when DSA features enabled", async () => {
 
   expect(submitReasonButton).toBeEnabled();
 
-  await act(async () => {
-    fireEvent.click(submitReasonButton);
-  });
+  fireEvent.click(submitReasonButton);
 });
