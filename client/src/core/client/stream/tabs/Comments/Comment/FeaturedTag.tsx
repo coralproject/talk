@@ -3,13 +3,19 @@ import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
 import { RatingStarIcon, SvgIcon } from "coral-ui/components/icons";
-import { Tag } from "coral-ui/components/v2";
+import { Flex, Tag } from "coral-ui/components/v2";
+
+import styles from "./FeaturedTag.css";
 
 interface Props {
   collapsed?: boolean;
+  topCommenterEnabled?: boolean | null;
 }
 
-const FeaturedTag: FunctionComponent<Props> = ({ collapsed }) => {
+const FeaturedTag: FunctionComponent<Props> = ({
+  collapsed,
+  topCommenterEnabled,
+}) => {
   return collapsed ? (
     <SvgIcon color="stream" filled="currentColor" Icon={RatingStarIcon} />
   ) : (
@@ -19,9 +25,18 @@ const FeaturedTag: FunctionComponent<Props> = ({ collapsed }) => {
         color="streamBlue"
         variant="pill"
       >
-        <Localized id="comments-featuredTag">
-          <span>Featured</span>
-        </Localized>
+        <Flex>
+          {topCommenterEnabled && (
+            <SvgIcon
+              className={styles.starIcon}
+              size="xxs"
+              Icon={RatingStarIcon}
+            />
+          )}
+          <Localized id="comments-featuredTag">
+            <span>Featured</span>
+          </Localized>
+        </Flex>
       </Tag>
     </div>
   );

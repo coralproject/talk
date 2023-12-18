@@ -26,6 +26,15 @@ $commentTimestampColor: var(--palette-grey-500);
   }
 }
 
+.topCommenterTooltipHeader {
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.topCommenterTooltipHeaderIcon {
+  margin-right: var(--spacing-1);
+}
+
 .timestamp {
   font-family: var(--font-family-primary);
   font-style: normal;

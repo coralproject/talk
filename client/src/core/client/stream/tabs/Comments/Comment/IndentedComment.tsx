@@ -24,6 +24,7 @@ export interface IndentedCommentProps extends Omit<CommentProps, "ref"> {
   enableJumpToParent?: boolean;
   username?: string | null;
   featuredCommenter?: boolean | null;
+  topCommenterEnabled?: boolean | null;
 }
 
 const IndentedComment: FunctionComponent<IndentedCommentProps> = ({

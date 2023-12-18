@@ -4,8 +4,18 @@ import React, { FunctionComponent } from "react";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
-import { RatingStarIcon, SvgIcon } from "coral-ui/components/icons";
-import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
+import {
+  ButtonSvgIcon,
+  RatingStarIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
+  Button,
+  Flex,
+  HorizontalGutter,
+  MatchMedia,
+  Tooltip,
+} from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
@@ -34,6 +44,7 @@ export interface CommentProps {
   media?: React.ReactNode;
   enableJumpToParent?: boolean;
   featuredCommenter?: boolean | null;
+  topCommenterEnabled?: boolean | null;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -65,13 +76,35 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
               )}
             </MatchMedia>
           )}
-          {props.featuredCommenter && (
+          {props.topCommenterEnabled && props.featuredCommenter && (
             <Flex marginRight={2}>
               <div className={styles.featuredStarBorder}>
-                <SvgIcon
-                  size="xxs"
-                  Icon={RatingStarIcon}
-                  filled="currentColor"
+                <Tooltip
+                  id="featuredCommenter-tooltip"
+                  title=""
+                  body={
+                    <>
+                      <span className={styles.topCommenterTooltipHeader}>
+                        <SvgIcon
+                          size="xxs"
+                          Icon={RatingStarIcon}
+                          className={styles.topCommenterTooltipHeaderIcon}
+                          filled="currentColor"
+                        />{" "}
+                        Top commenter
+                      </span>
+                      <span>Has been featured in the last 10 days</span>
+                    </>
+                  }
+                  button={({ toggleVisibility, ref, visible }) => (
+                    <Button onClick={toggleVisibility} ref={ref} variant="text">
+                      <ButtonSvgIcon
+                        size="xxs"
+                        Icon={RatingStarIcon}
+                        filled="currentColor"
+                      />
+                    </Button>
+                  )}
                 />
               </div>
             </Flex>
