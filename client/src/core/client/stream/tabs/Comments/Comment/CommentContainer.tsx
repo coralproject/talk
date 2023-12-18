@@ -536,6 +536,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
           highlight={highlight}
           toggleCollapsed={toggleCollapsed}
           parent={comment.parent}
+          featuredCommenter={comment.author?.featuredCommenter}
           staticUsername={
             comment.author && (
               <Flex direction="row" alignItems="center" wrap>
@@ -855,6 +856,7 @@ const enhanced = withShowAuthPopupMutation(
           username
           avatar
           badges
+          featuredCommenter
         }
         parent {
           id

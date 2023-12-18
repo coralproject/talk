@@ -16,6 +16,16 @@ $commentTimestampColor: var(--palette-grey-500);
   margin-top: var(--mini-unit);
 }
 
+.featuredStarBorder {
+  border-radius: 50%;
+  border: 4px solid var(--palette-primary-200);
+  background-color: var(--palette-primary-200);
+  color: var(--palette-primary-600);
+  span {
+    display: flex;
+  }
+}
+
 .timestamp {
   font-family: var(--font-family-primary);
   font-style: normal;

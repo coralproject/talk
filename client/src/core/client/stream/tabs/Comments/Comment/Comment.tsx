@@ -4,6 +4,7 @@ import React, { FunctionComponent } from "react";
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
+import { RatingStarIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
@@ -32,6 +33,7 @@ export interface CommentProps {
   collapsed?: boolean;
   media?: React.ReactNode;
   enableJumpToParent?: boolean;
+  featuredCommenter?: boolean | null;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -62,6 +64,17 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
                 </div>
               )}
             </MatchMedia>
+          )}
+          {props.featuredCommenter && (
+            <Flex marginRight={2}>
+              <div className={styles.featuredStarBorder}>
+                <SvgIcon
+                  size="xxs"
+                  Icon={RatingStarIcon}
+                  filled="currentColor"
+                />
+              </div>
+            </Flex>
           )}
           <Flex direction="row" alignItems="center" wrap>
             {props.tags && (
