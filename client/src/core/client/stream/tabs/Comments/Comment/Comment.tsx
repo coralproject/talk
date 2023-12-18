@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
@@ -84,19 +85,34 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
                   title=""
                   body={
                     <>
-                      <span className={styles.topCommenterTooltipHeader}>
-                        <SvgIcon
-                          size="xxs"
-                          Icon={RatingStarIcon}
-                          className={styles.topCommenterTooltipHeaderIcon}
-                          filled="currentColor"
-                        />{" "}
-                        Top commenter
-                      </span>
-                      <span>Has been featured in the last 10 days</span>
+                      <Localized
+                        id="comment-top-commenter-tooltip-header"
+                        elems={{
+                          icon: (
+                            <SvgIcon
+                              size="xxs"
+                              Icon={RatingStarIcon}
+                              className={styles.topCommenterTooltipHeaderIcon}
+                            />
+                          ),
+                        }}
+                      >
+                        <span className={styles.topCommenterTooltipHeader}>
+                          <SvgIcon
+                            size="xxs"
+                            Icon={RatingStarIcon}
+                            className={styles.topCommenterTooltipHeaderIcon}
+                            filled="currentColor"
+                          />{" "}
+                          Top commenter
+                        </span>
+                      </Localized>
+                      <Localized id="comment-top-commenter-tooltip-details">
+                        <span>Has been featured in the last 10 days</span>
+                      </Localized>
                     </>
                   }
-                  button={({ toggleVisibility, ref, visible }) => (
+                  button={({ toggleVisibility, ref }) => (
                     <Button onClick={toggleVisibility} ref={ref} variant="text">
                       <ButtonSvgIcon
                         size="xxs"
