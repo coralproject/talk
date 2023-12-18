@@ -81,6 +81,7 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
             <Flex marginRight={2}>
               <div className={styles.featuredStarBorder}>
                 <Tooltip
+                  className={CLASSES.comment.topBar.topCommenterStarTooltip}
                   id="featuredCommenter-tooltip"
                   title=""
                   body={
@@ -97,7 +98,12 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
                           ),
                         }}
                       >
-                        <span className={styles.topCommenterTooltipHeader}>
+                        <span
+                          className={cn(
+                            styles.topCommenterTooltipHeader,
+                            CLASSES.comment.topBar.topCommenterStarTooltipHeader
+                          )}
+                        >
                           <SvgIcon
                             size="xxs"
                             Icon={RatingStarIcon}
@@ -108,13 +114,21 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
                         </span>
                       </Localized>
                       <Localized id="comment-top-commenter-tooltip-details">
-                        <span>Has been featured in the last 10 days</span>
+                        <span
+                          className={
+                            CLASSES.comment.topBar
+                              .topCommenterStarTooltipDetails
+                          }
+                        >
+                          Has been featured in the last 10 days
+                        </span>
                       </Localized>
                     </>
                   }
                   button={({ toggleVisibility, ref }) => (
                     <Button onClick={toggleVisibility} ref={ref} variant="text">
                       <ButtonSvgIcon
+                        className={CLASSES.comment.topBar.topCommenterStar}
                         size="xxs"
                         Icon={RatingStarIcon}
                         filled="currentColor"

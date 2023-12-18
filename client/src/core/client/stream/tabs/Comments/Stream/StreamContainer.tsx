@@ -367,6 +367,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                         <>
                           {props.settings.topCommenter?.enabled && (
                             <SvgIcon
+                              className={CLASSES.tabBarComments.featuredStar}
                               Icon={RatingStarIcon}
                               filled={
                                 local.commentsTab === "FEATURED_COMMENTS"
