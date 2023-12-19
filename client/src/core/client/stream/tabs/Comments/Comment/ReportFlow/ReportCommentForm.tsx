@@ -45,6 +45,29 @@ const RadioField: FunctionComponent<
   </Field>
 );
 
+const IllegalContentLink: FunctionComponent<{ reportLink: string }> = ({
+  reportLink,
+}) => (
+  <Button
+    className={styles.reportIllegalLink}
+    variant="flat"
+    color="primary"
+    fontSize="medium"
+    fontWeight="semiBold"
+    paddingSize="none"
+    target="_blank"
+    anchor
+    underline
+    textAlign="left"
+    href={reportLink}
+  >
+    <Localized id="comments-reportForm-reportIllegalContent-button">
+      <span>This comment contains illegal content</span>
+    </Localized>
+    <ButtonSvgIcon className={styles.linkIcon} Icon={ShareExternalLinkIcon} />
+  </Button>
+);
+
 interface Props {
   id: string;
   onCancel: () => void;
@@ -101,27 +124,7 @@ const ReportCommentForm: FunctionComponent<Props> = ({
             <Localized id="comments-reportForm-signInToReport">
               <div>You have to sign in to report a comment</div>
             </Localized>
-            <Button
-              className={styles.reportIllegalLink}
-              variant="flat"
-              color="primary"
-              fontSize="medium"
-              fontWeight="semiBold"
-              paddingSize="none"
-              target="_blank"
-              anchor
-              underline
-              textAlign="left"
-              href={reportLink}
-            >
-              <Localized id="comments-reportForm-reportIllegalContent-button">
-                <span>This comment contains illegal content</span>
-              </Localized>
-              <ButtonSvgIcon
-                className={styles.linkIcon}
-                Icon={ShareExternalLinkIcon}
-              />
-            </Button>
+            <IllegalContentLink reportLink={reportLink} />
           </HorizontalGutter>
         </div>
       </div>
@@ -228,27 +231,7 @@ const ReportCommentForm: FunctionComponent<Props> = ({
                 </li>
               </ul>
               {dsaFeaturesEnabled && (
-                <Button
-                  className={styles.reportIllegalLink}
-                  variant="flat"
-                  color="primary"
-                  fontSize="medium"
-                  fontWeight="semiBold"
-                  paddingSize="none"
-                  target="_blank"
-                  anchor
-                  underline
-                  textAlign="left"
-                  href={reportLink}
-                >
-                  <Localized id="comments-reportForm-reportIllegalContent-button">
-                    <span>This comment contains illegal content</span>
-                  </Localized>
-                  <ButtonSvgIcon
-                    className={styles.linkIcon}
-                    Icon={ShareExternalLinkIcon}
-                  />
-                </Button>
+                <IllegalContentLink reportLink={reportLink} />
               )}
               <Localized
                 id="comments-reportPopover-additionalInformation"
