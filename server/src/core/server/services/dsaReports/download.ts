@@ -141,7 +141,16 @@ export async function sendReportDownload(
   // Write report info cell data to CSV
   csv.write([
     formatter.format(report.createdAt),
-    reporter?.username,
+    reporter
+      ? reporter.username
+        ? reporter.username
+        : translate(
+            bundle,
+            "Username not available",
+            "dsaReportCSV-usernameNotAvailable"
+          )
+      : translate(bundle, "Anonymous user", "dsaReportCSV-anonymousUser"),
+    translate(bundle, "Anonymous user", "dsaReportCSV-anonymousUser"),
     translate(bundle, "Report submitted", "dsaReportCSV-reportSubmitted"),
     reportInfo,
   ]);
