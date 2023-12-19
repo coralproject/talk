@@ -117,6 +117,12 @@ const PaginatedSelect: FunctionComponent<Props> = ({
               >
                 <TextArea
                   className={styles.filterInput}
+                  onKeyDown={(e) => {
+                    // We don't want blank lines to be added in input
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                    }
+                  }}
                   onChange={(e) => onFilter(e.target.value)}
                   ref={filterRef}
                   aria-label="Filter results"
