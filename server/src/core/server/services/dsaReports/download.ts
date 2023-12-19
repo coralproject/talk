@@ -153,7 +153,6 @@ export async function sendReportDownload(
             "dsaReportCSV-usernameNotAvailable"
           )
       : translate(bundle, "Anonymous user", "dsaReportCSV-anonymousUser"),
-    translate(bundle, "Anonymous user", "dsaReportCSV-anonymousUser"),
     translate(bundle, "Report submitted", "dsaReportCSV-reportSubmitted"),
     reportInfo,
   ]);
