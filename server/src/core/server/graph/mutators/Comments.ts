@@ -351,8 +351,7 @@ export const Comments = (ctx: GraphContext) => ({
       const latestFeatured = await retrieveLatestFeaturedCommentForAuthor(
         ctx.mongo,
         ctx.tenant.id,
-        comment.authorID!,
-        comment.id
+        comment.authorID!
       );
 
       // if a latest featured comment, update latestFeaturedDate for user to when it was featured
