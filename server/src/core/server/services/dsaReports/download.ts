@@ -59,7 +59,10 @@ export async function sendReportDownload(
     name: `report-${report.referenceID}-${Math.abs(now.getTime())}.csv`,
   });
 
-  const reporter = await retrieveUser(mongo, tenant.id, report.userID);
+  let reporter = null;
+  if (report.userID) {
+    reporter = await retrieveUser(mongo, tenant.id, report.userID);
+  }
 
   let reportedComment = await retrieveComment(
     mongo.comments(),

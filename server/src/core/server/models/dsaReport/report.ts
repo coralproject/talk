@@ -72,7 +72,7 @@ export interface DSAReport extends TenantResource {
   /**
    * userID is the id of the user who reported this comment for illegal content.
    */
-  userID: string;
+  userID?: string | null;
 
   /**
    * createdAt is the date that this DSAReport was created
