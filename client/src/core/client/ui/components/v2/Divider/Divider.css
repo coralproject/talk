@@ -7,17 +7,41 @@ $divider-border-color: var(--palette-grey-300);
 }
 
 .spacing1 {
-  margin: var(--spacing-1) 0;
+  margin-top: var(--spacing-1);
+  margin-bottom: var(--spacing-1);
 }
 
 .spacing2 {
-  margin: var(--spacing-2) 0;
+  margin-top: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
 }
 
 .spacing3 {
-  margin: var(--spacing-3) 0;
+  margin-top: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
 }
 
 .spacing4 {
-  margin: var(--spacing-4) 0;
+  margin-top: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+}
+
+.horizontallySpaced1 {
+  margin-left: var(--spacing-1);
+  margin-right: var(--spacing-1);
+}
+
+.horizontallySpaced2 {
+  margin-left: var(--spacing-2);
+  margin-right: var(--spacing-2);
+}
+
+.horizontallySpaced3 {
+  margin-left: var(--spacing-3);
+  margin-right: var(--spacing-3);
+}
+
+.horizontallySpaced4 {
+  margin-left: var(--spacing-4);
+  margin-right: var(--spacing-4);
 }
