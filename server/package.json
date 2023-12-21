@@ -43,7 +43,7 @@
     "start:development:withJobs": "NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
     "start": "NODE_ENV=production node dist/index.js",
     "test": "node --trace-warnings scripts/test.js --watch",
-    "test:server": "node --trace-warnings scripts/testServer.js",
+    "test:server": "node --trace-warnings scripts/testServer.js --maxWorkers=50%",
     "test:cache": "node --trace-warnings scripts/test.cache.js --env=jsdom",
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",
