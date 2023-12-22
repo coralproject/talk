@@ -111,6 +111,8 @@ interface CreateContextArguments {
    * of the render window
    */
   customScrollContainer?: HTMLElement;
+
+  onAuthError?: () => void;
 }
 
 /**
@@ -142,6 +144,7 @@ function createRelayEnvironment(
   clientID: string,
   localeBundles: FluentBundle[],
   tokenRefreshProvider: TokenRefreshProvider,
+  onAuthError?: () => void,
   clearCacheBefore?: Date
 ) {
   const source = new RecordSource();
@@ -160,6 +163,7 @@ function createRelayEnvironment(
       clientID,
       accessTokenProvider,
       localeBundles,
+      onAuthError,
       tokenRefreshProvider.refreshToken,
       clearCacheBefore
     ),
@@ -203,6 +207,8 @@ function createManagedCoralContextProvider(
   clientID: string,
   initLocalState: InitLocalState,
   localesData: LocalesData,
+  localStorage: PromisifiedStorage<string>,
+  onAuthError?: () => void,
   ErrorBoundary?: React.ComponentType<{ children?: React.ReactNode }>,
   refreshAccessTokenPromise?: RefreshAccessTokenPromise,
   staticConfig?: StaticConfig | null
@@ -270,6 +276,7 @@ function createManagedCoralContextProvider(
         clientID,
         this.state.context.localeBundles,
         this.state.context.tokenRefreshProvider,
+        onAuthError,
         // Disable the cache on requests for the next 30 seconds.
         new Date(Date.now() + 30 * 1000)
       );
@@ -339,7 +346,7 @@ function createManagedCoralContextProvider(
 /*
  * resolveStorage decides which storage to use in the context
  */
-function resolveStorage(
+export function resolveStorage(
   type: "localStorage" | "sessionStorage" | "indexedDB"
 ): PromisifiedStorage {
   switch (type) {
@@ -397,6 +404,7 @@ export default async function createManaged({
   refreshAccessTokenPromise,
   staticConfig = getStaticConfig(window),
   customScrollContainer,
+  onAuthError,
 }: CreateContextArguments): Promise<
   ComponentType<{ children?: React.ReactNode }>
 > {
@@ -468,7 +476,8 @@ export default async function createManaged({
     subscriptionClient,
     clientID,
     localeBundles,
-    tokenRefreshProvider
+    tokenRefreshProvider,
+    onAuthError
   );
 
   // Assemble context.
@@ -522,6 +531,8 @@ export default async function createManaged({
     clientID,
     initLocalState,
     localesData,
+    localStorage,
+    onAuthError,
     reporter?.ErrorBoundary,
     refreshAccessTokenPromise,
     staticConfig
