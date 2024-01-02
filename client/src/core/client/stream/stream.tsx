@@ -31,6 +31,7 @@ import localesData from "./locales";
 import { EmotionShadowRoot } from "./shadow";
 
 // Import css variables.
+import { ACCESS_TOKEN_KEY } from "coral-framework/lib/auth";
 import "coral-ui/theme/streamEmbed.css";
 import "coral-ui/theme/typography.css";
 
@@ -104,7 +105,7 @@ export async function attach(options: AttachOptions) {
 
   const onContextAuthError = async () => {
     const localStorage = resolveStorage("localStorage");
-    await localStorage.removeItem("v2:accessToken");
+    await localStorage.removeItem(ACCESS_TOKEN_KEY);
     await remove(options.element);
     await attach(options);
   };
