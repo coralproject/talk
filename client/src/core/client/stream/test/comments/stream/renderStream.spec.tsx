@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import sinon from "sinon";
 
 import customRenderAppWithContext from "coral-stream/test/customRenderAppWithContext";
@@ -82,12 +82,19 @@ it("renders comment stream", async () => {
     screen.getByRole("button", { name: "Report comment by Moderator" })
   ).toBeVisible();
 
-  // renders deleted comment tombstone
+  // renders third comment with deleted comment tombstone
   const tombstone = screen.getByText(
     "This comment is no longer available. The commenter has deleted their account.",
     { exact: false }
   );
   expect(tombstone).toBeInTheDocument();
+
+  // renders fourth comment with body but no username
+  const commentWithNoUsername = screen.getByRole("article", {
+    name: "Comment from 2018-07-06T18:24:00.000Z",
+  });
+  expect(commentWithNoUsername).toBeVisible();
+  expect(within(commentWithNoUsername).getByText("Hey!")).toBeVisible();
 
   // TODO (Nick): this is failing due to axe. Tried upgrading react-axe,
   //   jest-axe, and their types. That didn't work, and also noticed that
