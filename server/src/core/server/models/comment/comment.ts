@@ -1686,7 +1686,6 @@ export async function retrieveFeaturedComments(
     tenantID,
     siteID,
     "tags.type": GQLTAG.FEATURED,
-    status: { $in: PUBLISHED_STATUSES },
   };
   const results = await mongo
     .comments()
@@ -1696,6 +1695,30 @@ export async function retrieveFeaturedComments(
       },
       { $sort: { createdAt: -1 } },
       { $limit: limit },
+    ])
+    .toArray();
+
+  return results;
+}
+
+export async function retrieveLatestFeaturedCommentForAuthor(
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string
+) {
+  const $match: FilterQuery<Comment> = {
+    tenantID,
+    authorID: userID,
+    "tags.type": GQLTAG.FEATURED,
+  };
+  const results = await mongo
+    .comments()
+    .aggregate([
+      {
+        $match,
+      },
+      { $sort: { createdAt: -1 } },
+      { $limit: 1 },
     ])
     .toArray();
 
