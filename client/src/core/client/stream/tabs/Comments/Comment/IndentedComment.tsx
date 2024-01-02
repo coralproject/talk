@@ -64,7 +64,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
             <Localized
               id={collapseCommentsLocalizationId}
               attrs={{ "aria-label": true }}
-              vars={{ username: rest.username }}
+              vars={{ username: rest.username ?? "" }}
             >
               <BaseButton
                 onClick={toggleCollapsed}

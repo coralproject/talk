@@ -96,7 +96,7 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
         <Localized
           id={reacted ? "qa-reaction-aria-voted" : "qa-reaction-aria-vote"}
           attrs={{ "aria-label": true }}
-          vars={{ username: author!, count: totalReactions }}
+          vars={{ username: author ?? "", count: totalReactions }}
         >
           {render(this.props)}
         </Localized>
@@ -109,7 +109,7 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
         attrs={{ "aria-label": true }}
         vars={{
           reaction: reacted ? labelActive : label,
-          username: author,
+          username: author ?? "",
           count: totalReactions,
         }}
       >

@@ -188,7 +188,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       <Box className={cn(styles.root, CLASSES.banUserPopover.$root)} p={3}>
         <Localized
           id="comments-userSiteBanPopover-confirm-title"
-          vars={{ username: user.username }}
+          vars={{ username: user.username ?? "" }}
         >
           <div className={styles.title}>{user.username} is now banned</div>
         </Localized>
