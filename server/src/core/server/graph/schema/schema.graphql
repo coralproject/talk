@@ -3299,6 +3299,18 @@ type User {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+
+  """
+  lastFeaturedDate is when a user last had a comment featured.
+  This is used for the Top commenter badge feature.
+  """
+  lastFeaturedDate: Time
+
+  """
+  featuredCommenter is whether a user has had a comment featured within the
+  last 10 days or not
+  """
+  featuredCommenter: Boolean
 }
 
 """
