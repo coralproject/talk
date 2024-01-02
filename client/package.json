@@ -47,7 +47,7 @@
     "lint": "npm-run-all --parallel lint:* tscheck:*",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "start:webpackDevServer": "ts-node --transpile-only ./scripts/start.ts",
-    "test": "node --trace-warnings scripts/test.js --watch",
+    "test": "node --trace-warnings scripts/test.js --watch --maxWorkers=50%",
     "test:client:stream": "node --trace-warnings scripts/testClient.stream.js --maxWorkers=50%",
     "test:client:admin": "node --trace-warnings scripts/testClient.admin.js --maxWorkers=50%",
     "test:client:other": "node --trace-warnings scripts/testClient.other.js --maxWorkers=50%",
