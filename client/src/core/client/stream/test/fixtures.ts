@@ -862,6 +862,10 @@ export const stories = denormalizeStories(
               node: commentsFromStaff[0],
               cursor: commentsFromStaff[0].createdAt,
             },
+            {
+              node: { ...comments[1], deleted: true },
+              cursor: comments[1].createdAt,
+            },
           ],
         },
       },

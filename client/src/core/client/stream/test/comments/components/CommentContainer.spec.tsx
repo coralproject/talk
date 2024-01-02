@@ -6,13 +6,7 @@ import {
   createResolversStub,
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
-import {
-  commenters,
-  settings,
-  stories,
-  storyWithDeletedComments,
-  storyWithReplies,
-} from "coral-stream/test/fixtures";
+import { commenters, settings, stories } from "coral-stream/test/fixtures";
 
 import customRenderAppWithContext from "../../customRenderAppWithContext";
 import create from "../create";
@@ -98,63 +92,4 @@ it("renders body only", async () => {
   expect(
     within(firstCommentElement).getByText(firstComment.body!)
   ).toBeDefined();
-});
-
-it("renders InReplyTo", async () => {
-  await createTestRenderer({
-    resolvers: {
-      Query: {
-        story: () => storyWithReplies,
-        stream: () => storyWithReplies,
-      },
-    },
-  });
-
-  const container = await waitFor(() =>
-    screen.getByTestId("comments-allComments-log")
-  );
-
-  const firstComment = storyWithReplies.comments.edges[1].node;
-  const firstReply = firstComment.replies.edges[0].node;
-
-  const firstReplyElement = await within(container).findByTestId(
-    `comment-${firstReply.id}`
-  );
-
-  const inReplyTo = within(firstReplyElement).getByText((content, element) => {
-    const match =
-      content.startsWith("In reply") &&
-      !!element &&
-      element.innerHTML.includes(firstComment.author!.username!);
-    return match;
-  });
-
-  expect(inReplyTo).toBeDefined();
-});
-
-it("renders with tombstone when comment has been deleted", async () => {
-  const storyFixture = storyWithDeletedComments;
-  await createTestRenderer({
-    resolvers: {
-      Query: {
-        story: () => storyFixture,
-        stream: () => storyFixture,
-      },
-    },
-    initLocalState: (localStorage) => {
-      localStorage.setValue(storyFixture.id, "storyID");
-    },
-  });
-
-  const container = await waitFor(() =>
-    screen.getByTestId("comments-allComments-log")
-  );
-
-  expect(container).toBeInTheDocument();
-
-  const tombstone = within(container).getByText(
-    "This comment is no longer available. The commenter has deleted their account.",
-    { exact: false }
-  );
-  expect(tombstone).toBeInTheDocument();
 });

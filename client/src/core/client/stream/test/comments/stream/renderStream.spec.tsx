@@ -82,6 +82,13 @@ it("renders comment stream", async () => {
     screen.getByRole("button", { name: "Report comment by Moderator" })
   ).toBeVisible();
 
+  // renders deleted comment tombstone
+  const tombstone = screen.getByText(
+    "This comment is no longer available. The commenter has deleted their account.",
+    { exact: false }
+  );
+  expect(tombstone).toBeInTheDocument();
+
   // TODO (Nick): this is failing due to axe. Tried upgrading react-axe,
   //   jest-axe, and their types. That didn't work, and also noticed that
   //   these libs have been deprecated and replaced with new libs on npm.

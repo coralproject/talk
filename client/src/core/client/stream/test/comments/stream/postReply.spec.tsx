@@ -131,6 +131,11 @@ it("post a reply", async () => {
       within(commentReplyList).getByText("(from server)", { exact: false })
     );
   });
+
+  const inReplyTo = within(commentReplyList).getByText("In reply to", {
+    exact: false,
+  });
+  expect(inReplyTo).toBeDefined();
 });
 
 it("post a reply and handle non-visible comment state", async () => {
