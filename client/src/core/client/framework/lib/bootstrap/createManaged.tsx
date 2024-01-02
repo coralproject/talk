@@ -112,6 +112,11 @@ interface CreateContextArguments {
    */
   customScrollContainer?: HTMLElement;
 
+  /**
+   * called when a token is invalid and we are unable to login so we can
+   * clear the local auth token allowing a user to login again instead of
+   * throwing a network error that is impassable.
+   */
   onAuthError?: () => void;
 }
 
