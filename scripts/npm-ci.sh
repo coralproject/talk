@@ -4,12 +4,6 @@ set -e
 cd "$(dirname "$0")"
 cd ..
 
-echo "installing git hooks"
-
-cd scripts
-sh install-git-hooks.sh
-cd ..
-
 echo "running \`npm ci\` for \`config\`"
 cd config
 npm ci
