@@ -66,6 +66,7 @@ import {
   mergeUserSiteModerationScopes,
   NotificationSettingsInput,
   premodUser,
+  PremodUserReason,
   pullUserMembershipScopes,
   pullUserSiteModerationScopes,
   removeActiveUserSuspensions,
@@ -124,6 +125,7 @@ import {
   generateAdminDownloadLink,
   generateDownloadLink,
 } from "./download/token";
+import { shouldPremodDueToLikelySpamEmail } from "./emailPremodFilter";
 import {
   checkForNewUserEmailDomainModeration,
   validateEmail,
@@ -174,7 +176,18 @@ export async function findOrCreate(
 
   try {
     // Try to find or create the user.
-    const { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+    let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+
+    if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+      user = await premodUser(
+        mongo,
+        tenant.id,
+        user.id,
+        undefined,
+        now,
+        PremodUserReason.EmailPremodFilter
+      );
+    }
 
     return user;
   } catch (err) {
@@ -184,7 +197,18 @@ export async function findOrCreate(
     if (err instanceof DuplicateUserError) {
       // Retry the operation once more, if this operation fails, the error will
       // exit this function.
-      const { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+      let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
+
+      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+        user = await premodUser(
+          mongo,
+          tenant.id,
+          user.id,
+          undefined,
+          now,
+          PremodUserReason.EmailPremodFilter
+        );
+      }
 
       return user;
     }
@@ -203,12 +227,23 @@ export async function findOrCreate(
 
       // Create the user again this time, but associate the duplicate email to
       // the user account.
-      const { user } = await findOrCreateUser(
+      let { user } = await findOrCreateUser(
         mongo,
         tenant.id,
         { ...rest, duplicateEmail: email },
         now
       );
+
+      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+        user = await premodUser(
+          mongo,
+          tenant.id,
+          user.id,
+          undefined,
+          now,
+          PremodUserReason.EmailPremodFilter
+        );
+      }
 
       return user;
     }
@@ -1784,7 +1819,7 @@ export async function premod(
   mongo: MongoContext,
   cache: DataCache,
   tenant: Tenant,
-  moderator: User,
+  moderator: User | null,
   userID: string,
   now = new Date()
 ) {
@@ -1806,7 +1841,7 @@ export async function premod(
     mongo,
     tenant.id,
     userID,
-    moderator.id,
+    moderator ? moderator.id : undefined,
     now
   );
 
