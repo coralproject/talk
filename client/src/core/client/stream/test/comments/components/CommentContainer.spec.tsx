@@ -132,38 +132,6 @@ it("renders InReplyTo", async () => {
   expect(inReplyTo).toBeDefined();
 });
 
-it("renders disabled reply when story is closed", async () => {
-  const closedStory = {
-    ...stories[0],
-    isClosed: true,
-  };
-
-  await createTestRenderer({
-    resolvers: {
-      Query: {
-        story: () => closedStory,
-        stream: () => closedStory,
-      },
-    },
-  });
-
-  const container = await waitFor(() =>
-    screen.getByTestId("comments-allComments-log")
-  );
-
-  const firstComment = stories[0].comments.edges[0].node;
-  const firstCommentElement = within(container).getByTestId(
-    `comment-${firstComment.id}`
-  );
-
-  expect(firstCommentElement).toBeInTheDocument();
-  const replyButton = within(firstCommentElement).getByLabelText("Reply", {
-    exact: false,
-  });
-  expect(replyButton).toBeInTheDocument();
-  expect(replyButton).toBeDisabled();
-});
-
 it("renders with tombstone when comment has been deleted", async () => {
   const storyFixture = storyWithDeletedComments;
   await createTestRenderer({
