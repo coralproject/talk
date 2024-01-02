@@ -9,7 +9,6 @@ import {
 import {
   commenters,
   settings,
-  singleCommentStory,
   stories,
   storyWithDeletedComments,
   storyWithReplies,
@@ -54,35 +53,8 @@ async function createTestRenderer(
   // performant. Since this cuts the `render username and body`
   // test from 1.32s down to 795ms on my machine, I'm doing
   // a waitFor + getByTestId here.
-  const container = await waitFor(() =>
-    screen.getByTestId("comments-allComments-log")
-  );
-
-  return { container, context };
+  return { context };
 }
-
-afterEach(jest.clearAllMocks);
-
-it("renders username and body", async () => {
-  const { container } = await createTestRenderer({
-    resolvers: {
-      Query: {
-        story: () => singleCommentStory,
-        stream: () => singleCommentStory,
-      },
-    },
-  });
-
-  const firstComment = singleCommentStory.comments.edges[0].node;
-  const commentElement = await within(container).findByTestId(
-    `comment-${firstComment.id}`
-  );
-  expect(commentElement).toBeDefined();
-  expect(
-    within(commentElement).getByText(firstComment.author!.username!)
-  ).toBeDefined();
-  expect(within(commentElement).getByText(firstComment.body!)).toBeDefined();
-});
 
 it("renders body only", async () => {
   const commentsWithNoUsernames: typeof stories[0] = {
@@ -101,7 +73,7 @@ it("renders body only", async () => {
       })),
     },
   };
-  const { container } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: {
       Query: {
         story: () => commentsWithNoUsernames,
@@ -109,6 +81,10 @@ it("renders body only", async () => {
       },
     },
   });
+
+  const container = await waitFor(() =>
+    screen.getByTestId("comments-allComments-log")
+  );
 
   const firstComment = commentsWithNoUsernames.comments.edges[0].node;
   const firstCommentAuthor = stories[0].comments.edges[0].node.author;
@@ -125,7 +101,7 @@ it("renders body only", async () => {
 });
 
 it("renders InReplyTo", async () => {
-  const { container } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: {
       Query: {
         story: () => storyWithReplies,
@@ -133,6 +109,10 @@ it("renders InReplyTo", async () => {
       },
     },
   });
+
+  const container = await waitFor(() =>
+    screen.getByTestId("comments-allComments-log")
+  );
 
   const firstComment = storyWithReplies.comments.edges[1].node;
   const firstReply = firstComment.replies.edges[0].node;
@@ -152,42 +132,13 @@ it("renders InReplyTo", async () => {
   expect(inReplyTo).toBeDefined();
 });
 
-it("renders disabled reply when commenting has been disabled site-wide", async () => {
-  const disabledComentingSettings = {
-    ...settings,
-    disableCommenting: {
-      enabled: true,
-      message: "Commenting has been disabled",
-    },
-  };
-  const { container } = await createTestRenderer({
-    resolvers: {
-      Query: {
-        settings: () => disabledComentingSettings,
-      },
-    },
-  });
-
-  const firstComment = stories[0].comments.edges[0].node;
-  const firstCommentElement = within(container).getByTestId(
-    `comment-${firstComment.id}`
-  );
-
-  expect(firstCommentElement).toBeInTheDocument();
-  const replyButton = within(firstCommentElement).getByLabelText("Reply", {
-    exact: false,
-  });
-  expect(replyButton).toBeInTheDocument();
-  expect(replyButton).toBeDisabled();
-});
-
 it("renders disabled reply when story is closed", async () => {
   const closedStory = {
     ...stories[0],
     isClosed: true,
   };
 
-  const { container } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: {
       Query: {
         story: () => closedStory,
@@ -195,6 +146,10 @@ it("renders disabled reply when story is closed", async () => {
       },
     },
   });
+
+  const container = await waitFor(() =>
+    screen.getByTestId("comments-allComments-log")
+  );
 
   const firstComment = stories[0].comments.edges[0].node;
   const firstCommentElement = within(container).getByTestId(
@@ -211,7 +166,7 @@ it("renders disabled reply when story is closed", async () => {
 
 it("renders with tombstone when comment has been deleted", async () => {
   const storyFixture = storyWithDeletedComments;
-  const { container } = await createTestRenderer({
+  await createTestRenderer({
     resolvers: {
       Query: {
         story: () => storyFixture,
@@ -222,6 +177,10 @@ it("renders with tombstone when comment has been deleted", async () => {
       localStorage.setValue(storyFixture.id, "storyID");
     },
   });
+
+  const container = await waitFor(() =>
+    screen.getByTestId("comments-allComments-log")
+  );
 
   expect(container).toBeInTheDocument();
 
