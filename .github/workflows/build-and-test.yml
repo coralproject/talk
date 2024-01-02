@@ -6,49 +6,37 @@ on:
   merge_group:
 
 env:
-  IMAGE_REPOSITORY: 'us-east1-docker.pkg.dev/the-coral-project/coral/talk'
-  IMAGE_CACHE_REPOSITORY: 'coralproject/ci'
-  DOCKERHUB_USERNAME: 'coralproject'
-
+  IMAGE_REPOSITORY: "us-east1-docker.pkg.dev/the-coral-project/coral/talk"
+  IMAGE_CACHE_REPOSITORY: "coralproject/ci"
+  DOCKERHUB_USERNAME: "coralproject"
 
 jobs:
   build-and-test:
     name: Build and Test
-    runs-on: ubuntu-22.04
+    runs-on: arc-coralproject
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v3
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      -
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.REPO_PATCHED_DEPLOY_KEY }}
-      -
-        name: Login to GAR
+      - name: Login to GAR
         uses: docker/login-action@v2
         with:
           registry: us-east1-docker.pkg.dev
           username: _json_key
           password: ${{ secrets.GAR_JSON_KEY }}
-      -
-        name: Login to Docker Hub
+      - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      -
-        name: Define SHORT_SHA with commit short sha
+      - name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-      -
-        name: Setup Node14.x
+      - name: Setup Node14.x
         uses: actions/setup-node@v3
         with:
-          node-version: '14.x'
-      -
-        name: Install npm 8
+          node-version: "14.x"
+      - name: Install npm 8
         run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
       # -
       #   name: npm Lockfile Version (client)
@@ -68,85 +56,70 @@ jobs:
       #   with:
       #     entryPoint: ./server
       #     version: 2
-      -
-        name: Cache Dependencies
+      - name: Cache Dependencies
         id: cache-client
         uses: actions/cache@v3
         with:
           path: ./client/node_modules
           key: modules-client-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
-      -
-        name: Cache Dependencies
+      - name: Cache Dependencies
         id: cache-common
         uses: actions/cache@v3
         with:
           path: ./common/node_modules
           key: modules-common-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
-      -
-        name: Cache Dependencies
+      - name: Cache Dependencies
         id: cache-server
         uses: actions/cache@v3
         with:
           path: ./server/node_modules
           key: modules-server-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
-      -
-        name: npm ci
+      - name: npm ci
         run: sh scripts/npm-ci.sh
-      -
-        name: Generate schemas and types
+      - name: Generate schemas and types
         run: sh scripts/generate.sh
-      -
-        name: Lint Source Code
+      - name: Lint Source Code
         run: sh scripts/lint.sh
-      -
-        name: Lint Versions
+      - name: Lint Versions
         run: |
           cd client
           npx @coralproject/package-version-lint
-      -
-        name: Run Server Unit Tests
+      - name: Run Server Unit Tests
         run: cd server && npm run test:server -- --ci --reporters=default --reporters=jest-junit
-      -
-        name: Run Client Stream Unit Tests
+      - name: Run Client Stream Unit Tests
         run: cd client && npm run test:client:stream -- --ci --reporters=default --reporters=jest-junit
-      -
-        name: Run Client Admin Unit Tests
+      - name: Run Client Admin Unit Tests
         run: cd client && npm run test:client:admin -- --ci --reporters=default --reporters=jest-junit
-      -
-        name: Run Client Other Unit Tests
+      - name: Run Client Other Unit Tests
         run: cd client && npm run test:client:other -- --ci --reporters=default --reporters=jest-junit
-      -
-        name: Build
+      - name: Build
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
         run: sh scripts/build.sh
-      -
-        name: Verify Bundle Size
+      - name: Verify Bundle Size
         run: cd client && ./node_modules/.bin/bundlesize --enable-github-checks
-# Build tag push the image after a merge to develop
-      -
-        name: Build, Tag, Push
+      # Build tag push the image after a merge to develop
+      - name: Build, Tag, Push
         uses: docker/build-push-action@v4
         if: github.ref == 'refs/heads/develop'
         with:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:develop-latest
           build-args: |
-              REVISION_HASH=${GITHUB_SHA}
+            REVISION_HASH=${GITHUB_SHA}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop
           cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop
-# Build tag push the release candidate image when the branch name begins with release-
-      -
-        name: Build, Tag, Push RC
+      # Build tag push the release candidate image when the branch name begins with release-
+      - name: Build, Tag, Push RC
         uses: docker/build-push-action@v4
         if: startsWith( github.ref, 'refs/heads/release-')
         with:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
           build-args: |
-              REVISION_HASH=${GITHUB_SHA}
+            REVISION_HASH=${GITHUB_SHA}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release
           cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release
