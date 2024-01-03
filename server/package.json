@@ -21,10 +21,10 @@
   ],
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
-    "build:development": "NODE_ENV=development npm-run-all generate --parallel build:server",
+    "build:development": "NODE_OPTIONS=--no-experimental-fetch NODE_ENV=development npm-run-all generate --parallel build:server",
     "build:server": "gulp server",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true npm-run-all generate --parallel build:server",
-    "build": "NODE_ENV=production npm-run-all generate-persist --parallel build:server",
+    "build": "NODE_OPTIONS=--no-experimental-fetch NODE_ENV=production npm-run-all generate-persist --parallel build:server",
     "clean": "gulp clean",
     "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' WEBHOOKS.md EXTERNAL_MODERATION_PHASES.md",
     "generate-persist": "npm-run-all generate:schema",
