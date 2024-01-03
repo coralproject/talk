@@ -144,8 +144,7 @@
     "tsscmp": "^1.0.6",
     "url-regex-safe": "^2.0.2",
     "uuid": "^7.0.3",
-    "verror": "^1.10.0",
-    "xregexp": "^4.3.0"
+    "verror": "^1.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
@@ -243,7 +242,6 @@
     "@types/webpack-bundle-analyzer": "^3.8.0",
     "@types/webpack-dev-server": "^3.11.0",
     "@types/ws": "^7.2.3",
-    "@types/xregexp": "^4.3.0",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
     "@typescript-eslint/eslint-plugin-tslint": "^3.4.0",
     "@typescript-eslint/parser": "^3.4.0",
