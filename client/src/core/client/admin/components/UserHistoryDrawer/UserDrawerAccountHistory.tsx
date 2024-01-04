@@ -4,8 +4,10 @@ import { graphql } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLUSER_ROLE } from "coral-framework/schema";
 import { CoralMarkIcon, SvgIcon } from "coral-ui/components/icons";
 import {
+  Button,
   CallOut,
   HorizontalGutter,
   Table,
@@ -16,6 +18,7 @@ import {
 } from "coral-ui/components/v2";
 
 import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
+import { UserDrawerAccountHistory_viewer } from "coral-admin/__generated__/UserDrawerAccountHistory_viewer.graphql";
 
 import AccountHistoryAction, {
   HistoryActionProps,
@@ -26,6 +29,7 @@ import styles from "./UserDrawerAccountHistory.css";
 
 interface Props {
   user: UserDrawerAccountHistory_user;
+  viewer: UserDrawerAccountHistory_viewer;
 }
 
 interface From {
@@ -39,7 +43,10 @@ type HistoryRecord = HistoryActionProps & {
   description?: string | null;
 };
 
-const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
+const UserDrawerAccountHistory: FunctionComponent<Props> = ({
+  user,
+  viewer,
+}) => {
   const system = (
     <Localized
       id="moderate-user-drawer-account-history-system"
@@ -263,6 +270,10 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
 
   return (
     <HorizontalGutter size="double">
+      {/* TODO: Localize */}
+      {viewer.role === GQLUSER_ROLE.ADMIN && (
+        <Button color="alert">Delete account</Button>
+      )}
       <Table fullWidth>
         <TableHead className={styles.tableHeader}>
           <TableRow>
@@ -294,6 +305,12 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
 };
 
 const enhanced = withFragmentContainer<any>({
+  viewer: graphql`
+    fragment UserDrawerAccountHistory_viewer on User {
+      id
+      role
+    }
+  `,
   user: graphql`
     fragment UserDrawerAccountHistory_user on User {
       status {
