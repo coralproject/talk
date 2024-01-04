@@ -79,6 +79,9 @@ comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
   .title = Toggle featured comments tooltip
 
+comment-top-commenter-tooltip-header = <icon></icon> Top commenter
+comment-top-commenter-tooltip-details = Has been featured in the last 10 days
+
 comments-collapse-toggle-with-username =
   .aria-label = Hide comment by { $username } and its replies
 comments-collapse-toggle-without-username =

@@ -360,7 +360,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   const commentTags = (
     <>
-      {hasFeaturedTag && !isQA && <FeaturedTag collapsed={collapsed} />}
+      {hasFeaturedTag && !isQA && (
+        <FeaturedTag
+          collapsed={collapsed}
+          topCommenterEnabled={settings.topCommenter?.enabled}
+        />
+      )}
       {hasAnsweredTag && isQA && <AnsweredTag collapsed={collapsed} />}
     </>
   );
@@ -536,6 +541,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
           highlight={highlight}
           toggleCollapsed={toggleCollapsed}
           parent={comment.parent}
+          featuredCommenter={comment.author?.featuredCommenter}
+          topCommenterEnabled={settings.topCommenter?.enabled}
           staticUsername={
             comment.author && (
               <Flex direction="row" alignItems="center" wrap>
@@ -855,6 +862,7 @@ const enhanced = withShowAuthPopupMutation(
           username
           avatar
           badges
+          featuredCommenter
         }
         parent {
           id
@@ -906,6 +914,9 @@ const enhanced = withShowAuthPopupMutation(
       fragment CommentContainer_settings on Settings {
         flattenReplies
         disableCommenting {
+          enabled
+        }
+        topCommenter {
           enabled
         }
         featureFlags
