@@ -121,7 +121,7 @@ jobs:
       -
         name: Build
         env:
-          NODE_OPTIONS: "--max-old-space-size=14336"
+          NODE_OPTIONS: "--max-old-space-size=14336 --no-experimental-fetch"
         run: sh scripts/build.sh
       -
         name: Verify Bundle Size
