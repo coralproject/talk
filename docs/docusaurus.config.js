@@ -113,6 +113,9 @@ module.exports = {
         rootPath: "./docs",
         baseURL: "api",
         homepage: "./docs/graphql.md",
+        loaders: {
+          GraphQLFileLoader: "@graphql-tools/graphql-file-loader",
+        },
       },
     ],
   ],
