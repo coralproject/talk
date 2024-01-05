@@ -16,6 +16,7 @@ module.exports = {
     algolia: {
       apiKey: "259b9f08146e7407341fa04498544ad6",
       indexName: "coralproject",
+      appId: "BH4D9OD16A",
     },
     navbar: {
       logo: {
@@ -106,7 +107,7 @@ module.exports = {
   ],
   plugins: [
     [
-      "@edno/docusaurus2-graphql-doc-generator",
+      "@graphql-markdown/docusaurus",
       {
         schema: "../server/src/core/server/graph/schema/schema.graphql",
         rootPath: "./docs",
