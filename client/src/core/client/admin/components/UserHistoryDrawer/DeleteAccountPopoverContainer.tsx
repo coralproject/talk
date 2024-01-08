@@ -1,8 +1,13 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
-import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { AlertTriangleIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Box,
@@ -15,6 +20,8 @@ import {
 
 import { DeleteAccountPopoverContainer_user as UserData } from "coral-admin/__generated__/DeleteAccountPopoverContainer_user.graphql";
 
+import ScheduleAccountDeletionMutation from "./ScheduleAccountDeletionMutation";
+
 import styles from "./DeleteAccountPopoverContainer.css";
 
 interface Props {
@@ -22,6 +29,33 @@ interface Props {
 }
 
 const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
+  const scheduleAccountDeletion = useMutation(ScheduleAccountDeletionMutation);
+
+  const onRequestDeletion = useCallback(async () => {
+    await scheduleAccountDeletion({ userID: user.id });
+    // TODO: Handle error message
+  }, [user.id, scheduleAccountDeletion]);
+
+  const deleteAccountConfirmationText = "delete";
+  const [
+    deleteAccountConfirmationTextInput,
+    setDeleteAccountConfirmationTextInput,
+  ] = useState("");
+
+  const onDeleteAccountConfirmationTextInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setDeleteAccountConfirmationTextInput(e.target.value);
+    },
+    [setDeleteAccountConfirmationTextInput]
+  );
+
+  const deleteAccountButtonDisabled = useMemo(() => {
+    return !(
+      deleteAccountConfirmationTextInput.toLowerCase() ===
+      deleteAccountConfirmationText
+    );
+  }, [deleteAccountConfirmationText, deleteAccountConfirmationTextInput]);
+
   return (
     <Localized id="" attrs={{ description: true }}>
       <Popover
@@ -95,7 +129,7 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
                   className={styles.confirmationInput}
                   type="text"
                   placeholder=""
-                  // onChange={onSpamBanConfirmationTextInputChange}
+                  onChange={onDeleteAccountConfirmationTextInputChange}
                 />
                 {/* {banError && (
                 <div className={styles.error}>
@@ -115,18 +149,18 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
                       variant="outlined"
                       size="regular"
                       color="mono"
-                      onClick={() => {}}
+                      onClick={toggleVisibility}
                     >
                       Cancel
                     </Button>
                   </Localized>
                   <Localized id="">
                     <Button
-                      // disabled={banButtonDisabled}
+                      disabled={deleteAccountButtonDisabled}
                       variant="regular"
                       size="regular"
                       color="alert"
-                      onClick={() => {}}
+                      onClick={onRequestDeletion}
                     >
                       Delete
                     </Button>

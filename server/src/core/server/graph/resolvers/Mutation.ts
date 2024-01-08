@@ -307,6 +307,10 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.requestAccountDeletion(input),
     clientMutationId: input.clientMutationId,
   }),
+  scheduleAccountDeletion: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.scheduleAccountDeletion(input),
+    clientMutationId: input.clientMutationId,
+  }),
   cancelAccountDeletion: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.cancelAccountDeletion(input),
     clientMutationId: input.clientMutationId,

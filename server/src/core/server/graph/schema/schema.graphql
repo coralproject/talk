@@ -6464,7 +6464,6 @@ input SettingsInput {
   """
   flairBadges: FlairBadgeConfigurationInput
 
-
   """
   dsa specifies the configuration for DSA European Union moderation and
   reporting features.
@@ -8245,6 +8244,34 @@ type RequestAccountDeletionPayload {
   user is the possibly modified User.
   """
   user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# scheduleAccountDeletion
+##################
+
+input ScheduleAccountDeletionInput {
+  """
+  userID is the ID of the User being deleted.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type ScheduleAccountDeletionPayload {
+  """
+  user is the User that was deleted.
+  """
+  user: User
 
   """
   clientMutationId is required for Relay support.
@@ -10220,6 +10247,14 @@ type Mutation {
   ): RequestAccountDeletionPayload!
     @auth(permit: [SUSPENDED, BANNED, WARNED])
     @rate(seconds: 10)
+
+  """
+  scheduleAccountDeletion allows an admin to schedule an account deletion
+  for a target user
+  """
+  scheduleAccountDeletion(
+    input: ScheduleAccountDeletionInput!
+  ): ScheduleAccountDeletionPayload! @auth(roles: [ADMIN])
 
   """
   deleteUserAccount will delete the target user now.

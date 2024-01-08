@@ -599,6 +599,56 @@ export async function requestAccountDeletion(
   return updatedUser;
 }
 
+export async function scheduleAccountDeletion(
+  mongo: MongoContext,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  user: User,
+  userID: string,
+  now: Date
+) {
+  // if (!user.email) {
+  //   throw new EmailNotSetError();
+  // }
+
+  // const passwordVerified = await verifyUserPassword(user, password, user.email);
+  // if (!passwordVerified) {
+  //   // We throw a PasswordIncorrect error here instead of an
+  //   // InvalidCredentialsError because the current user is already signed in.
+  //   throw new PasswordIncorrect();
+  // }
+
+  const deletionDate = DateTime.fromJSDate(now).plus({
+    seconds: SCHEDULED_DELETION_WINDOW_DURATION,
+  });
+
+  const updatedUser = await scheduleDeletionDate(
+    mongo,
+    tenant.id,
+    userID,
+    deletionDate.toJSDate()
+  );
+
+  // const formattedDate = formatDate(deletionDate.toJSDate(), tenant.locale);
+
+  // await mailer.add({
+  //   tenantID: tenant.id,
+  //   message: {
+  //     to: user.email,
+  //   },
+  //   template: {
+  //     name: "account-notification/delete-request-confirmation",
+  //     context: {
+  //       requestDate: formattedDate,
+  //       organizationName: tenant.organization.name,
+  //       organizationURL: tenant.organization.url,
+  //     },
+  //   },
+  // });
+
+  return updatedUser;
+}
+
 export async function cancelAccountDeletion(
   mongo: MongoContext,
   mailer: MailerQueue,

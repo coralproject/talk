@@ -25,6 +25,7 @@ import {
   requestAccountDeletion,
   requestCommentsDownload,
   requestUserCommentsDownload,
+  scheduleAccountDeletion,
   sendModMessage,
   setEmail,
   setPassword,
@@ -72,6 +73,7 @@ import {
   GQLRequestAccountDeletionInput,
   GQLRequestCommentsDownloadInput,
   GQLRequestUserCommentsDownloadInput,
+  GQLScheduleAccountDeletionInput,
   GQLSendModMessageInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
@@ -173,6 +175,17 @@ export const Users = (ctx: GraphContext) => ({
         ctx.now
       ),
       { "input.password": [ERROR_CODES.PASSWORD_INCORRECT] }
+    ),
+  scheduleAccountDeletion: async (
+    input: GQLScheduleAccountDeletionInput
+  ): Promise<Readonly<User> | null> =>
+    scheduleAccountDeletion(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
     ),
   deleteAccount: async (
     input: GQLDeleteUserAccountInput
