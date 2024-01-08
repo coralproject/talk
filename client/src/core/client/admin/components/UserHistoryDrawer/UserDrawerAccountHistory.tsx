@@ -7,7 +7,6 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import { CoralMarkIcon, SvgIcon } from "coral-ui/components/icons";
 import {
-  Button,
   CallOut,
   HorizontalGutter,
   Table,
@@ -24,6 +23,7 @@ import AccountHistoryAction, {
   HistoryActionProps,
 } from "./AccountHistoryAction";
 import { BanActionProps } from "./BanAction";
+import DeleteAccountPopoverContainer from "./DeleteAccountPopoverContainer";
 
 import styles from "./UserDrawerAccountHistory.css";
 
@@ -270,9 +270,8 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter size="double">
-      {/* TODO: Localize */}
       {viewer.role === GQLUSER_ROLE.ADMIN && (
-        <Button color="alert">Delete account</Button>
+        <DeleteAccountPopoverContainer user={user} />
       )}
       <Table fullWidth>
         <TableHead className={styles.tableHeader}>
@@ -313,6 +312,7 @@ const enhanced = withFragmentContainer<any>({
   `,
   user: graphql`
     fragment UserDrawerAccountHistory_user on User {
+      ...DeleteAccountPopoverContainer_user
       status {
         username {
           history {
