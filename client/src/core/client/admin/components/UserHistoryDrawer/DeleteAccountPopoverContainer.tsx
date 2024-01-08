@@ -21,10 +21,10 @@ import {
 
 import { DeleteAccountPopoverContainer_user as UserData } from "coral-admin/__generated__/DeleteAccountPopoverContainer_user.graphql";
 
+import CancelScheduledAccountDeletionMutation from "./CancelScheduledAccountDeletionMutation";
 import ScheduleAccountDeletionMutation from "./ScheduleAccountDeletionMutation";
 
 import styles from "./DeleteAccountPopoverContainer.css";
-import CancelScheduledAccountDeletionMutation from "./CancelScheduledAccountDeletionMutation";
 
 interface Props {
   user: UserData;
