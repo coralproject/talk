@@ -1,36 +1,35 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/common/lib/constants";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-// import { ScheduleAccountDeletionEvent } from "coral-stream/events";
+// import { CancelScheduledAccountDeletionEvent } from "coral-stream/events";
 
-import { ScheduleAccountDeletionMutation as MutationTypes } from "coral-admin/__generated__/ScheduleAccountDeletionMutation.graphql";
+import { CancelScheduledAccountDeletionMutation as MutationTypes } from "coral-admin/__generated__/CancelScheduledAccountDeletionMutation.graphql";
 
 let clientMutationId = 0;
 
-const ScheduleAccountDeletionMutation = createMutation(
-  "scheduleAccountDeletion",
+const CancelScheduledAccountDeletionMutation = createMutation(
+  "cancelScheduleAccountDeletion",
   async (
     environment: Environment,
     input: MutationInput<MutationTypes>,
     { eventEmitter }
   ) => {
     // const requestAccountDeletionEvent =
-    //   ScheduleAccountDeletionEvent.begin(eventEmitter);
+    //   CancelScheduledAccountDeletionEvent.begin(eventEmitter);
     // try {
     const result = await commitMutationPromiseNormalized<MutationTypes>(
       environment,
       {
         mutation: graphql`
-          mutation ScheduleAccountDeletionMutation(
-            $input: ScheduleAccountDeletionInput!
+          mutation CancelScheduledAccountDeletionMutation(
+            $input: CancelScheduledAccountDeletionInput!
           ) {
-            scheduleAccountDeletion(input: $input) {
+            cancelScheduledAccountDeletion(input: $input) {
               user {
                 scheduledDeletionDate
               }
@@ -45,12 +44,9 @@ const ScheduleAccountDeletionMutation = createMutation(
           },
         },
         optimisticUpdater: (store) => {
-          const deletionDate = new Date(
-            Date.now() + SCHEDULED_DELETION_WINDOW_DURATION * 1000
-          ).toISOString();
           const userProxy = store.get(input.userID);
           if (userProxy) {
-            userProxy.setValue(deletionDate, "scheduledDeletionDate");
+            userProxy.setValue(null, "scheduledDeletionDate");
           }
         },
       }
@@ -67,4 +63,4 @@ const ScheduleAccountDeletionMutation = createMutation(
   }
 );
 
-export default ScheduleAccountDeletionMutation;
+export default CancelScheduledAccountDeletionMutation;

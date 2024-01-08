@@ -8,6 +8,7 @@ import {
   addModeratorNote,
   ban,
   cancelAccountDeletion,
+  cancelScheduledAccountDeletion,
   createToken,
   deactivateToken,
   demoteMember,
@@ -53,6 +54,7 @@ import { deleteUser } from "coral-server/services/users/delete";
 import {
   GQLBanUserInput,
   GQLCancelAccountDeletionInput,
+  GQLCancelScheduledAccountDeletionInput,
   GQLCreateModeratorNoteInput,
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
@@ -205,6 +207,15 @@ export const Users = (ctx: GraphContext) => ({
       ctx.tenant.dsa?.enabled
     );
   },
+  cancelScheduledAccountDeletion: async (
+    input: GQLCancelScheduledAccountDeletionInput
+  ): Promise<Readonly<User> | null> =>
+    cancelScheduledAccountDeletion(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      input.userID
+    ),
   cancelAccountDeletion: async (
     input: GQLCancelAccountDeletionInput
   ): Promise<Readonly<User> | null> =>

@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
+import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { AlertTriangleIcon, SvgIcon } from "coral-ui/components/icons";
 import {
@@ -23,6 +24,7 @@ import { DeleteAccountPopoverContainer_user as UserData } from "coral-admin/__ge
 import ScheduleAccountDeletionMutation from "./ScheduleAccountDeletionMutation";
 
 import styles from "./DeleteAccountPopoverContainer.css";
+import CancelScheduledAccountDeletionMutation from "./CancelScheduledAccountDeletionMutation";
 
 interface Props {
   user: UserData;
@@ -30,11 +32,27 @@ interface Props {
 
 const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
   const scheduleAccountDeletion = useMutation(ScheduleAccountDeletionMutation);
+  const cancelScheduledAccountDeletion = useMutation(
+    CancelScheduledAccountDeletionMutation
+  );
+
+  const formatter = useDateTimeFormatter({
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
 
   const onRequestDeletion = useCallback(async () => {
     await scheduleAccountDeletion({ userID: user.id });
     // TODO: Handle error message
   }, [user.id, scheduleAccountDeletion]);
+
+  const onCancelScheduledDeletion = useCallback(async () => {
+    await cancelScheduledAccountDeletion({ userID: user.id });
+  }, [user.id, cancelScheduledAccountDeletion]);
 
   const deleteAccountConfirmationText = "delete";
   const [
@@ -55,6 +73,36 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
       deleteAccountConfirmationText
     );
   }, [deleteAccountConfirmationText, deleteAccountConfirmationTextInput]);
+
+  const deletionDate = useMemo(
+    () =>
+      user.scheduledDeletionDate ? formatter(user.scheduledDeletionDate) : null,
+    [user, formatter]
+  );
+
+  if (deletionDate) {
+    return (
+      <CallOut color="error">
+        <Localized id="">
+          <div className={styles.deletionCalloutTitle}>
+            User deletion activated
+          </div>
+        </Localized>
+        <Localized id="">
+          <div>This will occur at {deletionDate}.</div>
+        </Localized>
+        <Localized id="">
+          <Button
+            className={styles.cancelDeletionButton}
+            color="mono"
+            onClick={onCancelScheduledDeletion}
+          >
+            Cancel account deletion
+          </Button>
+        </Localized>
+      </CallOut>
+    );
+  }
 
   return (
     <Localized id="" attrs={{ description: true }}>
@@ -188,6 +236,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment DeleteAccountPopoverContainer_user on User {
       id
       username
+      scheduledDeletionDate
     }
   `,
 })(DeleteAccountPopoverContainer);

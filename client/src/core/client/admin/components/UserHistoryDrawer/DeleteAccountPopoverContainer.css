@@ -88,3 +88,12 @@
   margin-top: var(--spacing-2);
   font-weight: var(--font-weight-primary-semi-bold);
 }
+
+.deletionCalloutTitle {
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+}
+
+.cancelDeletionButton {
+  margin-top: var(--spacing-2);
+}

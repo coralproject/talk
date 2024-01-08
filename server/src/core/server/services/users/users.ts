@@ -649,6 +649,35 @@ export async function scheduleAccountDeletion(
   return updatedUser;
 }
 
+export async function cancelScheduledAccountDeletion(
+  mongo: MongoContext,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  userID: string
+) {
+  // if (!user.email) {
+  //   throw new EmailNotSetError();
+  // }
+
+  const updatedUser = await clearDeletionDate(mongo, tenant.id, userID);
+
+  // await mailer.add({
+  //   tenantID: tenant.id,
+  //   message: {
+  //     to: user.email,
+  //   },
+  //   template: {
+  //     name: "account-notification/delete-request-cancel",
+  //     context: {
+  //       organizationName: tenant.organization.name,
+  //       organizationURL: tenant.organization.url,
+  //     },
+  //   },
+  // });
+
+  return updatedUser;
+}
+
 export async function cancelAccountDeletion(
   mongo: MongoContext,
   mailer: MailerQueue,

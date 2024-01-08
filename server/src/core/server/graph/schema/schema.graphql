@@ -8280,6 +8280,34 @@ type ScheduleAccountDeletionPayload {
 }
 
 ##################
+# cancelScheduledAccountDeletion
+##################
+
+input CancelScheduledAccountDeletionInput {
+  """
+  userID is the ID of the User whose scheduled deletion is being canceled.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CancelScheduledAccountDeletionPayload {
+  """
+  user is the User whose scheduled deletion was canceled.
+  """
+  user: User
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # deleteUserAccount
 ##################
 
@@ -10255,6 +10283,14 @@ type Mutation {
   scheduleAccountDeletion(
     input: ScheduleAccountDeletionInput!
   ): ScheduleAccountDeletionPayload! @auth(roles: [ADMIN])
+
+  """
+  cancelScheduledAccountDeletion allows an admin to cancel a scheduled account deletion
+  for a target user
+  """
+  cancelScheduledAccountDeletion(
+    input: CancelScheduledAccountDeletionInput!
+  ): CancelScheduledAccountDeletionPayload! @auth(roles: [ADMIN])
 
   """
   deleteUserAccount will delete the target user now.
