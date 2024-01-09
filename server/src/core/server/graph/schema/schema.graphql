@@ -2700,6 +2700,10 @@ enum UserDeletionUpdateType {
 }
 
 type UserDeletionHistory {
+  """
+  updateType is the type of deletion status update that was made. For example,
+  user deletion was requested, canceled, or completed.
+  """
   updateType: UserDeletionUpdateType!
 
   """

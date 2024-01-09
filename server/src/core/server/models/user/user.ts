@@ -276,13 +276,33 @@ export interface UsernameStatus {
 }
 
 export interface UserDeletionHistory {
+  /**
+   * id is a specific reference for a particular user deletion history that will be
+   * used internally to update user deletion records.
+   */
   id: string;
+
+  /**
+   * updateType is the kind of update to a user's deletion status that was made,
+   * whether it was requested, canceled, or completed
+   */
   updateType: GQLUserDeletionUpdateType;
+
+  /**
+   * createdBy is the user that made this deletion status update
+   */
   createdBy: string;
+
+  /**
+   * createdAt is when the deletion status update was made
+   */
   createdAt: string;
 }
 
 export interface UserDeletionStatus {
+  /**
+   * history is the list of all user deletion status updates for this user
+   */
   history: UserDeletionHistory[];
 }
 
@@ -420,6 +440,9 @@ export interface UserStatus {
    */
   modMessage?: ModMessageStatus;
 
+  /**
+   *  deletion stores the history of deletion status updates for a user.
+   */
   deletion: UserDeletionStatus;
 }
 
