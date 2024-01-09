@@ -45,6 +45,7 @@ const ScheduleAccountDeletionMutation = createMutation(
           },
         },
         optimisticUpdater: (store) => {
+          // TODO: Also add to the user's deletion history?
           const deletionDate = new Date(
             Date.now() + SCHEDULED_DELETION_WINDOW_DURATION * 1000
           ).toISOString();

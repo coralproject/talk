@@ -15,6 +15,7 @@ import {
   GQLDSAReportStatus,
   GQLREJECTION_REASON_CODE,
   GQLRejectionReason,
+  GQLUserDeletionUpdateType,
 } from "coral-server/graph/schema/__generated__/types";
 
 import { moderate } from "../comments/moderation";
@@ -365,7 +366,8 @@ export async function deleteUser(
   userID: string,
   tenantID: string,
   now: Date,
-  dsaEnabled: boolean
+  dsaEnabled: boolean,
+  requestingUser: string | null = null
 ) {
   const user = await mongo.users().findOne({ id: userID, tenantID });
   if (!user) {
@@ -412,6 +414,13 @@ export async function deleteUser(
     );
   }
 
+  const deletionHistory = {
+    id: uuid(),
+    updateType: GQLUserDeletionUpdateType.COMPLETED,
+    createdBy: requestingUser,
+    createdAt: now,
+  };
+
   // Mark the user as deleted.
   const result = await mongo.users().findOneAndUpdate(
     { tenantID, id: userID },
@@ -422,6 +431,9 @@ export async function deleteUser(
       $unset: {
         profiles: "",
         email: "",
+      },
+      $push: {
+        "status.deletion.history": deletionHistory,
       },
     },
     {

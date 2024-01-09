@@ -576,6 +576,7 @@ export async function requestAccountDeletion(
     mongo,
     tenant.id,
     user.id,
+    user.id,
     deletionDate.toJSDate()
   );
 
@@ -603,7 +604,7 @@ export async function scheduleAccountDeletion(
   mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
-  user: User,
+  requestingUser: User,
   userID: string,
   now: Date
 ) {
@@ -625,8 +626,10 @@ export async function scheduleAccountDeletion(
   const updatedUser = await scheduleDeletionDate(
     mongo,
     tenant.id,
+    requestingUser.id,
     userID,
-    deletionDate.toJSDate()
+    deletionDate.toJSDate(),
+    now
   );
 
   // const formattedDate = formatDate(deletionDate.toJSDate(), tenant.locale);
@@ -653,13 +656,19 @@ export async function cancelScheduledAccountDeletion(
   mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
+  user: User,
   userID: string
 ) {
   // if (!user.email) {
   //   throw new EmailNotSetError();
   // }
 
-  const updatedUser = await clearDeletionDate(mongo, tenant.id, userID);
+  const updatedUser = await clearDeletionDate(
+    mongo,
+    tenant.id,
+    userID,
+    user.id
+  );
 
   // await mailer.add({
   //   tenantID: tenant.id,
@@ -688,7 +697,12 @@ export async function cancelAccountDeletion(
     throw new EmailNotSetError();
   }
 
-  const updatedUser = await clearDeletionDate(mongo, tenant.id, user.id);
+  const updatedUser = await clearDeletionDate(
+    mongo,
+    tenant.id,
+    user.id,
+    user.id
+  );
 
   await mailer.add({
     tenantID: tenant.id,

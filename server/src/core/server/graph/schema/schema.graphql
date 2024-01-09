@@ -2693,6 +2693,30 @@ type UsernameStatus {
   history: [UsernameHistory!]!
 }
 
+enum UserDeletionUpdateType {
+  REQUESTED
+  CANCELED
+  COMPLETED
+}
+
+type UserDeletionHistory {
+  updateType: UserDeletionUpdateType!
+
+  """
+  createdBy is the user that made the deletion status update.
+  """
+  createdBy: User
+
+  """
+  createdAt is the time the user had a deletion status update.
+  """
+  createdAt: Time!
+}
+
+type UserDeletionStatus {
+  history: [UserDeletionHistory!]! @auth(roles: [ADMIN, MODERATOR])
+}
+
 """
 UserStatus stores the user status information regarding moderation state.
 """
@@ -2711,6 +2735,16 @@ type UserStatus {
   username stores the history of username changes for this user
   """
   username: UsernameStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  deletion stores the history of deletion requests and cancellations for the user
+  """
+  deletion: UserDeletionStatus!
     @auth(
       userIDField: "userID"
       roles: [ADMIN, MODERATOR]

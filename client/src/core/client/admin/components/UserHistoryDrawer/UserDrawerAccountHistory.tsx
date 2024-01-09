@@ -224,6 +224,15 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
       });
     });
 
+    user.status.deletion.history.forEach((record) => {
+      history.push({
+        kind: "deletion",
+        date: new Date(record.createdAt),
+        takenBy: record.createdBy ? record.createdBy.username : system,
+        action: { action: record.updateType },
+      });
+    });
+
     // Sort the history so that it's in the right order.
     const dateSortedHistory = history.sort(
       (a, b) => b.date.getTime() - a.date.getTime()
@@ -317,6 +326,15 @@ const enhanced = withFragmentContainer<any>({
         username {
           history {
             username
+            createdAt
+            createdBy {
+              username
+            }
+          }
+        }
+        deletion {
+          history {
+            updateType
             createdAt
             createdBy {
               username

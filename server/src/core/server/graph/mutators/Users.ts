@@ -204,7 +204,8 @@ export const Users = (ctx: GraphContext) => ({
       input.userID,
       ctx.tenant.id,
       ctx.now,
-      ctx.tenant.dsa?.enabled
+      ctx.tenant.dsa?.enabled,
+      ctx.user!.id
     );
   },
   cancelScheduledAccountDeletion: async (
@@ -214,6 +215,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.mongo,
       ctx.mailerQueue,
       ctx.tenant,
+      ctx.user!,
       input.userID
     ),
   cancelAccountDeletion: async (
