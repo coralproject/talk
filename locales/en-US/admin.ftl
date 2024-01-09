@@ -1228,6 +1228,26 @@ moderate-user-drawer-suspension =
     *[other] unknown unit
   }
 
+moderate-user-drawer-deleteAccount-popover-confirm = Type in "{ $text }" to confirm
+moderate-user-drawer-deleteAccount-popover-title = Delete account
+moderate-user-drawer-deleteAccount-popover-username = Username
+moderate-user-drawer-deleteAccount-popover-header-description = Delete account will
+moderate-user-drawer-deleteAccount-popover-description-list-removeComments = Remove all comments written by this user from the database
+moderate-user-drawer-deleteAccount-popover-description-list-deleteAll = Delete all record of this account. The 
+  user could then create a new account using the same email address. If you want to Ban this user instead and 
+  retain their history, press 'CANCEL' and use the Status dropdown below the username.
+moderate-user-drawer-deleteAccount-popover-callout = This entirely removes all records of this user
+moderate-user-drawer-deleteAccount-popover-timeframe = This will go into effect in 24 hours.
+moderate-user-drawer-deleteAccount-popover-cancelButton = Cancel
+moderate-user-drawer-deleteAccount-popover-deleteButton = Delete
+
+moderate-user-drawer-deleteAccount-scheduled-callout = User deletion activated
+moderate-user-drawer-deleteAccount-scheduled-timeframe = This will occur at { $deletionDate }.
+moderate-user-drawer-deleteAccount-scheduled-cancelDeletion = Cancel account deletion
+
+moderate-user-drawer-user-scheduled-deletion = User scheduled for deletion
+moderate-user-drawer-user-deletion-canceled = User deletion request canceled
+moderate-user-drawer-user-deletion-completed = User deleted
 
 moderate-user-drawer-recent-history-title = Recent comment history
 moderate-user-drawer-recent-history-calculated =

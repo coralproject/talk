@@ -608,17 +608,6 @@ export async function scheduleAccountDeletion(
   userID: string,
   now: Date
 ) {
-  // if (!user.email) {
-  //   throw new EmailNotSetError();
-  // }
-
-  // const passwordVerified = await verifyUserPassword(user, password, user.email);
-  // if (!passwordVerified) {
-  //   // We throw a PasswordIncorrect error here instead of an
-  //   // InvalidCredentialsError because the current user is already signed in.
-  //   throw new PasswordIncorrect();
-  // }
-
   const deletionDate = DateTime.fromJSDate(now).plus({
     seconds: SCHEDULED_DELETION_WINDOW_DURATION,
   });
@@ -659,10 +648,6 @@ export async function cancelScheduledAccountDeletion(
   user: User,
   userID: string
 ) {
-  // if (!user.email) {
-  //   throw new EmailNotSetError();
-  // }
-
   const updatedUser = await clearDeletionDate(
     mongo,
     tenant.id,

@@ -23,6 +23,10 @@
   margin-top: var(--spacing-3);
 }
 
+.username {
+  font-size: var(--font-size-2);
+}
+
 .orderedList {
   margin: 0;
   padding-left: var(--spacing-4);
@@ -42,6 +46,7 @@
 
 .moreInfo {
   font-size: var(--font-size-2);
+  margin-top: var(--spacing-2);
 }
 
 .icon {
@@ -92,6 +97,11 @@
 .deletionCalloutTitle {
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-3);
+}
+
+.deletionCalloutInfo {
+  margin-top: var(--spacing-2);
+  margin-bottom: var(--spacing-1);
 }
 
 .cancelDeletionButton {

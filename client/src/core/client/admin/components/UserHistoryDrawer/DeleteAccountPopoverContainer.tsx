@@ -9,7 +9,11 @@ import { graphql } from "react-relay";
 
 import { useDateTimeFormatter } from "coral-framework/hooks";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { AlertTriangleIcon, SvgIcon } from "coral-ui/components/icons";
+import {
+  AlertCircleIcon,
+  AlertTriangleIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
 import {
   Box,
   Button,
@@ -35,6 +39,12 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
   const cancelScheduledAccountDeletion = useMutation(
     CancelScheduledAccountDeletionMutation
   );
+  const [requestDeletionError, setRequestDeletionError] = useState<
+    string | null
+  >(null);
+  const [cancelDeletionError, setCancelDeletionError] = useState<string | null>(
+    null
+  );
 
   const formatter = useDateTimeFormatter({
     year: "numeric",
@@ -46,13 +56,24 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
   });
 
   const onRequestDeletion = useCallback(async () => {
-    await scheduleAccountDeletion({ userID: user.id });
-    // TODO: Handle error message
-  }, [user.id, scheduleAccountDeletion]);
+    try {
+      await scheduleAccountDeletion({ userID: user.id });
+    } catch (e) {
+      if (e.message) {
+        setRequestDeletionError(e.message);
+      }
+    }
+  }, [user.id, scheduleAccountDeletion, setRequestDeletionError]);
 
   const onCancelScheduledDeletion = useCallback(async () => {
-    await cancelScheduledAccountDeletion({ userID: user.id });
-  }, [user.id, cancelScheduledAccountDeletion]);
+    try {
+      await cancelScheduledAccountDeletion({ userID: user.id });
+    } catch (e) {
+      if (e.message) {
+        setCancelDeletionError(e.message);
+      }
+    }
+  }, [user.id, cancelScheduledAccountDeletion, setCancelDeletionError]);
 
   const deleteAccountConfirmationText = "delete";
   const [
@@ -83,15 +104,20 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
   if (deletionDate) {
     return (
       <CallOut color="error">
-        <Localized id="">
+        <Localized id="moderate-user-drawer-deleteAccount-scheduled-callout">
           <div className={styles.deletionCalloutTitle}>
             User deletion activated
           </div>
         </Localized>
-        <Localized id="">
-          <div>This will occur at {deletionDate}.</div>
+        <Localized
+          id="moderate-user-drawer-deleteAccount-scheduled-timeframe"
+          vars={{ deletionDate }}
+        >
+          <div className={styles.deletionCalloutInfo}>
+            This will occur at {deletionDate}.
+          </div>
         </Localized>
-        <Localized id="">
+        <Localized id="moderate-user-drawer-deleteAccount-scheduled-cancelDeletion">
           <Button
             className={styles.cancelDeletionButton}
             color="mono"
@@ -100,6 +126,13 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
             Cancel account deletion
           </Button>
         </Localized>
+        {cancelDeletionError && (
+          <div className={styles.error}>
+            {" "}
+            <SvgIcon Icon={AlertCircleIcon} className={styles.icon} />
+            {cancelDeletionError}
+          </div>
+        )}
       </CallOut>
     );
   }
@@ -108,33 +141,31 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
     <Localized id="" attrs={{ description: true }}>
       <Popover
         id=""
-        // visible={props.open}
-        // placement="bottom-end"
-        // description="A popover menu to moderate the comment"
-        body={({ toggleVisibility, scheduleUpdate }) => (
+        placement="right-start"
+        description="A popover menu to delete a user's account"
+        body={({ toggleVisibility }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
             <Box className={styles.root} p={3}>
               <>
-                <Localized id="">
+                <Localized id="moderate-user-drawer-deleteAccount-popover-title">
                   <div className={styles.title}>Delete account</div>
                 </Localized>
-                {/* TODO: Add styles here */}
-                <Localized id="">
+                <Localized id="moderate-user-drawer-deleteAccount-popover-username">
                   <div className={styles.header}>Username</div>
                 </Localized>
-                <div>{user.username}</div>
-                <Localized id="">
+                <div className={styles.username}>{user.username}</div>
+                <Localized id="moderate-user-drawer-deleteAccount-popover-header-description">
                   <div className={styles.header}>Delete account will</div>
                 </Localized>
                 <div>
                   <ol className={styles.orderedList}>
-                    <Localized id="">
+                    <Localized id="moderate-user-drawer-deleteAccount-popover-description-list-removeComments">
                       <li>
                         Remove all comments written by this user from the
                         database
                       </li>
                     </Localized>
-                    <Localized id="">
+                    <Localized id="moderate-user-drawer-deleteAccount-popover-description-list-deleteAll">
                       <li>
                         Delete all record of this account. The user could then
                         create a new account using the same email address. If
@@ -156,21 +187,21 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
                     className={styles.icon}
                     Icon={AlertTriangleIcon}
                   />
-                  <Localized id="">
+                  <Localized id="moderate-user-drawer-deleteAccount-popover-callout">
                     <span>This entirely removes all records of this user</span>
                   </Localized>
                 </CallOut>
-                <Localized id="">
+                <Localized id="moderate-user-drawer-deleteAccount-popover-timeframe">
                   <div className={styles.moreInfo}>
                     This will go into effect in 24 hours.
                   </div>
                 </Localized>
                 <Localized
-                  id=""
-                  // vars={{ text: spamBanConfirmationText }}
+                  id="moderate-user-drawer-deleteAccount-popover-confirm"
+                  vars={{ text: deleteAccountConfirmationText }}
                 >
                   <div className={styles.header}>
-                    Type in "delete" to confirm
+                    Type in "{deleteAccountConfirmationText}" to confirm
                   </div>
                 </Localized>
                 <input
@@ -179,20 +210,18 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
                   placeholder=""
                   onChange={onDeleteAccountConfirmationTextInputChange}
                 />
-                {/* {banError && (
-                <div className={styles.error}>
-                  <SvgIcon Icon={AlertCircleIcon} className={styles.icon} />
-                  {banError}
-                </div>
-              )} */}
-                {/* </> */}
-                {/* )} */}
+                {requestDeletionError && (
+                  <div className={styles.error}>
+                    <SvgIcon Icon={AlertCircleIcon} className={styles.icon} />
+                    {requestDeletionError}
+                  </div>
+                )}
                 <Flex
                   justifyContent="flex-end"
                   itemGutter="half"
                   className={styles.actions}
                 >
-                  <Localized id="">
+                  <Localized id="moderate-user-drawer-deleteAccount-popover-cancelButton">
                     <Button
                       variant="outlined"
                       size="regular"
@@ -202,7 +231,7 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
                       Cancel
                     </Button>
                   </Localized>
-                  <Localized id="">
+                  <Localized id="moderate-user-drawer-deleteAccount-popover-deleteButton">
                     <Button
                       disabled={deleteAccountButtonDisabled}
                       variant="regular"
@@ -219,7 +248,7 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
           </ClickOutside>
         )}
       >
-        {({ toggleVisibility, visible, ref }) => (
+        {({ toggleVisibility, ref }) => (
           <Localized id="" attrs={{ "aria-label": true }}>
             <Button color="alert" ref={ref} onClick={toggleVisibility}>
               Delete account

@@ -6,7 +6,6 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-// import { CancelScheduledAccountDeletionEvent } from "coral-stream/events";
 
 import { CancelScheduledAccountDeletionMutation as MutationTypes } from "coral-admin/__generated__/CancelScheduledAccountDeletionMutation.graphql";
 
@@ -14,14 +13,7 @@ let clientMutationId = 0;
 
 const CancelScheduledAccountDeletionMutation = createMutation(
   "cancelScheduleAccountDeletion",
-  async (
-    environment: Environment,
-    input: MutationInput<MutationTypes>,
-    { eventEmitter }
-  ) => {
-    // const requestAccountDeletionEvent =
-    //   CancelScheduledAccountDeletionEvent.begin(eventEmitter);
-    // try {
+  async (environment: Environment, input: MutationInput<MutationTypes>) => {
     const result = await commitMutationPromiseNormalized<MutationTypes>(
       environment,
       {
@@ -32,6 +24,17 @@ const CancelScheduledAccountDeletionMutation = createMutation(
             cancelScheduledAccountDeletion(input: $input) {
               user {
                 scheduledDeletionDate
+                status {
+                  deletion {
+                    history {
+                      updateType
+                      createdBy {
+                        username
+                      }
+                      createdAt
+                    }
+                  }
+                }
               }
               clientMutationId
             }
@@ -43,23 +46,9 @@ const CancelScheduledAccountDeletionMutation = createMutation(
             clientMutationId: (clientMutationId++).toString(),
           },
         },
-        optimisticUpdater: (store) => {
-          const userProxy = store.get(input.userID);
-          if (userProxy) {
-            userProxy.setValue(null, "scheduledDeletionDate");
-          }
-        },
       }
     );
-    // requestAccountDeletionEvent.success();
     return result;
-    // } catch (error) {
-    // requestAccountDeletionEvent.error({
-    //   message: error.message,
-    //   code: error.code,
-    // });
-    //   throw error;
-    // }
   }
 );
 

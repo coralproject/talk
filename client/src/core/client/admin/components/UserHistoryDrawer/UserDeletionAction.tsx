@@ -10,19 +10,19 @@ const UserDeletionAction: FunctionComponent<UserDeletionActionProps> = ({
 }) => {
   if (action === "REQUESTED") {
     return (
-      <Localized id="">
+      <Localized id="moderate-user-drawer-user-scheduled-deletion">
         <span>User scheduled for deletion</span>
       </Localized>
     );
   } else if (action === "CANCELED") {
     return (
-      <Localized id="">
+      <Localized id="moderate-user-drawer-user-deletion-canceled">
         <span>User deletion request canceled</span>
       </Localized>
     );
   } else if (action === "COMPLETED") {
     return (
-      <Localized id="">
+      <Localized id="moderate-user-drawer-user-deletion-completed">
         <span>User deleted</span>
       </Localized>
     );
