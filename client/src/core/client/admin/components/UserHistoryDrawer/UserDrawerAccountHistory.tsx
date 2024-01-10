@@ -316,11 +316,18 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
 
   if (combinedHistory.length === 0) {
     return (
-      <CallOut fullWidth>
-        <Localized id="moderate-user-drawer-account-history-no-history">
-          No actions have been taken on this account
-        </Localized>
-      </CallOut>
+      <>
+        {viewer.role === GQLUSER_ROLE.ADMIN && (
+          <div className={styles.deleteButtonWrapper}>
+            <DeleteAccountPopoverContainer user={user} />
+          </div>
+        )}
+        <CallOut fullWidth>
+          <Localized id="moderate-user-drawer-account-history-no-history">
+            No actions have been taken on this account
+          </Localized>
+        </CallOut>
+      </>
     );
   }
 

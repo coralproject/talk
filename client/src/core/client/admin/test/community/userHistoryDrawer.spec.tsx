@@ -77,6 +77,31 @@ it("user drawer is open and both user name and user id are visible", async () =>
   ).toBeInTheDocument();
 });
 
+it("user drawer is open and user can be deleted if admin", async () => {
+  await createTestRenderer();
+  await screen.findByTestId("community-container");
+  const isabelle = await screen.findByRole("button", { name: "Isabelle" });
+  await act(async () => {
+    userEvent.click(isabelle);
+  });
+  const isabelleUserHistory = await screen.findByTestId(
+    "userHistoryDrawer-modal"
+  );
+  const historyTab = await within(isabelleUserHistory).findByRole("tab", {
+    name: "Tab: time-reverse Account History",
+  });
+  await act(async () => {
+    userEvent.click(historyTab);
+  });
+  const tabRegion = screen.getByRole("region", {
+    name: "Tab: time-reverse Account History",
+  });
+  const deleteAccountButton = within(tabRegion).getByRole("button", {
+    name: "Delete account",
+  });
+  expect(deleteAccountButton).toBeVisible();
+});
+
 it("opens user drawer and shows external profile url link when has feature flag and configured", async () => {
   const settingsOverride = settings;
   settingsOverride.featureFlags = [
