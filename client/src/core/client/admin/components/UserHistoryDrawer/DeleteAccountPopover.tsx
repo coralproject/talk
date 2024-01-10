@@ -97,7 +97,7 @@ const DeleteAccountPopover: FunctionComponent<Props> = ({
         <CallOut className={styles.callOut} color="error" fullWidth borderless>
           <SvgIcon size="xs" className={styles.icon} Icon={AlertTriangleIcon} />
           <Localized id="moderate-user-drawer-deleteAccount-popover-callout">
-            <span>This entirely removes all records of this user</span>
+            <span>This removes all records of this user</span>
           </Localized>
         </CallOut>
         <Localized id="moderate-user-drawer-deleteAccount-popover-timeframe">
