@@ -14,19 +14,22 @@ module.exports = {
     "/src/core/server/data/cache/",
   ],
   testEnvironment: "node",
-  testURL: "http://localhost",
+  testEnvironmentOptions: {
+    url: "http://localhost",
+  },
   transform: {
-    "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest",
+    "^.+\\.tsx?$": [
+      "<rootDir>/node_modules/ts-jest",
+      {
+        babel: true,
+        tsconfig: path.resolve(__dirname, "../../src/tsconfig.json"),
+      },
+    ],
   },
   moduleNameMapper: {
     "^coral-server/(.*)$": "<rootDir>/src/core/server/$1",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  globals: {
-    "ts-jest": {
-      babelConfig: true,
-      tsConfig: path.resolve(__dirname, "../../src/tsconfig.json"),
-    },
-  },
   preset: "ts-jest",
+  workerIdleMemoryLimit: "1024MB",
 };

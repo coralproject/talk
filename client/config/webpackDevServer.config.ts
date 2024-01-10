@@ -82,7 +82,8 @@ export default function ({
       disableDotRule: true,
       rewrites: [],
     },
-    public: allowedHost,
+    allowedHosts: ["127.0.0.1:8080", "127.0.0.1:3000"],
+    public: "127.0.0.1:8080",
     index: "embed.html",
     sockPort: devPort,
     proxy: [
@@ -105,7 +106,7 @@ export default function ({
             "/graphiql",
           ].some((p) => p === lc || lc.startsWith(`${p}/`));
         },
-        target: `http://localhost:${serverPort}`,
+        target: `127.0.0.1:${serverPort}`,
         onError: (err, req, res) => {
           res.writeHead(500, {
             "Content-Type": "text/html",
