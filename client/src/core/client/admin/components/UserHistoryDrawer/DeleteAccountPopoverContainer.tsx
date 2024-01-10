@@ -123,7 +123,7 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
             color="mono"
             onClick={onCancelScheduledDeletion}
           >
-            Cancel account deletion
+            Cancel user deletion
           </Button>
         </Localized>
         {cancelDeletionError && (
@@ -138,7 +138,10 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
   }
 
   return (
-    <Localized id="" attrs={{ description: true }}>
+    <Localized
+      id="moderate-user-drawer-deleteAccount-popover"
+      attrs={{ description: true }}
+    >
       <Popover
         id=""
         placement="right-start"
@@ -162,7 +165,7 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
                     <Localized id="moderate-user-drawer-deleteAccount-popover-description-list-removeComments">
                       <li>
                         Remove all comments written by this user from the
-                        database
+                        database.
                       </li>
                     </Localized>
                     <Localized id="moderate-user-drawer-deleteAccount-popover-description-list-deleteAll">
@@ -170,7 +173,7 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
                         Delete all record of this account. The user could then
                         create a new account using the same email address. If
                         you want to Ban this user instead and retain their
-                        history, press 'CANCEL' and use the Status dropdown
+                        history, press "CANCEL" and use the Status dropdown
                         below the username.
                       </li>
                     </Localized>
@@ -249,7 +252,10 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
         )}
       >
         {({ toggleVisibility, ref }) => (
-          <Localized id="" attrs={{ "aria-label": true }}>
+          <Localized
+            id="moderate-user-drawer-deleteAccount-button"
+            attrs={{ "aria-label": true }}
+          >
             <Button color="alert" ref={ref} onClick={toggleVisibility}>
               Delete account
             </Button>
