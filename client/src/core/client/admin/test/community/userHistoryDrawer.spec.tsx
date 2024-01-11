@@ -1,8 +1,18 @@
-import { act, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/common/lib/utils";
-import { GQLFEATURE_FLAG, GQLResolver } from "coral-framework/schema";
+import {
+  GQLFEATURE_FLAG,
+  GQLResolver,
+  GQLUserDeletionUpdateType,
+} from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
@@ -77,8 +87,62 @@ it("user drawer is open and both user name and user id are visible", async () =>
   ).toBeInTheDocument();
 });
 
-it("user drawer is open and user can be deleted if admin", async () => {
-  await createTestRenderer();
+it("user drawer is open and user can be scheduled for deletion and have deletion canceled", async () => {
+  const user = users.commenters[0];
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      scheduleAccountDeletion: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          scheduledDeletionDate: "2024-01-11T20:48:20.317+00:00",
+          status: {
+            deletion: {
+              history: [
+                {
+                  updateType: GQLUserDeletionUpdateType.REQUESTED,
+                  createdAt: "2018-11-29T16:01:51.897Z",
+                  createdBy: viewer,
+                },
+              ],
+            },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+      cancelScheduledAccountDeletion: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          scheduledDeletionDate: null,
+          status: {
+            deletion: {
+              history: [
+                {
+                  updateType: GQLUserDeletionUpdateType.REQUESTED,
+                  createdAt: "2024-01-10T16:01:51.897Z",
+                  createdBy: viewer,
+                },
+                {
+                  updateType: GQLUserDeletionUpdateType.CANCELED,
+                  createdAt: "2024-01-10T16:25:51.897Z",
+                  createdBy: viewer,
+                },
+              ],
+            },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+  await createTestRenderer({ resolvers });
   await screen.findByTestId("community-container");
   const isabelle = await screen.findByRole("button", { name: "Isabelle" });
   await act(async () => {
@@ -100,6 +164,27 @@ it("user drawer is open and user can be deleted if admin", async () => {
     name: "Delete account",
   });
   expect(deleteAccountButton).toBeVisible();
+
+  await act(async () => {
+    userEvent.click(deleteAccountButton);
+  });
+  const popover = screen.getByRole("dialog", {
+    name: "A popover menu to delete a user's account",
+  });
+  const deleteButton = within(popover).getByRole("button", { name: "Delete" });
+  expect(deleteButton).toBeDisabled();
+  const input = within(popover).getByRole("textbox");
+  fireEvent.change(input, { target: { value: "delete" } });
+
+  expect(deleteButton).toBeEnabled();
+  fireEvent.click(deleteButton);
+  expect(resolvers.Mutation!.scheduleAccountDeletion!.called).toBe(true);
+  await screen.findByText("User deletion activated");
+  const cancelDeletionButton = screen.getByRole("button", {
+    name: "Cancel user deletion",
+  });
+  userEvent.click(cancelDeletionButton);
+  expect(resolvers.Mutation!.cancelScheduledAccountDeletion!.called).toBe(true);
 });
 
 it("opens user drawer and shows external profile url link when has feature flag and configured", async () => {
