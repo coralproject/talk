@@ -1941,6 +1941,9 @@ reports-decisionModal-detailedExplanationTextarea =
 reports-relatedReports-label = Related reports
 reports-relatedReports-reportIDLabel = Report ID
 
+reports-anonymousUser = Anonymous user
+reports-username-not-available = Username not available
+
 # Control panel
 
 controlPanel-redis-redis = Redis

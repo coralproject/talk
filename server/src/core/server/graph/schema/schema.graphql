@@ -6464,7 +6464,6 @@ input SettingsInput {
   """
   flairBadges: FlairBadgeConfigurationInput
 
-
   """
   dsa specifies the configuration for DSA European Union moderation and
   reporting features.
@@ -6910,7 +6909,7 @@ input CreateDSAReportInput {
   """
   id of the user who submitted the DSAReport
   """
-  userID: ID!
+  userID: ID
 
   """
   lawBrokenDescription is the text entered by the submitting user to describe

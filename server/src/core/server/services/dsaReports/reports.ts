@@ -31,7 +31,7 @@ import { AugmentedRedis } from "../redis";
 
 export interface CreateDSAReportInput {
   commentID: string;
-  userID: string;
+  userID?: string | null;
   lawBrokenDescription: string;
   additionalInformation: string;
   submissionID?: string;
@@ -253,7 +253,7 @@ export async function makeDSAReportDecision(
   }
 
   const report = await retrieveDSAReport(mongo, tenant.id, reportID);
-  if (report) {
+  if (report && report.userID) {
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: report.userID,
       type: GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE,

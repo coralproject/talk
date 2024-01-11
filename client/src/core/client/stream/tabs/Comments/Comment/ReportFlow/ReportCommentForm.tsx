@@ -18,7 +18,7 @@ import {
   ButtonSvgIcon,
   ShareExternalLinkIcon,
 } from "coral-ui/components/icons";
-import { Flex, RadioButton } from "coral-ui/components/v2";
+import { Flex, HorizontalGutter, RadioButton } from "coral-ui/components/v2";
 import { Button, ValidationMessage } from "coral-ui/components/v3";
 
 import { ReportCommentFormLocal } from "coral-stream/__generated__/ReportCommentFormLocal.graphql";
@@ -45,12 +45,36 @@ const RadioField: FunctionComponent<
   </Field>
 );
 
+const IllegalContentLink: FunctionComponent<{ reportLink: string }> = ({
+  reportLink,
+}) => (
+  <Button
+    className={styles.reportIllegalLink}
+    variant="flat"
+    color="primary"
+    fontSize="medium"
+    fontWeight="semiBold"
+    paddingSize="none"
+    target="_blank"
+    anchor
+    underline
+    textAlign="left"
+    href={reportLink}
+  >
+    <Localized id="comments-reportForm-reportIllegalContent-button">
+      <span>This comment contains illegal content</span>
+    </Localized>
+    <ButtonSvgIcon className={styles.linkIcon} Icon={ShareExternalLinkIcon} />
+  </Button>
+);
+
 interface Props {
   id: string;
   onCancel: () => void;
   onSubmit: OnSubmit<any>;
   biosEnabled: boolean;
   reportLink: string;
+  anonymousWithDSA: boolean;
 }
 
 export interface FormProps {
@@ -68,6 +92,7 @@ const ReportCommentForm: FunctionComponent<Props> = ({
   id,
   reportLink,
   biosEnabled,
+  anonymousWithDSA,
 }) => {
   const [{ dsaFeaturesEnabled }] = useLocal<ReportCommentFormLocal>(
     graphql`
@@ -83,6 +108,28 @@ const ReportCommentForm: FunctionComponent<Props> = ({
   useEffect(() => {
     emitReportEvent({ commentID: id });
   }, []);
+
+  if (anonymousWithDSA) {
+    return (
+      <div
+        className={cn(styles.root, CLASSES.reportPopover.$root)}
+        data-testid="report-comment-form"
+        role="none"
+      >
+        <div>
+          <Localized id="comments-reportPopover-reportThisComment">
+            <div className={styles.title}>Report This Comment</div>
+          </Localized>
+          <HorizontalGutter>
+            <Localized id="comments-reportForm-signInToReport">
+              <div>You have to sign in to report a comment</div>
+            </Localized>
+            <IllegalContentLink reportLink={reportLink} />
+          </HorizontalGutter>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -184,27 +231,7 @@ const ReportCommentForm: FunctionComponent<Props> = ({
                 </li>
               </ul>
               {dsaFeaturesEnabled && (
-                <Button
-                  className={styles.reportIllegalLink}
-                  variant="flat"
-                  color="primary"
-                  fontSize="medium"
-                  fontWeight="semiBold"
-                  paddingSize="none"
-                  target="_blank"
-                  anchor
-                  underline
-                  textAlign="left"
-                  href={reportLink}
-                >
-                  <Localized id="comments-reportForm-reportIllegalContent-button">
-                    <span>This comment contains illegal content</span>
-                  </Localized>
-                  <ButtonSvgIcon
-                    className={styles.linkIcon}
-                    Icon={ShareExternalLinkIcon}
-                  />
-                </Button>
+                <IllegalContentLink reportLink={reportLink} />
               )}
               <Localized
                 id="comments-reportPopover-additionalInformation"

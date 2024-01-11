@@ -31,12 +31,14 @@ interface Props {
   comment: ReportCommentFormContainer_comment;
   settings: ReportCommentFormContainer_settings;
   onClose: () => void;
+  anonymousWithDSA: boolean;
 }
 
 const ReportCommentFormContainer: FunctionComponent<Props> = ({
   comment,
   settings,
   onClose,
+  anonymousWithDSA,
 }) => {
   const [done, setDone] = useState(false);
   const dontAgreeMutation = useMutation(CreateCommentDisagreeMutation);
@@ -109,6 +111,7 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
         onCancel={onClose}
         biosEnabled={settings.memberBios}
         reportLink={reportLink}
+        anonymousWithDSA={anonymousWithDSA}
       />
     );
   }

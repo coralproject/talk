@@ -92,12 +92,12 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const onSubmit = useCallback(
     async (input: FormProps, form: FormApi) => {
       const statuses = [];
-      if (viewer && comment) {
+      if (comment) {
         if (additionalComments) {
           for (const c of additionalComments) {
             try {
               await createDSAReport({
-                userID: viewer.id,
+                userID: viewer?.id ?? null,
                 commentID: c.id,
                 lawBrokenDescription: input.lawBrokenDescription,
                 additionalInformation: input.additionalInformation,
@@ -117,7 +117,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
         const url = getURLWithCommentID(story.url, comment.id);
         try {
           await createDSAReport({
-            userID: viewer.id,
+            userID: viewer?.id ?? null,
             commentID: comment.id,
             lawBrokenDescription: input.lawBrokenDescription,
             additionalInformation: input.additionalInformation,

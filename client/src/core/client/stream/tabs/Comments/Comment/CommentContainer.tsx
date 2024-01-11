@@ -749,6 +749,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                         open={showReportFlow}
                         viewer={viewer}
                         comment={comment}
+                        settings={settings}
                       />
                     )}
                 </ButtonsBar>
@@ -920,6 +921,7 @@ const enhanced = withShowAuthPopupMutation(
         ...UserTagsContainer_settings
         ...ArchivedReportFlowContainer_settings
         ...AuthorBadgesContainer_settings
+        ...ReportButton_settings
       }
     `,
   })(CommentContainer)

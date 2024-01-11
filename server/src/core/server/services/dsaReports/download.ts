@@ -59,7 +59,10 @@ export async function sendReportDownload(
     name: `report-${report.referenceID}-${Math.abs(now.getTime())}.csv`,
   });
 
-  const reporter = await retrieveUser(mongo, tenant.id, report.userID);
+  let reporter = null;
+  if (report.userID) {
+    reporter = await retrieveUser(mongo, tenant.id, report.userID);
+  }
 
   let reportedComment = await retrieveComment(
     mongo.comments(),
@@ -141,7 +144,15 @@ export async function sendReportDownload(
   // Write report info cell data to CSV
   csv.write([
     formatter.format(report.createdAt),
-    reporter?.username,
+    reporter
+      ? reporter.username
+        ? reporter.username
+        : translate(
+            bundle,
+            "Username not available",
+            "dsaReportCSV-usernameNotAvailable"
+          )
+      : translate(bundle, "Anonymous user", "dsaReportCSV-anonymousUser"),
     translate(bundle, "Report submitted", "dsaReportCSV-reportSubmitted"),
     reportInfo,
   ]);
