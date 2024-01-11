@@ -43,6 +43,8 @@ dsaReportCSV-status-awaitingReview = Awaiting review
 dsaReportCSV-status-inReview = In review
 dsaReportCSV-status-completed = Completed
 dsaReportCSV-status-void = Void
+dsaReportCSV-anonymousUser = Anonymous user
+dsaReportCSV-usernameNotAvailable = Username not available
 
 # Notifications
 

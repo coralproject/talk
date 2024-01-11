@@ -309,6 +309,10 @@ export interface FlairBadgeConfig {
   badges?: FlairBadge[];
 }
 
+export interface TopCommenterConfig {
+  enabled?: boolean;
+}
+
 export interface PremoderateEmailAddressConfig {
   tooManyPeriods?: {
     enabled?: boolean;
@@ -425,6 +429,12 @@ export type Settings = GlobalModerationSettings &
     flairBadges?: FlairBadgeConfig;
 
     premoderateEmailAddress?: PremoderateEmailAddressConfig;
+
+    /**
+     * topCommenter specifies whether or not the feature is enabled to show that commenters
+     * with comments featured within the last 10 days are top commenters
+     */
+    topCommenter?: TopCommenterConfig;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

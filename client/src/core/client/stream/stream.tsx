@@ -13,7 +13,10 @@ import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
 import { parseQuery } from "coral-common/common/lib/utils";
 import { RefreshAccessTokenCallback } from "coral-embed/Coral";
 import { createManaged } from "coral-framework/lib/bootstrap";
-import { RefreshAccessTokenPromise } from "coral-framework/lib/bootstrap/createManaged";
+import {
+  RefreshAccessTokenPromise,
+  resolveStorage,
+} from "coral-framework/lib/bootstrap/createManaged";
 import {
   CSSAsset,
   EncapsulationContext,
@@ -28,6 +31,7 @@ import localesData from "./locales";
 import { EmotionShadowRoot } from "./shadow";
 
 // Import css variables.
+import { ACCESS_TOKEN_KEY } from "coral-framework/lib/auth";
 import "coral-ui/theme/streamEmbed.css";
 import "coral-ui/theme/typography.css";
 
@@ -99,6 +103,13 @@ export async function attach(options: AttachOptions) {
       await new Promise((resolve) => options.refreshAccessToken!(resolve));
   }
 
+  const onContextAuthError = async () => {
+    const localStorage = resolveStorage("localStorage");
+    await localStorage.removeItem(ACCESS_TOKEN_KEY);
+    await remove(options.element);
+    await attach(options);
+  };
+
   const ManagedCoralContextProvider = await createManaged({
     rootURL: options.rootURL,
     lang: options.locale,
@@ -111,6 +122,7 @@ export async function attach(options: AttachOptions) {
     refreshAccessTokenPromise,
     staticConfig: options.staticConfig,
     customScrollContainer: options.customScrollContainer,
+    onAuthError: onContextAuthError,
   });
 
   // Amount of initial css files to be loaded.
@@ -134,6 +146,7 @@ export async function attach(options: AttachOptions) {
     // flash of unstyled content.
     const [isCSSLoaded, setIsCSSLoaded] = useState(false);
     const [loadError, setLoadError] = useState(false);
+
     const handleLoadError = useCallback((href: string) => {
       globalErrorReporter.report(
         // encode href, otherwise sentry will not send it.
