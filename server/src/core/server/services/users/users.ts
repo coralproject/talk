@@ -621,22 +621,24 @@ export async function scheduleAccountDeletion(
     now
   );
 
-  // const formattedDate = formatDate(deletionDate.toJSDate(), tenant.locale);
+  const formattedDate = formatDate(deletionDate.toJSDate(), tenant.locale);
 
-  // await mailer.add({
-  //   tenantID: tenant.id,
-  //   message: {
-  //     to: user.email,
-  //   },
-  //   template: {
-  //     name: "account-notification/delete-request-confirmation",
-  //     context: {
-  //       requestDate: formattedDate,
-  //       organizationName: tenant.organization.name,
-  //       organizationURL: tenant.organization.url,
-  //     },
-  //   },
-  // });
+  if (updatedUser.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: updatedUser.email,
+      },
+      template: {
+        name: "account-notification/delete-request-confirmation",
+        context: {
+          requestDate: formattedDate,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+        },
+      },
+    });
+  }
 
   return updatedUser;
 }
@@ -645,29 +647,31 @@ export async function cancelScheduledAccountDeletion(
   mongo: MongoContext,
   mailer: MailerQueue,
   tenant: Tenant,
-  user: User,
+  requestingUser: User,
   userID: string
 ) {
   const updatedUser = await clearDeletionDate(
     mongo,
     tenant.id,
     userID,
-    user.id
+    requestingUser.id
   );
 
-  // await mailer.add({
-  //   tenantID: tenant.id,
-  //   message: {
-  //     to: user.email,
-  //   },
-  //   template: {
-  //     name: "account-notification/delete-request-cancel",
-  //     context: {
-  //       organizationName: tenant.organization.name,
-  //       organizationURL: tenant.organization.url,
-  //     },
-  //   },
-  // });
+  if (updatedUser.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: updatedUser.email,
+      },
+      template: {
+        name: "account-notification/delete-request-cancel",
+        context: {
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+        },
+      },
+    });
+  }
 
   return updatedUser;
 }

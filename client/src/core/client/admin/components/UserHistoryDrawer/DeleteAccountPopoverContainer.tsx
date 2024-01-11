@@ -98,7 +98,7 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
       attrs={{ description: true }}
     >
       <Popover
-        id=""
+        id="moderate-user-drawer-deleteAccount"
         placement="right-start"
         description="A popover menu to delete a user's account"
         body={({ toggleVisibility }) => (

@@ -284,7 +284,7 @@ export interface UserDeletionHistory {
 
   /**
    * updateType is the kind of update to a user's deletion status that was made,
-   * whether it was requested, canceled, or completed
+   * whether it was requested or canceled.
    */
   updateType: GQLUserDeletionUpdateType;
 
