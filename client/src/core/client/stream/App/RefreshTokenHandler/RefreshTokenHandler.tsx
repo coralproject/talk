@@ -19,6 +19,7 @@ import {
   ShowAuthPopupMutation,
   waitTillAuthPopupIsClosed,
 } from "../../common/AuthPopup";
+import { MissingAuthError } from "./missingAuthError";
 
 const authControlQuery = graphql`
   query RefreshTokenHandlerAuthControlQuery {
@@ -59,7 +60,7 @@ const RefreshTokenHandler: FunctionComponent = () => {
       );
 
       if (!data?.settings?.auth) {
-        throw new Error(
+        throw new MissingAuthError(
           "Missing auth data. Make sure <UserBoxContainer /> has been rendered."
         );
       }
