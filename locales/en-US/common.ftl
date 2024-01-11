@@ -62,6 +62,4 @@ common-moderationReason-detailedExplanation-placeholder =
 common-moderationReason-customReason = Custom reason (required)
 common-moderationReason-customReason-placeholder =
    .placeholder = Add your reason
-
-common-userBanned =
-  User was banned.
+   
