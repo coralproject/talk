@@ -1734,6 +1734,17 @@ type BadgeConfiguration {
 }
 
 """
+topCommenter specifies whether or not the feature is enabled to show that commenters
+with comments featured within the last 10 days are top commenters
+"""
+type TopCommenterConfiguration {
+  """
+  enabled is whether the Top commenter feature is enabled
+  """
+  enabled: Boolean
+}
+
+"""
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
 """
@@ -2200,6 +2211,12 @@ type Settings @cacheControl(maxAge: 30) {
   featuredBy specifies whether or not to display 'Featured by' for featured comments
   """
   featuredBy: Boolean
+
+  """
+  topCommenter specifies whether or not the feature is enabled to show that commenters
+  with comments featured within the last 10 days are top commenters
+  """
+  topCommenter: TopCommenterConfiguration
 
   """
   staff specifies the configuration for the user badges assigned to users with
@@ -3282,6 +3299,18 @@ type User {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+
+  """
+  lastFeaturedDate is when a user last had a comment featured.
+  This is used for the Top commenter badge feature.
+  """
+  lastFeaturedDate: Time
+
+  """
+  featuredCommenter is whether a user has had a comment featured within the
+  last 10 days or not
+  """
+  featuredCommenter: Boolean
 }
 
 """
@@ -5989,6 +6018,17 @@ input ReactionConfigurationInput {
 }
 
 """
+topCommenter specifies whether or not the feature is enabled to show that commenters
+with comments featured within the last 10 days are top commenters
+"""
+input TopCommenterConfigurationInput {
+  """
+  enabled is whether the Top commenter feature is enabled
+  """
+  enabled: Boolean
+}
+
+"""
 BadgeConfigurationInput specifies the configuration for the staff badges
 assigned to users with any role above COMMENTER.
 """
@@ -6373,6 +6413,12 @@ input SettingsInput {
   featuredBy specifies whether or not the "Featured by" featured is enabled
   """
   featuredBy: Boolean
+
+  """
+  topCommenter specifies whether or not the feature is enabled to show that commenters
+  with comments featured within the last 10 days are top commenters
+  """
+  topCommenter: TopCommenterConfigurationInput
 
   """
   badges specifies the configuration for user badges assigned to users with

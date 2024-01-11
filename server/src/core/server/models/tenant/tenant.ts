@@ -299,6 +299,9 @@ export const combineTenantDefaultsAndInput = (
         method: GQLDSA_METHOD_OF_REDRESS.NONE,
       },
     },
+    topCommenter: {
+      enabled: false,
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.
