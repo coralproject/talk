@@ -100,9 +100,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
       >
         <ButtonSvgIcon Icon={AddIcon} size="xxs" className={styles.icon} />
         {media.__typename === "TwitterMedia" && (
-          <Localized id="comments-embedLinks-show-twitter">
-            Show Tweet
-          </Localized>
+          <Localized id="comments-embedLinks-show-twitter">Show post</Localized>
         )}
         {media.__typename === "YouTubeMedia" && (
           <Localized id="comments-embedLinks-show-youtube">

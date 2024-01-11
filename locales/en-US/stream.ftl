@@ -124,9 +124,9 @@ comments-postComment-pasteImage = Paste image URL
 comments-postComment-insertImage = Insert
 
 comments-postComment-confirmMedia-youtube = Add this YouTube video to the end of your comment?
-comments-postComment-confirmMedia-twitter = Add this Tweet to the end of your comment?
+comments-postComment-confirmMedia-twitter = Add this post to the end of your comment?
 comments-postComment-confirmMedia-cancel = Cancel
-comments-postComment-confirmMedia-add-tweet = Add Tweet
+comments-postComment-confirmMedia-add-tweet = Add post
 comments-postComment-confirmMedia-add-video = Add video
 comments-postComment-confirmMedia-remove = Remove
 comments-commentForm-gifPreview-remove = Remove
@@ -463,8 +463,8 @@ comments-embedLinks-hide-giphy = Hide GIF
 comments-embedLinks-show-youtube = Show video
 comments-embedLinks-hide-youtube = Hide video
 
-comments-embedLinks-show-twitter = Show Tweet
-comments-embedLinks-hide-twitter = Hide Tweet
+comments-embedLinks-show-twitter = Show post
+comments-embedLinks-hide-twitter = Hide post
 
 comments-embedLinks-show-external = Show image
 comments-embedLinks-hide-external = Hide image
@@ -560,7 +560,7 @@ profile-commentHistory-archived-thisIsAllYourComments =
 ### Preferences
 
 profile-preferences-mediaPreferences = Media Preferences
-profile-preferences-mediaPreferences-alwaysShow = Always show GIFs, Tweets, YouTube, etc.
+profile-preferences-mediaPreferences-alwaysShow = Always show GIFs, X posts, YouTube, etc.
 profile-preferences-mediaPreferences-thisMayMake = This may make the comments slower to load
 profile-preferences-mediaPreferences-update = Update
 profile-preferences-mediaPreferences-preferencesUpdated =
