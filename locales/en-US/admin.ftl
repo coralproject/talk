@@ -1251,11 +1251,9 @@ moderate-user-drawer-deleteAccount-scheduled-cancelDeletion = Cancel user deleti
 
 moderate-user-drawer-user-scheduled-deletion = User scheduled for deletion
 moderate-user-drawer-user-deletion-canceled = User deletion request canceled
-moderate-user-drawer-user-deletion-completed = User deleted
 
 moderate-user-drawer-account-history-deletion-scheduled = Deletion scheduled for { $createdAt }
 moderate-user-drawer-account-history-canceled-at = Canceled at { $createdAt }
-moderate-user-drawer-account-history-completed-at = Completed at { $createdAt }
 moderate-user-drawer-account-history-updated-at = Updated at { $createdAt }
 
 moderate-user-drawer-recent-history-title = Recent comment history

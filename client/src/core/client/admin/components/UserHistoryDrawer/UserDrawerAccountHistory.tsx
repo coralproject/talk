@@ -108,12 +108,6 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
           `Canceled at ${deletionFormatter(new Date(createdAt))}`,
           { createdAt: deletionFormatter(new Date(createdAt)) }
         ),
-        COMPLETED: getMessage(
-          localeBundles,
-          "moderate-user-drawer-account-history-completed-at",
-          `Completed at ${deletionFormatter(new Date(createdAt))}`,
-          { createdAt: deletionFormatter(new Date(createdAt)) }
-        ),
         "%future added value": getMessage(
           localeBundles,
           "moderate-user-drawer-account-history-updated-at",

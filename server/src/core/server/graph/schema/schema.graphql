@@ -2696,13 +2696,12 @@ type UsernameStatus {
 enum UserDeletionUpdateType {
   REQUESTED
   CANCELED
-  COMPLETED
 }
 
 type UserDeletionHistory {
   """
   updateType is the type of deletion status update that was made. For example,
-  user deletion was requested, canceled, or completed.
+  user deletion was requested or canceled.
   """
   updateType: UserDeletionUpdateType!
 
