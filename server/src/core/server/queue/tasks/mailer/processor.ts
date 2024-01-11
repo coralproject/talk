@@ -65,7 +65,10 @@ const MailerDataSchema = Joi.object().keys({
   tenantID: Joi.string(),
 });
 
-function send(client: SMTPClient, message: Message): Promise<Message> {
+function send(
+  client: SMTPClient,
+  message: Message
+): Promise<Message | MessageHeaders> {
   return new Promise((resolve, reject) => {
     client.send(message, (err, msg) => {
       if (err) {

@@ -72,7 +72,7 @@ export interface DSAReport extends TenantResource {
   /**
    * userID is the id of the user who reported this comment for illegal content.
    */
-  userID: string;
+  userID?: string | null;
 
   /**
    * createdAt is the date that this DSAReport was created
@@ -227,9 +227,10 @@ export async function createDSAReport(
     submissionIDToUse = uuid();
   }
 
-  // shorter, url-friendly referenceID generated from the report id, userID, and commentID
+  // shorter, url-friendly referenceID generated from the report id, userID / submissionID, and commentID
+  const firstID = userID ?? submissionIDToUse;
   const referenceID =
-    userID.slice(0, 4) + "-" + commentID.slice(0, 4) + "-" + id.slice(0, 4);
+    firstID.slice(0, 4) + "-" + commentID.slice(0, 4) + "-" + id.slice(0, 4);
 
   // defaults are the properties set by the application when a new DSAReport is
   // created.
