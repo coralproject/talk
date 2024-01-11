@@ -5,11 +5,11 @@ import PaginatedSelect from "coral-admin/components/PaginatedSelect";
 import { getModerationLink, QUEUE_NAME } from "coral-framework/helpers";
 import { PropTypesOf } from "coral-framework/types";
 import { AppWindowIcon } from "coral-ui/components/icons";
-
-import SiteSelectorCurrentSiteQuery from "./SiteSelectorCurrentSiteQuery";
-import SiteSelectorSite from "./SiteSelectorSite";
+import { Divider } from "coral-ui/components/v2";
 
 import styles from "./SiteSelector.css";
+import SiteSelectorCurrentSiteQuery from "./SiteSelectorCurrentSiteQuery";
+import SiteSelectorSite from "./SiteSelectorSite";
 
 interface Props {
   scoped: boolean;
@@ -18,6 +18,7 @@ interface Props {
   >;
   queueName: QUEUE_NAME | undefined;
   onLoadMore: () => void;
+  onFilter: (filter: string) => void;
   hasMore: boolean;
   disableLoadMore: boolean;
   loading: boolean;
@@ -33,15 +34,18 @@ const SiteSelector: FunctionComponent<Props> = ({
   disableLoadMore,
   hasMore,
   siteID,
+  onFilter,
 }) => {
   return (
     <PaginatedSelect
+      label="Select site"
       Icon={AppWindowIcon}
       loading={loading}
       onLoadMore={onLoadMore}
       disableLoadMore={disableLoadMore}
       hasMore={hasMore}
       className={styles.button}
+      onFilter={onFilter}
       selected={
         <>
           {siteID && <SiteSelectorCurrentSiteQuery siteID={siteID} />}
@@ -55,11 +59,14 @@ const SiteSelector: FunctionComponent<Props> = ({
     >
       <>
         {!scoped && (
-          <SiteSelectorSite
-            link={getModerationLink({ queue: queueName })}
-            site={null}
-            active={!siteID}
-          />
+          <>
+            <SiteSelectorSite
+              link={getModerationLink({ queue: queueName })}
+              site={null}
+              active={!siteID}
+            />
+            <Divider spacing={1} horizontalSpacing={4} />
+          </>
         )}
         {sites.map((s) => (
           <SiteSelectorSite

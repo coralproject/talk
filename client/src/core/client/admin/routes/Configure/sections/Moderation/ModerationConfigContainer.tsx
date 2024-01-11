@@ -50,8 +50,8 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
       <NewCommentersConfigContainer disabled={submitting} settings={settings} />
       <RecentCommentHistoryConfig disabled={submitting} />
       <ExternalLinksConfigContainer disabled={submitting} settings={settings} />
-      <EmailDomainConfigContainer settings={settings} />
       <PremoderateEmailAddressConfig disabled={submitting} />
+      <EmailDomainConfigContainer settings={settings} />
     </HorizontalGutter>
   );
 };
