@@ -72,7 +72,7 @@ const MediaConfirmPrompt: FunctionComponent<Props> = ({
                 onClick={onConfirm}
                 className={styles.promptButton}
               >
-                Add tweet
+                Add post
               </Button>
             </Localized>
           )}

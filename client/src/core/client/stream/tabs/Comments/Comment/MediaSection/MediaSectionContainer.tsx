@@ -137,7 +137,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           />
           {media.__typename === "TwitterMedia" && (
             <Localized id="comments-embedLinks-hide-twitter">
-              Hide Tweet
+              Hide post
             </Localized>
           )}
           {media.__typename === "GiphyMedia" && (
