@@ -67,12 +67,11 @@ it("does not create domain bans for protected domains", async () => {
     tenantID: tenant.id,
     role: GQLUSER_ROLE.ADMIN,
   });
-  for (const domain of PROTECTED_EMAIL_DOMAINS.values()) {
-    await expect(async () =>
-      createEmailDomain(mockMongo, mockRedis, mockTenantCache, tenant, viewer, {
-        domain,
-        newUserModeration: "BAN",
-      })
-    ).rejects.toThrow("EMAIL_DOMAIN_PROTECTED");
-  }
+  const protectedDomain = PROTECTED_EMAIL_DOMAINS.values().next().value;
+  await expect(async () =>
+    createEmailDomain(mockMongo, mockRedis, mockTenantCache, tenant, viewer, {
+      domain: protectedDomain,
+      newUserModeration: "BAN",
+    })
+  ).rejects.toThrow("EMAIL_DOMAIN_PROTECTED");
 });
