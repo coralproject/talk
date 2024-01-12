@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "8.6.5",
+  "version": "8.7.0",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -67,7 +67,7 @@
     "@types/url-regex-safe": "^1.0.0",
     "abort-controller": "^3.0.0",
     "address": "^1.2.2",
-    "akismet-api": "^5.0.0",
+    "akismet-api": "^6.0.0",
     "apollo-server-express": "^2.18.1",
     "apollo-server-plugin-base": "^0.10.1",
     "apollo-server-plugin-response-cache": "^0.5.5",
@@ -136,7 +136,7 @@
     "postcss": "^8.3.5",
     "prom-client": "^12.0.0",
     "proxy-agent": "^6.3.1",
-    "re2": "^1.16.0",
+    "re2": "^1.20.9",
     "source-map-support": "^0.5.16",
     "stack-utils": "^2.0.1",
     "striptags": "^3.2.0",

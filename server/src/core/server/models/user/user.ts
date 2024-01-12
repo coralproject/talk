@@ -624,6 +624,12 @@ export interface User extends TenantResource {
   lastSeenNotificationDate?: Date | null;
 
   premoderatedBecauseOfEmailAt?: Date;
+
+  /**
+   * lastFeaturedDate is when the user last had a comment featured
+   * used for the Top commenter feature
+   */
+  lastFeaturedDate?: Date | null;
 }
 
 export function hashPassword(password: string): Promise<string> {
@@ -3473,3 +3479,29 @@ export const updateUserCommentCounts = (
   id: string,
   commentCounts: DeepPartial<UserCommentCounts>
 ) => updateRelatedCommentCounts(mongo.users(), tenantID, id, commentCounts);
+
+export const updateLastFeaturedDate = async (
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  featuredDate: Date | null = new Date()
+) => {
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $set: {
+        lastFeaturedDate: featuredDate,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    throw new UserNotFoundError(userID);
+  }
+  return result.value;
+};

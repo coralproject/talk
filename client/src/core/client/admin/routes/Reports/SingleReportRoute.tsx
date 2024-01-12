@@ -193,13 +193,19 @@ const SingleReportRoute: FunctionComponent<Props> & {
                       uppercase={false}
                       onClick={() => onShowUserDrawer(dsaReport.reporter?.id)}
                     >
-                      <div>{dsaReport.reporter.username}</div>
+                      {dsaReport.reporter.username ? (
+                        <div>{dsaReport.reporter.username}</div>
+                      ) : (
+                        <Localized id="reports-singleReport-reporterNameNotAvailable">
+                          <div className={styles.data}>
+                            Reporter name not available
+                          </div>
+                        </Localized>
+                      )}
                     </Button>
                   ) : (
-                    <Localized id="reports-singleReport-reporterNameNotAvailable">
-                      <div className={styles.data}>
-                        Reporter name not available
-                      </div>
+                    <Localized id="reports-anonymous-user">
+                      <div className={styles.data}>Anonymous user</div>
                     </Localized>
                   )}
                 </Flex>

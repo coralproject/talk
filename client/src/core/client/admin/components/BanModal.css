@@ -39,3 +39,12 @@ $ban-modal-text: var(--palette-text-500);
 .customizeMessageArrowsIcon {
   padding-left: var(--spacing-1);
 }
+
+.rejectionReasonLink {
+  width: fit-content;
+  color: var(--palette-primary-600) !important;
+}
+
+.rejectExistingReason {
+  background-color: var(--palette-grey-100);
+}
