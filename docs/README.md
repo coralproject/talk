@@ -8,7 +8,7 @@ First, you'll need to do at least one full build of Coral. In the root of the re
 
 ```bash
 sh npm-i.sh
-sh build-development.sh
+sh scripts/build-development.sh
 ```
 
 The reason for this is that the docs references the `client/` and `server/` generated types and components to populate the live docs information.
