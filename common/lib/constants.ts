@@ -159,6 +159,13 @@ export const PROTECTED_EMAIL_DOMAINS = new Set<string>([
   "yahoo.no",
   "hotmail.no",
   "rr.com",
+  "outlook.co.nz",
+  "outlook.at",
+  "outlook.in",
+  "outlook.com.au",
+  "outlook.fr",
+  "outlook.de",
+  "outlook.jp",
 ]);
 
 export const FLAIR_BADGE_NAME_REGEX = "^[\\w.-]+$";
