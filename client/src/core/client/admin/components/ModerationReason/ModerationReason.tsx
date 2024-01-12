@@ -30,7 +30,6 @@ const ModerationReason: FunctionComponent<Props> = ({
   const [view, setView] = useState<"REASON" | "EXPLANATION">("REASON");
   const [reasonCode, setReasonCode] = useState<ReasonCode | null>(null);
 
-  const [legalGrounds] = useState<string | null>(null);
   const [detailedExplanation, setDetailedExplanation] = useState<string | null>(
     null
   );
@@ -41,20 +40,10 @@ const ModerationReason: FunctionComponent<Props> = ({
   const submitReason = useCallback(() => {
     onReason({
       code: reasonCode!,
-      legalGrounds:
-        reasonCode === GQLREJECTION_REASON_CODE.ILLEGAL_CONTENT
-          ? legalGrounds
-          : undefined,
       detailedExplanation: detailedExplanation || undefined,
       customReason: otherCustomReason || undefined,
     });
-  }, [
-    reasonCode,
-    legalGrounds,
-    detailedExplanation,
-    onReason,
-    otherCustomReason,
-  ]);
+  }, [reasonCode, detailedExplanation, onReason, otherCustomReason]);
 
   return (
     <Box className={styles.root} data-testid={`moderation-reason-modal-${id}`}>

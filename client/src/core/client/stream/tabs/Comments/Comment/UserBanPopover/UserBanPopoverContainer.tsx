@@ -55,11 +55,13 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   onDismiss,
   view,
 }) => {
-  const [{ accessToken }] = useLocal<UserBanPopoverContainer_local>(graphql`
-    fragment UserBanPopoverContainer_local on Local {
-      accessToken
-    }
-  `);
+  const [{ accessToken, dsaFeaturesEnabled }] =
+    useLocal<UserBanPopoverContainer_local>(graphql`
+      fragment UserBanPopoverContainer_local on Local {
+        accessToken
+        dsaFeaturesEnabled
+      }
+    `);
   const { localeBundles, rootURL } = useCoralContext();
   const setSpamBanned = useMutation(SetSpamBanned);
   const reject = useMutation(RejectCommentMutation);
@@ -129,6 +131,12 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
         userID: user.id,
         commentID: comment.id,
         rejectExistingComments: !siteBan,
+        rejectionReason:
+          dsaFeaturesEnabled && !siteBan
+            ? {
+                code: GQLREJECTION_REASON_CODE.SPAM,
+              }
+            : undefined,
         message: getMessage(
           localeBundles,
           "common-banEmailTemplate",
@@ -144,14 +152,11 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
           commentRevisionID: comment.revision.id,
           storyID: story.id,
           noEmit: true,
-          reason: {
-            code: GQLREJECTION_REASON_CODE.OTHER,
-            detailedExplanation: getMessage(
-              localeBundles,
-              "common-userBanned",
-              "User was banned."
-            ),
-          },
+          reason: dsaFeaturesEnabled
+            ? {
+                code: GQLREJECTION_REASON_CODE.SPAM,
+              }
+            : undefined,
         });
       }
     } catch (e) {
@@ -181,6 +186,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
     setBanError,
     siteBan,
     setSpamBanned,
+    dsaFeaturesEnabled,
   ]);
 
   if (view === "CONFIRM_BAN") {
