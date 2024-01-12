@@ -111,13 +111,13 @@ jobs:
         run: cd server && npm run test:server -- --ci --reporters=default --reporters=jest-junit
       -
         name: Run Client Stream Unit Tests
-        run: cd client && npm run test:client:stream -- --ci --runInBand --reporters=default --reporters=jest-junit
+        run: cd client && npm run test:client:stream -- --ci --reporters=default --reporters=jest-junit
       -
         name: Run Client Admin Unit Tests
-        run: cd client && npm run test:client:admin -- --ci --runInBand --reporters=default --reporters=jest-junit
+        run: cd client && npm run test:client:admin -- --ci --reporters=default --reporters=jest-junit
       -
         name: Run Client Other Unit Tests
-        run: cd client && npm run test:client:other -- --ci --runInBand --reporters=default --reporters=jest-junit
+        run: cd client && npm run test:client:other -- --ci --reporters=default --reporters=jest-junit
       -
         name: Build
         env:
