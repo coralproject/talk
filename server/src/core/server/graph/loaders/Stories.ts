@@ -148,7 +148,6 @@ const queryFilter = (query?: string): StoryConnectionInput["filter"] => {
 /**
  * primeStoriesFromConnection will prime a given context with the stories
  * retrieved via a connection.
- *
  * @param ctx graph context to use to prime the loaders.
  */
 const primeStoriesFromConnection =

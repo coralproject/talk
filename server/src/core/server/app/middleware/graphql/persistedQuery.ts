@@ -23,6 +23,7 @@ export const persistedQueryMiddleware =
     try {
       // Handle the payload if it is a persisted query.
       const body = req.method === "GET" ? req.query : req.body;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const persisted = await getPersistedQuery(persistedQueryCache, body);
       if (persisted) {
         // The query was found for this operation, replace the query with the one
@@ -57,6 +58,7 @@ export const persistedQueryMiddleware =
 
       throw new RawQueryNotAuthorized(
         req.coral.tenant.id,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         body.query || null,
         req.user?.id || null
       );

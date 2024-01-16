@@ -127,6 +127,7 @@ function build(previousFileSizes: any) {
         if (messages.errors.length > 1) {
           messages.errors.length = 1;
         }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return reject(new Error(messages.errors.join("\n\n")));
       }
       if (treatWarningsAsErrors && messages.warnings.length) {
@@ -136,6 +137,7 @@ function build(previousFileSizes: any) {
               "Most CI servers set it automatically.\n"
           )
         );
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return reject(new Error(messages.warnings.join("\n\n")));
       }
       return resolve({

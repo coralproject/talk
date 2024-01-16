@@ -47,6 +47,7 @@ export function commitMutationPromise<T extends MutationParameters>(
           reject(errors);
           return;
         }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         resolve(extractPayload(response));
       },
       onError: (error) => {

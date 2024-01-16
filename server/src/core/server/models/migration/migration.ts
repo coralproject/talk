@@ -1,5 +1,6 @@
 import { MongoContext } from "coral-server/data/context";
 
+// eslint-disable-next-line no-shadow
 export enum MIGRATION_STATE {
   STARTED = "STARTED",
   FAILED = "FAILED",
@@ -46,7 +47,6 @@ export async function startMigration(
 /**
  * updateMigrationState will update the state of a migration record to reflect
  * the new state as well as un-setting the client ID from the records.
- *
  * @param mongo the database to interact on
  * @param id the migration version to update
  * @param state the state to switch the record to

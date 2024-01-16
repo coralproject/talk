@@ -45,8 +45,8 @@ function createFluentBundle(
   files.forEach((f) => {
     prefixes.forEach((prefix) => {
       if (f.startsWith(prefix)) {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
         bundle.addResource(
+          // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-argument
           new FluentResource(require(path.resolve(pathToLocale, f)))
         );
       }

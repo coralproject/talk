@@ -52,6 +52,7 @@ const createSanitizeMemoized = memoize(
     // Default the RTE Configuration to the default one.
     const config = tenant.rte || defaultRTEConfiguration;
 
+    // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
     return createSanitize(window as any, {
       // Merge in the sarcasm check from the feature flag.
       features: convertGQLRTEConfigToRTEFeatures({

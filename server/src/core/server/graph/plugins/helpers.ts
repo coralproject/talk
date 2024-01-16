@@ -24,7 +24,6 @@ export interface OperationMetadata {
 /**
  * getOperationMetadata will extract the operation metadata from the document
  * node.
- *
  * @param doc the document node that can be used to extract operation metadata
  *            from
  */
@@ -60,7 +59,6 @@ interface PersistedQueryOperationMetadata extends OperationMetadata {
 /**
  * getPersistedQueryMetadata will remap the persisted query to the operation
  * metadata.
- *
  * @param persisted persisted query to remap to operation metadata
  */
 export const getPersistedQueryMetadata = ({
@@ -80,7 +78,6 @@ export const getPersistedQueryMetadata = ({
 /**
  * getOriginalError tries to return the original error from a
  * formatted GraphQL error.
- *
  * @param err A GraphQL Formatted Error
  */
 export const getOriginalError = (err: GraphQLFormattedError) => {
@@ -118,7 +115,6 @@ function hoistCoralErrorExtensions(
 
 /**
  * getWrappedOriginalError will pull out the original error if available.
- *
  * @param err the error to have their original error extracted from.
  * @param ctx the Context to extract the environment state.
  */
@@ -157,7 +153,6 @@ export function getWrappedOriginalError(
 
 /**
  * enrichAndLogError will enrich and then log out the error.
- *
  * @param ctx the GraphQL context for the request
  * @param err the error that occurred
  */

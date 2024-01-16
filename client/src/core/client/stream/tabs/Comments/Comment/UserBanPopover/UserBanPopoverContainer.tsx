@@ -161,7 +161,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
       }
     } catch (e) {
       if (e.message) {
-        setBanError(e.message);
+        setBanError(e.message as string);
       }
     }
     if (siteBan) {

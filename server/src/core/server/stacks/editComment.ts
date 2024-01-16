@@ -59,7 +59,6 @@ import {
  * getLastCommentEditableUntilDate will return the `createdAt` date that will
  * represent the _oldest_ date that a comment could have been created on in
  * order to still be editable.
- *
  * @param tenant the tenant that contains settings related editing
  * @param now the date that is the base, defaulting to the current time
  */

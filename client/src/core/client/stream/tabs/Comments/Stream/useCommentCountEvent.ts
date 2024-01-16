@@ -38,7 +38,6 @@ function getText(
 /**
  * useCommentCountEvent is a React hook that will
  * emit `commentCount` events.
- *
  * @param storyID story id of the comment count
  * @param storyURL story url of the comment count
  * @param commentCount number of total published comments

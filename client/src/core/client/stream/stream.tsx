@@ -83,7 +83,7 @@ const hideStyle: React.CSSProperties = {
 /**
  * Insert link tag is called by css loaders like style-loader or mini-css-extract plugin.
  * See webpack config.
- **/
+ */
 export function insertLinkTag(linkTag: HTMLLinkElement) {
   // Inject link tag into Index Component
   injectLinkTag(linkTag);
@@ -91,7 +91,7 @@ export function insertLinkTag(linkTag: HTMLLinkElement) {
 
 /**
  * Create and attach CoralStream to Element.
- **/
+ */
 export async function attach(options: AttachOptions) {
   // Detect and extract the storyID and storyURL from the current page so we can
   // add it to the managed provider.
@@ -258,13 +258,14 @@ export async function attach(options: AttachOptions) {
     );
   };
 
-  // eslint-disable-next-line no-restricted-globals
+  // eslint-disable-next-line no-restricted-globals, react/no-deprecated
   ReactDOM.render(<Index />, options.element);
 }
 
 /**
  * Remove will unmount Coral Stream.
- **/
+ */
 export async function remove(element: HTMLElement) {
+  // eslint-disable-next-line react/no-deprecated
   ReactDOM.unmountComponentAtNode(element);
 }

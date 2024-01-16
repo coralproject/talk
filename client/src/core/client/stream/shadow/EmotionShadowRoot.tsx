@@ -13,21 +13,27 @@ const createProxy = (ReactShadow as any).createProxy;
  * TODO: (cvle) Currently some styles still slip into light dom.
  * TODO: (cvle) Replace giphy components?
  */
-export default createProxy({}, "emotion", ({ root, children }: any) => {
-  const options =
-    cache.get(root) ||
-    (() => {
-      const opts = createCache({
-        container: root,
-        key: "react-shadow",
-      });
-      cache.set(root, opts);
-      return opts;
-    })();
+export default createProxy(
+  {},
+  "emotion",
+  ({ root, children }: { root: any; children: any }) => {
+    const options =
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      cache.get(root) ||
+      (() => {
+        const opts = createCache({
+          container: root,
+          key: "react-shadow",
+        });
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        cache.set(root, opts);
+        return opts;
+      })();
 
-  return (
-    <CacheProvider value={options}>
-      <>{children}</>
-    </CacheProvider>
-  );
-});
+    return (
+      <CacheProvider value={options}>
+        <>{children}</>
+      </CacheProvider>
+    );
+  }
+);

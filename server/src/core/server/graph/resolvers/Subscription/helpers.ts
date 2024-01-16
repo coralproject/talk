@@ -49,7 +49,6 @@ export function createSubscriptionChannelName(
  * responses to ensure that mutations issued by one user is not sent back as a
  * subscription to the same requesting User, as they already implement the
  * update via the mutation response.
- *
  * @param source the source for the document passed down, we don't actually need
  *               it here.
  * @param args the arguments for the specific subscription operation, we don't
@@ -77,7 +76,8 @@ function composeFilters<TParent, TArgs>(
     filters.every((filter) => filter(source, args, ctx, info));
 }
 
-export interface CreateIteratorInput<TParent, TArgs, TResult> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export interface CreateIteratorInput<TParent, TArgs, _TResult> {
   filter: FilterFn<TParent, TArgs, GraphContext>;
 }
 

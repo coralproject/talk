@@ -13,7 +13,7 @@ import { AdditionalCommentQuery as QueryTypes } from "coral-stream/__generated__
 export const render = (
   { error, props }: QueryRenderData<QueryTypes>,
   additionalComment: { id: string; url: string },
-  onAddCommentError: (error: string, commentID: string) => void,
+  onAddCommentError: (errorMessage: string, commentID: string) => void,
   onAddCommentSuccess: (id: string, url: string) => void,
   localeBundles: FluentBundle[]
 ) => {
@@ -51,7 +51,7 @@ export const render = (
 
 interface Props {
   additionalComment: { id: string; url: string };
-  onAddCommentError: (error: string, commentID: string) => void;
+  onAddCommentError: (errorMessage: string, commentID: string) => void;
   onAddCommentSuccess: (id: string, url: string) => void;
 }
 

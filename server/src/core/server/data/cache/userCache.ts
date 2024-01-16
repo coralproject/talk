@@ -132,12 +132,14 @@ export class UserCache implements IDataCache {
   }
 
   private deserializeObject(data: string): Readonly<User> {
-    const parsed = JSON.parse(data);
+    const parsed: User = JSON.parse(data);
     const parsedSuspensionHistory = parsed.status.suspension.history.map(
       (suspension: {
         createdAt: Date;
         modifiedAt?: Date;
         from: { start: Date; finish: Date };
+        id: string;
+        message: string;
       }) => {
         const suspensionUpdated = {
           ...suspension,

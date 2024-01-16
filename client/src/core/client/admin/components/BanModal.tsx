@@ -56,6 +56,7 @@ import UserStatusSitesList from "./UserStatus/UserStatusSitesList";
 
 import styles from "./BanModal.css";
 
+// eslint-disable-next-line no-shadow
 export enum UpdateType {
   ALL_SITES = "ALL_SITES",
   SPECIFIC_SITES = "SPECIFIC_SITES",

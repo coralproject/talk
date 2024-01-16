@@ -28,7 +28,7 @@ export const reportDownloadHandler = ({
       await ipLimiter.test(req, req.ip);
 
       const { tenant, now } = req.coral;
-      const { reportID } = req.query;
+      const { reportID }: { reportID: string } = req.query;
 
       const report = await retrieveDSAReport(mongo, tenant.id, reportID);
 

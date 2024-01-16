@@ -30,7 +30,7 @@ import styles from "./AddAdditionalComments.css";
 import AdditionalCommentQuery from "./AdditionalCommentQuery";
 
 interface Props {
-  additionalComments: { id: string; url: string }[] | null;
+  additionalComments: Array<{ id: string; url: string }> | null;
   comment: CommentData | null;
   onAddAdditionalComment: (id: string, url: string) => void;
   onDeleteAdditionalComment: (id: string) => void;
@@ -62,7 +62,7 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
   }, [additionalComments]);
 
   const onAddCommentURL = useCallback(() => {
-    const newAdditionalComment =
+    const newAdditionalComment: string =
       form?.getFieldState("additionalComment")?.value;
     if (newAdditionalComment.length > MAX_DSA_ADDITIONAL_COMMENT_URL_LENGTH) {
       const commentURLLengthError = getMessage(

@@ -306,13 +306,6 @@ export interface CreateDSAReportNoteResultObject {
   dsaReport: DSAReport;
 }
 
-enum DSAReportHistoryType {
-  STATUS_CHANGED = "STATUS_CHANGED",
-  NOTE = "NOTE",
-  DECISION_MADE = "DECISION_MADE",
-  SHARE = "SHARE",
-}
-
 export async function createDSAReportNote(
   mongo: MongoContext,
   tenantID: string,
@@ -329,7 +322,7 @@ export async function createDSAReportNote(
     createdBy: userID,
     createdAt: now,
     body,
-    type: DSAReportHistoryType.NOTE,
+    type: GQLDSAReportHistoryType.NOTE,
   };
 
   const updatedReport = await mongo.dsaReports().findOneAndUpdate(
@@ -378,7 +371,7 @@ export async function createDSAReportShare(
     id,
     createdBy: userID,
     createdAt: now,
-    type: DSAReportHistoryType.SHARE,
+    type: GQLDSAReportHistoryType.SHARE,
   };
 
   const updatedReport = await mongo.dsaReports().findOneAndUpdate(
@@ -467,7 +460,7 @@ export async function changeDSAReportStatus(
     createdBy: userID,
     createdAt: now,
     status,
-    type: DSAReportHistoryType.STATUS_CHANGED,
+    type: GQLDSAReportHistoryType.STATUS_CHANGED,
   };
 
   const updatedReport = await mongo.dsaReports().findOneAndUpdate(
@@ -522,7 +515,7 @@ export async function makeDSAReportDecision(
     id: statusChangeHistoryId,
     createdBy: userID,
     createdAt: now,
-    type: DSAReportHistoryType.STATUS_CHANGED,
+    type: GQLDSAReportHistoryType.STATUS_CHANGED,
     status: GQLDSAReportStatus.COMPLETED,
   };
 
@@ -530,7 +523,7 @@ export async function makeDSAReportDecision(
     id: decisionMadeHistoryId,
     createdBy: userID,
     createdAt: now,
-    type: DSAReportHistoryType.DECISION_MADE,
+    type: GQLDSAReportHistoryType.DECISION_MADE,
     decision: {
       legality,
       legalGrounds,

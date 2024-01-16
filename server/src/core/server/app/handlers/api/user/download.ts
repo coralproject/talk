@@ -18,7 +18,7 @@ export const userDownloadHandler = ({
 }: AdminDownloadOptions): RequestHandler<TenantCoralRequest> => {
   return async (req, res, next) => {
     const { tenant, now } = req.coral;
-    const { token } = req.query;
+    const { token }: { token: string } = req.query;
 
     const { sub: userID } = decodeJWT(token);
     if (!userID) {

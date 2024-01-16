@@ -97,8 +97,8 @@ interface Props {
   isQA?: boolean;
   rating?: number | null;
 
-  bannedWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
-  suspectWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
+  bannedWords?: Readonly<Array<Readonly<GQLWordlistMatch>>>;
+  suspectWords?: Readonly<Array<Readonly<GQLWordlistMatch>>>;
   isArchived?: boolean;
   isArchiving?: boolean;
   dsaFeaturesEnabled: boolean;

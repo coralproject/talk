@@ -2,7 +2,6 @@ import startsWith from "coral-common/common/lib/utils/startsWith";
 
 /**
  * Purges relay metadata from response e.g. information about fragments.
- *
  * @param data Relay response data
  */
 export default function purgeMetadata<T>(data: T): T {

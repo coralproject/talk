@@ -11,7 +11,7 @@ const ariaLabelMatcher =
     if (typeof i.type !== "string" || !i.props["aria-label"]) {
       return false;
     }
-    return matchText(pattern, i.props["aria-label"], {
+    return matchText(pattern, i.props["aria-label"] as string, {
       collapseWhitespace: false,
       ...options,
     });

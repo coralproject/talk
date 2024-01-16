@@ -67,6 +67,7 @@ export type InitLocalState = (dependencies: {
 
 export type RefreshAccessTokenPromise = () => Promise<string>;
 
+// eslint-disable-next-line
 declare let __webpack_public_path__: string;
 interface CreateContextArguments {
   /** URL of the Coral server */
@@ -107,7 +108,8 @@ interface CreateContextArguments {
   /** Static Config from the server necessary to start the client*/
   staticConfig?: StaticConfig | null;
 
-  /** Supports a custom scroll container element if Coral is rendered outside
+  /**
+   * Supports a custom scroll container element if Coral is rendered outside
    * of the render window
    */
   customScrollContainer?: HTMLElement;

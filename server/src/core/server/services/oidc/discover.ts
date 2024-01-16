@@ -33,7 +33,6 @@ const fetch = createFetch({ name: "OIDC" });
 
 /**
  * discover will discover the configuration for the issuer.
- *
  * @param issuer the Issuer URL that should be used to determine the
  *               configuration
  */

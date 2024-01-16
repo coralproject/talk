@@ -47,7 +47,6 @@ export const getDefaultBadgeConfiguration = (
 /**
  * hasFeatureFlag will check to see if the Tenant has a particular feature flag
  * enabled.
- *
  * @param tenant the Tenant to test for a feature flag
  * @param flag the FEATURE_FLAG to check for
  */

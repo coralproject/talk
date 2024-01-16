@@ -135,11 +135,11 @@ export default class extends Migration {
     // Recalculate the action counts for the stories.
     const cursor = mongo.commentActions().aggregate<{
       _id: string;
-      actions: {
+      actions: Array<{
         actionType: ACTION_TYPE;
         reason?: FLAG_REASON;
         sum: number;
-      }[];
+      }>;
     }>([
       // Find all actions related to this Tenant.
       { $match: { tenantID: tenant.id } },

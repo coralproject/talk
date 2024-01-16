@@ -27,11 +27,11 @@ const verifyFactory =
   ) => {
     try {
       // Validate that the email address and password are reasonable.
-      const email = Joi.attempt(
+      const email: string = Joi.attempt(
         emailInput,
         Joi.string().trim().lowercase().email()
       );
-      const password = Joi.attempt(passwordInput, Joi.string());
+      const password: string = Joi.attempt(passwordInput, Joi.string());
 
       await ipLimiter.test(req, req.ip);
       await emailLimiter.test(req, email);
@@ -56,6 +56,7 @@ const verifyFactory =
 
       return done(null, user);
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       return done(err);
     }
   };

@@ -1,3 +1,4 @@
+import { EventEmitter2 } from "eventemitter2";
 import simulant from "simulant";
 import sinon from "sinon";
 
@@ -13,7 +14,9 @@ it("should add commentID", () => {
       }
     },
   };
-  const cleanup = withSetCommentID(fakeStreamEventEmitter as any);
+  const cleanup = withSetCommentID(
+    fakeStreamEventEmitter as unknown as EventEmitter2
+  );
   expect(location.toString()).toBe("http://localhost/?commentID=comment-id");
   cleanup();
   window.history.replaceState(previousState, document.title, previousLocation);
@@ -34,7 +37,9 @@ it("should remove commentID", () => {
       }
     },
   };
-  const cleanup = withSetCommentID(fakeStreamEventEmitter as any);
+  const cleanup = withSetCommentID(
+    fakeStreamEventEmitter as unknown as EventEmitter2
+  );
   expect(location.toString()).toBe("http://localhost/");
   cleanup();
   window.history.replaceState(previousState, document.title, previousLocation);
@@ -52,10 +57,12 @@ it("should send commentID over eventEmitter when history changes", () => {
     on: sinon.stub(),
     emit: sinon.mock().once().withArgs("embed.setCommentID", "comment-id"),
   };
-  const cleanup = withSetCommentID(fakeEventEmitter as any);
-  simulant.fire(window as any, "popstate");
+  const cleanup = withSetCommentID(
+    fakeEventEmitter as unknown as EventEmitter2
+  );
+  simulant.fire(window as unknown as HTMLElement, "popstate");
   cleanup();
-  simulant.fire(window as any, "popstate");
+  simulant.fire(window as unknown as HTMLElement, "popstate");
   fakeEventEmitter.emit.verify();
   window.history.replaceState(previousState, document.title, previousLocation);
 });

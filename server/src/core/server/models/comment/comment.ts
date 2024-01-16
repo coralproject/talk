@@ -314,7 +314,6 @@ export interface EditComment {
 
 /**
  * editComment will edit a comment if it's within the time allotment.
- *
  * @param mongo MongoDB database handle
  * @param tenantID ID for the Tenant where the Comment exists
  * @param input input for editing the comment
@@ -461,7 +460,6 @@ function cursorGetterFactory(
 /**
  * retrieveRepliesConnection returns a Connection<Comment> for a given comments
  * replies.
- *
  * @param mongo database connection
  * @param tenantID the tenant id
  * @param storyID the id of the story the comment belongs to
@@ -490,7 +488,6 @@ export const retrieveCommentRepliesConnection = (
 /**
  * retrieveChildrenForParentConnection returns a Connection<Comment> for
  * a given comment's child comments
- *
  * @param mongo database connection
  * @param tenantID the tenant id
  * @param storyID the id of the story the comment belongs to
@@ -517,7 +514,6 @@ export async function retrieveChildrenForParentConnection(
 /**
  * retrieveCommentParentsConnection will return a comment connection used to
  * represent the parents of a given comment.
- *
  * @param mongo the database connection to use when retrieving comments
  * @param tenantID the tenant id for where the comment exists
  * @param comment the comment to retrieve parents of
@@ -588,7 +584,6 @@ export async function retrieveCommentParentsConnection(
 /**
  * retrieveStoryConnection returns a Connection<Comment> for a given Stories
  * comments.
- *
  * @param mongo database connection
  * @param tenantID the Tenant id
  * @param storyID the Story id for the comment to retrieve
@@ -611,7 +606,6 @@ export const retrieveCommentStoryConnection = (
 /**
  * retrieveCommentUserConnection returns a Connection<Comment> for a given User's
  * comments.
- *
  * @param mongo database connection
  * @param tenantID the Tenant's ID
  * @param userID the User id for the comment to retrieve
@@ -634,7 +628,6 @@ export const retrieveCommentUserConnection = (
 /**
  * retrieveAllCommentUserConnection returns a Connection<Comment> for a given User's
  * comments regardless of comment status.
- *
  * @param mongo database connection
  * @param tenantID the Tenant's ID
  * @param userID the User id for the comment to retrieve
@@ -657,7 +650,6 @@ export const retrieveAllCommentsUserConnection = (
 /**
  * retrieveCommentsBySitesUserConnection returns a Connection<Comment> for a given User's
  * comments regardless of comment status, filtered by siteIDs.
- *
  * @param mongo database connection
  * @param tenantID the Tenant's ID
  * @param userID the User id for the comment to retrieve
@@ -683,7 +675,6 @@ export const retrieveCommentsBySitesUserConnection = (
 /**
  * retrieveRejectedCommentUserConnection returns a Connection<Comment> for a given User's
  * rejected comments.
- *
  * @param mongo database connection
  * @param tenantID the Tenant's ID
  * @param userID the User id for the comment to retrieve
@@ -711,7 +702,6 @@ export const retrieveRejectedCommentUserConnection = (
 /**
  * retrievePublishedCommentConnection will retrieve a connection that contains
  * comments that are published.
- *
  * @param mongo database connection
  * @param tenantID the Tenant's ID
  * @param input connection configuration
@@ -731,7 +721,6 @@ export const retrievePublishedCommentConnection = (
 /**
  * retrieveStatusCommentConnection will retrieve a connection that contains
  * comments with specific statuses.
- *
  * @param mongo database connection
  * @param tenantID the Tenant's ID
  * @param statuses the statuses to filter
@@ -770,7 +759,6 @@ export async function retrieveCommentConnection(
 /**
  * retrieveConnection returns a Connection<Comment> for the given input and
  * Query.
- *
  * @param input connection configuration
  * @param query the Query for the set of nodes that should have the connection
  *              configuration applied
@@ -833,7 +821,6 @@ export interface UpdateCommentStatus {
 /**
  * updateCommentEmbeddedAt will update with the date at which the comment
  * was first embedded.
- *
  * @param mongo the database handle
  * @param tenantID the id of the Tenant
  * @param id the id of the Comment being embedded
@@ -915,7 +902,6 @@ export async function updateCommentStatus(
 
 /**
  * updateCommentActionCounts will update the given comment's action counts.
- *
  * @param mongo the database handle
  * @param tenantID the id of the Tenant
  * @param id the id of the Comment being updated
@@ -1401,7 +1387,6 @@ export async function retrieveRecentStatusCounts(
 /**
  * retrieveOngoingDiscussions will return the id's of stories where the user has
  * participated in ordered by most recent where the comment's are published.
- *
  * @param mongo the database handle
  * @param tenantID the ID of the Tenant for which to get story id's for
  * @param authorID the User's ID for the discussions we want to find
@@ -1645,11 +1630,13 @@ export async function retrieveManyStoryRatings(
     liveStoryIDs
   );
 
-  let archivedResults: Readonly<{
-    _id: string;
-    average: number;
-    count: number;
-  }>[] = [];
+  let archivedResults: Array<
+    Readonly<{
+      _id: string;
+      average: number;
+      count: number;
+    }>
+  > = [];
   if (mongo.archive) {
     archivedResults = await retrieveManyRatingsFromCollection(
       mongo.archivedComments(),

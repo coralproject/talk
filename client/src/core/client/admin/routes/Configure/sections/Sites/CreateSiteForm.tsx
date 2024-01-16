@@ -37,7 +37,7 @@ const CreateSiteForm: FunctionComponent<Props> = ({ onCreate }) => {
           onCreate(response.site.id, response.site.name);
         }
       } catch (error) {
-        setSubmitError(error.message);
+        setSubmitError(error.message as string);
       }
     },
     [onCreate]

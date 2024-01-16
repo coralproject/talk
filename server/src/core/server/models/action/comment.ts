@@ -27,6 +27,7 @@ import {
   GQLReactionActionCounts,
 } from "coral-server/graph/schema/__generated__/types";
 
+// eslint-disable-next-line no-shadow
 export enum ACTION_TYPE {
   /**
    * REACTION corresponds to a reaction to a comment from a user.
@@ -386,7 +387,7 @@ export async function retrieveManyUserActionPresence(
   useCache = true,
   isArchived = false
 ): Promise<GQLActionPresence[]> {
-  let actions: Readonly<CommentAction>[] = [];
+  let actions: Array<Readonly<CommentAction>> = [];
 
   const cacheAvailable =
     useCache && (await commentActionsCache.available(tenantID));
@@ -507,7 +508,6 @@ export const ACTION_COUNT_JOIN_CHAR = "__";
 /**
  * encodeActionCounts will take a list of actions, and generate action counts
  * from it.
- *
  * @param actions list of actions to generate the action counts from
  */
 export function encodeActionCounts(
@@ -531,7 +531,6 @@ export function encodeActionCounts(
 
 /**
  * invertEncodedActionCounts will allow inverting of the action count object.
- *
  * @param actionCounts the encoded action counts to invert
  */
 export function invertEncodedActionCounts(
@@ -701,7 +700,6 @@ export function countTotalActionCounts(
 /**
  * decodeActionCounts will take the encoded action counts and decode them into
  * a useable format.
- *
  * @param encodedActionCounts the action counts to decode
  */
 export function decodeActionCounts(

@@ -7,6 +7,7 @@ import { Flex, Tooltip, TooltipButton } from "coral-ui/components/v2";
 
 import styles from "./StatusField.css";
 
+// eslint-disable-next-line no-shadow
 export enum SSOSigningSecretStatus {
   EXPIRED,
   EXPIRING,

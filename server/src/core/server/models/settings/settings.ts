@@ -288,6 +288,7 @@ export interface StoryConfiguration {
   disableLazy: boolean;
 }
 
+// eslint-disable-next-line no-shadow
 export enum NewUserModeration {
   BAN = "BAN",
   PREMOD = "PREMOD",

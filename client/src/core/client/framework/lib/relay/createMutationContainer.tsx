@@ -15,7 +15,6 @@ import { CoralContext, withContext } from "../bootstrap";
  * and the signature (input: I) => Promise<R>. Calling
  * this will call the specified `commit` callback with
  * the Relay `environment` provided by the context.
- *
  * @deprecated use `createMutation` instead
  */
 function createMutationContainer<T extends string, I, R>(

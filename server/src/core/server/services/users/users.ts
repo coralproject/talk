@@ -115,6 +115,7 @@ import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import {
   GQLAuthIntegrations,
+  GQLNEW_USER_MODERATION,
   GQLRejectionReason,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -256,11 +257,6 @@ export async function findOrCreate(
 export type CreateUser = FindOrCreateUserInput;
 export type CreateUserOptions = FindOrCreateUserOptions;
 
-enum NEW_USER_MODERATION {
-  BAN = "BAN",
-  PREMOD = "PREMOD",
-}
-
 export async function processAutomaticBanAndPremodForNewUser(
   mongo: MongoContext,
   tenant: Tenant,
@@ -288,7 +284,7 @@ export async function processAutomaticBanForUser(
   }
 
   if (
-    newUserEmailDomainModeration === NEW_USER_MODERATION.BAN &&
+    newUserEmailDomainModeration === GQLNEW_USER_MODERATION.BAN &&
     !user.status.ban.active
   ) {
     await banUser(mongo, tenant.id, user.id);
@@ -313,7 +309,7 @@ export async function processAutomaticPremodForUser(
   }
 
   if (
-    newUserEmailDomainModeration === NEW_USER_MODERATION.PREMOD &&
+    newUserEmailDomainModeration === GQLNEW_USER_MODERATION.PREMOD &&
     !user.status.premod.active
   ) {
     await premodUser(mongo, tenant.id, user.id);
@@ -376,7 +372,6 @@ export async function create(
 /**
  * setUsername will set the username on the User if they don't already have one
  * associated with them.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param user User that should get their username changed
@@ -401,7 +396,6 @@ export async function setUsername(
 /**
  * setEmail will set the email address on the User if they don't already have
  * one associated with them.
- *
  * @param mongo mongo database to interact with
  * @param mailer the mailer
  * @param tenant Tenant where the User will be interacted with
@@ -438,7 +432,6 @@ export async function setEmail(
  * current email address and new password if email based authentication is
  * enabled. If the User does not have a email address associated with their
  * account, this will fail.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param user User that should get their password changed
@@ -471,7 +464,6 @@ export async function setPassword(
  * does not already have a password associated with their account, it will fail.
  * If the User does not have an email address associated with the account, this
  * will fail.
- *
  * @param mongo mongo database to interact with
  * @param mailer the mailer
  * @param tenant Tenant where the User will be interacted with
@@ -630,7 +622,6 @@ export async function cancelAccountDeletion(
 /**
  * createToken will create a Token for the User as well as return a signed Token
  * that can be used to authenticate.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param config signing configuration to create the signed token
@@ -671,7 +662,6 @@ export async function createToken(
 /**
  * deactivateToken will disable the given Token so that it can not be used to
  * authenticate any more.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param user User that should get updated
@@ -692,7 +682,6 @@ export async function deactivateToken(
 
 /**
  * updateSSOProfileID will update the id on the user's SSOProfile
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param userID the ID of the User we are updating
@@ -709,7 +698,6 @@ export async function updateSSOProfileID(
 
 /**
  * updateUsername will update the current users username.
- *
  * @param mongo mongo database to interact with
  * @param mailer mailer queue instance
  * @param tenant Tenant where the User will be interacted with
@@ -795,7 +783,6 @@ export async function updateUsername(
 
 /**
  * updateUsernameByID will update a given User's username.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param userID the User's ID that we are updating
@@ -813,7 +800,6 @@ export async function updateUsernameByID(
 
 /**
  * updateRole will update the given User to the specified role.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param user the user making the request
@@ -1164,7 +1150,6 @@ export async function updateMembershipScopes(
 
 /**
  * enabledAuthenticationIntegrations returns enabled auth integrations for a tenant
- *
  * @param tenant Tenant where the User will be interacted with
  * @param target whether to filter by stream or admin enabled. defaults to requiring both.
  */
@@ -1196,7 +1181,6 @@ function enabledAuthenticationIntegrations(
 /**
  * canUpdateEmailAddress will determine if a user is permitted to update their
  * email address.
- *
  * @param tenant Tenant where the User will be interacted with
  * @param user the User that we are updating
  */
@@ -1221,7 +1205,6 @@ function canUpdateEmailAddress(tenant: Tenant, user: User): boolean {
 
 /**
  * updateEmail will update the current User's email address.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param mailer The mailer queue
@@ -1281,7 +1264,6 @@ export async function updateEmail(
  * updateUserEmail will update the given User's email address. This should not
  * trigger and email notifications as it's designed to be used by administrators
  * to update a user's email address.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param userID the User's ID that we are updating
@@ -1301,7 +1283,6 @@ export async function updateEmailByID(
 
 /**
  * updateBio will update the given User's bio.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param userID the User's ID that we are updating
@@ -1330,7 +1311,6 @@ export async function updateBio(
 
 /**
  * updateAvatar will update the given User's avatar.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param userID the User's ID that we are updating
@@ -1355,7 +1335,6 @@ export async function updateAvatar(
 
 /**
  * addModeratorNote will add a note to the users account.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be banned on
  * @param moderator the Moderator that is creating the note
@@ -1380,7 +1359,6 @@ export async function addModeratorNote(
 
 /**
  * destroyModeratorNote will remove a note from a user
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be banned on
  * @param userID  id of the user who is the subjet
@@ -1399,7 +1377,6 @@ export async function destroyModeratorNote(
 
 /**
  * ban will ban a specific user from interacting with Coral.
- *
  * @param mongo mongo database to interact with
  * @param cache the data cache
  * @param mailer the mailer
@@ -1613,7 +1590,6 @@ export async function ban(
 /**
  * updateUserBan will ban or unban a specific user from interacting with Coral
  * on specified sites.
- *
  * @param mongo mongo database to interact with
  * @param mailer the mailer
  * @param rejector the comment rejector queue
@@ -1786,7 +1762,6 @@ export async function updateUserBan(
 
 /**
  * premod will premod a specific user.
- *
  * @param mongo mongo database to interact with
  * @param cache the data cache
  * @param tenant Tenant where the User will be banned on
@@ -1874,7 +1849,6 @@ export async function removePremod(
 
 /**
  * warn will warn a specific user.
- *
  * @param mongo mongo database to interact with
  * @param cache the data cache
  * @param tenant Tenant where the User will be warned on
@@ -1986,7 +1960,6 @@ export async function acknowledgeWarning(
 
 /**
  * sendModMessage will send a moderation message to a specific user.
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be messaged on
  * @param moderator the User that is messaging the User
@@ -2015,7 +1988,6 @@ export async function sendModMessage(
 /**
  * acknowledgeModMessage will acknowledge that a mod message was seen by the user and
  * set moderation messages to inactive
- *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be messaged on
  * @param userID the ID of the User acknowledging the mod message
@@ -2047,7 +2019,6 @@ export async function acknowledgeModMessage(
 
 /**
  * suspend will suspend a give user from interacting with Coral.
- *
  * @param mongo mongo database to interact with
  * @param cache the data cache
  * @param mailer the mailer
@@ -2408,7 +2379,6 @@ function userLastCommentIDKey(
 
 /**
  * updateUserLastCommentID will update the id of the users most recent comment.
- *
  * @param redis the Redis instance that Coral interacts with
  * @param tenant the Tenant to operate on
  * @param user the User that we're setting the limit for
@@ -2429,7 +2399,6 @@ export async function updateUserLastCommentID(
  * retrieveUserLastCommentNotArchived will return the id (if set) of the comment that
  * the user last wrote. This will return null if the user has not made a comment
  * within the CURRENT_REPEAT_POST_TIMESPAN.
- *
  * @param mongo the db
  * @param redis the Redis instance that Coral interacts with
  * @param tenant the Tenant to operate on

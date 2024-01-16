@@ -11,7 +11,6 @@ import { GQLFEATURE_FLAG } from "../schema/__generated__/types";
  * object as they are not nilable on the database model. If we didn't do this,
  * then any time that the property is nil, we'd be querying for comments that
  * can't possibly exist!
- *
  * @param props properties that if nil should be removed from the return object
  */
 export const requiredPropertyFilter = (

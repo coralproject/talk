@@ -98,7 +98,6 @@ export default class NotificationContext {
 
   /**
    * generateUnsubscribeURL will generate a unsubscribe token.
-   *
    * @param user the user to generate the unsubscribe token for
    */
   public async generateUnsubscribeURL(user: Pick<User, "id">) {
@@ -133,7 +132,6 @@ export default class NotificationContext {
    * digest will return an `asyncIterator` that can be used to iterate over all
    * the users on a Tenant that have digests available configured with the given
    * frequency.
-   *
    * @param frequency the frequency to get the digests for
    */
   public digest(frequency: GQLDIGEST_FREQUENCY) {

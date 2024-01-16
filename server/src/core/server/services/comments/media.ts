@@ -48,7 +48,7 @@ async function attachGiphyMedia(
       video: data.images.original.mp4,
     };
   } catch (err) {
-    throw new WrappedInternalError(err, "cannot attach Giphy Media");
+    throw new WrappedInternalError(err as Error, "cannot attach Giphy Media");
   }
 }
 
@@ -73,7 +73,10 @@ async function attachExternalMedia(
       height,
     };
   } catch (err) {
-    throw new WrappedInternalError(err, "cannot attach external media");
+    throw new WrappedInternalError(
+      err as Error,
+      "cannot attach external media"
+    );
   }
 }
 
@@ -129,7 +132,7 @@ async function attachOEmbedMedia(
       width,
     };
   } catch (err) {
-    throw new WrappedInternalError(err, "cannot attach oEmbed Media");
+    throw new WrappedInternalError(err as Error, "cannot attach oEmbed Media");
   }
 }
 

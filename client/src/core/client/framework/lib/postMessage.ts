@@ -23,7 +23,6 @@ export class PostMessageService {
 
   /**
    * Send a message over the postMessage API
-   *
    * @param name string name of the message
    * @param value string value of the message
    * @param target Window target window, e.g. window.opener
@@ -47,7 +46,6 @@ export class PostMessageService {
 
   /**
    * Subscribe to messages
-   *
    * @param name string Name of the message
    * @param handler PostMessageHandler
    */
@@ -63,7 +61,7 @@ export class PostMessageService {
       if (event.data.name !== name) {
         return;
       }
-      handler(event.data.value, event.data.name);
+      handler(event.data.value, event.data.name as string);
     };
     // Attach the listener to the target.
     this.window.addEventListener("message", listener);
