@@ -251,6 +251,7 @@ graphql`
     role
     badges
     createdAt
+    featuredCommenter
     status {
       current
       ban {
@@ -362,6 +363,7 @@ async function commit(
                   badges: viewer.badges,
                   ignoreable: false,
                   avatar: viewer.avatar,
+                  featuredCommenter: viewer.featuredCommenter,
                 },
                 body: input.body || "",
                 revision: {

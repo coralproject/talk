@@ -106,6 +106,12 @@ export const LINK_CLASSNAME = "coral-comment-content-link";
  */
 export const MAX_BIO_LENGTH = 100;
 
+export const MAX_DSA_LAW_BROKEN_LENGTH = 500;
+
+export const MAX_DSA_ADDITIONAL_INFO_LENGTH = 1000;
+
+export const MAX_DSA_ADDITIONAL_COMMENT_URL_LENGTH = 100;
+
 export const REDIRECT_TO_PARAM = "redirectTo";
 
 export const DEFAULT_AUTO_ARCHIVE_OLDER_THAN = ms("120 days");
@@ -152,6 +158,7 @@ export const PROTECTED_EMAIL_DOMAINS = new Set<string>([
   "live.no",
   "yahoo.no",
   "hotmail.no",
+  "rr.com",
 ]);
 
 export const FLAIR_BADGE_NAME_REGEX = "^[\\w.-]+$";

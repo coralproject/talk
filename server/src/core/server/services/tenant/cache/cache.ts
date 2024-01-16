@@ -201,6 +201,7 @@ export default class TenantCache {
   }
 
   /**
+   * @yields
    * Symbol.asyncIterator implements the asyncIterator interface for the
    * TenantCache. This allows you to use the TenantCache as a asyncIterator with
    * a `for await (const tenant of tenants) {}` pattern to iterate over all the

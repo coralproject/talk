@@ -36,6 +36,7 @@ import styles from "./SingleReportRoute.css";
 
 import NotFound from "../NotFound";
 import ChangeStatusModal from "./ChangeStatusModal";
+import RelatedReports from "./RelatedReports";
 import ReportedComment from "./ReportedComment";
 import ReportHistory from "./ReportHistory";
 import ReportMakeDecisionModal from "./ReportMakeDecisionModal";
@@ -192,13 +193,19 @@ const SingleReportRoute: FunctionComponent<Props> & {
                       uppercase={false}
                       onClick={() => onShowUserDrawer(dsaReport.reporter?.id)}
                     >
-                      <div>{dsaReport.reporter.username}</div>
+                      {dsaReport.reporter.username ? (
+                        <div>{dsaReport.reporter.username}</div>
+                      ) : (
+                        <Localized id="reports-singleReport-reporterNameNotAvailable">
+                          <div className={styles.data}>
+                            Reporter name not available
+                          </div>
+                        </Localized>
+                      )}
                     </Button>
                   ) : (
-                    <Localized id="reports-singleReport-reporterNameNotAvailable">
-                      <div className={styles.data}>
-                        Reporter name not available
-                      </div>
+                    <Localized id="reports-anonymous-user">
+                      <div className={styles.data}>Anonymous user</div>
                     </Localized>
                   )}
                 </Flex>
@@ -235,6 +242,7 @@ const SingleReportRoute: FunctionComponent<Props> & {
                 dsaReport={dsaReport}
                 onShowUserDrawer={onShowUserDrawer}
               />
+              <RelatedReports dsaReport={dsaReport} />
               {dsaReport.decision && (
                 <>
                   <Divider />
@@ -381,6 +389,7 @@ SingleReportRoute.routeConfig = createRouteConfig<
         ...ReportShareButton_dsaReport
         ...ReportMakeDecisionModal_dsaReport
         ...ReportedComment_dsaReport
+        ...RelatedReports_dsaReport
       }
     }
   `,

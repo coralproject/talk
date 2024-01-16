@@ -216,7 +216,7 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
       }
 
       // Extract the users clientID from the request.
-      const clientID: string = extractClientID(connectionParams);
+      const clientID: string | null = extractClientID(connectionParams);
       if (clientID) {
         opts.clientID = clientID;
       }

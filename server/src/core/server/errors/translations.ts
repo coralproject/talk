@@ -82,4 +82,6 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   UNABLE_TO_UPDATE_STORY_URL: "error-unableToUpdateStoryURL",
   DATA_CACHING_NOT_AVAILABLE: "error-dataCachingNotAvailable",
   INVALID_FLAIR_BADGE_NAME: "error-invalidFlairBadgeName",
+  DSA_REPORT_LAW_BROKEN_TOO_LONG: "error-dsaReportLawBrokenTooLong",
+  DSA_REPORT_ADDITIONAL_INFO_TOO_LONG: "error-dsaReportAdditionalInfoTooLong",
 };

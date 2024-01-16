@@ -366,6 +366,12 @@ type Flag {
   createdAt is when this flag was created.
   """
   createdAt: Time!
+
+  """
+  reportID is the id of the DSAReport that was created when the comment was flagged
+  as potentially containing illegal content. Only exists for illegal content flag type.
+  """
+  reportID: String
 }
 
 type FlagEdge {
@@ -1728,6 +1734,17 @@ type BadgeConfiguration {
 }
 
 """
+topCommenter specifies whether or not the feature is enabled to show that commenters
+with comments featured within the last 10 days are top commenters
+"""
+type TopCommenterConfiguration {
+  """
+  enabled is whether the Top commenter feature is enabled
+  """
+  enabled: Boolean
+}
+
+"""
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
 """
@@ -1754,6 +1771,7 @@ enum WEBHOOK_EVENT_NAME {
   STORY_CREATED
   COMMENT_CREATED
   COMMENT_REPLY_CREATED
+  COMMENT_LEFT_MODERATION_QUEUE
 }
 
 type WebhookEndpoint {
@@ -1946,6 +1964,36 @@ type RTEConfiguration {
   sarcasm when true turns on the sarcasm feature.
   """
   sarcasm: Boolean!
+}
+
+type TooManyPeriodsConfig {
+  """
+  enabled decides whether the too many periods config is enabled or not.
+  """
+  enabled: Boolean!
+}
+
+type PremoderateEmailAddressConfiguration {
+  """
+  tooManyPeriods is the configuration for premoderating emails
+  that have too many periods.
+  """
+  tooManyPeriods: TooManyPeriodsConfig
+}
+
+input TooManyPeriodsConfigInput {
+  """
+  enabled decides whether the too many periods config is enabled or not.
+  """
+  enabled: Boolean
+}
+
+input PremoderateEmailAddressConfigurationInput {
+  """
+  tooManyPeriods is the configuration for premoderating emails
+  that have too many periods.
+  """
+  tooManyPeriods: TooManyPeriodsConfigInput
 }
 
 enum DSA_METHOD_OF_REDRESS {
@@ -2165,6 +2213,12 @@ type Settings @cacheControl(maxAge: 30) {
   featuredBy: Boolean
 
   """
+  topCommenter specifies whether or not the feature is enabled to show that commenters
+  with comments featured within the last 10 days are top commenters
+  """
+  topCommenter: TopCommenterConfiguration
+
+  """
   staff specifies the configuration for the user badges assigned to users with
   any role above COMMENTER
   """
@@ -2286,6 +2340,12 @@ type Settings @cacheControl(maxAge: 30) {
   features and whether they are enabled.
   """
   dsa: DSAConfiguration!
+
+  """
+  premoderateEmailAddress is the configuration for finding specific email
+  addresses at sign up and premoderating them according to various rules.
+  """
+  premoderateEmailAddress: PremoderateEmailAddressConfiguration
 }
 
 ################################################################################
@@ -3213,6 +3273,13 @@ type User {
   bio: String
 
   """
+  premoderatedBecauseOfEmailAt is set when a user was set to pre-moderated
+  comments for having an email that was caught by the email pre-moderation
+  filter.
+  """
+  premoderatedBecauseOfEmailAt: Time @auth(roles: [MODERATOR, ADMIN])
+
+  """
   hasNewNotifications returns true if the user has received new notifications
   since they last viewed their notifications tab.
   """
@@ -3232,6 +3299,18 @@ type User {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+
+  """
+  lastFeaturedDate is when a user last had a comment featured.
+  This is used for the Top commenter badge feature.
+  """
+  lastFeaturedDate: Time
+
+  """
+  featuredCommenter is whether a user has had a comment featured within the
+  last 10 days or not
+  """
+  featuredCommenter: Boolean
 }
 
 """
@@ -3459,6 +3538,11 @@ type RejectionReason {
   detailedExplanation is any additional information the user wishes to provide.
   """
   detailedExplanation: String
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
 }
 
 type CommentModerationAction {
@@ -3488,12 +3572,17 @@ type CommentModerationAction {
   """
   reason is the reason the comment was rejected, if it was rejected
   """
-  reason: RejectionReason
+  rejectionReason: RejectionReason
 
   """
   createdAt is the time that the CommentModerationAction was created.
   """
   createdAt: Time!
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
 }
 
 type CommentModerationActionEdge {
@@ -3661,6 +3750,16 @@ type DSAReport {
   such as a note added, status changed, or decision made
   """
   lastUpdated: Time
+
+  """
+  relatedReports are DSAReports that share a submissionID and were submitted at the same time
+  in one illegal content report
+  """
+  relatedReports(
+    first: Int = 10 @constraint(max: 50)
+    orderBy: REPORT_SORT = CREATED_AT_DESC
+    after: Cursor
+  ): DSAReportsConnection!
 }
 
 type CommentRevisionPerspectiveMetadata {
@@ -4162,6 +4261,14 @@ type Comment @cacheControl(maxAge: 5) {
   """
   flags(first: Int = 10 @constraint(max: 50), after: Cursor): FlagsConnection!
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  illegalContent is the illegal content flags left by users.
+  """
+  illegalContent(
+    first: Int = 10 @constraint(max: 50)
+    after: Cursor
+  ): FlagsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
   viewerActionPresence stores the presence information for all the actions
@@ -4785,6 +4892,11 @@ type Notification {
   to DSA or moderation decisions.
   """
   decisionDetails: NotificationDecisionDetails
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
 
   """
   dsaReport is the details of the DSA Report related to the notification.
@@ -5906,6 +6018,17 @@ input ReactionConfigurationInput {
 }
 
 """
+topCommenter specifies whether or not the feature is enabled to show that commenters
+with comments featured within the last 10 days are top commenters
+"""
+input TopCommenterConfigurationInput {
+  """
+  enabled is whether the Top commenter feature is enabled
+  """
+  enabled: Boolean
+}
+
+"""
 BadgeConfigurationInput specifies the configuration for the staff badges
 assigned to users with any role above COMMENTER.
 """
@@ -6292,6 +6415,12 @@ input SettingsInput {
   featuredBy: Boolean
 
   """
+  topCommenter specifies whether or not the feature is enabled to show that commenters
+  with comments featured within the last 10 days are top commenters
+  """
+  topCommenter: TopCommenterConfigurationInput
+
+  """
   badges specifies the configuration for user badges assigned to users with
   any role above COMMENTER.
   """
@@ -6386,6 +6515,12 @@ input SettingsInput {
   reporting features.
   """
   dsa: DSAConfigurationInput
+
+  """
+  premoderateEmailAddress is the configuration for finding specific email
+  addresses at sign up and premoderating them according to various rules.
+  """
+  premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
 }
 
 """
@@ -6820,7 +6955,7 @@ input CreateDSAReportInput {
   """
   id of the user who submitted the DSAReport
   """
-  userID: ID!
+  userID: ID
 
   """
   lawBrokenDescription is the text entered by the submitting user to describe
@@ -7327,6 +7462,11 @@ input RejectCommentReasonInput {
   detailedExplanation is any additional information the user wishes to provide.
   """
   detailedExplanation: String
+
+  """
+  customReason is a reason provided for rejection when the Other rejection code is selected.
+  """
+  customReason: String
 }
 
 input RejectCommentInput {
@@ -8830,6 +8970,12 @@ input BanUserInput {
   whether or not to reject all the user's previous comments when banning them.
   """
   rejectExistingComments: Boolean
+
+  """
+  rejectionReason is the reason provided for why any existing comments are being
+  rejected if DSA is enabled
+  """
+  rejectionReason: RejectCommentReasonInput
 }
 
 type BanUserPayload {
@@ -8871,6 +9017,12 @@ input UpdateUserBanInput {
   on sites on which the user has been newly banned, if any.
   """
   rejectExistingComments: Boolean
+
+  """
+  rejectionReason is the reason provided for why any existing comments are being
+  rejected if DSA is enabled
+  """
+  rejectionReason: RejectCommentReasonInput
 
   """
   clientMutationID is required for relay support

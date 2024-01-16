@@ -51,6 +51,7 @@ import { NewCommentersConfiguration } from "./NewCommentersConfiguration";
 import { NotificationResolver as Notification } from "./Notification";
 import { NotificationDSAReportDetailsResolver as NotificationDSAReportDetails } from "./NotificationDSAReportDetails";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
+import { PremoderateEmailAddressConfiguration } from "./PremoderateEmailAddress";
 import { PremodStatus } from "./PremodStatus";
 import { PremodStatusHistory } from "./PremodStatusHistory";
 import { Profile } from "./Profile";
@@ -171,6 +172,7 @@ const Resolvers: GQLResolver = {
   YouTubeMediaConfiguration,
   LocalAuthIntegration,
   AuthenticationTargetFilter,
+  PremoderateEmailAddressConfiguration,
   Notification,
   NotificationDSAReportDetails,
   DSAConfiguration,

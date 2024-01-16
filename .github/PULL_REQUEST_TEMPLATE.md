@@ -37,8 +37,8 @@ Any related Github issue should be linked by adding its URL to this section.
 <!--
 
 In this section, you should describe any changes to be made to the GraphQL
-schema file (located https://github.com/coralproject/talk/blob/main/src/core/server/graph/schema/schema.graphql) or any
-database model (located as types in the https://github.com/coralproject/talk/blob/main/src/core/server/models directory).
+schema file (located https://github.com/coralproject/talk/blob/main/server/src/core/server/graph/schema/schema.graphql) or any
+database model (located as types in the https://github.com/coralproject/talk/tree/main/server/src/core/server/models directory).
 
 If no changes were added to the GraphQL/Database Schema as a part of this PR,
 simply write "None".
@@ -70,7 +70,7 @@ verify features introduced or bugs fixed in this PR.
 
  -->
 
-## Where any tests migrated to React Testing Library?
+## Were any tests migrated to React Testing Library?
 
 <!--
 In this section, you should list the paths to and test names of any tests that were migrated to RTL.

@@ -13,21 +13,26 @@ import styles from "./DetailedExplanation.css";
 import commonStyles from "./ModerationReason.css";
 
 export interface Props {
-  onChange: (value: string) => void;
+  onChangeExplanation: (value: string) => void;
+  onChangeCustomReason: (value: string) => void;
   code: GQLREJECTION_REASON_CODE;
-  value: string | null;
+  explanationValue: string | null;
+  customReasonValue: string | null;
   onBack: () => void;
+  linkClassName?: string;
 }
 
-const AddExplanationButton: FunctionComponent<{ onClick: () => void }> = ({
-  onClick,
-}) => (
+const AddExplanationButton: FunctionComponent<{
+  onClick: () => void;
+  linkClassName?: string;
+}> = ({ onClick, linkClassName }) => (
   <Localized id="common-moderationReason-addExplanation">
     <Button
       onClick={onClick}
-      className={commonStyles.optionAction}
-      variant="none"
-      color="success"
+      className={cn(linkClassName, commonStyles.optionAction)}
+      variant="flat"
+      color="primary"
+      underline
     >
       + Add explanation
     </Button>
@@ -36,19 +41,26 @@ const AddExplanationButton: FunctionComponent<{ onClick: () => void }> = ({
 
 const DetailedExplanation: FunctionComponent<Props> = ({
   code,
-  value,
-  onChange,
+  explanationValue,
+  onChangeExplanation,
   onBack,
+  customReasonValue,
+  onChangeCustomReason,
+  linkClassName,
 }) => {
-  const [showAddExplanation, setShowAddExplanation] = useState(
-    !!(code === GQLREJECTION_REASON_CODE.OTHER)
-  );
+  const [showAddExplanation, setShowAddExplanation] = useState(false);
 
   return (
     <>
       <Localized id="common-moderationReason-changeReason">
-        <Button className={styles.changeReason} variant="none" onClick={onBack}>
-          &lt; Change Reason
+        <Button
+          className={cn(linkClassName, styles.changeReason)}
+          variant="flat"
+          onClick={onBack}
+          color="primary"
+          underline
+        >
+          &lt; Change reason
         </Button>
       </Localized>
 
@@ -60,13 +72,36 @@ const DetailedExplanation: FunctionComponent<Props> = ({
         <div className={styles.code}>{unsnake(code)}</div>
       </Localized>
 
+      {code === GQLREJECTION_REASON_CODE.OTHER && (
+        <>
+          <Localized id="common-moderationReason-customReason">
+            <Label
+              className={cn(commonStyles.sectionLabel, styles.explanationLabel)}
+            >
+              Custom reason (required)
+            </Label>
+          </Localized>
+          <Localized
+            id="common-moderationReason-customReason-placeholder"
+            attrs={{ placeholder: true }}
+          >
+            <TextArea
+              className={styles.detailedExplanation}
+              placeholder="Add your reason"
+              value={customReasonValue || undefined}
+              onChange={(e) => onChangeCustomReason(e.target.value)}
+            />
+          </Localized>
+        </>
+      )}
+
       {showAddExplanation ? (
         <>
           <Localized id="common-moderationReason-detailedExplanation">
             <Label
               className={cn(commonStyles.sectionLabel, styles.explanationLabel)}
             >
-              Explanation
+              Detailed explanation
             </Label>
           </Localized>
 
@@ -78,13 +113,16 @@ const DetailedExplanation: FunctionComponent<Props> = ({
               className={styles.detailedExplanation}
               placeholder="Add your explanation"
               data-testid="moderation-reason-detailed-explanation"
-              value={value || undefined}
-              onChange={(e) => onChange(e.target.value)}
+              value={explanationValue || undefined}
+              onChange={(e) => onChangeExplanation(e.target.value)}
             />
           </Localized>
         </>
       ) : (
-        <AddExplanationButton onClick={() => setShowAddExplanation(true)} />
+        <AddExplanationButton
+          onClick={() => setShowAddExplanation(true)}
+          linkClassName={linkClassName}
+        />
       )}
     </>
   );

@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import { useRouter } from "found";
 import React, { useCallback } from "react";
 import { graphql } from "react-relay";
@@ -89,7 +90,19 @@ const ReportRowContainer: React.FunctionComponent<Props> = ({ dsaReport }) => {
           <div>-</div>
         )}
       </TableCell>
-      <TableCell>{dsaReport.reporter?.username}</TableCell>
+      <TableCell>
+        {dsaReport.reporter ? (
+          dsaReport.reporter.username ?? (
+            <Localized id="reports-username-not-available">
+              <span>Username not available</span>
+            </Localized>
+          )
+        ) : (
+          <Localized id="reports-anonymous-user">
+            <span>Anonymous user</span>
+          </Localized>
+        )}
+      </TableCell>
       <TableCell>{dsaReport.referenceID}</TableCell>
       <TableCell>
         <div className={styles.lawBrokenCell}>

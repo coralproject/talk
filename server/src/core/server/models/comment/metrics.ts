@@ -119,7 +119,7 @@ export async function retrieveTodayCommentMetrics(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const isSiteMod = isSiteModerator(moderator);
     if (isSiteMod && !moderator.moderationScopes.siteIDs?.includes(siteID)) {
-      const count = moderatorComments.get(moderator.id as string)?.size ?? 0;
+      const count = moderatorComments.get(moderator.id)?.size ?? 0;
       siteModsNotResponsibleForSiteCommentCount += count;
     }
   }
@@ -183,7 +183,7 @@ export async function retrieveAllTimeStaffCommentMetrics(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const isSiteMod = isSiteModerator(moderator);
     if (isSiteMod && !moderator.moderationScopes.siteIDs?.includes(siteID)) {
-      const count = moderatorComments.get(moderator.id as string)?.size ?? 0;
+      const count = moderatorComments.get(moderator.id)?.size ?? 0;
       siteModsNotResponsibleForSiteCommentCount += count;
     }
   }

@@ -79,6 +79,9 @@ comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
   .title = Toggle featured comments tooltip
 
+comment-top-commenter-tooltip-header = <icon></icon> Top commenter
+comment-top-commenter-tooltip-details = Has been featured in the last 10 days
+
 comments-collapse-toggle-with-username =
   .aria-label = Hide comment by { $username } and its replies
 comments-collapse-toggle-without-username =
@@ -168,12 +171,13 @@ comments-permalinkView-reportIllegalContent-submit = Submit report
 comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = Comment not found. Please enter a valid comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = This is not a valid URL. Please enter a valid comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = You've already added this comment to this report. Please add a unique comment URL
+omments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Additional comment URL length exceeds maximum.
 comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing illegal content. You may only report a comment for this reason one time.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
 comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
   found to contain illegal content, it will be removed from the site and further action may be taken against the commenter.
 comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Thank you for submitting this report
-comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We apologize, but we were unable to submit report for the following:
+comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We were unable to submit your report for the following reason(s):
 comments-permalinkView-reportIllegalContent-confirmation-returnToComments = You may now close this tab to return to the comments
 
 comments-rte-bold =
@@ -749,6 +753,7 @@ comments-reportPopover-receivedMessage =
 comments-reportPopover-dismiss = Dismiss
 
 comments-reportForm-reportIllegalContent-button = This comment contains illegal content
+comments-reportForm-signInToReport = You have to sign in to report a comment
 
 ## Archived Report Comment Popover
 
@@ -1063,17 +1068,18 @@ notifications-dsaReportLegality-legal = Legal content
 notifications-dsaReportLegality-illegal = Illegal content
 notifications-dsaReportLegality-unknown = Unknown
 
-notifications-rejectionReason-offensive = Offensive
-notifications-rejectionReason-abusive = Abusive
-notifications-rejectionReason-spam = Spam
+notifications-rejectionReason-offensive = This comment contains offensive language
+notifications-rejectionReason-abusive = This comment contains abusive language
+notifications-rejectionReason-spam = This comment is spam
 notifications-rejectionReason-bannedWord = Banned word
-notifications-rejectionReason-ad = Ad
-notifications-rejectionReason-illegalContent = Illegal content
-notifications-rejectionReason-harassmentBullying = Harassment or bullying
-notifications-rejectionReason-misinformation = Misinformation
-notifications-rejectionReason-hateSpeech = Hate speech
-notifications-rejectionReason-irrelevant = Irrelevant content
+notifications-rejectionReason-ad = This comment is an advertisement
+notifications-rejectionReason-illegalContent = This comment contains illegal content
+notifications-rejectionReason-harassmentBullying = This comment contains harassing or bullying language
+notifications-rejectionReason-misinformation = This comment contains misinformation
+notifications-rejectionReason-hateSpeech = This comment contains hate speech
+notifications-rejectionReason-irrelevant = This comment is irrelevant to the discussion
 notifications-rejectionReason-other = Other
+notifications-rejectionReason-other-customReason = Other - { $customReason }
 notifications-rejectionReason-unknown = Unknown
 
 notifications-reportDecisionMade-legal =

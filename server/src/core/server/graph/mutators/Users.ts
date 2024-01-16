@@ -189,7 +189,7 @@ export const Users = (ctx: GraphContext) => ({
       input.userID,
       ctx.tenant.id,
       ctx.now,
-      ctx.tenant.dsa.enabled
+      ctx.tenant.dsa?.enabled
     );
   },
   cancelAccountDeletion: async (
@@ -336,6 +336,7 @@ export const Users = (ctx: GraphContext) => ({
     message,
     rejectExistingComments = false,
     siteIDs,
+    rejectionReason,
   }: GQLBanUserInput) =>
     ban(
       ctx.mongo,
@@ -346,9 +347,9 @@ export const Users = (ctx: GraphContext) => ({
       ctx.user!,
       userID,
       message,
-      ctx.i18n,
       rejectExistingComments,
       siteIDs,
+      rejectionReason,
       ctx.now
     ),
   updateUserBan:
@@ -358,6 +359,7 @@ export const Users = (ctx: GraphContext) => ({
       rejectExistingComments = false,
       banSiteIDs,
       unbanSiteIDs,
+      rejectionReason,
     }: GQLUpdateUserBanInput) =>
     async () =>
       updateUserBan(
@@ -366,13 +368,13 @@ export const Users = (ctx: GraphContext) => ({
         ctx.mailerQueue,
         ctx.rejectorQueue,
         ctx.tenant,
-        ctx.i18n,
         ctx.user!,
         userID,
         message,
         rejectExistingComments,
         banSiteIDs,
         unbanSiteIDs,
+        rejectionReason,
         ctx.now
       ),
   warn: async (input: GQLWarnUserInput) =>

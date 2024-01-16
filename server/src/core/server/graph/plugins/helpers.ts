@@ -98,7 +98,7 @@ function hoistCoralErrorExtensions(
   }
 
   // Get the translation bundle.
-  const bundle = ctx.i18n.getBundle(ctx.lang);
+  const bundle = ctx.i18n.getBundle(ctx.tenant ? ctx.tenant.locale : ctx.lang);
 
   // Translate the extensions.
   const extensions = originalError.serializeExtensions(bundle, ctx.id);

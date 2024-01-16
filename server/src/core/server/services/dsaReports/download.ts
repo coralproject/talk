@@ -59,7 +59,10 @@ export async function sendReportDownload(
     name: `report-${report.referenceID}-${Math.abs(now.getTime())}.csv`,
   });
 
-  const reporter = await retrieveUser(mongo, tenant.id, report.userID);
+  let reporter = null;
+  if (report.userID) {
+    reporter = await retrieveUser(mongo, tenant.id, report.userID);
+  }
 
   let reportedComment = await retrieveComment(
     mongo.comments(),
@@ -90,50 +93,69 @@ export async function sendReportDownload(
   }
 
   csv.write([
-    translate(bundle, "Timestamp", "dsaReportCSV-timestamp"),
+    translate(bundle, "Timestamp (UTC)", "dsaReportCSV-timestamp"),
     translate(bundle, "User", "dsaReportCSV-user"),
     translate(bundle, "Action", "dsaReportCSV-action"),
     translate(bundle, "Details", "dsaReportCSV-details"),
   ]);
+
+  // Set up default report info cell
+  let reportInfo = `${translate(
+    bundle,
+    "Reference ID",
+    "dsaReportCSV-referenceID"
+  )}: ${report.referenceID}\n${translate(
+    bundle,
+    "Legal detail",
+    "dsaReportCSV-legalDetail"
+  )}: ${report.lawBrokenDescription}\n${translate(
+    bundle,
+    "Additional info",
+    "dsaReportCSV-additionalInfo"
+  )}: ${report.additionalInformation}`;
+
+  // Add reported comment info to report info cell if available
   if (reportedComment && report.status !== GQLDSAReportStatus.VOID) {
-    csv.write([
-      formatter.format(report.createdAt),
-      reporter?.username,
-      translate(bundle, "Report submitted", "dsaReportCSV-reportSubmitted"),
-      `${translate(bundle, "Reference ID", "dsaReportCSV-referenceID")}: ${
-        report.referenceID
-      }\n${translate(bundle, "Legal detail", "dsaReportCSV-legalDetail")}: ${
-        report.lawBrokenDescription
-      }\n${translate(
+    reportInfo += `\n${translate(
+      bundle,
+      "Comment author",
+      "dsaReportCSV-commentAuthor"
+    )}: ${reportedCommentAuthorUsername}\n${translate(
+      bundle,
+      "Comment body",
+      "dsaReportCSV-commentBody"
+    )}: ${reportedComment.revisions[0].body}\n${translate(
+      bundle,
+      "Comment ID",
+      "dsaReportCSV-commentID"
+    )}: ${reportedComment.id}`;
+
+    // Add in comment media url if present
+    const commentMediaUrl = reportedComment.revisions[0].media?.url;
+    if (commentMediaUrl) {
+      reportInfo += `\n${translate(
         bundle,
-        "Additional info",
-        "dsaReportCSV-additionalInfo"
-      )}: ${report.additionalInformation}\n${translate(
-        bundle,
-        "Comment author",
-        "dsaReportCSV-commentAuthor"
-      )}: ${reportedCommentAuthorUsername}\nComment body: ${
-        reportedComment.revisions[0].body
-      }\n${translate(bundle, "Comment ID", "dsaReportCSV-commentID")}: ${
-        reportedComment.id
-      }`,
-    ]);
-  } else {
-    csv.write([
-      formatter.format(report.createdAt),
-      reporter?.username,
-      translate(bundle, "Report submitted", "dsaReportCSV-reportSubmitted"),
-      `${translate(bundle, "Reference ID", "dsaReportCSV-referenceID")}: ${
-        report.referenceID
-      }\n${translate(bundle, "Legal detail", "dsaReportCSV-legalDetail")}: ${
-        report.lawBrokenDescription
-      }\n${translate(
-        bundle,
-        "Additional info",
-        "dsaReportCSV-additionalInfo"
-      )}: ${report.additionalInformation}`,
-    ]);
+        "Comment media url",
+        "dsaReportCSV-commentMediaUrl"
+      )}: ${commentMediaUrl}`;
+    }
   }
+
+  // Write report info cell data to CSV
+  csv.write([
+    formatter.format(report.createdAt),
+    reporter
+      ? reporter.username
+        ? reporter.username
+        : translate(
+            bundle,
+            "Username not available",
+            "dsaReportCSV-usernameNotAvailable"
+          )
+      : translate(bundle, "Anonymous user", "dsaReportCSV-anonymousUser"),
+    translate(bundle, "Report submitted", "dsaReportCSV-reportSubmitted"),
+    reportInfo,
+  ]);
 
   if (report.history) {
     const getStatusText = (status: GQLDSAReportStatus) => {

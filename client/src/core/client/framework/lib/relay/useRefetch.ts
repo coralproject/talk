@@ -16,9 +16,10 @@ export default function useRefetch<V = Variables>(
   relay: RelayPaginationProp,
   totalCount: number,
   variables: Omit<V, "count" | "cursor">
-): [RefetchFunction, IsRefetching] {
+): [RefetchFunction, IsRefetching, Error | undefined] {
   const [manualRefetchCount, setManualRefetchCount] = useState(0);
   const [refetching, setRefetching] = useState(false);
+  const [err, setErr] = useState<Error | undefined>();
   useEffectWhenChanged(() => {
     setRefetching(true);
     const disposable = relay.refetchConnection(
@@ -26,6 +27,7 @@ export default function useRefetch<V = Variables>(
       (error) => {
         setRefetching(false);
         if (error) {
+          setErr(error);
           // eslint-disable-next-line no-console
           console.error(error);
         }
@@ -45,5 +47,5 @@ export default function useRefetch<V = Variables>(
       return a;
     }, []),
   ]);
-  return [() => setManualRefetchCount(manualRefetchCount + 1), refetching];
+  return [() => setManualRefetchCount(manualRefetchCount + 1), refetching, err];
 }

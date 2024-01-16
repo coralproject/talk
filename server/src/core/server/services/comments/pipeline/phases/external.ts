@@ -285,7 +285,7 @@ export const external: IntermediateModerationPhase = async (ctx) => {
     !ctx.tenant.integrations.external ||
     ctx.tenant.integrations.external.phases.length === 0 ||
     // (marcushaddon) DSA and external moderation are mutually exclusive for the time being
-    ctx.tenant.dsa.enabled
+    ctx.tenant.dsa?.enabled
   ) {
     return;
   }

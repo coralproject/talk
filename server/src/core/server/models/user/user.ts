@@ -622,9 +622,17 @@ export interface User extends TenantResource {
    * in their notification tab.
    */
   lastSeenNotificationDate?: Date | null;
+
+  premoderatedBecauseOfEmailAt?: Date;
+
+  /**
+   * lastFeaturedDate is when the user last had a comment featured
+   * used for the Top commenter feature
+   */
+  lastFeaturedDate?: Date | null;
 }
 
-function hashPassword(password: string): Promise<string> {
+export function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
 
@@ -647,7 +655,7 @@ export interface FindOrCreateUserInput {
  * @param input the input for creating a User
  * @param now the current date
  */
-async function findOrCreateUserInput(
+export async function findOrCreateUserInput(
   tenantID: string,
   { id = uuid(), profile, email, ...input }: FindOrCreateUserInput,
   now: Date
@@ -1815,6 +1823,12 @@ async function retrieveConnection(
   return resolveConnection(query, input, (user) => user.createdAt);
 }
 
+// eslint-disable-next-line no-shadow
+export enum PremodUserReason {
+  None = 0,
+  EmailPremodFilter,
+}
+
 /**
  * premodUser will set a user to mandatory premod.
  * @param mongo the mongo database handle
@@ -1828,7 +1842,8 @@ export async function premodUser(
   tenantID: string,
   id: string,
   createdBy?: string,
-  now = new Date()
+  now = new Date(),
+  reason = PremodUserReason.None
 ) {
   // Create the new ban.
   const premodStatusHistory: PremodStatusHistory = {
@@ -1836,6 +1851,14 @@ export async function premodUser(
     createdBy,
     createdAt: now,
   };
+
+  const set: any = {
+    "status.premod.active": true,
+  };
+
+  if (reason === PremodUserReason.EmailPremodFilter) {
+    set.premoderatedBecauseOfEmailAt = now;
+  }
 
   // Try to update the user if the user isn't already banned.
   const result = await mongo.users().findOneAndUpdate(
@@ -1847,9 +1870,7 @@ export async function premodUser(
       },
     },
     {
-      $set: {
-        "status.premod.active": true,
-      },
+      $set: set,
       $push: {
         "status.premod.history": premodStatusHistory,
       },
@@ -3435,3 +3456,29 @@ export const updateUserCommentCounts = (
   id: string,
   commentCounts: DeepPartial<UserCommentCounts>
 ) => updateRelatedCommentCounts(mongo.users(), tenantID, id, commentCounts);
+
+export const updateLastFeaturedDate = async (
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  featuredDate: Date | null = new Date()
+) => {
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $set: {
+        lastFeaturedDate: featuredDate,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    throw new UserNotFoundError(userID);
+  }
+  return result.value;
+};

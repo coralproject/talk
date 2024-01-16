@@ -131,6 +131,11 @@ it("post a reply", async () => {
       within(commentReplyList).getByText("(from server)", { exact: false })
     );
   });
+
+  const inReplyTo = within(commentReplyList).getByText("In reply to", {
+    exact: false,
+  });
+  expect(inReplyTo).toBeDefined();
 });
 
 it("post a reply and handle non-visible comment state", async () => {
@@ -329,7 +334,7 @@ it("handle disabled commenting error", async () => {
 it("handle story closed error", async () => {
   await act(async () => {
     let returnStory = stories[0];
-    const { rte, form } = await createTestRenderer(
+    const { rte, form, replyButton } = await createTestRenderer(
       {
         Mutation: {
           createCommentReply: sinon.stub().callsFake(() => {
@@ -353,5 +358,6 @@ it("handle story closed error", async () => {
     returnStory = { ...stories[0], isClosed: true };
 
     await waitForElement(() => within(form).getByText("Story is closed"));
+    expect(replyButton.props.disabled).toBe(true);
   });
 });

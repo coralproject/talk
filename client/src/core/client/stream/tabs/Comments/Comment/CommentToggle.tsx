@@ -34,7 +34,7 @@ const CommentToggle: FunctionComponent<Props> = (props) => {
     <Localized
       id={ariaLocalizationId}
       attrs={{ "aria-label": true }}
-      vars={{ username: props.username }}
+      vars={{ username: props.username ?? "" }}
     >
       <BaseButton
         onClick={props.toggleCollapsed}

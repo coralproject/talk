@@ -2,6 +2,7 @@ import {
   GQLAuth,
   GQLAuthenticationTargetFilter,
   GQLCOMMENT_BODY_FORMAT,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLEmailConfiguration,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
@@ -287,10 +288,16 @@ export interface StoryConfiguration {
   disableLazy: boolean;
 }
 
+// eslint-disable-next-line no-shadow
+export enum NewUserModeration {
+  BAN = "BAN",
+  PREMOD = "PREMOD",
+}
+
 export interface EmailDomain {
   id: string;
   domain: string;
-  newUserModeration: "BAN" | "PREMOD";
+  newUserModeration: NewUserModeration;
 }
 
 export interface FlairBadge {
@@ -301,6 +308,16 @@ export interface FlairBadge {
 export interface FlairBadgeConfig {
   flairBadgesEnabled?: boolean;
   badges?: FlairBadge[];
+}
+
+export interface TopCommenterConfig {
+  enabled?: boolean;
+}
+
+export interface PremoderateEmailAddressConfig {
+  tooManyPeriods?: {
+    enabled?: boolean;
+  };
 }
 
 export type Settings = GlobalModerationSettings &
@@ -411,6 +428,14 @@ export type Settings = GlobalModerationSettings &
     forReviewQueue?: boolean;
 
     flairBadges?: FlairBadgeConfig;
+
+    premoderateEmailAddress?: PremoderateEmailAddressConfig;
+
+    /**
+     * topCommenter specifies whether or not the feature is enabled to show that commenters
+     * with comments featured within the last 10 days are top commenters
+     */
+    topCommenter?: TopCommenterConfig;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {
@@ -421,8 +446,14 @@ export const defaultRTEConfiguration: RTEConfiguration = {
 
 export interface DSAConfiguration {
   enabled: boolean;
+  methodOfRedress: {
+    method: GQLDSA_METHOD_OF_REDRESS;
+  };
 }
 
 export const defaultDSAConfiguration: DSAConfiguration = {
   enabled: false,
+  methodOfRedress: {
+    method: GQLDSA_METHOD_OF_REDRESS.NONE,
+  },
 };
