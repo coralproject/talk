@@ -122,7 +122,10 @@ const ReportCommentForm: FunctionComponent<Props> = ({
           </Localized>
           <HorizontalGutter>
             <Localized id="comments-reportForm-signInToReport">
-              <div>You have to sign in to report a comment</div>
+              <div>
+                You have to sign in to report a comment that violates our
+                guidelines
+              </div>
             </Localized>
             <IllegalContentLink reportLink={reportLink} />
           </HorizontalGutter>
