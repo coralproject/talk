@@ -230,7 +230,7 @@ it("can report illegal content when not signed in", async () => {
     "https://www.test.com/story-0?commentID=comment-0&view=illegalContentReport"
   );
   const signInToReport = within(form).getByText(
-    "You have to sign in to report a comment"
+    "You have to sign in to report a comment that violates our guidelines"
   );
   expect(signInToReport).toBeVisible();
 });

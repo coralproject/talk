@@ -120,7 +120,8 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
                               .topCommenterStarTooltipDetails
                           }
                         >
-                          Has been featured in the last 10 days
+                          One of their comments has been featured in the last 10
+                          days
                         </span>
                       </Localized>
                     </>

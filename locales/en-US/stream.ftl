@@ -80,7 +80,7 @@ comments-featuredCommentTooltip-toggleButton =
   .title = Toggle featured comments tooltip
 
 comment-top-commenter-tooltip-header = <icon></icon> Top commenter
-comment-top-commenter-tooltip-details = Has been featured in the last 10 days
+comment-top-commenter-tooltip-details = One of their comments has been featured in the last 10 days
 
 comments-collapse-toggle-with-username =
   .aria-label = Hide comment by { $username } and its replies
@@ -753,7 +753,7 @@ comments-reportPopover-receivedMessage =
 comments-reportPopover-dismiss = Dismiss
 
 comments-reportForm-reportIllegalContent-button = This comment contains illegal content
-comments-reportForm-signInToReport = You have to sign in to report a comment
+comments-reportForm-signInToReport = You have to sign in to report a comment that violates our guidelines
 
 ## Archived Report Comment Popover
 

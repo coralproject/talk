@@ -1074,7 +1074,7 @@ moderate-decisionDetails-rejected = Rejected
 moderate-decisionDetails-reasonLabel = Reason
 moderate-decisionDetails-lawBrokenLabel = Law broken
 moderate-decisionDetails-customReasonLabel = Custom reason
-moderate-decisionDetails-detailedExplanationLabel = Detailed explanation
+moderate-decisionDetails-detailedExplanationLabel = Detailed explanation (shared with commenter)
 
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
