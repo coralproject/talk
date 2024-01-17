@@ -274,10 +274,13 @@ export async function createDSAReport(
 
   // check if there's already a dsareport submitted by this user for this comment
   // and return a duplicate error if so
-  const alreadyExistingReport = await mongo.dsaReports().findOne(filter);
+  // only check if there's a userID so we don't throw on anonymous reports
+  if (userID) {
+    const alreadyExistingReport = await mongo.dsaReports().findOne(filter);
 
-  if (alreadyExistingReport) {
-    throw new DuplicateDSAReportError(alreadyExistingReport.id);
+    if (alreadyExistingReport) {
+      throw new DuplicateDSAReportError(alreadyExistingReport.id);
+    }
   }
 
   await mongo.dsaReports().insertOne(report);
