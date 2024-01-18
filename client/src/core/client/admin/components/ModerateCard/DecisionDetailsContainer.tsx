@@ -62,9 +62,7 @@ const DecisionDetailsContainer: FunctionComponent<Props> = ({ comment }) => {
       {rejectionReason?.detailedExplanation && (
         <Flex direction="column">
           <Localized id="moderate-decisionDetails-detailedExplanationLabel">
-            <div className={styles.label}>
-              Detailed explanation (shared with commenter)
-            </div>
+            <div className={styles.label}>Detailed explanation</div>
           </Localized>
           <div className={styles.info}>
             {rejectionReason?.detailedExplanation}
