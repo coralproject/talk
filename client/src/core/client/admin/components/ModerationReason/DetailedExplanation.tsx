@@ -101,7 +101,7 @@ const DetailedExplanation: FunctionComponent<Props> = ({
             <Label
               className={cn(commonStyles.sectionLabel, styles.explanationLabel)}
             >
-              Detailed explanation
+              Detailed explanation (shared with commenter)
             </Label>
           </Localized>
 
