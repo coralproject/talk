@@ -163,6 +163,7 @@ const clientHandler =
     defaultLocale,
     template: viewTemplate = "client",
     templateVariables = {},
+    config,
   }: ClientTargetHandlerOptions): RequestHandler =>
   async (req, res, next) => {
     // Grab the locale code from the tenant configuration, if available.
@@ -171,6 +172,11 @@ const clientHandler =
     if (req.coral.tenant) {
       locale = req.coral.tenant.locale;
       rootURL = `${req.protocol}://${req.coral.tenant?.domain}`;
+    }
+
+    // this supports local wordpress plugin development
+    if (config.get("env") === "development" && req.query.rootURL) {
+      rootURL = req.query.rootURL;
     }
 
     const entrypoint = await entrypointLoader();
