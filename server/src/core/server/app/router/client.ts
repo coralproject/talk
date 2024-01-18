@@ -175,8 +175,9 @@ const clientHandler =
     }
 
     // this supports local wordpress plugin development
-    if (config.get("env") === "development" && req.query.rootURL) {
-      rootURL = req.query.rootURL;
+    if (config.get("env") === "development") {
+      const port = config.get("port");
+      rootURL = `${req.protocol}://${req.coral.tenant?.domain}:${port}`;
     }
 
     const entrypoint = await entrypointLoader();
