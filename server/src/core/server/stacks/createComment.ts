@@ -66,6 +66,7 @@ import { Request } from "coral-server/types/express";
 import {
   GQLCOMMENT_STATUS,
   GQLFEATURE_FLAG,
+  GQLNOTIFICATION_TYPE,
   GQLSTORY_MODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
@@ -427,6 +428,15 @@ export default async function create(
       )) ?? null;
 
     log.trace("pushed child comment id onto parent");
+
+    if (parent) {
+      await notifications.create(tenant.id, tenant.locale, {
+        targetUserID: parent.authorID!,
+        comment: parent,
+        reply: comment,
+        type: GQLNOTIFICATION_TYPE.REPLY,
+      });
+    }
   }
 
   if (result.commentActions.length > 0) {

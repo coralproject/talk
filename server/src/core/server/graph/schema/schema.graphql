@@ -5190,6 +5190,9 @@ type Query {
     first: Int = 10 @constraint(max: 50)
     after: Cursor
   ): NotificationsConnection!
+
+  notificationCount(userID: ID!): Int
+    @auth(userIDField: "userID", roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################

@@ -97,4 +97,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
 
     return connection;
   },
+  notificationCount: async (source, { userID }, ctx) => {
+    return ctx.notifications.retrieveCount(ctx.tenant.id, userID);
+  },
 };

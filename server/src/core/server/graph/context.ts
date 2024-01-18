@@ -157,6 +157,7 @@ export default class GraphContext {
 
     this.notifications = new InternalNotificationContext(
       this.mongo,
+      this.redis,
       this.i18n,
       this.logger
     );

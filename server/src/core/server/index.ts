@@ -266,6 +266,7 @@ class Server {
       signingConfig: this.signingConfig,
       notifications: new InternalNotificationContext(
         this.mongo,
+        this.redis,
         this.i18n,
         logger
       ),
