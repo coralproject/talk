@@ -162,7 +162,9 @@ export class InternalNotificationContext {
       this.logCreateNotificationError(tenantID, input);
     }
 
-    await this.incrementCountForUser(tenantID, targetUserID);
+    if (result.notification && result.attempted) {
+      await this.incrementCountForUser(tenantID, targetUserID);
+    }
   }
 
   public async incrementCountForUser(tenantID: string, userID: string) {
