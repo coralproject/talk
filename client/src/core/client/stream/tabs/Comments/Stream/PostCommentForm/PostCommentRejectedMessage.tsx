@@ -20,7 +20,10 @@ const PostCommentRejected: FunctionComponent<PostCommentRejectedProps> = (
       icon={<SvgIcon Icon={AlertCircleIcon} />}
       title={
         <Localized id="comments-submitStatus-submittedAndRejected">
-          <div>This comment has been rejected for violating our guidelines</div>
+          <div>
+            This comment has been rejected for language that violates our
+            guidelines
+          </div>
         </Localized>
       }
       onClose={props.onDismiss}

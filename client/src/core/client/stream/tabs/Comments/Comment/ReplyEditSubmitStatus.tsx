@@ -33,7 +33,8 @@ function getMessage(
           title={
             <Localized id="comments-submitStatus-submittedAndRejected">
               <span>
-                This comment has been rejected for violating our guidelines
+                This comment has been rejected for language that violates our
+                guidelines
               </span>
             </Localized>
           }
