@@ -42,7 +42,7 @@ import {
 } from "coral-server/models/story";
 import { ensureFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { isSiteBanned } from "coral-server/models/user/helpers";
+import { isSiteBanned, roleIsStaff } from "coral-server/models/user/helpers";
 import { moderate, removeTag } from "coral-server/services/comments";
 import {
   addCommentActions,
@@ -430,11 +430,14 @@ export default async function create(
     log.trace("pushed child comment id onto parent");
 
     if (parent) {
+      const type = roleIsStaff(author.role)
+        ? GQLNOTIFICATION_TYPE.REPLY_STAFF
+        : GQLNOTIFICATION_TYPE.REPLY;
       await notifications.create(tenant.id, tenant.locale, {
         targetUserID: parent.authorID!,
         comment: parent,
         reply: comment,
-        type: GQLNOTIFICATION_TYPE.REPLY,
+        type,
       });
     }
   }

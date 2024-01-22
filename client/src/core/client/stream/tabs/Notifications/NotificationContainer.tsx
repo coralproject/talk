@@ -9,6 +9,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
 import {
   CheckCircleIcon,
+  EmailActionReplyIcon,
   LegalHammerIcon,
   QuestionCircleIcon,
   RejectCommentBoxIcon,
@@ -48,7 +49,12 @@ const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
   if (type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE) {
     return LegalHammerIcon;
   }
-
+  if (type === GQLNOTIFICATION_TYPE.REPLY) {
+    return EmailActionReplyIcon;
+  }
+  if (type === GQLNOTIFICATION_TYPE.REPLY_STAFF) {
+    return EmailActionReplyIcon;
+  }
   return QuestionCircleIcon;
 };
 
@@ -86,6 +92,20 @@ const getTitle = (bundles: FluentBundle[], type: NOTIFICATION_TYPE | null) => {
       bundles,
       "notifications-yourIllegalContentReportHasBeenReviewed",
       "Your illegal content report has been reviewed"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.REPLY) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasReceivedAReply",
+      "Your comment has received a reply"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.REPLY_STAFF) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasReceivedAStaffReply",
+      "Your comment has received a reply from a staff member"
     );
   }
 
