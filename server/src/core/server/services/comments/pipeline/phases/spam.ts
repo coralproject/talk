@@ -1,4 +1,4 @@
-import { Client } from "akismet-api";
+import { AkismetClient } from "akismet-api";
 
 import { SpamCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
@@ -6,6 +6,7 @@ import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
+import { AkismetSpamCheckPayload } from "coral-server/services/spam";
 
 import {
   GQLCOMMENT_FLAG_REASON,
@@ -20,6 +21,7 @@ export const spam: IntermediateModerationPhase = async ({
   req,
   nudge,
   log,
+  now,
 }): Promise<IntermediatePhaseResult | void> => {
   const integration = tenant.integrations.akismet;
 
@@ -55,7 +57,7 @@ export const spam: IntermediateModerationPhase = async ({
   }
 
   // Create the Akismet client.
-  const client = new Client({
+  const client = new AkismetClient({
     key: integration.key,
     blog: integration.site,
   });
@@ -93,8 +95,7 @@ export const spam: IntermediateModerationPhase = async ({
   try {
     log.trace("checking comment for spam");
 
-    // Check the comment for spam.
-    const isSpam = await client.checkSpam({
+    const payload: AkismetSpamCheckPayload = {
       user_ip: userIP, // REQUIRED
       referrer, // REQUIRED
       user_agent: userAgent, // REQUIRED
@@ -103,7 +104,11 @@ export const spam: IntermediateModerationPhase = async ({
       comment_author: author.username || "",
       comment_type: "comment",
       is_test: false,
-    });
+      comment_date_gmt: now.toISOString(),
+    };
+
+    // Check the comment for spam.
+    const isSpam = await client.checkSpam(payload); // NICK: make not any
     if (isSpam) {
       log.trace({ isSpam }, "comment contained spam");
 

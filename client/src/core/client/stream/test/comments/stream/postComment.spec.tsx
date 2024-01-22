@@ -102,7 +102,7 @@ it("post a comment", async () => {
 
   await act(() => rte.props.onChange("<b>Hello world!</b>"));
 
-  timekeeper.freeze(new Date(baseComment.createdAt));
+  timekeeper.freeze(new Date(baseComment.createdAt as Date));
   await act(() => form.props.onSubmit());
   timekeeper.reset();
 

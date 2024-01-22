@@ -102,4 +102,8 @@ export const User: GQLUserTypeResolver<user.User> = {
   lastSeenNotificationDate: ({ lastSeenNotificationDate }) => {
     return lastSeenNotificationDate ?? new Date(0);
   },
+  featuredCommenter: ({ lastFeaturedDate }) => {
+    const tenDaysAgo = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000);
+    return lastFeaturedDate && lastFeaturedDate >= tenDaysAgo;
+  },
 };

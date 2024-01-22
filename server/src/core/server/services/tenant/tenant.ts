@@ -219,7 +219,6 @@ export async function canInstall(cache: TenantCache) {
  * is required by any OpenID Connect compatible service:
  *
  * https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
- *
  * @param issuerString the issuer that should be used as the discovery root.
  */
 export async function discoverOIDCConfiguration(issuerString: string) {

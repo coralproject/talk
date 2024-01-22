@@ -37,7 +37,6 @@ export interface SeenComments extends TenantResource {
 
 /**
  * Find the lookup table for seen comments tied to a user for a specific story.
- *
  * @param mongo is the mongo context where the seen comments lookups are stored.
  * @param tenantID is the tenant ID we are currently loading a story/user for.
  * @param findSeenCommentsInput is the storyID and userID to find seen comments list for.
@@ -70,7 +69,6 @@ export function reduceCommentIDs(commentIDs: string[], now: Date) {
 
 /**
  * Marks multiple comments as seen for a user.
- *
  * @param mongo is the mongo context used to mark the comments as seen.
  * @param cache is the data cache used to load cached comments from redis.
  * @param tenantID is the tenant to filter by for this marking operation.
@@ -140,7 +138,7 @@ export async function markSeenCommentsBulk(
   seenComments: SeenCommentsCollection,
   now: Date
 ) {
-  const operations: any[] = [];
+  const operations: object[] = [];
 
   const keys = seenComments.keys();
   for (const { userID, storyID } of keys) {

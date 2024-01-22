@@ -23,6 +23,8 @@ export interface IndentedCommentProps extends Omit<CommentProps, "ref"> {
   badges?: React.ReactNode | null;
   enableJumpToParent?: boolean;
   username?: string | null;
+  featuredCommenter?: boolean | null;
+  topCommenterEnabled?: boolean | null;
 }
 
 const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
@@ -64,7 +66,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
             <Localized
               id={collapseCommentsLocalizationId}
               attrs={{ "aria-label": true }}
-              vars={{ username: rest.username }}
+              vars={{ username: rest.username ?? "" }}
             >
               <BaseButton
                 onClick={toggleCollapsed}

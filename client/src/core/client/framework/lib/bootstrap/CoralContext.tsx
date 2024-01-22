@@ -95,12 +95,14 @@ export interface CoralContext {
   /** rootURL to the Coral Server */
   rootURL: string;
 
-  /** Supports a custom scroll container element if Coral is rendered outside
+  /**
+   * Supports a custom scroll container element if Coral is rendered outside
    * of the render window
    */
   customScrollContainer?: HTMLElement;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 export const CoralReactContext = React.createContext<CoralContext>({} as any);
 
 export const useCoralContext = () => React.useContext(CoralReactContext);

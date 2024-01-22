@@ -407,7 +407,6 @@ class Server {
   /**
    * start orchestrates the application by starting it and returning a promise
    * when the server has started.
-   *
    * @param parent the optional express application to bind the server to.
    */
   public async start({ parent }: ServerStartOptions) {

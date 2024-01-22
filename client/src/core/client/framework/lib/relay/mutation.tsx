@@ -67,6 +67,7 @@ export function useMutation<I, R>(
 ): MutationProp<typeof mutation> {
   const context = useCoralContext();
   return useCallback<MutationProp<typeof mutation>>(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     ((input: I) => {
       // TODO: (cvle) Naming of these events are deprecated.
       context.eventEmitter.emit(`mutation.${mutation.name}`, input);
@@ -79,7 +80,6 @@ export function useMutation<I, R>(
 /**
  * withMutation creates a HOC that injects the mutation as
  * a property.
- *
  * @deprecated use `useMutation` instead
  */
 export function withMutation<N extends string, I, R>(

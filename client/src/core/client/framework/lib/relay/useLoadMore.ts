@@ -4,7 +4,6 @@ import { RelayPaginationProp } from "react-relay";
 /**
  * useLoadMore is a react hook that returns a `loadMore` callback
  * and a `isLoadingMore` boolean.
- *
  * @param relay {RelayPaginationProp}
  * @param count {number}
  */

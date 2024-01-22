@@ -93,6 +93,7 @@ export function useSubscription<V>(
   const context = useCoralContext();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   return useCallback<SubscriptionProp<typeof subscription>>(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     ((variables: V) => {
       // TODO: (cvle) Do we need to keep this one around? Was replaced by `subscription.${name}.subscribe`,`subscription.${name}.unsubscribe`, `subscription.${name}.data`
       context.eventEmitter.emit(`subscription.${subscription.name}`, variables);
@@ -109,10 +110,9 @@ export function useSubscription<V>(
 /**
  * withSubscription creates a HOC that injects the subscription as
  * a property.
- *
  * @deprecated use `useFetch` instead
  */
-export function withSubscription<N extends string, V, R>(
+export function withSubscription<N extends string, V>(
   subscription: Subscription<N, V>
 ): InferableComponentEnhancer<{
   [P in N]: SubscriptionProp<typeof subscription>;

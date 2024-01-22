@@ -65,7 +65,7 @@ export class CommentActionsCache implements IDataCache {
     const storyMembersKey = this.computeStoryMembersKey(tenantID, storyID);
     cmd.expire(storyMembersKey, this.expirySeconds);
 
-    const commentActions: Readonly<CommentAction>[] = [];
+    const commentActions: Array<Readonly<CommentAction>> = [];
     while (await cursor.hasNext()) {
       const commentAction = await cursor.next();
       if (!commentAction) {
@@ -106,7 +106,7 @@ export class CommentActionsCache implements IDataCache {
 
     const cmd = this.redis.multi();
 
-    const commentActions: Readonly<CommentAction>[] = [];
+    const commentActions: Array<Readonly<CommentAction>> = [];
     const storyMemberKeys: string[] = [];
     while (await cursor.hasNext()) {
       const commentAction = await cursor.next();
@@ -208,7 +208,7 @@ export class CommentActionsCache implements IDataCache {
       return { id, key: this.computeDataKey(tenantID, id) };
     });
 
-    const commentActions: Readonly<CommentAction>[] = [];
+    const commentActions: Array<Readonly<CommentAction>> = [];
     const notFoundLocallyKeys: string[] = [];
     for (const entry of keys) {
       const commentAction = this.commentActionsByKey.get(entry.key);
@@ -296,7 +296,7 @@ export class CommentActionsCache implements IDataCache {
   }
 
   private deserializeObject(data: string): Readonly<CommentAction> {
-    const parsed = JSON.parse(data);
+    const parsed: CommentAction = JSON.parse(data);
     return {
       ...parsed,
       createdAt: new Date(parsed.createdAt),

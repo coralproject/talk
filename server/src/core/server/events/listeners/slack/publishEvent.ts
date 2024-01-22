@@ -38,7 +38,7 @@ export default class SlackPublishEvent {
     this.author = author;
   }
 
-  private getTriggers(): (Trigger | null)[] {
+  private getTriggers(): Array<Trigger | null> {
     if (
       this.actionType &&
       this.actionType === "created" &&

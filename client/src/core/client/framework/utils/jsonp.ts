@@ -1,7 +1,6 @@
 /* eslint-disable no-restricted-globals */
 /**
  * Initiate a jsonp request.
- *
  * @param endpoint  jsonp endpoint
  * @param callback  name of global callback to receive response
  * @param args      args to send along the jsonp request.

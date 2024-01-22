@@ -56,12 +56,10 @@ common-moderationReason-changeReason =
   &lt; Change reason
 common-moderationReason-reasonLabel = Reason
 common-moderationReason-detailedExplanation =
-  Detailed explanation
+  Detailed explanation (shared with commenter)
 common-moderationReason-detailedExplanation-placeholder =
    .placeholder = Add your explanation
 common-moderationReason-customReason = Custom reason (required)
 common-moderationReason-customReason-placeholder =
    .placeholder = Add your reason
-
-common-userBanned =
-  User was banned.
+   

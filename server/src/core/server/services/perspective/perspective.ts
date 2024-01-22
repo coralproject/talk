@@ -21,7 +21,6 @@ type PerspectiveLanguage = "en" | "es" | "fr" | "de" | "pt";
 /**
  * convertLanguage returns the language code for the related Perspective API
  * model in the ISO 631-1 format.
- *
  * @param locale the language on the tenant in the BCP 47 format.
  */
 function convertLanguage(locale: LanguageCode): PerspectiveLanguage {

@@ -147,7 +147,7 @@ export async function upsertStory(
 
       if (!result.ok || !result.value) {
         throw new UnableToUpdateStoryURL(
-          result.lastErrorObject,
+          result.lastErrorObject as MongoError,
           id,
           existingStory.url,
           url
@@ -560,6 +560,7 @@ export async function removeStories(
   });
 }
 
+// eslint-disable-next-line no-shadow
 export enum STORY_SORT {
   CREATED_AT_DESC = "CREATED_AT_DESC",
   TEXT_SCORE = "TEXT_SCORE",
@@ -667,7 +668,6 @@ export async function updateStoryLastCommentedAt(
 
 /**
  * updateStoryCounts will update the comment counts for the story indicated.
- *
  * @param mongo mongodb database handle
  * @param tenantID ID of the Tenant where the Story is on
  * @param id the ID of the Story that we are updating counts on
@@ -764,7 +764,6 @@ export async function setStoryMode(
 /**
  * retrieveStorySections will return the sections used by stories in the
  * database for a given Tenant sorted alphabetically.
- *
  * @param mongo the database connection to use to retrieve the data
  * @param tenantID the ID of the Tenant that we're retrieving data
  */
@@ -785,7 +784,6 @@ export async function retrieveStorySections(
  * This is used when we are locking a story to put it into an archiving state.
  * We currently use this for the markStoryForArchiving and the
  * retrieveStoryToBeArchived functions to avoid duplication of the $set logic.
- *
  * @param now the time we are archiving at
  * @returns the $set param for marking a story as currently in an archiving
  * state.
@@ -913,7 +911,7 @@ export async function retrieveStoriesToBeArchived(
   olderThan: Date,
   now: Date,
   count: number
-): Promise<Readonly<Story>[]> {
+): Promise<Array<Readonly<Story>>> {
   const start = Date.now();
 
   const cursor = mongo
@@ -923,7 +921,7 @@ export async function retrieveStoriesToBeArchived(
     })
     .sort({ createdAt: -1 });
 
-  const results: Readonly<Story>[] = [];
+  const results: Array<Readonly<Story>> = [];
   let scanned = 0;
 
   while (await cursor.hasNext()) {

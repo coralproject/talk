@@ -3,7 +3,6 @@ import { GraphQLResolveInfo, ResponsePath } from "graphql";
 /**
  * calculateLocationKey will reduce the resolve information to determine the
  * path to where the key that is being accessed.
- *
  * @param info the info from the graph request
  */
 export function calculateLocationKey(

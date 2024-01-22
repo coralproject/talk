@@ -72,7 +72,7 @@ export interface DSAReport extends TenantResource {
   /**
    * userID is the id of the user who reported this comment for illegal content.
    */
-  userID: string;
+  userID?: string | null;
 
   /**
    * createdAt is the date that this DSAReport was created
@@ -227,9 +227,10 @@ export async function createDSAReport(
     submissionIDToUse = uuid();
   }
 
-  // shorter, url-friendly referenceID generated from the report id, userID, and commentID
+  // shorter, url-friendly referenceID generated from the report id, userID / submissionID, and commentID
+  const firstID = userID ?? submissionIDToUse;
   const referenceID =
-    userID.slice(0, 4) + "-" + commentID.slice(0, 4) + "-" + id.slice(0, 4);
+    firstID.slice(0, 4) + "-" + commentID.slice(0, 4) + "-" + id.slice(0, 4);
 
   // defaults are the properties set by the application when a new DSAReport is
   // created.
@@ -273,10 +274,13 @@ export async function createDSAReport(
 
   // check if there's already a dsareport submitted by this user for this comment
   // and return a duplicate error if so
-  const alreadyExistingReport = await mongo.dsaReports().findOne(filter);
+  // only check if there's a userID so we don't throw on anonymous reports
+  if (userID) {
+    const alreadyExistingReport = await mongo.dsaReports().findOne(filter);
 
-  if (alreadyExistingReport) {
-    throw new DuplicateDSAReportError(alreadyExistingReport.id);
+    if (alreadyExistingReport) {
+      throw new DuplicateDSAReportError(alreadyExistingReport.id);
+    }
   }
 
   await mongo.dsaReports().insertOne(report);
@@ -305,13 +309,6 @@ export interface CreateDSAReportNoteResultObject {
   dsaReport: DSAReport;
 }
 
-enum DSAReportHistoryType {
-  STATUS_CHANGED = "STATUS_CHANGED",
-  NOTE = "NOTE",
-  DECISION_MADE = "DECISION_MADE",
-  SHARE = "SHARE",
-}
-
 export async function createDSAReportNote(
   mongo: MongoContext,
   tenantID: string,
@@ -328,7 +325,7 @@ export async function createDSAReportNote(
     createdBy: userID,
     createdAt: now,
     body,
-    type: DSAReportHistoryType.NOTE,
+    type: GQLDSAReportHistoryType.NOTE,
   };
 
   const updatedReport = await mongo.dsaReports().findOneAndUpdate(
@@ -377,7 +374,7 @@ export async function createDSAReportShare(
     id,
     createdBy: userID,
     createdAt: now,
-    type: DSAReportHistoryType.SHARE,
+    type: GQLDSAReportHistoryType.SHARE,
   };
 
   const updatedReport = await mongo.dsaReports().findOneAndUpdate(
@@ -466,7 +463,7 @@ export async function changeDSAReportStatus(
     createdBy: userID,
     createdAt: now,
     status,
-    type: DSAReportHistoryType.STATUS_CHANGED,
+    type: GQLDSAReportHistoryType.STATUS_CHANGED,
   };
 
   const updatedReport = await mongo.dsaReports().findOneAndUpdate(
@@ -521,7 +518,7 @@ export async function makeDSAReportDecision(
     id: statusChangeHistoryId,
     createdBy: userID,
     createdAt: now,
-    type: DSAReportHistoryType.STATUS_CHANGED,
+    type: GQLDSAReportHistoryType.STATUS_CHANGED,
     status: GQLDSAReportStatus.COMPLETED,
   };
 
@@ -529,7 +526,7 @@ export async function makeDSAReportDecision(
     id: decisionMadeHistoryId,
     createdBy: userID,
     createdAt: now,
-    type: DSAReportHistoryType.DECISION_MADE,
+    type: GQLDSAReportHistoryType.DECISION_MADE,
     decision: {
       legality,
       legalGrounds,

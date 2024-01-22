@@ -5,7 +5,6 @@ import { ORIGIN_FALLBACK_ID } from "coral-framework/constants";
 /**
  * getCurrentScriptOrigin will try to find the script origin.
  * For legacy browsers a fallbackIdentifier is required.
- *
  * @param fallbackID id attached to a script tag to get its origin from for legacy browsrs.
  */
 function getCurrentScriptOrigin(fallbackID: string = ORIGIN_FALLBACK_ID) {

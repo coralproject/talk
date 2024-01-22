@@ -49,7 +49,6 @@ type SearchBarOptions = PropTypesOf<typeof Bar>["options"];
 /**
  * useLinkNavHandler returns a handler that navigates to `href` prop and blurs
  * the TextField.
- *
  * @param router Router from the _found_ library
  * @returns A handler for ListBoxOption
  */
@@ -172,7 +171,6 @@ interface SearchParams {
 }
 /**
  * useSearchOptions
- *
  * @param onClickOrEnter A handler that reacts to click or enter for the search options
  * @param story Current active story
  */

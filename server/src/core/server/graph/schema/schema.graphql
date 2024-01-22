@@ -1734,6 +1734,17 @@ type BadgeConfiguration {
 }
 
 """
+topCommenter specifies whether or not the feature is enabled to show that commenters
+with comments featured within the last 10 days are top commenters
+"""
+type TopCommenterConfiguration {
+  """
+  enabled is whether the Top commenter feature is enabled
+  """
+  enabled: Boolean
+}
+
+"""
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
 """
@@ -2200,6 +2211,12 @@ type Settings @cacheControl(maxAge: 30) {
   featuredBy specifies whether or not to display 'Featured by' for featured comments
   """
   featuredBy: Boolean
+
+  """
+  topCommenter specifies whether or not the feature is enabled to show that commenters
+  with comments featured within the last 10 days are top commenters
+  """
+  topCommenter: TopCommenterConfiguration
 
   """
   staff specifies the configuration for the user badges assigned to users with
@@ -3282,6 +3299,18 @@ type User {
       roles: [ADMIN, MODERATOR]
       permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
     )
+
+  """
+  lastFeaturedDate is when a user last had a comment featured.
+  This is used for the Top commenter badge feature.
+  """
+  lastFeaturedDate: Time
+
+  """
+  featuredCommenter is whether a user has had a comment featured within the
+  last 10 days or not
+  """
+  featuredCommenter: Boolean
 }
 
 """
@@ -5989,6 +6018,17 @@ input ReactionConfigurationInput {
 }
 
 """
+topCommenter specifies whether or not the feature is enabled to show that commenters
+with comments featured within the last 10 days are top commenters
+"""
+input TopCommenterConfigurationInput {
+  """
+  enabled is whether the Top commenter feature is enabled
+  """
+  enabled: Boolean
+}
+
+"""
 BadgeConfigurationInput specifies the configuration for the staff badges
 assigned to users with any role above COMMENTER.
 """
@@ -6375,6 +6415,12 @@ input SettingsInput {
   featuredBy: Boolean
 
   """
+  topCommenter specifies whether or not the feature is enabled to show that commenters
+  with comments featured within the last 10 days are top commenters
+  """
+  topCommenter: TopCommenterConfigurationInput
+
+  """
   badges specifies the configuration for user badges assigned to users with
   any role above COMMENTER.
   """
@@ -6463,7 +6509,6 @@ input SettingsInput {
   they are enabled and any configured image urls
   """
   flairBadges: FlairBadgeConfigurationInput
-
 
   """
   dsa specifies the configuration for DSA European Union moderation and
@@ -6910,7 +6955,7 @@ input CreateDSAReportInput {
   """
   id of the user who submitted the DSAReport
   """
-  userID: ID!
+  userID: ID
 
   """
   lawBrokenDescription is the text entered by the submitting user to describe
@@ -8925,6 +8970,12 @@ input BanUserInput {
   whether or not to reject all the user's previous comments when banning them.
   """
   rejectExistingComments: Boolean
+
+  """
+  rejectionReason is the reason provided for why any existing comments are being
+  rejected if DSA is enabled
+  """
+  rejectionReason: RejectCommentReasonInput
 }
 
 type BanUserPayload {
@@ -8966,6 +9017,12 @@ input UpdateUserBanInput {
   on sites on which the user has been newly banned, if any.
   """
   rejectExistingComments: Boolean
+
+  """
+  rejectionReason is the reason provided for why any existing comments are being
+  rejected if DSA is enabled
+  """
+  rejectionReason: RejectCommentReasonInput
 
   """
   clientMutationID is required for relay support

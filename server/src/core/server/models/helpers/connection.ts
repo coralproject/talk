@@ -50,7 +50,6 @@ export interface OrderedConnectionInput<T, U> extends ConnectionInput<T> {
 /**
  * createConnection will create a base Connection that can be used to satisfy
  * the Connection<T> interface.
- *
  * @param connection the base connection to optionally merge with the default base
  * connection details.
  */
@@ -129,7 +128,6 @@ export function doesNotContainNull<T>(items: Array<T | null>): items is T[] {
  * connection. This will add `1` to the length of elements being retrieved to
  * determine if there is another page of results to be loaded. The additional
  * node requested will be trimmed from the connection output.
- *
  * @param query the query to use when retrieving the documents.
  * @param input the pagination arguments
  * @param transformer the node transformer which converts a node to a custor
@@ -171,7 +169,7 @@ export async function resolveConnection<T>(
 }
 
 export function createEmptyConnection<T>() {
-  const edges: Edge<T>[] = [];
+  const edges: Array<Edge<T>> = [];
   const nodes: T[] = [];
 
   const pageInfo: PageInfo = {

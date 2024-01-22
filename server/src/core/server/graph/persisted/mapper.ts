@@ -14,7 +14,6 @@ interface Cache {
  * getPersistedQuery will try to get the persisted query referenced by the
  * payload and return it if one exists. If a persisted query is referenced, but
  * non is available, it will throw an error.
- *
  * @param cache the cache to pull the query from
  * @param payload the payload that references the query that should be read
  */

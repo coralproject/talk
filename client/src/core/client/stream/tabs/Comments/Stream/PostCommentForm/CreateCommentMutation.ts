@@ -142,6 +142,7 @@ graphql`
     createdAt
     role
     username
+    featuredCommenter
     status {
       current
       ban {
@@ -312,6 +313,7 @@ export const CreateCommentMutation = createMutation(
                     badges: viewer.badges,
                     avatar: viewer.avatar,
                     ignoreable: false,
+                    featuredCommenter: viewer.featuredCommenter,
                   },
                   site: {
                     id: uuidGenerator(),

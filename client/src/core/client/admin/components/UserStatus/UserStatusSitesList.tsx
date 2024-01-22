@@ -23,7 +23,7 @@ interface ScopeSite {
 }
 
 export interface Scopes {
-  sites?: Readonly<Readonly<ScopeSite>[]> | null;
+  sites?: Readonly<Array<Readonly<ScopeSite>>> | null;
 }
 
 export interface UserBanStatus {

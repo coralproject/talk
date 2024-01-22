@@ -50,6 +50,7 @@ const rate: DirectiveResolverFn<
   const [[, tries]] = await redis.multi().incr(key).expire(key, seconds).exec();
   if (tries && tries > max) {
     const resetsAt = DateTime.fromJSDate(now).plus({ seconds }).toJSDate();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     throw new RateLimitExceeded(key, max, resetsAt, tries);
   }
 

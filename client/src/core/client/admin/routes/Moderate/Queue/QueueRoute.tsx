@@ -244,6 +244,7 @@ const createQueueRoute = (
       }
 
       const queue =
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         data.moderationQueues[Object.keys(data.moderationQueues)[0]];
 
       return (

@@ -28,7 +28,7 @@ it("Sets comment id", () => {
   const id = "comment1-id";
   const props = {
     eventEmitter: {
-      on: (eventName: string, cb: (id: string) => void) => {
+      on: (eventName: string, cb: (commentID: string) => void) => {
         expect(eventName).toBe("embed.setCommentID");
         cb(id);
       },
@@ -44,7 +44,7 @@ it("Sets comment id to null when empty", () => {
   const id = "";
   const props = {
     eventEmitter: {
-      on: (eventName: string, cb: (id: string) => void) => {
+      on: (eventName: string, cb: (commentID: string) => void) => {
         expect(eventName).toBe("embed.setCommentID");
         cb(id);
       },

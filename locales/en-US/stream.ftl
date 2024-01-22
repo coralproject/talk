@@ -79,6 +79,9 @@ comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
   .title = Toggle featured comments tooltip
 
+comment-top-commenter-tooltip-header = <icon></icon> Top commenter
+comment-top-commenter-tooltip-details = One of their comments has been featured in the last 10 days
+
 comments-collapse-toggle-with-username =
   .aria-label = Hide comment by { $username } and its replies
 comments-collapse-toggle-without-username =
@@ -168,6 +171,7 @@ comments-permalinkView-reportIllegalContent-submit = Submit report
 comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = Comment not found. Please enter a valid comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = This is not a valid URL. Please enter a valid comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = You've already added this comment to this report. Please add a unique comment URL
+omments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Additional comment URL length exceeds maximum.
 comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing illegal content. You may only report a comment for this reason one time.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
 comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
@@ -749,6 +753,7 @@ comments-reportPopover-receivedMessage =
 comments-reportPopover-dismiss = Dismiss
 
 comments-reportForm-reportIllegalContent-button = This comment contains illegal content
+comments-reportForm-signInToReport = You have to sign in to report a comment that violates our guidelines
 
 ## Archived Report Comment Popover
 

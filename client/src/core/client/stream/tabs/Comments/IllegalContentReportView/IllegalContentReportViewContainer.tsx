@@ -10,12 +10,21 @@ import React, {
 import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
+import {
+  MAX_DSA_ADDITIONAL_INFO_LENGTH,
+  MAX_DSA_LAW_BROKEN_LENGTH,
+} from "coral-common/common/lib/constants";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { useUUID } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { parseBool } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { required, requiredTrue } from "coral-framework/lib/validation";
+import {
+  composeValidators,
+  required,
+  requiredTrue,
+  validateMaxLength,
+} from "coral-framework/lib/validation";
 import CLASSES from "coral-stream/classes";
 import scrollToBeginning from "coral-stream/common/scrollToBeginning";
 import UserBoxContainer from "coral-stream/common/UserBox";
@@ -33,7 +42,12 @@ import {
   InputLabel,
   TextField,
 } from "coral-ui/components/v2";
-import { Button, CallOut, TextArea } from "coral-ui/components/v3";
+import {
+  Button,
+  CallOut,
+  TextArea,
+  ValidationMessage,
+} from "coral-ui/components/v3";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
 import { IllegalContentReportViewContainer_comment as CommentData } from "coral-stream/__generated__/IllegalContentReportViewContainer_comment.graphql";
@@ -49,6 +63,7 @@ import { CommentContainer } from "../Comment";
 import DeletedTombstoneContainer from "../DeletedTombstoneContainer";
 import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 import RejectedTombstoneContainer from "../PermalinkView/RejectedTombstoneContainer";
+import RemainingCharactersContainer from "../RemainingCharacters";
 import AddAdditionalComments from "./AddAdditionalComments";
 import CreateDSAReportMutation from "./CreateDSAReportMutation";
 
@@ -70,11 +85,12 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const createDSAReport = useMutation(CreateDSAReportMutation);
   const { renderWindow, customScrollContainer } = useCoralContext();
   const root = useShadowRootOrDocument();
-  const [additionalComments, setAdditionalComments] = useState<
-    null | { id: string; url: string }[]
-  >(null);
+  const [additionalComments, setAdditionalComments] = useState<null | Array<{
+    id: string;
+    url: string;
+  }>>(null);
   const [submissionStatus, setSubmissionStatus] = useState<
-    { id: string; status: string; error?: any; url: string }[]
+    Array<{ id: string; status: string; error?: any; url: string }>
   >([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const submissionID = useUUID();
@@ -92,12 +108,12 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
   const onSubmit = useCallback(
     async (input: FormProps, form: FormApi) => {
       const statuses = [];
-      if (viewer && comment) {
+      if (comment) {
         if (additionalComments) {
           for (const c of additionalComments) {
             try {
               await createDSAReport({
-                userID: viewer.id,
+                userID: viewer?.id ?? null,
                 commentID: c.id,
                 lawBrokenDescription: input.lawBrokenDescription,
                 additionalInformation: input.additionalInformation,
@@ -117,7 +133,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
         const url = getURLWithCommentID(story.url, comment.id);
         try {
           await createDSAReport({
-            userID: viewer.id,
+            userID: viewer?.id ?? null,
             commentID: comment.id,
             lawBrokenDescription: input.lawBrokenDescription,
             additionalInformation: input.additionalInformation,
@@ -348,10 +364,13 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                 <FormField>
                   <Field
                     name="lawBrokenDescription"
-                    validate={required}
+                    validate={composeValidators(
+                      required,
+                      validateMaxLength(MAX_DSA_LAW_BROKEN_LENGTH)
+                    )}
                     id="reportIllegalContent-lawBrokenDescription"
                   >
-                    {({ input }) => (
+                    {({ input, meta }) => (
                       <>
                         <Localized id="comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel">
                           <InputLabel htmlFor={input.name}>
@@ -360,6 +379,18 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                           </InputLabel>
                         </Localized>
                         <TextField {...input} fullWidth id={input.name} />
+                        <div>
+                          {meta.error && (
+                            <ValidationMessage
+                              meta={meta}
+                              justifyContent="flex-end"
+                            />
+                          )}
+                          <RemainingCharactersContainer
+                            max={MAX_DSA_LAW_BROKEN_LENGTH}
+                            value={input.value}
+                          />
+                        </div>
                       </>
                     )}
                   </Field>
@@ -367,10 +398,13 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                 <FormField>
                   <Field
                     name="additionalInformation"
-                    validate={required}
+                    validate={composeValidators(
+                      required,
+                      validateMaxLength(MAX_DSA_ADDITIONAL_INFO_LENGTH)
+                    )}
                     id="reportIllegalContent-additionalInformation"
                   >
-                    {({ input }) => (
+                    {({ input, meta }) => (
                       <>
                         <Localized id="comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel">
                           <InputLabel htmlFor={input.name}>
@@ -391,6 +425,18 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                           value={input.value}
                           onChange={input.onChange}
                         />
+                        <div>
+                          {meta.error && (
+                            <ValidationMessage
+                              meta={meta}
+                              justifyContent="flex-end"
+                            />
+                          )}
+                          <RemainingCharactersContainer
+                            max={MAX_DSA_ADDITIONAL_INFO_LENGTH}
+                            value={input.value}
+                          />
+                        </div>
                       </>
                     )}
                   </Field>

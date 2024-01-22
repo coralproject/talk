@@ -158,8 +158,8 @@ function addCommentReplyToStory(
   commentEdge: RecordProxy
 ) {
   const flattenReplies = lookupFlattenReplies(environment);
-  const singleCommentID = lookup(environment, LOCAL_ID).commentID;
-  const refreshStream = lookup(environment, LOCAL_ID).refreshStream;
+  const singleCommentID: string = lookup(environment, LOCAL_ID).commentID;
+  const refreshStream: boolean = lookup(environment, LOCAL_ID).refreshStream;
   const comment = commentEdge.getLinkedRecord("node")!;
   const depth = singleCommentID
     ? determineDepthTillAncestor(store, comment, refreshStream, singleCommentID)
@@ -251,6 +251,7 @@ graphql`
     role
     badges
     createdAt
+    featuredCommenter
     status {
       current
       ban {
@@ -362,6 +363,7 @@ async function commit(
                   badges: viewer.badges,
                   ignoreable: false,
                   avatar: viewer.avatar,
+                  featuredCommenter: viewer.featuredCommenter,
                 },
                 body: input.body || "",
                 revision: {

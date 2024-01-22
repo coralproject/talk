@@ -36,7 +36,7 @@ it("should prefix setItem", () => {
     setItem: sinon.mock().withArgs("coral:key", "value"),
   };
 
-  const prefixed = prefixStorage(storage as any, "coral:");
+  const prefixed = prefixStorage(storage as unknown as Storage, "coral:");
   prefixed.setItem("key", "value");
   storage.setItem.verify();
 });
@@ -46,7 +46,7 @@ it("should prefix removeItem", () => {
     removeItem: sinon.mock().withArgs("coral:key"),
   };
 
-  const prefixed = prefixStorage(storage as any, "coral:");
+  const prefixed = prefixStorage(storage as unknown as Storage, "coral:");
   prefixed.removeItem("key");
   storage.removeItem.verify();
 });
@@ -57,7 +57,7 @@ it("should prefix getItem", () => {
     getItem: sinon.mock().withArgs("coral:key").returns(ret),
   };
 
-  const prefixed = prefixStorage(storage as any, "coral:");
+  const prefixed = prefixStorage(storage as unknown as Storage, "coral:");
   expect(prefixed.getItem("key")).toBe(ret);
   (storage.getItem as any).verify();
 });

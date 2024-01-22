@@ -3,7 +3,6 @@ import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import bunyan from "bunyan";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { identity, uniq } from "lodash";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -11,7 +10,11 @@ import path from "path";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import TerserPlugin from "terser-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
-import webpack, { Configuration, Plugin } from "webpack";
+import webpack, {
+  Configuration,
+  DevtoolModuleFilenameTemplateInfo,
+  Plugin,
+} from "webpack";
 import WebpackAssetsManifest from "webpack-assets-manifest";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
@@ -24,7 +27,6 @@ import paths from "./paths";
 /**
  * filterPlugins will filter out null values from the array of plugins, allowing
  * easy embedded ternaries.
- *
  * @param plugins array of plugins and null values
  */
 const filterPlugins = (plugins: Array<Plugin | null>): Plugin[] =>
@@ -91,12 +93,12 @@ export default function createWebpackConfig(
   /**
    * ifWatch will only include the nodes if we're in watch mode.
    */
-  const ifWatch = watch ? (...nodes: any[]) => nodes : () => [];
+  const ifWatch = watch ? (...nodes: Array<Plugin | null>) => nodes : () => [];
 
   /**
    * ifBuild will only include the nodes if we're in build mode.
    */
-  const ifBuild = !watch ? (...nodes: any[]) => nodes : () => [];
+  const ifBuild = !watch ? (...nodes: Array<Plugin | null>) => nodes : () => [];
 
   const localesOptions = {
     pathToLocales: paths.appLocales,
@@ -131,20 +133,21 @@ export default function createWebpackConfig(
       insert: insertLinkTag,
     }),
     ...ifBuild(
-      isProduction &&
-        new OptimizeCssnanoPlugin({
-          sourceMap: !disableSourcemaps,
-          cssnanoOptions: {
-            preset: [
-              "default",
-              {
-                discardComments: {
-                  removeAll: true,
+      isProduction
+        ? (new OptimizeCssnanoPlugin({
+            sourceMap: !disableSourcemaps,
+            cssnanoOptions: {
+              preset: [
+                "default",
+                {
+                  discardComments: {
+                    removeAll: true,
+                  },
                 },
-              },
-            ],
-          },
-        }),
+              ],
+            },
+          }) as Plugin)
+        : null,
       // Pre-compress all the assets as they will be served as is.
       new CompressionPlugin({})
     ),
@@ -247,7 +250,9 @@ export default function createWebpackConfig(
       // We inferred the "public path" (such as / or /my-project) from homepage.
       publicPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
-      devtoolModuleFilenameTemplate: (info: any) =>
+      devtoolModuleFilenameTemplate: (
+        info: DevtoolModuleFilenameTemplateInfo
+      ) =>
         path
           .relative(paths.appSrc, info.absoluteResourcePath)
           .replace(/\\/g, "/"),
@@ -427,8 +432,7 @@ export default function createWebpackConfig(
                 {
                   loader: "thread-loader",
                   options: {
-                    // there should be 1 cpu for the fork-ts-checker-webpack-plugin
-                    workers: maxCores - 1,
+                    workers: maxCores,
                     poolTimeout: watch ? Infinity : 500, // set this to Infinity in watch mode - see https://github.com/webpack-contrib/thread-loader
                   },
                 },
@@ -572,20 +576,6 @@ export default function createWebpackConfig(
       ],
     },
     plugins: [
-      // TODO: (cvle) this should work in build too but for some reasons it terminates the build afterwards.
-      // Preventing from running post build steps.
-      ...ifWatch(
-        // We run eslint in a separate process to have a quicker build.
-        new ForkTsCheckerWebpackPlugin({
-          eslint: true,
-          typescript: require.resolve("typescript"),
-          async: true,
-          // TODO: (cvle) For some reason if incremental build is turned on it does not find lint errors during initial build.
-          useTypescriptIncrementalApi: false,
-          checkSyntacticErrors: true,
-          tsconfig: paths.appTsconfig,
-        })
-      ),
       // Makes some environment variables available to the JS code, for example:
       // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
       new webpack.DefinePlugin(envStringified),

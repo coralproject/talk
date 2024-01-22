@@ -164,7 +164,7 @@ const getCurrentKeyStop = (
   root: ShadowRoot | Document,
   relayEnvironment: Environment
 ) => {
-  const currentCommentID = lookup(
+  const currentCommentID: string = lookup(
     relayEnvironment,
     LOCAL_ID
   ).commentWithTraversalFocus;
@@ -1298,7 +1298,16 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   // Traverse to next comment/reply after loading more/new comments and replies
   useEffect(() => {
-    const listener: ListenerFn = async (e, data) => {
+    const listener: ListenerFn = async (
+      e: string,
+      data: {
+        keyboardShortcutsConfig: {
+          key: "z" | "c";
+          reverse: boolean;
+          source: "keyboard" | "mobileToolbar";
+        };
+      }
+    ) => {
       if (loadMoreEvents.includes(e)) {
         // Announce height change to embed to allow
         // immediately updating amp iframe height
@@ -1312,7 +1321,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         if (data.keyboardShortcutsConfig && zKeyClickedButton) {
           if (e === LoadMoreAllCommentsEvent.nameSuccess) {
             let count = 0;
-            const stopExists: any = setInterval(async () => {
+            const stopExists: NodeJS.Timeout = setInterval(async () => {
               count += 1;
               const stopElement = root.getElementById("comments-loadAll");
               if (stopElement === null) {
@@ -1348,12 +1357,14 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // Subscribe to keypress events.
   useEffect(() => {
     renderWindow.addEventListener("keypress", handleWindowKeypress);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     root.addEventListener("keypress", handleKeypress as any);
 
     return () => {
       if (renderWindow.removeEventListener) {
         renderWindow.removeEventListener("keypress", handleWindowKeypress);
       }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       root.removeEventListener("keypress", handleKeypress as any);
     };
   }, [handleKeypress, handleWindowKeypress, renderWindow, root]);

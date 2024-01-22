@@ -96,6 +96,7 @@ export async function getCommentEmbedData(
 export function transform(window: Window, source: string | Node) {
   // Sanitize source.
   const [sanitized, spoilerTags] = sanitizeAndFindFormattingTags(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     window as any,
     source
   );
@@ -118,6 +119,7 @@ export function transform(window: Window, source: string | Node) {
 export function transformSimpleEmbed(window: Window, source: string | Node) {
   // Sanitize source.
   const [sanitized, spoilerTags, sarcasmTags, blockquoteTags, links] =
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     sanitizeAndFindFormattingTags(window as any, source);
 
   // Attach event handlers to spoiler tags.

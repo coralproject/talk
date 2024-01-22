@@ -10,7 +10,10 @@ async function createMongoClient(mongoURI: string): Promise<MongoClient> {
       ignoreUndefined: true,
     });
   } catch (err) {
-    throw new WrappedInternalError(err, "could not connect to mongodb");
+    throw new WrappedInternalError(
+      err as Error,
+      "could not connect to mongodb"
+    );
   }
 }
 
@@ -31,7 +34,6 @@ function attachHandlers(db: Db) {
 
 /**
  * create will connect to the MongoDB instance identified in the configuration.
- *
  * @param config application configuration.
  */
 export async function createMongoDB(mongoURI: string): Promise<Db> {

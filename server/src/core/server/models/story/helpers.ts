@@ -13,7 +13,6 @@ import { Story } from "./story";
 
 /**
  * getURLWithCommentID returns the url with the comment id.
- *
  * @param storyURL url of the story
  * @param commentID id of the comment
  */

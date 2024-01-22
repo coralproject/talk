@@ -36,17 +36,26 @@ function extractTraceableErrorFromExtensions(
     throw origin || extensions;
   }
   if (extensions.type === ERROR_TYPES.INVALID_REQUEST_ERROR) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return new InvalidRequestError(extensions as any);
   }
   if (extensions.type === ERROR_TYPES.MODERATION_NUDGE_ERROR) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return new ModerationNudgeError(extensions as any);
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return new UnknownServerError(extensions as any, origin);
 }
 
 export default function extractTraceableError(error: Error): TraceableError {
   if (!isGraphQLErrorWithExtensions(error)) {
-    return extractTraceableErrorFromExtensions(error as any, error);
+    return extractTraceableErrorFromExtensions(
+      error as unknown as CoralErrorExtensions,
+      error
+    );
   }
-  return extractTraceableErrorFromExtensions(error.extensions, error);
+  return extractTraceableErrorFromExtensions(
+    error.extensions as unknown as CoralErrorExtensions,
+    error
+  );
 }

@@ -514,6 +514,10 @@ configure-general-featuredBy-title = Featured by
 configure-general-featuredBy-enabled = Featured by enabled
 configure-general-featuredBy-explanation = Add moderator name to featured comment display
 
+configure-general-topCommenter-title = Top commenter
+configure-general-topCommenter-explanation = Add top commenter badge to commenters with featured comments in the last 10 days
+configure-general-topCommenter-enabled = Top commenter
+
 configure-general-flairBadge-header = Custom flair badges
 configure-general-flairBadge-description = Encourage user engagement and participation by adding custom flair
   badges for your site. Badges can be allocated as part of your <externalLink>JWT claim</externalLink>.
@@ -1940,6 +1944,9 @@ reports-decisionModal-detailedExplanationTextarea =
 
 reports-relatedReports-label = Related reports
 reports-relatedReports-reportIDLabel = Report ID
+
+reports-anonymousUser = Anonymous user
+reports-username-not-available = Username not available
 
 # Control panel
 

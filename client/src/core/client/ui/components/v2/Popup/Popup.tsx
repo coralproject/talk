@@ -1,5 +1,6 @@
 import {
   FunctionComponent,
+  MutableRefObject,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -84,8 +85,10 @@ const Popup: FunctionComponent<PopupProps> = ({
   title,
 }) => {
   const ref = useRef<Window | null>(null);
-  const detectCloseInterval: any = useRef(null);
-  const resetCallbackInterval: any = useRef(null);
+  const detectCloseInterval: MutableRefObject<null | NodeJS.Timeout> =
+    useRef(null);
+  const resetCallbackInterval: MutableRefObject<null | NodeJS.Timeout> =
+    useRef(null);
   const { renderWindow } = useUIContext();
   const previousOpen = usePrevious(open);
   const previousFocus = usePrevious(focus);

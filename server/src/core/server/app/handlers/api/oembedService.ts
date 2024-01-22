@@ -62,10 +62,17 @@ export const oembedProviderHandler = ({
     const tenantURL = constructTenantURL(config, tenant);
 
     try {
-      const { url, allowReplies, format, reactionLabel } = validate(
-        OEmbedServiceQuerySchema,
-        req.query
-      );
+      const {
+        url,
+        allowReplies,
+        format,
+        reactionLabel,
+      }: {
+        url: string;
+        allowReplies?: string;
+        format?: string;
+        reactionLabel?: string;
+      } = validate(OEmbedServiceQuerySchema, req.query);
 
       // We don't currently support xml format responses
       if (format && format === "xml") {
@@ -113,11 +120,13 @@ export const oembedProviderHandler = ({
         }
 
         const sanitized = transform(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           new JSDOM("", {}).window as any,
           commentRevision.body
         );
 
         const sanitizedSimple = transformSimpleEmbed(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           new JSDOM("", {}).window as any,
           commentRevision.body
         );

@@ -60,7 +60,6 @@ function createCommentEmbedElementEnhancer({
 
 /**
  * injectJSONPCallback will register the `CoralCommentEmbed` on the window.
- *
  * @param getCommentEmbed a function that when executed will allow you to grab the comment embed
  */
 function injectJSONPCallback(getCommentEmbed: GetCommentEmbedFunction) {

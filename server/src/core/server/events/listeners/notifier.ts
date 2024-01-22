@@ -31,8 +31,8 @@ export class NotifierCoralEventListener
    */
   public readonly events = categories.reduce((events, category) => {
     for (const event of category.events) {
-      if (!events.includes(event)) {
-        events.push(event);
+      if (!events.includes(event as CoralEventType)) {
+        events.push(event as CoralEventType);
       }
     }
 

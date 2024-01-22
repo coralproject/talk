@@ -21,7 +21,7 @@ const initLocalState = (
   }
 };
 
-export default function create(params: CreateTestRendererParams) {
+export default function create(params: CreateTestRendererParams<GQLResolver>) {
   return createTopLevel({
     ...params,
     initLocalState: (localRecord, source, environment) => {
@@ -30,7 +30,9 @@ export default function create(params: CreateTestRendererParams) {
   });
 }
 
-export function createWithContext(params: CreateTestRendererParams) {
+export function createWithContext(
+  params: CreateTestRendererParams<GQLResolver>
+) {
   return createContext({
     ...params,
     initLocalState: (localRecord, source, environment) => {

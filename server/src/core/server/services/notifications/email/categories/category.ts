@@ -27,7 +27,7 @@ export interface NotificationCategory<T extends CoralEventPayload = any> {
    * events is the subscription event that when fired, will trigger this
    * notification processor to be called.
    */
-  events: T["type"][];
+  events: Array<T["type"]>;
 
   /**
    * digestOrder, when provided, allows the custom ordering of notifications in

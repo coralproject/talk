@@ -9,7 +9,6 @@ import {
 } from "coral-server/test/fixtures";
 import {
   createMockDataCache,
-  createMockI18n,
   createMockMailer,
   createMockMongoContex,
   createMockRejector,
@@ -19,7 +18,6 @@ import { updateRole, updateUserBan } from "./users";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { demoteMember, promoteMember } from ".";
-import { I18n } from "../i18n";
 
 describe("updateUserBan", () => {
   afterEach(jest.clearAllMocks);
@@ -37,7 +35,6 @@ describe("updateUserBan", () => {
     tenantID,
     role: GQLUSER_ROLE.ADMIN,
   });
-  const i18n = createMockI18n("User was banned.");
 
   /* eslint-disable-next-line */
   const userService = require("coral-server/models/user");
@@ -55,7 +52,6 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
-          i18n,
           commenter,
           badUser.id,
           "Test message",
@@ -77,7 +73,6 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
-          new I18n("en-US"),
           staff,
           badUser.id,
           "Test message",
@@ -104,7 +99,6 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
-          i18n,
           siteAMod,
           badUser.id,
           "Test message",
@@ -128,7 +122,6 @@ describe("updateUserBan", () => {
           mailer,
           rejector,
           tenant,
-          i18n,
           orgMod,
           badUser.id,
           "Test message",
@@ -160,7 +153,6 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
-      i18n,
       admin,
       bannedOnSiteA.id,
       "Test message",
@@ -195,7 +187,6 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
-      i18n,
       admin,
       bannedOnSiteB.id,
       "TEST MESSAGE",
@@ -222,7 +213,6 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
-      i18n,
       admin,
       notBannedUser.id,
       "TEST MESSAGE",
@@ -249,7 +239,6 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
-      i18n,
       admin,
       unbannedUser.id,
       "Test Message",
@@ -266,7 +255,6 @@ describe("updateUserBan", () => {
       mailer,
       rejector,
       tenant,
-      i18n,
       admin,
       unbannedUser.id,
       "Test Message",

@@ -6,6 +6,7 @@ import {
 import { mapErrorsToNull } from "coral-server/helpers/dataloader";
 import { hasPublishedStatus } from "coral-server/models/comment";
 import { getStoryTitle, getURLWithCommentID } from "coral-server/models/story";
+import { User } from "coral-server/models/user";
 import { hasStaffRole } from "coral-server/models/user/helpers";
 
 import { NotificationCategory } from "./category";
@@ -41,7 +42,7 @@ export const staffReply: NotificationCategory<Payloads> = {
     }
 
     // Get the parent comment's author.
-    const [author, parentAuthor] = await ctx.users
+    const [author, parentAuthor]: Array<Readonly<User> | null> = await ctx.users
       .loadMany([comment.authorID, parent.authorID])
       .then(mapErrorsToNull);
     if (!author || !parentAuthor) {

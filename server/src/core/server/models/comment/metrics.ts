@@ -116,6 +116,7 @@ export async function retrieveTodayCommentMetrics(
       continue;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const isSiteMod = isSiteModerator(moderator);
     if (isSiteMod && !moderator.moderationScopes.siteIDs?.includes(siteID)) {
       const count = moderatorComments.get(moderator.id)?.size ?? 0;
@@ -179,6 +180,7 @@ export async function retrieveAllTimeStaffCommentMetrics(
       continue;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const isSiteMod = isSiteModerator(moderator);
     if (isSiteMod && !moderator.moderationScopes.siteIDs?.includes(siteID)) {
       const count = moderatorComments.get(moderator.id)?.size ?? 0;

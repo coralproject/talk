@@ -49,7 +49,6 @@ export interface CategoryNotification {
  * createJobProcessor creates the processor that is used to process the
  * possible notifications and queueing them up in the mailer if they need to be
  * sent.
- *
  * @param options options for the processor
  */
 export const createJobProcessor =

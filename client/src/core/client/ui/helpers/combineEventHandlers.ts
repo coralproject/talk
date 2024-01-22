@@ -19,6 +19,7 @@ export default function combineEventHandlers<A, B>(a: A, b: B): A & B;
 export default function combineEventHandlers(...propObjects: any[]): any {
   const result: any = {};
   propObjects.forEach((o) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     Object.keys(o).forEach((k) => {
       if (k in result) {
         const prev = result[k];

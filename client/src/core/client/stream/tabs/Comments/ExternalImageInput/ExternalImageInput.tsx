@@ -34,7 +34,11 @@ const ExternalImageInput: FunctionComponent<Props> = ({ onSelect }) => {
   }, []);
 
   return (
-    <Form onSubmit={({ externalImg }) => onSelect(externalImg)}>
+    <Form
+      onSubmit={({ externalImg }: { externalImg: string }) =>
+        onSelect(externalImg)
+      }
+    >
       {({ handleSubmit, submitting, pristine }) => (
         <div className={styles.root}>
           <Field name="externalImg" validate={getImageValidators()}>

@@ -7,7 +7,7 @@ import { PostMessageService } from "coral-framework/lib/postMessage";
 import { getContentBoxSize } from "coral-ui/helpers";
 
 async function injectConditionalPolyfills() {
-  const pending: Promise<any>[] = [];
+  const pending: Array<Promise<any>> = [];
   const browser = getBrowserInfo(window);
 
   // Polyfill Intersection Observer.
