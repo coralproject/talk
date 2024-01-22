@@ -26,7 +26,7 @@ resetPassword-missingResetToken = De markering voor herstel lijkt te ontbreken.
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation = Bevestitings e-mail
+confirmEmail-emailConfirmation = Bevestigings-e-mail
 confirmEmail-confirmYourEmailAddress =
   Bevestig je e-mailadres
 confirmEmail-confirmEmail = 
