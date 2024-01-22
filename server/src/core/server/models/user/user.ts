@@ -39,9 +39,10 @@ import {
   GQLSuspensionStatus,
   GQLTimeRange,
   GQLUSER_ROLE,
+  GQLUserEmailNotificationSettings,
+  GQLUserInPageNotificationSettings,
   GQLUserMediaSettings,
   GQLUsernameStatus,
-  GQLUserNotificationSettings,
   GQLWarningStatus,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -549,9 +550,14 @@ export interface User extends TenantResource {
   membershipScopes?: UserMembershipScopes;
 
   /**
-   * notifications stores the notification settings for the given User.
+   * notifications stores the email notification settings for the given User.
    */
-  notifications: GQLUserNotificationSettings;
+  notifications: GQLUserEmailNotificationSettings;
+
+  /**
+   * inPageNotifications stores the in-page notification settings for the given User.
+   */
+  inPageNotifications: GQLUserInPageNotificationSettings;
 
   /**
    * digests stores all the notification digests on the User that are scheduled
@@ -682,6 +688,14 @@ export async function findOrCreateUserInput(
       onModeration: false,
       onStaffReplies: false,
       digestFrequency: GQLDIGEST_FREQUENCY.NONE,
+    },
+    inPageNotifications: {
+      onReply: true,
+      onFeatured: true,
+      onModeration: true,
+      onStaffReplies: true,
+      includeCountInBadge: true,
+      bellRemainsVisible: true,
     },
     moderatorNotes: [],
     digests: [],
@@ -3135,15 +3149,52 @@ export async function setUserLastDownloadedAt(
   return result.value;
 }
 
-export type NotificationSettingsInput = Partial<GQLUserNotificationSettings>;
+export type EmailNotificationSettingsInput =
+  Partial<GQLUserEmailNotificationSettings>;
 
-export async function updateUserNotificationSettings(
+export async function updateUserEmailNotificationSettings(
   mongo: MongoContext,
   tenantID: string,
   id: string,
-  notifications: NotificationSettingsInput
+  notifications: EmailNotificationSettingsInput
 ) {
   const update: DeepPartial<User> = { notifications };
+
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    { $set: dotize(update) },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the update operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+export type InPageNotificationSettingsInput =
+  Partial<GQLUserInPageNotificationSettings>;
+
+export async function updateUserInPageNotificationSettings(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  inPageNotifications: InPageNotificationSettingsInput
+) {
+  const update: DeepPartial<User> = { inPageNotifications };
 
   const result = await mongo.users().findOneAndUpdate(
     {

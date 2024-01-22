@@ -2,12 +2,11 @@ import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { Field, Form, FormSpy } from "react-final-form";
+import { Field, Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLDIGEST_FREQUENCY } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import {
   AlertTriangleIcon,
@@ -20,27 +19,26 @@ import {
   FormField,
   HorizontalGutter,
   HorizontalRule,
-  Option,
-  SelectField,
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { NotificationSettingsContainer_viewer } from "coral-stream/__generated__/NotificationSettingsContainer_viewer.graphql";
+import { InPageNotificationSettingsContainer_viewer } from "coral-stream/__generated__/InPageNotificationSettingsContainer_viewer.graphql";
 
-import UpdateNotificationSettingsMutation from "./UpdateNotificationSettingsMutation";
+import UpdateInPageNotificationSettingsMutation from "./UpdateInPageNotificationSettingsMutation";
 
 import styles from "./NotificationSettingsContainer.css";
 
 interface Props {
-  viewer: NotificationSettingsContainer_viewer;
+  viewer: InPageNotificationSettingsContainer_viewer;
 }
 
-type FormProps = NotificationSettingsContainer_viewer["notifications"];
+type FormProps =
+  InPageNotificationSettingsContainer_viewer["inPageNotifications"];
 
-const NotificationSettingsContainer: FunctionComponent<Props> = ({
-  viewer: { notifications },
+const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
+  viewer: { inPageNotifications },
 }) => {
-  const mutation = useMutation(UpdateNotificationSettingsMutation);
+  const mutation = useMutation(UpdateInPageNotificationSettingsMutation);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const closeSuccess = useCallback(() => {
@@ -72,12 +70,12 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter
-      data-testid="profile-account-notifications"
+      // data-testid="profile-account-notifications"
       className={CLASSES.emailNotifications.$root}
       container="section"
-      aria-labelledby="profile-account-notifications-emailNotifications-title"
+      // aria-labelledby="profile-account-notifications-emailNotifications-title"
     >
-      <Form initialValues={{ ...notifications }} onSubmit={onSubmit}>
+      <Form initialValues={{ ...inPageNotifications }} onSubmit={onSubmit}>
         {({
           handleSubmit,
           submitting,
@@ -88,31 +86,31 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
           <form onSubmit={handleSubmit}>
             <HorizontalGutter>
               <HorizontalGutter>
-                <Localized id="profile-account-notifications-emailNotifications">
+                <Localized id="">
                   <h2
                     className={cn(
                       styles.title,
                       CLASSES.emailNotifications.heading
                     )}
-                    id="profile-account-notifications-emailNotifications-title"
+                    id=""
                   >
-                    Email Notifications
+                    In-page Notifications
                   </h2>
                 </Localized>
               </HorizontalGutter>
               <HorizontalGutter>
-                <Localized id="profile-account-notifications-receiveWhen">
+                <Localized id="">
                   <div
                     className={cn(
                       styles.header,
                       CLASSES.emailNotifications.label
                     )}
-                    id="profile-account-notifications-receiveWhen"
+                    id="profile-account-notifications-includeWhen"
                   >
-                    Receive notifications when:
+                    Include notifications when
                   </div>
                 </Localized>
-                <FieldSet aria-labelledby="profile-account-notifications-receiveWhen">
+                <FieldSet aria-labelledby="profile-account-notifications-includeWhen">
                   <FormField>
                     <Field name="onReply" type="checkbox">
                       {({ input }) => (
@@ -177,55 +175,52 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                       )}
                     </Field>
                   </FormField>
+                </FieldSet>
+              </HorizontalGutter>
+              <HorizontalGutter>
+                <Localized id="profile-account-notifications-interface">
+                  <div
+                    className={cn(
+                      styles.header,
+                      CLASSES.emailNotifications.label
+                    )}
+                    id="profile-account-notifications-interface"
+                  >
+                    Interface preferences
+                  </div>
+                </Localized>
+                <FieldSet aria-labelledby="profile-account-notifications-interface">
                   <FormField>
-                    <Localized id="profile-account-notifications-sendNotifications">
-                      <label
-                        className={cn(
-                          styles.header,
-                          styles.sendNotifications,
-                          CLASSES.emailNotifications.label
-                        )}
-                        htmlFor="digestFrequency"
-                      >
-                        Send Notifications:
-                      </label>
-                    </Localized>
-                    <FormSpy subscription={{ values: true }}>
-                      {({ values }) => (
-                        <Field name="digestFrequency">
-                          {({ input }) => (
-                            <div>
-                              <SelectField
-                                {...input}
-                                id={input.name}
-                                disabled={
-                                  !values.onReply &&
-                                  !values.onStaffReplies &&
-                                  !values.onFeatured &&
-                                  !values.onModeration
-                                }
-                              >
-                                <Localized id="profile-account-notifications-sendNotifications-immediately">
-                                  <Option value={GQLDIGEST_FREQUENCY.NONE}>
-                                    Immediately
-                                  </Option>
-                                </Localized>
-                                <Localized id="profile-account-notifications-sendNotifications-daily">
-                                  <Option value={GQLDIGEST_FREQUENCY.DAILY}>
-                                    Daily
-                                  </Option>
-                                </Localized>
-                                <Localized id="profile-account-notifications-sendNotifications-hourly">
-                                  <Option value={GQLDIGEST_FREQUENCY.HOURLY}>
-                                    Hourly
-                                  </Option>
-                                </Localized>
-                              </SelectField>
-                            </div>
-                          )}
-                        </Field>
+                    <Field name="includeCountInBadge" type="checkbox">
+                      {({ input }) => (
+                        <Localized id="">
+                          <CheckBox
+                            {...input}
+                            id={input.name}
+                            className={styles.checkBox}
+                            variant="streamBlue"
+                          >
+                            Include count in badge
+                          </CheckBox>
+                        </Localized>
                       )}
-                    </FormSpy>
+                    </Field>
+                  </FormField>
+                  <FormField>
+                    <Field name="bellRemainsVisible" type="checkbox">
+                      {({ input }) => (
+                        <Localized id="">
+                          <CheckBox
+                            {...input}
+                            id={input.name}
+                            className={styles.checkBox}
+                            variant="streamBlue"
+                          >
+                            Bell remains visible as I scroll
+                          </CheckBox>
+                        </Localized>
+                      )}
+                    </Field>
                   </FormField>
                 </FieldSet>
               </HorizontalGutter>
@@ -288,16 +283,17 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
-    fragment NotificationSettingsContainer_viewer on User {
-      notifications {
+    fragment InPageNotificationSettingsContainer_viewer on User {
+      inPageNotifications {
         onReply
         onFeatured
         onStaffReplies
         onModeration
-        digestFrequency
+        includeCountInBadge
+        bellRemainsVisible
       }
     }
   `,
-})(NotificationSettingsContainer);
+})(InPageNotificationSettingsContainer);
 
 export default enhanced;

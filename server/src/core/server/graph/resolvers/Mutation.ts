@@ -23,12 +23,20 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     },
     clientMutationId: input.clientMutationId,
   }),
-  updateNotificationSettings: async (
+  updateEmailNotificationSettings: async (
     source,
     { input: { clientMutationId, ...input } },
     ctx
   ) => ({
-    user: await ctx.mutators.Users.updateNotificationSettings(input),
+    user: await ctx.mutators.Users.updateEmailNotificationSettings(input),
+    clientMutationId,
+  }),
+  updateInPageNotificationSettings: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    user: await ctx.mutators.Users.updateInPageNotificationSettings(input),
     clientMutationId,
   }),
   updateUserMediaSettings: async (

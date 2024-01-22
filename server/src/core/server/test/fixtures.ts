@@ -237,6 +237,14 @@ export const createUserFixture = (defaults: Defaults<User> = {}): User => {
       onStaffReplies: false,
       digestFrequency: GQLDIGEST_FREQUENCY.NONE,
     },
+    inPageNotifications: {
+      onReply: true,
+      onFeatured: true,
+      onModeration: true,
+      onStaffReplies: true,
+      includeCountInBadge: true,
+      bellRemainsVisible: true,
+    },
     digests: [],
     hasDigests: false,
     status: {
