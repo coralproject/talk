@@ -70,10 +70,9 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter
-      // data-testid="profile-account-notifications"
-      className={CLASSES.emailNotifications.$root}
+      className={CLASSES.notifications.$root}
       container="section"
-      // aria-labelledby="profile-account-notifications-emailNotifications-title"
+      aria-labelledby="profile-account-notifications-inPageNotifications-title"
     >
       <Form initialValues={{ ...inPageNotifications }} onSubmit={onSubmit}>
         {({
@@ -86,31 +85,25 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
           <form onSubmit={handleSubmit}>
             <HorizontalGutter>
               <HorizontalGutter>
-                <Localized id="">
+                <Localized id="profile-account-notifications-inPageNotifications">
                   <h2
-                    className={cn(
-                      styles.title,
-                      CLASSES.emailNotifications.heading
-                    )}
-                    id=""
+                    className={cn(styles.title, CLASSES.notifications.heading)}
+                    id="profile-account-notifications-inPageNotifications-title"
                   >
                     In-page Notifications
                   </h2>
                 </Localized>
               </HorizontalGutter>
               <HorizontalGutter>
-                <Localized id="">
+                <Localized id="profile-account-notifications-includeInPageWhen">
                   <div
-                    className={cn(
-                      styles.header,
-                      CLASSES.emailNotifications.label
-                    )}
-                    id="profile-account-notifications-includeWhen"
+                    className={cn(styles.header, CLASSES.notifications.label)}
+                    id="profile-account-notifications-includeInPageWhen"
                   >
                     Include notifications when
                   </div>
                 </Localized>
-                <FieldSet aria-labelledby="profile-account-notifications-includeWhen">
+                <FieldSet aria-labelledby="profile-account-notifications-includeInPageWhen">
                   <FormField>
                     <Field name="onReply" type="checkbox">
                       {({ input }) => (
@@ -178,22 +171,19 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                 </FieldSet>
               </HorizontalGutter>
               <HorizontalGutter>
-                <Localized id="profile-account-notifications-interface">
+                <Localized id="profile-account-notifications-interfacePreferences">
                   <div
-                    className={cn(
-                      styles.header,
-                      CLASSES.emailNotifications.label
-                    )}
-                    id="profile-account-notifications-interface"
+                    className={cn(styles.header, CLASSES.notifications.label)}
+                    id="profile-account-notifications-interfacePreferences"
                   >
                     Interface preferences
                   </div>
                 </Localized>
-                <FieldSet aria-labelledby="profile-account-notifications-interface">
+                <FieldSet aria-labelledby="profile-account-notifications-interfacePreferences">
                   <FormField>
                     <Field name="includeCountInBadge" type="checkbox">
                       {({ input }) => (
-                        <Localized id="">
+                        <Localized id="profile-account-notifications-includeCountInBadge">
                           <CheckBox
                             {...input}
                             id={input.name}
@@ -209,7 +199,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                   <FormField>
                     <Field name="bellRemainsVisible" type="checkbox">
                       {({ input }) => (
-                        <Localized id="">
+                        <Localized id="profile-account-notifications-bellRemainsVisible">
                           <CheckBox
                             {...input}
                             id={input.name}
@@ -233,7 +223,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                   <Button
                     type="submit"
                     disabled={submitting || pristine}
-                    className={CLASSES.emailNotifications.updateButton}
+                    className={CLASSES.notifications.updateButton}
                     upperCase
                   >
                     Update

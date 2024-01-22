@@ -73,7 +73,7 @@ const EmailNotificationSettingsContainer: FunctionComponent<Props> = ({
   return (
     <HorizontalGutter
       data-testid="profile-account-notifications"
-      className={CLASSES.emailNotifications.$root}
+      className={CLASSES.notifications.$root}
       container="section"
       aria-labelledby="profile-account-notifications-emailNotifications-title"
     >
@@ -90,10 +90,7 @@ const EmailNotificationSettingsContainer: FunctionComponent<Props> = ({
               <HorizontalGutter>
                 <Localized id="profile-account-notifications-emailNotifications">
                   <h2
-                    className={cn(
-                      styles.title,
-                      CLASSES.emailNotifications.heading
-                    )}
+                    className={cn(styles.title, CLASSES.notifications.heading)}
                     id="profile-account-notifications-emailNotifications-title"
                   >
                     Email Notifications
@@ -103,10 +100,7 @@ const EmailNotificationSettingsContainer: FunctionComponent<Props> = ({
               <HorizontalGutter>
                 <Localized id="profile-account-notifications-receiveWhen">
                   <div
-                    className={cn(
-                      styles.header,
-                      CLASSES.emailNotifications.label
-                    )}
+                    className={cn(styles.header, CLASSES.notifications.label)}
                     id="profile-account-notifications-receiveWhen"
                   >
                     Receive notifications when:
@@ -183,7 +177,7 @@ const EmailNotificationSettingsContainer: FunctionComponent<Props> = ({
                         className={cn(
                           styles.header,
                           styles.sendNotifications,
-                          CLASSES.emailNotifications.label
+                          CLASSES.notifications.label
                         )}
                         htmlFor="digestFrequency"
                       >
@@ -238,7 +232,7 @@ const EmailNotificationSettingsContainer: FunctionComponent<Props> = ({
                   <Button
                     type="submit"
                     disabled={submitting || pristine}
-                    className={CLASSES.emailNotifications.updateButton}
+                    className={CLASSES.notifications.updateButton}
                     upperCase
                   >
                     Update
