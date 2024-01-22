@@ -75,6 +75,7 @@ import useCommentCountEvent from "./useCommentCountEvent";
 import ViewersWatchingContainer from "./ViewersWatchingContainer";
 import WarningContainer from "./Warning";
 
+import useLiveNotificationsPolling from "coral-stream/tabs/Notifications/polling/useLiveNotificationsPolling";
 import styles from "./StreamContainer.css";
 
 interface Props {
@@ -131,6 +132,8 @@ const AccessibleCounter: FunctionComponent<PropTypesOf<typeof Counter>> = (
 );
 
 export const StreamContainer: FunctionComponent<Props> = (props) => {
+  useLiveNotificationsPolling(props.viewer?.id);
+
   const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
   const emitSetCommentsOrderByEvent = useViewerEvent(SetCommentsOrderByEvent);
   const { localStorage, browserInfo } = useCoralContext();

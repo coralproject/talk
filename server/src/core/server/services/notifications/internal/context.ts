@@ -172,6 +172,11 @@ export class InternalNotificationContext {
     await this.redis.incr(key);
   }
 
+  public async clearCountForUser(tenantID: string, userID: string) {
+    const key = this.computeCountKey(tenantID, userID);
+    await this.redis.del(key);
+  }
+
   public async retrieveCount(tenantID: string, userID: string) {
     const key = this.computeCountKey(tenantID, userID);
 

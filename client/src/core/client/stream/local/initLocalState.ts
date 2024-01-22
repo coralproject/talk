@@ -181,5 +181,6 @@ export const createInitLocalState: (options: Options) => InitLocalState =
       localRecord.setValue(dsaFeaturesEnabled, "dsaFeaturesEnabled");
 
       localRecord.setValue(null, "hasNewNotifications");
+      localRecord.setValue(0, "notificationCount");
     });
   };
