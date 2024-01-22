@@ -26,15 +26,17 @@ resetPassword-missingResetToken = De markering voor herstel lijkt te ontbreken.
 
 ## Email Confirmation
 
+confirmEmail-emailConfirmation = Bevestitings e-mail
 confirmEmail-confirmYourEmailAddress =
   Bevestig je e-mailadres
-confirmEmail-confirmEmail = Bevestig e-mail
+confirmEmail-confirmEmail = 
+  Bevestig e-mail
 confirmEmail-pleaseClickToConfirm = Klik onderaan om je e-mailadres te bevestigen.
 confirmEmail-oopsSorry = Oeps sorry!
-confirmEmail-missingConfirmToken = De markering voor bevestiging lijkt te ontbreken.
+confirmEmail-missingConfirmToken = De token voor bevestiging lijkt te ontbreken.
 confirmEmail-successfullyConfirmed = E-mail met succes bevestigd
 confirmEmail-youMayClose =
-  Je mag dit venster nu sluiten.
+  Je kunt dit venster nu sluiten.
 
 ## Download
 
@@ -48,15 +50,19 @@ download-landingPage-contentsDescription =
 download-landingPage-contentsDate =
   Wanneer je de reactie schreef
 download-landingPage-contentsUrl =
-  De volledige URL voor de reactie
+  De volledige URL van de reactie
 download-landingPage-contentsText =
   De tekst van de reactie
 download-landingPage-contentsStoryUrl =
   De URL van het artikel waar de reactie verschijnt
+download-landingPage-downloadComments = Reacties downloaden
 download-landingPage-download = Download
 download-landingPage-sorry = Je download link is ongeldig.
 
 ## Unsubscribe
+
+unsubscribe-confirm = Bevestigen
+unsubscribe-successfullyUnsubscribed = Je bent succesvol afgemeld voor meldingen.
 
 unsubscribe-unsubscribeFromEmails = Uitschrijven voor e-mailmeldingen
 unsubscribe-oopsSorry = Oeps sorry!
@@ -66,4 +72,4 @@ unsubscribe-submit-unsubscribe = Uitschrijven
 unsubscribe-unsubscribedSuccessfully =
   Succesvol afgemeld voor e-mailmeldingen
 unsubscribe-youMayNowClose =
-  Je mag dit venster nu sluiten.
+  Je kunt dit venster nu sluiten.
