@@ -75,6 +75,7 @@ import useCommentCountEvent from "./useCommentCountEvent";
 import ViewersWatchingContainer from "./ViewersWatchingContainer";
 import WarningContainer from "./Warning";
 
+import { LiveBellIcon } from "coral-stream/tabs/Notifications/LiveBellIcon";
 import useLiveNotificationsPolling from "coral-stream/tabs/Notifications/polling/useLiveNotificationsPolling";
 import styles from "./StreamContainer.css";
 
@@ -277,6 +278,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             />
           </div>
         </Flex>
+        <LiveBellIcon />
         <AnnouncementContainer settings={props.settings} />
         {props.viewer && (
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />
