@@ -50,6 +50,7 @@ export { default as LikeIcon } from "./LikeIcon";
 export { default as ListBulletsIcon } from "./ListBulletsIcon";
 export { default as LockIcon } from "./LockIcon";
 export { default as MessagesBubbleSquareIcon } from "./MessagesBubbleSquareIcon";
+export { default as MessagesBubbleSquareTextIcon } from "./MessagesBubbleSquareTextIcon";
 export { default as MessagesBubbleSquareWarningIcon } from "./MessagesBubbleSquareWarningIcon";
 export { default as ModerationDecisionIcon } from "./ModerationDecisionIcon";
 export { default as MultipleActionsChatIcon } from "./MultipleActionsChatIcon";

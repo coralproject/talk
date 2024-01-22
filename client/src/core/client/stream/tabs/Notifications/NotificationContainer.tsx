@@ -9,8 +9,8 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
 import {
   CheckCircleIcon,
-  EmailActionReplyIcon,
   LegalHammerIcon,
+  MessagesBubbleSquareTextIcon,
   QuestionCircleIcon,
   RejectCommentBoxIcon,
   SvgIcon,
@@ -25,6 +25,7 @@ import { NotificationContainer_viewer } from "coral-stream/__generated__/Notific
 
 import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
 import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
+import RepliedCommentNotificationBody from "./RepliedCommentNotificationBody";
 
 import styles from "./NotificationContainer.css";
 
@@ -50,10 +51,10 @@ const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
     return LegalHammerIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.REPLY) {
-    return EmailActionReplyIcon;
+    return MessagesBubbleSquareTextIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.REPLY_STAFF) {
-    return EmailActionReplyIcon;
+    return MessagesBubbleSquareTextIcon;
   }
   return QuestionCircleIcon;
 };
@@ -153,6 +154,10 @@ const NotificationContainer: FunctionComponent<Props> = ({
         {type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE && (
           <DSAReportDecisionMadeNotificationBody notification={notification} />
         )}
+        {(type === GQLNOTIFICATION_TYPE.REPLY ||
+          type === GQLNOTIFICATION_TYPE.REPLY_STAFF) && (
+          <RepliedCommentNotificationBody notification={notification} />
+        )}
         <div className={styles.footer}>
           <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
         </div>
@@ -179,6 +184,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...RejectedCommentNotificationBody_notification
       ...DSAReportDecisionMadeNotificationBody_notification
+      ...RepliedCommentNotificationBody_notification
     }
   `,
 })(NotificationContainer);

@@ -1,0 +1,31 @@
+.body {
+  margin-left: var(--spacing-5);
+  margin-bottom: var(--spacing-2);
+
+  width: calc(100% - var(--spacing-4));
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-2);
+}
+
+.commentSection {
+  margin-bottom: var(--spacing-2);
+}
+
+.goToReplyButton {
+  color: var(--palette-primary-500);
+  padding: 0;
+  text-decoration: underline;
+}
+
+.replyInfo {
+  font-size: var(--font-size-3);
+}
+
+.commentBody {
+  background-color: var(--palette-grey-200);
+  margin-left: var(--spacing-2);
+  margin-top: var(--spacing-1);
+  padding: var(--spacing-2);
+}
