@@ -67,58 +67,60 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
 
   return (
     <>
-      <div className={styles.methodOfRedress}>
-        {props.query.settings.dsa.methodOfRedress.method ===
-          GQLDSA_METHOD_OF_REDRESS.NONE && (
-          <Localized id="notifications-methodOfRedress-none">
-            All moderation decisions are final and cannot be appealed
-          </Localized>
-        )}
-        {props.query.settings.dsa.methodOfRedress.method ===
-          GQLDSA_METHOD_OF_REDRESS.EMAIL && (
-          <Localized
-            id="notifications-methodOfRedress-email"
-            vars={{
-              email: props.query.settings.dsa.methodOfRedress.email,
-            }}
-            elems={{
-              a: (
-                <a
-                  href={`mailto: ${props.query.settings.dsa.methodOfRedress.email}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {props.query.settings.dsa.methodOfRedress.email}
-                </a>
-              ),
-            }}
-          >
-            <span>{`To appeal a decision that appears here please contact ${props.query.settings.dsa.methodOfRedress.email}`}</span>
-          </Localized>
-        )}
-        {props.query.settings.dsa.methodOfRedress.method ===
-          GQLDSA_METHOD_OF_REDRESS.URL && (
-          <Localized
-            id="notifications-methodOfRedress-url"
-            vars={{
-              url: props.query.settings.dsa.methodOfRedress.url,
-            }}
-            elems={{
-              a: (
-                <a
-                  href={`${props.query.settings.dsa.methodOfRedress.url}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {props.query.settings.dsa.methodOfRedress.url}
-                </a>
-              ),
-            }}
-          >
-            <span>{`To appeal a decision that appears here please visit ${props.query.settings.dsa.methodOfRedress.url}`}</span>
-          </Localized>
-        )}
-      </div>
+      {props.query.settings.dsa.enabled && (
+        <div className={styles.methodOfRedress}>
+          {props.query.settings.dsa.methodOfRedress.method ===
+            GQLDSA_METHOD_OF_REDRESS.NONE && (
+            <Localized id="notifications-methodOfRedress-none">
+              All moderation decisions are final and cannot be appealed
+            </Localized>
+          )}
+          {props.query.settings.dsa.methodOfRedress.method ===
+            GQLDSA_METHOD_OF_REDRESS.EMAIL && (
+            <Localized
+              id="notifications-methodOfRedress-email"
+              vars={{
+                email: props.query.settings.dsa.methodOfRedress.email,
+              }}
+              elems={{
+                a: (
+                  <a
+                    href={`mailto: ${props.query.settings.dsa.methodOfRedress.email}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {props.query.settings.dsa.methodOfRedress.email}
+                  </a>
+                ),
+              }}
+            >
+              <span>{`To appeal a decision that appears here please contact ${props.query.settings.dsa.methodOfRedress.email}`}</span>
+            </Localized>
+          )}
+          {props.query.settings.dsa.methodOfRedress.method ===
+            GQLDSA_METHOD_OF_REDRESS.URL && (
+            <Localized
+              id="notifications-methodOfRedress-url"
+              vars={{
+                url: props.query.settings.dsa.methodOfRedress.url,
+              }}
+              elems={{
+                a: (
+                  <a
+                    href={`${props.query.settings.dsa.methodOfRedress.url}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {props.query.settings.dsa.methodOfRedress.url}
+                  </a>
+                ),
+              }}
+            >
+              <span>{`To appeal a decision that appears here please visit ${props.query.settings.dsa.methodOfRedress.url}`}</span>
+            </Localized>
+          )}
+        </div>
+      )}
       <div>
         {props.query.notifications.edges.map(({ node }) => {
           return (
@@ -171,6 +173,7 @@ const enhanced = withPaginationContainer<
         }
         settings {
           dsa {
+            enabled
             methodOfRedress {
               method
               email

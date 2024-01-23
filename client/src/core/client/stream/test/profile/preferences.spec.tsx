@@ -4,7 +4,7 @@ import { axe } from "jest-axe";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/common/lib/utils";
-import { GQLResolver } from "coral-framework/schema";
+import { GQLFEATURE_FLAG, GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
@@ -46,8 +46,8 @@ async function createTestRenderer(
   };
 }
 
-it("render notifications form", async () => {
-  const updateNotificationSettings = sinon
+it("render email notifications form", async () => {
+  const updateEmailNotificationSettings = sinon
     .stub()
     .callsFake((_: any, { input: { clientMutationId, ...notifications } }) => {
       expectAndFail(notifications).toMatchObject({
@@ -68,7 +68,7 @@ it("render notifications form", async () => {
     await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Mutation: {
-          updateNotificationSettings,
+          updateEmailNotificationSettings,
         },
       }),
     });
@@ -120,7 +120,110 @@ it("render notifications form", async () => {
 
   // Ensure that the mutation was called and that the save button is now
   // disabled.
-  expect(updateNotificationSettings.calledOnce).toEqual(true);
+  expect(updateEmailNotificationSettings.calledOnce).toEqual(true);
+  expect(save).toBeDisabled();
+
+  // Change a notification option.
+  userEvent.click(onReply);
+
+  // The save button should now be enabled.
+  expect(save).toBeEnabled();
+
+  // Change a notification back (making it pristine).
+  await act(async () => {
+    userEvent.click(onReply);
+  });
+
+  // The save button should now be disabled.
+  expect(save).toBeDisabled();
+});
+
+it("render and update in-page notifications form", async () => {
+  const updateInPageNotificationSettings = sinon
+    .stub()
+    .callsFake(
+      (_: any, { input: { clientMutationId, ...inPageNotifications } }) => {
+        expectAndFail(inPageNotifications).toMatchObject({
+          onReply: false,
+          onFeatured: false,
+          onStaffReplies: true,
+          onModeration: false,
+          includeCountInBadge: true,
+          bellRemainsVisible: true,
+        });
+        return {
+          user: pureMerge<typeof viewer>(viewer, {
+            inPageNotifications,
+          }),
+          clientMutationId,
+        };
+      }
+    );
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Mutation: {
+          updateInPageNotificationSettings,
+        },
+        Query: {
+          settings: () => {
+            return { ...settings, featureFlags: [GQLFEATURE_FLAG.Z_KEY] };
+          },
+          viewer: () => viewer,
+          stream: () => story,
+        },
+      }),
+    });
+  });
+
+  const container = await screen.findByTestId(
+    "profile-account-inPageNotifications"
+  );
+  expect(await axe(container)).toHaveNoViolations();
+
+  // Get the form fields.
+  const onReply = within(container).getByRole("checkbox", {
+    name: "My comment receives a reply",
+  });
+  const onStaffReplies = within(container).getByRole("checkbox", {
+    name: "A staff member replies to my comment",
+  });
+  const onModeration = within(container).getByRole("checkbox", {
+    name: "My pending comment has been reviewed",
+  });
+  const onFeatured = within(container).getByRole("checkbox", {
+    name: "My comment is featured",
+  });
+
+  expect(within(container).getByText("Interface preferences")).toBeVisible();
+  expect(
+    within(container).getByRole("checkbox", { name: "Include count in badge" })
+  ).toBeVisible();
+  expect(
+    within(container).getByRole("checkbox", {
+      name: "Bell remains visible as I scroll",
+    })
+  ).toBeVisible();
+
+  const save = within(container).getByRole("button", { name: "Update" });
+
+  // The save button should be disabled for unchanged fields.
+  expect(save).toBeDisabled();
+
+  // Disable the options.
+  userEvent.click(onReply);
+  userEvent.click(onStaffReplies);
+  userEvent.click(onModeration);
+  userEvent.click(onFeatured);
+
+  // Submit the form.
+  await act(async () => {
+    userEvent.click(save);
+  });
+
+  // Ensure that the mutation was called and that the save button is now
+  // disabled.
+  expect(updateInPageNotificationSettings.calledOnce).toEqual(true);
   expect(save).toBeDisabled();
 
   // Change a notification option.

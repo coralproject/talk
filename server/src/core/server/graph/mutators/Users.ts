@@ -34,10 +34,11 @@ import {
   updateBio,
   updateEmail,
   updateEmailByID,
+  updateEmailNotificationSettings,
+  updateInPageNotificationSettings,
   updateMediaSettings,
   updateMembershipScopes,
   updateModerationScopes,
-  updateNotificationSettings,
   updatePassword,
   updateRole,
   updateSSOProfileID,
@@ -79,7 +80,8 @@ import {
   GQLSuspendUserInput,
   GQLUpdateBioInput,
   GQLUpdateEmailInput,
-  GQLUpdateNotificationSettingsInput,
+  GQLUpdateEmailNotificationSettingsInput,
+  GQLUpdateInPageNotificationSettingsInput,
   GQLUpdatePasswordInput,
   GQLUpdateSSOProfileIDInput,
   GQLUpdateUserAvatarInput,
@@ -244,10 +246,20 @@ export const Users = (ctx: GraphContext) => ({
       input.email,
       input.password
     ),
-  updateNotificationSettings: async (
-    input: WithoutMutationID<GQLUpdateNotificationSettingsInput>
+  updateEmailNotificationSettings: async (
+    input: WithoutMutationID<GQLUpdateEmailNotificationSettingsInput>
   ) =>
-    updateNotificationSettings(
+    updateEmailNotificationSettings(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input
+    ),
+  updateInPageNotificationSettings: async (
+    input: WithoutMutationID<GQLUpdateInPageNotificationSettingsInput>
+  ) =>
+    updateInPageNotificationSettings(
       ctx.mongo,
       ctx.cache,
       ctx.tenant,

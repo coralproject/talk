@@ -5,7 +5,7 @@ const CLASSES = {
   app: "coral coral-stream",
 
   /**
-   * guidlines represents the box containing the guidlines.
+   * guidelines represents the box containing the guidelines.
    */
   guidelines: {
     container: "coral coral-guidelines",
@@ -13,7 +13,7 @@ const CLASSES = {
   },
 
   /**
-   * guidlines represents the box containing the guidlines.
+   * announcement represents the box containing the announcement.
    */
   announcement: "coral coral-announcement",
 
@@ -1059,11 +1059,13 @@ const CLASSES = {
     openButton: "coral coral-openCommentStream-openButton",
   },
 
-  emailNotifications: {
-    $root: "coral coral-emailNotifications",
-    heading: "coral coral-emailNotifications-heading",
-    label: "coral coral-emailNotifications-label",
-    updateButton: "coral coral-emailNotifications-updateButton",
+  notifications: {
+    $root: "coral coral-emailNotifications coral-notifications",
+    heading:
+      "coral coral-emailNotifications-heading coral-notifications-heading",
+    label: "coral coral-emailNotifications-label coral-notifications-label",
+    updateButton:
+      "coral coral-emailNotifications-updateButton coral-notifications-updateButton",
   },
 
   mediaPreferences: {

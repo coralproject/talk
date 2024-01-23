@@ -58,13 +58,14 @@ import {
   createUserToken,
   deactivateUserToken,
   deleteModeratorNote,
+  EmailNotificationSettingsInput,
   findOrCreateUser,
   FindOrCreateUserInput,
   ignoreUser,
+  InPageNotificationSettingsInput,
   linkUsers,
   mergeUserMembershipScopes,
   mergeUserSiteModerationScopes,
-  NotificationSettingsInput,
   premodUser,
   PremodUserReason,
   pullUserMembershipScopes,
@@ -89,11 +90,12 @@ import {
   updateUserAvatar,
   updateUserBio,
   updateUserEmail,
+  updateUserEmailNotificationSettings,
+  updateUserInPageNotificationSettings,
   updateUserMediaSettings,
   UpdateUserMediaSettingsInput,
   updateUserMembershipScopes,
   updateUserModerationScopes,
-  updateUserNotificationSettings,
   updateUserPassword,
   updateUserRole,
   updateUserSSOProfileID,
@@ -2326,14 +2328,36 @@ export async function requestUserCommentsDownload(
   return downloadUrl;
 }
 
-export async function updateNotificationSettings(
+export async function updateEmailNotificationSettings(
   mongo: MongoContext,
   cache: DataCache,
   tenant: Tenant,
   user: User,
-  settings: NotificationSettingsInput
+  settings: EmailNotificationSettingsInput
 ) {
-  const updatedUser = await updateUserNotificationSettings(
+  const updatedUser = await updateUserEmailNotificationSettings(
+    mongo,
+    tenant.id,
+    user.id,
+    settings
+  );
+
+  const cacheAvailable = await cache.available(tenant.id);
+  if (cacheAvailable) {
+    await cache.users.update(updatedUser);
+  }
+
+  return updatedUser;
+}
+
+export async function updateInPageNotificationSettings(
+  mongo: MongoContext,
+  cache: DataCache,
+  tenant: Tenant,
+  user: User,
+  settings: InPageNotificationSettingsInput
+) {
+  const updatedUser = await updateUserInPageNotificationSettings(
     mongo,
     tenant.id,
     user.id,

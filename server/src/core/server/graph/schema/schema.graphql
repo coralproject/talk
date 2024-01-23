@@ -2902,23 +2902,23 @@ type UserMediaSettings {
 }
 
 """
-UserNotificationSettings stores the notification settings for a given User.
+UserEmailNotificationSettings stores the email notification settings for a given User.
 """
-type UserNotificationSettings {
+type UserEmailNotificationSettings {
   """
-  onReply, when true, will enable notifications to be sent to users that have
+  onReply, when true, will enable email notifications to be sent to users that have
   replies to their comments.
   """
   onReply: Boolean!
 
   """
-  onFeatured, when true, will enable notifications to be sent to users that have
+  onFeatured, when true, will enable email notifications to be sent to users that have
   their comment's featured.
   """
   onFeatured: Boolean!
 
   """
-  onStaffReplies when true, will enable notifications to be sent to users that
+  onStaffReplies when true, will enable email notifications to be sent to users that
   have a staff member reply to their comments. These notifications will
   supercede notifications that would have been sent for a basic reply
   notification.
@@ -2926,16 +2926,58 @@ type UserNotificationSettings {
   onStaffReplies: Boolean!
 
   """
-  onModeration when true, will enable notifications to be sent to users when a
+  onModeration when true, will enable email notifications to be sent to users when a
   comment that they wrote that was previously unpublished, becomes published due
   to a moderator action.
   """
   onModeration: Boolean!
 
   """
-  digestFrequency is the frequency to send notifications.
+  digestFrequency is the frequency to send email notifications.
   """
   digestFrequency: DIGEST_FREQUENCY!
+}
+
+"""
+UserInPageNotificationSettings stores the in-page notification settings for a given User.
+"""
+type UserInPageNotificationSettings {
+  """
+  onReply, when true, will enable in-page notifications to be sent to users that have
+  replies to their comments.
+  """
+  onReply: Boolean!
+
+  """
+  onFeatured, when true, will enable in-page notifications to be sent to users that have
+  their comment's featured.
+  """
+  onFeatured: Boolean!
+
+  """
+  onStaffReplies when true, will enable in-page notifications to be sent to users that
+  have a staff member reply to their comments. These notifications will
+  supercede notifications that would have been sent for a basic reply
+  notification.
+  """
+  onStaffReplies: Boolean!
+
+  """
+  onModeration when true, will enable in-page notifications to be sent to users when a
+  comment that they wrote that was previously unpublished, becomes published due
+  to a moderator action.
+  """
+  onModeration: Boolean!
+
+  """
+  includeCountInBadge when true, will show a count of new notifications in the interface
+  """
+  includeCountInBadge: Boolean!
+
+  """
+  bellRemainsVisible when true, will show the bell as visible when the user scrolls
+  """
+  bellRemainsVisible: Boolean!
 }
 
 """
@@ -3187,9 +3229,19 @@ type User {
     )
 
   """
-  notifications stores the notification settings for the given User.
+  notifications stores the email notification settings for the given User.
   """
-  notifications: UserNotificationSettings!
+  notifications: UserEmailNotificationSettings!
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  inPageNotifications stores the in-page notification settings for the given User.
+  """
+  inPageNotifications: UserInPageNotificationSettings!
     @auth(
       userIDField: "id"
       roles: [ADMIN]
@@ -5201,24 +5253,24 @@ type Query {
 ################################################################################
 
 ##################
-## updateNotificationSettings
+## updateEmailNotificationSettings
 ##################
 
-input UpdateNotificationSettingsInput {
+input UpdateEmailNotificationSettingsInput {
   """
-  onReply, when true, will enable notifications to be sent to users that have
+  onReply, when true, will enable email notifications to be sent to users that have
   replies to their comments.
   """
   onReply: Boolean
 
   """
-  onFeatured, when true, will enable notifications to be sent to users that have
+  onFeatured, when true, will enable email notifications to be sent to users that have
   their comment's featured.
   """
   onFeatured: Boolean
 
   """
-  onStaffReplies when true, will enable notifications to be sent to users that
+  onStaffReplies when true, will enable email notifications to be sent to users that
   have a staff member reply to their comments. These notifications will
   supercede notifications that would have been sent for a basic reply
   notification.
@@ -5226,14 +5278,14 @@ input UpdateNotificationSettingsInput {
   onStaffReplies: Boolean
 
   """
-  onModeration when true, will enable notifications to be sent to users when a
+  onModeration when true, will enable email notifications to be sent to users when a
   comment that they wrote that was previously unpublished, becomes published due
   to a moderator action.
   """
   onModeration: Boolean
 
   """
-  digestFrequency is the frequency to send notifications.
+  digestFrequency is the frequency to send email notifications.
   """
   digestFrequency: DIGEST_FREQUENCY
 
@@ -5243,7 +5295,67 @@ input UpdateNotificationSettingsInput {
   clientMutationId: String!
 }
 
-type UpdateNotificationSettingsPayload {
+type UpdateEmailNotificationSettingsPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## updateInPageNotificationSettings
+##################
+
+input UpdateInPageNotificationSettingsInput {
+  """
+  onReply, when true, will enable in-page notifications to be sent to users that have
+  replies to their comments.
+  """
+  onReply: Boolean
+
+  """
+  onFeatured, when true, will enable in-page notifications to be sent to users that have
+  their comment's featured.
+  """
+  onFeatured: Boolean
+
+  """
+  onStaffReplies when true, will enable in-page notifications to be sent to users that
+  have a staff member reply to their comments. These notifications will
+  supercede notifications that would have been sent for a basic reply
+  notification.
+  """
+  onStaffReplies: Boolean
+
+  """
+  onModeration when true, will enable in-page notifications to be sent to users when a
+  comment that they wrote that was previously unpublished, becomes published due
+  to a moderator action.
+  """
+  onModeration: Boolean
+
+  """
+  includeCountInBadge when true, will show a count of new notifications in the interface
+  """
+  includeCountInBadge: Boolean
+
+  """
+  bellRemainsVisible when true, will show the bell as visible when the user scrolls
+  """
+  bellRemainsVisible: Boolean
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateInPageNotificationSettingsPayload {
   """
   user is the possibly modified User.
   """
@@ -10327,12 +10439,21 @@ type Mutation {
     @rate(seconds: 10)
 
   """
-  updateNotificationSettings can be used to update the notification settings for
+  updateEmailNotificationSettings can be used to update the email notification settings for
   the current logged in user.
   """
-  updateNotificationSettings(
-    input: UpdateNotificationSettingsInput!
-  ): UpdateNotificationSettingsPayload!
+  updateEmailNotificationSettings(
+    input: UpdateEmailNotificationSettingsInput!
+  ): UpdateEmailNotificationSettingsPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
+
+  """
+  updateInPageNotificationSettings can be used to update the in-page notification settings for
+  the current logged in user.
+  """
+  updateInPageNotificationSettings(
+    input: UpdateInPageNotificationSettingsInput!
+  ): UpdateInPageNotificationSettingsPayload!
     @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """
