@@ -39,7 +39,7 @@ const DeleteAccountPopover: FunctionComponent<Props> = ({
       await scheduleAccountDeletion({ userID });
     } catch (e) {
       if (e.message) {
-        setRequestDeletionError(e.message);
+        setRequestDeletionError(e.message as string);
       }
     }
   }, [userID, scheduleAccountDeletion, setRequestDeletionError]);

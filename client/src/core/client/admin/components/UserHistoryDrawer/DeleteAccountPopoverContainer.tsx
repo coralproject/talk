@@ -45,7 +45,7 @@ const DeleteAccountPopoverContainer: FunctionComponent<Props> = ({ user }) => {
       await cancelScheduledAccountDeletion({ userID: user.id });
     } catch (e) {
       if (e.message) {
-        setCancelDeletionError(e.message);
+        setCancelDeletionError(e.message as string);
       }
     }
   }, [user.id, cancelScheduledAccountDeletion, setCancelDeletionError]);
