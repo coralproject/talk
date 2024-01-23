@@ -95,6 +95,8 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
       connection.nodes.map((n) => n.createdAt)
     );
 
+    await ctx.notifications.clearCountForUser(ctx.tenant.id, ownerID);
+
     return connection;
   },
   notificationCount: async (source, { userID }, ctx) => {
