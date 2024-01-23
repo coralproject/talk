@@ -43,7 +43,7 @@ export const LiveBellIcon: FunctionComponent<Props> = () => {
         size="lg"
         Icon={NotificationBellIcon}
       />
-      {notificationCount && notificationCount > 0 && (
+      {count !== "" && (
         <div className={cn(CLASSES.notifications.live.counter, styles.counter)}>
           {count}
         </div>
