@@ -59,6 +59,10 @@
   stroke: var(--palette-primary-500);
 }
 
+.strokeWidthThin svg {
+  stroke-width: 1;
+}
+
 .strokeWidthRegular svg {
   stroke-width: 2;
 }

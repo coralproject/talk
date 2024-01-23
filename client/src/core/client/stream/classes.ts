@@ -1158,6 +1158,14 @@ const CLASSES = {
   },
 
   icon: "coral coral-icon",
+
+  notifications: {
+    live: {
+      root: "coral coral-notifications-live-root",
+      icon: "coral coral-notifications-live-icon",
+      counter: "coral coral-notifications-live-counter",
+    },
+  },
 };
 
 export default CLASSES;
