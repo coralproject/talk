@@ -49,7 +49,12 @@ const stripTag = async (
     return comment;
   }
 
-  const tagResult = await removeTag(mongo, tenant, comment.id, tag);
+  const { comment: tagResult } = await removeTag(
+    mongo,
+    tenant,
+    comment.id,
+    tag
+  );
 
   await updateTagCommentCounts(
     tenant.id,

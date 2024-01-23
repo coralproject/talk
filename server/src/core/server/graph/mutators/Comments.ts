@@ -248,7 +248,7 @@ export const Comments = (ctx: GraphContext) => ({
     // Validate that this user is allowed to moderate this comment
     await validateUserModerationScopes(ctx, ctx.user!, { commentID });
 
-    const comment = await addTag(
+    const { comment, alreadyFeatured } = await addTag(
       ctx.mongo,
       ctx.tenant,
       commentID,
@@ -257,6 +257,11 @@ export const Comments = (ctx: GraphContext) => ({
       GQLTAG.FEATURED,
       ctx.now
     );
+
+    // The comment is already featured; we don't need to feature again
+    if (alreadyFeatured) {
+      return comment;
+    }
 
     if (comment.status !== GQLCOMMENT_STATUS.APPROVED) {
       await approveComment(
@@ -319,12 +324,17 @@ export const Comments = (ctx: GraphContext) => ({
     // Validate that this user is allowed to moderate this comment
     await validateUserModerationScopes(ctx, ctx.user!, { commentID });
 
-    const comment = await removeTag(
+    const { comment, alreadyUnfeatured } = await removeTag(
       ctx.mongo,
       ctx.tenant,
       commentID,
       GQLTAG.FEATURED
     );
+
+    // The comment is already unfeatured; we don't need to unfeature again
+    if (alreadyUnfeatured) {
+      return comment;
+    }
 
     // If the tag is sucessfully removed (the tag is
     // no longer present on the comment) then we can
