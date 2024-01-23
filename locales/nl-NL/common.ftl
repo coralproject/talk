@@ -19,7 +19,49 @@ common-experimentalTag-tooltip-title = Experimentele functie
 
 common-error-title = Er is een fout opgetreden
 common-error-message = Bericht
-common-error-traceID = Traceer-ID
+common-error-traceID = Trace ID
 
 common-username =
   .aria-label = Gebruiker { $username }
+
+common-moderationReason-reason = 
+  Reden
+common-moderationReason-addExplanation = 
+  Uitleg toevoegen
+common-moderationReason-reject =
+  Afwijzen
+common-moderationReason-cancel =
+  Annuleren
+common-moderationReason-rejectionReason-OFFENSIVE =
+  Aanstootgevend
+common-moderationReason-rejectionReason-ABUSIVE = 
+  Beledigend
+common-moderationReason-rejectionReason-SPAM =
+  Spam
+common-moderationReason-rejectionReason-BANNED_WORD =
+  Verboden woord
+common-moderationReason-rejectionReason-AD =
+  Advertentie
+common-moderationReason-rejectionReason-HARASSMENT_BULLYING = 
+  Intimidatie / pesten
+common-moderationReason-rejectionReason-MISINFORMATION = 
+  Desinformatie
+common-moderationReason-rejectionReason-HATE_SPEECH = 
+  Haatdragend
+common-moderationReason-rejectionReason-IRRELEVANT_CONTENT = 
+  Irrelevante inhoud
+common-moderationReason-rejectionReason-OTHER = 
+  Overig
+common-moderationReason-changeReason =
+  &lt; Reden wijzigen
+common-moderationReason-reasonLabel = Reden
+common-moderationReason-detailedExplanation =
+  Gedetailleerde uitleg
+common-moderationReason-detailedExplanation-placeholder =
+   .placeholder = Voeg je uitleg toe
+common-moderationReason-customReason = Aangepaste reden (vereist)
+common-moderationReason-customReason-placeholder =
+   .placeholder = Voeg je reden toe
+
+common-userBanned =
+  Gebruiker is verbannen.
