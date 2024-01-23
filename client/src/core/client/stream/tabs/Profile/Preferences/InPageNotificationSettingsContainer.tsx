@@ -72,6 +72,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
 
   return (
     <HorizontalGutter
+      data-testid="profile-account-inPageNotifications"
       className={CLASSES.notifications.$root}
       container="section"
       aria-labelledby="profile-account-notifications-inPageNotifications-title"

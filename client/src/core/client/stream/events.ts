@@ -23,7 +23,7 @@ import {
 } from "coral-framework/lib/events";
 
 import { COMMENT_STATUS } from "./__generated__/CreateCommentMutation.graphql";
-import { DIGEST_FREQUENCY } from "./__generated__/NotificationSettingsContainer_viewer.graphql";
+import { DIGEST_FREQUENCY } from "./__generated__/EmailNotificationSettingsContainer_viewer.graphql";
 import { MODERATION_MODE } from "./__generated__/UpdateStorySettingsMutation.graphql";
 
 /**

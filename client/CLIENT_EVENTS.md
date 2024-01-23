@@ -621,7 +621,7 @@ createComment.error
       onFeatured?: boolean | null | undefined;
       onStaffReplies?: boolean | null | undefined;
       onModeration?: boolean | null | undefined;
-      digestFrequency?: any;
+      digestFrequency?: "NONE" | "DAILY" | "HOURLY" | null | undefined;
       success: {};
       error: {
           message: string;

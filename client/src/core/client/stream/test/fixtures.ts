@@ -237,6 +237,14 @@ export const baseUser = createFixture<GQLUser>({
     onFeatured: false,
     digestFrequency: GQLDIGEST_FREQUENCY.NONE,
   },
+  inPageNotifications: {
+    onReply: true,
+    onModeration: true,
+    onStaffReplies: true,
+    onFeatured: true,
+    includeCountInBadge: true,
+    bellRemainsVisible: true,
+  },
   ignoreable: true,
   profiles: [
     {
