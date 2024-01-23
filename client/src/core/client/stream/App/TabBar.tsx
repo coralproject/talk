@@ -4,13 +4,12 @@ import React, { FunctionComponent } from "react";
 import useGetMessage from "coral-framework/lib/i18n/useGetMessage";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
+import { LiveBellIcon } from "coral-stream/tabs/Notifications/LiveBellIcon";
 import {
-  ActiveNotificationBellIcon,
   CogIcon,
   ConversationChatIcon,
   ConversationQuestionWarningIcon,
   MessagesBubbleSquareIcon,
-  NotificationBellIcon,
   RatingStarIcon,
   SingleNeutralCircleIcon,
   SvgIcon,
@@ -185,14 +184,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                   [styles.notificationsIconSmall]: !matches,
                 })}
               >
-                <SvgIcon
-                  size="md"
-                  Icon={
-                    props.hasNewNotifications
-                      ? ActiveNotificationBellIcon
-                      : NotificationBellIcon
-                  }
-                ></SvgIcon>
+                <LiveBellIcon size="md" />
               </div>
             </Tab>
           )}
