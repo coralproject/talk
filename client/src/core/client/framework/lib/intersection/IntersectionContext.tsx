@@ -11,7 +11,9 @@ export interface IntersectionContext {
   observe: Observe;
 }
 
-const IntersectionContext = React.createContext<IntersectionContext>({} as any);
+const IntersectionContext = React.createContext<IntersectionContext>(
+  {} as unknown as IntersectionContext
+);
 
 export const useIntersectionContext = () =>
   React.useContext(IntersectionContext);

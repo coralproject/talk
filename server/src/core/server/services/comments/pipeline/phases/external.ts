@@ -129,7 +129,6 @@ const ExternalModerationResponseSchema = Joi.object().keys({
 
 /**
  * validate will validate the `ExternalModerationResponse`.
- *
  * @param body the input body that is being coerced into an `ExternalModerationResponse`.
  */
 export function validateResponse(body: object): ExternalModerationResponse {
@@ -154,7 +153,6 @@ const fetch = createFetch({ name: "Moderation" });
 /**
  * processPhase will execute the request for moderation for this particular
  * phase.
- *
  * @param ctx the context for the moderation request.
  * @param phase the current phase associated with this request.
  */
@@ -231,7 +229,7 @@ async function processPhase(
   }
 
   // Try to parse the response as JSON.
-  const body = JSON.parse(text);
+  const body: object = JSON.parse(text);
 
   // Remove the expired secrets in the next tick so that it does not affect
   // the sending performance of this job, and errors do not impact the

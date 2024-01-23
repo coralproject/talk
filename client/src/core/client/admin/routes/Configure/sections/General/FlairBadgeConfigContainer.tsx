@@ -117,7 +117,7 @@ const FlairBadgeConfigContainer: FunctionComponent<Props> = ({
       setFlairBadgeNameInput("");
       setFlairBadgeURLInput("");
     } catch (e) {
-      setSubmitError(e.message);
+      setSubmitError(e.message as string);
     }
   }, [addFlairBadge, flairBadgeURLInput, flairBadgeNameInput]);
 

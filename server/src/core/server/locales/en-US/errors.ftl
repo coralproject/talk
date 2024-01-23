@@ -83,3 +83,5 @@ error-usernameAlreadyExists = This username already exists. Please choose anothe
 error-unableToUpdateStoryURL = Unable to update the story URL.
 error-dataCachingNotAvailable = Data caching is not available at this time.
 error-invalidFlairBadgeName = Only letters, numbers, and the special characters - . are permitted in flair badge names.
+error-dsaReportLawBrokenTooLong = What law do you believe has been broken for DSA report exceeds maximum length.
+error-dsaReportAdditionalInfoTooLong = Additional information for DSA report exceeds maximum length.

@@ -288,6 +288,7 @@ export interface StoryConfiguration {
   disableLazy: boolean;
 }
 
+// eslint-disable-next-line no-shadow
 export enum NewUserModeration {
   BAN = "BAN",
   PREMOD = "PREMOD",
@@ -307,6 +308,10 @@ export interface FlairBadge {
 export interface FlairBadgeConfig {
   flairBadgesEnabled?: boolean;
   badges?: FlairBadge[];
+}
+
+export interface TopCommenterConfig {
+  enabled?: boolean;
 }
 
 export interface PremoderateEmailAddressConfig {
@@ -425,6 +430,12 @@ export type Settings = GlobalModerationSettings &
     flairBadges?: FlairBadgeConfig;
 
     premoderateEmailAddress?: PremoderateEmailAddressConfig;
+
+    /**
+     * topCommenter specifies whether or not the feature is enabled to show that commenters
+     * with comments featured within the last 10 days are top commenters
+     */
+    topCommenter?: TopCommenterConfig;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

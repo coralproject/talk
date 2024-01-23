@@ -86,7 +86,7 @@ const AnsweredCommentContainer: FunctionComponent<Props> = (props) => {
         <Localized
           id="qa-answered-answerLabel"
           elems={{ RelativeTime: <RelativeTime date={comment.createdAt} /> }}
-          vars={{ username: comment.author?.username || "" }}
+          vars={{ username: comment.author?.username ?? "" }}
         >
           <Hidden id={`commentAnswerLabel-${comment.id}`}>
             Answer from {comment.author?.username} {` `}

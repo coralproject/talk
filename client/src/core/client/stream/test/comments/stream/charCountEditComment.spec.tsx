@@ -17,7 +17,7 @@ import { commenters, settings, stories } from "../../fixtures";
 import create from "./create";
 
 beforeAll(() => {
-  timekeeper.freeze(stories[0].comments.edges[0].node.createdAt);
+  timekeeper.freeze(stories[0].comments.edges[0].node.createdAt as Date);
 });
 afterAll(() => {
   timekeeper.reset();

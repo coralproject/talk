@@ -54,7 +54,7 @@ const StoryStatus: FunctionComponent<Props> = ({ storyID, currentStatus }) => {
         value: currentStatus,
         localizationID: localizedStoryStatus(currentStatus as GQLSTORY_STATUS),
       }}
-      onSelect={(selected) => updateStatus(selected)}
+      onSelect={(selected: GQLSTORY_STATUS) => updateStatus(selected)}
     />
   );
 };

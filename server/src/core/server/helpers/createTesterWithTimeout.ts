@@ -24,7 +24,6 @@ function sumPriorLengths(items: string[], index: number): number {
 /**
  * createTesterWithTimeout will create a tester that after the timeout, will
  * return null instead of a boolean.
- *
  * @param regexp the regular expression to wrap
  * @param timeout the timeout to use
  */
@@ -41,6 +40,7 @@ export default function createTesterWithTimeout(
   sandbox.testString = "";
 
   // Turn the sandbox into a context.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const ctx = vm.createContext(sandbox);
 
   return (testString: string) => {

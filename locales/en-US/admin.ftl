@@ -434,8 +434,8 @@ configure-general-sitewideCommenting-messageExplanation =
 
 #### Embed Links
 configure-general-embedLinks-title = Embedded media
-configure-general-embedLinks-desc = Allow commenters to add a YouTube video, Tweet or GIF from GIPHY's library to the end of their comment
-configure-general-embedLinks-enableTwitterEmbeds = Allow Twitter embeds
+configure-general-embedLinks-desc = Allow commenters to add a YouTube video, X post or GIF from GIPHY's library to the end of their comment
+configure-general-embedLinks-enableTwitterEmbeds = Allow X post embeds
 configure-general-embedLinks-enableYouTubeEmbeds = Allow YouTube embeds
 configure-general-embedLinks-enableGiphyEmbeds = Allow GIFs from GIPHY
 configure-general-embedLinks-enableExternalEmbeds = Enable external media
@@ -513,6 +513,10 @@ configure-general-flattenReplies-explanation =
 configure-general-featuredBy-title = Featured by
 configure-general-featuredBy-enabled = Featured by enabled
 configure-general-featuredBy-explanation = Add moderator name to featured comment display
+
+configure-general-topCommenter-title = Top commenter
+configure-general-topCommenter-explanation = Add top commenter badge to commenters with featured comments in the last 10 days
+configure-general-topCommenter-enabled = Top commenter
 
 configure-general-flairBadge-header = Custom flair badges
 configure-general-flairBadge-description = Encourage user engagement and participation by adding custom flair
@@ -1967,6 +1971,9 @@ reports-decisionModal-detailedExplanationTextarea =
 
 reports-relatedReports-label = Related reports
 reports-relatedReports-reportIDLabel = Report ID
+
+reports-anonymousUser = Anonymous user
+reports-username-not-available = Username not available
 
 # Control panel
 

@@ -52,7 +52,13 @@ export const todayMetricsHandler =
   ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
     try {
-      const { tenantID, siteID, tz, now } = getMetricsOptions(req);
+      const {
+        tenantID,
+        siteID,
+        tz,
+        now,
+      }: { tenantID: string; siteID: string; tz: string; now: Date } =
+        getMetricsOptions(req);
       if (!siteID) {
         throw new Error("siteID was not provided");
       }
@@ -77,7 +83,8 @@ export const totalMetricsHandler =
   ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
     try {
-      const { tenantID, siteID } = getMetricsOptions(req);
+      const { tenantID, siteID }: { tenantID: string; siteID: string } =
+        getMetricsOptions(req);
       if (!siteID) {
         throw new Error("siteID was not provided");
       }
@@ -111,7 +118,13 @@ export const hourlyCommentsMetricsHandler =
   ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
     try {
-      const { tenantID, siteID, tz, now } = getMetricsOptions(req);
+      const {
+        tenantID,
+        siteID,
+        tz,
+        now,
+      }: { tenantID: string; siteID: string; tz: string; now: Date } =
+        getMetricsOptions(req);
       if (!siteID) {
         throw new Error("siteID was not provided");
       }
@@ -136,7 +149,8 @@ export const dailyUsersMetricsHandler =
   ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
     try {
-      const { tenantID, tz, now } = getMetricsOptions(req);
+      const { tenantID, tz, now }: { tenantID: string; tz: string; now: Date } =
+        getMetricsOptions(req);
 
       const result: TimeSeriesMetricsJSON = {
         series: await retrieveDailyUserMetrics(mongo, tenantID, tz, now),
@@ -152,7 +166,13 @@ export const todayStoriesMetricsHandler =
   ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
     try {
-      const { tenantID, siteID, tz, now } = getMetricsOptions(req);
+      const {
+        tenantID,
+        siteID,
+        tz,
+        now,
+      }: { tenantID: string; siteID: string; tz: string; now: Date } =
+        getMetricsOptions(req);
       if (!siteID) {
         throw new Error("siteID was not provided");
       }

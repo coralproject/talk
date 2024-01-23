@@ -28,6 +28,7 @@ export const parseWithDOMPurify: any = (v: any) => {
   if (v === "") {
     return null;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return DOMPurify.sanitize(v);
 };
 
@@ -42,6 +43,7 @@ export const parsePercentage = (v: any) => {
   if (v === "") {
     return null;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   if (isNaN(v)) {
     return v;
   }
@@ -51,6 +53,7 @@ export const formatPercentage = (v: any) => {
   if (v === null || v === undefined) {
     return "";
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   if (isNaN(v)) {
     return v;
   }
@@ -64,6 +67,7 @@ export const formatBool = (v: boolean) => {
 };
 
 export const parseInteger = (v: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const result = Number.parseInt(v, 10);
   if (isNaN(result)) {
     return v;

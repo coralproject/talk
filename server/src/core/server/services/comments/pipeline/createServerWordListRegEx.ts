@@ -23,7 +23,6 @@ export const WordListRules: DeepPartial<Record<LanguageCode, WordListRule>> = {
 
 /**
  * Escape string for special regular expression characters.
- *
  * @param str the string to escape from regex characters
  */
 export function escapeRegExp(str: string) {
@@ -34,7 +33,6 @@ export function escapeRegExp(str: string) {
 /**
  * generateRegExp will generate the tester that can be used to test strings
  * for matches on phrases.
- *
  * @param lang the language to possibly swap word list rules
  * @param phrases the phrases to use for creating the expression
  */

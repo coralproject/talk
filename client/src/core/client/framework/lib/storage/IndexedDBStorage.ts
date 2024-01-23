@@ -34,6 +34,7 @@ class IndexedDBStorage implements PromisifiedStorage<any> {
       const call = () => {
         const request = callback();
         request.onsuccess = function (event) {
+          // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
           resolve((event.target as any).result);
         };
         request.onerror = function (event) {

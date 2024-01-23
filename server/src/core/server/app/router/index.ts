@@ -67,7 +67,6 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
 
 /**
  * attachGraphiQL will attach the GraphiQL routes to the router.
- *
  * @param router the router to attach the GraphiQL routes to
  * @param app the application to read the configuration from
  */

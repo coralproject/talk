@@ -79,6 +79,9 @@ comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
   .title = Toggle featured comments tooltip
 
+comment-top-commenter-tooltip-header = <icon></icon> Top commenter
+comment-top-commenter-tooltip-details = One of their comments has been featured in the last 10 days
+
 comments-collapse-toggle-with-username =
   .aria-label = Hide comment by { $username } and its replies
 comments-collapse-toggle-without-username =
@@ -124,9 +127,9 @@ comments-postComment-pasteImage = Paste image URL
 comments-postComment-insertImage = Insert
 
 comments-postComment-confirmMedia-youtube = Add this YouTube video to the end of your comment?
-comments-postComment-confirmMedia-twitter = Add this Tweet to the end of your comment?
+comments-postComment-confirmMedia-twitter = Add this post to the end of your comment?
 comments-postComment-confirmMedia-cancel = Cancel
-comments-postComment-confirmMedia-add-tweet = Add Tweet
+comments-postComment-confirmMedia-add-tweet = Add post
 comments-postComment-confirmMedia-add-video = Add video
 comments-postComment-confirmMedia-remove = Remove
 comments-commentForm-gifPreview-remove = Remove
@@ -168,6 +171,7 @@ comments-permalinkView-reportIllegalContent-submit = Submit report
 comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = Comment not found. Please enter a valid comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = This is not a valid URL. Please enter a valid comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = You've already added this comment to this report. Please add a unique comment URL
+omments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Additional comment URL length exceeds maximum.
 comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing illegal content. You may only report a comment for this reason one time.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
 comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
@@ -463,8 +467,8 @@ comments-embedLinks-hide-giphy = Hide GIF
 comments-embedLinks-show-youtube = Show video
 comments-embedLinks-hide-youtube = Hide video
 
-comments-embedLinks-show-twitter = Show Tweet
-comments-embedLinks-hide-twitter = Hide Tweet
+comments-embedLinks-show-twitter = Show post
+comments-embedLinks-hide-twitter = Hide post
 
 comments-embedLinks-show-external = Show image
 comments-embedLinks-hide-external = Hide image
@@ -560,7 +564,7 @@ profile-commentHistory-archived-thisIsAllYourComments =
 ### Preferences
 
 profile-preferences-mediaPreferences = Media Preferences
-profile-preferences-mediaPreferences-alwaysShow = Always show GIFs, Tweets, YouTube, etc.
+profile-preferences-mediaPreferences-alwaysShow = Always show GIFs, X posts, YouTube, etc.
 profile-preferences-mediaPreferences-thisMayMake = This may make the comments slower to load
 profile-preferences-mediaPreferences-update = Update
 profile-preferences-mediaPreferences-preferencesUpdated =
@@ -749,6 +753,7 @@ comments-reportPopover-receivedMessage =
 comments-reportPopover-dismiss = Dismiss
 
 comments-reportForm-reportIllegalContent-button = This comment contains illegal content
+comments-reportForm-signInToReport = You have to sign in to report a comment that violates our guidelines
 
 ## Archived Report Comment Popover
 
@@ -775,7 +780,7 @@ comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =
   Your comment has been submitted and will be reviewed by a moderator
 comments-submitStatus-submittedAndRejected =
-  This comment has been rejected for violating our guidelines
+  This comment has been rejected for language that violates our guidelines
 
 # Configure
 configure-configureQuery-errorLoadingProfile = Error loading configure

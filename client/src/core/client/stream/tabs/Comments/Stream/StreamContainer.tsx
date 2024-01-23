@@ -30,6 +30,7 @@ import {
   SetCommentsOrderByEvent,
   SetCommentsTabEvent,
 } from "coral-stream/events";
+import { RatingStarIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   AriaInfo,
   Counter,
@@ -363,9 +364,22 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                           <span>Answered</span>
                         </Localized>
                       ) : (
-                        <Localized id="comments-featuredTab">
-                          <span>Featured</span>
-                        </Localized>
+                        <>
+                          {props.settings.topCommenter?.enabled && (
+                            <SvgIcon
+                              className={CLASSES.tabBarComments.featuredStar}
+                              Icon={RatingStarIcon}
+                              filled={
+                                local.commentsTab === "FEATURED_COMMENTS"
+                                  ? "currentColor"
+                                  : "none"
+                              }
+                            />
+                          )}
+                          <Localized id="comments-featuredTab">
+                            <span>Featured</span>
+                          </Localized>
+                        </>
                       )}
                       <AccessibleCounter
                         data-testid="comments-featuredCount"
@@ -669,6 +683,9 @@ const enhanced = withFragmentContainer<Props>({
       flattenReplies
       featureFlags
       disableCommenting {
+        enabled
+      }
+      topCommenter {
         enabled
       }
       ...AnnouncementContainer_settings

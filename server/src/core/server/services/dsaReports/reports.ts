@@ -1,7 +1,16 @@
+import {
+  MAX_DSA_ADDITIONAL_INFO_LENGTH,
+  MAX_DSA_LAW_BROKEN_LENGTH,
+} from "coral-common/common/lib/constants";
 import { Config } from "coral-server/config";
 import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
-import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
+import {
+  CommentNotFoundError,
+  DSAReportAdditionalInfoTooLongError,
+  DSAReportLawBrokenTooLongError,
+  StoryNotFoundError,
+} from "coral-server/errors";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { Comment } from "coral-server/models/comment";
 import {
@@ -31,7 +40,7 @@ import { AugmentedRedis } from "../redis";
 
 export interface CreateDSAReportInput {
   commentID: string;
-  userID: string;
+  userID?: string | null;
   lawBrokenDescription: string;
   additionalInformation: string;
   submissionID?: string;
@@ -39,7 +48,6 @@ export interface CreateDSAReportInput {
 
 /**
  * createDSAReport creates a new DSAReport
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for creating the DSAReport
@@ -52,6 +60,14 @@ export async function createDSAReport(
   input: CreateDSAReportInput,
   now = new Date()
 ) {
+  if (input.lawBrokenDescription.length > MAX_DSA_LAW_BROKEN_LENGTH) {
+    throw new DSAReportLawBrokenTooLongError(input.commentID);
+  }
+
+  if (input.additionalInformation.length > MAX_DSA_ADDITIONAL_INFO_LENGTH) {
+    throw new DSAReportAdditionalInfoTooLongError(input.commentID);
+  }
+
   const result = await createReport(mongo, tenant.id, input, now);
   const { dsaReport } = result;
   return dsaReport;
@@ -65,7 +81,6 @@ export interface AddDSAReportNoteInput {
 
 /**
  * addDSAReportNote adds a note to the history of a DSAReport
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for adding the note
@@ -90,7 +105,6 @@ export interface AddDSAReportShareInput {
 
 /**
  * addDSAReportNote adds a share item to the history of a DSAReport
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for adding the share item
@@ -115,7 +129,6 @@ export interface DeleteDSAReportNoteInput {
 
 /**
  * deleteDSAReportNote deletes a note from the history of a DSAReport
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for deleting the note
@@ -141,7 +154,6 @@ export interface ChangeDSAReportStatusInput {
 /**
  * changeDSAReportStatus changes the status of a DSAReport
  * and also adds the status change to its history
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for changing the status
@@ -171,7 +183,6 @@ export interface MakeDSAReportDecisionInput {
 /**
  * makeDSAReportDecison makes an illegal vs legal decision for a DSAReport
  * and also adds the decision to its history
- *
  * @param mongo is the mongo context.
  * @param tenant is the filtering tenant for this operation.
  * @param input is the input used for making the decision
@@ -253,7 +264,7 @@ export async function makeDSAReportDecision(
   }
 
   const report = await retrieveDSAReport(mongo, tenant.id, reportID);
-  if (report) {
+  if (report && report.userID) {
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: report.userID,
       type: GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE,

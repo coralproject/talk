@@ -103,6 +103,13 @@ const CLASSES = {
     featured: "coral coral-tabBarSecondary-tab coral-tabBarComments-featured",
 
     /**
+     * featuredStar is the star icon shown by "Featured Comments" tab if Top commenter
+     * feature is enabled in the admin configuration.
+     */
+    featuredStar:
+      "coral coral-tabBarSecondary-tab coral-tabBarComments-featured-star",
+
+    /**
      * featuredTooltip is the tooltip next to the featured tab.
      */
     featuredTooltip: "coral coral-tabBarComments-featuredTooltip",
@@ -321,7 +328,7 @@ const CLASSES = {
     },
 
     /**
-     * topBar is the uppper bar of the comment.
+     * topBar is the upper bar of the comment.
      */
     topBar: {
       /**
@@ -333,6 +340,36 @@ const CLASSES = {
        * username is the text display for any given Username in the system.
        */
       username: "coral coral-username coral-comment-username",
+
+      /**
+       * topCommenterStar is the star icon and its border added if the Top commenter feature
+       * is enabled and the commenter qualifies with their featured comments
+       */
+      topCommenterStar: "coral coral-topCommenter-star",
+
+      /**
+       * topCommenterStarBorder is the outer circle around the Top commenter star next to the
+       * username of a commenter with this designation.
+       */
+      topCommenterStarBorder: "coral coral-topCommenter-star-border",
+
+      /**
+       * topCommenterStarTooltip is the tooltip shown when the Top commenter star is clicked to
+       * provide additional information about why the star is shown and what a Top commenter is
+       */
+      topCommenterStarTooltip: "coral coral-topCommenter-star-tooltip",
+
+      /**
+       * topCommenterStarTooltip is the header for the Top commenter tooltip
+       */
+      topCommenterStarTooltipHeader:
+        "coral coral-topCommenter-star-tooltip-header",
+
+      /**
+       * topCommenterStarTooltip is the details for the Top commenter tooltip
+       */
+      topCommenterStarTooltipDetails:
+        "coral coral-topCommenter-star-tooltip-details",
 
       /**
        * timestamp is the text that contains the time since the comment was

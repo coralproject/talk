@@ -56,7 +56,7 @@ const Permalink: FunctionComponent<PermalinkProps> = ({
           <Localized
             id="comments-permalinkButton"
             attrs={{ "aria-label": true }}
-            vars={{ username: author }}
+            vars={{ username: author ?? "" }}
           >
             <Button
               onClick={toggleVisibility}

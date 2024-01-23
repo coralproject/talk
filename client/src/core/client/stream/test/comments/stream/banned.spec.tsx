@@ -78,7 +78,7 @@ afterAll(() => {
 });
 
 it("disables comment stream", async () => {
-  timekeeper.freeze(firstComment.createdAt);
+  timekeeper.freeze(firstComment.createdAt as Date);
   const { testRenderer, tabPane } = await createTestRenderer();
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")

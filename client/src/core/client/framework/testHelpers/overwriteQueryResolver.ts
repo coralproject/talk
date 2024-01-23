@@ -25,12 +25,12 @@ type OverwriteQueryResolverTemplate<T extends Resolvers = any> = {
  * and creates a resolver function of each of its field. The returned
  * value of the resolvers will bet the value returned by the overwrite
  * or if undefined, the original value.
- *
  * @param original original resolver object
  * @param overwrite overwrite resolver object or value
  */
 function overwriteRecursive(original: any, overwrite: any) {
   let ret = original;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   Object.keys(overwrite).forEach((k) => {
     ret = {
       ...original,
@@ -72,7 +72,6 @@ function overwriteRecursive(original: any, overwrite: any) {
  * but allows you to return `void` which would then fallback to the original resolver.
  *
  * Given a `ResolverType` from the Schema it'll provide types as well!.
- *
  * @param callback resolver callback
  */
 export function createQueryResolverOverwrite<T extends Resolver<any, any>>(

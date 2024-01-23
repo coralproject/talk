@@ -122,15 +122,18 @@ export default function ({
     ],
     before(app, server) {
       // This lets us fetch source contents from webpack for the error overlay
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       app.use(evalSourceMapMiddleware(server));
 
       // This lets us open files from the runtime error overlay.
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       app.use(errorOverlayMiddleware());
       // This service worker file is effectively a 'no-op' that will reset any
       // previous service worker registered for the same host:port combination.
       // We do this in development to avoid hitting the production cache if
       // it used the same host and port.
       // https://github.com/facebookincubator/create-react-app/issues/2272#issuecomment-302832432
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       app.use(noopServiceWorkerMiddleware());
     },
   };

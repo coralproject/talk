@@ -54,7 +54,7 @@ export function denormalizeStory(story: Fixture<GQLStory>) {
   const commentEdges =
     (story.comments &&
       story.comments.edges &&
-      story.comments.edges.map((edge: any) => ({
+      story.comments.edges.map((edge: GQLCommentEdge) => ({
         ...edge,
         node: denormalizeComment(edge.node),
       }))) ||

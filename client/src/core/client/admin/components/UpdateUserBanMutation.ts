@@ -19,6 +19,7 @@ const UpdateUserBanMutation = createMutation(
       unbanSiteIDs,
       message,
       rejectExistingComments,
+      rejectionReason,
     } = input;
 
     const res = await commitMutationPromiseNormalized(environment, {
@@ -47,6 +48,7 @@ const UpdateUserBanMutation = createMutation(
           unbanSiteIDs,
           message,
           rejectExistingComments,
+          rejectionReason,
           clientMutationId: (clientMutationId++).toString(),
         },
       },

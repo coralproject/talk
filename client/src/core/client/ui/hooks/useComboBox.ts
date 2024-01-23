@@ -41,7 +41,6 @@ export interface ListBoxOption {
  * a managed list of `ListBoxOption`, the active descendant and event handlers
  * for the textfield. You can find the managed props of the elements in
  * the type `ListBoxOptionElements`.
- *
  * @param id unique identifier for accessibility purposes
  * @param opts options to show in the listbox
  */

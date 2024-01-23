@@ -73,7 +73,6 @@ export default class Task<T extends TenantResource, U = any> {
   /**
    * Add will add the job to the queue to get processed. It's not needed to
    * handle the job after it has been created.
-   *
    * @param data the data for the job to add.
    */
   public async add(data: T): Promise<Queue.Job<T> | undefined> {

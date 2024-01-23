@@ -136,7 +136,7 @@ export class GoogleAuthenticator extends OAuth2Authenticator {
 
         return this.success(state, user, req, res);
       } catch (err) {
-        return this.fail(state, err, req, res);
+        return this.fail(state, err as Error, req, res);
       }
     };
 }

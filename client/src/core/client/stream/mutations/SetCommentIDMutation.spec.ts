@@ -3,6 +3,7 @@ import sinon from "sinon";
 
 import { waitFor } from "coral-common/common/lib/helpers";
 import { parseQuery } from "coral-common/common/lib/utils";
+import { CoralContext } from "coral-framework/lib/bootstrap";
 import { LOCAL_ID } from "coral-framework/lib/relay";
 import { createRelayEnvironment } from "coral-framework/testHelpers";
 
@@ -31,7 +32,7 @@ it("Sets comment id", async () => {
     window,
     renderWindow: window,
   };
-  await commit(environment, { id }, context as any);
+  await commit(environment, { id }, context as unknown as CoralContext);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
 });
 
@@ -44,7 +45,7 @@ it("Should call setCommentID in eventEmitter", async () => {
     window,
     renderWindow: window,
   };
-  await commit(environment, { id }, context as any);
+  await commit(environment, { id }, context as unknown as CoralContext);
   await waitFor();
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
   context.eventEmitter.emit.verify();
@@ -58,7 +59,7 @@ it("Should call setCommentID in eventEmitter with empty id", async () => {
     window,
     renderWindow: window,
   };
-  await commit(environment, { id: null }, context as any);
+  await commit(environment, { id: null }, context as unknown as CoralContext);
   await waitFor();
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);
   expect(parseQuery(location.search).commentID).toBeUndefined();

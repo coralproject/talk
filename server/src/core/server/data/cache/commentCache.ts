@@ -116,7 +116,7 @@ export class CommentCache implements IDataCache {
     tenantID: string,
     storyID: string,
     isArchived: boolean
-  ): Promise<Readonly<Comment>[]> {
+  ): Promise<Array<Readonly<Comment>>> {
     const collection =
       isArchived && this.mongo.archive
         ? this.mongo.archivedComments()
@@ -135,7 +135,7 @@ export class CommentCache implements IDataCache {
   private async retrieveCommentsFromRedisForStory(
     tenantID: string,
     storyID: string
-  ): Promise<Readonly<Comment>[]> {
+  ): Promise<Array<Readonly<Comment>>> {
     const key = this.computeStoryAllCommentsKey(tenantID, storyID);
 
     const start1 = Date.now();
@@ -224,7 +224,7 @@ export class CommentCache implements IDataCache {
   private async createRelationalCommentKeysLocally(
     tenantID: string,
     storyID: string,
-    comments: Readonly<Comment>[]
+    comments: Array<Readonly<Comment>>
   ) {
     for (const comment of comments) {
       const dataKey = this.computeDataKey(tenantID, storyID, comment.id);
@@ -246,7 +246,7 @@ export class CommentCache implements IDataCache {
   private async createRelationalCommentKeysInRedis(
     tenantID: string,
     storyID: string,
-    comments: Readonly<Comment>[],
+    comments: Array<Readonly<Comment>>,
     now: Date
   ) {
     const cmd = this.redis.multi();
@@ -341,7 +341,7 @@ export class CommentCache implements IDataCache {
     storyID: string,
     parentID?: string | null,
     isArchived?: boolean
-  ): Promise<Readonly<Comment>[]> {
+  ): Promise<Array<Readonly<Comment>>> {
     const filter = parentID
       ? {
           tenantID,
@@ -369,7 +369,7 @@ export class CommentCache implements IDataCache {
       return [];
     }
 
-    let results: Readonly<Comment>[] = [];
+    let results: Array<Readonly<Comment>> = [];
     const keys = ids.map((id) => this.computeDataKey(tenantID, storyID, id));
     if (keys.length === 0) {
       return [];
@@ -430,7 +430,7 @@ export class CommentCache implements IDataCache {
     tenantID: string,
     storyID: string,
     isArchived: boolean
-  ): Promise<Readonly<Comment>[]> {
+  ): Promise<Array<Readonly<Comment>>> {
     const lockKey = this.computeLockKey(tenantID, storyID);
     const hasCommentsInRedis = await this.redis.exists(lockKey);
 
@@ -478,7 +478,7 @@ export class CommentCache implements IDataCache {
     tenantID: string,
     storyID: string,
     parentID: string | null | undefined,
-    comments: Readonly<Comment>[],
+    comments: Array<Readonly<Comment>>,
     orderBy: GQLCOMMENT_SORT
   ) {
     let start = Date.now();
@@ -492,7 +492,7 @@ export class CommentCache implements IDataCache {
     );
 
     start = Date.now();
-    const sortedComments: Readonly<Comment>[] = [];
+    const sortedComments: Array<Readonly<Comment>> = [];
     let index =
       orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC ? 0 : orderedIDs.length - 1;
     const incr = orderBy === GQLCOMMENT_SORT.CREATED_AT_ASC ? 1 : -1;
@@ -590,7 +590,7 @@ export class CommentCache implements IDataCache {
     parentID: string,
     isArchived: boolean
   ) {
-    const result: Readonly<Comment>[] = [];
+    const result: Array<Readonly<Comment>> = [];
 
     const replies = await this.retrieveReplies(
       tenantID,
@@ -621,7 +621,7 @@ export class CommentCache implements IDataCache {
     parent: Readonly<Comment>,
     isArchived: boolean,
     orderBy: GQLCOMMENT_SORT = GQLCOMMENT_SORT.CREATED_AT_ASC
-  ): Promise<Readonly<Comment>[]> {
+  ): Promise<Array<Readonly<Comment>>> {
     const repliesConnection = await this.replies(
       parent.tenantID,
       parent.storyID,
@@ -629,9 +629,9 @@ export class CommentCache implements IDataCache {
       isArchived,
       orderBy
     );
-    const replies = repliesConnection.nodes as Readonly<Comment>[];
+    const replies = repliesConnection.nodes as Array<Readonly<Comment>>;
 
-    const results: Readonly<Comment>[] = [];
+    const results: Array<Readonly<Comment>> = [];
     for (const reply of replies) {
       results.push(reply);
       const children = await this.allChildCommentsRecursive(
@@ -661,9 +661,9 @@ export class CommentCache implements IDataCache {
       isArchived,
       orderBy
     );
-    const replies = repliesConnection.nodes as Readonly<Comment>[];
+    const replies = repliesConnection.nodes as Array<Readonly<Comment>>;
 
-    const results: Readonly<Comment>[] = [];
+    const results: Array<Readonly<Comment>> = [];
     for (const reply of replies) {
       results.push(reply);
       const children = await this.allChildCommentsRecursive(
@@ -834,7 +834,7 @@ export class CommentCache implements IDataCache {
     await cmd.exec();
   }
 
-  private createConnection(comments: Readonly<Comment>[]) {
+  private createConnection(comments: Array<Readonly<Comment>>) {
     const edges: any[] = [];
     const nodes: any[] = [];
 
@@ -859,7 +859,7 @@ export class CommentCache implements IDataCache {
   }
 
   private sortComments(
-    comments: Readonly<Comment>[],
+    comments: Array<Readonly<Comment>>,
     orderBy: GQLCOMMENT_SORT
   ) {
     return comments.sort((a, b) => {
@@ -889,7 +889,7 @@ export class CommentCache implements IDataCache {
   }
 
   private deserializeObject(data: string): Readonly<Comment> {
-    const parsed = JSON.parse(data);
+    const parsed: Comment = JSON.parse(data);
     return {
       ...parsed,
       createdAt: new Date(parsed.createdAt),

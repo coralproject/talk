@@ -7,9 +7,13 @@ import React, {
 } from "react";
 import { Field, useForm } from "react-final-form";
 
+import { MAX_DSA_ADDITIONAL_COMMENT_URL_LENGTH } from "coral-common/common/lib/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
-import { validateShareURL } from "coral-framework/lib/validation";
+import {
+  validateMaxLength,
+  validateShareURL,
+} from "coral-framework/lib/validation";
 import { AddIcon, BinIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button as ButtonV2,
@@ -26,7 +30,7 @@ import styles from "./AddAdditionalComments.css";
 import AdditionalCommentQuery from "./AdditionalCommentQuery";
 
 interface Props {
-  additionalComments: { id: string; url: string }[] | null;
+  additionalComments: Array<{ id: string; url: string }> | null;
   comment: CommentData | null;
   onAddAdditionalComment: (id: string, url: string) => void;
   onDeleteAdditionalComment: (id: string) => void;
@@ -58,8 +62,18 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
   }, [additionalComments]);
 
   const onAddCommentURL = useCallback(() => {
-    const newAdditionalComment =
+    const newAdditionalComment: string =
       form?.getFieldState("additionalComment")?.value;
+    if (newAdditionalComment.length > MAX_DSA_ADDITIONAL_COMMENT_URL_LENGTH) {
+      const commentURLLengthError = getMessage(
+        localeBundles,
+        "comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError",
+        "Additional comment URL length exceeds maximum."
+      );
+      setNewComment(null);
+      setAddAdditionalCommentError(commentURLLengthError);
+      return;
+    }
     if (newAdditionalComment) {
       if (!isValidShareURL(newAdditionalComment)) {
         const validCommentURLError = getMessage(
@@ -168,6 +182,9 @@ const AddAdditionalComments: FunctionComponent<Props> = ({
             <Field
               name={`additionalComment`}
               id={`reportIllegalContent-additionalComment`}
+              validate={validateMaxLength(
+                MAX_DSA_ADDITIONAL_COMMENT_URL_LENGTH
+              )}
             >
               {({ input }: any) => (
                 <Flex direction="column">
