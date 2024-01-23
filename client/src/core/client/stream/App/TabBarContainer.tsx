@@ -38,11 +38,10 @@ export const TabBarContainer: FunctionComponent<Props> = ({
 }) => {
   const setCommentID = useMutation(SetCommentIDMutation);
   const { window } = useCoralContext();
-  const [{ activeTab, dsaFeaturesEnabled, hasNewNotifications }] =
+  const [{ activeTab, hasNewNotifications }] =
     useLocal<TabBarContainerLocal>(graphql`
       fragment TabBarContainerLocal on Local {
         activeTab
-        dsaFeaturesEnabled
         hasNewNotifications
       }
     `);
@@ -75,11 +74,6 @@ export const TabBarContainer: FunctionComponent<Props> = ({
     [viewer, story]
   );
 
-  const showNotificationsTab = useMemo(
-    () => !!viewer && !!dsaFeaturesEnabled,
-    [viewer, dsaFeaturesEnabled]
-  );
-
   return (
     <TabBar
       mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
@@ -87,7 +81,7 @@ export const TabBarContainer: FunctionComponent<Props> = ({
       showProfileTab={!!viewer}
       showDiscussionsTab={showDiscussionsTab}
       showConfigureTab={showConfigureTab}
-      showNotificationsTab={showNotificationsTab}
+      showNotificationsTab={!!viewer}
       hasNewNotifications={!!hasNewNotifications}
       onTabClick={handleSetActiveTab}
     />
