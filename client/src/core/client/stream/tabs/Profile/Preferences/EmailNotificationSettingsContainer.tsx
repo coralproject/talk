@@ -29,7 +29,7 @@ import { EmailNotificationSettingsContainer_viewer } from "coral-stream/__genera
 
 import UpdateEmailNotificationSettingsMutation from "./UpdateEmailNotificationSettingsMutation";
 
-import styles from "./NotificationSettingsContainer.css";
+import styles from "./EmailNotificationSettingsContainer.css";
 
 interface Props {
   viewer: EmailNotificationSettingsContainer_viewer;

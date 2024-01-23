@@ -9,6 +9,7 @@ import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import {
+  ActiveNotificationBellIcon,
   AlertTriangleIcon,
   CheckCircleIcon,
   SvgIcon,
@@ -16,6 +17,7 @@ import {
 import {
   CheckBox,
   FieldSet,
+  Flex,
   FormField,
   HorizontalGutter,
   HorizontalRule,
@@ -26,7 +28,7 @@ import { InPageNotificationSettingsContainer_viewer } from "coral-stream/__gener
 
 import UpdateInPageNotificationSettingsMutation from "./UpdateInPageNotificationSettingsMutation";
 
-import styles from "./NotificationSettingsContainer.css";
+import styles from "./InPageNotificationSettingsContainer.css";
 
 interface Props {
   viewer: InPageNotificationSettingsContainer_viewer;
@@ -84,7 +86,12 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
         }) => (
           <form onSubmit={handleSubmit}>
             <HorizontalGutter>
-              <HorizontalGutter>
+              <Flex alignItems="center">
+                <SvgIcon
+                  className={styles.bellIcon}
+                  size="md"
+                  Icon={ActiveNotificationBellIcon}
+                ></SvgIcon>
                 <Localized id="profile-account-notifications-inPageNotifications">
                   <h2
                     className={cn(styles.title, CLASSES.notifications.heading)}
@@ -93,7 +100,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                     In-page Notifications
                   </h2>
                 </Localized>
-              </HorizontalGutter>
+              </Flex>
               <HorizontalGutter>
                 <Localized id="profile-account-notifications-includeInPageWhen">
                   <div
