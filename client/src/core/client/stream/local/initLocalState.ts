@@ -21,6 +21,7 @@ interface ResolvedConfig {
   readonly featureFlags: string[];
   readonly flattenReplies?: boolean | null;
   readonly dsaFeaturesEnabled?: boolean;
+  readonly notificationsPollRate: number;
 }
 
 async function resolveConfig(
@@ -55,11 +56,14 @@ async function resolveConfig(
       flattenReplies: settings.flattenReplies,
       featureFlags: settings.featureFlags,
       dsaFeaturesEnabled: settings.dsa.enabled ?? false,
+      notificationsPollRate: 3000,
     } as ResolvedConfig;
   }
+
   return {
     featureFlags: [],
     flattenReplies: false,
+    notificationsPollRate: 3000,
   };
 }
 
@@ -93,10 +97,8 @@ export const createInitLocalState: (options: Options) => InitLocalState =
       ...rest,
     });
 
-    const { featureFlags, flattenReplies } = await resolveConfig(
-      environment,
-      staticConfig
-    );
+    const { featureFlags, flattenReplies, notificationsPollRate } =
+      await resolveConfig(environment, staticConfig);
 
     const commentsOrderBy =
       (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
@@ -182,5 +184,7 @@ export const createInitLocalState: (options: Options) => InitLocalState =
 
       localRecord.setValue(null, "hasNewNotifications");
       localRecord.setValue(0, "notificationCount");
+
+      localRecord.setValue(notificationsPollRate, "notificationsPollRate");
     });
   };

@@ -31,17 +31,16 @@ export const FetchLiveNotificationsCached = createFetch(
   }
 );
 
-export default function useLiveNotificationsPolling(
-  userID?: string,
-  intervalMs = 3000
-) {
+export default function useLiveNotificationsPolling(userID?: string) {
   const fetchNotifications = useFetch(FetchLiveNotificationsCached);
 
-  const [, setLocal] = useLocal<useLiveNotificationsPollingLocal>(graphql`
-    fragment useLiveNotificationsPollingLocal on Local {
-      notificationCount
-    }
-  `);
+  const [{ notificationsPollRate }, setLocal] =
+    useLocal<useLiveNotificationsPollingLocal>(graphql`
+      fragment useLiveNotificationsPollingLocal on Local {
+        notificationCount
+        notificationsPollRate
+      }
+    `);
 
   const updater = useCallback(async () => {
     if (!userID) {
@@ -61,9 +60,10 @@ export default function useLiveNotificationsPolling(
   }, [fetchNotifications, setLocal, userID]);
 
   useEffect(() => {
-    const interval = setInterval(updater, intervalMs);
+    const interval = setInterval(updater, notificationsPollRate);
+
     return () => {
       clearInterval(interval);
     };
-  }, [intervalMs, updater]);
+  }, [notificationsPollRate, updater]);
 }

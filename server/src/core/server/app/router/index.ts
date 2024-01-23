@@ -36,6 +36,9 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
     forceAdminLocalAuth: app.config.get("force_admin_local_auth"),
     archivingEnabled: isArchivingEnabled(app.config),
     autoArchiveOlderThanMs: app.config.get("auto_archive_older_than"),
+
+    // convert from micro (μs) to milliseconds via divide by 1000
+    notificationsPollRate: app.config.get("notifications_poll_rate") / 1000,
   };
 
   // If sentry is configured, then add it's config to the config.
