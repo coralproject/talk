@@ -278,7 +278,8 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
             />
           </div>
         </Flex>
-        <LiveBellIcon />
+        <LiveBellIcon size="lg" />
+        <LiveBellIcon size="md" />
         <AnnouncementContainer settings={props.settings} />
         {props.viewer && (
           <StreamDeletionRequestCalloutContainer viewer={props.viewer} />

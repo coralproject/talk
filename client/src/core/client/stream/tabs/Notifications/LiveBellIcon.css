@@ -1,32 +1,57 @@
-.icon {
+.root {
   position: relative;
+}
 
+.rootMed {
   width: 20px;
-  height: 16px;
+  height: 18px;
+}
+
+.rootLarge {
+  width: 24px;
+  height: 20px;
 }
 
 .counter {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--palette-primary-500);
+  color: var(--palette-text-000);
+}
+
+.counterMed {
+  position: absolute;
+  top: -2px;
+  left: 11px;
+
+  font-size: 8px;
+
+  min-width: 8px;
+
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 2px;
+  padding-right: 2px;
+  border-radius: 12px;
+}
+
+.counterLarge {
   position: absolute;
   top: -2px;
   left: 14px;
 
+  font-size: 10px;
+
   min-width: 8px;
-  min-height: 8px;
 
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: var(--spacing-1);
   padding-right: var(--spacing-1);
   border-radius: 12px;
-
-  background-color: var(--palette-primary-500);
-  color: var(--palette-text-000);
-
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
-  font-size: 10px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
