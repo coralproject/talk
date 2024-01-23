@@ -201,10 +201,10 @@ export const SignOutEvent = createViewerNetworkEvent<{
 export const SignedInEvent = createViewerEvent("signedIn");
 
 /**
- * This event is emitted when the viewer updates its
- * notification settings.
+ * This event is emitted when the viewer updates their
+ * email notification settings.
  */
-export const UpdateNotificationSettingsEvent = createViewerNetworkEvent<{
+export const UpdateEmailNotificationSettingsEvent = createViewerNetworkEvent<{
   onReply?: boolean | null;
   onFeatured?: boolean | null;
   onStaffReplies?: boolean | null;
@@ -215,7 +215,25 @@ export const UpdateNotificationSettingsEvent = createViewerNetworkEvent<{
     message: string;
     code?: string;
   };
-}>("updateNotificationSettings");
+}>("updateEmailNotificationSettings");
+
+/**
+ * This event is emitted when the viewer updates their
+ * in-page notification settings.
+ */
+export const UpdateInPageNotificationSettingsEvent = createViewerNetworkEvent<{
+  onReply?: boolean | null;
+  onFeatured?: boolean | null;
+  onStaffReplies?: boolean | null;
+  onModeration?: boolean | null;
+  includeCountInBadge?: boolean | null;
+  bellRemainsVisible?: boolean | null;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("updateInPageNotificationSettings");
 
 export const UpdateUserMediaSettingsEvent = createViewerNetworkEvent<{
   unfurlEmbeds?: boolean | null;

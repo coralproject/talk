@@ -7,7 +7,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { UpdateNotificationSettingsEvent } from "coral-stream/events";
+import { UpdateInPageNotificationSettingsEvent } from "coral-stream/events";
 
 import { UpdateInPageNotificationSettingsMutation as MutationTypes } from "coral-stream/__generated__/UpdateInPageNotificationSettingsMutation.graphql";
 
@@ -21,8 +21,7 @@ const UpdateInPageNotificationSettingsMutation = createMutation(
     { eventEmitter }: CoralContext
   ) => {
     const updateInPageNotificationSettings =
-      // TODO: Update this event to specific in-page event
-      UpdateNotificationSettingsEvent.begin(eventEmitter, {
+      UpdateInPageNotificationSettingsEvent.begin(eventEmitter, {
         onFeatured: input.onFeatured,
         onModeration: input.onModeration,
         onStaffReplies: input.onStaffReplies,

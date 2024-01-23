@@ -693,7 +693,7 @@ export async function findOrCreateUserInput(
       onReply: true,
       onFeatured: true,
       onModeration: true,
-      onStaffReplies: true,
+      onStaffReplies: false,
       includeCountInBadge: true,
       bellRemainsVisible: true,
     },

@@ -146,7 +146,7 @@ it("render and update in-page notifications form", async () => {
         expectAndFail(inPageNotifications).toMatchObject({
           onReply: false,
           onFeatured: false,
-          onStaffReplies: false,
+          onStaffReplies: true,
           onModeration: false,
           includeCountInBadge: true,
           bellRemainsVisible: true,

@@ -141,7 +141,8 @@ createComment.error
 - <a href="#signedIn">signedIn</a>
 - <a href="#unfeatureComment">unfeatureComment</a>
 - <a href="#unmarkAll">unmarkAll</a>
-- <a href="#updateNotificationSettings">updateNotificationSettings</a>
+- <a href="#updateEmailNotificationSettings">updateEmailNotificationSettings</a>
+- <a href="#updateInPageNotificationSettings">updateInPageNotificationSettings</a>
 - <a href="#updateStorySettings">updateStorySettings</a>
 - <a href="#updateUserMediaSettings">updateUserMediaSettings</a>
 - <a href="#viewConversation">viewConversation</a>
@@ -614,7 +615,7 @@ createComment.error
       source: "keyboard" | "mobileToolbar";
   }
   ```
-- <a id="updateNotificationSettings">**updateNotificationSettings.success**, **updateNotificationSettings.error**</a>: This event is emitted when the viewer updates its notification settings.
+- <a id="updateEmailNotificationSettings">**updateEmailNotificationSettings.success**, **updateEmailNotificationSettings.error**</a>: This event is emitted when the viewer updates their email notification settings.
   ```ts
   {
       onReply?: boolean | null | undefined;
@@ -622,6 +623,22 @@ createComment.error
       onStaffReplies?: boolean | null | undefined;
       onModeration?: boolean | null | undefined;
       digestFrequency?: "NONE" | "DAILY" | "HOURLY" | null | undefined;
+      success: {};
+      error: {
+          message: string;
+          code?: string | undefined;
+      };
+  }
+  ```
+- <a id="updateInPageNotificationSettings">**updateInPageNotificationSettings.success**, **updateInPageNotificationSettings.error**</a>: This event is emitted when the viewer updates their in-page notification settings.
+  ```ts
+  {
+      onReply?: boolean | null | undefined;
+      onFeatured?: boolean | null | undefined;
+      onStaffReplies?: boolean | null | undefined;
+      onModeration?: boolean | null | undefined;
+      includeCountInBadge?: boolean | null | undefined;
+      bellRemainsVisible?: boolean | null | undefined;
       success: {};
       error: {
           message: string;

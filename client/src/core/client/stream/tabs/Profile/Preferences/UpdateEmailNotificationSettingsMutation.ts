@@ -7,7 +7,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { UpdateNotificationSettingsEvent } from "coral-stream/events";
+import { UpdateEmailNotificationSettingsEvent } from "coral-stream/events";
 
 import { UpdateEmailNotificationSettingsMutation as MutationTypes } from "coral-stream/__generated__/UpdateEmailNotificationSettingsMutation.graphql";
 
@@ -21,7 +21,7 @@ const UpdateEmailNotificationSettingsMutation = createMutation(
     { eventEmitter }: CoralContext
   ) => {
     const updateEmailNotificationSettings =
-      UpdateNotificationSettingsEvent.begin(eventEmitter, {
+      UpdateEmailNotificationSettingsEvent.begin(eventEmitter, {
         digestFrequency: input.digestFrequency,
         onFeatured: input.onFeatured,
         onModeration: input.onModeration,

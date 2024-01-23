@@ -240,7 +240,7 @@ export const baseUser = createFixture<GQLUser>({
   inPageNotifications: {
     onReply: true,
     onModeration: true,
-    onStaffReplies: true,
+    onStaffReplies: false,
     onFeatured: true,
     includeCountInBadge: true,
     bellRemainsVisible: true,
