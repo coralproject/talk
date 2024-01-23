@@ -2710,6 +2710,33 @@ type UsernameStatus {
   history: [UsernameHistory!]!
 }
 
+enum UserDeletionUpdateType {
+  REQUESTED
+  CANCELED
+}
+
+type UserDeletionHistory {
+  """
+  updateType is the type of deletion status update that was made. For example,
+  user deletion was requested or canceled.
+  """
+  updateType: UserDeletionUpdateType!
+
+  """
+  createdBy is the user that made the deletion status update.
+  """
+  createdBy: User
+
+  """
+  createdAt is the time the user had a deletion status update.
+  """
+  createdAt: Time!
+}
+
+type UserDeletionStatus {
+  history: [UserDeletionHistory!]! @auth(roles: [ADMIN, MODERATOR])
+}
+
 """
 UserStatus stores the user status information regarding moderation state.
 """
@@ -2728,6 +2755,16 @@ type UserStatus {
   username stores the history of username changes for this user
   """
   username: UsernameStatus!
+    @auth(
+      userIDField: "userID"
+      roles: [ADMIN, MODERATOR]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  deletion stores the history of deletion requests and cancellations for the user
+  """
+  deletion: UserDeletionStatus!
     @auth(
       userIDField: "userID"
       roles: [ADMIN, MODERATOR]
@@ -8298,6 +8335,62 @@ type RequestAccountDeletionPayload {
 }
 
 ##################
+# scheduleAccountDeletion
+##################
+
+input ScheduleAccountDeletionInput {
+  """
+  userID is the ID of the User being deleted.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type ScheduleAccountDeletionPayload {
+  """
+  user is the User that was deleted.
+  """
+  user: User
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# cancelScheduledAccountDeletion
+##################
+
+input CancelScheduledAccountDeletionInput {
+  """
+  userID is the ID of the User whose scheduled deletion is being canceled.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CancelScheduledAccountDeletionPayload {
+  """
+  user is the User whose scheduled deletion was canceled.
+  """
+  user: User
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # deleteUserAccount
 ##################
 
@@ -10277,6 +10370,22 @@ type Mutation {
   ): RequestAccountDeletionPayload!
     @auth(permit: [SUSPENDED, BANNED, WARNED])
     @rate(seconds: 10)
+
+  """
+  scheduleAccountDeletion allows an admin to schedule an account deletion
+  for a target user
+  """
+  scheduleAccountDeletion(
+    input: ScheduleAccountDeletionInput!
+  ): ScheduleAccountDeletionPayload! @auth(roles: [ADMIN])
+
+  """
+  cancelScheduledAccountDeletion allows an admin to cancel a scheduled account deletion
+  for a target user
+  """
+  cancelScheduledAccountDeletion(
+    input: CancelScheduledAccountDeletionInput!
+  ): CancelScheduledAccountDeletionPayload! @auth(roles: [ADMIN])
 
   """
   deleteUserAccount will delete the target user now.

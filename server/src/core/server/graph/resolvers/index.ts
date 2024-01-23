@@ -78,6 +78,8 @@ import { SuspensionStatusHistory } from "./SuspensionStatusHistory";
 import { Tag } from "./Tag";
 import { TwitterMediaConfiguration } from "./TwitterMediaConfiguration";
 import { User } from "./User";
+import { UserDeletionHistory } from "./UserDeletionHistory";
+import { UserDeletionStatus } from "./UserDeletionStatus";
 import { UserMediaSettings } from "./UserMediaSettings";
 import { UserMembershipScopes } from "./UserMembershipScopes";
 import { UserModerationScopes } from "./UserModerationScopes";
@@ -160,6 +162,8 @@ const Resolvers: GQLResolver = {
   Time,
   TwitterMediaConfiguration,
   User,
+  UserDeletionHistory,
+  UserDeletionStatus,
   UserMediaSettings,
   UserMembershipScopes,
   UserModerationScopes,

@@ -50,6 +50,9 @@ export function createUserStatus(banned = false): GQLUserStatus {
     username: {
       history: [],
     },
+    deletion: {
+      history: [],
+    },
     premod: {
       active: false,
       history: [],
