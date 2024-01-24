@@ -19,6 +19,7 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
   const { window } = useCoralContext();
   const [leftPos, setLeftPos] = useState<number>(0);
   const [topPos, setTopPos] = useState<number>(0);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const onWindowResize = useCallback(() => {
     const element = window.document.getElementById("coral-shadow-container");
@@ -28,6 +29,7 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
     }
 
     setLeftPos(rect.left + rect.width - 65);
+    setIsLoaded(true);
   }, [window.document]);
 
   const onWindowScroll = useCallback(() => {
@@ -48,7 +50,7 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
 
   useEffect(() => {
     window.addEventListener("resize", onWindowResize);
-    onWindowResize();
+    setTimeout(onWindowResize, 2000);
 
     window.addEventListener("scroll", onWindowScroll);
 
@@ -58,7 +60,7 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
     };
   }, [onWindowResize, onWindowScroll, window]);
 
-  if (!viewerID) {
+  if (!viewerID || !isLoaded) {
     return null;
   }
 
