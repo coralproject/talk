@@ -1,17 +1,44 @@
 .root {
   position: fixed;
-  top: 0;
   z-index: 1000;
+}
+
+.button {
+  position: relative;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1002;
 
   width: 65px;
   height: 48px;
 
   border-bottom-left-radius: 20px;
+  border-style: none;
 
   background-color: white;
+  box-shadow: -5px 5px 4px rgba(35, 35, 35, 0.25);
+}
+
+.feedRoot {
+  position: relative;
+  z-index: 1001;
+}
+
+.feed {
+  position: absolute;
+  right: 0px;
+  top: -48px;
+
+  padding: var(--spacing-4);
+
+  overflow: scroll;
+
+  width: 400px;
+  height: 400px;
+
+  background-color: white;
+  border-radius: var(--round-corners);
   box-shadow: -5px 5px 4px rgba(35, 35, 35, 0.25);
 }

@@ -16,11 +16,14 @@ import styles from "./NotificationsContainer.css";
 interface Props {
   viewer: NotificationsContainer_viewer;
   settings: NotificationsContainer_settings;
+
+  showUserBox?: boolean;
 }
 
 const NotificationsContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
+  showUserBox = true,
 }) => {
   const [, setLocal] = useLocal<NotificationsContainerLocal>(graphql`
     fragment NotificationsContainerLocal on Local {
@@ -38,9 +41,11 @@ const NotificationsContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <div className={styles.userBox}>
-        <UserBoxContainer viewer={viewer} settings={settings} />
-      </div>
+      {showUserBox && (
+        <div className={styles.userBox}>
+          <UserBoxContainer viewer={viewer} settings={settings} />
+        </div>
+      )}
       <div className={styles.title}>
         <Localized id="notifications-title">Notifications</Localized>
       </div>

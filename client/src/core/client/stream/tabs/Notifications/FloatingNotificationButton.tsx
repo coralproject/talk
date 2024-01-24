@@ -10,6 +10,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { LiveBellIcon } from "./LiveBellIcon";
 
 import styles from "./FloatingNotificationButton.css";
+import NotificationsQuery from "./NotificationsQuery";
 
 interface Props {
   viewerID?: string;
@@ -20,6 +21,7 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
   const [leftPos, setLeftPos] = useState<number>(0);
   const [topPos, setTopPos] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onWindowResize = useCallback(() => {
     const element = window.document.getElementById("coral-shadow-container");
@@ -60,16 +62,29 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
     };
   }, [onWindowResize, onWindowScroll, window]);
 
+  const onToggleOpen = useCallback(() => {
+    setIsOpen(!isOpen);
+  }, [isOpen]);
+
   if (!viewerID || !isLoaded) {
     return null;
   }
 
   return (
     <div
-      style={{ left: `${leftPos}px`, top: `${topPos}px` }}
       className={styles.root}
+      style={{ left: `${leftPos}px`, top: `${topPos}px` }}
     >
-      <LiveBellIcon userID={viewerID} size="lg" />
+      <button className={styles.button} onClick={onToggleOpen}>
+        <LiveBellIcon userID={viewerID} size="lg" />
+      </button>
+      {isOpen && (
+        <div className={styles.feedRoot}>
+          <div className={styles.feed}>
+            <NotificationsQuery showUserBox={false} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
