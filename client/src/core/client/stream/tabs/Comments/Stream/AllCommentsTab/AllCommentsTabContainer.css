@@ -3,7 +3,7 @@
 }
 
 .refreshContainer {
-  z-index: 999999;
+  z-index: 9999;
   top: 3rem;
   left: 50%;
   transform: translateX(-50%);
