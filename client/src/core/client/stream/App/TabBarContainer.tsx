@@ -10,6 +10,7 @@ import {
 import { Ability, can } from "coral-framework/permissions";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { SetCommentIDMutation } from "coral-stream/mutations";
+import FloatingNotificationButton from "coral-stream/tabs/Notifications/FloatingNotificationButton";
 
 import { TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
 import { TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
@@ -75,16 +76,19 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   );
 
   return (
-    <TabBar
-      mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
-      activeTab={activeTab}
-      showProfileTab={!!viewer}
-      showDiscussionsTab={showDiscussionsTab}
-      showConfigureTab={showConfigureTab}
-      showNotificationsTab={!!viewer}
-      hasNewNotifications={!!hasNewNotifications}
-      onTabClick={handleSetActiveTab}
-    />
+    <>
+      <FloatingNotificationButton viewerID={viewer?.id} />
+      <TabBar
+        mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
+        activeTab={activeTab}
+        showProfileTab={!!viewer}
+        showDiscussionsTab={showDiscussionsTab}
+        showConfigureTab={showConfigureTab}
+        showNotificationsTab={!!viewer}
+        hasNewNotifications={!!hasNewNotifications}
+        onTabClick={handleSetActiveTab}
+      />
+    </>
   );
 };
 
@@ -92,6 +96,7 @@ const enhanced = withSetActiveTabMutation(
   withFragmentContainer<Props>({
     viewer: graphql`
       fragment TabBarContainer_viewer on User {
+        id
         role
       }
     `,

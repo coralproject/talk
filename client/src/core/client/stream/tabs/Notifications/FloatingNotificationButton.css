@@ -1,0 +1,17 @@
+.root {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 65px;
+  height: 48px;
+
+  border-bottom-left-radius: 20px;
+
+  background-color: white;
+  box-shadow: -5px 5px 4px rgba(35, 35, 35, 0.25);
+}

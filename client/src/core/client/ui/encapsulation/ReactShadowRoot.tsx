@@ -72,7 +72,7 @@ const ReactShadowRoot: FunctionComponent<Props> = (props) => {
             rel="stylesheet"
           />
         ))}
-      <ReactShadow.div>
+      <ReactShadow.div id="coral-shadow-container">
         <CoralShadowRootContainer
           className={encapsulation.containerClassName}
           style={style}
