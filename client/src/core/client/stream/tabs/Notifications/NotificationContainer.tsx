@@ -10,6 +10,7 @@ import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
 import {
   CheckCircleIcon,
   LegalHammerIcon,
+  MessagesBubbleSquareTextIcon,
   QuestionCircleIcon,
   RejectCommentBoxIcon,
   SvgIcon,
@@ -24,6 +25,7 @@ import { NotificationContainer_viewer } from "coral-stream/__generated__/Notific
 
 import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
 import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
+import RepliedCommentNotificationBody from "./RepliedCommentNotificationBody";
 
 import styles from "./NotificationContainer.css";
 
@@ -48,7 +50,12 @@ const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
   if (type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE) {
     return LegalHammerIcon;
   }
-
+  if (type === GQLNOTIFICATION_TYPE.REPLY) {
+    return MessagesBubbleSquareTextIcon;
+  }
+  if (type === GQLNOTIFICATION_TYPE.REPLY_STAFF) {
+    return MessagesBubbleSquareTextIcon;
+  }
   return QuestionCircleIcon;
 };
 
@@ -86,6 +93,20 @@ const getTitle = (bundles: FluentBundle[], type: NOTIFICATION_TYPE | null) => {
       bundles,
       "notifications-yourIllegalContentReportHasBeenReviewed",
       "Your illegal content report has been reviewed"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.REPLY) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasReceivedAReply",
+      "Your comment has received a reply"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.REPLY_STAFF) {
+    return getMessage(
+      bundles,
+      "notifications-yourCommentHasReceivedAStaffReply",
+      "Your comment has received a reply from a staff member"
     );
   }
 
@@ -133,6 +154,10 @@ const NotificationContainer: FunctionComponent<Props> = ({
         {type === GQLNOTIFICATION_TYPE.DSA_REPORT_DECISION_MADE && (
           <DSAReportDecisionMadeNotificationBody notification={notification} />
         )}
+        {(type === GQLNOTIFICATION_TYPE.REPLY ||
+          type === GQLNOTIFICATION_TYPE.REPLY_STAFF) && (
+          <RepliedCommentNotificationBody notification={notification} />
+        )}
         <div className={styles.footer}>
           <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
         </div>
@@ -159,6 +184,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...RejectedCommentNotificationBody_notification
       ...DSAReportDecisionMadeNotificationBody_notification
+      ...RepliedCommentNotificationBody_notification
     }
   `,
 })(NotificationContainer);

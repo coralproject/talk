@@ -4898,6 +4898,7 @@ enum NOTIFICATION_TYPE {
   ILLEGAL_REJECTED
   DSA_REPORT_DECISION_MADE
   REPLY
+  REPLY_STAFF
 }
 
 type Notification {
@@ -4926,6 +4927,11 @@ type Notification {
   comment is the optional comment that is linked to this notification.
   """
   comment: Comment
+
+  """
+  commentReply is the optional comment reply that is linked to this notification.
+  """
+  commentReply: Comment
 
   """
   commentStatus is the optional status of the comment when the notification
