@@ -22,11 +22,11 @@ export const LiveBellIcon: FunctionComponent<Props> = ({ size = "md" }) => {
 
   const count = useMemo(() => {
     if (!notificationCount) {
-      return "";
+      return null;
     }
 
     if (notificationCount <= 0) {
-      return "";
+      return null;
     }
 
     if (notificationCount > 20) {
@@ -49,7 +49,7 @@ export const LiveBellIcon: FunctionComponent<Props> = ({ size = "md" }) => {
         size={size}
         Icon={NotificationBellIcon}
       />
-      {count !== "" && (
+      {count && (
         <div
           className={cn(CLASSES.notifications.live.counter, styles.counter, {
             [styles.counterMed]: size === "md",

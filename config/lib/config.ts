@@ -79,7 +79,7 @@ export interface StaticConfig {
   dsaFeaturesEnabled?: boolean;
 
   /**
-   * notificationsPollRate determins the polling rate at which the client checks
+   * notificationsPollRate determines the polling rate at which the client checks
    * for notifications updates (milliseconds).
    */
   notificationsPollRate: number;
