@@ -5251,7 +5251,6 @@ type Query {
   ): NotificationsConnection!
 
   notificationCount(userID: ID!): Int
-    @auth(userIDField: "userID", roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################
