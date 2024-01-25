@@ -498,6 +498,13 @@ export interface User extends TenantResource {
   badges?: string[];
 
   /**
+   * secretBadges are user display badges that are not overridden by SSO
+   * or other user upserts and can be configured for special cases like needing
+   * to signify a special user on a unique story or article situation.
+   */
+  secretBadges?: string[];
+
+  /**
    * ssoURL is the url where a user can manage their sso account
    */
   ssoURL?: string;

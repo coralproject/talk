@@ -106,4 +106,19 @@ export const User: GQLUserTypeResolver<user.User> = {
     const tenDaysAgo = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000);
     return lastFeaturedDate && lastFeaturedDate >= tenDaysAgo;
   },
+  badges: ({ badges, secretBadges }) => {
+    if (!badges && !secretBadges) {
+      return undefined;
+    }
+
+    let result: string[] = [];
+    if (badges) {
+      result = [...result, ...badges];
+    }
+    if (secretBadges) {
+      result = [...result, ...secretBadges];
+    }
+
+    return result;
+  },
 };
