@@ -28,17 +28,32 @@
 
 .feed {
   position: absolute;
-  right: 0px;
-  top: -48px;
 
   padding: var(--spacing-4);
 
   overflow: scroll;
 
-  width: 400px;
-  height: 400px;
-
   background-color: white;
   border-radius: var(--round-corners);
   box-shadow: -2px 4px 4px rgba(35, 35, 35, 0.25);
+}
+
+@media only screen and (min-width: 601px) {
+  .feed {
+    right: 0px;
+    top: -48px;
+
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .feed {
+    top: -48px;
+    right: 0px;
+
+    width: 80vw;
+    height: 400px;
+  }
 }
