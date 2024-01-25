@@ -11,6 +11,7 @@ import { Ability, can } from "coral-framework/permissions";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import FloatingNotificationButton from "coral-stream/tabs/Notifications/FloatingNotificationButton";
+import useLiveNotificationsPolling from "coral-stream/tabs/Notifications/polling/useLiveNotificationsPolling";
 
 import { TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
 import { TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
@@ -31,12 +32,27 @@ interface Props {
   setActiveTab: SetActiveTabMutation;
 }
 
+// use this to avoid linting errors complaining about casting
+// a possible `any` to `string | undefined` when initializing
+// the live notifications polling.
+const getViewerID = (
+  viewer: TabBarContainer_viewer | null
+): string | undefined => {
+  if (!viewer) {
+    return undefined;
+  }
+
+  return viewer.id;
+};
+
 export const TabBarContainer: FunctionComponent<Props> = ({
   viewer,
   story,
   settings,
   setActiveTab,
 }) => {
+  useLiveNotificationsPolling(getViewerID(viewer));
+
   const setCommentID = useMutation(SetCommentIDMutation);
   const { window } = useCoralContext();
   const [{ activeTab, hasNewNotifications }] =
