@@ -31,7 +31,6 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
     }
 
     setLeftPos(rect.left + rect.width - 65);
-    setIsLoaded(true);
   }, [window.document]);
 
   const onWindowScroll = useCallback(() => {
@@ -52,7 +51,11 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
 
   useEffect(() => {
     window.addEventListener("resize", onWindowResize);
-    setTimeout(onWindowResize, 2000);
+    setTimeout(() => {
+      onWindowResize();
+      onWindowScroll();
+      setIsLoaded(true);
+    }, 1500);
 
     window.addEventListener("scroll", onWindowScroll);
 
