@@ -40,7 +40,7 @@ jobs:
         with:
           node-version: "18.16.x"
       - name: Install pnpm 8
-        run: npm install -g pnpm@^8.7.0 --registry=https://registry.npmjs.org
+        run: npm install -g pnpm@8.7.0 --registry=https://registry.npmjs.org
       # -
       #   name: npm Lockfile Version (client)
       #   uses: mansona/npm-lockfile-version@v1
