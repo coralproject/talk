@@ -13,7 +13,8 @@
   },
   "engines": {
     "node": "^18.16.0",
-    "npm": "8.0.0"
+    "npm": "8.0.0",
+    "pnpm": "8.7.0"
   },
   "bugs": "https://github.com/coralproject/talk/issues",
   "contributors": [
@@ -39,6 +40,7 @@
     "lint:server": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint": "npm-run-all lint:* tscheck:*",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
+    "preinstall": "npx only-allow pnpm",
     "start:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
     "start:development:withJobs": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
     "start": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production node dist/index.js",
@@ -64,10 +66,13 @@
     "@sentry/integrations": "^6.19.7",
     "@sentry/node": "^6.19.7",
     "@sentry/types": "^6.19.7",
+    "@types/body-parser": "1.19.2",
     "@types/url-regex-safe": "^1.0.0",
     "abort-controller": "^3.0.0",
     "address": "^1.2.2",
     "akismet-api": "^6.0.0",
+    "apollo-cache-control": "0.11.3",
+    "apollo-server-caching": "0.5.2",
     "apollo-server-express": "^2.18.1",
     "apollo-server-plugin-base": "^0.10.1",
     "apollo-server-plugin-response-cache": "^0.5.5",
@@ -75,6 +80,7 @@
     "axios": "^0.21.2",
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",
+    "body-parser": "1.19.0",
     "bull": "^3.18.0",
     "bunyan": "^1.8.12",
     "bytes": "^3.1.0",

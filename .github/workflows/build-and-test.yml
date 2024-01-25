@@ -48,8 +48,8 @@ jobs:
         with:
           node-version: '18.16.x'
       -
-        name: Install npm 8
-        run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
+        name: Install pnpm 8
+        run: npm install -g pnpm@^8 --registry=https://registry.npmjs.org
       # -
       #   name: npm Lockfile Version (client)
       #   uses: mansona/npm-lockfile-version@v1
@@ -108,7 +108,7 @@ jobs:
           npx @coralproject/package-version-lint
       -
         name: Run Server Unit Tests
-        run: cd server && npm run test:server -- --ci --reporters=default --reporters=jest-junit
+        run: cd server && pnpm run test:server -- --ci --reporters=default --reporters=jest-junit
       -
         name: Run Client Stream Unit Tests
         run: cd client && npm run test:client:stream -- --ci --reporters=default --reporters=jest-junit

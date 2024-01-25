@@ -15,6 +15,7 @@
     "noErrorTruncation": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "preserveSymlinks": true,
     "lib": ["dom", "es6", "esnext.asynciterable"],
     "plugins": [
       {
