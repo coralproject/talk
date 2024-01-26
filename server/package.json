@@ -91,6 +91,7 @@
     "convict-format-with-validator": "^6.2.0",
     "cookie": "^0.4.1",
     "coral-common": "../common/dist",
+    "coral-config": "../config/dist",
     "cors": "^2.8.5",
     "cron": "^1.8.2",
     "csv-stringify": "^5.3.6",

@@ -116,6 +116,9 @@ dependencies:
   coral-common:
     specifier: ../common/dist
     version: link:../common/dist
+  coral-config:
+    specifier: ../config/dist
+    version: link:../config/dist
   cors:
     specifier: ^2.8.5
     version: 2.8.5
