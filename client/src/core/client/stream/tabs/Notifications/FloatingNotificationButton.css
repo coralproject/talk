@@ -31,7 +31,8 @@
 
   padding: var(--spacing-4);
 
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
 
   background-color: white;
   border-radius: var(--round-corners);
