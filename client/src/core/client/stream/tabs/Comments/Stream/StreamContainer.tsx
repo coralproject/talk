@@ -30,6 +30,7 @@ import {
   SetCommentsOrderByEvent,
   SetCommentsTabEvent,
 } from "coral-stream/events";
+import useLiveNotificationsPolling from "coral-stream/tabs/Notifications/polling/useLiveNotificationsPolling";
 import { RatingStarIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   AriaInfo,
@@ -131,6 +132,8 @@ const AccessibleCounter: FunctionComponent<PropTypesOf<typeof Counter>> = (
 );
 
 export const StreamContainer: FunctionComponent<Props> = (props) => {
+  useLiveNotificationsPolling(props.viewer?.id);
+
   const emitSetCommentsTabEvent = useViewerEvent(SetCommentsTabEvent);
   const emitSetCommentsOrderByEvent = useViewerEvent(SetCommentsOrderByEvent);
   const { localStorage, browserInfo } = useCoralContext();

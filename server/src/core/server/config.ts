@@ -493,6 +493,12 @@ const config = convict({
     default: ms("86400s"),
     env: "REDIS_CACHE_EXPIRY",
   },
+  notifications_poll_rate: {
+    doc: "rate at which live notification updates should poll client side.",
+    format: "ms",
+    default: ms("3000s"),
+    env: "NOTIFICATIONS_POLL_RATE",
+  },
 });
 
 export type Config = typeof config;

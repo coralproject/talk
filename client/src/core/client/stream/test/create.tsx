@@ -41,6 +41,8 @@ const initLocalState = (
     params.initLocalState(localRecord, source, environment);
   }
   localRecord.setValue(false, "hasNewNotifications");
+  localRecord.setValue(0, "notificationCount");
+  localRecord.setValue(3000, "notificationsPollRate");
 };
 
 export default function create(params: CreateTestRendererParams<GQLResolver>) {

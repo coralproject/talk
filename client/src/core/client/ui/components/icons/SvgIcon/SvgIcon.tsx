@@ -8,7 +8,7 @@ export interface SvgIconProps {
   Icon: ComponentType;
   size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl";
   color?: "stream" | "teal" | "tealLight" | "error" | "success";
-  strokeWidth?: "regular" | "bold" | "semibold";
+  strokeWidth?: "thin" | "regular" | "bold" | "semibold";
   filled?: "none" | "currentColor" | "teal" | "tealLight";
   className?: string;
   /** Internal: Forwarded Ref */
@@ -66,6 +66,9 @@ const SvgIcon: React.FC<SvgIconProps> = ({
 
   let strokeWidthStyle;
   switch (strokeWidth) {
+    case "thin":
+      strokeWidthStyle = styles.strokeWidthThin;
+      break;
     case "regular":
       strokeWidthStyle = styles.strokeWidthRegular;
       break;

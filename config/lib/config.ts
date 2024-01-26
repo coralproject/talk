@@ -77,6 +77,12 @@ export interface StaticConfig {
    * moderation and illegal reporting are enabled on the tenant.
    */
   dsaFeaturesEnabled?: boolean;
+
+  /**
+   * notificationsPollRate determines the polling rate at which the client checks
+   * for notifications updates (milliseconds).
+   */
+  notificationsPollRate: number;
 }
 
 export interface EmbedBootstrapConfig {

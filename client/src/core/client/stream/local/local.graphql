@@ -131,4 +131,6 @@ extend type Local {
   dsaFeaturesEnabled: Boolean
 
   hasNewNotifications: Boolean
+  notificationCount: Int
+  notificationsPollRate: Int!
 }

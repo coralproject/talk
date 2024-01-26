@@ -1066,6 +1066,12 @@ const CLASSES = {
     label: "coral coral-emailNotifications-label coral-notifications-label",
     updateButton:
       "coral coral-emailNotifications-updateButton coral-notifications-updateButton",
+
+    live: {
+      root: "coral coral-notifications-live-root",
+      icon: "coral coral-notifications-live-icon",
+      counter: "coral coral-notifications-live-counter",
+    },
   },
 
   mediaPreferences: {

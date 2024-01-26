@@ -11,7 +11,6 @@
 
 .notificationsIcon {
   height: var(--spacing-5);
-  overflow: hidden;
 }
 
 .notificationsIconSmall {
@@ -20,7 +19,6 @@
      using this, allowing all the other padding styles to
      remain consistent */
   height: 22.5px;
-  overflow: hidden;
 }
 
 .notificationsTabSmall {
