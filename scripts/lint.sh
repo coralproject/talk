@@ -17,7 +17,7 @@ pnpm run lint
 cd ..
 
 echo "linting \`docs\`"
-p
+
 cd docs
 pnpm run lint
 cd ..
