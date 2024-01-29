@@ -36,6 +36,7 @@ import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseComme
 import { useCommentSeenEnabled } from "coral-stream/tabs/Comments/commentSeen/";
 import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
+import { MobileNotificationButton } from "coral-stream/tabs/Notifications/MobileNotificationButton";
 import {
   ButtonSvgIcon,
   CheckDoubleIcon,
@@ -77,6 +78,7 @@ interface Comment {
 
 interface Props {
   storyID: string;
+  viewerID: string;
   currentScrollRef: any;
   comments: ReadonlyArray<Comment>;
   viewNewCount: number;
@@ -282,6 +284,7 @@ const loadMoreEvents = [
 
 const KeyboardShortcuts: FunctionComponent<Props> = ({
   storyID,
+  viewerID,
   currentScrollRef,
   comments,
   viewNewCount,
@@ -1382,6 +1385,9 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           browserInfo.iPadOS) && (
           <MobileToolbar onKeyPress={handleKeypress}>
             <Flex className={styles.flexContainer} alignItems="center">
+              <div className={styles.notificationActionContainer}>
+                <MobileNotificationButton viewerID={viewerID} />
+              </div>
               <div className={styles.unmarkAllContainer}>
                 <Button
                   variant="text"

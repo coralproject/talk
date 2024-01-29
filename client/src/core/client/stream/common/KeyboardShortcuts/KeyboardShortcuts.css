@@ -12,12 +12,18 @@
   border-right: 1px solid currentColor;
 }
 
+.notificationActionContainer {
+  flex-grow: 1;
+  border-right: 1px solid currentColor;
+  margin-left: 6px;
+}
+
 .closeContainer {
   flex-shrink: 0;
 }
 
 .button {
-  padding: 9px 16px;
+  padding: 4px 8px;
   width: 100%;
 }
 .buttonColor {}
