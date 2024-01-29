@@ -88,7 +88,7 @@ git clone https://github.com/coralproject/talk.git
 cd talk
 
 # Install dependencies.
-sh scripts/npm-ci.sh
+sh scripts/pnpm-ci.sh
 sh scripts/generate.sh
 
 # Build the application dependencies, this may take some time.
@@ -114,7 +114,7 @@ Then start Coral with:
 
 ```bash
 cd server
-npm run start:development
+ppnpm run start:development
 ```
 
 Then head on over to http://localhost:3000 to install Coral!
@@ -138,5 +138,5 @@ You can then run Coral with the production command instead:
 ```bash
 # Start the server in production mode.
 cd server
-npm run start
+pnpm run start
 ```

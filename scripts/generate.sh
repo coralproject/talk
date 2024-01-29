@@ -10,17 +10,17 @@ cd server
 pnpm run generate
 cd ..
 
-echo "running \`npm run build\` for \`config\`"
+echo "running \`pnpm run build\` for \`config\`"
 cd config
-npm run build
+pnpm run build
 cd ..
 
-echo "running \`npm run build\` for \`common\`"
+echo "running \`pnpm run build\` for \`common\`"
 cd common
 pnpm run build
 cd ..
 
-echo "running \`npm run generate\` for \`client\`"
+echo "running \`pnpm run generate\` for \`client\`"
 cd client
 pnpm run generate
 cd ..
