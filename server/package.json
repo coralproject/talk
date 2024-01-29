@@ -13,7 +13,6 @@
   },
   "engines": {
     "node": "^18.16.0",
-    "npm": "8.0.0",
     "pnpm": "8.14.3"
   },
   "bugs": "https://github.com/coralproject/talk/issues",

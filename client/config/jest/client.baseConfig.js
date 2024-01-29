@@ -34,6 +34,11 @@ const createConfig = () => {
     "d3-transition|@3.1.0/d3-transition",
     "d3-zoom|@3.1.0/d3-zoom",
   ];
+  const transformIgnorePkgs = [
+    "react-relay-network-modern|@5.0.0_relay-runtime@10.0.1/react-relay-network-modern",
+    "@coralproject/rte|@2.2.4_react-dom@18.2.0_react@18.2.0/@coralproject/rte",
+    "internmap|@2.0.3/internmap/src",
+  ];
 
   return {
     displayName: "jestBaseConfig",
@@ -61,7 +66,7 @@ const createConfig = () => {
         "<rootDir>/config/jest/fileTransform.js",
     },
     transformIgnorePatterns: [
-      `node_modules/(?!.pnpm|react-relay-network-modern|@5.0.0_relay-runtime@10.0.1/react-relay-network-modern|@coralproject/rte|@2.2.4_react-dom@18.2.0_react@18.2.0/@coralproject/rte|internmap|@2.0.3/internmap/src|${d3Pkgs.join(
+      `node_modules/(?!.pnpm|${transformIgnorePkgs.join("|")}|${d3Pkgs.join(
         "|"
       )})`,
     ],
