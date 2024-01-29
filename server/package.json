@@ -348,6 +348,11 @@
     "webpack-dev-server": "^3.11.3",
     "whatwg-fetch": "^3.4.0"
   },
+  "pnpm": {
+    "overrides": {
+      "protobufjs": ">=7.2.4"
+    }
+  },
   "dependencies-pins-documentation": {
     "ts-node-dev@1.0.0-pre.44": [
       "Newer versions unbearibly slow"
