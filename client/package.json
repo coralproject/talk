@@ -14,7 +14,7 @@
   "engines": {
     "node": "^18.16.0",
     "npm": "8.0.0",
-    "pnpm": "8.7.0"
+    "pnpm": "8.14.3"
   },
   "bugs": "https://github.com/coralproject/talk/issues",
   "contributors": [
@@ -95,6 +95,7 @@
     "lodash": "^4.17.19",
     "long-settimeout": "^1.0.1",
     "luxon": "^1.22.2",
+    "popper.js": "^1.14.4",
     "postcss": "^8.3.5",
     "querystringify": "^2.1.1",
     "re2": "^1.20.9",
@@ -229,6 +230,7 @@
     "intl": "^1.2.5",
     "jest": "^26.4.2",
     "jest-axe": "^4.0.0",
+    "jest-canvas-mock": "^2.5.2",
     "jest-junit": "^11.1.0",
     "jest-localstorage-mock": "^2.4.3",
     "jest-mock-console": "^1.0.1",
@@ -315,6 +317,12 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.3",
     "whatwg-fetch": "^3.4.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@testing-library/dom": "9.3.4",
+      "axe-core": "3.5.5"
+    }
   },
   "dependencies-pins-documentation": {
     "react-final-form@6.3.0": [
