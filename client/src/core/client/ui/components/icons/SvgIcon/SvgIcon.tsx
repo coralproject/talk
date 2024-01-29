@@ -9,7 +9,7 @@ export interface SvgIconProps {
   size?: "xxs" | "xs" | "sm" | "md" | "lg" | "xl";
   color?: "stream" | "teal" | "tealLight" | "error" | "success";
   strokeWidth?: "thin" | "regular" | "bold" | "semibold";
-  filled?: "none" | "currentColor" | "teal" | "tealLight";
+  filled?: "none" | "currentColor" | "teal" | "tealLight" | "white";
   className?: string;
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLSpanElement>;
@@ -62,6 +62,9 @@ const SvgIcon: React.FC<SvgIconProps> = ({
       break;
     case "success":
       colorStyle = styles.colorSuccess;
+      break;
+    case "white":
+      colorStyle = styles.colorWhite;
   }
 
   let strokeWidthStyle;

@@ -1,6 +1,8 @@
 .button {
   border-style: none;
   background-color: transparent;
+
+  color: white;
 }
 
 .tray {

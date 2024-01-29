@@ -30,7 +30,7 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
         </div>
       )}
       <button className={styles.button} onClick={onToggleOpen}>
-        <LiveBellIcon userID={viewerID} size="lg" />
+        <LiveBellIcon userID={viewerID} size="lg" tray />
       </button>
     </>
   );

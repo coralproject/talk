@@ -15,7 +15,7 @@
 .notificationActionContainer {
   flex-grow: 1;
   border-right: 1px solid currentColor;
-  margin-left: 6px;
+  margin-left: 5px;
 }
 
 .closeContainer {

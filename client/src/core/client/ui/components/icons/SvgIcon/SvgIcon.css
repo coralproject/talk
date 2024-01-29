@@ -59,6 +59,12 @@
   stroke: var(--palette-primary-500);
 }
 
+.colorWhite svg {
+  background: var(--palette-text-000);
+  color: var(--palette-text-000);
+  stroke: var(--palette-text-000);
+}
+
 .strokeWidthThin svg {
   stroke-width: 1;
 }
