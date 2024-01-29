@@ -7,187 +7,155 @@ on:
       - v[0-9]+.[0-9]+.[0-9]+
 
 env:
-  DOCKERHUB_USERNAME: 'coralproject'
-  GOOGLE_CLOUD_BUCKET: 'coral-cdn'
-  IMAGE_REPOSITORY: 'coralproject/talk'
-  IMAGE_CACHE_REPOSITORY: 'coralproject/ci'
-  SENTRY_ORG: 'voxmedia'
-  SENTRY_PROJECT: 'coral'
+  DOCKERHUB_USERNAME: "coralproject"
+  GOOGLE_CLOUD_BUCKET: "coral-cdn"
+  IMAGE_REPOSITORY: "coralproject/talk"
+  IMAGE_CACHE_REPOSITORY: "coralproject/ci"
+  SENTRY_ORG: "voxmedia"
+  SENTRY_PROJECT: "coral"
 
 jobs:
   build-and-test:
     name: Build, Test, and Deploy
     runs-on: coral-ci
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v3
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      -
-        uses: webfactory/ssh-agent@v0.7.0
+      - uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.REPO_PATCHED_DEPLOY_KEY }}
-      -
-        name: Authenticate with GCP
-        id: 'auth'
-        uses: 'google-github-actions/auth@v1'
+      - name: Authenticate with GCP
+        id: "auth"
+        uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: '${{ secrets.GAR_JSON_KEY }}'
-      -
-        name: Set up Cloud SDK
-        uses: 'google-github-actions/setup-gcloud@v1'
-      -
-        name: Login to Docker Hub
+          credentials_json: "${{ secrets.GAR_JSON_KEY }}"
+      - name: Set up Cloud SDK
+        uses: "google-github-actions/setup-gcloud@v1"
+      - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      -
-        name: Define SHORT_SHA with commit short sha
+      - name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-      -
-        name: Define RC_TAG
+      - name: Define RC_TAG
         run: echo "RC_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      -
-        name: Setup Node18.x
+      - name: Setup Node18.x
         uses: actions/setup-node@v3
         with:
-          node-version: '18.16.x'
-      -
-        name: Install npm 8
-        run: npm i -g npm@8.0.0 --registry=https://registry.npmjs.org
+          node-version: "18.16.x"
+      - name: Install pnpm 8
+        run: npm install -g pnpm@8.14.3 --registry=https://registry.npmjs.org
       # - name: npm Lockfile Version
       #   uses: mansona/npm-lockfile-version@v1
       #   with:
       #     version: 2
-      -
-        name: Cache Dependencies
+      - name: Cache Dependencies
         id: cache-client
         uses: actions/cache@v3
         with:
           path: ./client/node_modules
           key: modules-client-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
-      -
-        name: Cache Dependencies
+      - name: Cache Dependencies
         id: cache-common
         uses: actions/cache@v3
         with:
           path: ./common/node_modules
           key: modules-common-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
-      -
-        name: Cache Dependencies
+      - name: Cache Dependencies
         id: cache-server
         uses: actions/cache@v3
         with:
           path: ./server/node_modules
           key: modules-server-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
-      -
-        name: npm ci
-        run: sh scripts/npm-ci.sh
-      -
-        name: Generate schemas and types
+      - name: npm ci
+        run: sh scripts/pnpm-ci.sh
+      - name: Generate schemas and types
         run: sh scripts/generate.sh
-      -
-        name: Lint Source Code
+      - name: Lint Source Code
         run: sh scripts/lint.sh
-      -
-        name: Lint Markdown
+      - name: Lint Markdown
         run: |
           cd client
           npm run doctoc
           git diff --exit-code
-      -
-        name: Lint Versions
+      - name: Lint Versions
         run: |
           cd client
           npx @coralproject/package-version-lint
-      -
-        name: Run Server Unit Tests
-        run: cd server && npm run test:server -- --ci --reporters=default --reporters=jest-junit
-      -
-        name: Run Client Stream Unit Tests
-        run: cd client && npm run test:client:stream -- --ci --reporters=default --reporters=jest-junit
-      -
-        name: Run Client Admin Unit Tests
-        run: cd client && npm run test:client:admin -- --ci --reporters=default --reporters=jest-junit
-      -
-        name: Run Client Other Unit Tests
-        run: cd client && npm run test:client:other -- --ci --reporters=default --reporters=jest-junit
-      -
-        name: Build
+      - name: Run Server Unit Tests
+        run: cd server && pnpm run test:server -- --ci --reporters=default --reporters=jest-junit
+      - name: Run Client Stream Unit Tests
+        run: cd client && pnpm run test:client:stream -- --ci --reporters=default --reporters=jest-junit
+      - name: Run Client Admin Unit Tests
+        run: cd client && pnpm run test:client:admin -- --ci --reporters=default --reporters=jest-junit
+      - name: Run Client Other Unit Tests
+        run: cd client && pnpm run test:client:other -- --ci --reporters=default --reporters=jest-junit
+      - name: Build
         env:
           NODE_OPTIONS: "--max-old-space-size=14336"
         run: sh scripts/build.sh
-      -
-        name: Verify Bundle Size
+      - name: Verify Bundle Size
         run: cd client && ./node_modules/.bin/bundlesize --enable-github-checks
-      -
-        name: Verify Release Version
+      - name: Verify Release Version
         run: |
           cd client
           npx @coralproject/package-version-lint --expect ${RC_TAG/#v}
           cd ../server
           npx @coralproject/package-version-lint --expect ${RC_TAG/#v}
-      -
-        name: Create the Pre-Tag Names
+      - name: Create the Pre-Tag Names
         run: |
           echo "MAJOR=`echo ${RC_TAG/#v} | cut -d. -f1`" >> $GITHUB_ENV
           echo "MINOR=`echo ${RC_TAG/#v} | cut -d. -f2`" >> $GITHUB_ENV
           echo "PATCH=`echo ${RC_TAG/#v} | cut -d. -f3`" >> $GITHUB_ENV
-      -
-        name: Create Final Tag names
+      - name: Create Final Tag names
         run: |
           echo "MAJOR_TAG=${MAJOR}" >> $GITHUB_ENV
           echo "MINOR_TAG=${MAJOR}.${MINOR}" >> $GITHUB_ENV
           echo "PATCH_TAG=${MAJOR}.${MINOR}.${PATCH}" >> $GITHUB_ENV
-      -
-        name: Build, Tag, Push Major Tag
+      - name: Build, Tag, Push Major Tag
         uses: docker/build-push-action@v4
         with:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}
           build-args: |
-              REVISION_HASH=${{ env.GITHUB_SHA }}
+            REVISION_HASH=${{ env.GITHUB_SHA }}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-major
           cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-major
-      -
-        name: Build, Tag, Push Minor Tag
+      - name: Build, Tag, Push Minor Tag
         uses: docker/build-push-action@v4
         with:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}
           build-args: |
-              REVISION_HASH=${{ env.GITHUB_SHA }}
+            REVISION_HASH=${{ env.GITHUB_SHA }}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-minor
           cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-minor
-      -
-        name: Build, Tag, Push Patch Tag
+      - name: Build, Tag, Push Patch Tag
         uses: docker/build-push-action@v4
         with:
           push: true
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}
           build-args: |
-              REVISION_HASH=${{ env.GITHUB_SHA }}
+            REVISION_HASH=${{ env.GITHUB_SHA }}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch
           cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch
-      -
-        name: Deploy Static Assets to GCS Bucket
+      - name: Deploy Static Assets to GCS Bucket
         run: |
-            CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
-            docker cp "${CONTAINER_ID}:/usr/src/app/client/dist/static" static/
-            docker rm "${CONTAINER_ID}"
-            find ./static -type f -name "*.gz" -print -delete
-            gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${PATCH_TAG}/"
-      -
-        name: Upload to Sentry
+          CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
+          docker cp "${CONTAINER_ID}:/usr/src/app/client/dist/static" static/
+          docker rm "${CONTAINER_ID}"
+          find ./static -type f -name "*.gz" -print -delete
+          gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${PATCH_TAG}/"
+      - name: Upload to Sentry
         run: |
-            CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
-            docker cp "${CONTAINER_ID}:/usr/src/app/client/dist" dist/
-            docker rm "${CONTAINER_ID}"
-            npx @sentry/cli -V
-            npx @sentry/cli releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}
+          CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
+          docker cp "${CONTAINER_ID}:/usr/src/app/client/dist" dist/
+          docker rm "${CONTAINER_ID}"
+          npx @sentry/cli -V
+          npx @sentry/cli releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}

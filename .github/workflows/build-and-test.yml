@@ -81,7 +81,7 @@ jobs:
           key: modules-server-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
       - name: npm ci
-        run: sh scripts/npm-ci.sh
+        run: sh scripts/pnpm-ci.sh
       - name: Generate schemas and types
         run: sh scripts/generate.sh
       - name: Lint Source Code
