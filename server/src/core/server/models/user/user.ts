@@ -39,6 +39,8 @@ import {
   GQLSuspensionStatus,
   GQLTimeRange,
   GQLUSER_ROLE,
+  GQLUserDeletionStatus,
+  GQLUserDeletionUpdateType,
   GQLUserMediaSettings,
   GQLUsernameStatus,
   GQLUserNotificationSettings,
@@ -273,6 +275,37 @@ export interface UsernameStatus {
   history: UsernameHistory[];
 }
 
+export interface UserDeletionHistory {
+  /**
+   * id is a specific reference for a particular user deletion history that will be
+   * used internally to update user deletion records.
+   */
+  id: string;
+
+  /**
+   * updateType is the kind of update to a user's deletion status that was made,
+   * whether it was requested or canceled.
+   */
+  updateType: GQLUserDeletionUpdateType;
+
+  /**
+   * createdBy is the user that made this deletion status update
+   */
+  createdBy: string;
+
+  /**
+   * createdAt is when the deletion status update was made
+   */
+  createdAt: string;
+}
+
+export interface UserDeletionStatus {
+  /**
+   * history is the list of all user deletion status updates for this user
+   */
+  history: UserDeletionHistory[];
+}
+
 /**
  * PremodStatusHistory is the history of premod status changes
  * against a specific User.
@@ -406,6 +439,11 @@ export interface UserStatus {
    * a history of moderation messages
    */
   modMessage?: ModMessageStatus;
+
+  /**
+   *  deletion stores the history of deletion status updates for a user.
+   */
+  deletion: UserDeletionStatus;
 }
 
 /**
@@ -675,6 +713,9 @@ export async function findOrCreateUserInput(
       premod: { active: false, history: [] },
       warning: { active: false, history: [] },
       modMessage: { active: false, history: [] },
+      deletion: {
+        history: [],
+      },
     },
     notifications: {
       onReply: false,
@@ -1158,9 +1199,18 @@ export async function updateUserPassword(
 export async function scheduleDeletionDate(
   mongo: MongoContext,
   tenantID: string,
+  requestingUserID: string,
   userID: string,
-  deletionDate: Date
+  deletionDate: Date,
+  now = new Date()
 ) {
+  const scheduleDeletionHistory = {
+    id: uuid(),
+    createdBy: requestingUserID,
+    createdAt: now,
+    updateType: GQLUserDeletionUpdateType.REQUESTED,
+  };
+
   const result = await mongo.users().findOneAndUpdate(
     {
       id: userID,
@@ -1169,6 +1219,9 @@ export async function scheduleDeletionDate(
     {
       $set: {
         scheduledDeletionDate: deletionDate,
+      },
+      $push: {
+        "status.deletion.history": scheduleDeletionHistory,
       },
     },
     {
@@ -1185,8 +1238,16 @@ export async function scheduleDeletionDate(
 export async function clearDeletionDate(
   mongo: MongoContext,
   tenantID: string,
-  userID: string
+  userID: string,
+  requestingUserID: string,
+  now = new Date()
 ) {
+  const cancelDeletionHistory = {
+    id: uuid(),
+    createdBy: requestingUserID,
+    createdAt: now,
+    updateType: GQLUserDeletionUpdateType.CANCELED,
+  };
   const result = await mongo.users().findOneAndUpdate(
     {
       id: userID,
@@ -1195,6 +1256,9 @@ export async function clearDeletionDate(
     {
       $unset: {
         scheduledDeletionDate: "",
+      },
+      $push: {
+        "status.deletion.history": cancelDeletionHistory,
       },
     },
     {
@@ -2643,6 +2707,12 @@ export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history" | "sites"> &
 export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
   Pick<UsernameStatus, "history">;
 
+export type ConsolidatedUserDeletionStatus = Omit<
+  GQLUserDeletionStatus,
+  "history"
+> &
+  Pick<UserDeletionStatus, "history">;
+
 export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
   Pick<PremodStatus, "history">;
 
@@ -2659,6 +2729,17 @@ export function consolidateUsernameStatus(
   username: User["status"]["username"]
 ) {
   return username;
+}
+
+export function consolidateUserDeletionStatus(
+  deletion: User["status"]["deletion"]
+) {
+  if (!deletion) {
+    return {
+      history: [],
+    };
+  }
+  return deletion;
 }
 
 const computeBanActive = (ban: BanStatus, siteID?: string) => {

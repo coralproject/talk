@@ -442,6 +442,12 @@ export const baseUser = createFixture<GQLUser>({
       active: false,
       history: [],
     },
+    deletion: {
+      history: [],
+    },
+    username: {
+      history: [],
+    },
   },
 });
 

@@ -434,8 +434,8 @@ configure-general-sitewideCommenting-messageExplanation =
 
 #### Embed Links
 configure-general-embedLinks-title = Embedded media
-configure-general-embedLinks-desc = Allow commenters to add a YouTube video, Tweet or GIF from GIPHY's library to the end of their comment
-configure-general-embedLinks-enableTwitterEmbeds = Allow Twitter embeds
+configure-general-embedLinks-desc = Allow commenters to add a YouTube video, X post or GIF from GIPHY's library to the end of their comment
+configure-general-embedLinks-enableTwitterEmbeds = Allow X post embeds
 configure-general-embedLinks-enableYouTubeEmbeds = Allow YouTube embeds
 configure-general-embedLinks-enableGiphyEmbeds = Allow GIFs from GIPHY
 configure-general-embedLinks-enableExternalEmbeds = Enable external media
@@ -1232,6 +1232,33 @@ moderate-user-drawer-suspension =
     *[other] unknown unit
   }
 
+moderate-user-drawer-deleteAccount-popover =
+  .description = A popover menu to delete a user's account
+moderate-user-drawer-deleteAccount-button =
+  .aria-label = Delete account
+moderate-user-drawer-deleteAccount-popover-confirm = Type in "{ $text }" to confirm
+moderate-user-drawer-deleteAccount-popover-title = Delete account
+moderate-user-drawer-deleteAccount-popover-username = Username
+moderate-user-drawer-deleteAccount-popover-header-description = Delete account will
+moderate-user-drawer-deleteAccount-popover-description-list-removeComments = Remove all comments written by this user from the database.
+moderate-user-drawer-deleteAccount-popover-description-list-deleteAll = Delete all record of this account. The 
+  user could then create a new account using the same email address. If you want to Ban this user instead and 
+  retain their history, press "CANCEL" and use the Status dropdown below the username.
+moderate-user-drawer-deleteAccount-popover-callout = This removes all records of this user
+moderate-user-drawer-deleteAccount-popover-timeframe = This will go into effect in 24 hours.
+moderate-user-drawer-deleteAccount-popover-cancelButton = Cancel
+moderate-user-drawer-deleteAccount-popover-deleteButton = Delete
+
+moderate-user-drawer-deleteAccount-scheduled-callout = User deletion activated
+moderate-user-drawer-deleteAccount-scheduled-timeframe = This will occur at { $deletionDate }.
+moderate-user-drawer-deleteAccount-scheduled-cancelDeletion = Cancel user deletion
+
+moderate-user-drawer-user-scheduled-deletion = User scheduled for deletion
+moderate-user-drawer-user-deletion-canceled = User deletion request canceled
+
+moderate-user-drawer-account-history-deletion-scheduled = Deletion scheduled for { $createdAt }
+moderate-user-drawer-account-history-canceled-at = Canceled at { $createdAt }
+moderate-user-drawer-account-history-updated-at = Updated at { $createdAt }
 
 moderate-user-drawer-recent-history-title = Recent comment history
 moderate-user-drawer-recent-history-calculated =

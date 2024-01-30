@@ -365,7 +365,8 @@ export async function deleteUser(
   userID: string,
   tenantID: string,
   now: Date,
-  dsaEnabled: boolean
+  dsaEnabled: boolean,
+  requestingUser: string | null = null
 ) {
   const user = await mongo.users().findOne({ id: userID, tenantID });
   if (!user) {

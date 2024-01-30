@@ -47,7 +47,7 @@ const MediaConfirmPrompt: FunctionComponent<Props> = ({
             {media.type === "twitter" && (
               <Localized id="comments-postComment-confirmMedia-twitter">
                 <p className={styles.prompt}>
-                  Add this tweet to the end of your comment?
+                  Add this post to the end of your comment?
                 </p>
               </Localized>
             )}
@@ -72,7 +72,7 @@ const MediaConfirmPrompt: FunctionComponent<Props> = ({
                 onClick={onConfirm}
                 className={styles.promptButton}
               >
-                Add tweet
+                Add post
               </Button>
             </Localized>
           )}

@@ -248,6 +248,9 @@ export const createUserFixture = (defaults: Defaults<User> = {}): User => {
         siteIDs: [],
         history: [],
       },
+      deletion: {
+        history: [],
+      },
       username: {
         history: [
           {

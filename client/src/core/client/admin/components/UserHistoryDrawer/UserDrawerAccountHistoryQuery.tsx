@@ -26,6 +26,9 @@ const UserDrawerAccountHistoryQuery: FunctionComponent<Props> = ({
           user(id: $userID) {
             ...UserDrawerAccountHistory_user
           }
+          viewer {
+            ...UserDrawerAccountHistory_viewer
+          }
         }
       `}
       variables={{ userID }}
@@ -55,7 +58,9 @@ const UserDrawerAccountHistoryQuery: FunctionComponent<Props> = ({
           );
         }
 
-        return <UserDrawerAccountHistory user={props.user} />;
+        return (
+          <UserDrawerAccountHistory user={props.user} viewer={props.viewer} />
+        );
       }}
     />
   );

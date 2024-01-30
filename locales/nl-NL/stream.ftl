@@ -978,3 +978,62 @@ stream-footer-links-discussions = Meer discussies
   .title = Ga naar meer discussies
 stream-footer-navigation =
   .aria-label = Footer reacties
+
+## Notifications
+
+notifications-title = Notificaties
+notifications-loadMore = Meer laden
+
+notification-comment-toggle-default-open = - Reactie
+notification-comment-toggle-default-closed = + Reactie
+
+notifications-comment-showRemovedComment = + Verwijderde reactie tonen
+notifications-comment-hideRemovedComment = - Verwijderde reactie verbergen
+
+notifications-yourIllegalContentReportHasBeenReviewed =
+  Je melding van illegale inhoud is beoordeeld
+notifications-yourCommentHasBeenRejected =
+  Je reactie is afgewezen
+notifications-yourCommentHasBeenApproved =
+  Je reactie is goedgekeurd
+notifications-yourCommentHasBeenFeatured =
+  Je reactie is uitgelicht
+notifications-defaultTitle = Notificatie
+
+notifications-rejectedComment-body =
+  Je reactie was in strijd met onze huisregels. De reactie is verwijderd.
+notifications-reasonForRemoval = Reden voor verwijdering
+notifications-legalGrounds = Juridische gronden
+notifications-additionalExplanation = Aanvullende uitleg
+
+notifications-dsaReportLegality-legal = Legale inhoud
+notifications-dsaReportLegality-illegal = Illegale inhoud
+notifications-dsaReportLegality-unknown = Onbekend
+
+notifications-rejectionReason-offensive = Deze reactie bevat aanstootgevende taal
+notifications-rejectionReason-abusive = Deze reactie bevat beledigende taal
+notifications-rejectionReason-spam = Deze reactie is spam
+notifications-rejectionReason-bannedWord = Verboden woord
+notifications-rejectionReason-ad = Deze reactie is een advertentie
+notifications-rejectionReason-illegalContent = Deze reactie bevat illegale inhoud
+notifications-rejectionReason-harassmentBullying = Deze reactie bevat intimderend taalgebruik of pestengedrag
+notifications-rejectionReason-misinformation = Deze reactie bevat desinformatie
+notifications-rejectionReason-hateSpeech = Deze reactie bevat haatdragende taal
+notifications-rejectionReason-irrelevant = Deze reactie is irrelevant voor de discussie
+notifications-rejectionReason-other = Overig
+notifications-rejectionReason-other-customReason = Overig - { $customReason }
+notifications-rejectionReason-unknown = Onbekend
+
+notifications-reportDecisionMade-legal =
+  Op <strong>{ $date }</strong> heb je een reactie gemeld van <strong>{ $author }</strong> wegens het bevatten van illegale inhoud. Na beoordeling van jouw melding heeft ons moderatieteam besloten dat deze reactie <strong>geen illegale inhoud lijkt te bevatten.</strong> Bedankt voor je hulp bij het veilig houden van onze community.
+notifications-reportDecisionMade-illegal =
+  Op <strong>{ $date }</strong> heb je een reactie gemeld van <strong>{ $author }</strong> wegens het bevatten van illegale inhoud. Na beoordeling van jouw melding heeft ons moderatieteam besloten dat deze reactie <strong>inderdaad illegale inhoud bevat</strong> en is verwijderd. Er kunnen verdere stappen ondernomen worden tegen degene die de reactie heeft geplaatst, maar daar krijg je geen meldingen van. Bedankt voor je hulp bij het veilig houden van onze community.
+
+notifications-methodOfRedress-none =
+  Alle moderatiebeslissingen zijn definitief en bezwaar is niet mogelijk
+notifications-methodOfRedress-email =
+  Om bezwaar te maken tegen een beslissing die hier verschijnt, neem contact op via <a>{ $email }</a>
+notifications-methodOfRedress-url =
+  Om bezwaar te maken tegen een beslissing die hier verschijnt, bezoek <a>{ $url }</a>
+
+notifications-youDoNotCurrentlyHaveAny = Je hebt momenteel geen notificaties
