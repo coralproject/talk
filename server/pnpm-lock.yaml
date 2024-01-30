@@ -44,9 +44,6 @@ dependencies:
   '@sentry/types':
     specifier: ^6.19.7
     version: 6.19.7
-  '@types/body-parser':
-    specifier: 1.19.2
-    version: 1.19.2
   '@types/url-regex-safe':
     specifier: ^1.0.0
     version: 1.0.0
@@ -60,10 +57,10 @@ dependencies:
     specifier: ^6.0.0
     version: 6.0.0
   apollo-cache-control:
-    specifier: 0.11.3
+    specifier: ^0.11.3
     version: 0.11.3(graphql@14.6.0)
   apollo-server-caching:
-    specifier: 0.5.2
+    specifier: ^0.5.2
     version: 0.5.2
   apollo-server-express:
     specifier: ^2.18.1
@@ -87,7 +84,7 @@ dependencies:
     specifier: ^2.4.3
     version: 2.4.3
   body-parser:
-    specifier: 1.19.0
+    specifier: ^1.19.0
     version: 1.19.0(supports-color@6.1.0)
   bull:
     specifier: ^3.18.0
@@ -343,6 +340,9 @@ devDependencies:
   '@types/bcryptjs':
     specifier: ^2.4.2
     version: 2.4.2
+  '@types/body-parser':
+    specifier: ^1.19.2
+    version: 1.19.2
   '@types/bull':
     specifier: ^3.14.2
     version: 3.14.2
@@ -3689,7 +3689,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.32
-      '@types/node': 12.12.34
+      '@types/node': 12.20.55
 
   /@types/bson@4.0.2:
     resolution: {integrity: sha512-+uWmsejEHfmSjyyM/LkrP0orfE2m5Mx9Xel4tXNeqi1ldK5XMQcDsFkBmLDtuyKUbxj2jGDo0H240fbCRJZo7Q==}
@@ -3755,7 +3755,7 @@ packages:
   /@types/connect@3.4.32:
     resolution: {integrity: sha512-4r8qa0quOvh7lGD0pre62CAb1oni1OO6ecJLGCezTmhQ8Fz50Arx9RUszryR8KlgK6avuSXvviL6yWyViQABOg==}
     dependencies:
-      '@types/node': 12.12.34
+      '@types/node': 12.20.55
 
   /@types/console-log-level@1.4.0:
     resolution: {integrity: sha512-x+OscEQwcx5Biair4enH7ov9W+clcqUWaZRaxn5IkT4yNWWjRr2oiYDkY/x1uXSTVZOQ2xlbFQySaQGB+VdXGQ==}
@@ -4185,7 +4185,6 @@ packages:
 
   /@types/node@12.20.55:
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
-    dev: false
 
   /@types/node@14.14.8:
     resolution: {integrity: sha512-z/5Yd59dCKI5kbxauAJgw6dLPzW+TNOItNE00PkpzNwUIEwdj/Lsqwq94H5DdYBX7C13aRA0CY32BK76+neEUA==}
@@ -5192,7 +5191,7 @@ packages:
     dependencies:
       '@types/node-fetch': 2.5.7
       core-js: 3.6.4
-      node-fetch: 2.6.7
+      node-fetch: 2.7.0
       sha.js: 2.4.11
     transitivePeerDependencies:
       - encoding
@@ -5282,7 +5281,7 @@ packages:
     engines: {node: '>=6'}
     deprecated: The `apollo-server-env` package is part of Apollo Server v2 and v3, which are now deprecated (end-of-life October 22nd 2023 and October 22nd 2024, respectively). This package's functionality is now found in the `@apollo/utils.fetcher` package. See https://www.apollographql.com/docs/apollo-server/previous-versions/ for more details.
     dependencies:
-      node-fetch: 2.6.7
+      node-fetch: 2.7.0
       util.promisify: 1.0.1
     transitivePeerDependencies:
       - encoding
@@ -10740,7 +10739,7 @@ packages:
       extend: 3.0.2
       https-proxy-agent: 5.0.1
       is-stream: 2.0.1
-      node-fetch: 2.6.7
+      node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -15232,7 +15231,6 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
-    dev: true
 
   /node-forge@0.10.0:
     resolution: {integrity: sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==}
