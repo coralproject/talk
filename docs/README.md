@@ -18,6 +18,7 @@ The reason for this is that the docs references the `client/` and `server/` gene
 Then within `docs/` you can run the following:
 
 ```bash
+export NODE_OPTIONS=--openssl-legacy-provider
 pnpm run start
 ```
 

@@ -82,7 +82,7 @@ jobs:
       - name: Lint Markdown
         run: |
           cd client
-          npm run doctoc
+          pnpm run doctoc
           git diff --exit-code
       - name: Lint Versions
         run: |
