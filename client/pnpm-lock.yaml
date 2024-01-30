@@ -707,6 +707,9 @@ devDependencies:
   timekeeper:
     specifier: ^2.2.0
     version: 2.2.0
+  ts-essentials:
+    specifier: ^2.0.8
+    version: 2.0.12
   ts-jest:
     specifier: 26.3.0
     version: 26.3.0(jest@26.4.2)(typescript@3.9.10)
