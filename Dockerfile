@@ -6,7 +6,7 @@ ENV NODE_OPTIONS="--max-old-space-size=8192 --openssl-legacy-provider --no-exper
 RUN apk --no-cache --update add g++ make git python3 \
   && rm -rf /var/cache/apk/*
 
-RUN npm install -g npm@8.0.0
+RUN npm install -g pnpm@8.14.3
 
 # Create app directory.
 RUN mkdir -p /usr/src/app
@@ -30,37 +30,37 @@ RUN git config --global url."https://github.com/".insteadOf ssh://git@github.com
     git config --global url."https://".insteadOf ssh://
 
 # Initialize sub packages
-RUN cd config && npm ci && \
-  cd ../common && npm ci && \
-  cd ../client && npm ci && \
-  cd ../server && npm ci && \
+RUN cd config && pnpm install --frozen-lockfile && \
+  cd ../common && pnpm install --frozen-lockfile && \
+  cd ../client && pnpm install --frozen-lockfile && \
+  cd ../server && pnpm install --frozen-lockfile && \
   cd ..
 
 # Generate schema types for common/ to use
 RUN cd server && \
-  npm run generate && \
+  pnpm run generate && \
   cd ..
 
 # Build config, prune static assets
 RUN cd config && \
-  npm run build && \
+  pnpm run build && \
   cd ..
 
 # Build common, prune static assets
 RUN cd common && \
-  npm run build && \
+  pnpm run build && \
   cd ..
 
 # Build client, prune static assets
 RUN cd client && \
-  npm run build && \
-  npm prune --production && \
+  pnpm run build && \
+  pnpm prune --production && \
   cd ..
 
 # Install, build server, prune static assets
 RUN cd server && \
-  npm run build && \
-  npm prune --production && \
+  pnpm run build && \
+  pnpm prune --production && \
   cd ..
 
 # Set working directory within server folder
@@ -71,6 +71,6 @@ ENV NODE_ENV production
 ENV PORT 5000
 EXPOSE 5000
 
-# Run the node process directly instead of using `npm run start`:
+# Run the node process directly instead of using `pnpm run start`:
 # SEE: https://github.com/nodejs/docker-node/blob/a2eb9f80b0fd224503ee2678867096c9e19a51c2/docs/BestPractices.md#cmd
 CMD ["node", "dist/index.js"]
