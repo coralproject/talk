@@ -20,7 +20,7 @@ interface Props {
 
 const PreferencesContainer: FunctionComponent<Props> = (props) => {
   const showInPageNotificationSettings =
-    !!props.settings.inPageNotifications.enabled;
+    !!props.settings.inPageNotifications?.enabled;
   return (
     <HorizontalGutter spacing={4}>
       <BioContainer viewer={props.viewer} settings={props.settings} />
