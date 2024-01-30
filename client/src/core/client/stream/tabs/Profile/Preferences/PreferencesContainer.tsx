@@ -2,7 +2,6 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { PreferencesContainer_settings } from "coral-stream/__generated__/PreferencesContainer_settings.graphql";
@@ -20,17 +19,15 @@ interface Props {
 }
 
 const PreferencesContainer: FunctionComponent<Props> = (props) => {
-  const showInPageNotificationSettings = props.settings.featureFlags.includes(
-    GQLFEATURE_FLAG.Z_KEY
-  );
+  const showInPageNotificationSettings =
+    !!props.settings.inPageNotifications.enabled;
   return (
     <HorizontalGutter spacing={4}>
       <BioContainer viewer={props.viewer} settings={props.settings} />
-      {showInPageNotificationSettings ? (
+      {showInPageNotificationSettings && (
         <InPageNotificationSettingsContainer viewer={props.viewer} />
-      ) : (
-        <EmailNotificationSettingsContainer viewer={props.viewer} />
       )}
+      <EmailNotificationSettingsContainer viewer={props.viewer} />
       <MediaSettingsContainer viewer={props.viewer} settings={props.settings} />
       <IgnoreUserSettingsContainer viewer={props.viewer} />
     </HorizontalGutter>
@@ -40,7 +37,9 @@ const PreferencesContainer: FunctionComponent<Props> = (props) => {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment PreferencesContainer_settings on Settings {
-      featureFlags
+      inPageNotifications {
+        enabled
+      }
       ...MediaSettingsContainer_settings
       ...BioContainer_settings
     }
