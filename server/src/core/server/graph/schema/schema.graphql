@@ -1981,6 +1981,10 @@ type PremoderateEmailAddressConfiguration {
   tooManyPeriods: TooManyPeriodsConfig
 }
 
+type InPageNotificationsConfiguration {
+  enabled: Boolean
+}
+
 input TooManyPeriodsConfigInput {
   """
   enabled decides whether the too many periods config is enabled or not.
@@ -2346,6 +2350,12 @@ type Settings @cacheControl(maxAge: 30) {
   addresses at sign up and premoderating them according to various rules.
   """
   premoderateEmailAddress: PremoderateEmailAddressConfiguration
+
+  """
+  inPageNotifcations is the configuration for in-page notifications, including
+  whether it's enabled as an option for commenters.
+  """
+  inPageNotifications: InPageNotificationsConfiguration
 }
 
 ################################################################################
@@ -6372,6 +6382,16 @@ input RTEConfigurationInput {
 }
 
 """
+InPageNotificationsConfigurationInput specifies the configuration for in-page notifications.
+"""
+input InPageNotificationsConfigurationInput {
+  """
+  enabled when true turns on in-page notifications as an option for commenters.
+  """
+  enabled: Boolean
+}
+
+"""
 FlairBadgeConfigurationInput specifies the configuration for flair badges,
 including whether they are enabled and their image urls.
 """
@@ -6642,6 +6662,11 @@ input SettingsInput {
   addresses at sign up and premoderating them according to various rules.
   """
   premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
+
+  """
+  inPageNotifications specifies the configuration for in-page notifications
+  """
+  inPageNotifications: InPageNotificationsConfigurationInput
 }
 
 """

@@ -21,6 +21,7 @@ import FeaturedByConfig from "./FeaturedByConfig";
 import FlairBadgeConfigContainer from "./FlairBadgeConfigContainer";
 import FlattenRepliesConfig from "./FlattenRepliesConfig";
 import GuidelinesConfig from "./GuidelinesConfig";
+import InPageNotificationsConfig from "./InPageNotificationsConfig";
 import LocaleConfig from "./LocaleConfig";
 import MediaLinksConfig from "./MediaLinksConfig";
 import MemberBioConfig from "./MemberBioConfig";
@@ -50,6 +51,7 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
     >
       <LocaleConfig disabled={submitting} />
       <DSAConfigContainer disabled={submitting} settings={settings} />
+      <InPageNotificationsConfig disabled={submitting} />
       <FlattenRepliesConfig disabled={submitting} />
       <SitewideCommentingConfig disabled={submitting} />
       <AnnouncementConfigContainer disabled={submitting} settings={settings} />
@@ -75,6 +77,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment GeneralConfigContainer_settings on Settings {
       ...AnnouncementConfigContainer_settings
       ...FlattenRepliesConfig_formValues @relay(mask: false)
+      ...InPageNotificationsConfig_formValues @relay(mask: false)
       ...LocaleConfig_formValues @relay(mask: false)
       ...DSAConfigContainer_formValues @relay(mask: false)
       ...DSAConfigContainer_settings
