@@ -326,6 +326,7 @@ export const external: IntermediateModerationPhase = async (ctx) => {
         continue;
       }
 
+      let missingReason: boolean | undefined;
       if (
         ctx.tenant.dsa.enabled &&
         response.moderationAction &&
@@ -335,6 +336,7 @@ export const external: IntermediateModerationPhase = async (ctx) => {
         response.moderationAction.rejectionReason = {
           code: GQLREJECTION_REASON_CODE.OTHER,
         };
+        missingReason = true;
       }
 
       // Ensure we have metadata and external moderation
@@ -355,6 +357,7 @@ export const external: IntermediateModerationPhase = async (ctx) => {
           status: response.status,
           tags: response.tags,
         },
+        missingReason,
       });
 
       const mappedResponse = mapActions(response);

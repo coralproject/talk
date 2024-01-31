@@ -79,6 +79,7 @@ export interface RevisionMetadata {
         reason?: FLAG_REASON;
       }>;
     };
+    missingReason?: boolean;
   }>;
 }
 
