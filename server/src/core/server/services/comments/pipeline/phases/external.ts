@@ -326,6 +326,17 @@ export const external: IntermediateModerationPhase = async (ctx) => {
         continue;
       }
 
+      if (
+        ctx.tenant.dsa.enabled &&
+        response.moderationAction &&
+        (!response.moderationAction.rejectionReason ||
+          !response.moderationAction.rejectionReason.code)
+      ) {
+        response.moderationAction.rejectionReason = {
+          code: GQLREJECTION_REASON_CODE.OTHER,
+        };
+      }
+
       // Ensure we have metadata and external moderation
       // details for metadata
       if (!result.metadata) {

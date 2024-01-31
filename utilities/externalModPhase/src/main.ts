@@ -14,6 +14,27 @@ const run = async () => {
     res.status(200).send("external mod phase tester");
   });
 
+  app.post("/api/approve", (req, res) => {
+    console.log(req.body);
+
+    const result = {
+      status: "APPROVED",
+    }
+
+    res.send(result);
+  });
+
+  app.post("/api/reject", (req, res) => {
+    const result = {
+      moderationAction: {
+        status: "REJECTED",
+      },
+      status: "REJECTED",
+    }
+
+    res.send(result);
+  });
+
   app.post("/api/rejectWithReason", (req, res) => {
     const result = {
       moderationAction: {
