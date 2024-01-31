@@ -9,6 +9,10 @@
   font-size: var(--font-size-2);
 }
 
+.author {
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
 .commentSection {
   margin-bottom: var(--spacing-2);
 }
@@ -16,16 +20,13 @@
 .goToReplyButton {
   color: var(--palette-primary-500);
   padding: 0;
-  text-decoration: underline;
 }
 
 .replyInfo {
   font-size: var(--font-size-3);
 }
 
-.commentBody {
-  background-color: var(--palette-grey-200);
-  margin-left: var(--spacing-2);
-  margin-top: var(--spacing-1);
-  padding: var(--spacing-2);
+.readInContext {
+  line-height: 1.14;
+  margin-left: var(--spacing-1);
 }

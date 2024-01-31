@@ -1065,7 +1065,7 @@ notifications-yourCommentHasBeenFeatured =
 notifications-yourCommentHasReceivedAReply =
   Your comment has received a reply
 notifications-yourCommentHasReceivedAStaffReply =
-  Your comment has received a reply from a staff member
+  Your comment has received a reply from a member of our team
 notifications-defaultTitle = Notification
 
 notifications-rejectedComment-body =

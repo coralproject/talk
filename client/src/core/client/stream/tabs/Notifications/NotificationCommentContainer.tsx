@@ -14,14 +14,16 @@ interface Props {
   comment: NotificationCommentContainer_comment;
   openedStateText?: JSX.Element;
   closedStateText?: JSX.Element;
+  expanded?: boolean;
 }
 
 const NotificationCommentContainer: FunctionComponent<Props> = ({
   comment,
   openedStateText,
   closedStateText,
+  expanded,
 }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(expanded ?? false);
 
   const onToggleOpenClosed = useCallback(() => {
     setIsOpen(!isOpen);

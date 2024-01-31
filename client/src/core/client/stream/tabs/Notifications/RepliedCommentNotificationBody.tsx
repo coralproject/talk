@@ -4,12 +4,14 @@ import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import HTMLContent from "coral-stream/common/HTMLContent";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { RepliedCommentNotificationBody_notification } from "coral-stream/__generated__/RepliedCommentNotificationBody_notification.graphql";
 
 import styles from "./RepliedCommentNotificationBody.css";
+
+import NotificationCommentContainer from "./NotificationCommentContainer";
 
 interface Props {
   notification: RepliedCommentNotificationBody_notification;
@@ -35,32 +37,45 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
           <div className={styles.commentSection}>
             <Localized id="">
               <div className={styles.replyInfo}>
-                {commentReply.author?.username ?? ""} replied to your comment on{" "}
-                {commentReply.story.metadata?.title}:
+                Your comment on the article "
+                {commentReply.story.metadata?.title}" received a reply from
+                <span className={styles.author}>
+                  {" "}
+                  {commentReply.author?.username ?? ""}
+                </span>
               </div>
             </Localized>
-            <div className={styles.commentBody}>
-              <HTMLContent>{commentReply.body || ""}</HTMLContent>
-            </div>
+            <NotificationCommentContainer
+              comment={commentReply}
+              openedStateText={<Localized id="">- Hide the reply</Localized>}
+              closedStateText={<Localized id="">+ Show the reply</Localized>}
+              expanded
+            />
           </div>
-          <div className={styles.commentSection}>
+          <Flex marginTop={1} marginBottom={1}>
             <Localized id="">
-              <div className={styles.replyInfo}>In reply to:</div>
+              <Button
+                className={styles.goToReplyButton}
+                variant="none"
+                href={permalinkURL}
+                target="_blank"
+              >
+                Open this comment
+              </Button>
             </Localized>
-            <div className={styles.commentBody}>
-              <HTMLContent>{comment.body || ""}</HTMLContent>
+            <div className={styles.readInContext}>
+              to read in context or reply
             </div>
-          </div>
-          <Localized id="">
-            <Button
-              className={styles.goToReplyButton}
-              variant="none"
-              href={permalinkURL}
-              target="_blank"
-            >
-              Go to reply
-            </Button>
-          </Localized>
+          </Flex>
+          <NotificationCommentContainer
+            comment={comment}
+            openedStateText={
+              <Localized id="">- Hide my original comment</Localized>
+            }
+            closedStateText={
+              <Localized id="">+ Show my original comment</Localized>
+            }
+          />
         </>
       )}
     </div>
@@ -72,14 +87,14 @@ const enhanced = withFragmentContainer<Props>({
     fragment RepliedCommentNotificationBody_notification on Notification {
       type
       comment {
-        body
+        ...NotificationCommentContainer_comment
       }
       commentReply {
+        ...NotificationCommentContainer_comment
         id
         author {
           username
         }
-        body
         story {
           url
           metadata {
