@@ -52,7 +52,7 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
               expanded
             />
           </div>
-          <Flex marginTop={1} marginBottom={1}>
+          <Flex marginTop={1} marginBottom={2}>
             <Localized id="">
               <Button
                 className={styles.goToReplyButton}

@@ -14,7 +14,7 @@
 }
 
 .commentSection {
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
 }
 
 .goToReplyButton {
@@ -24,6 +24,7 @@
 
 .replyInfo {
   font-size: var(--font-size-3);
+  margin-bottom: var(--spacing-2);
 }
 
 .readInContext {
