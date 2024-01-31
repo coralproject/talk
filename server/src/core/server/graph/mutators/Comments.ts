@@ -271,7 +271,9 @@ export const Comments = (ctx: GraphContext) => ({
         commentID,
         commentRevisionID,
         ctx.user!.id,
-        ctx.now
+        ctx.now,
+        undefined,
+        false
       );
     }
 
