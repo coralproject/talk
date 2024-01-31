@@ -35,7 +35,18 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
       {comment && (
         <>
           <div className={styles.commentSection}>
-            <Localized id="">
+            <Localized
+              id="notifications-repliedComment-description"
+              vars={{ title: commentReply.story.metadata?.title }}
+              elems={{
+                author: (
+                  <span className={styles.author}>
+                    {" "}
+                    {commentReply.author?.username ?? ""}
+                  </span>
+                ),
+              }}
+            >
               <div className={styles.replyInfo}>
                 Your comment on the article "
                 {commentReply.story.metadata?.title}" received a reply from
@@ -47,8 +58,16 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
             </Localized>
             <NotificationCommentContainer
               comment={commentReply}
-              openedStateText={<Localized id="">- Hide the reply</Localized>}
-              closedStateText={<Localized id="">+ Show the reply</Localized>}
+              openedStateText={
+                <Localized id="notifications-repliedComment-hideReply">
+                  - Hide the reply
+                </Localized>
+              }
+              closedStateText={
+                <Localized id="notifications-repliedComment-showReply">
+                  + Show the reply
+                </Localized>
+              }
               expanded
             />
           </div>
@@ -70,10 +89,14 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
           <NotificationCommentContainer
             comment={comment}
             openedStateText={
-              <Localized id="">- Hide my original comment</Localized>
+              <Localized id="notifications-repliedComment-hideOriginalComment">
+                - Hide my original comment
+              </Localized>
             }
             closedStateText={
-              <Localized id="">+ Show my original comment</Localized>
+              <Localized id="notifications-repliedComment-showOriginalComment">
+                + Show my original comment
+              </Localized>
             }
           />
         </>
