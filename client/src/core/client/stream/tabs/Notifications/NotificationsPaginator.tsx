@@ -2,14 +2,21 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { useRefetch, withPaginationContainer } from "coral-framework/lib/relay";
+import {
+  useLocal,
+  useRefetch,
+  withPaginationContainer,
+} from "coral-framework/lib/relay";
 import CLASSES from "coral-stream/classes";
 import Spinner from "coral-stream/common/Spinner";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { GQLDSA_METHOD_OF_REDRESS } from "coral-common/client/src/core/client/framework/schema/__generated__/types";
 import { NotificationsPaginator_query } from "coral-stream/__generated__/NotificationsPaginator_query.graphql";
 import { NotificationsPaginatorPaginationQueryVariables } from "coral-stream/__generated__/NotificationsPaginatorPaginationQuery.graphql";
+
+import { NotificationsPaginatorLocal } from "coral-stream/__generated__/NotificationsPaginatorLocal.graphql";
 
 import NotificationContainer from "./NotificationContainer";
 
@@ -23,6 +30,19 @@ interface Props {
 
 const NotificationsPaginator: FunctionComponent<Props> = (props) => {
   const [disableLoadMore, setDisableLoadMore] = useState(false);
+
+  const [{ activeTab, profileTab }, setLocal] =
+    useLocal<NotificationsPaginatorLocal>(graphql`
+      fragment NotificationsPaginatorLocal on Local {
+        activeTab
+        profileTab
+      }
+    `);
+
+  const onPreferencesClick = useCallback(() => {
+    setLocal({ activeTab: "PROFILE" });
+    setLocal({ profileTab: "PREFERENCES" });
+  }, [activeTab, profileTab, setLocal]);
 
   const [, isRefetching] =
     useRefetch<NotificationsPaginatorPaginationQueryVariables>(
@@ -121,6 +141,33 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
           )}
         </div>
       )}
+      <Localized
+        id="notifications-adjustPreferences"
+        elems={{
+          button: (
+            <Button
+              className={styles.preferencesButton}
+              variant="none"
+              onClick={onPreferencesClick}
+            >
+              {" "}
+              Preferences.
+            </Button>
+          ),
+        }}
+      >
+        <Flex className={styles.adjustPreferences}>
+          <span>Adjust notification settings in My Profile &gt; </span>
+          <Button
+            className={styles.preferencesButton}
+            variant="none"
+            onClick={onPreferencesClick}
+          >
+            {" "}
+            Preferences.
+          </Button>
+        </Flex>
+      </Localized>
       <div>
         {props.query.notifications.edges.map(({ node }) => {
           return (

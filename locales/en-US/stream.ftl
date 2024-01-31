@@ -1048,6 +1048,8 @@ stream-footer-navigation =
 notifications-title = Notifications
 notifications-loadMore = Load More
 
+notifications-adjustPreferences = Adjust notification settings in My Profile &gt;<button>Preferences.</button>
+
 notification-comment-toggle-default-open = - Comment
 notification-comment-toggle-default-closed = + Comment
 
