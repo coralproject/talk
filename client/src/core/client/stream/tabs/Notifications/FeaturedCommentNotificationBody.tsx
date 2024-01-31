@@ -65,7 +65,7 @@ const FeaturedCommentNotificationBody: FunctionComponent<Props> = ({
                 href={permalinkURL}
                 target="_blank"
               >
-                Open this comment
+                Go to this comment
               </Button>
             </Localized>
             <div className={styles.readInContext}>

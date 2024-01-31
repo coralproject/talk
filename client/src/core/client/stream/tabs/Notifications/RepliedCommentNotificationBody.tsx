@@ -37,14 +37,12 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
           <div className={styles.commentSection}>
             <Localized
               id="notifications-repliedComment-description"
-              vars={{ title: commentReply.story.metadata?.title }}
+              vars={{
+                title: commentReply.story.metadata?.title,
+                username: commentReply.author?.username ?? "",
+              }}
               elems={{
-                author: (
-                  <span className={styles.author}>
-                    {" "}
-                    {commentReply.author?.username ?? ""}
-                  </span>
-                ),
+                author: <span className={styles.author}></span>,
               }}
             >
               <div className={styles.replyInfo}>
@@ -79,7 +77,7 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
                 href={permalinkURL}
                 target="_blank"
               >
-                Open this comment
+                Go to this comment{" "}
               </Button>
             </Localized>
             <div className={styles.readInContext}>

@@ -1074,11 +1074,11 @@ notifications-reasonForRemoval = Reason for removal
 notifications-legalGrounds = Legal grounds
 notifications-additionalExplanation = Additional explanation
 
-notifications-repliedComment-description = Your comment on the article "{ $title }" received a reply from <author></author>
+notifications-repliedComment-description = Your comment on the article "{ $title }" received a reply from <author>{ $username }</author>
 notifications-repliedComment-hideReply = - Hide the reply
-notifications-repliedComment-showReply = - Show the reply
+notifications-repliedComment-showReply = + Show the reply
 notifications-repliedComment-hideOriginalComment = - Hide my original comment
-notifications-repliedComment-showOriginalComment = - Show my original comment
+notifications-repliedComment-showOriginalComment = + Show my original comment
 
 notifications-dsaReportLegality-legal = Legal content
 notifications-dsaReportLegality-illegal = Illegal content
