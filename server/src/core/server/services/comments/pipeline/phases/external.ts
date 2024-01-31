@@ -17,6 +17,7 @@ import {
   GQLCOMMENT_BODY_FORMAT,
   GQLCOMMENT_FLAG_DETECTED_REASON,
   GQLCOMMENT_STATUS,
+  GQLREJECTION_REASON_CODE,
   GQLTAG,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -103,10 +104,27 @@ export interface ExternalModerationRequest {
 }
 
 export type ExternalModerationResponse = Partial<
-  Pick<PhaseResult, "status" | "tags">
+  Pick<PhaseResult, "status" | "tags" | "moderationAction">
 > & { actions: PhaseResult["commentActions"] };
 
 const ExternalModerationResponseSchema = Joi.object().keys({
+  moderationAction: Joi.object()
+    .optional()
+    .keys({
+      status: Joi.string()
+        .only()
+        .allow(...Object.keys(GQLCOMMENT_STATUS)),
+      rejectionReason: Joi.object()
+        .optional()
+        .keys({
+          code: Joi.string()
+            .only()
+            .allow(...Object.keys(GQLREJECTION_REASON_CODE)),
+          legalGrounds: Joi.string().optional(),
+          detailedExplanation: Joi.string().optional(),
+          customReason: Joi.string().optional(),
+        }),
+    }),
   actions: Joi.array().items(
     Joi.object().keys({
       actionType: Joi.string().only().allow(ACTION_TYPE.FLAG).required(),
@@ -283,9 +301,7 @@ export const external: IntermediateModerationPhase = async (ctx) => {
   // none, exit now.
   if (
     !ctx.tenant.integrations.external ||
-    ctx.tenant.integrations.external.phases.length === 0 ||
-    // (marcushaddon) DSA and external moderation are mutually exclusive for the time being
-    ctx.tenant.dsa?.enabled
+    ctx.tenant.integrations.external.phases.length === 0
   ) {
     return;
   }
