@@ -24,6 +24,7 @@ import {
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
 import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
+import FeaturedCommentNotificationBody from "./FeaturedCommentNotificationBody";
 import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
 import RepliedCommentNotificationBody from "./RepliedCommentNotificationBody";
 
@@ -158,6 +159,9 @@ const NotificationContainer: FunctionComponent<Props> = ({
           type === GQLNOTIFICATION_TYPE.REPLY_STAFF) && (
           <RepliedCommentNotificationBody notification={notification} />
         )}
+        {type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED && (
+          <FeaturedCommentNotificationBody notification={notification} />
+        )}
         <div className={styles.footer}>
           <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
         </div>
@@ -185,6 +189,7 @@ const enhanced = withFragmentContainer<Props>({
       ...RejectedCommentNotificationBody_notification
       ...DSAReportDecisionMadeNotificationBody_notification
       ...RepliedCommentNotificationBody_notification
+      ...FeaturedCommentNotificationBody_notification
     }
   `,
 })(NotificationContainer);
