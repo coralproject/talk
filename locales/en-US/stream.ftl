@@ -1056,6 +1056,9 @@ notification-comment-toggle-default-closed = + Comment
 notifications-comment-showRemovedComment = + Show removed comment
 notifications-comment-hideRemovedComment = - Hide removed comment
 
+notifications-comment-hide = - Hide your comment
+notifications-comment-show = + Show your comment
+
 notifications-yourIllegalContentReportHasBeenReviewed =
   Your illegal content report has been reviewed
 notifications-yourCommentHasBeenRejected =
@@ -1081,6 +1084,9 @@ notifications-repliedComment-hideReply = - Hide the reply
 notifications-repliedComment-showReply = + Show the reply
 notifications-repliedComment-hideOriginalComment = - Hide my original comment
 notifications-repliedComment-showOriginalComment = + Show my original comment
+
+notifications-featuredComment-description = Your comment on the article { $title } has been featured by a member of our team.
+notifications-approvedComment-description = Your comment on the article { $title } has been approved by a member of our team.
 
 notifications-dsaReportLegality-legal = Legal content
 notifications-dsaReportLegality-illegal = Illegal content
