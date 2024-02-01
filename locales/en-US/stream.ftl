@@ -1073,6 +1073,8 @@ notifications-yourCommentHasReceivedAStaffReply =
   Your comment has received a reply from a member of our team
 notifications-defaultTitle = Notification
 
+notifications-goToCommentButton = <button>Go to this comment </button><readInContext>to read in context or reply</readInContext>
+
 notifications-rejectedComment-body =
   The content of your comment was against our community guidelines. The comment has been removed.
 notifications-reasonForRemoval = Reason for removal

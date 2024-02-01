@@ -2,15 +2,13 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { getURLWithCommentID } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Flex } from "coral-ui/components/v2";
-import { Button } from "coral-ui/components/v3";
 
 import { ApprovedCommentNotificationBody_notification } from "coral-stream/__generated__/ApprovedCommentNotificationBody_notification.graphql";
 
 import styles from "./ApprovedCommentNotificationBody.css";
 
+import GoToCommentButton from "./GoToCommentButton";
 import NotificationCommentContainer from "./NotificationCommentContainer";
 
 interface Props {
@@ -25,8 +23,6 @@ const ApprovedCommentNotificationBody: FunctionComponent<Props> = ({
   if (!comment) {
     return null;
   }
-
-  const permalinkURL = getURLWithCommentID(comment.story.url, comment.id);
 
   return (
     <div className={styles.body}>
@@ -57,21 +53,10 @@ const ApprovedCommentNotificationBody: FunctionComponent<Props> = ({
               expanded
             />
           </div>
-          <Flex marginTop={1} marginBottom={2}>
-            <Localized id="">
-              <Button
-                className={styles.goToReplyButton}
-                variant="none"
-                href={permalinkURL}
-                target="_blank"
-              >
-                Go to this comment
-              </Button>
-            </Localized>
-            <div className={styles.readInContext}>
-              to read in context or reply
-            </div>
-          </Flex>
+          <GoToCommentButton
+            commentID={comment.id}
+            commentStoryURL={comment.story.url}
+          />
         </>
       )}
     </div>

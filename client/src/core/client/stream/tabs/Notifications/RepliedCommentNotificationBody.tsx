@@ -2,15 +2,13 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { getURLWithCommentID } from "coral-framework/helpers";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { Flex } from "coral-ui/components/v2";
-import { Button } from "coral-ui/components/v3";
 
 import { RepliedCommentNotificationBody_notification } from "coral-stream/__generated__/RepliedCommentNotificationBody_notification.graphql";
 
 import styles from "./RepliedCommentNotificationBody.css";
 
+import GoToCommentButton from "./GoToCommentButton";
 import NotificationCommentContainer from "./NotificationCommentContainer";
 
 interface Props {
@@ -24,11 +22,6 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
   if (!commentReply) {
     return null;
   }
-
-  const permalinkURL = getURLWithCommentID(
-    commentReply.story.url,
-    commentReply.id
-  );
 
   return (
     <div className={styles.body}>
@@ -69,21 +62,10 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
               expanded
             />
           </div>
-          <Flex marginTop={1} marginBottom={2}>
-            <Localized id="">
-              <Button
-                className={styles.goToReplyButton}
-                variant="none"
-                href={permalinkURL}
-                target="_blank"
-              >
-                Go to this comment{" "}
-              </Button>
-            </Localized>
-            <div className={styles.readInContext}>
-              to read in context or reply
-            </div>
-          </Flex>
+          <GoToCommentButton
+            commentID={commentReply.id}
+            commentStoryURL={commentReply.story.url}
+          />
           <NotificationCommentContainer
             comment={comment}
             openedStateText={
