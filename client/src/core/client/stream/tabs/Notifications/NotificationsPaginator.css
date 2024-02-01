@@ -23,3 +23,20 @@
 
   margin-bottom: var(--spacing-2);
 }
+
+.adjustPreferences {
+  font-family: var(--font-family-primary);
+  color: var(--palette-text-200);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.14;
+}
+
+.preferencesButton {
+  font-family: var(--font-family-primary);
+  color: var(--palette-primary-500);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  padding: 0;
+  margin-left: var(--spacing-1);
+}

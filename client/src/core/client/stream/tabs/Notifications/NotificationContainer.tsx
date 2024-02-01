@@ -10,6 +10,7 @@ import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
 import {
   CheckCircleIcon,
   LegalHammerIcon,
+  MessagesBubbleSquareStarIcon,
   MessagesBubbleSquareTextIcon,
   QuestionCircleIcon,
   RejectCommentBoxIcon,
@@ -23,7 +24,9 @@ import {
 } from "coral-stream/__generated__/NotificationContainer_notification.graphql";
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
+import ApprovedCommentNotificationBody from "./ApprovedCommentNotificationBody";
 import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
+import FeaturedCommentNotificationBody from "./FeaturedCommentNotificationBody";
 import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
 import RepliedCommentNotificationBody from "./RepliedCommentNotificationBody";
 
@@ -39,7 +42,7 @@ const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
     return CheckCircleIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
-    return CheckCircleIcon;
+    return MessagesBubbleSquareStarIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
     return RejectCommentBoxIcon;
@@ -106,7 +109,7 @@ const getTitle = (bundles: FluentBundle[], type: NOTIFICATION_TYPE | null) => {
     return getMessage(
       bundles,
       "notifications-yourCommentHasReceivedAStaffReply",
-      "Your comment has received a reply from a staff member"
+      "Your comment has received a reply from a member of our team"
     );
   }
 
@@ -158,6 +161,12 @@ const NotificationContainer: FunctionComponent<Props> = ({
           type === GQLNOTIFICATION_TYPE.REPLY_STAFF) && (
           <RepliedCommentNotificationBody notification={notification} />
         )}
+        {type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED && (
+          <FeaturedCommentNotificationBody notification={notification} />
+        )}
+        {type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED && (
+          <ApprovedCommentNotificationBody notification={notification} />
+        )}
         <div className={styles.footer}>
           <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
         </div>
@@ -185,6 +194,8 @@ const enhanced = withFragmentContainer<Props>({
       ...RejectedCommentNotificationBody_notification
       ...DSAReportDecisionMadeNotificationBody_notification
       ...RepliedCommentNotificationBody_notification
+      ...FeaturedCommentNotificationBody_notification
+      ...ApprovedCommentNotificationBody_notification
     }
   `,
 })(NotificationContainer);

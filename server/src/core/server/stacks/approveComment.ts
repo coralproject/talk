@@ -31,7 +31,8 @@ const approveComment = async (
   commentRevisionID: string,
   moderatorID: string,
   now: Date,
-  request?: Request | undefined
+  request?: Request | undefined,
+  createNotification = true
 ) => {
   const updateAllCommentCountsArgs = { actionCounts: {} };
 
@@ -86,11 +87,13 @@ const approveComment = async (
     }
   }
 
-  await notifications.create(tenant.id, tenant.locale, {
-    targetUserID: result.after.authorID!,
-    comment: result.after,
-    type: GQLNOTIFICATION_TYPE.COMMENT_APPROVED,
-  });
+  if (createNotification) {
+    await notifications.create(tenant.id, tenant.locale, {
+      targetUserID: result.after.authorID!,
+      comment: result.after,
+      type: GQLNOTIFICATION_TYPE.COMMENT_APPROVED,
+    });
+  }
 
   // Return the resulting comment.
   return result.after;

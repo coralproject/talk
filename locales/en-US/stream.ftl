@@ -1048,11 +1048,16 @@ stream-footer-navigation =
 notifications-title = Notifications
 notifications-loadMore = Load More
 
+notifications-adjustPreferences = Adjust notification settings in My Profile &gt;<button>Preferences.</button>
+
 notification-comment-toggle-default-open = - Comment
 notification-comment-toggle-default-closed = + Comment
 
 notifications-comment-showRemovedComment = + Show removed comment
 notifications-comment-hideRemovedComment = - Hide removed comment
+
+notifications-comment-hide = - Hide your comment
+notifications-comment-show = + Show your comment
 
 notifications-yourIllegalContentReportHasBeenReviewed =
   Your illegal content report has been reviewed
@@ -1065,14 +1070,25 @@ notifications-yourCommentHasBeenFeatured =
 notifications-yourCommentHasReceivedAReply =
   Your comment has received a reply
 notifications-yourCommentHasReceivedAStaffReply =
-  Your comment has received a reply from a staff member
+  Your comment has received a reply from a member of our team
 notifications-defaultTitle = Notification
+
+notifications-goToCommentButton = <button>Go to this comment </button><readInContext>to read in context or reply</readInContext>
 
 notifications-rejectedComment-body =
   The content of your comment was against our community guidelines. The comment has been removed.
 notifications-reasonForRemoval = Reason for removal
 notifications-legalGrounds = Legal grounds
 notifications-additionalExplanation = Additional explanation
+
+notifications-repliedComment-description = Your comment on the article "{ $title }" received a reply from <author>{ $username }</author>
+notifications-repliedComment-hideReply = - Hide the reply
+notifications-repliedComment-showReply = + Show the reply
+notifications-repliedComment-hideOriginalComment = - Hide my original comment
+notifications-repliedComment-showOriginalComment = + Show my original comment
+
+notifications-featuredComment-description = Your comment on the article { $title } has been featured by a member of our team.
+notifications-approvedComment-description = Your comment on the article { $title } has been approved by a member of our team.
 
 notifications-dsaReportLegality-legal = Legal content
 notifications-dsaReportLegality-illegal = Illegal content
