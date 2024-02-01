@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -6,6 +7,8 @@ import CLASSES from "coral-stream/classes";
 import { Tag } from "coral-ui/components/v2";
 
 import { UserBadgesContainer_user as UserData } from "coral-admin/__generated__/UserBadgesContainer_user.graphql";
+
+import styles from "./UserBadgesContainer.css";
 
 interface Props {
   user: UserData;
@@ -21,7 +24,7 @@ const UserBadgesContainer: FunctionComponent<Props> = ({ user }) => {
         <Tag
           key={badge}
           color="dark"
-          className={CLASSES.comment.topBar.userBadge}
+          className={cn(styles.badge, CLASSES.comment.topBar.userBadge)}
         >
           {badge}
         </Tag>
