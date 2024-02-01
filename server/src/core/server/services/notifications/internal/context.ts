@@ -208,7 +208,35 @@ export class InternalNotificationContext {
     }
 
     if (result.notification && result.attempted) {
-      await this.incrementCountForUser(tenantID, targetUserID);
+      // Determine whether to increment notificationCount based on user's in-page notification settings
+      let shouldIncrementCount = true;
+      if (
+        type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED &&
+        !targetUser.inPageNotifications.onModeration
+      ) {
+        shouldIncrementCount = false;
+      }
+      if (
+        type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED &&
+        !targetUser.inPageNotifications.onFeatured
+      ) {
+        shouldIncrementCount = false;
+      }
+      if (
+        type === GQLNOTIFICATION_TYPE.REPLY &&
+        !targetUser.inPageNotifications.onReply
+      ) {
+        shouldIncrementCount = false;
+      }
+      if (
+        type === GQLNOTIFICATION_TYPE.REPLY_STAFF &&
+        !targetUser.inPageNotifications.onStaffReplies
+      ) {
+        shouldIncrementCount = false;
+      }
+      if (shouldIncrementCount) {
+        await this.incrementCountForUser(tenantID, targetUserID);
+      }
     }
   }
 
