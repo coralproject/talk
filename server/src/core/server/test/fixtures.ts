@@ -195,6 +195,9 @@ export const createTenantFixture = (
       allowReplies: true,
       oEmbedAllowedOrigins: [],
     },
+    inPageNotifications: {
+      enabled: false,
+    },
   };
 
   return merge(fixture, defaults);

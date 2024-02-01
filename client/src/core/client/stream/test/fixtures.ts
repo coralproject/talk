@@ -142,6 +142,9 @@ export const settings = createFixture<GQLSettings>({
       method: GQLDSA_METHOD_OF_REDRESS.NONE,
     },
   },
+  inPageNotifications: {
+    enabled: false,
+  },
 });
 
 export const site = createFixtures<GQLSite>([

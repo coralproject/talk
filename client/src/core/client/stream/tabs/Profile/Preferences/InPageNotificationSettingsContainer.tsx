@@ -118,7 +118,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                         <Localized id="profile-account-notifications-onReply">
                           <CheckBox
                             {...input}
-                            id={input.name}
+                            id={`${input.name}-inPage`}
                             className={styles.checkBox}
                             variant="streamBlue"
                           >
@@ -134,7 +134,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                         <Localized id="profile-account-notifications-onFeatured">
                           <CheckBox
                             {...input}
-                            id={input.name}
+                            id={`${input.name}-inPage`}
                             className={styles.checkBox}
                             variant="streamBlue"
                           >
@@ -150,7 +150,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                         <Localized id="profile-account-notifications-onStaffReplies">
                           <CheckBox
                             {...input}
-                            id={input.name}
+                            id={`${input.name}-inPage`}
                             className={styles.checkBox}
                             variant="streamBlue"
                           >
@@ -166,7 +166,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                         <Localized id="profile-account-notifications-onModeration">
                           <CheckBox
                             {...input}
-                            id={input.name}
+                            id={`${input.name}-inPage`}
                             className={styles.checkBox}
                             variant="streamBlue"
                           >
@@ -194,7 +194,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                         <Localized id="profile-account-notifications-includeCountInBadge">
                           <CheckBox
                             {...input}
-                            id={input.name}
+                            id={`${input.name}-inPage`}
                             className={styles.checkBox}
                             variant="streamBlue"
                           >
@@ -210,7 +210,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                         <Localized id="profile-account-notifications-bellRemainsVisible">
                           <CheckBox
                             {...input}
-                            id={input.name}
+                            id={`${input.name}-inPage`}
                             className={styles.checkBox}
                             variant="streamBlue"
                           >

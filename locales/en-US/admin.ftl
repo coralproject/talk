@@ -539,6 +539,14 @@ configure-general-flairBadge-table-preview = Preview
 configure-general-flairBadge-table-deleteButton = <icon></icon> Delete
 configure-general-flairBadge-table-empty = No custom flair added for this site
 
+#### In-page notifications
+configure-general-inPageNotifications-title = In-page notifications
+configure-general-inPageNotifications-explanation = Add notifications to Coral. When enabled, commenters can receive
+  notifications when they receive all replies, replies only from members
+  of your team, when a Pending comment is published. Commenters can
+  disable visual notification indicators in their Profile preferences.
+configure-general-inPageNotifications-enabled = In-page notifications enabled
+
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear when a story is closed for commenting.
