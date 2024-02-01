@@ -10,6 +10,7 @@ import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
 import {
   CheckCircleIcon,
   LegalHammerIcon,
+  MessagesBubbleSquareStarIcon,
   MessagesBubbleSquareTextIcon,
   QuestionCircleIcon,
   RejectCommentBoxIcon,
@@ -41,7 +42,7 @@ const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
     return CheckCircleIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
-    return CheckCircleIcon;
+    return MessagesBubbleSquareStarIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
     return RejectCommentBoxIcon;
@@ -167,7 +168,7 @@ const NotificationContainer: FunctionComponent<Props> = ({
           <ApprovedCommentNotificationBody notification={notification} />
         )}
         <div className={styles.footer}>
-          <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
+          <Timestamp classxName={styles.timestamp}>{createdAt}</Timestamp>
         </div>
       </div>
       <div className={styles.divider}></div>
