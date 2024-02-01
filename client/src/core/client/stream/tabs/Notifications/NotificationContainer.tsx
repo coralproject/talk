@@ -168,7 +168,7 @@ const NotificationContainer: FunctionComponent<Props> = ({
           <ApprovedCommentNotificationBody notification={notification} />
         )}
         <div className={styles.footer}>
-          <Timestamp classxName={styles.timestamp}>{createdAt}</Timestamp>
+          <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
         </div>
       </div>
       <div className={styles.divider}></div>
