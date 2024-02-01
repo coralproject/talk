@@ -1,0 +1,9 @@
+.goToReplyButton {
+  color: var(--palette-primary-500);
+  padding: 0;
+}
+
+.readInContext {
+  line-height: 1.14;
+  margin-left: var(--spacing-1);
+}

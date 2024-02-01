@@ -156,7 +156,9 @@ const markCommentAsAnswered = async (
       comment.parentID,
       comment.parentRevisionID,
       author.id,
-      now
+      now,
+      undefined,
+      false
     ),
   ]);
 

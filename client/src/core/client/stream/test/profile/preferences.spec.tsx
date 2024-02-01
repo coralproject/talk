@@ -4,7 +4,7 @@ import { axe } from "jest-axe";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/common/lib/utils";
-import { GQLFEATURE_FLAG, GQLResolver } from "coral-framework/schema";
+import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
@@ -167,7 +167,7 @@ it("render and update in-page notifications form", async () => {
         },
         Query: {
           settings: () => {
-            return { ...settings, featureFlags: [GQLFEATURE_FLAG.Z_KEY] };
+            return { ...settings, inPageNotifications: { enabled: true } };
           },
           viewer: () => viewer,
           stream: () => story,
