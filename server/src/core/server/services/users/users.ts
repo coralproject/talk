@@ -567,6 +567,7 @@ export async function requestAccountDeletion(
     mongo,
     tenant.id,
     user.id,
+    user.id,
     deletionDate.toJSDate()
   );
 
@@ -590,6 +591,82 @@ export async function requestAccountDeletion(
   return updatedUser;
 }
 
+export async function scheduleAccountDeletion(
+  mongo: MongoContext,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  requestingUser: User,
+  userID: string,
+  now: Date
+) {
+  const deletionDate = DateTime.fromJSDate(now).plus({
+    seconds: SCHEDULED_DELETION_WINDOW_DURATION,
+  });
+
+  const updatedUser = await scheduleDeletionDate(
+    mongo,
+    tenant.id,
+    requestingUser.id,
+    userID,
+    deletionDate.toJSDate(),
+    now
+  );
+
+  const formattedDate = formatDate(deletionDate.toJSDate(), tenant.locale);
+
+  if (updatedUser.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: updatedUser.email,
+      },
+      template: {
+        name: "account-notification/delete-request-confirmation",
+        context: {
+          requestDate: formattedDate,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+        },
+      },
+    });
+  }
+
+  return updatedUser;
+}
+
+export async function cancelScheduledAccountDeletion(
+  mongo: MongoContext,
+  mailer: MailerQueue,
+  tenant: Tenant,
+  requestingUser: User,
+  userID: string
+) {
+  const updatedUser = await clearDeletionDate(
+    mongo,
+    tenant.id,
+    userID,
+    requestingUser.id
+  );
+
+  if (updatedUser.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: updatedUser.email,
+      },
+      template: {
+        name: "account-notification/delete-request-cancel",
+        context: {
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+        },
+      },
+    });
+  }
+
+  return updatedUser;
+}
+
 export async function cancelAccountDeletion(
   mongo: MongoContext,
   mailer: MailerQueue,
@@ -600,7 +677,12 @@ export async function cancelAccountDeletion(
     throw new EmailNotSetError();
   }
 
-  const updatedUser = await clearDeletionDate(mongo, tenant.id, user.id);
+  const updatedUser = await clearDeletionDate(
+    mongo,
+    tenant.id,
+    user.id,
+    user.id
+  );
 
   await mailer.add({
     tenantID: tenant.id,

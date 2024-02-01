@@ -1,0 +1,21 @@
+services:
+  wp-mysql:
+    image: mysql:8.2.0
+    restart: always
+    ports: 
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=wp-mysql-secret
+      - MYSQL_DATABASE=wp
+      - MYSQL_USER=wp
+      - MYSQL_PASSWORD=wp-user-secret
+  wp:
+    image: wordpress:6.4.2-php8.1-apache
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      - WORDPRESS_DB_HOST=wp-mysql
+      - WORDPRESS_DB_NAME=wp
+      - WORDPRESS_DB_USER=wp
+      - WORDPRESS_DB_PASSWORD=wp-user-secret
