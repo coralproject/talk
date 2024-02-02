@@ -52,28 +52,7 @@ jobs:
       #   uses: mansona/npm-lockfile-version@v1
       #   with:
       #     version: 2
-      - name: Cache Dependencies
-        id: cache-client
-        uses: actions/cache@v3
-        with:
-          path: ./client/node_modules
-          key: modules-client-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
-      - name: Cache Dependencies
-        id: cache-common
-        uses: actions/cache@v3
-        with:
-          path: ./common/node_modules
-          key: modules-common-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
-      - name: Cache Dependencies
-        id: cache-server
-        uses: actions/cache@v3
-        with:
-          path: ./server/node_modules
-          key: modules-server-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
-      - name: npm ci
+      - name: pnpm ci
         run: sh scripts/pnpm-ci.sh
       - name: Generate schemas and types
         run: sh scripts/generate.sh
