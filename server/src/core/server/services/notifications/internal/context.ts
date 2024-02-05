@@ -402,6 +402,7 @@ export class InternalNotificationContext {
         grounds: legal ? legal.grounds : undefined,
         explanation: legal ? legal.explanation : undefined,
       },
+      isDSA: true,
     });
 
     return notification;
@@ -438,6 +439,7 @@ export class InternalNotificationContext {
         grounds: legal.grounds,
         explanation: legal.explanation,
       },
+      isDSA: true,
     });
 
     return notification;
