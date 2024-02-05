@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import {
@@ -7,6 +12,10 @@ import {
   useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import {
+  GQLCOMMENT_STATUS,
+  GQLNOTIFICATION_TYPE,
+} from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import Spinner from "coral-stream/common/Spinner";
 import { Flex } from "coral-ui/components/v2";
@@ -70,6 +79,23 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
       }
     );
   }, [props.relay]);
+
+  const notificationsToShow = useMemo(() => {
+    return props.query.notifications.edges.filter((n) => {
+      if (
+        n.node.type !==
+        (GQLNOTIFICATION_TYPE.REPLY || GQLNOTIFICATION_TYPE.REPLY_STAFF)
+      ) {
+        return true;
+      } else {
+        // filter out Rejected comments and deleted comments
+        return (
+          n.node.commentReply?.status !== GQLCOMMENT_STATUS.REJECTED &&
+          !n.node.commentReply?.deleted
+        );
+      }
+    });
+  }, [props.query.notifications.edges]);
 
   if (!props.query || !props.query.viewer) {
     return null;
@@ -169,7 +195,7 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
         </Flex>
       </Localized>
       <div>
-        {props.query.notifications.edges.map(({ node }) => {
+        {notificationsToShow.map(({ node }) => {
           return (
             <NotificationContainer
               key={node.id}
@@ -233,6 +259,11 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
+              type
+              commentReply {
+                status
+                deleted
+              }
               ...NotificationContainer_notification
             }
           }
