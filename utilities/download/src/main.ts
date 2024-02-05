@@ -42,7 +42,24 @@ const getNiceTenantName = (name: string) => {
   return niceTenantName;
 };
 
-const downloadDocuments = async (db: Db, tenantID: string, collectionName: string, outputDir: string) => {
+const awaitWrite = (stream: fs.WriteStream, data: string) => {
+  return new Promise<boolean>((resolve) => {
+    stream.write(data, (err) => {
+      if (err) {
+        resolve(false);
+      }
+
+      resolve(true);
+    });
+  });
+};
+
+const downloadDocuments = async (
+  db: Db,
+  tenantID: string,
+  collectionName: string,
+  outputDir: string
+) => {
   const collection = db.collection(collectionName);
   const cursor = collection.find({ tenantID });
 
@@ -55,11 +72,19 @@ const downloadDocuments = async (db: Db, tenantID: string, collectionName: strin
       continue;
     }
 
-    stream.write(`${JSON.stringify(doc)}\n`);
+    await awaitWrite(stream, `${JSON.stringify(doc)}\n`);
   }
 
-  stream.close();
-}
+  return new Promise<boolean>((resolve) => {
+    stream.close((err) => {
+      if (err) {
+        resolve(false);
+      }
+
+      resolve(true);
+    });
+  });
+};
 
 const run = async () => {
   const result = getArgs(argv, argumentDefinitions);
@@ -89,11 +114,26 @@ const run = async () => {
     const relOutputDir = path.join(config.outputDir, niceTenantName);
     ensureDirectoryExists(relOutputDir);
 
-    await downloadDocuments(db, tenantID, "archivedCommentModerationActions", relOutputDir);
-    await downloadDocuments(db, tenantID, "archivedCommentActions", relOutputDir);
+    await downloadDocuments(
+      db,
+      tenantID,
+      "archivedCommentModerationActions",
+      relOutputDir
+    );
+    await downloadDocuments(
+      db,
+      tenantID,
+      "archivedCommentActions",
+      relOutputDir
+    );
     await downloadDocuments(db, tenantID, "archivedComments", relOutputDir);
     await downloadDocuments(db, tenantID, "commentActions", relOutputDir);
-    await downloadDocuments(db, tenantID, "commentModerationActions", relOutputDir);
+    await downloadDocuments(
+      db,
+      tenantID,
+      "commentModerationActions",
+      relOutputDir
+    );
     await downloadDocuments(db, tenantID, "comments", relOutputDir);
     await downloadDocuments(db, tenantID, "dsaReports", relOutputDir);
     await downloadDocuments(db, tenantID, "invites", relOutputDir);
