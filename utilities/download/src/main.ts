@@ -58,10 +58,13 @@ const downloadDocuments = async (
   db: Db,
   tenantID: string,
   collectionName: string,
-  outputDir: string
+  outputDir: string,
+  isTenant = false
 ) => {
   const collection = db.collection(collectionName);
-  const cursor = collection.find({ tenantID });
+  const cursor = isTenant
+    ? collection.find({ id: tenantID })
+    : collection.find({ tenantID });
 
   const outputPath = path.join(outputDir, `${collectionName}.json`);
   const stream = fs.createWriteStream(outputPath);
@@ -72,7 +75,10 @@ const downloadDocuments = async (
       continue;
     }
 
-    await awaitWrite(stream, `${JSON.stringify(doc)}\n`);
+    const line = isTenant
+      ? `${JSON.stringify(doc, null, 2)}\n`
+      : `${JSON.stringify(doc)}\n`;
+    await awaitWrite(stream, line);
   }
 
   return new Promise<boolean>((resolve) => {
@@ -110,6 +116,8 @@ const run = async () => {
       continue;
     }
 
+    console.log(`downloading ${tenant.organization.name}...`);
+
     const niceTenantName = getNiceTenantName(tenant.organization.name);
     const relOutputDir = path.join(config.outputDir, niceTenantName);
     ensureDirectoryExists(relOutputDir);
@@ -143,9 +151,11 @@ const run = async () => {
     await downloadDocuments(db, tenantID, "seenComments", relOutputDir);
     await downloadDocuments(db, tenantID, "sites", relOutputDir);
     await downloadDocuments(db, tenantID, "stories", relOutputDir);
-    await downloadDocuments(db, tenantID, "tenants", relOutputDir);
+    await downloadDocuments(db, tenantID, "tenants", relOutputDir, true);
     await downloadDocuments(db, tenantID, "users", relOutputDir);
   }
+
+  console.log("Done.");
 
   process.exit();
 };
