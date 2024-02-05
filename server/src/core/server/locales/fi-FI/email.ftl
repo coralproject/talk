@@ -13,7 +13,7 @@ email-template-accountNotificationForgotPassword =
 email-subject-accountNotificationBan = Sinut on asetettu kirjoituskieltoon
 email-template-accountNotificationBan =
   { $customMessage }<br /><br />
-  Jos kielto on mielestäsi aiheeton, ota yhteyttä ylläpitoon 
+  Jos kielto on mielestäsi aiheeton, ota yhteyttä ylläpitoon
   <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
 email-subject-accountNotificationPasswordChange = Salasanasi on päivitetty
@@ -32,16 +32,16 @@ email-template-accountNotificationUpdateUsername =
 email-subject-accountNotificationSuspend = Sinut on asetettu kirjoituskieltoon
 email-template-accountNotificationSuspend =
   { $customMessage }<br/><br/>
-  Jos kielto on mielestäsi aiheeton, ota yhteyttä ylläpitoon 
+  Jos kielto on mielestäsi aiheeton, ota yhteyttä ylläpitoon
   <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
 email-subject-accountNotificationConfirmEmail = Vahvista sähköpostiosoite
 email-template-accountNotificationConfirmEmail =
   Hei { $username },<br/><br/>
-  Vahvista sähköpostiosoite { $organizationName } keskustelun kirjoittajatiliisi 
+  Vahvista sähköpostiosoite { $organizationName } keskustelun kirjoittajatiliisi
   <a data-l10n-name="confirmYourEmail">klikkaamalla tätä linkkiä</a><br/><br/>.
   Jos et ole äskettäin luonut tiliä { $organizationName } keskusteluun,
-  voit jättää tämän viestin huomiotta.  
+  voit jättää tämän viestin huomiotta.
 
 email-subject-accountNotificationInvite = Kutsu Coral ryhmään
 email-template-accountNotificationInvite =
@@ -84,8 +84,8 @@ email-template-accountNotificationDeleteRequestCompleted =
 # Notification
 
 email-footer-notification =
-  <br /><br />Ystävällisin terveisin<br />$organizationName<br /><br />
-  <i>Etkö enää halua tällaisia viestejä? <a data-l10n-name="unsubscribeLink">Paina tästä</a></i>
+  <br /><br />Ystävällisin terveisin<br />{ $organizationName }<br /><br />Etkö enää halua tällaisia viestejä? <a data-l10n-name="unsubscribeLink">Paina tästä</a>
+
 ## On Reply
 
 email-subject-notificationOnReply = Kirjoittamaasi kommenttiin on vastattu
@@ -108,7 +108,7 @@ email-template-notificationOnStaffReply =
 
 email-subject-notificationOnCommentApproved = Kommenttisi on julkaistu
 email-template-notificationOnCommentApproved =
-  Kiitos lähettämästäsi kommentista! Olemme nyt tarkastaneet kommenttisi ja 
+  Kiitos lähettämästäsi kommentista! Olemme nyt tarkastaneet kommenttisi ja
   julkaisseet sen <a data-l10n-name="commentPermalink">täällä</a>.
 
 ## On Comment Rejected
