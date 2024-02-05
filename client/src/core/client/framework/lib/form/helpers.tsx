@@ -61,8 +61,8 @@ export const formatPercentage = (v: any) => {
 };
 
 export const parseBool = (v: any) => Boolean(v);
-export const parseStringBool = (v: string) => v === "true";
-export const formatBool = (v: boolean) => {
+export const parseStringBool = (v: any): any => v === "true";
+export const formatBool = (v: any): any => {
   return v ? "true" : "false";
 };
 

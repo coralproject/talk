@@ -43,8 +43,7 @@ const UpdateInPageNotificationSettingsMutation = createMutation(
                     onFeatured
                     onStaffReplies
                     onModeration
-                    includeCountInBadge
-                    bellRemainsVisible
+                    enabled
                   }
                 }
                 clientMutationId
@@ -57,8 +56,7 @@ const UpdateInPageNotificationSettingsMutation = createMutation(
               onFeatured: input.onFeatured,
               onStaffReplies: input.onStaffReplies,
               onModeration: input.onModeration,
-              includeCountInBadge: input.includeCountInBadge,
-              bellRemainsVisible: input.bellRemainsVisible,
+              enabled: input.enabled,
               clientMutationId: (clientMutationId++).toString(),
             },
           },
