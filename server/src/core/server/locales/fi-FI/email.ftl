@@ -84,7 +84,7 @@ email-template-accountNotificationDeleteRequestCompleted =
 # Notification
 
 email-footer-notification =
-  <br /><br />Ystävällisin terveisin<br />{ $organizationName }<br /><br />Etkö enää halua tällaisia viestejä? <a data-l10n-name="unsubscribeLink">Paina tästä</a>
+  <br /><br />Ystävällisin terveisin<br /><a data-l10n-name="organizationLink">{ $organizationName }</a><br /><br />Etkö enää halua tällaisia viestejä? <a data-l10n-name="unsubscribeLink">Paina tästä</a>
 
 ## On Reply
 
