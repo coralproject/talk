@@ -39,12 +39,10 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
               }}
             >
               <div className={styles.replyInfo}>
-                Your comment on the article "
-                {commentReply.story.metadata?.title}" received a reply from
                 <span className={styles.author}>
-                  {" "}
                   {commentReply.author?.username ?? ""}
                 </span>
+                replied on "{commentReply.story.metadata?.title}"
               </div>
             </Localized>
             <NotificationCommentContainer

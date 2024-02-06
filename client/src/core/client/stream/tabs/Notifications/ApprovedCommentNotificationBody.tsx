@@ -34,8 +34,8 @@ const ApprovedCommentNotificationBody: FunctionComponent<Props> = ({
               vars={{ title: comment.story.metadata?.title }}
             >
               <div className={styles.replyInfo}>
-                Your comment on the article "{comment.story.metadata?.title}"
-                has been approved by a member of our team.
+                A member of our team approved it on "
+                {comment.story.metadata?.title}"
               </div>
             </Localized>
             <NotificationCommentContainer

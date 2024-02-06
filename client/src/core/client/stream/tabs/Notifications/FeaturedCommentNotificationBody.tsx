@@ -34,8 +34,8 @@ const FeaturedCommentNotificationBody: FunctionComponent<Props> = ({
               vars={{ title: comment.story.metadata?.title }}
             >
               <div className={styles.replyInfo}>
-                Your comment on the article "{comment.story.metadata?.title}"
-                has been featured by a member of our team.
+                A member of our team featured it on "
+                {comment.story.metadata?.title}"
               </div>
             </Localized>
             <NotificationCommentContainer

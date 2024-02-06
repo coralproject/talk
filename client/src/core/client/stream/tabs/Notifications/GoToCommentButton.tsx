@@ -2,6 +2,10 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import { getURLWithCommentID } from "coral-framework/helpers";
+import {
+  ButtonSvgIcon,
+  ShareExternalLinkIcon,
+} from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -22,36 +26,17 @@ const GoToCommentButton: FunctionComponent<Props> = ({
       <Localized
         id="notifications-goToCommentButton"
         elems={{
-          button: (
-            <Button
-              className={styles.goToReplyButton}
-              variant="none"
-              href={permalinkURL}
-              target="_blank"
-            >
-              Go to this comment{" "}
-            </Button>
-          ),
-          readInContext: (
-            <div className={styles.readInContext}>
-              to read in context or reply
-            </div>
-          ),
+          icon: <ButtonSvgIcon Icon={ShareExternalLinkIcon} />,
         }}
       >
-        <>
-          <Button
-            className={styles.goToReplyButton}
-            variant="none"
-            href={permalinkURL}
-            target="_blank"
-          >
-            Go to this comment{" "}
-          </Button>
-          <div className={styles.readInContext}>
-            to read in context or reply
-          </div>
-        </>
+        <Button
+          className={styles.goToReplyButton}
+          variant="none"
+          href={permalinkURL}
+          target="_blank"
+        >
+          Go to this comment <ButtonSvgIcon Icon={ShareExternalLinkIcon} />
+        </Button>
       </Localized>
     </Flex>
   );
