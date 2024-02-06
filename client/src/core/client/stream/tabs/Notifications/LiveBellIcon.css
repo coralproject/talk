@@ -26,8 +26,8 @@
   color: var(--palette-text-500);
 }
 
-.blankBell svg {
-  fill: var(--palette-text-000);
+.trayBell svg {
+  fill: none;
   color: white;
 }
 

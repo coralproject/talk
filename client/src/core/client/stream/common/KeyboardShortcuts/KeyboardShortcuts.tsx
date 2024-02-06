@@ -1384,48 +1384,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           browserInfo.tablet ||
           browserInfo.iPadOS) && (
           <MobileToolbar onKeyPress={handleKeypress}>
-            <Flex className={styles.flexContainer} alignItems="center">
-              <div className={styles.notificationActionContainer}>
-                <MobileNotificationButton viewerID={viewerID} />
-              </div>
-              <div className={styles.unmarkAllContainer}>
-                <Button
-                  variant="text"
-                  size="large"
-                  uppercase={false}
-                  disabled={disableUnreadButtons}
-                  onClick={handleUnmarkAllButton}
-                  classes={{
-                    variantText: styles.button,
-                    disabled: styles.buttonDisabled,
-                    colorRegular: styles.buttonColor,
-                  }}
-                >
-                  <ButtonSvgIcon Icon={CheckDoubleIcon} />
-                  <Localized id="comments-mobileToolbar-unmarkAll">
-                    <span>Mark all as read</span>
-                  </Localized>
-                </Button>
-              </div>
-              <div className={styles.nextActionContainer}>
-                <Button
-                  variant="text"
-                  size="large"
-                  uppercase={false}
-                  disabled={disableUnreadButtons}
-                  classes={{
-                    variantText: styles.button,
-                    disabled: styles.buttonDisabled,
-                    colorRegular: styles.buttonColor,
-                  }}
-                  onClick={handleZKeyButton}
-                >
-                  <Localized id="comments-mobileToolbar-nextUnread">
-                    <span>Next unread</span>
-                  </Localized>
-                  <ButtonSvgIcon Icon={ControlsNextIcon} />
-                </Button>
-              </div>
+            <Flex
+              className={styles.flexContainer}
+              alignItems="center"
+              justifyContent="space-around"
+            >
               <div className={styles.closeContainer}>
                 <Localized
                   id="comments-mobileToolbar-closeButton"
@@ -1446,6 +1409,40 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                     <ButtonSvgIcon Icon={RemoveIcon} />
                   </Button>
                 </Localized>
+              </div>
+
+              <div className={styles.unmarkAllContainer}>
+                <Button
+                  variant="regular"
+                  color="stream"
+                  size="regular"
+                  uppercase={false}
+                  disabled={disableUnreadButtons}
+                  onClick={handleUnmarkAllButton}
+                >
+                  <ButtonSvgIcon Icon={CheckDoubleIcon} />
+                  <Localized id="comments-mobileToolbar-unmarkAll">
+                    <span>Mark all as read</span>
+                  </Localized>
+                </Button>
+              </div>
+              <div className={styles.nextActionContainer}>
+                <Button
+                  variant="regular"
+                  color="stream"
+                  size="regular"
+                  uppercase={false}
+                  disabled={disableUnreadButtons}
+                  onClick={handleZKeyButton}
+                >
+                  <Localized id="comments-mobileToolbar-nextUnread">
+                    <span>Next unread</span>
+                  </Localized>
+                  <ButtonSvgIcon Icon={ControlsNextIcon} />
+                </Button>
+              </div>
+              <div className={styles.notificationActionContainer}>
+                <MobileNotificationButton viewerID={viewerID} />
               </div>
             </Flex>
           </MobileToolbar>

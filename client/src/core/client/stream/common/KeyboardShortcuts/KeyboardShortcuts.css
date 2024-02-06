@@ -1,36 +1,18 @@
 .flexContainer {
   height: 100%;
+
+  padding-left: var(--spacing-3);
+  padding-right: var(--spacing-3);
 }
 
 .unmarkAllContainer {
-  flex-grow: 1;
-  border-right: 1px solid currentColor;
 }
 
 .nextActionContainer {
-  flex-grow: 1;
-  border-right: 1px solid currentColor;
 }
 
 .notificationActionContainer {
-  flex-grow: 1;
-  border-right: 1px solid currentColor;
-  margin-left: 5px;
 }
 
 .closeContainer {
-  flex-shrink: 0;
-}
-
-.button {
-  padding: 4px 8px;
-  width: 100%;
-}
-.buttonColor {}
-.buttonDisabled {}
-.button.buttonColor, .button:not(:disabled).buttonColor, .button:not(.buttonDisabled).buttonColor {
-  &:hover {
-    color: currentColor;
-  }
-  color: currentColor;
 }

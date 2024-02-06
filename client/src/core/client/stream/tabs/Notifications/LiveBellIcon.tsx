@@ -11,7 +11,7 @@ import styles from "./LiveBellIcon.css";
 interface Props {
   userID?: string;
   size?: "md" | "lg";
-  style?: "default" | "filled" | "blank";
+  style?: "default" | "filled" | "tray";
 }
 
 export const LiveBellIcon: FunctionComponent<Props> = ({
@@ -51,7 +51,7 @@ export const LiveBellIcon: FunctionComponent<Props> = ({
         className={cn(CLASSES.notifications.live.icon, styles.defaultStroke, {
           [styles.defaultBell]: style === "default",
           [styles.filledBell]: style === "filled",
-          [styles.blankBell]: style === "blank",
+          [styles.trayBell]: style === "tray",
         })}
         size={size}
         Icon={NotificationBellIcon}
@@ -60,7 +60,7 @@ export const LiveBellIcon: FunctionComponent<Props> = ({
         <div
           className={cn(CLASSES.notifications.live.counter, styles.counter, {
             [styles.counterBlue]: style === "default" || style === "filled",
-            [styles.counterWhite]: style === "blank",
+            [styles.counterWhite]: style === "tray",
             [styles.counterMed]: size === "md",
             [styles.counterLarge]: size === "lg",
           })}
