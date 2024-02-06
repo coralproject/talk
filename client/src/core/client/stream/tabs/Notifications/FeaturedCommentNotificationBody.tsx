@@ -29,15 +29,6 @@ const FeaturedCommentNotificationBody: FunctionComponent<Props> = ({
       {comment && (
         <>
           <div className={styles.commentSection}>
-            <Localized
-              id="notifications-featuredComment-description"
-              vars={{ title: comment.story.metadata?.title }}
-            >
-              <div className={styles.replyInfo}>
-                Your comment on the article "{comment.story.metadata?.title}"
-                has been featured by a member of our team.
-              </div>
-            </Localized>
             <NotificationCommentContainer
               comment={comment}
               openedStateText={
@@ -72,9 +63,6 @@ const enhanced = withFragmentContainer<Props>({
         ...NotificationCommentContainer_comment
         story {
           url
-          metadata {
-            title
-          }
         }
       }
     }

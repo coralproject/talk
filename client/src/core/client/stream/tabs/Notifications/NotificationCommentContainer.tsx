@@ -10,7 +10,7 @@ import {
   TwitterMedia,
   YouTubeMedia,
 } from "coral-stream/common/Media";
-import { Timestamp } from "coral-ui/components/v2";
+import { Flex, Timestamp } from "coral-ui/components/v2";
 
 import { NotificationCommentContainer_comment } from "coral-stream/__generated__/NotificationCommentContainer_comment.graphql";
 
@@ -63,9 +63,14 @@ const NotificationCommentContainer: FunctionComponent<Props> = ({
       )}
       {isOpen && (
         <div className={styles.content}>
-          <Timestamp className={styles.timestamp}>
-            {comment.createdAt}
-          </Timestamp>
+          <Flex marginBottom={2}>
+            <div className={styles.author}>
+              {comment.author?.username ?? ""}
+            </div>
+            <Timestamp className={styles.timestamp}>
+              {comment.createdAt}
+            </Timestamp>
+          </Flex>
           <HTMLContent>{comment.body || ""}</HTMLContent>
           <div className={styles.media}>
             {comment.revision?.media?.__typename === "ExternalMedia" && (
@@ -127,6 +132,9 @@ const enhanced = withFragmentContainer<Props>({
       }
       site {
         id
+      }
+      author {
+        username
       }
       revision {
         media {
