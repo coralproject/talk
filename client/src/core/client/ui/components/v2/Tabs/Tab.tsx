@@ -46,6 +46,8 @@ export interface TabProps {
   "aria-label"?: string;
   title?: string;
   children?: React.ReactNode;
+
+  float?: "none" | "right";
 }
 
 class Tab extends React.Component<TabProps> {
@@ -66,6 +68,7 @@ class Tab extends React.Component<TabProps> {
       uppercase,
       "aria-label": ariaLabel,
       title,
+      float,
     } = this.props;
 
     const buttonClassName = cn(
@@ -79,6 +82,7 @@ class Tab extends React.Component<TabProps> {
         [classes.default]: variant === "default",
         [classes.uppercase]: uppercase,
         [classes.active]: active,
+        [classes.floatRight]: float === "right",
       },
       className
     );

@@ -2,11 +2,6 @@
   padding: var(--spacing-3);
 }
 
-.configureTab {
-  padding-left: var(--spacing-4);
-  padding-right: var(--spacing-4);
-}
-
 .smallText {
   font-family: var(--font-family-secondary);
   font-size: var(--font-size-1);
@@ -25,8 +20,8 @@
 }
 
 .notificationsTabSmall {
-  padding-top: var(--spacing-5);
-  padding-bottom: var(--spacing-5);
+  padding-top: 22.25px;
+  padding-bottom: 22.25px;
   padding-left: var(--spacing-5);
   padding-right: var(--spacing-5);
 }

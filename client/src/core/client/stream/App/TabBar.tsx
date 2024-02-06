@@ -27,6 +27,7 @@ type TabValue =
   | "COMMENTS"
   | "PROFILE"
   | "DISCUSSIONS"
+  | "CONFIGURE"
   | "NOTIFICATIONS"
   | "%future added value";
 
@@ -165,7 +166,8 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
 
           {props.showConfigureTab && (
             <Tab
-              className={cn(CLASSES.tabBar.configure, styles.configureTab, {
+              className={cn(CLASSES.tabBar.configure, {
+                [CLASSES.tabBar.activeTab]: props.activeTab === "CONFIGURE",
                 [styles.smallTab]: !matches,
               })}
               tabID="CONFIGURE"
@@ -175,7 +177,8 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 <span>{configureText}</span>
               ) : (
                 <div>
-                  <SvgIcon size="md" Icon={CogIcon} />
+                  <SvgIcon size="lg" Icon={CogIcon} />
+                  <div className={styles.smallText}>{configureText}</div>
                 </div>
               )}
             </Tab>
@@ -189,11 +192,12 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 {
                   [CLASSES.tabBar.activeTab]:
                     props.activeTab === "NOTIFICATIONS",
-                  [styles.smallTab]: !matches,
+                  [styles.notificationsTabSmall]: !matches,
                 }
               )}
               tabID="NOTIFICATIONS"
               variant="notifications"
+              float="right"
             >
               <div className={cn(styles.notificationsIcon)}>
                 <LiveBellIcon size="lg" />

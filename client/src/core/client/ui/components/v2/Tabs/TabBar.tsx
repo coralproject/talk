@@ -75,6 +75,7 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
             ? child.props.tabID === defaultActiveTab
             : child.props.tabID === activeTab,
         variant: child.props.variant,
+        float: child.props.float,
         onTabClick,
       })
   );

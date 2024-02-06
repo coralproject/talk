@@ -202,3 +202,9 @@ $tab-stream-default: var(--palette-text-500);
   content: "active";
   overflow: hidden;
 }
+
+.floatRight {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
