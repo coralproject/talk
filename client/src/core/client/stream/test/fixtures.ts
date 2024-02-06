@@ -245,8 +245,7 @@ export const baseUser = createFixture<GQLUser>({
     onModeration: true,
     onStaffReplies: false,
     onFeatured: true,
-    includeCountInBadge: true,
-    bellRemainsVisible: true,
+    enabled: true,
   },
   ignoreable: true,
   profiles: [

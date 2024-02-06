@@ -726,9 +726,9 @@ profile-account-notifications-button-update = Update
 
 profile-account-notifications-inPageNotifications = In-page Notifications
 profile-account-notifications-includeInPageWhen = Include notifications when
-profile-account-notifications-interfacePreferences = Interface preferences
-profile-account-notifications-includeCountInBadge = Include count in badge
-profile-account-notifications-bellRemainsVisible = Bell remains visible as I scroll
+
+profile-account-notifications-inPageNotifications-on = On
+profile-account-notifications-inPageNotifications-off = Off
 
 ## Report Comment Popover
 comments-reportPopover =
@@ -1073,22 +1073,19 @@ notifications-yourCommentHasReceivedAStaffReply =
   Your comment has received a reply from a member of our team
 notifications-defaultTitle = Notification
 
-notifications-goToCommentButton = <button>Go to this comment </button><readInContext>to read in context or reply</readInContext>
-
 notifications-rejectedComment-body =
   The content of your comment was against our community guidelines. The comment has been removed.
 notifications-reasonForRemoval = Reason for removal
 notifications-legalGrounds = Legal grounds
 notifications-additionalExplanation = Additional explanation
 
-notifications-repliedComment-description = Your comment on the article "{ $title }" received a reply from <author>{ $username }</author>
 notifications-repliedComment-hideReply = - Hide the reply
 notifications-repliedComment-showReply = + Show the reply
 notifications-repliedComment-hideOriginalComment = - Hide my original comment
 notifications-repliedComment-showOriginalComment = + Show my original comment
 
-notifications-featuredComment-description = Your comment on the article { $title } has been featured by a member of our team.
-notifications-approvedComment-description = Your comment on the article { $title } has been approved by a member of our team.
+notifications-goToCommentButton-comment = Go to this comment <icon></icon>
+notifications-goToCommentButton-reply = Go to this reply <icon></icon>
 
 notifications-dsaReportLegality-legal = Legal content
 notifications-dsaReportLegality-illegal = Illegal content
