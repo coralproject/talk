@@ -133,4 +133,6 @@ extend type Local {
   hasNewNotifications: Boolean
   notificationCount: Int
   notificationsPollRate: Int!
+
+  appTabBarVisible: Boolean
 }

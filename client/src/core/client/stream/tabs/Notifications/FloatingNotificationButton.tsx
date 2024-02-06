@@ -5,19 +5,30 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { graphql } from "relay-runtime";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useLocal } from "coral-framework/lib/relay";
+
+import { FloatingNotificationButton_local } from "coral-stream/__generated__/FloatingNotificationButton_local.graphql";
 
 import { LiveBellIcon } from "./LiveBellIcon";
+import NotificationsQuery from "./NotificationsQuery";
 
 import styles from "./FloatingNotificationButton.css";
-import NotificationsQuery from "./NotificationsQuery";
 
 interface Props {
   viewerID?: string;
 }
 
 const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
+  const [{ appTabBarVisible }] =
+    useLocal<FloatingNotificationButton_local>(graphql`
+      fragment FloatingNotificationButton_local on Local {
+        appTabBarVisible
+      }
+    `);
+
   const { window } = useCoralContext();
   const [leftPos, setLeftPos] = useState<number>(0);
   const [topPos, setTopPos] = useState<number>(0);
@@ -72,7 +83,7 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
 
   const iconStyle = isOpen ? "filled" : "default";
 
-  if (!viewerID || !isLoaded) {
+  if (!viewerID || !isLoaded || appTabBarVisible) {
     return null;
   }
 

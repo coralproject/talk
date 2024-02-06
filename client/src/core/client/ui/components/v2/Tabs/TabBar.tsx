@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, Ref } from "react";
 
 import { withStyles } from "coral-ui/hocs";
 
@@ -36,6 +36,8 @@ export interface TabBarProps {
    */
   onTabClick?: (tabID: string) => void;
   children?: React.ReactNode;
+
+  forwardRef?: Ref<HTMLUListElement>;
 }
 
 const TabBar: FunctionComponent<TabBarProps> = (props) => {
@@ -47,6 +49,7 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
     activeTab,
     variant,
     defaultActiveTab,
+    forwardRef,
   } = props;
 
   const rootClassName = cn(
@@ -71,13 +74,13 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
           defaultActiveTab && !activeTab
             ? child.props.tabID === defaultActiveTab
             : child.props.tabID === activeTab,
-        variant,
+        variant: child.props.variant,
         onTabClick,
       })
   );
 
   return (
-    <ul className={rootClassName} role="tablist">
+    <ul className={rootClassName} role="tablist" ref={forwardRef}>
       {tabs}
     </ul>
   );

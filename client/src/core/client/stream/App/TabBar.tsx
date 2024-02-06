@@ -1,7 +1,10 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
+import { graphql } from "relay-runtime";
 
 import useGetMessage from "coral-framework/lib/i18n/useGetMessage";
+import { useInView } from "coral-framework/lib/intersection";
+import { useLocal } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { LiveBellIcon } from "coral-stream/tabs/Notifications/LiveBellIcon";
@@ -15,6 +18,8 @@ import {
   SvgIcon,
 } from "coral-ui/components/icons";
 import { MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
+
+import { TabBar_local } from "coral-stream/__generated__/TabBar_local.graphql";
 
 import styles from "./TabBar.css";
 
@@ -42,6 +47,17 @@ export interface Props {
 }
 
 const AppTabBar: FunctionComponent<Props> = (props) => {
+  const [, setLocal] = useLocal<TabBar_local>(graphql`
+    fragment TabBar_local on Local {
+      appTabBarVisible
+    }
+  `);
+
+  const { inView, intersectionRef } = useInView();
+  useEffect(() => {
+    setLocal({ appTabBarVisible: inView });
+  }, [inView, setLocal]);
+
   const getMessage = useGetMessage();
 
   let commentsTabText: string;
@@ -70,6 +86,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
           activeTab={props.activeTab}
           onTabClick={props.onTabClick}
           variant="streamPrimary"
+          forwardRef={intersectionRef}
         >
           <Tab
             className={cn(CLASSES.tabBar.comments, {
@@ -172,19 +189,14 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 {
                   [CLASSES.tabBar.activeTab]:
                     props.activeTab === "NOTIFICATIONS",
-                  [styles.notificationsTabSmall]: !matches,
+                  [styles.smallTab]: !matches,
                 }
               )}
               tabID="NOTIFICATIONS"
-              variant="streamPrimary"
+              variant="notifications"
             >
-              <div
-                className={cn({
-                  [styles.notificationsIcon]: matches,
-                  [styles.notificationsIconSmall]: !matches,
-                })}
-              >
-                <LiveBellIcon size="md" />
+              <div className={cn(styles.notificationsIcon)}>
+                <LiveBellIcon size="lg" />
               </div>
             </Tab>
           )}

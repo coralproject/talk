@@ -34,7 +34,8 @@ export interface TabProps {
     | "secondary"
     | "default"
     | "streamSecondary"
-    | "streamPrimary";
+    | "streamPrimary"
+    | "notifications";
   /**
    * Action taken on tab click
    */
@@ -74,6 +75,7 @@ class Tab extends React.Component<TabProps> {
         [classes.secondary]: variant === "secondary",
         [classes.streamSecondary]: variant === "streamSecondary",
         [classes.streamPrimary]: variant === "streamPrimary",
+        [classes.notifications]: variant === "notifications",
         [classes.default]: variant === "default",
         [classes.uppercase]: uppercase,
         [classes.active]: active,

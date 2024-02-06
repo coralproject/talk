@@ -2,6 +2,7 @@ import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLocal,
   useMutation,
@@ -94,16 +95,18 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   return (
     <>
       <FloatingNotificationButton viewerID={viewer?.id} />
-      <TabBar
-        mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
-        activeTab={activeTab}
-        showProfileTab={!!viewer}
-        showDiscussionsTab={showDiscussionsTab}
-        showConfigureTab={showConfigureTab}
-        showNotificationsTab={!!viewer}
-        hasNewNotifications={!!hasNewNotifications}
-        onTabClick={handleSetActiveTab}
-      />
+      <IntersectionProvider threshold={[0, 1]}>
+        <TabBar
+          mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
+          activeTab={activeTab}
+          showProfileTab={!!viewer}
+          showDiscussionsTab={showDiscussionsTab}
+          showConfigureTab={showConfigureTab}
+          showNotificationsTab={!!viewer}
+          hasNewNotifications={!!hasNewNotifications}
+          onTabClick={handleSetActiveTab}
+        />
+      </IntersectionProvider>
     </>
   );
 };
