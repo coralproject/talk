@@ -23,7 +23,8 @@ const LazyLoadContainer = React.lazy(loadNotificationsContainer);
 
 export const render = (
   { error, props }: QueryRenderData<QueryTypes>,
-  showUserBox = true
+  showUserBox: boolean,
+  showTitle: boolean
 ) => {
   if (error) {
     return <QueryError error={error} />;
@@ -53,6 +54,7 @@ export const render = (
         viewer={props.viewer}
         settings={props.settings}
         showUserBox={showUserBox}
+        showTitle={showTitle}
       />
     </Suspense>
   );
@@ -60,10 +62,12 @@ export const render = (
 
 interface Props {
   showUserBox?: boolean;
+  showTitle?: boolean;
 }
 
 const NotificationsQuery: FunctionComponent<Props> = ({
   showUserBox = true,
+  showTitle = true,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
@@ -79,7 +83,7 @@ const NotificationsQuery: FunctionComponent<Props> = ({
       `}
       variables={{}}
       render={(data) => {
-        return render(data, showUserBox);
+        return render(data, showUserBox, showTitle);
       }}
     />
   );

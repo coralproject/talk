@@ -18,12 +18,14 @@ interface Props {
   settings: NotificationsContainer_settings;
 
   showUserBox?: boolean;
+  showTitle?: boolean;
 }
 
 const NotificationsContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   showUserBox = true,
+  showTitle = true,
 }) => {
   const [, setLocal] = useLocal<NotificationsContainerLocal>(graphql`
     fragment NotificationsContainerLocal on Local {
@@ -46,9 +48,11 @@ const NotificationsContainer: FunctionComponent<Props> = ({
           <UserBoxContainer viewer={viewer} settings={settings} />
         </div>
       )}
-      <div className={styles.title}>
-        <Localized id="notifications-title">Notifications</Localized>
-      </div>
+      {showTitle && (
+        <div className={styles.title}>
+          <Localized id="notifications-title">Notifications</Localized>
+        </div>
+      )}
       <NotificationsListQuery viewerID={viewer.id} />
     </>
   );
