@@ -9,6 +9,7 @@ import { graphql } from "relay-runtime";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useLocal } from "coral-framework/lib/relay";
+import { MatchMedia } from "coral-ui/components/v2";
 
 import { FloatingNotificationButton_local } from "coral-stream/__generated__/FloatingNotificationButton_local.graphql";
 
@@ -22,10 +23,12 @@ interface Props {
 }
 
 const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
-  const [{ appTabBarVisible }] =
+  const [{ appTabBarVisible, enableZKey, enableCommentSeen }] =
     useLocal<FloatingNotificationButton_local>(graphql`
       fragment FloatingNotificationButton_local on Local {
         appTabBarVisible
+        enableZKey
+        enableCommentSeen
       }
     `);
 
@@ -88,27 +91,33 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
   }
 
   return (
-    <div
-      className={styles.root}
-      style={{ left: `${leftPos}px`, top: `${topPos}px` }}
-    >
-      <button
-        className={cn(styles.button, {
-          [styles.buttonClosed]: !isOpen,
-          [styles.buttonOpen]: isOpen,
-        })}
-        onClick={onToggleOpen}
-      >
-        <LiveBellIcon userID={viewerID} size="md" style={iconStyle} />
-      </button>
-      {isOpen && (
-        <div className={styles.feedRoot}>
-          <div className={styles.feed}>
-            <NotificationsQuery showUserBox={false} />
+    <MatchMedia gteWidth="sm">
+      {(matches) =>
+        !matches && enableZKey && enableCommentSeen ? null : (
+          <div
+            className={styles.root}
+            style={{ left: `${leftPos}px`, top: `${topPos}px` }}
+          >
+            <button
+              className={cn(styles.button, {
+                [styles.buttonClosed]: !isOpen,
+                [styles.buttonOpen]: isOpen,
+              })}
+              onClick={onToggleOpen}
+            >
+              <LiveBellIcon userID={viewerID} size="md" style={iconStyle} />
+            </button>
+            {isOpen && (
+              <div className={styles.feedRoot}>
+                <div className={styles.feed}>
+                  <NotificationsQuery showUserBox={false} />
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </MatchMedia>
   );
 };
 
