@@ -5,6 +5,12 @@
   padding-right: var(--spacing-3);
 }
 
+.closeButton {
+  color: white;
+  border-style: none;
+  background-color: transparent;
+}
+
 .unmarkAllContainer {
 }
 

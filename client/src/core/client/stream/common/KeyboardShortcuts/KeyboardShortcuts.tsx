@@ -1394,20 +1394,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   id="comments-mobileToolbar-closeButton"
                   attrs={{ "aria-label": true }}
                 >
-                  <Button
-                    variant="text"
-                    size="large"
-                    uppercase={false}
-                    classes={{
-                      variantText: styles.button,
-                      disabled: styles.buttonDisabled,
-                      colorRegular: styles.buttonColor,
-                    }}
+                  <button
                     onClick={handleCloseToolbarButton}
                     aria-label="Close"
+                    className={styles.closeButton}
                   >
                     <ButtonSvgIcon Icon={RemoveIcon} />
-                  </Button>
+                  </button>
                 </Localized>
               </div>
 
