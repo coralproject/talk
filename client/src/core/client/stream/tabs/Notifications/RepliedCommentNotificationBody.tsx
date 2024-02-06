@@ -28,23 +28,6 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
       {comment && (
         <>
           <div className={styles.commentSection}>
-            <Localized
-              id="notifications-repliedComment-description"
-              vars={{
-                title: commentReply.story.metadata?.title,
-                username: commentReply.author?.username ?? "",
-              }}
-              elems={{
-                author: <span className={styles.author}></span>,
-              }}
-            >
-              <div className={styles.replyInfo}>
-                <span className={styles.author}>
-                  {commentReply.author?.username ?? ""}
-                </span>
-                replied on "{commentReply.story.metadata?.title}"
-              </div>
-            </Localized>
             <NotificationCommentContainer
               comment={commentReply}
               openedStateText={
@@ -63,6 +46,7 @@ const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
           <GoToCommentButton
             commentID={commentReply.id}
             commentStoryURL={commentReply.story.url}
+            type="reply"
           />
           <NotificationCommentContainer
             comment={comment}
@@ -93,14 +77,8 @@ const enhanced = withFragmentContainer<Props>({
       commentReply {
         ...NotificationCommentContainer_comment
         id
-        author {
-          username
-        }
         story {
           url
-          metadata {
-            title
-          }
         }
       }
     }

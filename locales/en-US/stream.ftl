@@ -1073,22 +1073,19 @@ notifications-yourCommentHasReceivedAStaffReply =
   Your comment has received a reply from a member of our team
 notifications-defaultTitle = Notification
 
-notifications-goToCommentButton = Go to this comment <icon></icon>
-
 notifications-rejectedComment-body =
   The content of your comment was against our community guidelines. The comment has been removed.
 notifications-reasonForRemoval = Reason for removal
 notifications-legalGrounds = Legal grounds
 notifications-additionalExplanation = Additional explanation
 
-notifications-repliedComment-description = <author>{ $username }</author> replied on "{ $title }"
 notifications-repliedComment-hideReply = - Hide the reply
 notifications-repliedComment-showReply = + Show the reply
 notifications-repliedComment-hideOriginalComment = - Hide my original comment
 notifications-repliedComment-showOriginalComment = + Show my original comment
 
-notifications-featuredComment-description = A member of our team featured it on "{ $title }"
-notifications-approvedComment-description = A member of our team approved it on "{ $title }"
+notifications-goToCommentButton-comment = Go to this comment <icon></icon>
+notifications-goToCommentButton-reply = Go to this reply <icon></icon>
 
 notifications-dsaReportLegality-legal = Legal content
 notifications-dsaReportLegality-illegal = Illegal content

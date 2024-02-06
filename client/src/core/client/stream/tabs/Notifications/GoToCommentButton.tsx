@@ -14,17 +14,19 @@ import styles from "./GoToCommentButton.css";
 interface Props {
   commentID: string;
   commentStoryURL: string;
+  type?: "comment" | "reply";
 }
 
 const GoToCommentButton: FunctionComponent<Props> = ({
   commentID,
   commentStoryURL,
+  type = "comment",
 }) => {
   const permalinkURL = getURLWithCommentID(commentStoryURL, commentID);
   return (
     <Flex marginTop={1} marginBottom={2}>
       <Localized
-        id="notifications-goToCommentButton"
+        id={`notifications-goToCommentButton-${type}`}
         elems={{
           icon: <ButtonSvgIcon Icon={ShareExternalLinkIcon} />,
         }}
@@ -35,7 +37,7 @@ const GoToCommentButton: FunctionComponent<Props> = ({
           href={permalinkURL}
           target="_blank"
         >
-          Go to this comment <ButtonSvgIcon Icon={ShareExternalLinkIcon} />
+          Go to this {type} <ButtonSvgIcon Icon={ShareExternalLinkIcon} />
         </Button>
       </Localized>
     </Flex>

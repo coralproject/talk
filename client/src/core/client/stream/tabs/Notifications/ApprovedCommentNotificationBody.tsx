@@ -29,15 +29,6 @@ const ApprovedCommentNotificationBody: FunctionComponent<Props> = ({
       {comment && (
         <>
           <div className={styles.commentSection}>
-            <Localized
-              id="notifications-approvedComment-description"
-              vars={{ title: comment.story.metadata?.title }}
-            >
-              <div className={styles.replyInfo}>
-                A member of our team approved it on "
-                {comment.story.metadata?.title}"
-              </div>
-            </Localized>
             <NotificationCommentContainer
               comment={comment}
               openedStateText={
@@ -72,9 +63,6 @@ const enhanced = withFragmentContainer<Props>({
         ...NotificationCommentContainer_comment
         story {
           url
-          metadata {
-            title
-          }
         }
       }
     }

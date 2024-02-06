@@ -30,6 +30,12 @@
   padding-left: var(--spacing-3);
 }
 
+.author {
+  font-weight: var(--font-weight-primary-semi-bold);
+  margin-right: var(--spacing-2);
+  font-size: var(--font-size-3);
+}
+
 .timestamp {
   font-family: var(--font-family-primary);
   font-style: normal;
