@@ -11,12 +11,12 @@ import styles from "./LiveBellIcon.css";
 interface Props {
   userID?: string;
   size?: "md" | "lg";
-  tray?: boolean;
+  style?: "default" | "filled" | "blank";
 }
 
 export const LiveBellIcon: FunctionComponent<Props> = ({
   size = "md",
-  tray = false,
+  style = "default",
 }) => {
   const [{ notificationCount }] = useLocal<LiveBellIconLocal>(graphql`
     fragment LiveBellIconLocal on Local {
@@ -48,17 +48,19 @@ export const LiveBellIcon: FunctionComponent<Props> = ({
       })}
     >
       <SvgIcon
-        className={CLASSES.notifications.live.icon}
-        strokeWidth="thin"
-        filled={tray ? "white" : "none"}
+        className={cn(CLASSES.notifications.live.icon, styles.defaultStroke, {
+          [styles.defaultBell]: style === "default",
+          [styles.filledBell]: style === "filled",
+          [styles.blankBell]: style === "blank",
+        })}
         size={size}
         Icon={NotificationBellIcon}
       />
       {count && (
         <div
           className={cn(CLASSES.notifications.live.counter, styles.counter, {
-            [styles.counterBlue]: !tray,
-            [styles.counterRed]: tray,
+            [styles.counterBlue]: style === "default" || style === "filled",
+            [styles.counterWhite]: style === "blank",
             [styles.counterMed]: size === "md",
             [styles.counterLarge]: size === "lg",
           })}

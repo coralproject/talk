@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
@@ -69,6 +70,8 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
     setIsOpen(!isOpen);
   }, [isOpen]);
 
+  const iconStyle = isOpen ? "filled" : "default";
+
   if (!viewerID || !isLoaded) {
     return null;
   }
@@ -78,8 +81,14 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
       className={styles.root}
       style={{ left: `${leftPos}px`, top: `${topPos}px` }}
     >
-      <button className={styles.button} onClick={onToggleOpen}>
-        <LiveBellIcon userID={viewerID} size="lg" />
+      <button
+        className={cn(styles.button, {
+          [styles.buttonClosed]: !isOpen,
+          [styles.buttonOpen]: isOpen,
+        })}
+        onClick={onToggleOpen}
+      >
+        <LiveBellIcon userID={viewerID} size="md" style={iconStyle} />
       </button>
       {isOpen && (
         <div className={styles.feedRoot}>

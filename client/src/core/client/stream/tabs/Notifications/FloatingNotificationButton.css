@@ -11,14 +11,39 @@
   justify-content: center;
   z-index: 10002;
 
-  width: 65px;
+  width: 68px;
   height: 48px;
 
-  border-bottom-left-radius: 20px;
-  border-style: none;
+  background-color: #F5F7F7;
 
+  border-style: none;
+  border-left-style: solid;
+  border-left-color: #CBD1D2;
+  border-bottom-style: solid;
+  border-bottom-color: #CBD1D2;
+  border-right-style: solid;
+  border-right-color: #CBD1D2;
+}
+
+.buttonClosed {
+  background-color: #F5F7F7;
+
+  border-style: none;
+  border-left-style: solid;
+  border-left-color: #CBD1D2;
+  border-bottom-style: solid;
+  border-bottom-color: #CBD1D2;
+  border-right-style: solid;
+  border-right-color: #CBD1D2;
+}
+
+.buttonOpen {
   background-color: white;
-  box-shadow: -4px 4px 4px rgba(35, 35, 35, 0.25);
+
+  border-style: none;
+  border-left-style: none;
+  border-bottom-style: none;
+  border-right-style: none;
 }
 
 .feedRoot {
@@ -33,6 +58,8 @@
 
   overflow-x: hidden;
   overflow-y: scroll;
+
+  scrollbar-color: var(--palette-grey-400) white;
 
   background-color: white;
   border-radius: var(--round-corners);

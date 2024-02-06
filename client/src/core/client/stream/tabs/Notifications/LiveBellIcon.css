@@ -12,6 +12,25 @@
   height: 20px;
 }
 
+.defaultStroke > svg {
+  stroke-width: 1;
+}
+
+.defaultBell > svg {
+  fill: var(--palette-text-000);
+  color: var(--palette-text-500);
+}
+
+.filledBell svg {
+  fill: var(--palette-text-500);
+  color: var(--palette-text-500);
+}
+
+.blankBell svg {
+  fill: var(--palette-text-000);
+  color: white;
+}
+
 .counter {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
@@ -26,9 +45,9 @@
   color: var(--palette-text-000);
 }
 
-.counterRed {
-  background-color: var(--palette-error-500);
-  color: var(--palette-text-000);
+.counterWhite {
+  background-color: var(--palette-text-000);
+  color: var(--palette-text-500);
 }
 
 .counterMed {
