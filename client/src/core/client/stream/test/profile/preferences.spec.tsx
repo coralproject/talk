@@ -148,8 +148,7 @@ it("render and update in-page notifications form", async () => {
           onFeatured: false,
           onStaffReplies: true,
           onModeration: false,
-          includeCountInBadge: true,
-          bellRemainsVisible: true,
+          enabled: true,
         });
         return {
           user: pureMerge<typeof viewer>(viewer, {
@@ -194,16 +193,6 @@ it("render and update in-page notifications form", async () => {
   const onFeatured = within(container).getByRole("checkbox", {
     name: "My comment is featured",
   });
-
-  expect(within(container).getByText("Interface preferences")).toBeVisible();
-  expect(
-    within(container).getByRole("checkbox", { name: "Include count in badge" })
-  ).toBeVisible();
-  expect(
-    within(container).getByRole("checkbox", {
-      name: "Bell remains visible as I scroll",
-    })
-  ).toBeVisible();
 
   const save = within(container).getByRole("button", { name: "Update" });
 

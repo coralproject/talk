@@ -2953,6 +2953,12 @@ UserInPageNotificationSettings stores the in-page notification settings for a gi
 """
 type UserInPageNotificationSettings {
   """
+  enabled, when true, means the in-page notifications updates with notification count;
+  when disabled, it still appears and can be clicked but shows no indication of updates
+  """
+  enabled: Boolean!
+
+  """
   onReply, when true, will enable in-page notifications to be sent to users that have
   replies to their comments.
   """
@@ -2978,16 +2984,6 @@ type UserInPageNotificationSettings {
   to a moderator action.
   """
   onModeration: Boolean!
-
-  """
-  includeCountInBadge when true, will show a count of new notifications in the interface
-  """
-  includeCountInBadge: Boolean!
-
-  """
-  bellRemainsVisible when true, will show the bell as visible when the user scrolls
-  """
-  bellRemainsVisible: Boolean!
 }
 
 """
@@ -5355,14 +5351,9 @@ input UpdateInPageNotificationSettingsInput {
   onModeration: Boolean
 
   """
-  includeCountInBadge when true, will show a count of new notifications in the interface
+  enabled, when true, shows a notification count for in-page notifications
   """
-  includeCountInBadge: Boolean
-
-  """
-  bellRemainsVisible when true, will show the bell as visible when the user scrolls
-  """
-  bellRemainsVisible: Boolean
+  enabled: Boolean
 
   """
   clientMutationId is required for Relay support.

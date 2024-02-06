@@ -637,8 +637,7 @@ createComment.error
       onFeatured?: boolean | null | undefined;
       onStaffReplies?: boolean | null | undefined;
       onModeration?: boolean | null | undefined;
-      includeCountInBadge?: boolean | null | undefined;
-      bellRemainsVisible?: boolean | null | undefined;
+      enabled?: boolean | null | undefined;
       success: {};
       error: {
           message: string;

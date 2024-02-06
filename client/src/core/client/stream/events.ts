@@ -226,8 +226,7 @@ export const UpdateInPageNotificationSettingsEvent = createViewerNetworkEvent<{
   onFeatured?: boolean | null;
   onStaffReplies?: boolean | null;
   onModeration?: boolean | null;
-  includeCountInBadge?: boolean | null;
-  bellRemainsVisible?: boolean | null;
+  enabled?: boolean | null;
   success: {};
   error: {
     message: string;

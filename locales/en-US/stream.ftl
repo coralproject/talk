@@ -726,9 +726,9 @@ profile-account-notifications-button-update = Update
 
 profile-account-notifications-inPageNotifications = In-page Notifications
 profile-account-notifications-includeInPageWhen = Include notifications when
-profile-account-notifications-interfacePreferences = Interface preferences
-profile-account-notifications-includeCountInBadge = Include count in badge
-profile-account-notifications-bellRemainsVisible = Bell remains visible as I scroll
+
+profile-account-notifications-inPageNotifications-on = On
+profile-account-notifications-inPageNotifications-off = Off
 
 ## Report Comment Popover
 comments-reportPopover =
