@@ -85,6 +85,12 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
     setIsOpen(!isOpen);
   }, [isOpen]);
 
+  useEffect(() => {
+    if (appTabBarVisible) {
+      setIsOpen(false);
+    }
+  }, [appTabBarVisible]);
+
   const iconStyle = isOpen ? "filled" : "default";
 
   if (!viewerID || !isLoaded || appTabBarVisible) {
