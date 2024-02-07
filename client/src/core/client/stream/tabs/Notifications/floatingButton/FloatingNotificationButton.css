@@ -1,5 +1,3 @@
-$floatingNotificationButtonWidth: 68px;
-
 .root {
   position: fixed;
   z-index: 10000;
@@ -31,7 +29,6 @@ $floatingNotificationButtonWidth: 68px;
   justify-content: center;
   z-index: 10002;
 
-  width: $floatingNotificationButtonWidth;
   height: 48px;
 
   background-color: #f5f7f7;
@@ -45,7 +42,13 @@ $floatingNotificationButtonWidth: 68px;
   border-right-color: #cbd1d2;
 }
 
+.buttonText {
+  padding-right: var(--spacing-2);
+}
+
 .buttonClosed {
+  width: 68px;
+
   background-color: #f5f7f7;
 
   border-style: none;
@@ -58,6 +61,8 @@ $floatingNotificationButtonWidth: 68px;
 }
 
 .buttonOpen {
+  width: calc(80px + 2 * var(--spacing-2));
+
   background-color: white;
 
   border-style: none;

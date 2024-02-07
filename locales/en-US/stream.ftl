@@ -1121,3 +1121,5 @@ notifications-methodOfRedress-url =
   To appeal a decision that appears here please visit <a>{ $url }</a>
 
 notifications-youDoNotCurrentlyHaveAny = You do not currently have any notifications
+
+notifications-floatingIcon-close = close

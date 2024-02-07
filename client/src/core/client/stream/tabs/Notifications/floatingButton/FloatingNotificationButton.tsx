@@ -106,6 +106,13 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
               })}
               onClick={onToggleOpen}
             >
+              {isOpen && (
+                <div className={styles.buttonText}>
+                  <Localized id="notifications-floatingIcon-close">
+                    close
+                  </Localized>
+                </div>
+              )}
               <LiveBellIcon userID={viewerID} size="md" style={iconStyle} />
             </button>
             {isOpen && (
