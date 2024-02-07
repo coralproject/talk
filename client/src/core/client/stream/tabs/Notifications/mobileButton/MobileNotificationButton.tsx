@@ -3,8 +3,8 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { ButtonSvgIcon, RemoveIcon } from "coral-ui/components/icons";
 
-import { LiveBellIcon } from "./LiveBellIcon";
-import NotificationsQuery from "./NotificationsQuery";
+import { LiveBellIcon } from "../LiveBellIcon";
+import MobileNotificationsQuery from "./MobileNotificationsQuery";
 
 import styles from "./MobileNotificationButton.css";
 
@@ -50,7 +50,7 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
               </Localized>
             </div>
             <div className={styles.list}>
-              <NotificationsQuery showUserBox={false} showTitle={false} />
+              <MobileNotificationsQuery showUserBox={false} showTitle={false} />
             </div>
           </div>
         </div>

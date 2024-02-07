@@ -36,7 +36,7 @@ import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseComme
 import { useCommentSeenEnabled } from "coral-stream/tabs/Comments/commentSeen/";
 import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
-import { MobileNotificationButton } from "coral-stream/tabs/Notifications/MobileNotificationButton";
+import { MobileNotificationButton } from "coral-stream/tabs/Notifications/mobileButton/MobileNotificationButton";
 import {
   ButtonSvgIcon,
   CheckDoubleIcon,
