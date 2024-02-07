@@ -9,7 +9,7 @@ import { MobileNotificationsContainer_settings } from "coral-stream/__generated_
 import { MobileNotificationsContainer_viewer } from "coral-stream/__generated__/MobileNotificationsContainer_viewer.graphql";
 import { MobileNotificationsContainerLocal } from "coral-stream/__generated__/MobileNotificationsContainerLocal.graphql";
 
-import FloatingNotificationsListQuery from "./MobileNotificationsListQuery";
+import MobileNotificationsListQuery from "./MobileNotificationsListQuery";
 
 import styles from "./MobileNotificationsContainer.css";
 
@@ -38,7 +38,12 @@ const MobileNotificationsContainer: FunctionComponent<Props> = ({
   }, [setLocal]);
 
   useEffect(() => {
-    setTimeout(setViewed, 300);
+    const to = setTimeout(setViewed, 300);
+    return () => {
+      if (to) {
+        clearTimeout(to);
+      }
+    };
   }, [setViewed]);
 
   return (
@@ -53,7 +58,7 @@ const MobileNotificationsContainer: FunctionComponent<Props> = ({
           <Localized id="notifications-title">Notifications</Localized>
         </div>
       )}
-      <FloatingNotificationsListQuery viewerID={viewer.id} />
+      <MobileNotificationsListQuery viewerID={viewer.id} />
     </>
   );
 };

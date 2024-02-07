@@ -1,5 +1,10 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  MouseEvent,
+  useCallback,
+  useState,
+} from "react";
 
 import { ButtonSvgIcon, RemoveIcon } from "coral-ui/components/icons";
 
@@ -21,6 +26,11 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
     setIsOpen(!isOpen);
   }, [isOpen]);
 
+  const stopPropagation = useCallback((ev: MouseEvent) => {
+    ev.stopPropagation();
+    ev.preventDefault();
+  }, []);
+
   if (!viewerID) {
     return null;
   }
@@ -29,11 +39,16 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
     <>
       {isOpen && (
         <div
+          id="MobileNotificationButton-container"
           className={styles.container}
           aria-hidden="true"
           onClick={onToggleOpen}
         >
-          <div className={styles.tray}>
+          <div
+            className={styles.tray}
+            aria-hidden="true"
+            onClick={stopPropagation}
+          >
             <div className={styles.header}>
               <Localized id="notifications-title">Notifications</Localized>
               <Localized
