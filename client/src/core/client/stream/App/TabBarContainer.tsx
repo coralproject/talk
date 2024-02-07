@@ -11,7 +11,7 @@ import {
 import { Ability, can } from "coral-framework/permissions";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { SetCommentIDMutation } from "coral-stream/mutations";
-import FloatingNotificationButton from "coral-stream/tabs/Notifications/FloatingNotificationButton";
+import FloatingNotificationButton from "coral-stream/tabs/Notifications/floatingButton/FloatingNotificationButton";
 import useLiveNotificationsPolling from "coral-stream/tabs/Notifications/polling/useLiveNotificationsPolling";
 
 import { TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";

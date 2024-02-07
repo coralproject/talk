@@ -13,8 +13,8 @@ import { MatchMedia } from "coral-ui/components/v2";
 
 import { FloatingNotificationButton_local } from "coral-stream/__generated__/FloatingNotificationButton_local.graphql";
 
-import { LiveBellIcon } from "./LiveBellIcon";
-import NotificationsQuery from "./NotificationsQuery";
+import { LiveBellIcon } from "../LiveBellIcon";
+import FloatingNotificationsQuery from "./FloatingNotificationsQuery";
 
 import styles from "./FloatingNotificationButton.css";
 
@@ -110,7 +110,7 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
             {isOpen && (
               <div className={styles.feedRoot}>
                 <div className={styles.feed}>
-                  <NotificationsQuery showUserBox={false} />
+                  <FloatingNotificationsQuery showUserBox={false} />
                 </div>
               </div>
             )}
