@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, {
   FunctionComponent,
@@ -109,8 +110,18 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
             </button>
             {isOpen && (
               <div className={styles.feedRoot}>
-                <div className={styles.feed}>
-                  <FloatingNotificationsQuery showUserBox={false} />
+                <div className={styles.feedPanel}>
+                  <div className={styles.title}>
+                    <Localized id="notifications-title">
+                      Notifications
+                    </Localized>
+                  </div>
+                  <div className={styles.feed}>
+                    <FloatingNotificationsQuery
+                      showUserBox={false}
+                      showTitle={false}
+                    />
+                  </div>
                 </div>
               </div>
             )}

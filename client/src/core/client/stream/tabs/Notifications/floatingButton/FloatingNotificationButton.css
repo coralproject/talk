@@ -1,6 +1,26 @@
+$floatingNotificationButtonWidth: 68px;
+
 .root {
   position: fixed;
   z-index: 10000;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  color: var(--palette-text-500);
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-4);
+
+  word-break: break-word;
+
+  margin-top: calc(-1 * var(--spacing-1));
 }
 
 .button {
@@ -11,30 +31,30 @@
   justify-content: center;
   z-index: 10002;
 
-  width: 68px;
+  width: $floatingNotificationButtonWidth;
   height: 48px;
 
-  background-color: #F5F7F7;
+  background-color: #f5f7f7;
 
   border-style: none;
   border-left-style: solid;
-  border-left-color: #CBD1D2;
+  border-left-color: #cbd1d2;
   border-bottom-style: solid;
-  border-bottom-color: #CBD1D2;
+  border-bottom-color: #cbd1d2;
   border-right-style: solid;
-  border-right-color: #CBD1D2;
+  border-right-color: #cbd1d2;
 }
 
 .buttonClosed {
-  background-color: #F5F7F7;
+  background-color: #f5f7f7;
 
   border-style: none;
   border-left-style: solid;
-  border-left-color: #CBD1D2;
+  border-left-color: #cbd1d2;
   border-bottom-style: solid;
-  border-bottom-color: #CBD1D2;
+  border-bottom-color: #cbd1d2;
   border-right-style: solid;
-  border-right-color: #CBD1D2;
+  border-right-color: #cbd1d2;
 }
 
 .buttonOpen {
@@ -51,37 +71,50 @@
   z-index: 10001;
 }
 
-.feed {
+.feedPanel {
   position: absolute;
-
   padding: var(--spacing-4);
 
-  overflow-x: hidden;
-  overflow-y: scroll;
-
-  scrollbar-color: var(--palette-grey-400) white;
+  overflow: hidden;
 
   background-color: white;
   border-radius: var(--round-corners);
   box-shadow: -2px 4px 4px rgba(35, 35, 35, 0.25);
 }
 
+.feed {
+  margin-top: var(--spacing-5);
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  scrollbar-color: var(--palette-grey-400) white;
+}
+
 @media only screen and (min-width: 601px) {
-  .feed {
+  .feedPanel {
     right: 0px;
     top: -48px;
 
     width: 400px;
-    height: 400px;
+    height: 650px;
+  }
+
+  .feed {
+    height: calc(650px - var(--spacing-5) - var(--spacing-4));
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .feed {
+  .feedPanel {
     top: -48px;
     right: 0px;
 
     width: 80vw;
     height: 400px;
+  }
+
+  .feed {
+    height: calc(400px - var(--spacing-5) - var(--spacing-4));
   }
 }
