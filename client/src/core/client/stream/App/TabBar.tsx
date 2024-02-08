@@ -39,6 +39,7 @@ export interface Props {
   showConfigureTab: boolean;
   showNotificationsTab: boolean;
   hasNewNotifications: boolean;
+  userNotificationsEnabled: boolean;
   mode:
     | "COMMENTS"
     | "QA"
@@ -200,7 +201,10 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               float="right"
             >
               <div className={cn(styles.notificationsIcon)}>
-                <LiveBellIcon size="lg" />
+                <LiveBellIcon
+                  size="lg"
+                  enabled={props.userNotificationsEnabled}
+                />
               </div>
             </Tab>
           )}

@@ -21,9 +21,13 @@ import styles from "./FloatingNotificationButton.css";
 
 interface Props {
   viewerID?: string;
+  enabled?: boolean;
 }
 
-const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
+const FloatingNotificationButton: FunctionComponent<Props> = ({
+  viewerID,
+  enabled,
+}) => {
   const [{ appTabBarVisible, enableZKey, enableCommentSeen }] =
     useLocal<FloatingNotificationButton_local>(graphql`
       fragment FloatingNotificationButton_local on Local {
@@ -119,7 +123,7 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({ viewerID }) => {
                   </Localized>
                 </div>
               )}
-              <LiveBellIcon userID={viewerID} size="md" style={iconStyle} />
+              <LiveBellIcon size="md" style={iconStyle} enabled={enabled} />
             </button>
             {isOpen && (
               <div className={styles.feedRoot}>

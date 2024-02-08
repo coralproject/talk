@@ -9,14 +9,15 @@ import { NotificationBellIcon, SvgIcon } from "coral-ui/components/icons";
 import styles from "./LiveBellIcon.css";
 
 interface Props {
-  userID?: string;
   size?: "md" | "lg";
   style?: "default" | "filled" | "tray";
+  enabled?: boolean;
 }
 
 export const LiveBellIcon: FunctionComponent<Props> = ({
   size = "md",
   style = "default",
+  enabled,
 }) => {
   const [{ notificationCount }] = useLocal<LiveBellIconLocal>(graphql`
     fragment LiveBellIconLocal on Local {
@@ -56,7 +57,7 @@ export const LiveBellIcon: FunctionComponent<Props> = ({
         size={size}
         Icon={NotificationBellIcon}
       />
-      {count && (
+      {count && enabled && (
         <div
           className={cn(CLASSES.notifications.live.counter, styles.counter, {
             [styles.counterBlue]: style === "default" || style === "filled",

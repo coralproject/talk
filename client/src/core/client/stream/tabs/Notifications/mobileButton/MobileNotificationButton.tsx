@@ -15,10 +15,12 @@ import styles from "./MobileNotificationButton.css";
 
 interface Props {
   viewerID?: string;
+  enabled?: boolean;
 }
 
 export const MobileNotificationButton: FunctionComponent<Props> = ({
   viewerID,
+  enabled,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -71,7 +73,7 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
         </div>
       )}
       <button className={styles.button} onClick={onToggleOpen}>
-        <LiveBellIcon userID={viewerID} size="lg" style="tray" />
+        <LiveBellIcon size="lg" style="tray" enabled={enabled} />
       </button>
     </>
   );

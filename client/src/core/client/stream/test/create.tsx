@@ -43,6 +43,7 @@ const initLocalState = (
   localRecord.setValue(false, "hasNewNotifications");
   localRecord.setValue(0, "notificationCount");
   localRecord.setValue(3000, "notificationsPollRate");
+  localRecord.setValue(true, "appTabBarVisible");
 };
 
 export default function create(params: CreateTestRendererParams<GQLResolver>) {

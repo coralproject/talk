@@ -95,7 +95,10 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   return (
     <>
       {!!viewer && !!settings?.inPageNotifications?.enabled && (
-        <FloatingNotificationButton viewerID={viewer?.id} />
+        <FloatingNotificationButton
+          viewerID={viewer?.id}
+          enabled={!!viewer?.inPageNotifications?.enabled}
+        />
       )}
       <IntersectionProvider threshold={[0, 1]}>
         <TabBar
@@ -108,6 +111,7 @@ export const TabBarContainer: FunctionComponent<Props> = ({
             !!viewer && !!settings?.inPageNotifications?.enabled
           }
           hasNewNotifications={!!hasNewNotifications}
+          userNotificationsEnabled={!!viewer?.inPageNotifications?.enabled}
           onTabClick={handleSetActiveTab}
         />
       </IntersectionProvider>
@@ -121,6 +125,9 @@ const enhanced = withSetActiveTabMutation(
       fragment TabBarContainer_viewer on User {
         id
         role
+        inPageNotifications {
+          enabled
+        }
       }
     `,
     story: graphql`

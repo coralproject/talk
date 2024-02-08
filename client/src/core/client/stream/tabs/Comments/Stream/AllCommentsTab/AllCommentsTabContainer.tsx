@@ -440,6 +440,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           comments={comments}
           viewNewCount={viewNewCount}
           hasMore={hasMore}
+          userNotificationsEnabled={!!viewer?.inPageNotifications?.enabled}
         />
       )}
       {tag === GQLTAG.REVIEW && (
@@ -730,6 +731,9 @@ const enhanced = withPaginationContainer<
         }
         ignoredUsers {
           id
+        }
+        inPageNotifications {
+          enabled
         }
       }
     `,
