@@ -1,11 +1,11 @@
-import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { QueryRenderer } from "coral-framework/lib/relay";
+import { useFetch } from "coral-framework/lib/relay";
 import { Spinner } from "coral-ui/components/v2";
-import { QueryError } from "coral-ui/components/v3";
 
-import { MobileNotificationsListQuery as QueryTypes } from "coral-stream/__generated__/MobileNotificationsListQuery.graphql";
+import { MobileNotificationsListFetchQueryResponse } from "coral-stream/__generated__/MobileNotificationsListFetchQuery.graphql";
+
+import MobileNotificationsListFetch from "./MobileNotificationsListFetch";
 import MobileNotificationsPaginator from "./MobileNotificationsPaginator";
 
 interface Props {
@@ -15,31 +15,30 @@ interface Props {
 const MobileNotificationsListQuery: FunctionComponent<Props> = ({
   viewerID,
 }) => {
-  return (
-    <QueryRenderer<QueryTypes>
-      query={graphql`
-        query MobileNotificationsListQuery($viewerID: ID!) {
-          ...MobileNotificationsPaginator_query @arguments(viewerID: $viewerID)
-        }
-      `}
-      variables={{
-        viewerID,
-      }}
-      render={({ error, props }) => {
-        if (error) {
-          return <QueryError error={error} />;
-        }
+  const query = useFetch(MobileNotificationsListFetch);
+  const [shouldLoad, setShouldLoad] = useState<boolean>(true);
+  const [queryResult, setQueryResult] =
+    useState<MobileNotificationsListFetchQueryResponse | null>();
 
-        if (!props) {
-          return <Spinner />;
-        }
+  const load = useCallback(async () => {
+    setShouldLoad(false);
+    setQueryResult(null);
+    const result = await query({ viewerID });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    setQueryResult(result);
+  }, [query, viewerID]);
 
-        return (
-          <MobileNotificationsPaginator query={props} viewerID={viewerID} />
-        );
-      }}
-    />
-  );
+  if (shouldLoad) {
+    void load();
+  }
+
+  if (!queryResult) {
+    return <Spinner />;
+  } else {
+    return (
+      <MobileNotificationsPaginator query={queryResult} viewerID={viewerID} />
+    );
+  }
 };
 
 export default MobileNotificationsListQuery;
