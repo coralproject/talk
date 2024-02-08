@@ -246,6 +246,8 @@ export const createUserFixture = (defaults: Defaults<User> = {}): User => {
       onModeration: true,
       onStaffReplies: false,
       enabled: true,
+      includeCountInBadge: true,
+      bellRemainsVisible: true,
     },
     digests: [],
     hasDigests: false,
