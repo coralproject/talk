@@ -44,6 +44,8 @@ const createTestRenderer = async (
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(story.id, "storyID");
+      localRecord.setValue(3000, "notificationsPollRate");
+      localRecord.setValue(false, "appTabBarVisible");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -54,7 +56,7 @@ const createTestRenderer = async (
 
   let tabPane: HTMLElement | undefined;
   await waitFor(async () => {
-    tabPane = await screen.findByRole("region", { name: "Tab:" });
+    tabPane = await screen.findByTestId("current-tab-pane");
   });
   const applyButton = await screen.findByTestId("configure-stream-apply");
   const form = screen.getByRole("region", {
