@@ -7,15 +7,15 @@ import {
   FetchVariables,
 } from "coral-framework/lib/relay";
 
-import { NotificationsListFetchQuery as QueryTypes } from "coral-stream/__generated__/NotificationsListFetchQuery.graphql";
+import { FloatingNotificationsListFetchQuery as QueryTypes } from "coral-stream/__generated__/FloatingNotificationsListFetchQuery.graphql";
 
-const NotificationsListFetch = createFetch(
+const FloatingNotificationsListFetch = createFetch(
   "refreshViewer",
   async (environment: Environment, variables: FetchVariables<QueryTypes>) => {
     const result = await fetchQuery<QueryTypes>(
       environment,
       graphql`
-        query NotificationsListFetchQuery($viewerID: ID!) {
+        query FloatingNotificationsListFetchQuery($viewerID: ID!) {
           ...FloatingNotificationsPaginator_query
             @arguments(viewerID: $viewerID)
         }
@@ -28,4 +28,4 @@ const NotificationsListFetch = createFetch(
   }
 );
 
-export default NotificationsListFetch;
+export default FloatingNotificationsListFetch;

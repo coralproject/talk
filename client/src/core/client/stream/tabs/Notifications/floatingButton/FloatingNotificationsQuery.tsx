@@ -3,10 +3,10 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { useFetch } from "coral-framework/lib/relay";
 import { Spinner } from "coral-ui/components/v2";
 
-import { NotificationsFetchQueryResponse } from "coral-stream/__generated__/NotificationsFetchQuery.graphql";
+import { FloatingNotificationsFetchQueryResponse } from "coral-stream/__generated__/FloatingNotificationsFetchQuery.graphql";
 
 import FloatingNotificationsContainer from "./FloatingNotificationsContainer";
-import NotificationsFetch from "./NotificationsFetch";
+import FloatingNotificationsFetch from "./FloatingNotificationsFetch";
 
 interface Props {
   showUserBox?: boolean;
@@ -17,10 +17,10 @@ const FloatingNotificationsQuery: FunctionComponent<Props> = ({
   showUserBox = true,
   showTitle = true,
 }) => {
-  const query = useFetch(NotificationsFetch);
+  const query = useFetch(FloatingNotificationsFetch);
   const [shouldLoad, setShouldLoad] = useState<boolean>(true);
   const [queryResult, setQueryResult] =
-    useState<NotificationsFetchQueryResponse | null>();
+    useState<FloatingNotificationsFetchQueryResponse | null>();
 
   const load = useCallback(async () => {
     setShouldLoad(false);

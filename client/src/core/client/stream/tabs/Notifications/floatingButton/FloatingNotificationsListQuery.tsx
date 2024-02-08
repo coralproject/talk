@@ -3,10 +3,10 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { useFetch } from "coral-framework/lib/relay";
 import { Spinner } from "coral-ui/components/v2";
 
-import { NotificationsListFetchQueryResponse } from "coral-stream/__generated__/NotificationsListFetchQuery.graphql";
+import { FloatingNotificationsListFetchQueryResponse } from "coral-stream/__generated__/FloatingNotificationsListFetchQuery.graphql";
 
+import FloatingNotificationsListFetch from "./FloatingNotificationsListFetch";
 import FloatingNotificationsPaginator from "./FloatingNotificationsPaginator";
-import NotificationsListFetch from "./NotificationsListFetch";
 
 interface Props {
   viewerID: string;
@@ -15,10 +15,10 @@ interface Props {
 const FloatingNotificationsListQuery: FunctionComponent<Props> = ({
   viewerID,
 }) => {
-  const query = useFetch(NotificationsListFetch);
+  const query = useFetch(FloatingNotificationsListFetch);
   const [shouldLoad, setShouldLoad] = useState<boolean>(true);
   const [queryResult, setQueryResult] =
-    useState<NotificationsListFetchQueryResponse | null>();
+    useState<FloatingNotificationsListFetchQueryResponse | null>();
 
   const load = useCallback(async () => {
     setShouldLoad(false);
