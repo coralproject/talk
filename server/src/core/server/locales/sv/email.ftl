@@ -10,7 +10,7 @@ email-template-accountNotificationForgotPassword =
   Var god använd den här länken för att nollställa ditt lösenord: <a data-l10n-name="resetYourPassword">Clicka här för att nollställa ditt lösenord</a><br/><br/>
   <i>Om du inte begärt detta kan du ignorera detta mejl.</i><br/>
 
-email-subject-accountNotificationBan = Du har blivit avstängd att kommentera via ditt konto.
+email-subject-accountNotificationBan = Du har blivit avstängd
 email-template-accountNotificationBan =
   { $customMessage }<br /><br />  
   Om du anser att detta inte stämmer var god kontakta oss på <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
@@ -27,7 +27,7 @@ email-template-accountNotificationUpdateUsername =
   Tack för att du uppdaterar din information hos oss på { $organizationName }. Ändringarna träder i kraft direkt. <br /><br />
   Om du inte begärt detta kan du kontakta oss på <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
-email-subject-accountNotificationSuspend = Du har blivit tillfälligt avstängd att kommentera via ditt konto.
+email-subject-accountNotificationSuspend = Du har blivit tillfälligt avstängd
 email-template-accountNotificationSuspend =
   { $customMessage }<br/><br/>
   Om du anser att detta inte stämmer var god kontakta oss på <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
@@ -59,13 +59,13 @@ email-template-accountNotificationDeleteRequestConfirmation =
   Om du ångrar dig kan du logga in på ditt konto och avbryta begäran innan detta datum.  
 
 email-subject-accountNotificationDeleteRequestCancel =
-  Din begäran om att raderan har nu blivit återkallad
+  Din begäran om borttagning har återkallats
 email-template-accountNotificationDeleteRequestCancel =
   Du har avbrutit din begäran om radering av ditt konto hos { $organizationName }.
   Ditt konto är nu återaktiverat
 
 email-subject-accountNotificationDeleteRequestCompleted =
-  Ditt konto har nu blivit raderat
+  Ditt konto har raderats
 email-template-accountNotificationDeleteRequestCompleted =
   Ditt konto för kommentarer hos { $organizationName } är nu raderat. 
   Synd att du inte vill fortsätta hos oss! <br /><br />
@@ -76,7 +76,7 @@ email-template-accountNotificationDeleteRequestCompleted =
 # Notification
 
 email-footer-notification =
-  <br />Skickat från <a data-l10n-name="organizationLink">{ $organizationName }</a> - <a data-l10n-name="unsubscribeLink">Jag vill inte längre ha dom här notifikationerna</a>
+  <br /><br />Skickat från <a data-l10n-name="organizationLink">{ $organizationName }</a><br /><a data-l10n-name="unsubscribeLink">Jag vill inte längre ha dom här notifikationerna</a>
 
 ## On Reply
 
