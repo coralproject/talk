@@ -50,7 +50,7 @@ userStatus-banned = Avstängd
 userStatus-siteBanned = Webbplatsavstängd
 userStatus-banned-all = Avstängd (alla)
 userStatus-banned-count = Avstängd ({$count})
-userStatus-suspended = Avstängd
+userStatus-suspended = Blockerad
 userStatus-premod = Alltid förhandsgranskad
 userStatus-warned = Varnad
 
@@ -868,12 +868,12 @@ configure-moderation-emailDomains-table-edit = <icon></icon> Redigera
 configure-moderation-emailDomains-table-delete = <icon></icon> Radera
 configure-moderation-emailDomains-form-label-domain = Domän
 configure-moderation-emailDomains-form-label-moderationAction = Modereringsåtgärd
-configure-moderation-emailDomains-banAllUsers = Bannlys alla nya konton
+configure-moderation-emailDomains-banAllUsers = Stäng av alla nya konton
 configure-moderation-emailDomains-alwaysPremod = Förhandsmoderera alltid kommentarer
 configure-moderation-emailDomains-form-cancel = Avbryt
 configure-moderation-emailDomains-form-addDomain = Lägg till domän
 configure-moderation-emailDomains-form-editDomain = Uppdatera
-configure-moderation-emailDomains-confirmDelete = Att radera denna e-postdomän kommer att stoppa alla nya konton skapade med den från att bli bannlysta eller alltid förhandsmodererade. Är du säker på att du vill fortsätta?
+configure-moderation-emailDomains-confirmDelete = Att radera denna e-postdomän kommer att stoppa alla nya konton skapade med den från att bli avstängda eller alltid förhandsmodererade. Är du säker på att du vill fortsätta?
 configure-moderation-emailDomains-form-description-add = Lägg till en domän och välj den åtgärd som ska vidtas vid varje nytt konto skapat med den angivna domänen.
 configure-moderation-emailDomains-form-description-edit = Uppdatera domänen eller åtgärden som ska vidtas vid varje nytt konto med den angivna domänen.
 
@@ -1169,10 +1169,10 @@ moderate-user-drawer-username-not-available-tooltip-body = Användaren slutförd
 moderate-user-drawer-account-history-system = <icon></icon> System
 moderate-user-drawer-account-history-suspension-ended = Avstängning avslutad
 moderate-user-drawer-account-history-suspension-removed = Avstängning borttagen
-moderate-user-drawer-account-history-banned = Bannlyst
-moderate-user-drawer-account-history-ban-removed = Bannlysning borttagen
-moderate-user-drawer-account-history-site-banned = Webbplatsbannlyst
-moderate-user-drawer-account-history-site-ban-removed = Webbplatsbannlysning borttagen
+moderate-user-drawer-account-history-banned = Avständ
+moderate-user-drawer-account-history-ban-removed = Avstängning borttagen
+moderate-user-drawer-account-history-site-banned = Webbplatsavstängd
+moderate-user-drawer-account-history-site-ban-removed = Webbplatsavstängning borttagen
 moderate-user-drawer-account-history-no-history = Inga åtgärder har vidtagits på detta konto
 moderate-user-drawer-username-change = Användarnamnsändring
 moderate-user-drawer-username-change-new = Nytt:
@@ -1227,7 +1227,7 @@ moderate-user-drawer-deleteAccount-popover-username = Användarnamn
 moderate-user-drawer-deleteAccount-popover-header-description = Att radera kontot kommer
 moderate-user-drawer-deleteAccount-popover-description-list-removeComments = Ta bort alla kommentarer skrivna av denna användare från databasen.
 moderate-user-drawer-deleteAccount-popover-description-list-deleteAll = Radera allt register om detta konto. Användaren
-  kan sedan skapa ett nytt konto med samma e-postadress. Om du istället vill Bannlysa denna användare och behålla deras
+  kan sedan skapa ett nytt konto med samma e-postadress. Om du istället vill stänga av denna användare och behålla deras
   historik,tryck på "AVBRYT" och använd rullgardinsmenyn nedanför användarnamnet.
 moderate-user-drawer-deleteAccount-popover-callout = Detta tar bort alla uppgifter om denna användare
 moderate-user-drawer-deleteAccount-popover-timeframe = Detta träder i kraft om 24 timmar.
@@ -1392,64 +1392,64 @@ community-siteRoleActions-popover =
 community-userStatus-popover =
   .description = En rullgardinsmeny för att ändra användarstatus
 
-community-userStatus-manageBan = Hantera Bannlysning
-community-userStatus-suspendUser = Avstäng användare
-community-userStatus-suspend = Stäng av
-community-userStatus-suspendEverywhere = Stäng av överallt
-community-userStatus-removeSuspension = Ta bort avstängning
-community-userStatus-removeUserSuspension = Ta bort avstängning
+community-userStatus-manageBan = Hantera avstängning
+community-userStatus-suspendUser = Blockera användare
+community-userStatus-suspend = Blockera
+community-userStatus-suspendEverywhere = Blockera överallt
+community-userStatus-removeSuspension = Ta bort blockering
+community-userStatus-removeUserSuspension = Ta bort blockering
 community-userStatus-unknown = Okänd
 community-userStatus-changeButton =
   .aria-label = Ändra användarstatus
 community-userStatus-premodUser = Alltid förhandsmoderera
 community-userStatus-removePremod = Ta bort förhandsmoderering
 
-community-banModal-allSites-title = Är du säker på att du vill bannlysa <username></username>?
-community-banModal-banEmailDomain-title = E-postdomänbannlysning
-community-banModal-banEmailDomain = Bannlysa alla nya kommentarskonton från { $domain }
-community-banModal-specificSites-title = Är du säker på att du vill hantera bannlysstatusen för <username></username>?
-community-banModal-noSites-title = Är du säker på att du vill avbannlysa <username></username>?
+community-banModal-allSites-title = Är du säker på att du vill stänga av <username></username>?
+community-banModal-banEmailDomain-title = Blockera E-postdomän
+community-banModal-banEmailDomain = Stänga av alla nya kommentarskonton från { $domain }
+community-banModal-specificSites-title = Är du säker på att du vill hantera avstängningen för <username></username>?
+community-banModal-noSites-title = Är du säker på att du vill återaktivera <username></username>?
 community-banModal-allSites-consequence =
-  När bannlyst kommer denna användare inte längre att kunna kommentera, använda reaktioner eller rapportera kommentarer.
+  När avstängd kommer denna användare inte längre att kunna kommentera, använda reaktioner eller rapportera kommentarer.
 community-banModal-noSites-consequence =
-  När avbannlyst kommer denna användare att kunna kommentera, använda reaktioner och rapportera kommentarer.
+  När återaktiverad kommer denna användare att kunna kommentera, använda reaktioner och rapportera kommentarer.
 community-banModal-specificSites-consequence =
   Denna åtgärd kommer att påverka vilka webbplatser användaren kan kommentera på, använda reaktioner och rapportera kommentarer.
 community-banModal-cancel = Avbryt
 community-banModal-updateBan = Spara
-community-banModal-ban = Bannlysa
-community-banModal-unban = Avbannlysa
-community-banModal-customize = Anpassa bannlysningsmeddelande
+community-banModal-ban = Avstänga
+community-banModal-unban = Återaktivera
+community-banModal-customize = Anpassa avstängningsmeddelande
 community-banModal-reject-existing = Avvisa alla kommentarer av denna användare
 community-banModal-reject-existing-specificSites = Avvisa alla kommentarer på dessa webbplatser
 community-banModal-reject-existing-singleSite = Avvisa alla kommentarer på denna webbplats
 
 community-banModal-noSites = Inga webbplatser
-community-banModal-banFrom = Bannlys från
+community-banModal-banFrom = Stäng av från
 community-banModal-allSites = Alla webbplatser
 community-banModal-specificSites = Specifika webbplatser
 
-community-suspendModal-areYouSure = Stäng av <strong>{ $username }</strong>?
+community-suspendModal-areYouSure = Blockera av <strong>{ $username }</strong>?
 community-suspendModal-consequence =
-  När avstängd kommer denna användare inte längre att kunna kommentera, använda reaktioner eller rapportera kommentarer.
+  När blockerad kommer denna användare inte längre att kunna kommentera, använda reaktioner eller rapportera kommentarer.
 community-suspendModal-duration-3600 = 1 timme
 community-suspendModal-duration-10800 = 3 timmar
 community-suspendModal-duration-86400 = 24 timmar
 community-suspendModal-duration-604800 = 7 dagar
 community-suspendModal-cancel = Avbryt
-community-suspendModal-suspendUser = Stäng av användare
+community-suspendModal-suspendUser = Blockera användare
 community-suspendModal-emailTemplate =
   Hej { $username },
 
   I enlighet med { $organizationName }s communityriktlinjer har ditt konto tillfälligt stängts av. Under avstängningen kommer du inte att kunna kommentera, flagga eller interagera med andra kommentatorer. Du är välkommen tillbaka till konversationen om { framework-timeago-time }.
 
-community-suspendModal-customize = Anpassa avstängningsmeddelande
+community-suspendModal-customize = Anpassa blockeringsmeddelande
 
 community-suspendModal-success =
-  <strong>{ $username }</strong> har blivit avstängd för <strong>{ $duration }</strong>
+  <strong>{ $username }</strong> har blivit blockerad i <strong>{ $duration }</strong>
 
 community-suspendModal-success-close = Stäng
-community-suspendModal-selectDuration = Välj längd på avstängningen
+community-suspendModal-selectDuration = Välj längd på blockeringen
 
 community-premodModal-areYouSure =
   Är du säker på att du alltid vill förhandsmoderera <strong>{ $username }</strong>?
@@ -1497,7 +1497,7 @@ community-warnModal-success =
   En varning har skickats till <strong>{ $username }</strong>.
 community-warnModal-success-close = Ok
 community-warnModal-areYouSure = Varna <strong>{ $username }</strong>?
-community-warnModal-consequence = En varning kan förbättra en kommentators beteende utan avstängning eller bannlysning. Användaren måste erkänna varningen innan de kan fortsätta kommentera.
+community-warnModal-consequence = En varning kan förbättra en kommentators beteende utan blockering eller avstängning. Användaren måste erkänna varningen innan de kan fortsätta kommentera.
 community-warnModal-message-label = Meddelande
 community-warnModal-message-required = Krävs
 community-warnModal-message-description = Förklara för denna användare hur de ska ändra sitt beteende på din webbplats.
@@ -1598,7 +1598,7 @@ invite-tokenNotFound =
 
 userDetails-banned-on = <strong>Avstängd den</strong> { $timestamp }
 userDetails-banned-by = <strong>av</strong> { $username }
-userDetails-suspended-by = <strong>Avstängd av</strong> { $username }
+userDetails-suspended-by = <strong>Blockerad av</strong> { $username }
 userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
 userDetails-suspension-end = <strong>Slut:</strong> { $timestamp }
 
@@ -1721,7 +1721,7 @@ configure-advanced-stories-scraping-passwordLabel = Lösenord
 
 commentAuthor-status-banned = Avstängd
 commentAuthor-status-premod = Förhandsmod
-commentAuthor-status-suspended = Tillfälligt avstängd
+commentAuthor-status-suspended = Blockerad
 
 hotkeysModal-title = Tangentbordsgenvägar
 hotkeysModal-navigation-shortcuts = Navigeringsgenvägar

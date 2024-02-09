@@ -870,7 +870,7 @@ configure-messageBox-iconChatBubble = Chatbubbla
 configure-messageBox-noIcon = Ingen ikon
 configure-messageBox-writeAMessage = Skriv ett meddelande
 
-configure-closeStream-title = Stäng kommentarsflöde
+## configure-closeStream-title = 
 configure-closeStream-closeCommentStream =
   Stäng kommentarstråden
 configure-closeStream-description =
@@ -935,7 +935,7 @@ comments-tombstone-deleted =
 comments-tombstone-rejected =
   Denna kommentar har tagits bort av en moderator för att ha brutit mot våra communityriktlinjer.
 
-suspendInfo-heading = Ditt konto har tillfälligt stängts av från möjligheten att kommentera.
+## suspendInfo-heading = 
 suspendInfo-heading-yourAccountHasBeen =
   Ditt konto har tillfälligt stängts av från att kommentera.
 suspendInfo-description-inAccordanceWith =
