@@ -1060,6 +1060,8 @@ moderate-flagDetails-other = Other
 moderate-flagDetails-illegalContent = Illegal content
 moderate-flagDetails-viewDSAReport = View DSA Report
 
+moderate-card-flag-details-anonymousUser = Anonymous user
+
 moderate-flagDetails-toxicityScore = Toxicity Score
 moderate-toxicityLabel-likely = Likely <score></score>
 moderate-toxicityLabel-unlikely = Unlikely <score></score>
