@@ -64,13 +64,13 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
     >
       <Localized id="configure-general-embedLinks-desc">
         <FormFieldDescription>
-          Allow commenters to add a YouTube video, Tweet or GIF from GIPHY's
+          Allow commenters to add a YouTube video, X post or GIF from GIPHY's
           library to the end of their comment
         </FormFieldDescription>
       </Localized>
       <FormField>
         <Localized id="configure-general-embedLinks-enableTwitterEmbeds">
-          <Label component="legend">Allow Twitter media</Label>
+          <Label component="legend">Allow X post embeds</Label>
         </Localized>
         <OnOffField
           name="media.twitter.enabled"
@@ -90,7 +90,7 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
 
       <FormField>
         <Localized id="configure-general-embedLinks-enableYouTubeEmbeds">
-          <Label component="legend">Enable YouTube media</Label>
+          <Label component="legend">Allow YouTube embeds</Label>
         </Localized>
         <OnOffField
           name="media.youtube.enabled"

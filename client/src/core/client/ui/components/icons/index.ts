@@ -78,7 +78,6 @@ export { default as SingleNeutralActionsAddIcon } from "./SingleNeutralActionsAd
 export { default as SingleNeutralActionsBlockIcon } from "./SingleNeutralActionsBlockIcon";
 export { default as SingleNeutralCircleIcon } from "./SingleNeutralCircleIcon";
 export { default as SingleNeutralProfilePictureIcon } from "./SingleNeutralProfilePictureIcon";
-export { default as SocialMediaTwitterIcon } from "./SocialMediaTwitterIcon";
 export { default as StopwatchIcon } from "./StopwatchIcon";
 export { default as SvgIcon } from "./SvgIcon";
 export { default as TextBoldIcon } from "./TextBoldIcon";
@@ -90,3 +89,4 @@ export { default as TradingConversationIcon } from "./TradingConversationIcon";
 export { default as VideoPlayerIcon } from "./VideoPlayerIcon";
 export { default as ViewIcon } from "./ViewIcon";
 export { default as ViewOffIcon } from "./ViewOffIcon";
+export { default as XLogoTwitterIcon } from "./XLogoTwitterIcon";

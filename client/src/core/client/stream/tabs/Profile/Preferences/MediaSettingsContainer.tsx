@@ -117,7 +117,7 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
                           variant="streamBlue"
                         >
                           <Localized id="profile-preferences-mediaPreferences-alwaysShow">
-                            <div>Always show GIFs, Tweets, YouTube, etc.</div>
+                            <div>Always show GIFs, X posts, YouTube, etc.</div>
                           </Localized>
                         </CheckBox>
                       )}
