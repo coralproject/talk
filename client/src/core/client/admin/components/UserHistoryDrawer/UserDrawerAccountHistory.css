@@ -59,3 +59,7 @@
   padding-right: var(--spacing-1);
   vertical-align: middle;
 }
+
+.deleteButtonWrapper {
+  margin-bottom: var(--spacing-2);
+}

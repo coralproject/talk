@@ -5,6 +5,9 @@ import ModMessageAction, { ModMessageActionProps } from "./ModMessageAction";
 import PremodAction, { PremodActionProps } from "./PremodAction";
 import SiteBanAction from "./SiteBanAction";
 import SuspensionAction, { SuspensionActionProps } from "./SuspensionAction";
+import UserDeletionAction, {
+  UserDeletionActionProps,
+} from "./UserDeletionAction";
 import UsernameChangeAction, {
   UsernameChangeActionProps,
 } from "./UsernameChangeAction";
@@ -18,14 +21,16 @@ export interface HistoryActionProps {
     | "site-ban"
     | "premod"
     | "warning"
-    | "modMessage";
+    | "modMessage"
+    | "deletion";
   action:
     | UsernameChangeActionProps
     | SuspensionActionProps
     | BanActionProps
     | PremodActionProps
     | WarningActionProps
-    | ModMessageActionProps;
+    | ModMessageActionProps
+    | UserDeletionActionProps;
 }
 
 const AccountHistoryAction: FunctionComponent<HistoryActionProps> = ({
@@ -49,6 +54,8 @@ const AccountHistoryAction: FunctionComponent<HistoryActionProps> = ({
       return <WarningAction {...(action as WarningActionProps)} />;
     case "modMessage":
       return <ModMessageAction {...(action as ModMessageActionProps)} />;
+    case "deletion":
+      return <UserDeletionAction {...(action as UserDeletionActionProps)} />;
     default:
       return null;
   }

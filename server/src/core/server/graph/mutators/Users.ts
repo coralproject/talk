@@ -8,6 +8,7 @@ import {
   addModeratorNote,
   ban,
   cancelAccountDeletion,
+  cancelScheduledAccountDeletion,
   createToken,
   deactivateToken,
   demoteMember,
@@ -25,6 +26,7 @@ import {
   requestAccountDeletion,
   requestCommentsDownload,
   requestUserCommentsDownload,
+  scheduleAccountDeletion,
   sendModMessage,
   setEmail,
   setPassword,
@@ -53,6 +55,7 @@ import { deleteUser } from "coral-server/services/users/delete";
 import {
   GQLBanUserInput,
   GQLCancelAccountDeletionInput,
+  GQLCancelScheduledAccountDeletionInput,
   GQLCreateModeratorNoteInput,
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
@@ -73,6 +76,7 @@ import {
   GQLRequestAccountDeletionInput,
   GQLRequestCommentsDownloadInput,
   GQLRequestUserCommentsDownloadInput,
+  GQLScheduleAccountDeletionInput,
   GQLSendModMessageInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
@@ -176,6 +180,17 @@ export const Users = (ctx: GraphContext) => ({
       ),
       { "input.password": [ERROR_CODES.PASSWORD_INCORRECT] }
     ),
+  scheduleAccountDeletion: async (
+    input: GQLScheduleAccountDeletionInput
+  ): Promise<Readonly<User> | null> =>
+    scheduleAccountDeletion(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   deleteAccount: async (
     input: GQLDeleteUserAccountInput
   ): Promise<Readonly<User> | null> => {
@@ -191,9 +206,20 @@ export const Users = (ctx: GraphContext) => ({
       input.userID,
       ctx.tenant.id,
       ctx.now,
-      ctx.tenant.dsa?.enabled
+      ctx.tenant.dsa?.enabled,
+      ctx.user!.id
     );
   },
+  cancelScheduledAccountDeletion: async (
+    input: GQLCancelScheduledAccountDeletionInput
+  ): Promise<Readonly<User> | null> =>
+    cancelScheduledAccountDeletion(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.userID
+    ),
   cancelAccountDeletion: async (
     input: GQLCancelAccountDeletionInput
   ): Promise<Readonly<User> | null> =>

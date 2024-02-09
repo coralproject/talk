@@ -1,0 +1,26 @@
+.icon {
+  display: inline-block;
+  margin-right: var(--spacing-1);
+  position: relative;
+  top: 2px;
+}
+
+.error {
+  color: var(--palette-error-500);
+  margin-top: var(--spacing-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.deletionCalloutTitle {
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+}
+
+.deletionCalloutInfo {
+  margin-top: var(--spacing-2);
+  margin-bottom: var(--spacing-1);
+}
+
+.cancelDeletionButton {
+  margin-top: var(--spacing-2);
+}

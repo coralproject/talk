@@ -9,6 +9,7 @@ import { BanStatusInput } from "./BanStatus";
 import { ModMessageStatusInput } from "./ModMessageStatus";
 import { PremodStatusInput } from "./PremodStatus";
 import { SuspensionStatusInput } from "./SuspensionStatus";
+import { UserDeletionStatusInput } from "./UserDeletionStatus";
 import { UsernameStatusInput } from "./UsernameStatus";
 import { WarningStatusInput } from "./WarningStatus";
 
@@ -55,6 +56,10 @@ export const UserStatus: Required<GQLUserStatusTypeResolver<UserStatusInput>> =
     },
     username: ({ userID, username }): UsernameStatusInput => ({
       ...user.consolidateUsernameStatus(username),
+      userID,
+    }),
+    deletion: ({ userID, deletion }): UserDeletionStatusInput => ({
+      ...user.consolidateUserDeletionStatus(deletion),
       userID,
     }),
     ban: async ({ ban, userID }, args, ctx): Promise<BanStatusInput> => ({
