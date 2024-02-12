@@ -90,7 +90,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
       <HorizontalGutter spacing={4}>
         <HorizontalGutter spacing={3}>
           <HorizontalGutter spacing={2}>
-            <Flex className={styles.username} spacing={2}>
+            <Flex alignItems="center" className={styles.username} spacing={2}>
               {user.username ? (
                 <span>{user.username}</span>
               ) : (

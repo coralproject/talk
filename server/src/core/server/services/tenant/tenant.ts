@@ -50,6 +50,7 @@ import { discover } from "coral-server/services/oidc/discover";
 
 import {
   GQLFEATURE_FLAG,
+  GQLNEW_USER_MODERATION,
   GQLSettingsInput,
   GQLSettingsWordListInput,
   GQLUSER_ROLE,
@@ -450,7 +451,12 @@ export async function createEmailDomain(
     );
   }
 
-  if (PROTECTED_EMAIL_DOMAINS.has(input.domain)) {
+  // If attempting to set Ban all new commenter accounts, check
+  // protected email domains
+  if (
+    input.newUserModeration === GQLNEW_USER_MODERATION.BAN &&
+    PROTECTED_EMAIL_DOMAINS.has(input.domain)
+  ) {
     throw new OperationForbiddenError(
       ERROR_CODES.EMAIL_DOMAIN_PROTECTED,
       "This email domain may not be moderated",

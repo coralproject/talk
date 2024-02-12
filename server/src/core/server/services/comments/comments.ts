@@ -91,14 +91,17 @@ export async function addTag(
 
   // Check to see if this tag is already on this comment.
   if (comment.tags.some(({ type }) => type === tagType)) {
-    return comment;
+    return { comment, alreadyFeatured: true };
   }
 
-  return addCommentTag(mongo, tenant.id, commentID, {
-    type: tagType,
-    createdBy: user.id,
-    createdAt: now,
-  });
+  return {
+    comment: await addCommentTag(mongo, tenant.id, commentID, {
+      type: tagType,
+      createdBy: user.id,
+      createdAt: now,
+    }),
+    alreadyFeatured: false,
+  };
 }
 
 /**
@@ -126,10 +129,13 @@ export async function removeTag(
 
   // Check to see if this tag is even on this comment.
   if (comment.tags.every(({ type }) => type !== tagType)) {
-    return comment;
+    return { comment, alreadyUnfeatured: true };
   }
 
-  return removeCommentTag(mongo, tenant.id, commentID, tagType);
+  return {
+    comment: await removeCommentTag(mongo, tenant.id, commentID, tagType),
+    alreadyUnfeatured: false,
+  };
 }
 
 /**

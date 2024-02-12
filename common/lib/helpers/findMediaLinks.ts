@@ -38,6 +38,11 @@ const patterns: ReadonlyArray<{ type: MediaType; pattern: RegExp }> = [
     pattern:
       /(https?:\/\/)?(www\.|mobile\.)?(twitter\.com\/[a-zA-z0-9]+\/status\/[0-9]+)/g,
   },
+  {
+    type: "twitter",
+    pattern:
+      /(https?:\/\/)?(www\.|mobile\.)?(x\.com\/[a-zA-z0-9]+\/status\/[0-9]+)/g,
+  },
 ];
 
 export function findMediaLinks(body: string): MediaLink[] {

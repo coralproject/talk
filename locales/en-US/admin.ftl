@@ -205,9 +205,6 @@ configure-moderationPhases-phaseNotFound = External moderation phase not found
 configure-moderationPhases-experimentalFeature =
   The custom moderation phases feature is currently in active development.
   Please <ContactUsLink>contact us with any feedback or requests</ContactUsLink>.
-configure-moderationPhases-dsaEnabled = 
-  You currently have DSA features enabled. External moderation is not
-  currently DSA compliant, and so is disabled.
 configure-moderationPhases-header-title = Moderation Phases
 configure-moderationPhases-description =
   Configure a external moderation phase to automate some moderation
@@ -1059,6 +1056,8 @@ moderate-flagDetails-bio = Bio
 moderate-flagDetails-other = Other
 moderate-flagDetails-illegalContent = Illegal content
 moderate-flagDetails-viewDSAReport = View DSA Report
+
+moderate-card-flag-details-anonymousUser = Anonymous user
 
 moderate-flagDetails-toxicityScore = Toxicity Score
 moderate-toxicityLabel-likely = Likely <score></score>

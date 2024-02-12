@@ -108,7 +108,7 @@ async function addCommentAction(
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   input: Omit<CreateActionInput, "storyID" | "siteID" | "userID">,
-  author: User,
+  author: User | null,
   now = new Date()
 ): Promise<AddCommentAction> {
   let oldComment = await retrieveComment(
@@ -143,7 +143,7 @@ async function addCommentAction(
   // Check if the user is banned on this site, if they are, throw an error right
   // now.
   // NOTE: this should be removed with attribute based auth checks.
-  if (isSiteBanned(author, siteID)) {
+  if (author && isSiteBanned(author, siteID)) {
     // Get the site in question.
     const site = await retrieveSite(mongo, tenant.id, siteID);
     if (!site) {
@@ -158,7 +158,7 @@ async function addCommentAction(
     ...input,
     storyID,
     siteID,
-    userID: author.id,
+    userID: author ? author.id : null,
     section,
   };
 
@@ -446,7 +446,7 @@ export async function createIllegalContent(
   commentActionsCache: CommentActionsCache,
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
-  user: User,
+  user: User | null,
   comment: Readonly<Comment> | null,
   input: CreateIllegalContent,
   now = new Date()
