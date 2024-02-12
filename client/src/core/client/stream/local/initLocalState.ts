@@ -185,7 +185,5 @@ export const createInitLocalState: (options: Options) => InitLocalState =
       localRecord.setValue(null, "hasNewNotifications");
       localRecord.setValue(0, "notificationCount");
       localRecord.setValue(notificationsPollRate, "notificationsPollRate");
-
-      localRecord.setValue(true, "appTabBarVisible");
     });
   };

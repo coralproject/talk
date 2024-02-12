@@ -35,7 +35,7 @@ async function createTestRenderer(
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("PREFERENCES", "profileTab");
       localRecord.setValue(3000, "notificationsPollRate");
-      localRecord.setValue(false, "appTabBarVisible");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -77,7 +77,9 @@ it("render email notifications form", async () => {
   });
 
   const container = await screen.findByTestId("profile-account-notifications");
-  expect(await axe(container)).toHaveNoViolations();
+  await act(async () => {
+    expect(await axe(container)).toHaveNoViolations();
+  });
 
   // Get the form fields.
   const onReply = within(container).getByRole("checkbox", {
@@ -180,7 +182,9 @@ it("render and update in-page notifications form", async () => {
   const container = await screen.findByTestId(
     "profile-account-inPageNotifications"
   );
-  expect(await axe(container)).toHaveNoViolations();
+  await act(async () => {
+    expect(await axe(container)).toHaveNoViolations();
+  });
 
   // Get the form fields.
   const onReply = within(container).getByRole("checkbox", {

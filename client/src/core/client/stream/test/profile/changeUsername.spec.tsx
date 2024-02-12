@@ -40,7 +40,7 @@ async function createTestRenderer(
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("ACCOUNT", "profileTab");
       localRecord.setValue(3000, "notificationsPollRate");
-      localRecord.setValue(false, "appTabBarVisible");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -109,7 +109,9 @@ describe("with new username", () => {
       name: "Change username",
     });
     userEvent.click(editButton);
-    expect(await axe(changeUsername)).toHaveNoViolations();
+    await act(async () => {
+      expect(await axe(changeUsername)).toHaveNoViolations();
+    });
     const form = within(changeUsername).queryByTestId(
       "profile-changeUsername-form"
     );

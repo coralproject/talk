@@ -57,7 +57,7 @@ async function createTestRenderer(
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(story.id, "storyID");
       localRecord.setValue(3000, "notificationsPollRate");
-      localRecord.setValue(false, "appTabBarVisible");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
