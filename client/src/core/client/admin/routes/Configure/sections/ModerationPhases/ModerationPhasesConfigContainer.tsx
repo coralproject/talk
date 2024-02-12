@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 
 import { urls } from "coral-framework/helpers";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
-import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { AddIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   Button,
@@ -18,7 +18,6 @@ import {
   TableRow,
 } from "coral-ui/components/v2";
 
-import { ModerationPhasesConfigContainer_local } from "coral-admin/__generated__/ModerationPhasesConfigContainer_local.graphql";
 import { ModerationPhasesConfigContainer_settings } from "coral-admin/__generated__/ModerationPhasesConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
@@ -50,26 +49,6 @@ const ModerationPhasesBox: FunctionComponent<{ children: React.ReactNode }> = ({
 const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
-  const [{ dsaFeaturesEnabled }] =
-    useLocal<ModerationPhasesConfigContainer_local>(graphql`
-      fragment ModerationPhasesConfigContainer_local on Local {
-        dsaFeaturesEnabled
-      }
-    `);
-
-  if (dsaFeaturesEnabled) {
-    return (
-      <ModerationPhasesBox>
-        <Localized id="configure-moderationPhases-dsaEnabled">
-          <CallOut color="error" fullWidth>
-            You currently have DSA features enabled. External moderation is not
-            currently DSA compliant, and so is disabled.
-          </CallOut>
-        </Localized>
-      </ModerationPhasesBox>
-    );
-  }
-
   return (
     <HorizontalGutter size="double" data-testid="moderation-phases-container">
       <ExperimentalExternalModerationPhaseCallOut />
