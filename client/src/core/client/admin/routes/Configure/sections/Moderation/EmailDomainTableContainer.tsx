@@ -41,7 +41,7 @@ const EmailDomainTableContainer: FunctionComponent<Props> = ({ settings }) => {
   const { localeBundles } = useCoralContext();
   const { router } = useRouter();
   const deleteEmailDomain = useMutation(DeleteEmailDomainMutation);
-  const [statusFilter, setStatusFilter] = useState<"BANNED" | "PREMOD" | "">(
+  const [statusFilter, setStatusFilter] = useState<GQLNEW_USER_MODERATION | "">(
     ""
   );
 
