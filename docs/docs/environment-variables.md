@@ -41,9 +41,9 @@ openssl rand -base64 45
 ### `NODE_ENV`
 
 Can be one of `production` or `development`. All production deployments should
-use `production`. Defaults to `production` when ran with `npm run start`, or
+use `production`. Defaults to `production` when ran with `pnpm run start`, or
 with Docker deployments. Defaults to `development` when run with
-`npm run start:development`.
+`pnpm run start:development`.
 
 ### `REDIS_OPTIONS`
 
