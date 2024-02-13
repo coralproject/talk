@@ -47,13 +47,13 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
       </Localized>
       <Flex>
         {!showDomainList ? (
-          <Localized id="">
+          <Localized id="configure-moderation-emailDomains-showCurrent">
             <Button variant="text" onClick={() => setShowDomainList(true)}>
               Show current domain list
             </Button>
           </Localized>
         ) : (
-          <Localized id="">
+          <Localized id="configure-moderation-emailDomains-hideCurrent">
             <Button variant="text" onClick={() => setShowDomainList(false)}>
               Hide current domain list
             </Button>

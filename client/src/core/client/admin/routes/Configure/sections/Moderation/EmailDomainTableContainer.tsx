@@ -30,7 +30,7 @@ import DeleteEmailDomainMutation from "../EmailDomains/DeleteEmailDomainMutation
 
 import { EmailDomainTableContainer_settings } from "coral-admin/__generated__/EmailDomainTableContainer_settings.graphql";
 
-import styles from "./EmailDomainConfigContainer.css";
+import styles from "./EmailDomainTableContainer.css";
 
 interface Props {
   settings: EmailDomainTableContainer_settings;
@@ -45,20 +45,23 @@ const EmailDomainTableContainer: FunctionComponent<Props> = ({ settings }) => {
     ""
   );
 
-  const reverseOrderDomains = useMemo(() => {
-    const reversedDomains = emailDomainModeration.slice().reverse();
-    if (statusFilter === "BANNED") {
+  const reversedDomains = useMemo(() => {
+    return emailDomainModeration.slice().reverse();
+  }, [emailDomainModeration]);
+
+  const domainsToShow = useMemo(() => {
+    if (statusFilter === GQLNEW_USER_MODERATION.BAN) {
       return reversedDomains.filter(
         (d) => d.newUserModeration === GQLNEW_USER_MODERATION.BAN
       );
-    } else if (statusFilter === "PREMOD") {
+    } else if (statusFilter === GQLNEW_USER_MODERATION.PREMOD) {
       return reversedDomains.filter(
         (d) => d.newUserModeration === GQLNEW_USER_MODERATION.PREMOD
       );
     } else {
       return reversedDomains;
     }
-  }, [emailDomainModeration, statusFilter]);
+  }, [reversedDomains, statusFilter]);
 
   const onDelete = useCallback(
     async (domainId: string) => {
@@ -76,28 +79,42 @@ const EmailDomainTableContainer: FunctionComponent<Props> = ({ settings }) => {
     [router]
   );
 
-  // /* TODO: Need a backup message or something if no domain list */
-
   return (
     <>
+      {emailDomainModeration.length === 0 && (
+        <Localized id="configuration-moderation-emailDomains-empty">
+          <div className={styles.empty}>
+            There are no email domains configured.
+          </div>
+        </Localized>
+      )}
       {emailDomainModeration.length > 0 && (
         <>
-          <Localized id="" attrs={{ "aria-label": true }}>
+          <Localized
+            id="configure-moderation-emailDomains-filterByStatus"
+            attrs={{ "aria-label": true }}
+          >
             <SelectField
               aria-label="Filter by email domain status"
               value={statusFilter || ""}
               onChange={(e) => {
-                setStatusFilter(e.target.value);
+                if (
+                  e.target.value === "" ||
+                  e.target.value === GQLNEW_USER_MODERATION.BAN ||
+                  e.target.value === GQLNEW_USER_MODERATION.PREMOD
+                ) {
+                  setStatusFilter(e.target.value);
+                }
               }}
             >
-              <Localized id="">
+              <Localized id="configure-moderation-emailDomains-allDomains">
                 <Option value="">All domains</Option>
               </Localized>
-              <Localized id="">
-                <Option value="BANNED">Banned</Option>
+              <Localized id="configure-moderation-emailDomains-banned">
+                <Option value={GQLNEW_USER_MODERATION.BAN}>Banned</Option>
               </Localized>
-              <Localized id="">
-                <Option value="PREMOD">Pre-mod</Option>
+              <Localized id="configure-moderation-emailDomains-preMod">
+                <Option value={GQLNEW_USER_MODERATION.PREMOD}>Pre-mod</Option>
               </Localized>
             </SelectField>
           </Localized>
@@ -116,7 +133,7 @@ const EmailDomainTableContainer: FunctionComponent<Props> = ({ settings }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {reverseOrderDomains.map((domain) => {
+              {domainsToShow.map((domain) => {
                 const actionDetails =
                   domain.newUserModeration === "BAN"
                     ? {
