@@ -173,8 +173,8 @@ comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLE
 omments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Längden på ytterligare kommentars-URL överskrider maximalt.
 comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = Du har tidigare anmält denna kommentar för att innehålla olagligt innehåll. Du kan bara anmäla en kommentar av denna anledning en gång.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = Vi har mottagit din anmälan om olagligt innehåll
-comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
-  found to contain illegal content, it will be removed from the site and further action may be taken against the commenter.
+comments-permalinkView-reportIllegalContent-confirmation-description = Din rapport kommer nu att granskas av vårt modereringsteam. Du kommer att få ett meddelande när ett beslut är fattat. Om innehållet
+  visar sig innehålla olagligt innehåll kommer det att tas bort från webbplatsen och ytterligare åtgärder kan vidtas mot den som kommenterar.
 comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Tack för att du skickade in denna rapport
 comments-permalinkView-reportIllegalContent-confirmation-errorDescription = Vi kunde inte skicka in din rapport av följande anledning(ar):
 comments-permalinkView-reportIllegalContent-confirmation-returnToComments = Du kan nu stänga denna flik för att återgå till kommentarerna
