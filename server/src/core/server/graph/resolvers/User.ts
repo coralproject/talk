@@ -88,15 +88,11 @@ export const User: GQLUserTypeResolver<user.User> = {
     // Get the Stories!
     return ctx.loaders.Stories.story.loadMany(results.map(({ _id }) => _id));
   },
-  inPageNotifications: ({
-    inPageNotifications = {
-      onReply: true,
-      onFeatured: true,
-      onModeration: true,
-      onStaffReplies: false,
-      enabled: true,
-    },
-  }) => inPageNotifications,
+  inPageNotifications: ({ inPageNotifications }) => {
+    return inPageNotifications
+      ? inPageNotifications
+      : user.defaultInPageNotificationSettings;
+  },
   mediaSettings: ({ mediaSettings = {} }) => mediaSettings,
   hasNewNotifications: ({ lastSeenNotificationDate }, input, ctx) => {
     if (!ctx.user) {
