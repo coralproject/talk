@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
@@ -33,10 +34,16 @@ const FlagDetails: FunctionComponent<Props> = ({
             flag.flagger ? onUsernameClick(flag.flagger.id) : null
           }
           user={
-            flag.flagger && flag.flagger.username ? (
-              flag.flagger.username
+            flag.flagger ? (
+              flag.flagger.username ? (
+                flag.flagger.username
+              ) : (
+                <NotAvailable />
+              )
             ) : (
-              <NotAvailable />
+              <Localized id="moderate-card-flag-details-anonymousUser">
+                <span>Anonymous user</span>
+              </Localized>
             )
           }
           details={flag.additionalDetails}

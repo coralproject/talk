@@ -4291,7 +4291,7 @@ type Comment @cacheControl(maxAge: 5) {
   reactions(
     first: Int = 10 @constraint(max: 50)
     after: Cursor
-  ): ReactionsConnection! @auth
+  ): ReactionsConnection! @auth(permit: [PENDING_DELETION])
 
   """
   flags is the actual Flags that were left by the Users or the system.

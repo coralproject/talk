@@ -35,21 +35,19 @@ export const DSAReports = (ctx: GraphContext) => ({
       submissionID,
     });
 
-    if (ctx.user) {
-      await createIllegalContent(
-        ctx.mongo,
-        ctx.redis,
-        ctx.config,
-        ctx.i18n,
-        ctx.cache.commentActions,
-        ctx.broker,
-        ctx.tenant,
-        ctx.user,
-        await ctx.loaders.Comments.comment.load(commentID),
-        { commentID, commentRevisionID, reportID: report.id },
-        ctx.now
-      );
-    }
+    await createIllegalContent(
+      ctx.mongo,
+      ctx.redis,
+      ctx.config,
+      ctx.i18n,
+      ctx.cache.commentActions,
+      ctx.broker,
+      ctx.tenant,
+      ctx.user ?? null,
+      await ctx.loaders.Comments.comment.load(commentID),
+      { commentID, commentRevisionID, reportID: report.id },
+      ctx.now
+    );
   },
   addDSAReportNote: ({ userID, body, reportID }: GQLAddDSAReportNoteInput) =>
     addDSAReportNote(ctx.mongo, ctx.tenant, { userID, body, reportID }),

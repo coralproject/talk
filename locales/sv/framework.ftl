@@ -33,6 +33,10 @@ framework-validation-notAWholeNumberGreaterThan = Var god fyll i ett heltal stö
 framework-validation-notAWholeNumberGreaterThanOrEqual = Var god fyll i ett heltal större eller lika stort som { $x }
 framework-validation-usernamesDoNotMatch = Användarnamnen matchar inte. Försök igen.
 framework-validation-deleteConfirmationInvalid = Ogiltig bekräftelse. Försök igen.
+framework-validation-invalidWebhookEndpointEventSelection = Välj minst en händelse att ta emot.
+framework-validation-media-url-invalid = Vänligen ange en giltig bild-URL (.png, .jpg, eller .gif)
+framework-validation-invalidEmailDomain = Felaktig format för e-postdomän. Vänligen använd "email.com"
+framework-validation-invalidExternalProfileURL = Alla externa profil-URL:er måste innehålla antingen $USER_NAME eller $USER_ID.
 
 framework-timeago-just-now = Just nu
 
@@ -126,3 +130,15 @@ framework-durationField-unit =
     }
     *[other] okänd enhet
   }
+
+framework-starRating =
+  .aria-label = { $value ->
+    [1] 1 Stjärna
+    *[other] {$value} Stjärnor
+  }
+
+### Relay Network Request Error
+
+framework-error-relayNetworkRequestError-anUnexpectedNetworkError =
+  Ett oväntat nätverksfel inträffade, vänligen försök igen senare.
+framework-error-relayNetworkRequestError-code = Kod
