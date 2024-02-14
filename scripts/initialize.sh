@@ -24,9 +24,9 @@ fi
 # set working directory here within `scripts`
 cd "$(dirname "$0")"
 
-echo "running \`pnpm install\` for sub-directories"
+echo "running \`npm install\` for sub-directories"
 
-sh pnpm-i.sh
+sh npm-i.sh
 
 echo "running generation steps for sub-directories"
 

@@ -1,5 +1,4 @@
 import fs from "fs";
-import { IncomingMessage, ServerResponse } from "http";
 import path from "path";
 import errorOverlayMiddleware from "react-dev-utils/errorOverlayMiddleware";
 import evalSourceMapMiddleware from "react-dev-utils/evalSourceMapMiddleware";
@@ -95,7 +94,7 @@ export default function ({
         ws: true,
       },
       {
-        context: (pathname: string) => {
+        context: (pathname) => {
           const lc = pathname.toLocaleLowerCase();
           return [
             "/embed/auth",
@@ -108,7 +107,7 @@ export default function ({
           ].some((p) => p === lc || lc.startsWith(`${p}/`));
         },
         target: `127.0.0.1:${serverPort}`,
-        onError: (err: Error, req: IncomingMessage, res: ServerResponse) => {
+        onError: (err, req, res) => {
           res.writeHead(500, {
             "Content-Type": "text/html",
           });

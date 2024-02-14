@@ -15,7 +15,6 @@
     "noErrorTruncation": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "preserveSymlinks": true,
     "lib": ["dom", "es6", "esnext.asynciterable"],
     "plugins": [
       {
@@ -31,7 +30,7 @@
     "*.js",
     "../common/src/**/*.ts",
     "../common/src/**/.*.js",
-    "../common/src/types/**/*.d.ts"
+    "../common/src/types/**/*.d.ts",
   ],
   "exclude": ["node_modules"]
 }

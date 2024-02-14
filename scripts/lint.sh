@@ -7,17 +7,17 @@ cd ..
 echo "linting \`client\`"
 
 cd client
-pnpm run lint
+npm run lint
 cd ..
 
 echo "linting \`server\`"
 
 cd server
-pnpm run lint
+npm run lint
 cd ..
 
 echo "linting \`docs\`"
 
 cd docs
-pnpm run lint
+npm run lint
 cd ..
