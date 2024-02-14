@@ -265,19 +265,19 @@ export default function createManagedSubscriptionClient(
         [BUNDLE_CONFIG_PARAM]: bundleConfig,
       },
     });
-    subscriptionClient.onConnected((payload: any) => {
+    subscriptionClient.onConnected((payload) => {
       setConnectionStatus(CONNECTION_STATUS.CONNECTED);
     });
-    subscriptionClient.onConnecting((payload: any) => {
+    subscriptionClient.onConnecting((payload) => {
       setConnectionStatus(CONNECTION_STATUS.CONNECTING);
     });
-    subscriptionClient.onReconnecting((payload: any) => {
+    subscriptionClient.onReconnecting((payload) => {
       setConnectionStatus(CONNECTION_STATUS.CONNECTING);
     });
-    subscriptionClient.onReconnected((payload: any) => {
+    subscriptionClient.onReconnected((payload) => {
       setConnectionStatus(CONNECTION_STATUS.CONNECTED);
     });
-    subscriptionClient.onDisconnected((payload: any) => {
+    subscriptionClient.onDisconnected((payload) => {
       setConnectionStatus(CONNECTION_STATUS.DISCONNECTED);
     });
   };

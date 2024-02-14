@@ -7,20 +7,20 @@ cd ..
 echo "generating schema types for client, common"
 
 cd server
-pnpm run generate
+npm run generate
 cd ..
 
-echo "running \`pnpm run build\` for \`config\`"
+echo "running \`npm run build\` for \`config\`"
 cd config
-pnpm run build
+npm run build
 cd ..
 
-echo "running \`pnpm run build\` for \`common\`"
+echo "running \`npm run build\` for \`common\`"
 cd common
-pnpm run build
+npm run build
 cd ..
 
-echo "running \`pnpm run generate\` for \`client\`"
+echo "running \`npm run generate\` for \`client\`"
 cd client
-pnpm run generate
+npm run generate
 cd ..
