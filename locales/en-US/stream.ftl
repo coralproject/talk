@@ -171,7 +171,7 @@ comments-permalinkView-reportIllegalContent-submit = Submit report
 comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = Comment not found. Please enter a valid comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = This is not a valid URL. Please enter a valid comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = You've already added this comment to this report. Please add a unique comment URL
-omments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Additional comment URL length exceeds maximum.
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Additional comment URL length exceeds maximum.
 comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing illegal content. You may only report a comment for this reason one time.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
 comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
@@ -374,6 +374,9 @@ comments-refreshReviews-refreshButton = <icon></icon> Refresh reviews
 
 comments-replyChangedWarning-theCommentHasJust =
   This comment has just been edited. The latest version is displayed above.
+
+comments-mobileToolbar-notifications-closeButton = 
+  .aria-label = Close notifications
 
 ### Q&A
 
@@ -1118,3 +1121,5 @@ notifications-methodOfRedress-url =
   To appeal a decision that appears here please visit <a>{ $url }</a>
 
 notifications-youDoNotCurrentlyHaveAny = You do not currently have any notifications
+
+notifications-floatingIcon-close = close

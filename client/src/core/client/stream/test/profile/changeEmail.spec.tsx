@@ -32,6 +32,8 @@ async function createTestRenderer(
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("ACCOUNT", "profileTab");
+      localRecord.setValue(3000, "notificationsPollRate");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -76,7 +78,9 @@ describe("change email form", () => {
       name: "Change email",
     });
     userEvent.click(editButton);
-    expect(await axe(changeEmail)).toHaveNoViolations();
+    await act(async () => {
+      expect(await axe(changeEmail)).toHaveNoViolations();
+    });
     const submitButton = within(changeEmail).getByRole("button", {
       name: "Save changes",
     });

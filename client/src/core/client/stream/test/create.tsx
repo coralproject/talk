@@ -37,12 +37,15 @@ const initLocalState = (
     DEFAULT_AUTO_ARCHIVE_OLDER_THAN,
     "autoArchiveOlderThanMs"
   );
-  if (params.initLocalState) {
-    params.initLocalState(localRecord, source, environment);
-  }
+
   localRecord.setValue(false, "hasNewNotifications");
   localRecord.setValue(0, "notificationCount");
   localRecord.setValue(3000, "notificationsPollRate");
+  localRecord.setValue(true, "appTabBarVisible");
+
+  if (params.initLocalState) {
+    params.initLocalState(localRecord, source, environment);
+  }
 };
 
 export default function create(params: CreateTestRendererParams<GQLResolver>) {

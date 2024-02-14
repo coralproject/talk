@@ -36,6 +36,7 @@ import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseComme
 import { useCommentSeenEnabled } from "coral-stream/tabs/Comments/commentSeen/";
 import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
+import { MobileNotificationButton } from "coral-stream/tabs/Notifications/mobileButton/MobileNotificationButton";
 import {
   ButtonSvgIcon,
   CheckDoubleIcon,
@@ -77,10 +78,12 @@ interface Comment {
 
 interface Props {
   storyID: string;
+  viewerID: string;
   currentScrollRef: any;
   comments: ReadonlyArray<Comment>;
   viewNewCount: number;
   hasMore: boolean;
+  userNotificationsEnabled: boolean;
 }
 
 export interface KeyboardEventData {
@@ -282,10 +285,12 @@ const loadMoreEvents = [
 
 const KeyboardShortcuts: FunctionComponent<Props> = ({
   storyID,
+  viewerID,
   currentScrollRef,
   comments,
   viewNewCount,
   hasMore,
+  userNotificationsEnabled,
 }) => {
   const {
     relayEnvironment,
@@ -1381,19 +1386,34 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           browserInfo.tablet ||
           browserInfo.iPadOS) && (
           <MobileToolbar onKeyPress={handleKeypress}>
-            <Flex className={styles.flexContainer} alignItems="center">
+            <Flex
+              className={styles.flexContainer}
+              alignItems="center"
+              justifyContent="space-around"
+            >
+              <div className={styles.closeContainer}>
+                <Localized
+                  id="comments-mobileToolbar-closeButton"
+                  attrs={{ "aria-label": true }}
+                >
+                  <button
+                    onClick={handleCloseToolbarButton}
+                    aria-label="Close"
+                    className={styles.closeButton}
+                  >
+                    <ButtonSvgIcon Icon={RemoveIcon} />
+                  </button>
+                </Localized>
+              </div>
+
               <div className={styles.unmarkAllContainer}>
                 <Button
-                  variant="text"
-                  size="large"
+                  variant="regular"
+                  color="stream"
+                  size="regular"
                   uppercase={false}
                   disabled={disableUnreadButtons}
                   onClick={handleUnmarkAllButton}
-                  classes={{
-                    variantText: styles.button,
-                    disabled: styles.buttonDisabled,
-                    colorRegular: styles.buttonColor,
-                  }}
                 >
                   <ButtonSvgIcon Icon={CheckDoubleIcon} />
                   <Localized id="comments-mobileToolbar-unmarkAll">
@@ -1403,15 +1423,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               </div>
               <div className={styles.nextActionContainer}>
                 <Button
-                  variant="text"
-                  size="large"
+                  variant="regular"
+                  color="stream"
+                  size="regular"
                   uppercase={false}
                   disabled={disableUnreadButtons}
-                  classes={{
-                    variantText: styles.button,
-                    disabled: styles.buttonDisabled,
-                    colorRegular: styles.buttonColor,
-                  }}
                   onClick={handleZKeyButton}
                 >
                   <Localized id="comments-mobileToolbar-nextUnread">
@@ -1420,26 +1436,11 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   <ButtonSvgIcon Icon={ControlsNextIcon} />
                 </Button>
               </div>
-              <div className={styles.closeContainer}>
-                <Localized
-                  id="comments-mobileToolbar-closeButton"
-                  attrs={{ "aria-label": true }}
-                >
-                  <Button
-                    variant="text"
-                    size="large"
-                    uppercase={false}
-                    classes={{
-                      variantText: styles.button,
-                      disabled: styles.buttonDisabled,
-                      colorRegular: styles.buttonColor,
-                    }}
-                    onClick={handleCloseToolbarButton}
-                    aria-label="Close"
-                  >
-                    <ButtonSvgIcon Icon={RemoveIcon} />
-                  </Button>
-                </Localized>
+              <div className={styles.notificationActionContainer}>
+                <MobileNotificationButton
+                  viewerID={viewerID}
+                  enabled={userNotificationsEnabled}
+                />
               </div>
             </Flex>
           </MobileToolbar>
