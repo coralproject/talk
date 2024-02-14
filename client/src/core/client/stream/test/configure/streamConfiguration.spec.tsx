@@ -44,7 +44,6 @@ const createTestRenderer = async (
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(story.id, "storyID");
-      localRecord.setValue(3000, "notificationsPollRate");
 
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
