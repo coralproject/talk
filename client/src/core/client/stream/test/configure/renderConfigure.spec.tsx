@@ -45,5 +45,7 @@ it("renders configure", async () => {
   });
   const tabPane = await screen.findByTestId("current-tab-pane");
 
-  expect(await axe(tabPane)).toHaveNoViolations();
+  await act(async () => {
+    expect(await axe(tabPane)).toHaveNoViolations();
+  });
 });
