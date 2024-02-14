@@ -544,7 +544,7 @@ configure-general-inPageNotifications-title = In-page notifications
 configure-general-inPageNotifications-explanation = Add notifications to Coral. When enabled, commenters can receive
   notifications when they receive all replies, replies only from members
   of your team, when a Pending comment is published. Commenters can
-  disable visual notification indicators in their Profile preferences.
+  disable visual notification indicators in their Profile preferences. This will remove e-mail notifications.
 configure-general-inPageNotifications-enabled = In-page notifications enabled
 
 #### Closed Stream Message

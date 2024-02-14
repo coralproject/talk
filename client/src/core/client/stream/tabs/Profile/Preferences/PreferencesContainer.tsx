@@ -24,10 +24,11 @@ const PreferencesContainer: FunctionComponent<Props> = (props) => {
   return (
     <HorizontalGutter spacing={4}>
       <BioContainer viewer={props.viewer} settings={props.settings} />
-      {showInPageNotificationSettings && (
+      {showInPageNotificationSettings ? (
         <InPageNotificationSettingsContainer viewer={props.viewer} />
+      ) : (
+        <EmailNotificationSettingsContainer viewer={props.viewer} />
       )}
-      <EmailNotificationSettingsContainer viewer={props.viewer} />
       <MediaSettingsContainer viewer={props.viewer} settings={props.settings} />
       <IgnoreUserSettingsContainer viewer={props.viewer} />
     </HorizontalGutter>
