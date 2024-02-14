@@ -212,25 +212,25 @@ export class InternalNotificationContext {
       let shouldIncrementCount = true;
       if (
         type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED &&
-        !targetUser.inPageNotifications.onModeration
+        !targetUser.inPageNotifications?.onModeration
       ) {
         shouldIncrementCount = false;
       }
       if (
         type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED &&
-        !targetUser.inPageNotifications.onFeatured
+        !targetUser.inPageNotifications?.onFeatured
       ) {
         shouldIncrementCount = false;
       }
       if (
         type === GQLNOTIFICATION_TYPE.REPLY &&
-        !targetUser.inPageNotifications.onReply
+        !targetUser.inPageNotifications?.onReply
       ) {
         shouldIncrementCount = false;
       }
       if (
         type === GQLNOTIFICATION_TYPE.REPLY_STAFF &&
-        !targetUser.inPageNotifications.onStaffReplies
+        !targetUser.inPageNotifications?.onStaffReplies
       ) {
         shouldIncrementCount = false;
       }

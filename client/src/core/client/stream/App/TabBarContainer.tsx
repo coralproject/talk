@@ -2,6 +2,7 @@ import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLocal,
   useMutation,
@@ -10,6 +11,8 @@ import {
 import { Ability, can } from "coral-framework/permissions";
 import { GQLFEATURE_FLAG, GQLSTORY_MODE } from "coral-framework/schema";
 import { SetCommentIDMutation } from "coral-stream/mutations";
+import FloatingNotificationButton from "coral-stream/tabs/Notifications/floatingButton/FloatingNotificationButton";
+import useLiveNotificationsPolling from "coral-stream/tabs/Notifications/polling/useLiveNotificationsPolling";
 
 import { TabBarContainer_settings } from "coral-stream/__generated__/TabBarContainer_settings.graphql";
 import { TabBarContainer_story } from "coral-stream/__generated__/TabBarContainer_story.graphql";
@@ -30,12 +33,27 @@ interface Props {
   setActiveTab: SetActiveTabMutation;
 }
 
+// use this to avoid linting errors complaining about casting
+// a possible `any` to `string | undefined` when initializing
+// the live notifications polling.
+const getViewerID = (
+  viewer: TabBarContainer_viewer | null
+): string | undefined => {
+  if (!viewer) {
+    return undefined;
+  }
+
+  return viewer.id;
+};
+
 export const TabBarContainer: FunctionComponent<Props> = ({
   viewer,
   story,
   settings,
   setActiveTab,
 }) => {
+  useLiveNotificationsPolling(getViewerID(viewer));
+
   const setCommentID = useMutation(SetCommentIDMutation);
   const { window } = useCoralContext();
   const [{ activeTab, hasNewNotifications }] =
@@ -75,16 +93,29 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   );
 
   return (
-    <TabBar
-      mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
-      activeTab={activeTab}
-      showProfileTab={!!viewer}
-      showDiscussionsTab={showDiscussionsTab}
-      showConfigureTab={showConfigureTab}
-      showNotificationsTab={!!viewer}
-      hasNewNotifications={!!hasNewNotifications}
-      onTabClick={handleSetActiveTab}
-    />
+    <>
+      {!!viewer && !!settings?.inPageNotifications?.enabled && (
+        <FloatingNotificationButton
+          viewerID={viewer?.id}
+          enabled={!!viewer?.inPageNotifications?.enabled}
+        />
+      )}
+      <IntersectionProvider threshold={[0, 1]}>
+        <TabBar
+          mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
+          activeTab={activeTab}
+          showProfileTab={!!viewer}
+          showDiscussionsTab={showDiscussionsTab}
+          showConfigureTab={showConfigureTab}
+          showNotificationsTab={
+            !!viewer && !!settings?.inPageNotifications?.enabled
+          }
+          hasNewNotifications={!!hasNewNotifications}
+          userNotificationsEnabled={!!viewer?.inPageNotifications?.enabled}
+          onTabClick={handleSetActiveTab}
+        />
+      </IntersectionProvider>
+    </>
   );
 };
 
@@ -92,7 +123,11 @@ const enhanced = withSetActiveTabMutation(
   withFragmentContainer<Props>({
     viewer: graphql`
       fragment TabBarContainer_viewer on User {
+        id
         role
+        inPageNotifications {
+          enabled
+        }
       }
     `,
     story: graphql`
@@ -106,6 +141,9 @@ const enhanced = withSetActiveTabMutation(
     settings: graphql`
       fragment TabBarContainer_settings on Settings {
         featureFlags
+        inPageNotifications {
+          enabled
+        }
       }
     `,
   })(TabBarContainer)

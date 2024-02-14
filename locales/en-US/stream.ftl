@@ -375,6 +375,9 @@ comments-refreshReviews-refreshButton = <icon></icon> Refresh reviews
 comments-replyChangedWarning-theCommentHasJust =
   This comment has just been edited. The latest version is displayed above.
 
+comments-mobileToolbar-notifications-closeButton = 
+  .aria-label = Close notifications
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A
@@ -1118,3 +1121,5 @@ notifications-methodOfRedress-url =
   To appeal a decision that appears here please visit <a>{ $url }</a>
 
 notifications-youDoNotCurrentlyHaveAny = You do not currently have any notifications
+
+notifications-floatingIcon-close = close

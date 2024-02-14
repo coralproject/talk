@@ -3,20 +3,22 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { useFetch } from "coral-framework/lib/relay";
 import { Spinner } from "coral-ui/components/v2";
 
-import { NotificationsListFetchQueryResponse } from "coral-stream/__generated__/NotificationsListFetchQuery.graphql";
+import { FloatingNotificationsListFetchQueryResponse } from "coral-stream/__generated__/FloatingNotificationsListFetchQuery.graphql";
 
-import NotificationsListFetch from "./NotificationsListFetch";
-import NotificationsPaginator from "./NotificationsPaginator";
+import FloatingNotificationsListFetch from "./FloatingNotificationsListFetch";
+import FloatingNotificationsPaginator from "./FloatingNotificationsPaginator";
 
 interface Props {
   viewerID: string;
 }
 
-const NotificationsListQuery: FunctionComponent<Props> = ({ viewerID }) => {
-  const query = useFetch(NotificationsListFetch);
+const FloatingNotificationsListQuery: FunctionComponent<Props> = ({
+  viewerID,
+}) => {
+  const query = useFetch(FloatingNotificationsListFetch);
   const [shouldLoad, setShouldLoad] = useState<boolean>(true);
   const [queryResult, setQueryResult] =
-    useState<NotificationsListFetchQueryResponse | null>();
+    useState<FloatingNotificationsListFetchQueryResponse | null>();
 
   const load = useCallback(async () => {
     setShouldLoad(false);
@@ -33,8 +35,10 @@ const NotificationsListQuery: FunctionComponent<Props> = ({ viewerID }) => {
   if (!queryResult) {
     return <Spinner />;
   } else {
-    return <NotificationsPaginator query={queryResult} viewerID={viewerID} />;
+    return (
+      <FloatingNotificationsPaginator query={queryResult} viewerID={viewerID} />
+    );
   }
 };
 
-export default NotificationsListQuery;
+export default FloatingNotificationsListQuery;

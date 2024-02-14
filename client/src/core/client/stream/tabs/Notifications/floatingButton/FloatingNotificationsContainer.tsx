@@ -5,30 +5,30 @@ import { graphql } from "react-relay";
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 
-import { NotificationsContainer_settings } from "coral-stream/__generated__/NotificationsContainer_settings.graphql";
-import { NotificationsContainer_viewer } from "coral-stream/__generated__/NotificationsContainer_viewer.graphql";
-import { NotificationsContainerLocal } from "coral-stream/__generated__/NotificationsContainerLocal.graphql";
+import { FloatingNotificationsContainer_settings } from "coral-stream/__generated__/FloatingNotificationsContainer_settings.graphql";
+import { FloatingNotificationsContainer_viewer } from "coral-stream/__generated__/FloatingNotificationsContainer_viewer.graphql";
+import { FloatingNotificationsContainerLocal } from "coral-stream/__generated__/FloatingNotificationsContainerLocal.graphql";
 
-import NotificationsListQuery from "./NotificationsListQuery";
+import FloatingNotificationsListQuery from "./FloatingNotificationsListQuery";
 
-import styles from "./NotificationsContainer.css";
+import styles from "./FloatingNotificationsContainer.css";
 
 interface Props {
-  viewer: NotificationsContainer_viewer;
-  settings: NotificationsContainer_settings;
+  viewer: FloatingNotificationsContainer_viewer;
+  settings: FloatingNotificationsContainer_settings;
 
   showUserBox?: boolean;
   showTitle?: boolean;
 }
 
-const NotificationsContainer: FunctionComponent<Props> = ({
+const FloatingNotificationsContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
   showUserBox = true,
   showTitle = true,
 }) => {
-  const [, setLocal] = useLocal<NotificationsContainerLocal>(graphql`
-    fragment NotificationsContainerLocal on Local {
+  const [, setLocal] = useLocal<FloatingNotificationsContainerLocal>(graphql`
+    fragment FloatingNotificationsContainerLocal on Local {
       hasNewNotifications
     }
   `);
@@ -53,23 +53,23 @@ const NotificationsContainer: FunctionComponent<Props> = ({
           <Localized id="notifications-title">Notifications</Localized>
         </div>
       )}
-      <NotificationsListQuery viewerID={viewer.id} />
+      <FloatingNotificationsListQuery viewerID={viewer.id} />
     </>
   );
 };
 
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
-    fragment NotificationsContainer_viewer on User {
+    fragment FloatingNotificationsContainer_viewer on User {
       id
       ...UserBoxContainer_viewer
     }
   `,
   settings: graphql`
-    fragment NotificationsContainer_settings on Settings {
+    fragment FloatingNotificationsContainer_settings on Settings {
       ...UserBoxContainer_settings
     }
   `,
-})(NotificationsContainer);
+})(FloatingNotificationsContainer);
 
 export default enhanced;

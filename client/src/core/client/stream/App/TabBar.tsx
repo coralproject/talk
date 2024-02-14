@@ -1,7 +1,10 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
+import { graphql } from "relay-runtime";
 
 import useGetMessage from "coral-framework/lib/i18n/useGetMessage";
+import { useInView } from "coral-framework/lib/intersection";
+import { useLocal } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import { LiveBellIcon } from "coral-stream/tabs/Notifications/LiveBellIcon";
@@ -16,12 +19,15 @@ import {
 } from "coral-ui/components/icons";
 import { MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
 
+import { TabBar_local } from "coral-stream/__generated__/TabBar_local.graphql";
+
 import styles from "./TabBar.css";
 
 type TabValue =
   | "COMMENTS"
   | "PROFILE"
   | "DISCUSSIONS"
+  | "CONFIGURE"
   | "NOTIFICATIONS"
   | "%future added value";
 
@@ -33,6 +39,7 @@ export interface Props {
   showConfigureTab: boolean;
   showNotificationsTab: boolean;
   hasNewNotifications: boolean;
+  userNotificationsEnabled: boolean;
   mode:
     | "COMMENTS"
     | "QA"
@@ -42,6 +49,17 @@ export interface Props {
 }
 
 const AppTabBar: FunctionComponent<Props> = (props) => {
+  const [, setLocal] = useLocal<TabBar_local>(graphql`
+    fragment TabBar_local on Local {
+      appTabBarVisible
+    }
+  `);
+
+  const { inView, intersectionRef } = useInView();
+  useEffect(() => {
+    setLocal({ appTabBarVisible: inView });
+  }, [inView, setLocal]);
+
   const getMessage = useGetMessage();
 
   let commentsTabText: string;
@@ -70,6 +88,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
           activeTab={props.activeTab}
           onTabClick={props.onTabClick}
           variant="streamPrimary"
+          forwardRef={intersectionRef}
         >
           <Tab
             className={cn(CLASSES.tabBar.comments, {
@@ -148,7 +167,8 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
 
           {props.showConfigureTab && (
             <Tab
-              className={cn(CLASSES.tabBar.configure, styles.configureTab, {
+              className={cn(CLASSES.tabBar.configure, {
+                [CLASSES.tabBar.activeTab]: props.activeTab === "CONFIGURE",
                 [styles.smallTab]: !matches,
               })}
               tabID="CONFIGURE"
@@ -158,7 +178,8 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 <span>{configureText}</span>
               ) : (
                 <div>
-                  <SvgIcon size="md" Icon={CogIcon} />
+                  <SvgIcon size="lg" Icon={CogIcon} />
+                  <div className={styles.smallText}>{configureText}</div>
                 </div>
               )}
             </Tab>
@@ -176,15 +197,14 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 }
               )}
               tabID="NOTIFICATIONS"
-              variant="streamPrimary"
+              variant="notifications"
+              float="right"
             >
-              <div
-                className={cn({
-                  [styles.notificationsIcon]: matches,
-                  [styles.notificationsIconSmall]: !matches,
-                })}
-              >
-                <LiveBellIcon size="md" />
+              <div className={cn(styles.notificationsIcon)}>
+                <LiveBellIcon
+                  size="lg"
+                  enabled={props.userNotificationsEnabled}
+                />
               </div>
             </Tab>
           )}

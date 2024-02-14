@@ -7,10 +7,12 @@ import { QueryRenderData, QueryRenderer } from "coral-framework/lib/relay";
 import { Delay, Spinner } from "coral-ui/components/v2";
 import { QueryError } from "coral-ui/components/v3";
 
-import { NotificationsQuery as QueryTypes } from "coral-stream/__generated__/NotificationsQuery.graphql";
+import { MobileNotificationsQuery as QueryTypes } from "coral-stream/__generated__/MobileNotificationsQuery.graphql";
 
 const loadNotificationsContainer = () =>
-  import("./NotificationsContainer" /* webpackChunkName: "notifications" */);
+  import(
+    "./MobileNotificationsContainer" /* webpackChunkName: "notifications" */
+  );
 
 // (cvle) For some reason without `setTimeout` this request will block other requests.
 const preload = once(() =>
@@ -72,12 +74,12 @@ const NotificationsQuery: FunctionComponent<Props> = ({
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query NotificationsQuery {
+        query MobileNotificationsQuery {
           viewer {
-            ...NotificationsContainer_viewer
+            ...MobileNotificationsContainer_viewer
           }
           settings {
-            ...NotificationsContainer_settings
+            ...MobileNotificationsContainer_settings
           }
         }
       `}

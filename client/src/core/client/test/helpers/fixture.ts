@@ -89,6 +89,9 @@ export function createUser() {
       },
     },
     ignoreable: true,
+    inPageNotifications: {
+      enabled: false,
+    },
   });
 }
 
