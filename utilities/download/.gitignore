@@ -1,0 +1,7 @@
+node_modules/
+dist/
+output/
+
+.DS_Store
+config.json
+config-*.json

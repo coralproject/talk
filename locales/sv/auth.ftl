@@ -50,6 +50,8 @@ signUp-signUpWithOIDC = Registrera dig med { $name }
 
 signUp-accountAvailableSignIn = Har du redan ett konto? <textlink>Logga in</textlink>
 
+signUp-usernameAlreadyExists = Användarnamnet är upptaget. Var vänlig försök med ett annat.
+
 ## Forgot Password
 
 forgotPassword-forgotPasswordHeader = Glömt lösenord?
@@ -74,6 +76,19 @@ forgotPassword-checkEmail-receiveEmail =
   kommer du få ett mejl med en länk för att skapa ett nytt lösenord.
 forgotPassword-checkEmail-closeButton = Stäng
 
+## Link Account
+
+linkAccount-linkAccountHeader = Koppla konto
+linkAccount-alreadyAssociated =
+  E-postadressen <strong>{ $email }</strong> är
+  redan associerad med ett konto. Om du vill koppla
+  ihop dessa ange ditt lösenord.
+linkAccount-passwordLabel = Lösenord
+linkAccount-passwordTextField =
+  .label = Lösenord
+linkAccount-linkAccountButton = Koppla konto
+linkAccount-useDifferentEmail = Använd en annan E-postadress
+
 ## Reset Password
 
 resetPassword-resetPasswordHeader = Nollställ lösenord
@@ -82,6 +97,7 @@ resetPassword-resetPasswordButton = Nollställ lösenord
 ## Create Username
 
 createUsername-createUsernameHeader = Ange ditt användarnamn
+createUsername-createAUsername = Skapa ett användarnamn
 createUsername-whatItIs =
   Ditt användarnamn är unikt och kommer synas i anslutning till alla dina
   kommentarer.
@@ -109,6 +125,7 @@ addEmailAddress-addEmailAddressButton =
 
 ## Create Password
 createPassword-createPasswordHeader = Skapa lösenord
+createPassword-createAPassword = Skapa ett lösenord
 createPassword-whatItIs =
   För att skydda ditt konto kräver vi att du anger ett lösenord.
 createPassword-createPasswordButton =

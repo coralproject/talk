@@ -487,6 +487,13 @@ export default async function create(
         actionCounts,
       }
     );
+
+    await notifications.create(tenant.id, tenant.locale, {
+      targetUserID: comment.authorID!,
+      comment,
+      rejectionReason: result.moderationAction.rejectionReason,
+      type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
+    });
   }
 
   // Update all the comment counts on stories and users.

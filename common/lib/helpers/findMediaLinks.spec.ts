@@ -9,13 +9,14 @@ it("can detect links", () => {
     "https://www.youtube.com/watch?v=o3LJPaYBqgU",
     "https://youtube.com/watch?v=o3LJPaYBqgU",
     "https://youtu.be/o3LJPaYBqgU",
-    // Twitter
+    // Twitter / X
     "http://twitter.com/coralproject/status/1280903734478987265",
     "http://www.twitter.com/coralproject/status/1280903734478987265",
     "http://mobile.twitter.com/coralproject/status/1280903734478987265",
     "https://twitter.com/coralproject/status/1280903734478987265",
     "https://www.twitter.com/coralproject/status/1280903734478987265",
     "https://mobile.twitter.com/coralproject/status/1280903734478987265",
+    "https://x.com/voxdotcom/status/1753419545681727640",
   ];
 
   for (const body of bodies) {
