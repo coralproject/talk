@@ -18,7 +18,6 @@ import {
 } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import Spinner from "coral-stream/common/Spinner";
-import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { GQLDSA_METHOD_OF_REDRESS } from "coral-common/client/src/core/client/framework/schema/__generated__/types";
@@ -181,7 +180,7 @@ const MobileNotificationsPaginator: FunctionComponent<Props> = (props) => {
           ),
         }}
       >
-        <Flex className={styles.adjustPreferences}>
+        <div className={styles.adjustPreferences}>
           <span>Adjust notification settings in My Profile &gt; </span>
           <Button
             className={styles.preferencesButton}
@@ -191,7 +190,7 @@ const MobileNotificationsPaginator: FunctionComponent<Props> = (props) => {
             {" "}
             Preferences.
           </Button>
-        </Flex>
+        </div>
       </Localized>
       <div>
         {notificationsToShow.map(({ node }) => {
