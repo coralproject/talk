@@ -893,6 +893,7 @@ export async function retrieveStoryToBeUnarchived(
     },
     {
       returnOriginal: false,
+      maxTimeMS: 30 * 60 * 1000,
     }
   );
 
