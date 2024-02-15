@@ -30,7 +30,6 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
 
   const stopPropagation = useCallback((ev: MouseEvent) => {
     ev.stopPropagation();
-    ev.preventDefault();
   }, []);
 
   if (!viewerID) {
