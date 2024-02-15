@@ -84,7 +84,7 @@ const createJobProcessor = ({
       throw new Error("unable to unarchive story");
     }
 
-    log.debug({ took: timer() }, "attempted unarchive operation ended");
+    log.info({ storyID, took: timer()}, "attempted unarchive operation ended");
   };
 };
 
