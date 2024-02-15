@@ -40,6 +40,7 @@ const InPageNotificationsConfig: FunctionComponent<Props> = ({ disabled }) => (
         notifications when they receive all replies, replies only from members
         of your team, when a Pending comment is published. Commenters can
         disable visual notification indicators in their Profile preferences.
+        This will remove e-mail notifications.
       </FormFieldDescription>
     </Localized>
     <FormField container={<FieldSet />}>
