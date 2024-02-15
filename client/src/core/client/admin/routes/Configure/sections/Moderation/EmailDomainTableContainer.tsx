@@ -1,5 +1,4 @@
 import { Localized } from "@fluent/react/compat";
-import { useRouter } from "found";
 import React, {
   FunctionComponent,
   useCallback,
@@ -39,7 +38,6 @@ interface Props {
 const EmailDomainTableContainer: FunctionComponent<Props> = ({ settings }) => {
   const { emailDomainModeration } = settings;
   const { localeBundles } = useCoralContext();
-  const { router } = useRouter();
   const deleteEmailDomain = useMutation(DeleteEmailDomainMutation);
   const [statusFilter, setStatusFilter] = useState<GQLNEW_USER_MODERATION | "">(
     ""
@@ -76,7 +74,7 @@ const EmailDomainTableContainer: FunctionComponent<Props> = ({ settings }) => {
         await deleteEmailDomain({ id: domainId });
       }
     },
-    [router]
+    [deleteEmailDomain, localeBundles]
   );
 
   return (
