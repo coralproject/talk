@@ -84,7 +84,7 @@ const createJobProcessor = ({
       throw new Error("unable to unarchive story");
     }
 
-    log.debug({ took: timer() }, "attempted unarchive operation ended");
+    log.info({ storyID, took: timer() }, "attempted unarchive operation ended");
   };
 };
 
@@ -101,5 +101,6 @@ export function createUnarchiverTask(
     jobIdGenerator: ({ tenantID, storyID }) =>
       `${tenantID}:${storyID}:unarchive`,
     attempts: 1,
+    timeout: 1 * 60 * 60 * 1000,
   });
 }
