@@ -27,7 +27,7 @@ USER node
 
 # Node alpine image does not include ssh. This is a workaround for https://github.com/npm/cli/issues/2610.
 RUN git config --global url."https://github.com/".insteadOf ssh://git@github.com/ && \
-    git config --global url."https://".insteadOf ssh://
+  git config --global url."https://".insteadOf ssh://
 
 # Initialize sub packages
 RUN cd config && pnpm install --frozen-lockfile && \

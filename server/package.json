@@ -126,7 +126,7 @@
     "metascraper-description": "^5.22.5",
     "metascraper-image": "^5.22.5",
     "metascraper-title": "^5.22.5",
-    "mongodb": "^3.5.9",
+    "mongodb": "^6.3.0",
     "mongodb-core": "^3.2.7",
     "ms": "^2.1.2",
     "node-fetch": "^2.6.1",
