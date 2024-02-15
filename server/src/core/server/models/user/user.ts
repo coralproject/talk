@@ -116,6 +116,15 @@ export interface Token {
   createdAt: Date;
 }
 
+export const defaultInPageNotificationSettings: GQLUserInPageNotificationSettings =
+  {
+    enabled: true,
+    onReply: true,
+    onFeatured: true,
+    onStaffReplies: true,
+    onModeration: true,
+  };
+
 /**
  * ModeratorNote ModeratorNote is a note left by a moderator on the subject of a user.
  */

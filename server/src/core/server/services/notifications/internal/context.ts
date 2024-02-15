@@ -9,7 +9,11 @@ import {
   createNotification,
   Notification,
 } from "coral-server/models/notifications/notification";
-import { retrieveUser, User } from "coral-server/models/user";
+import {
+  defaultInPageNotificationSettings,
+  retrieveUser,
+  User,
+} from "coral-server/models/user";
 import { I18n } from "coral-server/services/i18n";
 
 import {
@@ -208,32 +212,34 @@ export class InternalNotificationContext {
     }
 
     if (result.notification && result.attempted) {
+      const preferences = targetUser.inPageNotifications
+        ? targetUser.inPageNotifications
+        : defaultInPageNotificationSettings;
+
       // Determine whether to increment notificationCount based on user's in-page notification settings
       let shouldIncrementCount = true;
       if (
         type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED &&
-        !targetUser.inPageNotifications?.onModeration
+        !preferences?.onModeration
       ) {
         shouldIncrementCount = false;
       }
       if (
         type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED &&
-        !targetUser.inPageNotifications?.onFeatured
+        !preferences?.onFeatured
       ) {
         shouldIncrementCount = false;
       }
-      if (
-        type === GQLNOTIFICATION_TYPE.REPLY &&
-        !targetUser.inPageNotifications?.onReply
-      ) {
+      if (type === GQLNOTIFICATION_TYPE.REPLY && !preferences?.onReply) {
         shouldIncrementCount = false;
       }
       if (
         type === GQLNOTIFICATION_TYPE.REPLY_STAFF &&
-        !targetUser.inPageNotifications?.onStaffReplies
+        !preferences?.onStaffReplies
       ) {
         shouldIncrementCount = false;
       }
+
       if (shouldIncrementCount) {
         await this.incrementCountForUser(tenantID, targetUserID);
       }
