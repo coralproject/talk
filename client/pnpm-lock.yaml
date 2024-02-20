@@ -119,9 +119,6 @@ devDependencies:
   '@babel/runtime-corejs3':
     specifier: ^7.10.3
     version: 7.10.3
-  '@coralproject/npm-run-all':
-    specifier: ^4.1.5
-    version: 4.1.5
   '@coralproject/rte':
     specifier: ^2.2.4
     version: 2.2.4(react-dom@18.2.0)(react@18.2.0)
@@ -2020,23 +2017,6 @@ packages:
     resolution: {integrity: sha512-Bl38cx/rS/oRqb0gvzT/mtA3BNWdLwqLEyI5Jdp8mA1CG+pOL7NQZeLEz8OIRI/ie6xBnjT7CoVKscjfmpX7nw==}
     engines: {'0': node >=0.8.0}
     dev: false
-
-  /@coralproject/npm-run-all@4.1.5:
-    resolution: {integrity: sha512-KRYjquAoInNtVqKDnQ5V63KLZT1eBhsH8oLzI+UV9J5X/PUYS2Bmuq1BqONtLZNaxp4mcxQX1Hj0EoIaDWd4GA==}
-    engines: {node: '>= 4'}
-    hasBin: true
-    dependencies:
-      ansi-styles: 3.2.1
-      chalk: 2.4.2
-      cross-spawn: 6.0.5
-      memorystream: 0.3.1
-      minimatch: 3.1.2
-      pidtree: 0.3.0
-      read-pkg: 3.0.0
-      shell-quote: 1.7.2
-      signal-numbers: 0.2.2
-      string.prototype.padend: 3.0.0
-    dev: true
 
   /@coralproject/rte@2.2.4(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-neIIoH6BarMZPzLGqVW4CkzD1t+CZrhvcQWjwMIW/Jv9txwSL7jCL/dMRysvXX+yXB7IJ5Pot57VI0SVQxFUEg==}
@@ -12602,16 +12582,6 @@ packages:
       strip-bom: 2.0.0
     dev: true
 
-  /load-json-file@4.0.0:
-    resolution: {integrity: sha512-Kx8hMakjX03tiGTLAIdJ+lL0htKnXjEZN6hk/tozf/WOuYGdZBJrZ+rCJRbVCugsjB3jMLn9746NsQIf5VjBMw==}
-    engines: {node: '>=4'}
-    dependencies:
-      graceful-fs: 4.2.8
-      parse-json: 4.0.0
-      pify: 3.0.0
-      strip-bom: 3.0.0
-    dev: true
-
   /loader-runner@2.4.0:
     resolution: {integrity: sha512-Jsmr89RcXGIwivFY21FcRrisYZfvLMTWx5kOLc+JTxtpBOG6xML0vzbc6SEQG2FO9/4Fc3wW4LVcB5DmGflaRw==}
     engines: {node: '>=4.3.0 <5.0.0 || >=5.10'}
@@ -13083,11 +13053,6 @@ packages:
     dependencies:
       errno: 0.1.7
       readable-stream: 2.3.6
-    dev: true
-
-  /memorystream@0.3.1:
-    resolution: {integrity: sha512-S3UwM3yj5mtUSEfP41UZmt/0SCoVYUcU1rkXv+BQ5Ig8ndL4sPoJNBUJERafdPb5jjHJGuMgytgKvKIf58XNBw==}
-    engines: {node: '>= 0.10.0'}
     dev: true
 
   /meow@3.7.0:
@@ -14367,12 +14332,6 @@ packages:
   /picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
-
-  /pidtree@0.3.0:
-    resolution: {integrity: sha512-9CT4NFlDcosssyg8KVFltgokyKZIFjoBxw8CTGy+5F38Y1eQWrt8tRayiUOXE+zVKQnYu5BR8JjCtvK3BcnBhg==}
-    engines: {node: '>=0.10'}
-    hasBin: true
-    dev: true
 
   /pify@2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
@@ -15962,15 +15921,6 @@ packages:
       path-type: 1.1.0
     dev: true
 
-  /read-pkg@3.0.0:
-    resolution: {integrity: sha512-BLq/cCO9two+lBgiTYNqD6GdtK8s4NpaWrl6/rCO9w0TUS8oJl7cmToOZfRYllKTISY6nt1U7jQ53brmKqY6BA==}
-    engines: {node: '>=4'}
-    dependencies:
-      load-json-file: 4.0.0
-      normalize-package-data: 2.5.0
-      path-type: 3.0.0
-    dev: true
-
   /read-pkg@5.2.0:
     resolution: {integrity: sha512-Ug69mNOpfvKDAc2Q8DRpMjjzdtrnv9HcSMX+4VsZxD1aZ6ZzrIE7rlzXBtWTyhULSMKg076AW6WR5iZpD0JiOg==}
     engines: {node: '>=8'}
@@ -17024,11 +16974,6 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /signal-numbers@0.2.2:
-    resolution: {integrity: sha512-39bVN3drVn5KUSBjVIT2EfvPG4E38PjdTiXO3Q9S/dtlMPU6c5uTkFGZKpycm2XZPXPOxhICf0/KwbZgsZVKQQ==}
-    deprecated: This package is no longer maintained.
-    dev: true
-
   /signedsource@1.0.0:
     resolution: {integrity: sha512-6+eerH9fEnNmi/hyM1DXcRK3pWdoMQtlkQ+ns0ntzunjKqp5i3sKCc80ym8Fib3iaYhdJUOPdhlJWj1tvge2Ww==}
     dev: true
@@ -17534,15 +17479,6 @@ packages:
       regexp.prototype.flags: 1.5.1
       set-function-name: 2.0.1
       side-channel: 1.0.4
-    dev: true
-
-  /string.prototype.padend@3.0.0:
-    resolution: {integrity: sha512-hkMAJJtc5MwJvEsIXdQZ317tklAF6ozyqVI+NMVHeRR0GuF3Xi0/sYJCi4MJqiJrDHq5VFLEX3PWS/LJeuf4FA==}
-    engines: {node: '>= 0.4'}
-    dependencies:
-      define-properties: 1.2.1
-      es-abstract: 1.22.3
-      function-bind: 1.1.2
     dev: true
 
   /string.prototype.trim@1.2.8:

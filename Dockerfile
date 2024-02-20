@@ -54,13 +54,13 @@ RUN cd common && \
 # Build client, prune static assets
 RUN cd client && \
   pnpm run build && \
-  pnpm prune --production && \
+  pnpm prune --prod && \
   cd ..
 
 # Install, build server, prune static assets
 RUN cd server && \
   pnpm run build && \
-  pnpm prune --production && \
+  pnpm prune --prod && \
   cd ..
 
 # Set working directory within server folder
