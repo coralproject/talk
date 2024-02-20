@@ -44,7 +44,7 @@
     "lint-fix": "pnpm run lint:client -- --fix && pnpm run lint:scripts -- --fix",
     "lint:client": "eslint 'src/core/client/**/*.{js,ts,tsx}'",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
-    "lint": "pnpm run --parallel lint:* tscheck:*",
+    "lint": "pnpm run '/^lint:.*/' && pnpm run '/^tscheck:.*/'",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "preinstall": "npx only-allow pnpm",
     "start:webpackDevServer": "ts-node --transpile-only ./scripts/start.ts",

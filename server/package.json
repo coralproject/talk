@@ -37,7 +37,7 @@
     "lint:graphql": "graphql-schema-linter src/core/server/graph/schema/schema.graphql",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
     "lint:server": "eslint 'src/**/*.{js,ts,tsx}'",
-    "lint": "pnpm run lint:* && pnpm run tscheck:*",
+    "lint": "pnpm run '/^lint:.*/' && pnpm run '/^tscheck:.*/'",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "preinstall": "npx only-allow pnpm",
     "start:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
@@ -48,7 +48,7 @@
     "test:cache": "node --trace-warnings scripts/test.cache.js --env=jsdom",
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",
-    "tscheck": "pnpm run --parallel tscheck:*",
+    "tscheck": "pnpm run --parallel '/^tscheck:.*/'",
     "watch": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development STATIC_URI=http://127.0.0.1:8080 ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },
   "license": "Apache-2.0",
