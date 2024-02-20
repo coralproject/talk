@@ -112,7 +112,9 @@ export async function unarchiveStory(
   const logger = log.child({ storyID: id });
   logger.info("starting to unarchive story");
 
-  const targetStory = await mongo.stories().findOne({ id, tenantID });
+  const targetStory = await mongo
+    .stories()
+    .findOne({ id, tenantID }, { maxTimeMs: 30 * 60 * 1000 });
   if (!targetStory) {
     throw new StoryNotFoundError(id);
   }
@@ -203,7 +205,7 @@ async function moveDocuments<T extends { id: string }>({
   let deleteIDs: string[] = [];
   const allIDs: string[] = [];
 
-  const selectionCursor = source.find(filter);
+  const selectionCursor = source.find(filter, { maxTimeMs: 30 * 60 * 1000 });
 
   while (await selectionCursor.hasNext()) {
     const document = await selectionCursor.next();
