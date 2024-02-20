@@ -437,6 +437,10 @@ export type Settings = GlobalModerationSettings &
      */
     topCommenter?: TopCommenterConfig;
 
+    /**
+     * protectedEmailDomains is the configuration for email domains that are protected from email
+     * domain moderation rules such as all accounts banned
+     */
     protectedEmailDomains: string[];
   };
 

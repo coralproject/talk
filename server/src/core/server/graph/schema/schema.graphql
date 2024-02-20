@@ -2318,6 +2318,10 @@ type Settings @cacheControl(maxAge: 30) {
   """
   emailDomainModeration: [EmailDomain!]!
 
+  """
+  protectedEmailDomains is the configuration for email domains that are protected from email
+  domain moderation rules such as all accounts banned
+  """
   protectedEmailDomains: [String!]!
 
   """
@@ -6561,6 +6565,10 @@ input SettingsInput {
   """
   premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
 
+  """
+  protectedEmailDomains is the configuration for email domains that are protected from email
+  domain moderation rules such as all accounts banned
+  """
   protectedEmailDomains: [String!]
 }
 

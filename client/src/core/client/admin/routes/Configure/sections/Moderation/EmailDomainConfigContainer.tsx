@@ -178,11 +178,11 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
       )}
       <FormField>
         <FormFieldHeader>
-          <Localized id="">
+          <Localized id="configure-moderation-emailDomains-exceptions-header">
             <Label component="legend">Exceptions</Label>
           </Localized>
         </FormFieldHeader>
-        <Localized id="">
+        <Localized id="configure-moderation-emailDomains-exceptions-helperText">
           <HelperText>
             These domains cannot be banned. Domains should be written without
             www, for example `gmail.com`. Separate domains with a comma.
