@@ -71,8 +71,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
       <Localized id="configure-moderation-emailDomains-description">
         <FormFieldDescription>
           Create rules to take action on accounts or comments based on the
-          account holder's email address domain. Action only applies to newly
-          created accounts.
+          account holder's email address domain.
         </FormFieldDescription>
       </Localized>
       <Localized

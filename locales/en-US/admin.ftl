@@ -863,7 +863,7 @@ configure-moderation-newCommenters-comments = comments
 
 #### Email domain
 configure-moderation-emailDomains-header = Email domain
-configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain. Action only applies to newly created accounts.
+configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain.
 configure-moderation-emailDomains-add = Add email domain
 configure-moderation-emailDomains-edit = Edit email domain
 configure-moderation-emailDomains-addDomain = <icon></icon> Add domain
