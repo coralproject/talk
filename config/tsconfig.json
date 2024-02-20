@@ -14,7 +14,6 @@
     "noErrorTruncation": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "preserveSymlinks": true,
     "lib": ["dom", "es2018", "esnext.asynciterable"],
     "baseUrl": "./",
     "paths": {

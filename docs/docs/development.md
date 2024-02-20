@@ -17,7 +17,7 @@ git clone https://github.com/coralproject/talk.git
 cd talk
 
 # Install dependencies.
-sh scripts/pnpm-i.sh
+sh scripts/npm-i.sh
 ```
 
 Running Coral with default settings assumes that you have:
@@ -42,13 +42,13 @@ sh initialize.sh
 Then inside the `client/` folder run:
 
 ```bash
-pnpm run watch
+npm run watch
 ```
 
 Then open another terminal inside the `server/` folder and similarly run:
 
 ```bash
-pnpm run watch
+npm run watch
 ```
 
 These two terminals will run through some build steps and start the system up in development mode. The `client/` hosts the front end code and the `server/` hosts the GraphQL API and underlying data management with Redis and Mongo.
@@ -71,7 +71,7 @@ Similar to other applications, development environment variables are picked up f
 sh scripts/lint.sh
 
 # Inside client, server you can run our unit and integration tests
-pnpm run test
+npm run test
 ```
 
 ## Email

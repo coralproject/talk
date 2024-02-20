@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-sh scripts/pnpm-i.sh
+sh scripts/npm-i.sh

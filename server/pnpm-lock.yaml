@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  protobufjs: '>=7.2.4'
-
 dependencies:
   '@ampproject/toolbox-cache-url':
     specifier: ^2.9.0
@@ -56,12 +53,6 @@ dependencies:
   akismet-api:
     specifier: ^6.0.0
     version: 6.0.0
-  apollo-cache-control:
-    specifier: ^0.11.3
-    version: 0.11.3(graphql@14.6.0)
-  apollo-server-caching:
-    specifier: ^0.5.2
-    version: 0.5.2
   apollo-server-express:
     specifier: ^2.18.1
     version: 2.18.1(graphql@14.6.0)
@@ -83,9 +74,6 @@ dependencies:
   bcryptjs:
     specifier: ^2.4.3
     version: 2.4.3
-  body-parser:
-    specifier: ^1.19.0
-    version: 1.19.0(supports-color@6.1.0)
   bull:
     specifier: ^3.18.0
     version: 3.18.0
@@ -116,9 +104,6 @@ dependencies:
   coral-common:
     specifier: ../common/dist
     version: link:../common/dist
-  coral-config:
-    specifier: ../config/dist
-    version: link:../config/dist
   cors:
     specifier: ^2.8.5
     version: 2.8.5
@@ -340,9 +325,6 @@ devDependencies:
   '@types/bcryptjs':
     specifier: ^2.4.2
     version: 2.4.2
-  '@types/body-parser':
-    specifier: ^1.19.2
-    version: 1.19.2
   '@types/bull':
     specifier: ^3.14.2
     version: 3.14.2
@@ -2331,7 +2313,7 @@ packages:
       parse-duration: 1.0.2
       pprof: 3.2.0
       pretty-ms: 7.0.1
-      protobufjs: 7.2.6
+      protobufjs: 7.1.2
       semver: 7.5.4
       teeny-request: 8.0.2
     transitivePeerDependencies:
@@ -11085,8 +11067,8 @@ packages:
       node-fetch: 2.6.7
       object-hash: 3.0.0
       proto3-json-serializer: 1.1.0
-      protobufjs: 7.2.6
-      protobufjs-cli: 1.0.2(protobufjs@7.2.6)
+      protobufjs: 7.1.2
+      protobufjs-cli: 1.0.2(protobufjs@7.1.2)
       retry-request: 5.0.2
     transitivePeerDependencies:
       - encoding
@@ -16938,7 +16920,7 @@ packages:
       nan: 2.18.0
       p-limit: 3.1.0
       pify: 5.0.0
-      protobufjs: 7.2.6
+      protobufjs: 6.11.4
       source-map: 0.7.4
       split: 1.0.1
     transitivePeerDependencies:
@@ -17097,12 +17079,12 @@ packages:
       protobufjs: 7.2.6
     dev: false
 
-  /protobufjs-cli@1.0.2(protobufjs@7.2.6):
+  /protobufjs-cli@1.0.2(protobufjs@7.1.2):
     resolution: {integrity: sha512-cz9Pq9p/Zs7okc6avH20W7QuyjTclwJPgqXG11jNaulfS3nbVisID8rC+prfgq0gbZE0w9LBFd1OKFF03kgFzg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     peerDependencies:
-      protobufjs: '>=7.2.4'
+      protobufjs: ^7.0.0
     dependencies:
       chalk: 4.1.2
       escodegen: 1.14.3
@@ -17111,10 +17093,49 @@ packages:
       glob: 8.0.3
       jsdoc: 3.6.11
       minimist: 1.2.6
-      protobufjs: 7.2.6
+      protobufjs: 7.1.2
       semver: 7.5.4
       tmp: 0.2.1
       uglify-js: 3.17.4
+    dev: false
+
+  /protobufjs@6.11.4:
+    resolution: {integrity: sha512-5kQWPaJHi1WoCpjTGszzQ32PG2F4+wRY6BmAT4Vfw56Q2FZ4YZzK20xUYQH4YkfehY1e6QSICrJquM6xXZNcrw==}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@protobufjs/aspromise': 1.1.2
+      '@protobufjs/base64': 1.1.2
+      '@protobufjs/codegen': 2.0.4
+      '@protobufjs/eventemitter': 1.1.0
+      '@protobufjs/fetch': 1.1.0
+      '@protobufjs/float': 1.0.2
+      '@protobufjs/inquire': 1.1.0
+      '@protobufjs/path': 1.1.2
+      '@protobufjs/pool': 1.1.0
+      '@protobufjs/utf8': 1.1.0
+      '@types/long': 4.0.1
+      '@types/node': 18.11.5
+      long: 4.0.0
+    dev: false
+
+  /protobufjs@7.1.2:
+    resolution: {integrity: sha512-4ZPTPkXCdel3+L81yw3dG6+Kq3umdWKh7Dc7GW/CpNk4SX3hK58iPCWeCyhVTDrbkNeKrYNZ7EojM5WDaEWTLQ==}
+    engines: {node: '>=12.0.0'}
+    requiresBuild: true
+    dependencies:
+      '@protobufjs/aspromise': 1.1.2
+      '@protobufjs/base64': 1.1.2
+      '@protobufjs/codegen': 2.0.4
+      '@protobufjs/eventemitter': 1.1.0
+      '@protobufjs/fetch': 1.1.0
+      '@protobufjs/float': 1.0.2
+      '@protobufjs/inquire': 1.1.0
+      '@protobufjs/path': 1.1.2
+      '@protobufjs/pool': 1.1.0
+      '@protobufjs/utf8': 1.1.0
+      '@types/node': 18.11.5
+      long: 5.2.0
     dev: false
 
   /protobufjs@7.2.6:

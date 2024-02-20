@@ -4,10 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@testing-library/dom': 9.3.4
-  axe-core: 3.5.5
-
 dependencies:
   '@ampproject/toolbox-cache-url':
     specifier: ^2.9.0
@@ -31,6 +27,9 @@ dependencies:
     specifier: 1.1.4
     version: 1.1.4
   '@sentry/integrations':
+    specifier: ^6.19.7
+    version: 6.19.7
+  '@sentry/types':
     specifier: ^6.19.7
     version: 6.19.7
   '@types/url-regex-safe':
@@ -122,21 +121,12 @@ devDependencies:
   '@coralproject/rte':
     specifier: ^2.2.4
     version: 2.2.4(react-dom@18.2.0)(react@18.2.0)
-  '@emotion/cache':
-    specifier: ^10.0.29
-    version: 10.0.29
-  '@emotion/core':
-    specifier: ^10.1.1
-    version: 10.1.1(react@18.2.0)
   '@fluent/react':
     specifier: ^0.12.0
     version: 0.12.0(@fluent/bundle@0.15.1)(react@18.2.0)
   '@giphy/js-fetch-api':
     specifier: ^4.1.2
     version: 4.1.2
-  '@giphy/js-types':
-    specifier: ^5.0.0
-    version: 5.0.0
   '@giphy/react-components':
     specifier: ^5.4.0
     version: 5.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -149,30 +139,9 @@ devDependencies:
   '@intervolga/optimize-cssnano-plugin':
     specifier: ^1.0.6
     version: 1.0.6(webpack@4.46.0)
-  '@sentry/browser':
-    specifier: ^6.19.7
-    version: 6.19.7
-  '@sentry/core':
-    specifier: ^6.19.7
-    version: 6.19.7
-  '@sentry/hub':
-    specifier: ^6.19.7
-    version: 6.19.7
-  '@sentry/minimal':
-    specifier: ^6.19.7
-    version: 6.19.7
   '@sentry/react':
     specifier: ^6.19.7
     version: 6.19.7(react@18.2.0)
-  '@sentry/types':
-    specifier: ^6.19.7
-    version: 6.19.7
-  '@sentry/utils':
-    specifier: ^6.19.7
-    version: 6.19.7
-  '@testing-library/dom':
-    specifier: 9.3.4
-    version: 9.3.4
   '@testing-library/jest-dom':
     specifier: ^5.16.2
     version: 5.17.0
@@ -305,9 +274,6 @@ devDependencies:
   '@types/stack-trace':
     specifier: 0.0.29
     version: 0.0.29
-  '@types/testing-library__jest-dom':
-    specifier: ^5.14.9
-    version: 5.14.9
   '@types/uuid':
     specifier: ^7.0.2
     version: 7.0.2
@@ -452,9 +418,6 @@ devDependencies:
   farce:
     specifier: ^0.4.5
     version: 0.4.5
-  file-loader:
-    specifier: ^6.2.0
-    version: 6.2.0(webpack@4.46.0)
   final-form:
     specifier: ^4.20.1
     version: 4.20.1
@@ -509,9 +472,6 @@ devDependencies:
   jest-axe:
     specifier: ^4.0.0
     version: 4.0.0
-  jest-canvas-mock:
-    specifier: ^2.5.2
-    version: 2.5.2
   jest-junit:
     specifier: ^11.1.0
     version: 11.1.0
@@ -545,9 +505,6 @@ devDependencies:
   mini-css-extract-plugin:
     specifier: ^1.6.2
     version: 1.6.2(webpack@4.46.0)
-  popper.js:
-    specifier: ^1.14.4
-    version: 1.16.1
   postcss-advanced-variables:
     specifier: ^3.0.1
     version: 3.0.1
@@ -704,9 +661,6 @@ devDependencies:
   timekeeper:
     specifier: ^2.2.0
     version: 2.2.0
-  ts-essentials:
-    specifier: ^2.0.8
-    version: 2.0.12
   ts-jest:
     specifier: 26.3.0
     version: 26.3.0(jest@26.4.2)(typescript@3.9.10)
@@ -751,7 +705,7 @@ devDependencies:
     version: 1.7.0
   url-loader:
     specifier: 4.1.1
-    version: 4.1.1(file-loader@6.2.0)(webpack@4.46.0)
+    version: 4.1.1(webpack@4.46.0)
   use-resize-observer:
     specifier: ^6.1.0
     version: 6.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -2271,10 +2225,6 @@ packages:
     resolution: {integrity: sha512-+qSN4Mx4TmrjLQm4SC0I/ZBkb5eWM94sljXwfjIlqn0GMSR3geqEqwmE9Uf/ldgzFh+XMMCasQjIdUl2nWc++Q==}
     dev: true
 
-  /@giphy/js-types@5.0.0:
-    resolution: {integrity: sha512-L7q1Skf8nDiShtuU3VfOZs8Ce95SP6FjDefZH3p9qBvl58hlRDfJ0l4k/35+RYUy8t0orU+cEde1QCj0Z8U+uQ==}
-    dev: true
-
   /@giphy/js-util@4.0.1:
     resolution: {integrity: sha512-46wXgt5Y+MxZjuzjE6JlvMLE+6Vlag+PYxbyTxpsunhmOKNoYK99d51E09iynmXTFuZWYgWJR9LcfnzqsWHy+Q==}
     dependencies:
@@ -3333,6 +3283,20 @@ packages:
       defer-to-connect: 1.1.3
     dev: true
 
+  /@testing-library/dom@8.20.1:
+    resolution: {integrity: sha512-/DiOQ5xBxgdYRC8LNk7U+RWat0S3qRLeIw3ZIkMQ9kkVlRmwD/Eg8k8CqIpD6GW7u20JIUOfMKbxtiLutpjQ4g==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@babel/code-frame': 7.23.5
+      '@babel/runtime': 7.23.8
+      '@types/aria-query': 5.0.4
+      aria-query: 5.1.3
+      chalk: 4.1.2
+      dom-accessibility-api: 0.5.16
+      lz-string: 1.5.0
+      pretty-format: 27.5.1
+    dev: true
+
   /@testing-library/dom@9.3.4:
     resolution: {integrity: sha512-FlS4ZWlp97iiNWig0Muq8p+3rVDjRiYE+YKGbAqXOu9nwJFFOdL00kFpz42M+4huzYi86vAK1sOOfyOG45muIQ==}
     engines: {node: '>=14'}
@@ -3370,7 +3334,7 @@ packages:
       react-dom: ^18.0.0
     dependencies:
       '@babel/runtime': 7.23.8
-      '@testing-library/dom': 9.3.4
+      '@testing-library/dom': 8.20.1
       '@types/react-dom': 18.0.6
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -3380,7 +3344,7 @@ packages:
     resolution: {integrity: sha512-5Kwtbo3Y/NowpkbRuSepbyMFkZmHgD+vPzYB/RJ4oxt5Gj/avFFBYjhw27cqSVPVw/3a67NK1PbiIr9k4Gwmdg==}
     engines: {node: '>=10', npm: '>=6'}
     peerDependencies:
-      '@testing-library/dom': 9.3.4
+      '@testing-library/dom': '>=7.21.4'
     dependencies:
       '@babel/runtime': 7.23.8
       '@testing-library/dom': 9.3.4
@@ -3836,7 +3800,7 @@ packages:
     dependencies:
       '@types/react': 18.0.19
       '@types/react-dom': 18.0.6
-      axe-core: 3.5.5
+      axe-core: 3.2.2
     dev: true
 
   /@types/react-copy-to-clipboard@4.3.0:
@@ -5120,8 +5084,23 @@ packages:
     resolution: {integrity: sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==}
     dev: true
 
+  /axe-core@3.2.2:
+    resolution: {integrity: sha512-gAy4kMSPpuRJV3mwictJqlg5LhE84Vw2CydKdC4tvrLhR6+G3KW51zbL/vYujcLA2jvWOq3HMHrVeNuw+mrLVA==}
+    engines: {node: '>=4'}
+    dev: true
+
   /axe-core@3.5.5:
     resolution: {integrity: sha512-5P0QZ6J5xGikH780pghEdbEKijCTrruK9KxtPZCFWUpef0f6GipO+xEZ5GKCb020mmqgbiNO6TcA55CriL784Q==}
+    engines: {node: '>=4'}
+    dev: true
+
+  /axe-core@4.7.0:
+    resolution: {integrity: sha512-M0JtH+hlOL5pLQwHOLNYZaXuhqmvS8oExsqB1SBYgA4Dk7u/xx+YdGHXaK5pyUfed5mYXdlYiphWq3G8cRi5JQ==}
+    engines: {node: '>=4'}
+    dev: true
+
+  /axe-core@4.8.4:
+    resolution: {integrity: sha512-CZLSKisu/bhJ2awW4kJndluz2HLZYIHh5Uy1+ZwDRkJi69811xgIXXfdU9HSLX0Th+ILrHj8qfL/5wzamsFtQg==}
     engines: {node: '>=4'}
     dev: true
 
@@ -7484,10 +7463,6 @@ packages:
     hasBin: true
     dev: true
 
-  /cssfontparser@1.2.1:
-    resolution: {integrity: sha512-6tun4LoZnj7VN6YeegOVb67KBX/7JJsqvj+pv3ZA7F878/eN33AbGa5b/S/wXxS/tcp8nc40xRUrsPlxIyNUPg==}
-    dev: true
-
   /cssnano-preset-default@4.0.7:
     resolution: {integrity: sha512-x0YHHx2h6p0fCl1zY9L9roD7rnlltugGu7zXSKQx6k2rYw0Hi3IqxcoAGF7u9Q5w1nt7vK0ulxV8Lo+EvllGsA==}
     engines: {node: '>=6.9.0'}
@@ -8597,7 +8572,7 @@ packages:
       eslint: '>=6.8'
     dependencies:
       '@babel/runtime': 7.23.8
-      '@testing-library/dom': 9.3.4
+      '@testing-library/dom': 8.20.1
       eslint: 8.56.0
       requireindex: 1.2.0
     dev: true
@@ -8632,7 +8607,7 @@ packages:
       array-includes: 3.1.7
       array.prototype.flatmap: 1.3.2
       ast-types-flow: 0.0.8
-      axe-core: 3.5.5
+      axe-core: 4.7.0
       axobject-query: 3.2.1
       damerau-levenshtein: 1.0.8
       emoji-regex: 9.2.2
@@ -9213,17 +9188,6 @@ packages:
     engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
       flat-cache: 3.2.0
-    dev: true
-
-  /file-loader@6.2.0(webpack@4.46.0):
-    resolution: {integrity: sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==}
-    engines: {node: '>= 10.13.0'}
-    peerDependencies:
-      webpack: ^4.0.0 || ^5.0.0
-    dependencies:
-      loader-utils: 2.0.0
-      schema-utils: 3.1.1
-      webpack: 4.46.0(webpack-cli@3.3.12)
     dev: true
 
   /file-uri-to-path@1.0.0:
@@ -11589,17 +11553,10 @@ packages:
     resolution: {integrity: sha512-Uu8bpPdl+EMtlXIh9KtUY+0us41Lb+KIWL+tP42Kl/tRmDWtgd0qJO4XAkJ/FW90OcKaOwRrQyfTboH+UsmUmA==}
     engines: {node: '>= 10.0.0'}
     dependencies:
-      axe-core: 3.5.5
+      axe-core: 4.8.4
       chalk: 4.1.2
       jest-matcher-utils: 26.4.2
       lodash.merge: 4.6.2
-    dev: true
-
-  /jest-canvas-mock@2.5.2:
-    resolution: {integrity: sha512-vgnpPupjOL6+L5oJXzxTxFrlGEIbHdZqFU+LFNdtLxZ3lRDCl17FlTMM7IatoRQkrcyOTMlDinjUguqmQ6bR2A==}
-    dependencies:
-      cssfontparser: 1.2.1
-      moo-color: 1.0.3
     dev: true
 
   /jest-changed-files@26.3.0:
@@ -13326,12 +13283,6 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
-
-  /moo-color@1.0.3:
-    resolution: {integrity: sha512-i/+ZKXMDf6aqYtBhuOcej71YSlbjT3wCO/4H1j8rPvxDJEifdwgg5MaFyu6iYAT8GBZJg2z0dkgK4YMzvURALQ==}
-    dependencies:
-      color-name: 1.1.4
-    dev: true
 
   /move-concurrently@1.0.1:
     resolution: {integrity: sha512-hdrFxZOycD/g6A6SoI2bB5NA/5NEqD0569+S47WZhPvm46sD50ZHdYaFmnua5lndde9rCHGjmfK7Z8BuCt/PcQ==}
@@ -18701,7 +18652,7 @@ packages:
     deprecated: Please see https://github.com/lydell/urix#deprecated
     dev: true
 
-  /url-loader@4.1.1(file-loader@6.2.0)(webpack@4.46.0):
+  /url-loader@4.1.1(webpack@4.46.0):
     resolution: {integrity: sha512-3BTV812+AVHHOJQO8O5MkWgZ5aosP7GnROJwvzLS9hWDj00lZ6Z0wNak423Lp9PBZN05N+Jk/N5Si8jRAlGyWA==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
@@ -18711,7 +18662,6 @@ packages:
       file-loader:
         optional: true
     dependencies:
-      file-loader: 6.2.0(webpack@4.46.0)
       loader-utils: 2.0.0
       mime-types: 2.1.34
       schema-utils: 3.1.1

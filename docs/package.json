@@ -5,8 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus graphql-to-doc && docusaurus start",
-    "build": "export NODE_OPTIONS=\"--openssl-legacy-provider\" && docusaurus graphql-to-doc && docusaurus build",
-    "preinstall": "npx only-allow pnpm",
+    "build": "docusaurus graphql-to-doc && docusaurus build",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "lint": "eslint './**/*.{js,ts,tsx}'"

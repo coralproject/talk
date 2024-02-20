@@ -459,7 +459,7 @@ export async function createEmailDomain(
   ) {
     throw new OperationForbiddenError(
       ERROR_CODES.EMAIL_DOMAIN_PROTECTED,
-      "This email domain may not be moderated",
+      "Email domain cannot be banned.",
       input.domain,
       input.newUserModeration
     );
