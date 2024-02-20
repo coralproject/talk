@@ -436,6 +436,8 @@ export type Settings = GlobalModerationSettings &
      * with comments featured within the last 10 days are top commenters
      */
     topCommenter?: TopCommenterConfig;
+
+    protectedEmailDomains: string[];
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

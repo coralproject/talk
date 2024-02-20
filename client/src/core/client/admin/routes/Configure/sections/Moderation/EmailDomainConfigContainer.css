@@ -5,3 +5,7 @@
 .editButton {
   padding-right: var(--spacing-2);
 }
+
+.textArea {
+  height: 150px;
+}

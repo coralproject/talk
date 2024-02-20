@@ -1,12 +1,14 @@
 import { Localized } from "@fluent/react/compat";
-import { useRouter } from "found";
 import React, { FunctionComponent, useCallback } from "react";
+import { Field } from "react-final-form";
 import { graphql } from "relay-runtime";
 
 import { urls } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { formatStringList, parseStringList } from "coral-framework/lib/form";
 import { getMessage } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { validateEmailDomainList } from "coral-framework/lib/validation";
 import {
   AddIcon,
   BinIcon,
@@ -16,30 +18,46 @@ import {
 import {
   Button,
   Flex,
+  FormField,
   FormFieldDescription,
+  FormFieldHeader,
+  HelperText,
+  Label,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  Textarea,
 } from "coral-ui/components/v2";
 
 import { EmailDomainConfigContainer_settings } from "coral-admin/__generated__/EmailDomainConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
+import ValidationMessage from "../../ValidationMessage";
 import DeleteEmailDomainMutation from "../EmailDomains/DeleteEmailDomainMutation";
 
 import styles from "./EmailDomainConfigContainer.css";
 
 interface Props {
   settings: EmailDomainConfigContainer_settings;
+  disabled: boolean;
 }
 
-const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
-  const { emailDomainModeration } = settings;
+// eslint-disable-next-line no-unused-expressions
+graphql`
+  fragment EmailDomainConfigContainer_formValues on Settings {
+    protectedEmailDomains
+  }
+`;
+
+const EmailDomainConfigContainer: FunctionComponent<Props> = ({
+  settings,
+  disabled,
+}) => {
+  const { emailDomainModeration, protectedEmailDomains } = settings;
   const { localeBundles } = useCoralContext();
-  const { router } = useRouter();
   const deleteEmailDomain = useMutation(DeleteEmailDomainMutation);
 
   const onDelete = useCallback(
@@ -55,7 +73,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
         await deleteEmailDomain({ id: domainId });
       }
     },
-    [router]
+    [deleteEmailDomain, localeBundles]
   );
 
   return (
@@ -158,6 +176,43 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
           </TableBody>
         </Table>
       )}
+      <FormField>
+        <FormFieldHeader>
+          <Localized id="">
+            <Label component="legend">Exceptions</Label>
+          </Localized>
+        </FormFieldHeader>
+        <Localized id="">
+          <HelperText>
+            These domains cannot be banned. Domains should be written without
+            www, for example `gmail.com`. Separate domains with a comma.
+          </HelperText>
+        </Localized>
+        <Field
+          name="protectedEmailDomains"
+          parse={parseStringList}
+          format={formatStringList}
+          validate={validateEmailDomainList}
+          defaultValue={protectedEmailDomains}
+        >
+          {({ input, meta }) => (
+            <>
+              <Textarea
+                {...input}
+                className={styles.textArea}
+                id={`configure-advanced-${input.name}`}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                fullwidth
+                disabled={disabled}
+              />
+              <ValidationMessage meta={meta} />
+            </>
+          )}
+        </Field>
+      </FormField>
     </ConfigBox>
   );
 };
@@ -165,6 +220,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment EmailDomainConfigContainer_settings on Settings {
+      protectedEmailDomains
       emailDomainModeration {
         domain
         id

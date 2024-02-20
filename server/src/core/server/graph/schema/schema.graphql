@@ -2318,6 +2318,8 @@ type Settings @cacheControl(maxAge: 30) {
   """
   emailDomainModeration: [EmailDomain!]!
 
+  protectedEmailDomains: [String!]!
+
   """
   externalProfileURL is a string template for a link to a user's
   external profile.
@@ -6558,6 +6560,8 @@ input SettingsInput {
   addresses at sign up and premoderating them according to various rules.
   """
   premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
+
+  protectedEmailDomains: [String!]
 }
 
 """
