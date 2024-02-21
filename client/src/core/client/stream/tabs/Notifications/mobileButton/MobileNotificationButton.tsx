@@ -61,7 +61,7 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
                   aria-label="Close notifications"
                   className={styles.closeButton}
                 >
-                  <ButtonSvgIcon size="lg" Icon={RemoveIcon} />
+                  <ButtonSvgIcon size="md" Icon={RemoveIcon} />
                 </button>
               </Localized>
             </div>
