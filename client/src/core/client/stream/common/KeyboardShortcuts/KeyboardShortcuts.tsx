@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import { ListenerFn } from "eventemitter2";
 import React, {
   FunctionComponent,
@@ -43,7 +44,7 @@ import {
   ControlsNextIcon,
   RemoveIcon,
 } from "coral-ui/components/icons";
-import { Button, Flex } from "coral-ui/components/v2";
+import { Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
@@ -430,6 +431,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         setDisableUnreadButtons(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     comments,
     newCommentsAreStillMarkedUnseen,
@@ -1095,6 +1097,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return true;
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       eventEmitter,
       relayEnvironment,
@@ -1173,6 +1176,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // search through comments to find and navigate to next unseen
       findAndNavigateToNextUnseen(undefined, source);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       findAndNavigateToNextUnseen,
       traverse,
@@ -1407,34 +1411,42 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               </div>
 
               <div className={styles.unmarkAllContainer}>
-                <Button
-                  variant="regular"
-                  color="stream"
-                  size="regular"
-                  uppercase={false}
+                <button
+                  className={cn(styles.actionButton, {
+                    [styles.disabled]: disableUnreadButtons,
+                  })}
                   disabled={disableUnreadButtons}
                   onClick={handleUnmarkAllButton}
                 >
-                  <ButtonSvgIcon Icon={CheckDoubleIcon} />
-                  <Localized id="comments-mobileToolbar-unmarkAll">
-                    <span>Mark all as read</span>
-                  </Localized>
-                </Button>
+                  <Flex justifyContent="center" alignItems="center">
+                    <ButtonSvgIcon
+                      Icon={CheckDoubleIcon}
+                      className={styles.unmarkAllIcon}
+                    />
+                    <Localized id="comments-mobileToolbar-unmarkAll">
+                      <span>Mark all as read</span>
+                    </Localized>
+                  </Flex>
+                </button>
               </div>
               <div className={styles.nextActionContainer}>
-                <Button
-                  variant="regular"
-                  color="stream"
-                  size="regular"
-                  uppercase={false}
+                <button
+                  className={cn(styles.actionButton, {
+                    [styles.disabled]: disableUnreadButtons,
+                  })}
                   disabled={disableUnreadButtons}
                   onClick={handleZKeyButton}
                 >
-                  <Localized id="comments-mobileToolbar-nextUnread">
-                    <span>Next unread</span>
-                  </Localized>
-                  <ButtonSvgIcon Icon={ControlsNextIcon} />
-                </Button>
+                  <Flex justifyContent="center" alignItems="center">
+                    <Localized id="comments-mobileToolbar-nextUnread">
+                      <span>Next unread</span>
+                    </Localized>
+                    <ButtonSvgIcon
+                      Icon={ControlsNextIcon}
+                      className={styles.nextUnreadIcon}
+                    />
+                  </Flex>
+                </button>
               </div>
               <div className={styles.notificationActionContainer}>
                 <MobileNotificationButton
