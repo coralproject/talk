@@ -33,7 +33,7 @@
     "job-pods:up": "docker-compose up -d",
     "job-pods:down": "docker-compose down",
     "precommit": "node scripts/precommitLint.js && pnpm run lint:graphql",
-    "lint-fix": "pnpm run lint:server -- --fix && pnpm run lint:scripts -- --fix",
+    "lint-fix": "pnpm run lint:server --fix && pnpm run lint:scripts --fix",
     "lint:graphql": "graphql-schema-linter src/core/server/graph/schema/schema.graphql",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
     "lint:server": "eslint 'src/**/*.{js,ts,tsx}'",

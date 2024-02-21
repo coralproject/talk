@@ -30,18 +30,18 @@
     "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' CLIENT_EVENTS.md ../CONTRIBUTING.md",
     "generate-persist": "pnpm run generate:css-types && pnpm run generate:relay-persist",
     "generate:css-types": "tcm src/core/client/",
-    "generate:relay-persist": "pnpm run generate:relay:account --persist && pnpm run generate:relay:admin --persist && pnpm run generate:relay:auth --persist && pnpm run generate:relay:framework --persist && pnpm run generate:relay:install --persist && pnpm run generate:relay:stream --persist",
+    "generate:relay-persist": "pnpm run '/^generate:relay:.*/' --persist",
     "generate:relay:account": "ts-node --transpile-only ./scripts/compileRelay --bundle account",
     "generate:relay:admin": "ts-node --transpile-only ./scripts/compileRelay --bundle admin",
     "generate:relay:auth": "ts-node --transpile-only ./scripts/compileRelay --bundle auth",
     "generate:relay:framework": "ts-node --transpile-only ./scripts/compileRelay --bundle framework",
     "generate:relay:install": "ts-node --transpile-only ./scripts/compileRelay --bundle install",
     "generate:relay:stream": "ts-node --transpile-only ./scripts/compileRelay --bundle stream",
-    "generate:relay": "pnpm run generate:relay:account && pnpm run generate:relay:admin && pnpm run generate:relay:auth && pnpm run generate:relay:framework && pnpm run generate:relay:install && pnpm run generate:relay:stream",
+    "generate:relay": "pnpm run '/^generate:relay:.*/'",
     "generate:supportedBrowsersRegExp": "ts-node --transpile-only ./scripts/generateSupportedBrowsersRegExp.ts ./src/core/client/framework/helpers/supportedBrowsersRegExp.ts",
     "generate": "pnpm run generate:css-types && pnpm run generate:relay",
     "precommit": "node scripts/precommitLint.js && pnpm run doctoc && pnpm run generate:supportedBrowsersRegExp --verify && pnpm run docs:css-variables --verify && pnpm run docs:events --verify",
-    "lint-fix": "pnpm run lint:client -- --fix && pnpm run lint:scripts -- --fix",
+    "lint-fix": "pnpm run lint:client --fix && pnpm run lint:scripts --fix",
     "lint:client": "eslint 'src/core/client/**/*.{js,ts,tsx}'",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
     "lint": "pnpm run '/^lint:.*/' && pnpm run '/^tscheck:.*/'",
@@ -54,7 +54,7 @@
     "test:client:other": "node --trace-warnings scripts/testClient.other.js --maxWorkers=50%",
     "tscheck:client": "tsc --project ./src/core/client/tsconfig.json --noEmit",
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
-    "tscheck": "pnpm run --parallel tscheck:*",
+    "tscheck": "pnpm run '/^tscheck:.*/'",
     "watch": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },
   "license": "Apache-2.0",
@@ -365,4 +365,3 @@
     "not dead"
   ]
 }
-
