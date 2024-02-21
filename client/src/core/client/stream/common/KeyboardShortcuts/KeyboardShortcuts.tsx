@@ -10,6 +10,8 @@ import React, {
 } from "react";
 import { Environment, graphql } from "react-relay";
 
+import CLASSES from "coral-stream/classes";
+
 import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
@@ -1403,7 +1405,10 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   <button
                     onClick={handleCloseToolbarButton}
                     aria-label="Close"
-                    className={styles.closeButton}
+                    className={cn(
+                      styles.closeButton,
+                      CLASSES.mobileToolbar.close
+                    )}
                   >
                     <ButtonSvgIcon Icon={RemoveIcon} />
                   </button>
@@ -1412,9 +1417,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
               <div className={styles.unmarkAllContainer}>
                 <button
-                  className={cn(styles.actionButton, {
-                    [styles.disabled]: disableUnreadButtons,
-                  })}
+                  className={cn(
+                    styles.actionButton,
+                    CLASSES.mobileToolbar.markAllAsRead,
+                    {
+                      [styles.disabled]: disableUnreadButtons,
+                    }
+                  )}
                   disabled={disableUnreadButtons}
                   onClick={handleUnmarkAllButton}
                 >
@@ -1431,9 +1440,13 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               </div>
               <div className={styles.nextActionContainer}>
                 <button
-                  className={cn(styles.actionButton, {
-                    [styles.disabled]: disableUnreadButtons,
-                  })}
+                  className={cn(
+                    styles.actionButton,
+                    CLASSES.mobileToolbar.nextUnread,
+                    {
+                      [styles.disabled]: disableUnreadButtons,
+                    }
+                  )}
                   disabled={disableUnreadButtons}
                   onClick={handleZKeyButton}
                 >
