@@ -1410,7 +1410,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                       CLASSES.mobileToolbar.close
                     )}
                   >
-                    <ButtonSvgIcon Icon={RemoveIcon} />
+                    <ButtonSvgIcon size="md" Icon={RemoveIcon} />
                   </button>
                 </Localized>
               </div>
