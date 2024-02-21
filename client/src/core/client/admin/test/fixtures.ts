@@ -1,5 +1,6 @@
 import {
   DEFAULT_SESSION_DURATION,
+  PROTECTED_EMAIL_DOMAINS,
   TOXICITY_THRESHOLD_DEFAULT,
 } from "coral-common/common/lib/constants";
 import TIME from "coral-common/common/lib/time";
@@ -240,6 +241,7 @@ export const settings = createFixture<GQLSettings>({
       method: GQLDSA_METHOD_OF_REDRESS.NONE,
     },
   },
+  protectedEmailDomains: Array.from(PROTECTED_EMAIL_DOMAINS),
 });
 
 export const settingsWithMultisite = createFixture<GQLSettings>(

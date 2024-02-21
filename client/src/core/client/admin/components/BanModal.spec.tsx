@@ -6,7 +6,6 @@ import {
   replaceHistoryLocation,
 } from "coral-framework/testHelpers";
 
-import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import { pureMerge } from "coral-common/common/lib/utils";
 import {
   GQLNEW_USER_MODERATION,
@@ -240,7 +239,7 @@ it("does not display ban domain option for moderated domain", async () => {
 });
 
 it("does not display ban domain option for protected domain", async () => {
-  const protectedDomain = PROTECTED_EMAIL_DOMAINS.values().next().value;
+  const protectedDomain = "gmail.com";
   const protectedEmailResolver = createResolversStub<GQLResolver>({
     Query: {
       users: () => ({
