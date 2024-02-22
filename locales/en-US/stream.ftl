@@ -1064,6 +1064,9 @@ notifications-comment-show = + Show your comment
 
 notification-comment-description-featured = your comment on "{ $title }" was featured by a member of our team.
 notification-comment-description-default = on "{ $title }"
+notification-comment-media-image = Image
+notification-comment-media-embed = Embed
+notification-comment-media-gif = Gif
 
 notifications-yourIllegalContentReportHasBeenReviewed =
   Your illegal content report has been reviewed

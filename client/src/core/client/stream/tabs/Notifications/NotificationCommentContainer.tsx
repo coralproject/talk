@@ -5,6 +5,7 @@ import { graphql } from "react-relay";
 import { GQLNOTIFICATION_TYPE } from "coral-common/client/src/core/client/framework/schema/__generated__/types";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import HTMLContent from "coral-stream/common/HTMLContent";
+import { NOTIFICATION_COMMENT_BODY_LENGTH } from "coral-stream/constants";
 import { RelativeTime, Tag } from "coral-ui/components/v2";
 
 import { NotificationCommentContainer_comment } from "coral-stream/__generated__/NotificationCommentContainer_comment.graphql";
@@ -39,11 +40,11 @@ const NotificationCommentContainer: FunctionComponent<Props> = ({
       return null;
     }
     if (comment.revision.media.__typename === "ExternalMedia") {
-      return { id: "", defaultText: "Image" };
+      return { id: "notification-comment-media-image", defaultText: "Image" };
     } else if (comment.revision.media.__typename === "GiphyMedia") {
-      return { id: "", defaultText: "GIF" };
+      return { id: "notification-comment-media-gif", defaultText: "GIF" };
     } else {
-      return { id: "", defaultText: "Embed" };
+      return { id: "notification-comment-media-embed", defaultText: "Embed" };
     }
   }, [comment.revision?.media]);
 
@@ -63,8 +64,8 @@ const NotificationCommentContainer: FunctionComponent<Props> = ({
       <div className={styles.content}>
         <HTMLContent>
           {comment.body
-            ? comment.body.length > 250
-              ? comment.body.slice(0, 250) + "..."
+            ? comment.body.length > NOTIFICATION_COMMENT_BODY_LENGTH
+              ? comment.body.slice(0, NOTIFICATION_COMMENT_BODY_LENGTH) + "..."
               : comment.body
             : ""}
         </HTMLContent>
@@ -91,7 +92,6 @@ const enhanced = withFragmentContainer<Props>({
       id
       createdAt
       body
-      status
       story {
         metadata {
           title

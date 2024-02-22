@@ -10,6 +10,8 @@ export const NUM_INITIAL_COMMENTS = 20;
 
 export const RTE_ELEMENT_ID = "Coral-RTE";
 
+export const NOTIFICATION_COMMENT_BODY_LENGTH = 250;
+
 // eslint-disable-next-line no-shadow
 export const enum URLViewType {
   IllegalContentReport = "illegalContentReport",

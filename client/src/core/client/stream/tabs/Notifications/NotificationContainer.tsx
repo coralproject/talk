@@ -74,7 +74,7 @@ const getTitle = (
     return getMessage(
       bundles,
       "notifications-yourCommentHasBeenApproved",
-      "Your comment has been approved"
+      "Your comment has been published"
     );
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
@@ -141,7 +141,6 @@ const NotificationContainer: FunctionComponent<Props> = ({
     return createdAtDate.getTime() <= lastSeenDate.getTime();
   }, [createdAt, viewer]);
 
-  // TODO: Update to handle no story url
   const permalinkURL = useMemo(() => {
     const commentURL =
       notification.type === GQLNOTIFICATION_TYPE.REPLY ||
@@ -153,7 +152,7 @@ const NotificationContainer: FunctionComponent<Props> = ({
       notification.type === GQLNOTIFICATION_TYPE.REPLY_STAFF
         ? notification.commentReply?.id
         : notification.comment?.id;
-    return getURLWithCommentID(commentURL!, commentID);
+    return commentURL ? getURLWithCommentID(commentURL, commentID) : undefined;
   }, [
     notification.type,
     notification.comment?.id,
