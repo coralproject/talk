@@ -26,7 +26,7 @@ const ApprovedCommentNotificationBody: FunctionComponent<Props> = ({
     <div className={styles.body}>
       {comment && (
         <>
-          <div className={styles.commentSection}>
+          <div>
             <NotificationCommentContainer
               comment={comment}
               notification={notification}

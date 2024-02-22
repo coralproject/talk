@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { GQLNOTIFICATION_TYPE } from "coral-common/client/src/core/client/framework/schema/__generated__/types";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import HTMLContent from "coral-stream/common/HTMLContent";
-import { Flex, RelativeTime, Tag } from "coral-ui/components/v2";
+import { RelativeTime, Tag } from "coral-ui/components/v2";
 
 import { NotificationCommentContainer_comment } from "coral-stream/__generated__/NotificationCommentContainer_comment.graphql";
 import { NotificationCommentContainer_notification } from "coral-stream/__generated__/NotificationCommentContainer_notification.graphql";
@@ -49,20 +49,18 @@ const NotificationCommentContainer: FunctionComponent<Props> = ({
 
   return (
     <>
+      <RelativeTime className={styles.timestamp} date={comment.createdAt} />
+      {comment.story.metadata?.title && (
+        <Localized
+          id={`${descriptionText.id}`}
+          vars={{ title: comment.story.metadata?.title }}
+        >
+          <div className={styles.storyTitle}>
+            on "{comment.story.metadata.title}"
+          </div>
+        </Localized>
+      )}
       <div className={styles.content}>
-        <Flex marginBottom={2}>
-          <RelativeTime className={styles.timestamp} date={comment.createdAt} />
-          {comment.story.metadata?.title && (
-            <Localized
-              id={`${descriptionText.id}`}
-              vars={{ title: comment.story.metadata?.title }}
-            >
-              <div className={styles.storyTitle}>
-                on "{comment.story.metadata.title}"
-              </div>
-            </Localized>
-          )}
-        </Flex>
         <HTMLContent>
           {comment.body
             ? comment.body.length > 250
