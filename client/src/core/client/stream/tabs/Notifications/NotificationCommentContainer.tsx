@@ -30,10 +30,10 @@ interface Props {
 const NotificationCommentContainer: FunctionComponent<Props> = ({
   comment,
   notification,
-  expandable,
+  expandable = false,
   openedStateText,
   closedStateText,
-  expanded = false,
+  expanded,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(expanded ?? false);
   const onToggleOpenClosed = useCallback(() => {
