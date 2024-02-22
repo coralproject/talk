@@ -1,6 +1,5 @@
 .body {
   margin-left: var(--spacing-5);
-  margin-bottom: var(--spacing-2);
 
   width: calc(100% - var(--spacing-4));
 
@@ -11,8 +10,4 @@
 
 .author {
   font-weight: var(--font-weight-primary-semi-bold);
-}
-
-.commentSection {
-  margin-bottom: var(--spacing-3);
 }

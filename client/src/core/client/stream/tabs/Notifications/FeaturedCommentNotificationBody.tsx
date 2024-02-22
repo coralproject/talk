@@ -1,4 +1,3 @@
-import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -8,7 +7,6 @@ import { FeaturedCommentNotificationBody_notification } from "coral-stream/__gen
 
 import styles from "./FeaturedCommentNotificationBody.css";
 
-import GoToCommentButton from "./GoToCommentButton";
 import NotificationCommentContainer from "./NotificationCommentContainer";
 
 interface Props {
@@ -27,28 +25,12 @@ const FeaturedCommentNotificationBody: FunctionComponent<Props> = ({
   return (
     <div className={styles.body}>
       {comment && (
-        <>
-          <div className={styles.commentSection}>
-            <NotificationCommentContainer
-              comment={comment}
-              openedStateText={
-                <Localized id="notifications-comment-hide">
-                  - Hide your comment
-                </Localized>
-              }
-              closedStateText={
-                <Localized id="notifications-comment-show">
-                  + Show your comment
-                </Localized>
-              }
-              expanded
-            />
-          </div>
-          <GoToCommentButton
-            commentID={comment.id}
-            commentStoryURL={comment.story.url}
+        <div>
+          <NotificationCommentContainer
+            comment={comment}
+            notification={notification}
           />
-        </>
+        </div>
       )}
     </div>
   );
@@ -57,13 +39,9 @@ const FeaturedCommentNotificationBody: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   notification: graphql`
     fragment FeaturedCommentNotificationBody_notification on Notification {
-      type
+      ...NotificationCommentContainer_notification
       comment {
-        id
         ...NotificationCommentContainer_comment
-        story {
-          url
-        }
       }
     }
   `,

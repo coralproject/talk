@@ -1062,6 +1062,9 @@ notifications-comment-hideRemovedComment = - Hide removed comment
 notifications-comment-hide = - Hide your comment
 notifications-comment-show = + Show your comment
 
+notification-comment-description-featured = your comment on "{ $title }" was featured by a member of our team.
+notification-comment-description-default = on "{ $title }"
+
 notifications-yourIllegalContentReportHasBeenReviewed =
   Your illegal content report has been reviewed
 notifications-yourCommentHasBeenRejected =
@@ -1071,9 +1074,7 @@ notifications-yourCommentHasBeenApproved =
 notifications-yourCommentHasBeenFeatured =
   Your comment has been featured
 notifications-yourCommentHasReceivedAReply =
-  Your comment has received a reply
-notifications-yourCommentHasReceivedAStaffReply =
-  Your comment has received a reply from a member of our team
+  New reply from { $author }
 notifications-defaultTitle = Notification
 
 notifications-rejectedComment-body =

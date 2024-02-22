@@ -1,4 +1,3 @@
-import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
@@ -8,7 +7,6 @@ import { ApprovedCommentNotificationBody_notification } from "coral-stream/__gen
 
 import styles from "./ApprovedCommentNotificationBody.css";
 
-import GoToCommentButton from "./GoToCommentButton";
 import NotificationCommentContainer from "./NotificationCommentContainer";
 
 interface Props {
@@ -31,23 +29,9 @@ const ApprovedCommentNotificationBody: FunctionComponent<Props> = ({
           <div className={styles.commentSection}>
             <NotificationCommentContainer
               comment={comment}
-              openedStateText={
-                <Localized id="notifications-comment-hide">
-                  - Hide your comment
-                </Localized>
-              }
-              closedStateText={
-                <Localized id="notifications-comment-show">
-                  + Show your comment
-                </Localized>
-              }
-              expanded
+              notification={notification}
             />
           </div>
-          <GoToCommentButton
-            commentID={comment.id}
-            commentStoryURL={comment.story.url}
-          />
         </>
       )}
     </div>
@@ -57,6 +41,7 @@ const ApprovedCommentNotificationBody: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   notification: graphql`
     fragment ApprovedCommentNotificationBody_notification on Notification {
+      ...NotificationCommentContainer_notification
       type
       comment {
         id

@@ -12,6 +12,11 @@
   padding: var(--spacing-2);
 }
 
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .seen {
   border-left-color: var(--palette-background-body);
 }
