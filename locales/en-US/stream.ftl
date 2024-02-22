@@ -1053,12 +1053,6 @@ notifications-loadMore = Load More
 
 notifications-adjustPreferences = Adjust notification settings in My Profile &gt;<button>Preferences.</button>
 
-notification-comment-toggle-default-open = - Comment
-notification-comment-toggle-default-closed = + Comment
-
-notifications-comment-showRemovedComment = + Show removed comment
-notifications-comment-hideRemovedComment = - Hide removed comment
-
 notifications-comment-hide = - Hide your comment
 notifications-comment-show = + Show your comment
 
@@ -1090,9 +1084,6 @@ notifications-repliedComment-hideReply = - Hide the reply
 notifications-repliedComment-showReply = + Show the reply
 notifications-repliedComment-hideOriginalComment = - Hide my original comment
 notifications-repliedComment-showOriginalComment = + Show my original comment
-
-notifications-goToCommentButton-comment = Go to this comment <icon></icon>
-notifications-goToCommentButton-reply = Go to this reply <icon></icon>
 
 notifications-dsaReportLegality-legal = Legal content
 notifications-dsaReportLegality-illegal = Illegal content

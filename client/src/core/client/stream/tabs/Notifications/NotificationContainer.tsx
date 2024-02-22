@@ -179,13 +179,14 @@ const NotificationContainer: FunctionComponent<Props> = ({
           <div className={styles.titleText}>
             {getTitle(localeBundles, type, commentReply)}
           </div>
-          {commentReply && commentReply.author?.badges && (
-            <AuthorBadgesContainer
-              className={styles.badges}
-              badges={commentReply.author.badges}
-              settings={settings}
-            />
-          )}
+          {type === GQLNOTIFICATION_TYPE.REPLY_STAFF &&
+            commentReply?.author?.badges && (
+              <AuthorBadgesContainer
+                className={styles.badges}
+                badges={commentReply.author.badges}
+                settings={settings}
+              />
+            )}
         </div>
         {(type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED ||
           type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) && (
