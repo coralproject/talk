@@ -9,6 +9,7 @@ import React, {
 import { graphql } from "relay-runtime";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { useGetMessage } from "coral-framework/lib/i18n";
 import { useLocal } from "coral-framework/lib/relay";
 import { MatchMedia } from "coral-ui/components/v2";
 
@@ -42,6 +43,9 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({
   const [topPos, setTopPos] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const getMessage = useGetMessage();
+  const title = getMessage("notifications-title", "Notifications");
 
   const onWindowResize = useCallback(() => {
     const element = window.document.getElementById("coral-shadow-container");
@@ -115,6 +119,7 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({
                 [styles.buttonOpen]: isOpen,
               })}
               onClick={onToggleOpen}
+              title={title}
             >
               {isOpen && (
                 <div className={styles.buttonText}>
