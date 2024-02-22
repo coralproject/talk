@@ -3,41 +3,44 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { RepliedCommentNotificationBody_notification } from "coral-stream/__generated__/RepliedCommentNotificationBody_notification.graphql";
+import { CommentNotificationBody_notification } from "coral-stream/__generated__/CommentNotificationBody_notification.graphql";
 
-import styles from "./RepliedCommentNotificationBody.css";
+import styles from "./CommentNotificationBody.css";
 
 import NotificationCommentContainer from "./NotificationCommentContainer";
 
 interface Props {
-  notification: RepliedCommentNotificationBody_notification;
+  notification: CommentNotificationBody_notification;
+  reply: boolean;
 }
 
-const RepliedCommentNotificationBody: FunctionComponent<Props> = ({
+const CommentNotificationBody: FunctionComponent<Props> = ({
   notification,
+  reply,
 }) => {
   const { comment, commentReply } = notification;
-  if (!commentReply) {
+
+  const commentToUse = reply ? commentReply : comment;
+
+  if (!commentToUse) {
     return null;
   }
 
   return (
     <div className={styles.body}>
-      {comment && (
-        <div>
-          <NotificationCommentContainer
-            comment={commentReply}
-            notification={notification}
-          />
-        </div>
-      )}
+      <div>
+        <NotificationCommentContainer
+          comment={commentToUse}
+          notification={notification}
+        />
+      </div>
     </div>
   );
 };
 
 const enhanced = withFragmentContainer<Props>({
   notification: graphql`
-    fragment RepliedCommentNotificationBody_notification on Notification {
+    fragment CommentNotificationBody_notification on Notification {
       ...NotificationCommentContainer_notification
       comment {
         ...NotificationCommentContainer_comment
@@ -47,6 +50,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(RepliedCommentNotificationBody);
+})(CommentNotificationBody);
 
 export default enhanced;

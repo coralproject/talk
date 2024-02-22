@@ -26,11 +26,9 @@ import { NotificationContainer_settings } from "coral-stream/__generated__/Notif
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
 import AuthorBadgesContainer from "../Comments/Comment/AuthorBadgesContainer";
-import ApprovedCommentNotificationBody from "./ApprovedCommentNotificationBody";
+import CommentNotificationBody from "./CommentNotificationBody";
 import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
-import FeaturedCommentNotificationBody from "./FeaturedCommentNotificationBody";
 import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
-import RepliedCommentNotificationBody from "./RepliedCommentNotificationBody";
 
 import styles from "./NotificationContainer.css";
 
@@ -198,14 +196,16 @@ const NotificationContainer: FunctionComponent<Props> = ({
           <DSAReportDecisionMadeNotificationBody notification={notification} />
         )}
         {(type === GQLNOTIFICATION_TYPE.REPLY ||
-          type === GQLNOTIFICATION_TYPE.REPLY_STAFF) && (
-          <RepliedCommentNotificationBody notification={notification} />
-        )}
-        {type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED && (
-          <FeaturedCommentNotificationBody notification={notification} />
-        )}
-        {type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED && (
-          <ApprovedCommentNotificationBody notification={notification} />
+          type === GQLNOTIFICATION_TYPE.REPLY_STAFF ||
+          type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED ||
+          type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED) && (
+          <CommentNotificationBody
+            notification={notification}
+            reply={
+              type === GQLNOTIFICATION_TYPE.REPLY ||
+              type === GQLNOTIFICATION_TYPE.REPLY_STAFF
+            }
+          />
         )}
       </div>
       <div className={styles.divider}></div>
@@ -250,9 +250,7 @@ const enhanced = withFragmentContainer<Props>({
       }
       ...RejectedCommentNotificationBody_notification
       ...DSAReportDecisionMadeNotificationBody_notification
-      ...RepliedCommentNotificationBody_notification
-      ...FeaturedCommentNotificationBody_notification
-      ...ApprovedCommentNotificationBody_notification
+      ...CommentNotificationBody_notification
     }
   `,
 })(NotificationContainer);
