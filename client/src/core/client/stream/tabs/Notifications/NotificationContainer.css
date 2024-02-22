@@ -25,6 +25,10 @@
   border-left-color: var(--palette-primary-500);
 }
 
+.badges {
+  margin-left: var(--spacing-1);
+}
+
 .title {
   width: 100%;
   display: flex;

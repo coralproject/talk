@@ -201,6 +201,7 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
               key={node.id}
               notification={node}
               viewer={props.query.viewer}
+              settings={props.query.settings}
             />
           );
         })}
@@ -245,6 +246,7 @@ const enhanced = withPaginationContainer<
           ...NotificationContainer_viewer
         }
         settings {
+          ...NotificationContainer_settings
           dsa {
             enabled
             methodOfRedress {

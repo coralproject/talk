@@ -22,8 +22,10 @@ import {
   NOTIFICATION_TYPE,
   NotificationContainer_notification,
 } from "coral-stream/__generated__/NotificationContainer_notification.graphql";
+import { NotificationContainer_settings } from "coral-stream/__generated__/NotificationContainer_settings.graphql";
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
+import AuthorBadgesContainer from "../Comments/Comment/AuthorBadgesContainer";
 import ApprovedCommentNotificationBody from "./ApprovedCommentNotificationBody";
 import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
 import FeaturedCommentNotificationBody from "./FeaturedCommentNotificationBody";
@@ -35,6 +37,7 @@ import styles from "./NotificationContainer.css";
 interface Props {
   viewer: NotificationContainer_viewer | null;
   notification: NotificationContainer_notification;
+  settings: NotificationContainer_settings;
 }
 
 const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
@@ -112,7 +115,7 @@ const getTitle = (
       bundles,
       "notifications-yourCommentHasReceivedAReply",
       `New reply from ${commentReply?.author?.username}`,
-      { vars: { author: commentReply?.author?.username } }
+      { author: commentReply?.author?.username }
     );
   }
 
@@ -122,6 +125,7 @@ const getTitle = (
 const NotificationContainer: FunctionComponent<Props> = ({
   notification,
   viewer,
+  settings,
 }) => {
   const { type, createdAt, commentReply } = notification;
   const { localeBundles } = useCoralContext();
@@ -178,7 +182,13 @@ const NotificationContainer: FunctionComponent<Props> = ({
           <div className={styles.titleText}>
             {getTitle(localeBundles, type, commentReply)}
           </div>
-          {/* TODO: Add in badge here if this is a staff reply - or could also add in localization? */}
+          {commentReply && commentReply.author?.badges && (
+            <AuthorBadgesContainer
+              className={styles.badges}
+              badges={commentReply.author.badges}
+              settings={settings}
+            />
+          )}
         </div>
         {(type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED ||
           type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) && (
@@ -209,6 +219,11 @@ const enhanced = withFragmentContainer<Props>({
       lastSeenNotificationDate
     }
   `,
+  settings: graphql`
+    fragment NotificationContainer_settings on Settings {
+      ...AuthorBadgesContainer_settings
+    }
+  `,
   notification: graphql`
     fragment NotificationContainer_notification on Notification {
       type
@@ -227,6 +242,7 @@ const enhanced = withFragmentContainer<Props>({
         id
         author {
           username
+          badges
         }
         story {
           url
