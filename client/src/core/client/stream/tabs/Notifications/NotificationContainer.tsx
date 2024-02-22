@@ -156,13 +156,7 @@ const NotificationContainer: FunctionComponent<Props> = ({
           commentForPermalink?.id
         )
       : undefined;
-  }, [
-    notification.type,
-    notification.comment?.id,
-    notification.comment?.story.url,
-    notification.commentReply?.id,
-    notification.commentReply?.story.url,
-  ]);
+  }, [notification.type, notification.comment, notification.commentReply]);
 
   return (
     <a
