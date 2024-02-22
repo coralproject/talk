@@ -142,6 +142,9 @@ const NotificationContainer: FunctionComponent<Props> = ({
   }, [createdAt, viewer]);
 
   const permalinkURL = useMemo(() => {
+    if (notification.type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
+      return undefined;
+    }
     const commentURL =
       notification.type === GQLNOTIFICATION_TYPE.REPLY ||
       notification.type === GQLNOTIFICATION_TYPE.REPLY_STAFF

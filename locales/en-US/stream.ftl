@@ -1053,8 +1053,11 @@ notifications-loadMore = Load More
 
 notifications-adjustPreferences = Adjust notification settings in My Profile &gt;<button>Preferences.</button>
 
-notifications-comment-hide = - Hide your comment
-notifications-comment-show = + Show your comment
+notification-comment-toggle-default-open = - Comment
+notification-comment-toggle-default-closed = + Comment
+
+notifications-comment-showRemovedComment = + Show removed comment
+notifications-comment-hideRemovedComment = - Hide removed comment
 
 notification-comment-description-featured = your comment on "{ $title }" was featured by a member of our team.
 notification-comment-description-default = on "{ $title }"

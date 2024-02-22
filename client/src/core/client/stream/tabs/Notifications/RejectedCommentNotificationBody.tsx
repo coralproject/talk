@@ -239,6 +239,17 @@ const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
           <NotificationCommentContainer
             comment={comment}
             notification={notification}
+            expandable
+            openedStateText={
+              <Localized id="notifications-comment-hideRemovedComment">
+                - Hide removed comment
+              </Localized>
+            }
+            closedStateText={
+              <Localized id="notifications-comment-showRemovedComment">
+                + Show removed comment
+              </Localized>
+            }
           />
         </div>
       )}
