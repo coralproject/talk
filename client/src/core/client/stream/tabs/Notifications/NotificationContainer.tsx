@@ -145,17 +145,17 @@ const NotificationContainer: FunctionComponent<Props> = ({
     if (notification.type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
       return undefined;
     }
-    const commentURL =
+    const commentForPermalink =
       notification.type === GQLNOTIFICATION_TYPE.REPLY ||
       notification.type === GQLNOTIFICATION_TYPE.REPLY_STAFF
-        ? notification.commentReply?.story.url
-        : notification.comment?.story.url;
-    const commentID =
-      notification.type === GQLNOTIFICATION_TYPE.REPLY ||
-      notification.type === GQLNOTIFICATION_TYPE.REPLY_STAFF
-        ? notification.commentReply?.id
-        : notification.comment?.id;
-    return commentURL ? getURLWithCommentID(commentURL, commentID) : undefined;
+        ? notification.commentReply
+        : notification.comment;
+    return commentForPermalink?.story.url
+      ? getURLWithCommentID(
+          commentForPermalink?.story.url,
+          commentForPermalink?.id
+        )
+      : undefined;
   }, [
     notification.type,
     notification.comment?.id,
