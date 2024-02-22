@@ -1147,7 +1147,12 @@ const CLASSES = {
     },
   },
 
-  mobileToolbar: "coral coral-mobileToolbar",
+  mobileToolbar: {
+    $root: "coral coral-mobileToolbar",
+    close: "coral coral-mobileToolbar-close",
+    markAllAsRead: "coral coral-mobileToolbar-markAllAsRead",
+    nextUnread: "coral coral-mobileToolbar-nextUnread",
+  },
 
   viewersWatching: {
     $root: "coral coral-viewersWatching",

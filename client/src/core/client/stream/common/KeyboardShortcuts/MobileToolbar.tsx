@@ -20,7 +20,7 @@ const MobileToolbar: FunctionComponent<Props> = ({
   <Portal>
     <ReactShadowRoot modal>
       <Flex justifyContent="center" className={cn(className, styles.root)}>
-        <div className={cn(styles.bar, CLASSES.mobileToolbar)} {...rest}>
+        <div className={cn(styles.bar, CLASSES.mobileToolbar.$root)} {...rest}>
           {children}
         </div>
       </Flex>
