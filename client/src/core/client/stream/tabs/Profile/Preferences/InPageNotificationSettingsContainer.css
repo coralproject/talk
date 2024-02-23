@@ -2,6 +2,37 @@
   margin-right: var(--spacing-1);
 }
 
+.bellWrapper {
+  position: relative;
+  margin-right: var(--spacing-2);
+}
+
+.bellCounter {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--palette-primary-500);
+  color: var(--palette-text-000);
+
+  position: absolute;
+  top: -2px;
+  left: 11px;
+
+  font-size: 8px;
+
+  min-width: 8px;
+
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 2px;
+  padding-right: 2px;
+  border-radius: 12px;
+}
+
 .title {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-primary-semi-bold);

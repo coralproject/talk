@@ -727,7 +727,7 @@ profile-account-notifications-updated = Your notification settings have been upd
 profile-account-notifications-button = Update Notification Settings
 profile-account-notifications-button-update = Update
 
-profile-account-notifications-inPageNotifications = In-page Notifications
+profile-account-notifications-inPageNotifications = Notifications
 profile-account-notifications-includeInPageWhen = Alert me when
 
 profile-account-notifications-inPageNotifications-on = Badges on

@@ -11,9 +11,9 @@ import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLInPageNotificationReplyType } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import {
-  ActiveNotificationBellIcon,
   AlertTriangleIcon,
   CheckCircleIcon,
+  NotificationBellIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
 import {
@@ -98,11 +98,16 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
             <form onSubmit={handleSubmit}>
               <HorizontalGutter>
                 <Flex alignItems="center">
-                  <SvgIcon
-                    className={styles.bellIcon}
-                    size="md"
-                    Icon={ActiveNotificationBellIcon}
-                  ></SvgIcon>
+                  <div className={styles.bellWrapper}>
+                    <SvgIcon
+                      className={styles.bellIcon}
+                      size="md"
+                      Icon={NotificationBellIcon}
+                    ></SvgIcon>
+                    {!disableWhenSection && (
+                      <div className={styles.bellCounter}>2</div>
+                    )}
+                  </div>
                   <Localized id="profile-account-notifications-inPageNotifications">
                     <h2
                       className={cn(
@@ -111,7 +116,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                       )}
                       id="profile-account-notifications-inPageNotifications-title"
                     >
-                      In-page Notifications
+                      Notifications
                     </h2>
                   </Localized>
                 </Flex>
