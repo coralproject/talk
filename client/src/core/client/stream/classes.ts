@@ -1081,9 +1081,17 @@ const CLASSES = {
       feed: {
         root: "coral coral-notifications-floating-feed-root",
         panel: "coral coral-notifications-floating-feed-panel",
-        title: "coral coral-notifications-floating-feed-root",
+        title: "coral coral-notifications-floating-feed-title",
         container: "coral coral-notifications-floating-feed-container",
       },
+    },
+
+    mobileToolBar: {
+      root: "coral coral-notifications-mobileToolBar-root",
+      tray: "coral coral-notifications-mobileToolBar-tray",
+      header: "coral coral-notifications-mobileToolBar-header",
+      close: "coral coral-notifications-mobileToolBar-close",
+      list: "coral coral-notifications-mobileToolBar-list",
     },
   },
 
@@ -1165,6 +1173,7 @@ const CLASSES = {
     close: "coral coral-mobileToolbar-close",
     markAllAsRead: "coral coral-mobileToolbar-markAllAsRead",
     nextUnread: "coral coral-mobileToolbar-nextUnread",
+    notificationsAction: "coral coral-mobileToolbar-notifications",
   },
 
   viewersWatching: {

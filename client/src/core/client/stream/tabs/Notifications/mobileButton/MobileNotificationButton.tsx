@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, {
   FunctionComponent,
   MouseEvent,
@@ -7,6 +8,7 @@ import React, {
 } from "react";
 
 import { useGetMessage } from "coral-framework/lib/i18n";
+import CLASSES from "coral-stream/classes";
 import { ButtonSvgIcon, RemoveIcon } from "coral-ui/components/icons";
 
 import { LiveBellIcon } from "../LiveBellIcon";
@@ -45,16 +47,27 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
       {isOpen && (
         <div
           id="MobileNotificationButton-container"
-          className={styles.container}
+          className={cn(
+            CLASSES.notifications.mobileToolBar.root,
+            styles.container
+          )}
           aria-hidden="true"
           onClick={onToggleOpen}
         >
           <div
-            className={styles.tray}
+            className={cn(
+              CLASSES.notifications.mobileToolBar.tray,
+              styles.tray
+            )}
             aria-hidden="true"
             onClick={stopPropagation}
           >
-            <div className={styles.header}>
+            <div
+              className={cn(
+                CLASSES.notifications.mobileToolBar.header,
+                styles.header
+              )}
+            >
               <Localized id="notifications-title">Notifications</Localized>
               <Localized
                 id="comments-mobileToolbar-notifications-closeButton"
@@ -63,13 +76,21 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
                 <button
                   onClick={onToggleOpen}
                   aria-label="Close notifications"
-                  className={styles.closeButton}
+                  className={cn(
+                    CLASSES.notifications.mobileToolBar.close,
+                    styles.closeButton
+                  )}
                 >
                   <ButtonSvgIcon size="md" Icon={RemoveIcon} />
                 </button>
               </Localized>
             </div>
-            <div className={styles.list}>
+            <div
+              className={cn(
+                CLASSES.notifications.mobileToolBar.list,
+                styles.list
+              )}
+            >
               <MobileNotificationsQuery showUserBox={false} showTitle={false} />
             </div>
           </div>
