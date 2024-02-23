@@ -42,8 +42,14 @@
   line-height: 1.125;
 
   color: var(--palette-text-500);
+}
 
-  padding-bottom: var(--spacing-2);
+.featuredCheckbox {
+  margin-bottom: var(--spacing-3) !important;
+}
+
+.showReplies {
+  margin-left: var(--spacing-2);
 }
 
 .updateButton {

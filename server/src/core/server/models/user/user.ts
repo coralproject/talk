@@ -34,6 +34,7 @@ import { dotize } from "coral-server/utils/dotize";
 import {
   GQLBanStatus,
   GQLDIGEST_FREQUENCY,
+  GQLInPageNotificationReplyType,
   GQLModMessageStatus,
   GQLPremodStatus,
   GQLSuspensionStatus,
@@ -119,9 +120,8 @@ export interface Token {
 export const defaultInPageNotificationSettings: GQLUserInPageNotificationSettings =
   {
     enabled: true,
-    onReply: true,
+    onReply: { enabled: true, showReplies: GQLInPageNotificationReplyType.ALL },
     onFeatured: true,
-    onStaffReplies: true,
     onModeration: true,
   };
 
@@ -747,10 +747,12 @@ export async function findOrCreateUserInput(
       digestFrequency: GQLDIGEST_FREQUENCY.NONE,
     },
     inPageNotifications: {
-      onReply: true,
+      onReply: {
+        enabled: true,
+        showReplies: GQLInPageNotificationReplyType.ALL,
+      },
       onFeatured: true,
       onModeration: true,
-      onStaffReplies: false,
       enabled: true,
     },
     moderatorNotes: [],

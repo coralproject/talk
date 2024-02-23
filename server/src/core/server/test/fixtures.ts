@@ -12,6 +12,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
   GQLDSA_METHOD_OF_REDRESS,
+  GQLInPageNotificationReplyType,
   GQLMODERATION_MODE,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -241,13 +242,13 @@ export const createUserFixture = (defaults: Defaults<User> = {}): User => {
       digestFrequency: GQLDIGEST_FREQUENCY.NONE,
     },
     inPageNotifications: {
-      onReply: true,
+      onReply: {
+        enabled: true,
+        showReplies: GQLInPageNotificationReplyType.ALL,
+      },
       onFeatured: true,
       onModeration: true,
-      onStaffReplies: false,
       enabled: true,
-      includeCountInBadge: true,
-      bellRemainsVisible: true,
     },
     digests: [],
     hasDigests: false,

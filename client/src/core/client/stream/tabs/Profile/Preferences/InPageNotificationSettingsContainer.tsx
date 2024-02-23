@@ -8,6 +8,7 @@ import { graphql } from "react-relay";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { formatBool, parseStringBool } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLInPageNotificationReplyType } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import {
   ActiveNotificationBellIcon,
@@ -22,7 +23,9 @@ import {
   FormField,
   HorizontalGutter,
   HorizontalRule,
+  Option,
   RadioButton,
+  SelectField,
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
@@ -124,7 +127,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                       {({ input }) => (
                         <RadioButton {...input} id={`${input.name}-true`}>
                           <Localized id="profile-account-notifications-inPageNotifications-on">
-                            <span>On</span>
+                            <span>Badges on</span>
                           </Localized>
                         </RadioButton>
                       )}
@@ -140,7 +143,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                         return (
                           <RadioButton {...input} id={`${input.name}-false`}>
                             <Localized id="profile-account-notifications-inPageNotifications-off">
-                              <span>Off</span>
+                              <span>Badges off</span>
                             </Localized>
                           </RadioButton>
                         );
@@ -148,7 +151,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                     </Field>
                   </FormField>
                 </HorizontalGutter>
-                <HorizontalGutter>
+                <HorizontalGutter marginTop={2}>
                   <Localized id="profile-account-notifications-includeInPageWhen">
                     <div
                       className={
@@ -162,78 +165,96 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                       }
                       id="profile-account-notifications-includeInPageWhen"
                     >
-                      Include notifications when
+                      Alert me when
                     </div>
                   </Localized>
                   <FieldSet aria-labelledby="profile-account-notifications-includeInPageWhen">
-                    <FormField>
-                      <Field name="onReply" type="checkbox">
-                        {({ input }) => (
-                          <Localized id="profile-account-notifications-onReply">
-                            <CheckBox
-                              {...input}
-                              id={`${input.name}-inPage`}
-                              className={styles.checkBox}
-                              variant="streamBlue"
-                              disabled={disableWhenSection}
-                            >
-                              My comment receives a reply
-                            </CheckBox>
-                          </Localized>
-                        )}
-                      </Field>
-                    </FormField>
-                    <FormField>
-                      <Field name="onFeatured" type="checkbox">
-                        {({ input }) => (
-                          <Localized id="profile-account-notifications-onFeatured">
-                            <CheckBox
-                              {...input}
-                              id={`${input.name}-inPage`}
-                              className={styles.checkBox}
-                              variant="streamBlue"
-                              disabled={disableWhenSection}
-                            >
-                              My comment is featured
-                            </CheckBox>
-                          </Localized>
-                        )}
-                      </Field>
-                    </FormField>
-                    <FormField>
-                      <Field name="onStaffReplies" type="checkbox">
-                        {({ input }) => (
-                          <Localized id="profile-account-notifications-onStaffReplies">
-                            <CheckBox
-                              {...input}
-                              id={`${input.name}-inPage`}
-                              className={styles.checkBox}
-                              variant="streamBlue"
-                              disabled={disableWhenSection}
-                            >
-                              A staff member replies to my comment
-                            </CheckBox>
-                          </Localized>
-                        )}
-                      </Field>
-                    </FormField>
-                    <FormField>
-                      <Field name="onModeration" type="checkbox">
-                        {({ input }) => (
-                          <Localized id="profile-account-notifications-onModeration">
-                            <CheckBox
-                              {...input}
-                              id={`${input.name}-inPage`}
-                              className={styles.checkBox}
-                              variant="streamBlue"
-                              disabled={disableWhenSection}
-                            >
-                              My pending comment has been reviewed
-                            </CheckBox>
-                          </Localized>
-                        )}
-                      </Field>
-                    </FormField>
+                    <HorizontalGutter>
+                      <FormField>
+                        <Flex alignItems="center">
+                          <Field name="onReply.enabled" type="checkbox">
+                            {({ input }) => (
+                              <>
+                                <Localized id="profile-account-notifications-onReply">
+                                  <CheckBox
+                                    {...input}
+                                    id={`${input.name}-inPage`}
+                                    className={styles.checkBox}
+                                    variant="streamBlue"
+                                    disabled={disableWhenSection}
+                                  >
+                                    My comment receives a reply
+                                  </CheckBox>
+                                </Localized>
+                              </>
+                            )}
+                          </Field>
+                          <span className={styles.showReplies}>
+                            <Field name="onReply.showReplies">
+                              {({ input }) => (
+                                <SelectField
+                                  {...input}
+                                  id={input.name}
+                                  disabled={disableWhenSection}
+                                  aria-label="Show replies"
+                                >
+                                  <Localized id="profile-account-notifications-showReplies-fromAnyone">
+                                    <Option
+                                      value={GQLInPageNotificationReplyType.ALL}
+                                    >
+                                      from anyone
+                                    </Option>
+                                  </Localized>
+                                  <Localized id="profile-account-notifications-showReplies-fromStaff">
+                                    <Option
+                                      value={
+                                        GQLInPageNotificationReplyType.STAFF
+                                      }
+                                    >
+                                      from a staff member
+                                    </Option>
+                                  </Localized>
+                                </SelectField>
+                              )}
+                            </Field>
+                          </span>
+                        </Flex>
+                      </FormField>
+                      <FormField className={styles.featuredCheckbox}>
+                        <Field name="onFeatured" type="checkbox">
+                          {({ input }) => (
+                            <Localized id="profile-account-notifications-onFeatured">
+                              <CheckBox
+                                {...input}
+                                id={`${input.name}-inPage`}
+                                className={styles.checkBox}
+                                variant="streamBlue"
+                                disabled={disableWhenSection}
+                              >
+                                My comment is featured
+                              </CheckBox>
+                            </Localized>
+                          )}
+                        </Field>
+                      </FormField>
+                      <FormField>
+                        <Field name="onModeration" type="checkbox">
+                          {({ input }) => (
+                            <Localized id="profile-account-notifications-onModeration">
+                              <CheckBox
+                                {...input}
+                                id={`${input.name}-inPage`}
+                                className={styles.checkBox}
+                                variant="streamBlue"
+                                disabled={disableWhenSection}
+                              >
+                                My pending comment has been reviewed
+                              </CheckBox>
+                            </Localized>
+                          )}
+                        </Field>
+                      </FormField>
+                    </HorizontalGutter>
                   </FieldSet>
                 </HorizontalGutter>
                 <div
@@ -299,9 +320,11 @@ const enhanced = withFragmentContainer<Props>({
     fragment InPageNotificationSettingsContainer_viewer on User {
       inPageNotifications {
         enabled
-        onReply
+        onReply {
+          enabled
+          showReplies
+        }
         onFeatured
-        onStaffReplies
         onModeration
       }
     }
