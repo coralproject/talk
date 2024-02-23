@@ -11,6 +11,7 @@ import { graphql } from "relay-runtime";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { useGetMessage } from "coral-framework/lib/i18n";
 import { useLocal } from "coral-framework/lib/relay";
+import CLASSES from "coral-stream/classes";
 import { MatchMedia } from "coral-ui/components/v2";
 
 import { FloatingNotificationButton_local } from "coral-stream/__generated__/FloatingNotificationButton_local.graphql";
@@ -110,19 +111,28 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({
       {(matches) =>
         !matches && enableZKey && enableCommentSeen ? null : (
           <div
-            className={styles.root}
+            className={cn(CLASSES.notifications.floating.root, styles.root)}
             style={{ left: `${leftPos}px`, top: `${topPos}px` }}
           >
             <button
-              className={cn(styles.button, {
-                [styles.buttonClosed]: !isOpen,
-                [styles.buttonOpen]: isOpen,
-              })}
+              className={cn(
+                CLASSES.notifications.floating.action,
+                styles.button,
+                {
+                  [styles.buttonClosed]: !isOpen,
+                  [styles.buttonOpen]: isOpen,
+                }
+              )}
               onClick={onToggleOpen}
               title={title}
             >
               {isOpen && (
-                <div className={styles.buttonText}>
+                <div
+                  className={cn(
+                    CLASSES.notifications.floating.close,
+                    styles.buttonText
+                  )}
+                >
                   <Localized id="notifications-floatingIcon-close">
                     close
                   </Localized>
@@ -131,14 +141,34 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({
               <LiveBellIcon size="md" style={iconStyle} enabled={enabled} />
             </button>
             {isOpen && (
-              <div className={styles.feedRoot}>
-                <div className={styles.feedPanel}>
-                  <div className={styles.title}>
+              <div
+                className={cn(
+                  CLASSES.notifications.floating.feed.root,
+                  styles.feedRoot
+                )}
+              >
+                <div
+                  className={cn(
+                    CLASSES.notifications.floating.feed.panel,
+                    styles.feedPanel
+                  )}
+                >
+                  <div
+                    className={cn(
+                      CLASSES.notifications.floating.feed.title,
+                      styles.title
+                    )}
+                  >
                     <Localized id="notifications-title">
                       Notifications
                     </Localized>
                   </div>
-                  <div className={styles.feed}>
+                  <div
+                    className={cn(
+                      CLASSES.notifications.floating.feed.container,
+                      styles.feed
+                    )}
+                  >
                     <FloatingNotificationsQuery
                       showUserBox={false}
                       showTitle={false}

@@ -1072,6 +1072,19 @@ const CLASSES = {
       icon: "coral coral-notifications-live-icon",
       counter: "coral coral-notifications-live-counter",
     },
+
+    floating: {
+      root: "coral coral-notifications-floating-root",
+      action: "coral coral-notifications-floating-action",
+      close: "coral coral-notifications-floating-close",
+      icon: "coral coral-notifications-floating-icon",
+      feed: {
+        root: "coral coral-notifications-floating-feed-root",
+        panel: "coral coral-notifications-floating-feed-panel",
+        title: "coral coral-notifications-floating-feed-root",
+        container: "coral coral-notifications-floating-feed-container",
+      },
+    },
   },
 
   mediaPreferences: {
