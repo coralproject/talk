@@ -2986,12 +2986,27 @@ type UserEmailNotificationSettings {
 }
 
 enum InPageNotificationReplyType {
+  """
+  The user wishes to receive in-page notifications from everyone
+  """
   ALL
+
+  """
+  The user wishes to receive in-page notifications from staff members only
+  """
   STAFF
 }
 
 type OnReplySettings {
+  """
+  In-page notifications for replies is enabled
+  """
   enabled: Boolean!
+
+  """
+  This keeps track of what type of reply the user would like to be notified on when
+  in-page reply notifications is enabled
+  """
   showReplies: InPageNotificationReplyType!
 }
 
@@ -5358,7 +5373,15 @@ type UpdateEmailNotificationSettingsPayload {
 }
 
 input OnReplySettingsInput {
+  """
+  In-page notifications for replies is enabled
+  """
   enabled: Boolean!
+
+  """
+  This keeps track of what type of reply the user would like to be notified on when
+  in-page reply notifications is enabled
+  """
   showReplies: InPageNotificationReplyType!
 }
 
