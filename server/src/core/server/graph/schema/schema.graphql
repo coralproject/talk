@@ -2985,6 +2985,31 @@ type UserEmailNotificationSettings {
   digestFrequency: DIGEST_FREQUENCY!
 }
 
+enum InPageNotificationReplyType {
+  """
+  The user wishes to receive in-page notifications from everyone
+  """
+  ALL
+
+  """
+  The user wishes to receive in-page notifications from staff members only
+  """
+  STAFF
+}
+
+type OnReplySettings {
+  """
+  In-page notifications for replies is enabled
+  """
+  enabled: Boolean!
+
+  """
+  This keeps track of what type of reply the user would like to be notified on when
+  in-page reply notifications is enabled
+  """
+  showReplies: InPageNotificationReplyType!
+}
+
 """
 UserInPageNotificationSettings stores the in-page notification settings for a given User.
 """
@@ -2999,21 +3024,13 @@ type UserInPageNotificationSettings {
   onReply, when true, will enable in-page notifications to be sent to users that have
   replies to their comments.
   """
-  onReply: Boolean!
+  onReply: OnReplySettings!
 
   """
   onFeatured, when true, will enable in-page notifications to be sent to users that have
   their comment's featured.
   """
   onFeatured: Boolean!
-
-  """
-  onStaffReplies when true, will enable in-page notifications to be sent to users that
-  have a staff member reply to their comments. These notifications will
-  supercede notifications that would have been sent for a basic reply
-  notification.
-  """
-  onStaffReplies: Boolean!
 
   """
   onModeration when true, will enable in-page notifications to be sent to users when a
@@ -5355,6 +5372,19 @@ type UpdateEmailNotificationSettingsPayload {
   clientMutationId: String!
 }
 
+input OnReplySettingsInput {
+  """
+  In-page notifications for replies is enabled
+  """
+  enabled: Boolean!
+
+  """
+  This keeps track of what type of reply the user would like to be notified on when
+  in-page reply notifications is enabled
+  """
+  showReplies: InPageNotificationReplyType!
+}
+
 ##################
 ## updateInPageNotificationSettings
 ##################
@@ -5364,21 +5394,13 @@ input UpdateInPageNotificationSettingsInput {
   onReply, when true, will enable in-page notifications to be sent to users that have
   replies to their comments.
   """
-  onReply: Boolean
+  onReply: OnReplySettingsInput
 
   """
   onFeatured, when true, will enable in-page notifications to be sent to users that have
   their comment's featured.
   """
   onFeatured: Boolean
-
-  """
-  onStaffReplies when true, will enable in-page notifications to be sent to users that
-  have a staff member reply to their comments. These notifications will
-  supercede notifications that would have been sent for a basic reply
-  notification.
-  """
-  onStaffReplies: Boolean
 
   """
   onModeration when true, will enable in-page notifications to be sent to users when a

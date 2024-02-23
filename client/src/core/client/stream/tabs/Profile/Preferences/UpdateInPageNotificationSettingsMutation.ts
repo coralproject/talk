@@ -24,8 +24,6 @@ const UpdateInPageNotificationSettingsMutation = createMutation(
       UpdateInPageNotificationSettingsEvent.begin(eventEmitter, {
         onFeatured: input.onFeatured,
         onModeration: input.onModeration,
-        onStaffReplies: input.onStaffReplies,
-        onReply: input.onReply,
       });
     try {
       const result = await commitMutationPromiseNormalized<MutationTypes>(
@@ -39,9 +37,11 @@ const UpdateInPageNotificationSettingsMutation = createMutation(
                 user {
                   id
                   inPageNotifications {
-                    onReply
+                    onReply {
+                      enabled
+                      showReplies
+                    }
                     onFeatured
-                    onStaffReplies
                     onModeration
                     enabled
                   }
@@ -54,7 +54,6 @@ const UpdateInPageNotificationSettingsMutation = createMutation(
             input: {
               onReply: input.onReply,
               onFeatured: input.onFeatured,
-              onStaffReplies: input.onStaffReplies,
               onModeration: input.onModeration,
               enabled: input.enabled,
               clientMutationId: (clientMutationId++).toString(),

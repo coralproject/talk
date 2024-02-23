@@ -148,9 +148,8 @@ it("render and update in-page notifications form", async () => {
     .callsFake(
       (_: any, { input: { clientMutationId, ...inPageNotifications } }) => {
         expectAndFail(inPageNotifications).toMatchObject({
-          onReply: false,
+          onReply: { enabled: false, showReplies: "ALL" },
           onFeatured: false,
-          onStaffReplies: true,
           onModeration: false,
           enabled: true,
         });
@@ -190,9 +189,6 @@ it("render and update in-page notifications form", async () => {
   const onReply = within(container).getByRole("checkbox", {
     name: "My comment receives a reply",
   });
-  const onStaffReplies = within(container).getByRole("checkbox", {
-    name: "A staff member replies to my comment",
-  });
   const onModeration = within(container).getByRole("checkbox", {
     name: "My pending comment has been reviewed",
   });
@@ -207,7 +203,6 @@ it("render and update in-page notifications form", async () => {
 
   // Disable the options.
   userEvent.click(onReply);
-  userEvent.click(onStaffReplies);
   userEvent.click(onModeration);
   userEvent.click(onFeatured);
 

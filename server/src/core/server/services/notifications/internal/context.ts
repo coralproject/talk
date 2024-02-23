@@ -18,6 +18,7 @@ import { I18n } from "coral-server/services/i18n";
 
 import {
   GQLDSAReportDecisionLegality,
+  GQLInPageNotificationReplyType,
   GQLNOTIFICATION_TYPE,
   GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -230,12 +231,19 @@ export class InternalNotificationContext {
       ) {
         shouldIncrementCount = false;
       }
-      if (type === GQLNOTIFICATION_TYPE.REPLY && !preferences?.onReply) {
+      if (
+        type === GQLNOTIFICATION_TYPE.REPLY &&
+        (!preferences?.onReply?.enabled ||
+          !(
+            preferences?.onReply?.showReplies ===
+            GQLInPageNotificationReplyType.ALL
+          ))
+      ) {
         shouldIncrementCount = false;
       }
       if (
         type === GQLNOTIFICATION_TYPE.REPLY_STAFF &&
-        !preferences?.onStaffReplies
+        !preferences?.onReply?.enabled
       ) {
         shouldIncrementCount = false;
       }

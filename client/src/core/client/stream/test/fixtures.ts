@@ -5,6 +5,7 @@ import {
   GQLDIGEST_FREQUENCY,
   GQLDSA_METHOD_OF_REDRESS,
   GQLFEATURE_FLAG,
+  GQLInPageNotificationReplyType,
   GQLMODERATION_MODE,
   GQLSettings,
   GQLSite,
@@ -241,9 +242,8 @@ export const baseUser = createFixture<GQLUser>({
     digestFrequency: GQLDIGEST_FREQUENCY.NONE,
   },
   inPageNotifications: {
-    onReply: true,
+    onReply: { enabled: true, showReplies: GQLInPageNotificationReplyType.ALL },
     onModeration: true,
-    onStaffReplies: false,
     onFeatured: true,
     enabled: true,
   },

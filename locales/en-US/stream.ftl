@@ -727,11 +727,16 @@ profile-account-notifications-updated = Your notification settings have been upd
 profile-account-notifications-button = Update Notification Settings
 profile-account-notifications-button-update = Update
 
-profile-account-notifications-inPageNotifications = In-page Notifications
-profile-account-notifications-includeInPageWhen = Include notifications when
+profile-account-notifications-inPageNotifications = Notifications
+profile-account-notifications-includeInPageWhen = Alert me when
 
-profile-account-notifications-inPageNotifications-on = On
-profile-account-notifications-inPageNotifications-off = Off
+profile-account-notifications-inPageNotifications-on = Badges on
+profile-account-notifications-inPageNotifications-off = Badges off
+
+profile-account-notifications-showReplies-fromAnyone = from anyone
+profile-account-notifications-showReplies-fromStaff = from a staff member
+profile-account-notifications-showReplies =
+  .aria-label = Show replies from
 
 ## Report Comment Popover
 comments-reportPopover =
