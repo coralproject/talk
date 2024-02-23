@@ -1,23 +1,27 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 
+import { GQLNOTIFICATION_TYPE } from "coral-common/client/src/core/client/framework/schema/__generated__/types";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import HTMLContent from "coral-stream/common/HTMLContent";
-import {
-  ExternalMedia,
-  GiphyMedia,
-  TwitterMedia,
-  YouTubeMedia,
-} from "coral-stream/common/Media";
-import { Flex, Timestamp } from "coral-ui/components/v2";
+import { NOTIFICATION_COMMENT_BODY_LENGTH } from "coral-stream/constants";
+import { RelativeTime, Tag } from "coral-ui/components/v2";
 
 import { NotificationCommentContainer_comment } from "coral-stream/__generated__/NotificationCommentContainer_comment.graphql";
+import { NotificationCommentContainer_notification } from "coral-stream/__generated__/NotificationCommentContainer_notification.graphql";
 
 import styles from "./NotificationCommentContainer.css";
 
 interface Props {
   comment: NotificationCommentContainer_comment;
+  notification: NotificationCommentContainer_notification;
+  expandable?: boolean;
   openedStateText?: JSX.Element;
   closedStateText?: JSX.Element;
   expanded?: boolean;
@@ -25,93 +29,103 @@ interface Props {
 
 const NotificationCommentContainer: FunctionComponent<Props> = ({
   comment,
+  notification,
+  expandable = false,
   openedStateText,
   closedStateText,
   expanded,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(expanded ?? false);
-
   const onToggleOpenClosed = useCallback(() => {
     setIsOpen(!isOpen);
   }, [setIsOpen, isOpen]);
 
+  const descriptionText = useMemo(() => {
+    if (notification.type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
+      return {
+        id: "notification-comment-description-featured",
+        defaultText: `your comment on "${comment.story.metadata?.title}" was featured by a member of our team.`,
+      };
+    }
+    return {
+      id: "notification-comment-description-default",
+      defaultText: `on "${comment.story.metadata?.title}"`,
+    };
+  }, [notification.type, comment.story.metadata?.title]);
+
+  const mediaText = useMemo(() => {
+    if (!comment.revision?.media) {
+      return null;
+    }
+    if (comment.revision.media.__typename === "ExternalMedia") {
+      return { id: "notification-comment-media-image", defaultText: "Image" };
+    } else if (comment.revision.media.__typename === "GiphyMedia") {
+      return { id: "notification-comment-media-gif", defaultText: "GIF" };
+    } else {
+      return { id: "notification-comment-media-embed", defaultText: "Embed" };
+    }
+  }, [comment.revision?.media]);
+
   return (
     <>
-      {isOpen && openedStateText && (
-        <button className={styles.toggle} onClick={onToggleOpenClosed}>
-          {openedStateText}
-        </button>
+      {expandable && (
+        <>
+          {isOpen && openedStateText && (
+            <button className={styles.toggle} onClick={onToggleOpenClosed}>
+              {openedStateText}
+            </button>
+          )}
+          {isOpen && !openedStateText && (
+            <button className={styles.toggle} onClick={onToggleOpenClosed}>
+              <Localized id="notification-comment-toggle-default-open">
+                Comment
+              </Localized>
+            </button>
+          )}
+          {!isOpen && closedStateText && (
+            <button className={styles.toggle} onClick={onToggleOpenClosed}>
+              {closedStateText}
+            </button>
+          )}
+          {!isOpen && !closedStateText && (
+            <button className={styles.toggle} onClick={onToggleOpenClosed}>
+              <Localized id="notification-comment-toggle-default-closed">
+                + Comment
+              </Localized>
+            </button>
+          )}
+        </>
       )}
-      {isOpen && !openedStateText && (
-        <button className={styles.toggle} onClick={onToggleOpenClosed}>
-          <Localized id="notification-comment-toggle-default-open">
-            Comment
-          </Localized>
-        </button>
-      )}
-      {!isOpen && closedStateText && (
-        <button className={styles.toggle} onClick={onToggleOpenClosed}>
-          {closedStateText}
-        </button>
-      )}
-      {!isOpen && !closedStateText && (
-        <button className={styles.toggle} onClick={onToggleOpenClosed}>
-          <Localized id="notification-comment-toggle-default-closed">
-            + Comment
-          </Localized>
-        </button>
-      )}
-      {isOpen && (
-        <div className={styles.content}>
-          <Flex marginBottom={2}>
-            <div className={styles.author}>
-              {comment.author?.username ?? ""}
-            </div>
-            <Timestamp className={styles.timestamp}>
-              {comment.createdAt}
-            </Timestamp>
-          </Flex>
-          <HTMLContent>{comment.body || ""}</HTMLContent>
-          <div className={styles.media}>
-            {comment.revision?.media?.__typename === "ExternalMedia" && (
-              <ExternalMedia
-                id={comment.id}
-                url={comment.revision?.media?.url}
-                siteID={comment.site.id}
-                isToggled
-              />
-            )}
-            {comment.revision?.media?.__typename === "TwitterMedia" && (
-              <TwitterMedia
-                id={comment.id}
-                url={comment.revision?.media?.url}
-                siteID={comment.site.id}
-                isToggled
-              />
-            )}
-            {comment.revision?.media?.__typename === "YouTubeMedia" && (
-              <YouTubeMedia
-                id={comment.id}
-                url={comment.revision?.media?.url}
-                siteID={comment.site.id}
-                isToggled
-              />
-            )}
-            {comment.revision?.media?.__typename === "GiphyMedia" && (
-              <GiphyMedia
-                url={comment.revision?.media?.url}
-                width={comment.revision?.media?.width}
-                height={comment.revision?.media?.height}
-                title={comment.revision?.media?.title}
-                video={comment.revision?.media?.video}
-              />
+      {(!expandable || (expandable && isOpen)) && (
+        <div>
+          <RelativeTime className={styles.timestamp} date={comment.createdAt} />
+          {comment.story.metadata?.title && (
+            <Localized
+              id={`${descriptionText.id}`}
+              vars={{ title: comment.story.metadata?.title }}
+            >
+              <div className={styles.storyTitle}>
+                on "{comment.story.metadata.title}"
+              </div>
+            </Localized>
+          )}
+          <div className={styles.content}>
+            <HTMLContent>
+              {comment.body
+                ? comment.body.length > NOTIFICATION_COMMENT_BODY_LENGTH
+                  ? comment.body.slice(0, NOTIFICATION_COMMENT_BODY_LENGTH) +
+                    "..."
+                  : comment.body
+                : ""}
+            </HTMLContent>
+            {mediaText && (
+              <div className={styles.media}>
+                <Localized id={mediaText.id}>
+                  <Tag variant="pill">{mediaText.defaultText}</Tag>
+                </Localized>
+              </div>
             )}
           </div>
-          {comment.story.metadata?.title && (
-            <div className={styles.storyTitle}>
-              {comment.story.metadata.title}
-            </div>
-          )}
         </div>
       )}
     </>
@@ -119,46 +133,24 @@ const NotificationCommentContainer: FunctionComponent<Props> = ({
 };
 
 const enhanced = withFragmentContainer<Props>({
+  notification: graphql`
+    fragment NotificationCommentContainer_notification on Notification {
+      type
+    }
+  `,
   comment: graphql`
     fragment NotificationCommentContainer_comment on Comment {
       id
       createdAt
       body
-      status
       story {
         metadata {
           title
         }
       }
-      site {
-        id
-      }
-      author {
-        username
-      }
       revision {
         media {
           __typename
-          ... on GiphyMedia {
-            url
-            title
-            width
-            height
-            still
-            video
-          }
-          ... on TwitterMedia {
-            url
-            width
-          }
-          ... on YouTubeMedia {
-            url
-            width
-            height
-          }
-          ... on ExternalMedia {
-            url
-          }
         }
       }
     }

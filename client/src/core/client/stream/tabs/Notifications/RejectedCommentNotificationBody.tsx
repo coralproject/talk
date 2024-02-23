@@ -238,6 +238,8 @@ const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
         <div>
           <NotificationCommentContainer
             comment={comment}
+            notification={notification}
+            expandable
             openedStateText={
               <Localized id="notifications-comment-hideRemovedComment">
                 - Hide removed comment
@@ -258,6 +260,7 @@ const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   notification: graphql`
     fragment RejectedCommentNotificationBody_notification on Notification {
+      ...NotificationCommentContainer_notification
       type
       rejectionReason
       customReason

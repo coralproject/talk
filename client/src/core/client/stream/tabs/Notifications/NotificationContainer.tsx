@@ -3,6 +3,7 @@ import cn from "classnames";
 import React, { ComponentType, FunctionComponent, useMemo } from "react";
 import { graphql } from "react-relay";
 
+import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
@@ -16,25 +17,25 @@ import {
   RejectCommentBoxIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
-import { Timestamp } from "coral-ui/components/v2";
 
 import {
   NOTIFICATION_TYPE,
   NotificationContainer_notification,
 } from "coral-stream/__generated__/NotificationContainer_notification.graphql";
+import { NotificationContainer_settings } from "coral-stream/__generated__/NotificationContainer_settings.graphql";
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
-import ApprovedCommentNotificationBody from "./ApprovedCommentNotificationBody";
+import AuthorBadgesContainer from "../Comments/Comment/AuthorBadgesContainer";
+import CommentNotificationBody from "./CommentNotificationBody";
 import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
-import FeaturedCommentNotificationBody from "./FeaturedCommentNotificationBody";
 import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
-import RepliedCommentNotificationBody from "./RepliedCommentNotificationBody";
 
 import styles from "./NotificationContainer.css";
 
 interface Props {
   viewer: NotificationContainer_viewer | null;
   notification: NotificationContainer_notification;
+  settings: NotificationContainer_settings;
 }
 
 const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
@@ -62,12 +63,18 @@ const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
   return QuestionCircleIcon;
 };
 
-const getTitle = (bundles: FluentBundle[], type: NOTIFICATION_TYPE | null) => {
+const getTitle = (
+  bundles: FluentBundle[],
+  type: NOTIFICATION_TYPE | null,
+  commentReply?: {
+    readonly author: { readonly username: string | null } | null;
+  } | null
+) => {
   if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED) {
     return getMessage(
       bundles,
       "notifications-yourCommentHasBeenApproved",
-      "Your comment has been approved"
+      "Your comment has been published"
     );
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
@@ -98,18 +105,15 @@ const getTitle = (bundles: FluentBundle[], type: NOTIFICATION_TYPE | null) => {
       "Your illegal content report has been reviewed"
     );
   }
-  if (type === GQLNOTIFICATION_TYPE.REPLY) {
+  if (
+    type === GQLNOTIFICATION_TYPE.REPLY ||
+    type === GQLNOTIFICATION_TYPE.REPLY_STAFF
+  ) {
     return getMessage(
       bundles,
       "notifications-yourCommentHasReceivedAReply",
-      "Your comment has received a reply"
-    );
-  }
-  if (type === GQLNOTIFICATION_TYPE.REPLY_STAFF) {
-    return getMessage(
-      bundles,
-      "notifications-yourCommentHasReceivedAStaffReply",
-      "Your comment has received a reply from a member of our team"
+      `New reply from ${commentReply?.author?.username}`,
+      { author: commentReply?.author?.username }
     );
   }
 
@@ -119,8 +123,9 @@ const getTitle = (bundles: FluentBundle[], type: NOTIFICATION_TYPE | null) => {
 const NotificationContainer: FunctionComponent<Props> = ({
   notification,
   viewer,
+  settings,
 }) => {
-  const { type, createdAt } = notification;
+  const { type, createdAt, commentReply } = notification;
   const { localeBundles } = useCoralContext();
 
   const seen = useMemo(() => {
@@ -136,8 +141,30 @@ const NotificationContainer: FunctionComponent<Props> = ({
     return createdAtDate.getTime() <= lastSeenDate.getTime();
   }, [createdAt, viewer]);
 
+  const permalinkURL = useMemo(() => {
+    if (notification.type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
+      return undefined;
+    }
+    const commentForPermalink =
+      notification.type === GQLNOTIFICATION_TYPE.REPLY ||
+      notification.type === GQLNOTIFICATION_TYPE.REPLY_STAFF
+        ? notification.commentReply
+        : notification.comment;
+    return commentForPermalink?.story.url
+      ? getURLWithCommentID(
+          commentForPermalink?.story.url,
+          commentForPermalink?.id
+        )
+      : undefined;
+  }, [notification.type, notification.comment, notification.commentReply]);
+
   return (
-    <>
+    <a
+      className={styles.link}
+      href={permalinkURL}
+      target="_blank"
+      rel="noreferrer"
+    >
       <div
         className={cn(styles.root, {
           [styles.seen]: seen,
@@ -147,8 +174,16 @@ const NotificationContainer: FunctionComponent<Props> = ({
         <div className={styles.title}>
           <SvgIcon size="sm" Icon={getIcon(type)} />
           <div className={styles.titleText}>
-            {getTitle(localeBundles, type)}
+            {getTitle(localeBundles, type, commentReply)}
           </div>
+          {type === GQLNOTIFICATION_TYPE.REPLY_STAFF &&
+            commentReply?.author?.badges && (
+              <AuthorBadgesContainer
+                className={styles.badges}
+                badges={commentReply.author.badges}
+                settings={settings}
+              />
+            )}
         </div>
         {(type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED ||
           type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) && (
@@ -158,21 +193,20 @@ const NotificationContainer: FunctionComponent<Props> = ({
           <DSAReportDecisionMadeNotificationBody notification={notification} />
         )}
         {(type === GQLNOTIFICATION_TYPE.REPLY ||
-          type === GQLNOTIFICATION_TYPE.REPLY_STAFF) && (
-          <RepliedCommentNotificationBody notification={notification} />
+          type === GQLNOTIFICATION_TYPE.REPLY_STAFF ||
+          type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED ||
+          type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED) && (
+          <CommentNotificationBody
+            notification={notification}
+            reply={
+              type === GQLNOTIFICATION_TYPE.REPLY ||
+              type === GQLNOTIFICATION_TYPE.REPLY_STAFF
+            }
+          />
         )}
-        {type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED && (
-          <FeaturedCommentNotificationBody notification={notification} />
-        )}
-        {type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED && (
-          <ApprovedCommentNotificationBody notification={notification} />
-        )}
-        <div className={styles.footer}>
-          <Timestamp className={styles.timestamp}>{createdAt}</Timestamp>
-        </div>
       </div>
       <div className={styles.divider}></div>
-    </>
+    </a>
   );
 };
 
@@ -182,20 +216,38 @@ const enhanced = withFragmentContainer<Props>({
       lastSeenNotificationDate
     }
   `,
+  settings: graphql`
+    fragment NotificationContainer_settings on Settings {
+      ...AuthorBadgesContainer_settings
+    }
+  `,
   notification: graphql`
     fragment NotificationContainer_notification on Notification {
+      type
       id
       createdAt
       type
       commentStatus
       comment {
+        id
+        story {
+          url
+        }
         ...NotificationCommentContainer_comment
+      }
+      commentReply {
+        id
+        author {
+          username
+          badges
+        }
+        story {
+          url
+        }
       }
       ...RejectedCommentNotificationBody_notification
       ...DSAReportDecisionMadeNotificationBody_notification
-      ...RepliedCommentNotificationBody_notification
-      ...FeaturedCommentNotificationBody_notification
-      ...ApprovedCommentNotificationBody_notification
+      ...CommentNotificationBody_notification
     }
   `,
 })(NotificationContainer);

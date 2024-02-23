@@ -28,6 +28,7 @@
   border-left-color: var(--palette-grey-400);
 
   padding-left: var(--spacing-3);
+  margin-top: var(--spacing-2);
 }
 
 .author {
@@ -42,6 +43,7 @@
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-2);
   color: var(--palette-grey-500);
+  display: inline;
 }
 
 .storyTitle {
@@ -50,6 +52,8 @@
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-2);
   color: var(--palette-text-900);
+  padding-left: var(--spacing-1);
+  display: inline;
 }
 
 .media {

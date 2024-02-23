@@ -1059,8 +1059,11 @@ notification-comment-toggle-default-closed = + Comment
 notifications-comment-showRemovedComment = + Show removed comment
 notifications-comment-hideRemovedComment = - Hide removed comment
 
-notifications-comment-hide = - Hide your comment
-notifications-comment-show = + Show your comment
+notification-comment-description-featured = your comment on "{ $title }" was featured by a member of our team.
+notification-comment-description-default = on "{ $title }"
+notification-comment-media-image = Image
+notification-comment-media-embed = Embed
+notification-comment-media-gif = Gif
 
 notifications-yourIllegalContentReportHasBeenReviewed =
   Your illegal content report has been reviewed
@@ -1071,9 +1074,7 @@ notifications-yourCommentHasBeenApproved =
 notifications-yourCommentHasBeenFeatured =
   Your comment has been featured
 notifications-yourCommentHasReceivedAReply =
-  Your comment has received a reply
-notifications-yourCommentHasReceivedAStaffReply =
-  Your comment has received a reply from a member of our team
+  New reply from { $author }
 notifications-defaultTitle = Notification
 
 notifications-rejectedComment-body =
@@ -1086,9 +1087,6 @@ notifications-repliedComment-hideReply = - Hide the reply
 notifications-repliedComment-showReply = + Show the reply
 notifications-repliedComment-hideOriginalComment = - Hide my original comment
 notifications-repliedComment-showOriginalComment = + Show my original comment
-
-notifications-goToCommentButton-comment = Go to this comment <icon></icon>
-notifications-goToCommentButton-reply = Go to this reply <icon></icon>
 
 notifications-dsaReportLegality-legal = Legal content
 notifications-dsaReportLegality-illegal = Illegal content
