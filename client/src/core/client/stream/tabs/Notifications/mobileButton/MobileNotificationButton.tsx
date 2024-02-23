@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 
+import { useGetMessage } from "coral-framework/lib/i18n";
 import { ButtonSvgIcon, RemoveIcon } from "coral-ui/components/icons";
 
 import { LiveBellIcon } from "../LiveBellIcon";
@@ -22,6 +23,9 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
   viewerID,
   enabled,
 }) => {
+  const getMessage = useGetMessage();
+  const title = getMessage("notifications-title", "Notifications");
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onToggleOpen = useCallback(() => {
@@ -71,7 +75,7 @@ export const MobileNotificationButton: FunctionComponent<Props> = ({
           </div>
         </div>
       )}
-      <button className={styles.button} onClick={onToggleOpen}>
+      <button className={styles.button} onClick={onToggleOpen} title={title}>
         <LiveBellIcon size="lg" style="tray" enabled={enabled} />
       </button>
     </>

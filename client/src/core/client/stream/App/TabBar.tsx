@@ -79,6 +79,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
   );
   const myProfileText = getMessage("general-tabBar-myProfileTab", "My Profile");
   const configureText = getMessage("general-tabBar-configure", "Configure");
+  const notificationsText = getMessage("notifications-title", "Notifications");
 
   return (
     <MatchMedia gteWidth="sm">
@@ -199,6 +200,7 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               tabID="NOTIFICATIONS"
               variant="notifications"
               float="right"
+              title={notificationsText}
             >
               <div className={cn(styles.notificationsIcon)}>
                 <LiveBellIcon
