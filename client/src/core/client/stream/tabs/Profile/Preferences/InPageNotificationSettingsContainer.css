@@ -25,6 +25,8 @@
   color: var(--palette-text-500);
 
   padding-bottom: var(--spacing-1);
+
+  margin-top: var(--spacing-2) !important;
 }
 
 .disabledHeader {

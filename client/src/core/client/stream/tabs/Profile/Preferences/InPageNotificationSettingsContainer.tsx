@@ -151,7 +151,7 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                     </Field>
                   </FormField>
                 </HorizontalGutter>
-                <HorizontalGutter marginTop={2}>
+                <HorizontalGutter>
                   <Localized id="profile-account-notifications-includeInPageWhen">
                     <div
                       className={
