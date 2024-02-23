@@ -735,6 +735,8 @@ profile-account-notifications-inPageNotifications-off = Badges off
 
 profile-account-notifications-showReplies-fromAnyone = from anyone
 profile-account-notifications-showReplies-fromStaff = from a staff member
+profile-account-notifications-showReplies
+  .aria-label = Show replies from
 
 ## Report Comment Popover
 comments-reportPopover =

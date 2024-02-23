@@ -192,29 +192,39 @@ const InPageNotificationSettingsContainer: FunctionComponent<Props> = ({
                           <span className={styles.showReplies}>
                             <Field name="onReply.showReplies">
                               {({ input }) => (
-                                <SelectField
-                                  {...input}
-                                  id={input.name}
-                                  disabled={disableWhenSection}
-                                  aria-label="Show replies"
+                                <Localized
+                                  id="profile-account-notifications-showReplies"
+                                  attrs={{ "aria-label": true }}
                                 >
-                                  <Localized id="profile-account-notifications-showReplies-fromAnyone">
-                                    <Option
-                                      value={GQLInPageNotificationReplyType.ALL}
-                                    >
-                                      from anyone
-                                    </Option>
-                                  </Localized>
-                                  <Localized id="profile-account-notifications-showReplies-fromStaff">
-                                    <Option
-                                      value={
-                                        GQLInPageNotificationReplyType.STAFF
-                                      }
-                                    >
-                                      from a staff member
-                                    </Option>
-                                  </Localized>
-                                </SelectField>
+                                  <SelectField
+                                    {...input}
+                                    id={input.name}
+                                    disabled={
+                                      disableWhenSection ||
+                                      !values.onReply.enabled
+                                    }
+                                    aria-label="Show replies from"
+                                  >
+                                    <Localized id="profile-account-notifications-showReplies-fromAnyone">
+                                      <Option
+                                        value={
+                                          GQLInPageNotificationReplyType.ALL
+                                        }
+                                      >
+                                        from anyone
+                                      </Option>
+                                    </Localized>
+                                    <Localized id="profile-account-notifications-showReplies-fromStaff">
+                                      <Option
+                                        value={
+                                          GQLInPageNotificationReplyType.STAFF
+                                        }
+                                      >
+                                        from a staff member
+                                      </Option>
+                                    </Localized>
+                                  </SelectField>
+                                </Localized>
                               )}
                             </Field>
                           </span>
