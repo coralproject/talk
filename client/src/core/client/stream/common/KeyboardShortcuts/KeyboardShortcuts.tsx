@@ -1461,7 +1461,12 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   </Flex>
                 </button>
               </div>
-              <div className={styles.notificationActionContainer}>
+              <div
+                className={cn(
+                  styles.notificationActionContainer,
+                  CLASSES.mobileToolbar.notificationsAction
+                )}
+              >
                 <MobileNotificationButton
                   viewerID={viewerID}
                   enabled={userNotificationsEnabled}
