@@ -48,3 +48,17 @@ $ban-modal-text: var(--palette-text-500);
 .rejectExistingReason {
   background-color: var(--palette-grey-100);
 }
+
+.domainBanCallOut {
+  padding: var(--spacing-1);
+}
+
+.alertIcon {
+  margin-right: var(--spacing-1);
+}
+
+.domainBanConfirmationInput {
+  font-family: var(--font-family-primary);
+  line-height: 2.25;
+  padding-left: var(--spacing-2);
+}
