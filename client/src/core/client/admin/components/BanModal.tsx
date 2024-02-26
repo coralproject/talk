@@ -29,7 +29,6 @@ import {
 } from "coral-ui/components/icons";
 import {
   Button,
-  CallOut,
   CheckBox,
   Flex,
   FormField,
@@ -38,6 +37,7 @@ import {
   RadioButton,
   Textarea,
 } from "coral-ui/components/v2";
+import { CallOut } from "coral-ui/components/v3";
 
 import { BanModalLocal } from "coral-admin/__generated__/BanModalLocal.graphql";
 import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
@@ -549,9 +549,7 @@ const BanModal: FunctionComponent<Props> = ({
                     <>
                       <CallOut
                         className={styles.domainBanCallOut}
-                        color="error"
-                        fullWidth
-                        borderless
+                        color="warning"
                       >
                         <SvgIcon
                           size="xs"
