@@ -354,7 +354,7 @@ const BanModal: FunctionComponent<Props> = ({
   const disableForm =
     (requiresSiteBanUpdates && !pendingSiteBanUpdates) ||
     requiresRejectionReasonForDSA ||
-    (canBanDomain &&
+    (!!canBanDomain &&
       banDomain &&
       !(
         domainBanConfirmationTextInput.toLowerCase() ===
@@ -574,7 +574,7 @@ const BanModal: FunctionComponent<Props> = ({
                         </div>
                       </Localized>
                       <input
-                        data-testid="userSpamBanConfirmation"
+                        data-testid="domainBanConfirmation"
                         className={styles.domainBanConfirmationInput}
                         type="text"
                         placeholder=""
