@@ -40,6 +40,10 @@ export interface Props {
   showNotificationsTab: boolean;
   hasNewNotifications: boolean;
   userNotificationsEnabled: boolean;
+  inPageNotifications?: {
+    enabled: boolean | null;
+    floatingBellIndicator: boolean | null;
+  } | null;
   mode:
     | "COMMENTS"
     | "QA"
@@ -199,7 +203,11 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
               )}
               tabID="NOTIFICATIONS"
               variant="notifications"
-              float="right"
+              float={
+                props.inPageNotifications?.floatingBellIndicator
+                  ? "right"
+                  : "none"
+              }
               title={notificationsText}
             >
               <div className={cn(styles.notificationsIcon)}>

@@ -94,12 +94,14 @@ export const TabBarContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      {!!viewer && !!settings?.inPageNotifications?.enabled && (
-        <FloatingNotificationButton
-          viewerID={viewer?.id}
-          enabled={!!viewer?.inPageNotifications?.enabled}
-        />
-      )}
+      {!!viewer &&
+        !!settings?.inPageNotifications?.enabled &&
+        !!settings?.inPageNotifications?.floatingBellIndicator && (
+          <FloatingNotificationButton
+            viewerID={viewer?.id}
+            enabled={!!viewer?.inPageNotifications?.enabled}
+          />
+        )}
       <IntersectionProvider threshold={[0, 1]}>
         <TabBar
           mode={story ? story.settings.mode : GQLSTORY_MODE.COMMENTS}
@@ -112,6 +114,7 @@ export const TabBarContainer: FunctionComponent<Props> = ({
           }
           hasNewNotifications={!!hasNewNotifications}
           userNotificationsEnabled={!!viewer?.inPageNotifications?.enabled}
+          inPageNotifications={settings?.inPageNotifications}
           onTabClick={handleSetActiveTab}
         />
       </IntersectionProvider>
@@ -143,6 +146,7 @@ const enhanced = withSetActiveTabMutation(
         featureFlags
         inPageNotifications {
           enabled
+          floatingBellIndicator
         }
       }
     `,

@@ -144,7 +144,8 @@ export const settings = createFixture<GQLSettings>({
     },
   },
   inPageNotifications: {
-    enabled: false,
+    enabled: true,
+    floatingBellIndicator: true,
   },
 });
 

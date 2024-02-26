@@ -1983,6 +1983,8 @@ type PremoderateEmailAddressConfiguration {
 
 type InPageNotificationsConfiguration {
   enabled: Boolean
+
+  floatingBellIndicator: Boolean
 }
 
 input TooManyPeriodsConfigInput {
@@ -6439,6 +6441,12 @@ input InPageNotificationsConfigurationInput {
   enabled when true turns on in-page notifications as an option for commenters.
   """
   enabled: Boolean
+
+  """
+  floatingBellIndicator when true shows a floating bell for notifications; when false,
+  there is no floating bell and the Notifications tab is aligned left.
+  """
+  floatingBellIndicator: Boolean
 }
 
 """
