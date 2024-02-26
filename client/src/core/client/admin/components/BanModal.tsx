@@ -546,7 +546,7 @@ const BanModal: FunctionComponent<Props> = ({
                     </Flex>
                   )}
                   {canBanDomain && banDomain && (
-                    <>
+                    <Flex direction="column">
                       <CallOut
                         className={styles.domainBanCallOut}
                         color="warning"
@@ -563,11 +563,12 @@ const BanModal: FunctionComponent<Props> = ({
                           </span>
                         </Localized>
                       </CallOut>
+
                       <Localized
                         id="community-banModal-banEmailDomain-confirmationText"
                         vars={{ text: domainBanConfirmationText }}
                       >
-                        <div>
+                        <div className={styles.domainBanConfirmationLabel}>
                           Type in "{domainBanConfirmationText}" to confirm
                         </div>
                       </Localized>
@@ -578,7 +579,7 @@ const BanModal: FunctionComponent<Props> = ({
                         placeholder=""
                         onChange={onDomainBanConfirmationTextInputChange}
                       />
-                    </>
+                    </Flex>
                   )}
                   {/* customize message button*/}
                   {updateType !== UpdateType.NO_SITES && (

@@ -51,6 +51,7 @@ $ban-modal-text: var(--palette-text-500);
 
 .domainBanCallOut {
   padding: var(--spacing-1);
+  margin-bottom: var(--spacing-2);
 }
 
 .alertIcon {
@@ -61,4 +62,8 @@ $ban-modal-text: var(--palette-text-500);
   font-family: var(--font-family-primary);
   line-height: 2.25;
   padding-left: var(--spacing-2);
+}
+
+.domainBanConfirmationLabel {
+  margin-bottom: var(--spacing-1);
 }
