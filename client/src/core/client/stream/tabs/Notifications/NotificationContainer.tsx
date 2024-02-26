@@ -11,9 +11,9 @@ import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
 import {
   CheckCircleIcon,
   LegalHammerIcon,
-  MessagesBubbleSquareStarIcon,
   MessagesBubbleSquareTextIcon,
   QuestionCircleIcon,
+  RatingStarRibbonIcon,
   RejectCommentBoxIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
@@ -43,7 +43,7 @@ const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
     return CheckCircleIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
-    return MessagesBubbleSquareStarIcon;
+    return RatingStarRibbonIcon;
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED) {
     return RejectCommentBoxIcon;
