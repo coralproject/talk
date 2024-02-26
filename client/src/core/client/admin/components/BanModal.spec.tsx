@@ -208,7 +208,7 @@ test.each(siteMods)(
     const modal = getBanModal(container, commenterUser);
 
     const banDomainButton = within(modal).queryByText(
-      `Ban new commenter accounts from test.com`
+      `Ban all commenter accounts from test.com`
     );
 
     expect(banDomainButton).toBeNull();
