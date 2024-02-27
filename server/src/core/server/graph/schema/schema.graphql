@@ -1744,6 +1744,10 @@ type TopCommenterConfiguration {
   enabled: Boolean
 }
 
+type NewCommenterConfiguration {
+  enabled: Boolean
+}
+
 """
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
@@ -2217,6 +2221,8 @@ type Settings @cacheControl(maxAge: 30) {
   with comments featured within the last 10 days are top commenters
   """
   topCommenter: TopCommenterConfiguration
+
+  newCommenter: NewCommenterConfiguration
 
   """
   staff specifies the configuration for the user badges assigned to users with
@@ -6065,6 +6071,10 @@ input TopCommenterConfigurationInput {
   enabled: Boolean
 }
 
+input NewCommenterConfigurationInput {
+  enabled: Boolean
+}
+
 """
 BadgeConfigurationInput specifies the configuration for the staff badges
 assigned to users with any role above COMMENTER.
@@ -6456,6 +6466,8 @@ input SettingsInput {
   with comments featured within the last 10 days are top commenters
   """
   topCommenter: TopCommenterConfigurationInput
+
+  newCommenter: NewCommenterConfigurationInput
 
   """
   badges specifies the configuration for user badges assigned to users with

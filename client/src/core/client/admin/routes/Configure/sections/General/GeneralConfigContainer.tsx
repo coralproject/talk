@@ -24,6 +24,7 @@ import GuidelinesConfig from "./GuidelinesConfig";
 import LocaleConfig from "./LocaleConfig";
 import MediaLinksConfig from "./MediaLinksConfig";
 import MemberBioConfig from "./MemberBioConfig";
+import NewCommenterConfig from "./NewCommenterConfig";
 import ReactionConfigContainer from "./ReactionConfigContainer";
 import RTEConfig from "./RTEConfig";
 import SitewideCommentingConfig from "./SitewideCommentingConfig";
@@ -62,6 +63,7 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       <ReactionConfigContainer disabled={submitting} settings={settings} />
       <FeaturedByConfig disabled={submitting} />
       <BadgeConfig disabled={submitting} />
+      <NewCommenterConfig disabled={submitting} />
       <TopCommenterConfig disabled={submitting} />
       <FlairBadgeConfigContainer disabled={submitting} settings={settings} />
       <MemberBioConfig disabled={submitting} />
@@ -87,6 +89,7 @@ const enhanced = withFragmentContainer<Props>({
       ...FeaturedByConfig_formValues @relay(mask: false)
       ...ReactionConfig_formValues @relay(mask: false)
       ...BadgeConfig_formValues @relay(mask: false)
+      ...NewCommenterConfig_formValues @relay(mask: false)
       ...TopCommenterConfig_formValues @relay(mask: false)
       ...FlairBadgeConfigContainer_formValues @relay(mask: false)
       ...FlairBadgeConfigContainer_settings

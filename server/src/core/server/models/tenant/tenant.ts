@@ -303,6 +303,9 @@ export const combineTenantDefaultsAndInput = (
     topCommenter: {
       enabled: false,
     },
+    newCommenter: {
+      enabled: false,
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.

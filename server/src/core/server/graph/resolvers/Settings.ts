@@ -46,6 +46,7 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   emailDomainModeration: ({ emailDomainModeration = [] }) =>
     emailDomainModeration,
   topCommenter: ({ topCommenter = { enabled: false } }) => topCommenter,
+  newCommenter: ({ newCommenter = { enabled: false } }) => newCommenter,
   badges: ({ badges, staff }, args, ctx) => {
     const badgeConfig = badges || staff;
 
