@@ -25,6 +25,8 @@ export interface IndentedCommentProps extends Omit<CommentProps, "ref"> {
   username?: string | null;
   featuredCommenter?: boolean | null;
   topCommenterEnabled?: boolean | null;
+  newCommenter?: boolean | null;
+  newCommenterEnabled?: boolean | null;
 }
 
 const IndentedComment: FunctionComponent<IndentedCommentProps> = ({

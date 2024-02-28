@@ -7,6 +7,7 @@ import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
 import {
   ButtonSvgIcon,
+  PlantIcon,
   RatingStarIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
@@ -46,6 +47,8 @@ export interface CommentProps {
   enableJumpToParent?: boolean;
   featuredCommenter?: boolean | null;
   topCommenterEnabled?: boolean | null;
+  newCommenter?: boolean | null;
+  newCommenterEnabled?: boolean | null;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -76,6 +79,68 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
                 </div>
               )}
             </MatchMedia>
+          )}
+          {props.newCommenterEnabled && props.newCommenter && (
+            <Flex marginRight={2}>
+              <div>
+                <Tooltip
+                  // className={CLASSES.comment.topBar.topCommenterStarTooltip}
+                  id="newCommenter-tooltip"
+                  title=""
+                  body={
+                    <>
+                      <Localized
+                        id="comment-new-commenter-tooltip-header"
+                        elems={{
+                          icon: (
+                            <SvgIcon
+                              size="xxs"
+                              Icon={PlantIcon}
+                              // className={styles.topCommenterTooltipHeaderIcon}
+                            />
+                          ),
+                        }}
+                      >
+                        <span
+                        // className={cn(
+                        //   styles.topCommenterTooltipHeader,
+                        //   CLASSES.comment.topBar.topCommenterStarTooltipHeader
+                        // )}
+                        >
+                          <SvgIcon
+                            size="xxs"
+                            Icon={PlantIcon}
+                            // className={styles.topCommenterTooltipHeaderIcon}
+                            filled="currentColor"
+                          />{" "}
+                          New commenter
+                        </span>
+                      </Localized>
+                      <Localized id="comment-new-commenter-tooltip-details">
+                        <span
+                        // className={
+                        //   CLASSES.comment.topBar
+                        //     .topCommenterStarTooltipDetails
+                        // }
+                        >
+                          New commenter, say hi
+                        </span>
+                      </Localized>
+                    </>
+                  }
+                  button={({ toggleVisibility, ref }) => (
+                    <Button onClick={toggleVisibility} ref={ref} variant="text">
+                      <ButtonSvgIcon
+                        className={CLASSES.comment.topBar.topCommenterStar}
+                        size="xxs"
+                        Icon={RatingStarIcon}
+                        filled="currentColor"
+                      />
+                    </Button>
+                  )}
+                />
+              </div>
+            </Flex>
           )}
           {props.topCommenterEnabled && props.featuredCommenter && (
             <Flex marginRight={2}>

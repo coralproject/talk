@@ -3354,6 +3354,8 @@ type User {
   last 10 days or not
   """
   featuredCommenter: Boolean
+
+  newCommenter: Boolean
 }
 
 """

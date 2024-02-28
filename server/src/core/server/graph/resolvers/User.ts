@@ -106,6 +106,10 @@ export const User: GQLUserTypeResolver<user.User> = {
     const tenDaysAgo = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000);
     return lastFeaturedDate && lastFeaturedDate >= tenDaysAgo;
   },
+  newCommenter: ({ createdAt }) => {
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    return createdAt >= sevenDaysAgo;
+  },
   badges: ({ badges, secretBadges }) => {
     if (!badges && !secretBadges) {
       return undefined;
