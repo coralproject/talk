@@ -121,7 +121,10 @@ const FloatingNotificationButton: FunctionComponent<Props> = ({
                 {
                   [styles.buttonClosed]: !isOpen,
                   [styles.buttonOpen]: isOpen,
-                }
+                },
+                isOpen
+                  ? CLASSES.notifications.floating.actionOpen
+                  : CLASSES.notifications.floating.actionClosed
               )}
               onClick={onToggleOpen}
               title={title}

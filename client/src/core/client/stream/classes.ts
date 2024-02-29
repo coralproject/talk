@@ -79,6 +79,8 @@ const CLASSES = {
     activeTab: "coral-tabBar-tab-active",
 
     notifications: "coral coral-tabBar-tab coral-tabBar-notifications",
+
+    mobile: "coral-tabBar-tab-mobile",
   },
 
   /**
@@ -1076,6 +1078,8 @@ const CLASSES = {
     floating: {
       root: "coral coral-notifications-floating-root",
       action: "coral coral-notifications-floating-action",
+      actionOpen: "coral coral-notifications-floating-action-open",
+      actionClosed: "coral coral-notifications-floating-action-closed",
       close: "coral coral-notifications-floating-close",
       icon: "coral coral-notifications-floating-icon",
       feed: {

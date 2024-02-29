@@ -89,7 +89,9 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
     <MatchMedia gteWidth="sm">
       {(matches) => (
         <TabBar
-          className={CLASSES.tabBar.$root}
+          className={cn(CLASSES.tabBar.$root, {
+            [CLASSES.tabBar.mobile]: !matches,
+          })}
           activeTab={props.activeTab}
           onTabClick={props.onTabClick}
           variant="streamPrimary"
