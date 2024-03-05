@@ -52,7 +52,7 @@ export const TabBarContainer: FunctionComponent<Props> = ({
   settings,
   setActiveTab,
 }) => {
-  useLiveNotificationsPolling(getViewerID(viewer));
+  useLiveNotificationsPolling(settings, getViewerID(viewer));
 
   const setCommentID = useMutation(SetCommentIDMutation);
   const { window } = useCoralContext();
@@ -148,6 +148,7 @@ const enhanced = withSetActiveTabMutation(
           enabled
           floatingBellIndicator
         }
+        ...useLiveNotificationsPolling_settings
       }
     `,
   })(TabBarContainer)
