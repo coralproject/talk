@@ -41,7 +41,7 @@ interface Props {
 const NotificationsPaginator: FunctionComponent<Props> = (props) => {
   const [disableLoadMore, setDisableLoadMore] = useState(false);
 
-  const [{ activeTab, profileTab, hasNewNotifications }, setLocal] =
+  const [{ hasNewNotifications }, setLocal] =
     useLocal<NotificationsPaginatorLocal>(graphql`
       fragment NotificationsPaginatorLocal on Local {
         activeTab
@@ -53,7 +53,7 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
   const onPreferencesClick = useCallback(() => {
     setLocal({ activeTab: "PROFILE" });
     setLocal({ profileTab: "PREFERENCES" });
-  }, [activeTab, profileTab, setLocal]);
+  }, [setLocal]);
 
   const [, isRefetching] =
     useRefetch<NotificationsPaginatorPaginationQueryVariables>(
