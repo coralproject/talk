@@ -40,6 +40,10 @@ export interface Props {
   showNotificationsTab: boolean;
   hasNewNotifications: boolean;
   userNotificationsEnabled: boolean;
+  inPageNotifications?: {
+    enabled: boolean | null;
+    floatingBellIndicator: boolean | null;
+  } | null;
   mode:
     | "COMMENTS"
     | "QA"
@@ -85,7 +89,9 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
     <MatchMedia gteWidth="sm">
       {(matches) => (
         <TabBar
-          className={CLASSES.tabBar.$root}
+          className={cn(CLASSES.tabBar.$root, {
+            [CLASSES.tabBar.mobile]: !matches,
+          })}
           activeTab={props.activeTab}
           onTabClick={props.onTabClick}
           variant="streamPrimary"
@@ -195,11 +201,17 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                   [CLASSES.tabBar.activeTab]:
                     props.activeTab === "NOTIFICATIONS",
                   [styles.notificationsTabSmall]: !matches,
+                  [styles.floatingBellDisabled]:
+                    !props.inPageNotifications?.floatingBellIndicator,
                 }
               )}
               tabID="NOTIFICATIONS"
               variant="notifications"
-              float="right"
+              float={
+                props.inPageNotifications?.floatingBellIndicator
+                  ? "right"
+                  : "none"
+              }
               title={notificationsText}
             >
               <div className={cn(styles.notificationsIcon)}>

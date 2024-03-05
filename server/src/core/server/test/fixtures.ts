@@ -197,7 +197,8 @@ export const createTenantFixture = (
       oEmbedAllowedOrigins: [],
     },
     inPageNotifications: {
-      enabled: false,
+      enabled: true,
+      floatingBellIndicator: true,
     },
   };
 

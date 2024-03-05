@@ -520,7 +520,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                     aria-label={refreshCommentsLocalization.text}
                     variant="filled"
                     color="primary"
-                    paddingSize="extraSmall"
+                    paddingSize="small"
                     className={styles.refreshButton}
                     onClick={handleClickRefreshButton}
                   >

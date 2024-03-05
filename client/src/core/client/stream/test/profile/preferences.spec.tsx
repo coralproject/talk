@@ -69,6 +69,17 @@ it("render email notifications form", async () => {
   await act(async () => {
     await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => {
+            return {
+              ...settings,
+              inPageNotifications: {
+                enabled: false,
+                floatingBellIndicator: true,
+              },
+            };
+          },
+        },
         Mutation: {
           updateEmailNotificationSettings,
         },

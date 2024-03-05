@@ -40,6 +40,10 @@
   border-bottom-color: #cbd1d2;
   border-right-style: solid;
   border-right-color: #cbd1d2;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .buttonText {

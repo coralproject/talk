@@ -12,7 +12,6 @@ import { Environment, graphql } from "react-relay";
 
 import CLASSES from "coral-stream/classes";
 
-import { useInMemoryState } from "coral-framework/hooks";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import { useLocal, useMutation } from "coral-framework/lib/relay";
@@ -22,7 +21,6 @@ import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
-  CloseMobileToolbarEvent,
   JumpToNextCommentEvent,
   JumpToNextUnseenCommentEvent,
   JumpToPreviousCommentEvent,
@@ -44,7 +42,6 @@ import {
   ButtonSvgIcon,
   CheckDoubleIcon,
   ControlsNextIcon,
-  RemoveIcon,
 } from "coral-ui/components/icons";
 import { Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
@@ -304,10 +301,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   } = useCoralContext();
 
   const root = useShadowRootOrDocument();
-  const [toolbarClosed, setToolbarClosed] = useInMemoryState(
-    "keyboardShortcutMobileToolbarClosed",
-    false
-  );
 
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const markSeen = useMutation(MarkCommentsAsSeenMutation);
@@ -471,11 +464,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   const handleUnmarkAllButton = useCallback(async () => {
     await unmarkAll({ source: "mobileToolbar" });
   }, [unmarkAll]);
-
-  const handleCloseToolbarButton = useCallback(() => {
-    setToolbarClosed(true);
-    CloseMobileToolbarEvent.emit(eventEmitter);
-  }, [eventEmitter, setToolbarClosed]);
 
   const setFocusAndMarkSeen = useCallback(
     (commentID: string) => {
@@ -1380,7 +1368,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
     };
   }, [handleKeypress, handleWindowKeypress, renderWindow, root]);
 
-  if (amp || toolbarClosed || !zKeyEnabled) {
+  if (amp || !zKeyEnabled) {
     return null;
   }
 
@@ -1397,24 +1385,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
               alignItems="center"
               justifyContent="space-around"
             >
-              <div className={styles.closeContainer}>
-                <Localized
-                  id="comments-mobileToolbar-closeButton"
-                  attrs={{ "aria-label": true }}
-                >
-                  <button
-                    onClick={handleCloseToolbarButton}
-                    aria-label="Close"
-                    className={cn(
-                      styles.closeButton,
-                      CLASSES.mobileToolbar.close
-                    )}
-                  >
-                    <ButtonSvgIcon size="md" Icon={RemoveIcon} />
-                  </button>
-                </Localized>
-              </div>
-
               <div className={styles.unmarkAllContainer}>
                 <button
                   className={cn(

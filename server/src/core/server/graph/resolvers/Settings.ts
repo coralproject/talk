@@ -79,6 +79,7 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     return flairBadges;
   },
   dsa: ({ dsa = defaultDSAConfiguration }) => dsa,
-  inPageNotifications: ({ inPageNotifications = { enabled: false } }) =>
-    inPageNotifications,
+  inPageNotifications: ({
+    inPageNotifications = { enabled: true, floatingBellIndicator: true },
+  }) => inPageNotifications,
 };

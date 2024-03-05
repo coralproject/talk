@@ -1,5 +1,6 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { FormSpy } from "react-final-form";
 import { graphql } from "react-relay";
 
 import {
@@ -13,11 +14,14 @@ import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 
+import styles from "./InPageNotificationsConfig.css";
+
 // eslint-disable-next-line no-unused-expressions
 graphql`
   fragment InPageNotificationsConfig_formValues on Settings {
     inPageNotifications {
       enabled
+      floatingBellIndicator
     }
   }
 `;
@@ -49,6 +53,29 @@ const InPageNotificationsConfig: FunctionComponent<Props> = ({ disabled }) => (
       </Localized>
       <OnOffField name="inPageNotifications.enabled" disabled={disabled} />
     </FormField>
+    <FormSpy subscription={{ values: true }}>
+      {(props) => {
+        const inPageDisabled = !props.values.inPageNotifications?.enabled;
+        return (
+          <FormField container={<FieldSet />}>
+            <Localized id="configure-general-inPageNotifications-floatingBellIndicator">
+              <Label
+                className={
+                  disabled || inPageDisabled ? styles.disabledLabel : ""
+                }
+                component="legend"
+              >
+                Floating bell indicator
+              </Label>
+            </Localized>
+            <OnOffField
+              name="inPageNotifications.floatingBellIndicator"
+              disabled={disabled || inPageDisabled}
+            />
+          </FormField>
+        );
+      }}
+    </FormSpy>
   </ConfigBox>
 );
 

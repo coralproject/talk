@@ -316,6 +316,7 @@ export interface TopCommenterConfig {
 
 export interface InPageNotificationsConfig {
   enabled?: boolean;
+  floatingBellIndicator?: boolean;
 }
 
 export interface PremoderateEmailAddressConfig {

@@ -304,7 +304,8 @@ export const combineTenantDefaultsAndInput = (
       enabled: false,
     },
     inPageNotifications: {
-      enabled: false,
+      enabled: true,
+      floatingBellIndicator: true,
     },
   };
 
