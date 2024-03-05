@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
@@ -23,9 +24,8 @@ import { Button } from "coral-ui/components/v3";
 
 import { GQLDSA_METHOD_OF_REDRESS } from "coral-common/client/src/core/client/framework/schema/__generated__/types";
 import { NotificationsPaginator_query } from "coral-stream/__generated__/NotificationsPaginator_query.graphql";
-import { NotificationsPaginatorPaginationQueryVariables } from "coral-stream/__generated__/NotificationsPaginatorPaginationQuery.graphql";
-
 import { NotificationsPaginatorLocal } from "coral-stream/__generated__/NotificationsPaginatorLocal.graphql";
+import { NotificationsPaginatorPaginationQueryVariables } from "coral-stream/__generated__/NotificationsPaginatorPaginationQuery.graphql";
 
 import NotificationContainer from "./NotificationContainer";
 
@@ -211,7 +211,10 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
               fullWidth
               disabled={disableLoadMore}
               aria-controls="notifications-loadNew"
-              className={CLASSES.tabBarNotifications.loadNew}
+              className={cn(
+                styles.loadNew,
+                CLASSES.tabBarNotifications.loadNew
+              )}
             >
               Load New
             </Button>

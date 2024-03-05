@@ -41,3 +41,7 @@
   padding: 0;
   vertical-align: baseline;
 }
+
+.loadNew {
+  margin-top: var(--spacing-2);
+}
