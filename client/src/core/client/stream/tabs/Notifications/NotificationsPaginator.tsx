@@ -35,16 +35,18 @@ interface Props {
   query: NotificationsPaginator_query;
   relay: RelayPaginationProp;
   viewerID: string;
+  reload: () => void;
 }
 
 const NotificationsPaginator: FunctionComponent<Props> = (props) => {
   const [disableLoadMore, setDisableLoadMore] = useState(false);
 
-  const [{ activeTab, profileTab }, setLocal] =
+  const [{ activeTab, profileTab, hasNewNotifications }, setLocal] =
     useLocal<NotificationsPaginatorLocal>(graphql`
       fragment NotificationsPaginatorLocal on Local {
         activeTab
         profileTab
+        hasNewNotifications
       }
     `);
 
@@ -79,6 +81,10 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
       }
     );
   }, [props.relay]);
+
+  const reload = useCallback(() => {
+    props.reload();
+  }, [props]);
 
   const notificationsToShow = useMemo(() => {
     return props.query.notifications.edges.filter((n) => {
@@ -195,6 +201,22 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
         </Flex>
       </Localized>
       <div>
+        {hasNewNotifications && (
+          <Localized id="notifications-loadNew">
+            <Button
+              key={props.query.notifications.edges.length}
+              onClick={reload}
+              variant="outlined"
+              color="secondary"
+              fullWidth
+              disabled={disableLoadMore}
+              aria-controls="notifications-loadNew"
+              className={CLASSES.tabBarNotifications.loadNew}
+            >
+              Load New
+            </Button>
+          </Localized>
+        )}
         {notificationsToShow.map(({ node }) => {
           return (
             <NotificationContainer

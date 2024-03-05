@@ -39,6 +39,7 @@ export default function useLiveNotificationsPolling(userID?: string) {
       fragment useLiveNotificationsPollingLocal on Local {
         notificationCount
         notificationsPollRate
+        hasNewNotifications
       }
     `);
 
@@ -57,6 +58,10 @@ export default function useLiveNotificationsPolling(userID?: string) {
     }
 
     setLocal({ notificationCount: result.notificationCount });
+
+    if (result.notificationCount && result.notificationCount > 0) {
+      setLocal({ hasNewNotifications: true });
+    }
   }, [fetchNotifications, setLocal, userID]);
 
   useEffect(() => {

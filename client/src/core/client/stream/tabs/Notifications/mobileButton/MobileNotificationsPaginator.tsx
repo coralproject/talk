@@ -22,9 +22,8 @@ import { Button } from "coral-ui/components/v3";
 
 import { GQLDSA_METHOD_OF_REDRESS } from "coral-common/client/src/core/client/framework/schema/__generated__/types";
 import { MobileNotificationsPaginator_query } from "coral-stream/__generated__/MobileNotificationsPaginator_query.graphql";
-import { MobileNotificationsPaginatorPaginationQueryVariables } from "coral-stream/__generated__/MobileNotificationsPaginatorPaginationQuery.graphql";
-
 import { MobileNotificationsPaginatorLocal } from "coral-stream/__generated__/MobileNotificationsPaginatorLocal.graphql";
+import { MobileNotificationsPaginatorPaginationQueryVariables } from "coral-stream/__generated__/MobileNotificationsPaginatorPaginationQuery.graphql";
 
 import NotificationContainer from "../NotificationContainer";
 
@@ -34,17 +33,20 @@ interface Props {
   query: MobileNotificationsPaginator_query;
   relay: RelayPaginationProp;
   viewerID: string;
+  reload: () => void;
 }
 
 const MobileNotificationsPaginator: FunctionComponent<Props> = (props) => {
   const [disableLoadMore, setDisableLoadMore] = useState(false);
 
-  const [, setLocal] = useLocal<MobileNotificationsPaginatorLocal>(graphql`
-    fragment MobileNotificationsPaginatorLocal on Local {
-      activeTab
-      profileTab
-    }
-  `);
+  const [{ hasNewNotifications }, setLocal] =
+    useLocal<MobileNotificationsPaginatorLocal>(graphql`
+      fragment MobileNotificationsPaginatorLocal on Local {
+        activeTab
+        profileTab
+        hasNewNotifications
+      }
+    `);
 
   const onPreferencesClick = useCallback(() => {
     setLocal({ activeTab: "PROFILE" });
@@ -77,6 +79,10 @@ const MobileNotificationsPaginator: FunctionComponent<Props> = (props) => {
       }
     );
   }, [props.relay]);
+
+  const reload = useCallback(() => {
+    props.reload();
+  }, [props]);
 
   const notificationsToShow = useMemo(() => {
     return props.query.notifications.edges.filter((n) => {
@@ -193,6 +199,22 @@ const MobileNotificationsPaginator: FunctionComponent<Props> = (props) => {
         </div>
       </Localized>
       <div>
+        {hasNewNotifications && (
+          <Localized id="notifications-loadNew">
+            <Button
+              key={props.query.notifications.edges.length}
+              onClick={reload}
+              variant="outlined"
+              color="secondary"
+              fullWidth
+              disabled={disableLoadMore}
+              aria-controls="notifications-loadNew"
+              className={CLASSES.tabBarNotifications.loadNew}
+            >
+              Load New
+            </Button>
+          </Localized>
+        )}
         {notificationsToShow.map(({ node }) => {
           return (
             <NotificationContainer
