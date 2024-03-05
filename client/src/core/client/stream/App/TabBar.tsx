@@ -201,6 +201,8 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                   [CLASSES.tabBar.activeTab]:
                     props.activeTab === "NOTIFICATIONS",
                   [styles.notificationsTabSmall]: !matches,
+                  [styles.floatingBellDisabled]:
+                    !props.inPageNotifications?.floatingBellIndicator,
                 }
               )}
               tabID="NOTIFICATIONS"

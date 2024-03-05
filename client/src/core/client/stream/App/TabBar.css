@@ -30,3 +30,6 @@
   height: var(--spacing-5);
 }
 
+.floatingBellDisabled {
+  border-left: none;
+}
