@@ -10,6 +10,7 @@ import {
 } from "coral-framework/lib/relay";
 
 import { useLiveNotificationsPolling_settings } from "coral-stream/__generated__/useLiveNotificationsPolling_settings.graphql";
+import { useLiveNotificationsPolling_viewer } from "coral-stream/__generated__/useLiveNotificationsPolling_viewer.graphql";
 import { useLiveNotificationsPollingLocal } from "coral-stream/__generated__/useLiveNotificationsPollingLocal.graphql";
 import { useLiveNotificationsPollingQuery } from "coral-stream/__generated__/useLiveNotificationsPollingQuery.graphql";
 
@@ -40,12 +41,24 @@ export const useLiveNotificationsPollingSettingsFragment = graphql`
   }
 `;
 
+export const useLiveNotificationsPollingViewerFragment = graphql`
+  fragment useLiveNotificationsPolling_viewer on User {
+    id
+    inPageNotifications {
+      enabled
+    }
+  }
+`;
+
 export default function useLiveNotificationsPolling(
   settings: Pick<
     useLiveNotificationsPolling_settings,
     "inPageNotifications"
   > | null,
-  userID?: string
+  viewer: Pick<
+    useLiveNotificationsPolling_viewer,
+    "inPageNotifications" | "id"
+  > | null
 ) {
   const fetchNotifications = useFetch(FetchLiveNotificationsCached);
 
@@ -58,11 +71,15 @@ export default function useLiveNotificationsPolling(
     `);
 
   const updater = useCallback(async () => {
-    if (!userID || !settings?.inPageNotifications?.enabled) {
+    if (
+      !viewer ||
+      !viewer.inPageNotifications.enabled ||
+      !settings?.inPageNotifications?.enabled
+    ) {
       return;
     }
 
-    const result = await fetchNotifications({ userID });
+    const result = await fetchNotifications({ userID: viewer.id });
 
     if (
       result.notificationCount === undefined ||
@@ -76,11 +93,15 @@ export default function useLiveNotificationsPolling(
     fetchNotifications,
     setLocal,
     settings?.inPageNotifications?.enabled,
-    userID,
+    viewer,
   ]);
 
   useEffect(() => {
-    if (!userID || !settings?.inPageNotifications?.enabled) {
+    if (
+      !viewer ||
+      !viewer.inPageNotifications.enabled ||
+      !settings?.inPageNotifications?.enabled
+    ) {
       return;
     }
 
@@ -93,6 +114,6 @@ export default function useLiveNotificationsPolling(
     notificationsPollRate,
     settings?.inPageNotifications?.enabled,
     updater,
-    userID,
+    viewer,
   ]);
 }
