@@ -186,7 +186,7 @@ const rejectComment = async (
     });
   }
 
-  // check comment parent for reply notification
+  // check for a reply notification for the comment being rejected
   // if exists, check that notification user's lastSeenNotificationDate to see if less than reply createdAt
   // decrement notificationCount if so
   const replyNotification = await retrieveNotificationByCommentReply(
