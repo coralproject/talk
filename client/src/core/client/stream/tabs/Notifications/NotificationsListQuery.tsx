@@ -1,9 +1,11 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
+import { graphql } from "relay-runtime";
 
-import { useFetch } from "coral-framework/lib/relay";
+import { useFetch, useLocal } from "coral-framework/lib/relay";
 import { Spinner } from "coral-ui/components/v2";
 
 import { NotificationsListFetchQueryResponse } from "coral-stream/__generated__/NotificationsListFetchQuery.graphql";
+import { NotificationsListQueryLocal } from "coral-stream/__generated__/NotificationsListQueryLocal.graphql";
 
 import NotificationsListFetch from "./NotificationsListFetch";
 import NotificationsPaginator from "./NotificationsPaginator";
@@ -18,6 +20,12 @@ const NotificationsListQuery: FunctionComponent<Props> = ({ viewerID }) => {
   const [queryResult, setQueryResult] =
     useState<NotificationsListFetchQueryResponse | null>();
 
+  const [, setLocal] = useLocal<NotificationsListQueryLocal>(graphql`
+    fragment NotificationsListQueryLocal on Local {
+      hasNewNotifications
+    }
+  `);
+
   const load = useCallback(async () => {
     setShouldLoad(false);
     setQueryResult(null);
@@ -26,6 +34,11 @@ const NotificationsListQuery: FunctionComponent<Props> = ({ viewerID }) => {
     setQueryResult(result);
   }, [query, viewerID]);
 
+  const reload = useCallback(async () => {
+    await load();
+    setLocal({ hasNewNotifications: false });
+  }, [load, setLocal]);
+
   if (shouldLoad) {
     void load();
   }
@@ -33,7 +46,13 @@ const NotificationsListQuery: FunctionComponent<Props> = ({ viewerID }) => {
   if (!queryResult) {
     return <Spinner />;
   } else {
-    return <NotificationsPaginator query={queryResult} viewerID={viewerID} />;
+    return (
+      <NotificationsPaginator
+        query={queryResult}
+        viewerID={viewerID}
+        reload={reload}
+      />
+    );
   }
 };
 

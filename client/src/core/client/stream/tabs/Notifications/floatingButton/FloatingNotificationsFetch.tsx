@@ -17,10 +17,10 @@ const FloatingNotificationsFetch = createFetch(
       graphql`
         query FloatingNotificationsFetchQuery {
           viewer {
-            ...FloatingNotificationsContainer_viewer
+            ...NotificationsContainer_viewer
           }
           settings {
-            ...FloatingNotificationsContainer_settings
+            ...NotificationsContainer_settings
           }
         }
       `,

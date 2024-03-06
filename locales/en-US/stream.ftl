@@ -1053,6 +1053,7 @@ stream-footer-navigation =
 
 notifications-title = Notifications
 notifications-loadMore = Load More
+notifications-loadNew = Load New
 
 notifications-adjustPreferences = Adjust notification settings in My Profile &gt;<button>Preferences.</button>
 

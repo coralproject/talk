@@ -155,6 +155,7 @@ const CLASSES = {
 
   tabBarNotifications: {
     loadMore: "coral coral-tabBarNotifications-loadMore",
+    loadNew: "coral coral-tabBarNotifications-loadNew",
   },
 
   /**
