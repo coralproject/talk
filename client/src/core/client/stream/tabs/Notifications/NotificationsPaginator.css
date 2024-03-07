@@ -38,7 +38,7 @@
   color: var(--palette-primary-500);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  padding: 0;
+  padding: 0 0 0 var(--spacing-1);
   vertical-align: baseline;
 }
 
