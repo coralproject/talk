@@ -44,6 +44,7 @@ export interface CreateNotificationInput {
 
   comment?: Readonly<Comment> | null;
   reply?: Readonly<Comment> | null;
+  previousStatus?: GQLCOMMENT_STATUS;
 
   rejectionReason?: RejectionReasonInput | null;
   report?: Readonly<DSAReport> | null;
@@ -102,6 +103,7 @@ export class InternalNotificationContext {
       rejectionReason,
       report,
       legal,
+      previousStatus,
     } = input;
 
     const targetUser = await retrieveUser(this.mongo, tenantID, targetUserID);
@@ -145,7 +147,8 @@ export class InternalNotificationContext {
         targetUserID,
         comment,
         rejectionReason,
-        now
+        now,
+        previousStatus
       );
       result.attempted = true;
     } else if (type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED && comment) {
@@ -187,7 +190,8 @@ export class InternalNotificationContext {
         targetUserID,
         comment,
         reply,
-        now
+        now,
+        previousStatus
       );
       result.attempted = true;
     } else if (type === GQLNOTIFICATION_TYPE.REPLY_STAFF && comment && reply) {
@@ -322,7 +326,8 @@ export class InternalNotificationContext {
     targetUserID: string,
     comment: Readonly<Comment>,
     rejectionReason?: RejectionReasonInput | null,
-    now = new Date()
+    now = new Date(),
+    previousStatus?: GQLCOMMENT_STATUS
   ) {
     const notification = await createNotification(this.mongo, {
       id: uuid(),
@@ -332,6 +337,7 @@ export class InternalNotificationContext {
       ownerID: targetUserID,
       commentID: comment.id,
       commentStatus: comment.status,
+      previousStatus,
       rejectionReason: rejectionReason?.code ?? undefined,
       customReason: rejectionReason?.customReason ?? undefined,
       decisionDetails: {
@@ -390,7 +396,8 @@ export class InternalNotificationContext {
     targetUserID: string,
     comment: Readonly<Comment>,
     reply: Readonly<Comment>,
-    now: Date
+    now: Date,
+    previousStatus?: GQLCOMMENT_STATUS
   ) {
     const notification = await createNotification(this.mongo, {
       id: uuid(),
@@ -401,6 +408,7 @@ export class InternalNotificationContext {
       commentID: comment.id,
       replyID: reply.id,
       commentStatus: comment.status,
+      previousStatus,
     });
 
     return notification;

@@ -5004,6 +5004,13 @@ type Notification {
   commentStatus: COMMENT_STATUS
 
   """
+  previousStatus is the optional prior status of the comment when the notification
+  was created. This allows us to determine if a comment was previously pending
+  review, or reported to compare against the current status (rejected, approved, etc).
+  """
+  previousStatus: COMMENT_STATUS
+
+  """
   rejectionReason is an optional field that defines why a comment was rejected.
   """
   rejectionReason: REJECTION_REASON_CODE
