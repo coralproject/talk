@@ -5,7 +5,7 @@ import { Spinner } from "coral-ui/components/v2";
 
 import { FloatingNotificationsFetchQueryResponse } from "coral-stream/__generated__/FloatingNotificationsFetchQuery.graphql";
 
-import FloatingNotificationsContainer from "./FloatingNotificationsContainer";
+import NotificationsContainer from "../NotificationsContainer";
 import FloatingNotificationsFetch from "./FloatingNotificationsFetch";
 
 interface Props {
@@ -38,7 +38,7 @@ const FloatingNotificationsQuery: FunctionComponent<Props> = ({
     return <Spinner />;
   } else {
     return (
-      <FloatingNotificationsContainer
+      <NotificationsContainer
         viewer={queryResult.viewer}
         settings={queryResult.settings}
         showUserBox={showUserBox}

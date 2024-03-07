@@ -6,6 +6,14 @@ The goal of this document is to date-mark the indexes you add to support the cha
 
 If you are releasing, you can use this readme to check all the indexes prior to the release you are deploying and have a good idea of what indexes you might need to deploy to Mongo along with your release of a new Coral Docker image to kubernetes.
 
+## 2024-03-07
+
+```
+db.notifications.createIndex({ tenantID: 1, replyID: 1 });
+```
+
+- This index speeds up the retrieval of notifications by replyID, which is used to determine whether to decrement/increment notification counts if a comment is rejected/approved in moderation.
+
 ## 2024-02-02
 
 ```

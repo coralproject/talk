@@ -7,7 +7,7 @@ import { getURLWithCommentID } from "coral-framework/helpers";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLNOTIFICATION_TYPE } from "coral-framework/schema";
+import { GQLNOTIFICATION_TYPE, GQLTAG_RL } from "coral-framework/schema";
 import {
   CheckCircleIcon,
   LegalHammerIcon,
@@ -25,7 +25,7 @@ import {
 import { NotificationContainer_settings } from "coral-stream/__generated__/NotificationContainer_settings.graphql";
 import { NotificationContainer_viewer } from "coral-stream/__generated__/NotificationContainer_viewer.graphql";
 
-import AuthorBadgesContainer from "../Comments/Comment/AuthorBadgesContainer";
+import BadgeTagContainer from "../Comments/Comment/BadgeTagContainer";
 import CommentNotificationBody from "./CommentNotificationBody";
 import DSAReportDecisionMadeNotificationBody from "./DSAReportDecisionMadeNotificationBody";
 import RejectedCommentNotificationBody from "./RejectedCommentNotificationBody";
@@ -36,6 +36,12 @@ interface Props {
   viewer: NotificationContainer_viewer | null;
   notification: NotificationContainer_notification;
   settings: NotificationContainer_settings;
+}
+
+function tagStrings(
+  comment: NotificationContainer_notification["commentReply"]
+): GQLTAG_RL[] {
+  return comment?.tags.map((t) => t.code) ?? [];
 }
 
 const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
@@ -176,14 +182,13 @@ const NotificationContainer: FunctionComponent<Props> = ({
           <div className={styles.titleText}>
             {getTitle(localeBundles, type, commentReply)}
           </div>
-          {type === GQLNOTIFICATION_TYPE.REPLY_STAFF &&
-            commentReply?.author?.badges && (
-              <AuthorBadgesContainer
-                className={styles.badges}
-                badges={commentReply.author.badges}
-                settings={settings}
-              />
-            )}
+          {type === GQLNOTIFICATION_TYPE.REPLY_STAFF && (
+            <BadgeTagContainer
+              settings={settings}
+              tags={tagStrings(commentReply)}
+              className={styles.badges}
+            />
+          )}
         </div>
         {(type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED ||
           type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED) && (
@@ -218,7 +223,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment NotificationContainer_settings on Settings {
-      ...AuthorBadgesContainer_settings
+      ...BadgeTagContainer_settings
     }
   `,
   notification: graphql`
@@ -236,6 +241,9 @@ const enhanced = withFragmentContainer<Props>({
         ...NotificationCommentContainer_comment
       }
       commentReply {
+        tags {
+          code
+        }
         id
         author {
           username

@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
@@ -23,9 +24,8 @@ import { Button } from "coral-ui/components/v3";
 
 import { GQLDSA_METHOD_OF_REDRESS } from "coral-common/client/src/core/client/framework/schema/__generated__/types";
 import { NotificationsPaginator_query } from "coral-stream/__generated__/NotificationsPaginator_query.graphql";
-import { NotificationsPaginatorPaginationQueryVariables } from "coral-stream/__generated__/NotificationsPaginatorPaginationQuery.graphql";
-
 import { NotificationsPaginatorLocal } from "coral-stream/__generated__/NotificationsPaginatorLocal.graphql";
+import { NotificationsPaginatorPaginationQueryVariables } from "coral-stream/__generated__/NotificationsPaginatorPaginationQuery.graphql";
 
 import NotificationContainer from "./NotificationContainer";
 
@@ -35,23 +35,25 @@ interface Props {
   query: NotificationsPaginator_query;
   relay: RelayPaginationProp;
   viewerID: string;
+  reload: () => void;
 }
 
 const NotificationsPaginator: FunctionComponent<Props> = (props) => {
   const [disableLoadMore, setDisableLoadMore] = useState(false);
 
-  const [{ activeTab, profileTab }, setLocal] =
+  const [{ hasNewNotifications }, setLocal] =
     useLocal<NotificationsPaginatorLocal>(graphql`
       fragment NotificationsPaginatorLocal on Local {
         activeTab
         profileTab
+        hasNewNotifications
       }
     `);
 
   const onPreferencesClick = useCallback(() => {
     setLocal({ activeTab: "PROFILE" });
     setLocal({ profileTab: "PREFERENCES" });
-  }, [activeTab, profileTab, setLocal]);
+  }, [setLocal]);
 
   const [, isRefetching] =
     useRefetch<NotificationsPaginatorPaginationQueryVariables>(
@@ -79,6 +81,10 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
       }
     );
   }, [props.relay]);
+
+  const reload = useCallback(() => {
+    props.reload();
+  }, [props]);
 
   const notificationsToShow = useMemo(() => {
     return props.query.notifications.edges.filter((n) => {
@@ -195,6 +201,25 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
         </Flex>
       </Localized>
       <div>
+        {hasNewNotifications && (
+          <Localized id="notifications-loadNew">
+            <Button
+              key={props.query.notifications.edges.length}
+              onClick={reload}
+              variant="outlined"
+              color="secondary"
+              fullWidth
+              disabled={disableLoadMore}
+              aria-controls="notifications-loadNew"
+              className={cn(
+                styles.loadNew,
+                CLASSES.tabBarNotifications.loadNew
+              )}
+            >
+              Load New
+            </Button>
+          </Localized>
+        )}
         {notificationsToShow.map(({ node }) => {
           return (
             <NotificationContainer

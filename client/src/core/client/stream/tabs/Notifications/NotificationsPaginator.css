@@ -30,6 +30,7 @@
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
   line-height: 1.14;
+  padding-left: var(--spacing-4);
 }
 
 .preferencesButton {
@@ -37,6 +38,10 @@
   color: var(--palette-primary-500);
   font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-3);
-  padding: 0;
-  margin-left: var(--spacing-1);
+  padding: 0 0 0 var(--spacing-1);
+  vertical-align: baseline;
+}
+
+.loadNew {
+  margin-top: var(--spacing-2);
 }

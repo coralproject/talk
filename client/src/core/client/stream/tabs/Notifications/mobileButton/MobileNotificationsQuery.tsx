@@ -10,9 +10,7 @@ import { QueryError } from "coral-ui/components/v3";
 import { MobileNotificationsQuery as QueryTypes } from "coral-stream/__generated__/MobileNotificationsQuery.graphql";
 
 const loadNotificationsContainer = () =>
-  import(
-    "./MobileNotificationsContainer" /* webpackChunkName: "notifications" */
-  );
+  import("../NotificationsContainer" /* webpackChunkName: "notifications" */);
 
 // (cvle) For some reason without `setTimeout` this request will block other requests.
 const preload = once(() =>
@@ -76,10 +74,10 @@ const NotificationsQuery: FunctionComponent<Props> = ({
       query={graphql`
         query MobileNotificationsQuery {
           viewer {
-            ...MobileNotificationsContainer_viewer
+            ...NotificationsContainer_viewer
           }
           settings {
-            ...MobileNotificationsContainer_settings
+            ...NotificationsContainer_settings
           }
         }
       `}

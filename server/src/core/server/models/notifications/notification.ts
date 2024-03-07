@@ -59,6 +59,17 @@ export const retrieveNotificationsConnection = async (
   return resolveConnection(query, input, (n) => n.createdAt);
 };
 
+export const retrieveNotificationByCommentReply = async (
+  mongo: MongoContext,
+  tenantID: string,
+  replyCommentID: string
+) => {
+  const notification = await mongo
+    .notifications()
+    .findOne({ replyID: replyCommentID, tenantID });
+  return notification;
+};
+
 export const createNotification = async (
   mongo: MongoContext,
   notification: Notification

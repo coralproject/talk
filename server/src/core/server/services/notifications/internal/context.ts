@@ -17,6 +17,7 @@ import {
 import { I18n } from "coral-server/services/i18n";
 
 import {
+  GQLCOMMENT_STATUS,
   GQLDSAReportDecisionLegality,
   GQLInPageNotificationReplyType,
   GQLNOTIFICATION_TYPE,
@@ -248,6 +249,12 @@ export class InternalNotificationContext {
         shouldIncrementCount = false;
       }
 
+      // If a comment was rejected at creation for including a banned word, then we shouldn't
+      // increment the count since it won't be displayed
+      if (reply && reply.status === GQLCOMMENT_STATUS.REJECTED) {
+        shouldIncrementCount = false;
+      }
+
       if (shouldIncrementCount) {
         await this.incrementCountForUser(tenantID, targetUserID);
       }
@@ -257,6 +264,11 @@ export class InternalNotificationContext {
   public async incrementCountForUser(tenantID: string, userID: string) {
     const key = this.computeCountKey(tenantID, userID);
     await this.redis.incr(key);
+  }
+
+  public async decrementCountForUser(tenantID: string, userID: string) {
+    const key = this.computeCountKey(tenantID, userID);
+    await this.redis.decr(key);
   }
 
   public async clearCountForUser(tenantID: string, userID: string) {
