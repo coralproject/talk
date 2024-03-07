@@ -8,7 +8,9 @@ import {
   hasTag,
   UpdateCommentStatus,
 } from "coral-server/models/comment";
+import { retrieveNotificationByCommentReply } from "coral-server/models/notifications/notification";
 import { Tenant } from "coral-server/models/tenant";
+import { retrieveUser } from "coral-server/models/user";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
@@ -182,6 +184,29 @@ const rejectComment = async (
       rejectionReason: reason,
       type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
     });
+  }
+
+  // check for a reply notification for the comment being rejected
+  // if exists, check that notification user's lastSeenNotificationDate to see if less than reply createdAt
+  // decrement notificationCount if so
+  const replyNotification = await retrieveNotificationByCommentReply(
+    mongo,
+    tenant.id,
+    commentID
+  );
+  if (replyNotification) {
+    const { ownerID } = replyNotification;
+    const notificationOwner = await retrieveUser(mongo, tenant.id, ownerID);
+    if (notificationOwner) {
+      if (
+        !notificationOwner.lastSeenNotificationDate ||
+        (notificationOwner.lastSeenNotificationDate &&
+          notificationOwner.lastSeenNotificationDate <
+            replyNotification.createdAt)
+      ) {
+        await notifications.decrementCountForUser(tenant.id, ownerID);
+      }
+    }
   }
 
   // Return the resulting comment.
