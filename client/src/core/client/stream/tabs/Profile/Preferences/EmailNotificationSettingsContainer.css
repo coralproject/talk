@@ -3,6 +3,7 @@
   font-weight: var(--font-weight-primary-semi-bold);
   font-size: var(--font-size-4);
   line-height: 1.11;
+  margin: 0;
 
   color: var(--palette-text-900);
 

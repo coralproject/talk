@@ -23,7 +23,7 @@ import {
 } from "coral-framework/lib/events";
 
 import { COMMENT_STATUS } from "./__generated__/CreateCommentMutation.graphql";
-import { DIGEST_FREQUENCY } from "./__generated__/NotificationSettingsContainer_viewer.graphql";
+import { DIGEST_FREQUENCY } from "./__generated__/EmailNotificationSettingsContainer_viewer.graphql";
 import { MODERATION_MODE } from "./__generated__/UpdateStorySettingsMutation.graphql";
 
 /**
@@ -201,10 +201,10 @@ export const SignOutEvent = createViewerNetworkEvent<{
 export const SignedInEvent = createViewerEvent("signedIn");
 
 /**
- * This event is emitted when the viewer updates its
- * notification settings.
+ * This event is emitted when the viewer updates their
+ * email notification settings.
  */
-export const UpdateNotificationSettingsEvent = createViewerNetworkEvent<{
+export const UpdateEmailNotificationSettingsEvent = createViewerNetworkEvent<{
   onReply?: boolean | null;
   onFeatured?: boolean | null;
   onStaffReplies?: boolean | null;
@@ -215,7 +215,24 @@ export const UpdateNotificationSettingsEvent = createViewerNetworkEvent<{
     message: string;
     code?: string;
   };
-}>("updateNotificationSettings");
+}>("updateEmailNotificationSettings");
+
+/**
+ * This event is emitted when the viewer updates their
+ * in-page notification settings.
+ */
+export const UpdateInPageNotificationSettingsEvent = createViewerNetworkEvent<{
+  onReply?: boolean | null;
+  onFeatured?: boolean | null;
+  onStaffReplies?: boolean | null;
+  onModeration?: boolean | null;
+  enabled?: boolean | null;
+  success: {};
+  error: {
+    message: string;
+    code?: string;
+  };
+}>("updateInPageNotificationSettings");
 
 export const UpdateUserMediaSettingsEvent = createViewerNetworkEvent<{
   unfurlEmbeds?: boolean | null;
@@ -440,6 +457,13 @@ export const ViewConversationEvent = createViewerEvent<{
   from: "FEATURED_COMMENTS" | "COMMENT_STREAM" | "COMMENT_HISTORY";
   commentID: string;
 }>("viewConversation");
+
+/**
+ * This event is emitted when the viewer clicks to view their notifications feed.
+ */
+export const ViewNotificationsFeedEvent = createViewerEvent<{
+  userID?: string;
+}>("viewNotificationsFeedEvent");
 
 /**
  * This event is emitted when the viewer clicks

@@ -30,18 +30,16 @@ interface Props {
 }
 
 const AppContainer: FunctionComponent<Props> = ({ disableListeners }) => {
-  const [{ activeTab, dsaFeaturesEnabled }] =
-    useLocal<AppContainerLocal>(graphql`
-      fragment AppContainerLocal on Local {
-        activeTab
-        dsaFeaturesEnabled
-      }
-    `);
+  const [{ activeTab }] = useLocal<AppContainerLocal>(graphql`
+    fragment AppContainerLocal on Local {
+      activeTab
+    }
+  `);
   return (
     <>
       {disableListeners ? null : listeners}
       <RefreshTokenHandler />
-      <App activeTab={activeTab} dsaFeaturesEnabled={!!dsaFeaturesEnabled} />
+      <App activeTab={activeTab} />
     </>
   );
 };

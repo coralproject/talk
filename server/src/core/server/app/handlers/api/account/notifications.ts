@@ -1,6 +1,6 @@
 import { AppOptions } from "coral-server/app";
 import { RequestLimiter } from "coral-server/app/request/limiter";
-import { updateUserNotificationSettings } from "coral-server/models/user";
+import { updateUserEmailNotificationSettings } from "coral-server/models/user";
 import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import { verifyUnsubscribeTokenString } from "coral-server/services/notifications/email/categories/unsubscribe";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
@@ -123,7 +123,7 @@ export const unsubscribeHandler = ({
       );
 
       // Unsubscribe the user from all notification types.
-      await updateUserNotificationSettings(mongo, tenant.id, user.id, {
+      await updateUserEmailNotificationSettings(mongo, tenant.id, user.id, {
         onFeatured: false,
         onModeration: false,
         onReply: false,

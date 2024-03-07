@@ -7,6 +7,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
+  GQLCOMMENT_STATUS,
   GQLDSAReportDecisionLegality,
   GQLNOTIFICATION_TYPE,
   GQLREJECTION_REASON_CODE,
@@ -160,8 +161,14 @@ const stringIsNullOrEmpty = (value: string) => {
 const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
   notification,
 }) => {
-  const { type, decisionDetails, rejectionReason, customReason, comment } =
-    notification;
+  const {
+    type,
+    decisionDetails,
+    rejectionReason,
+    customReason,
+    comment,
+    previousStatus,
+  } = notification;
 
   const { localeBundles } = useCoralContext();
 
@@ -174,12 +181,20 @@ const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
 
   return (
     <div className={styles.body}>
-      <Localized id="notifications-rejectedComment-body">
-        <p>
-          The content of your comment was against our community guidelines. The
-          comment has been removed.
-        </p>
-      </Localized>
+      {previousStatus === GQLCOMMENT_STATUS.PREMOD ? (
+        <Localized id="notifications-rejectedComment-wasPending-body">
+          <p>
+            The content of your comment was against our community guidelines.
+          </p>
+        </Localized>
+      ) : (
+        <Localized id="notifications-rejectedComment-body">
+          <p>
+            The content of your comment was against our community guidelines.
+            The comment has been removed.
+          </p>
+        </Localized>
+      )}
       {type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED &&
         rejectionReason &&
         decisionDetails && (
@@ -238,6 +253,8 @@ const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
         <div>
           <NotificationCommentContainer
             comment={comment}
+            notification={notification}
+            expandable
             openedStateText={
               <Localized id="notifications-comment-hideRemovedComment">
                 - Hide removed comment
@@ -258,9 +275,11 @@ const RejectedCommentNotificationBody: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   notification: graphql`
     fragment RejectedCommentNotificationBody_notification on Notification {
+      ...NotificationCommentContainer_notification
       type
       rejectionReason
       customReason
+      previousStatus
       decisionDetails {
         legality
         grounds
