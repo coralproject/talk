@@ -3,11 +3,13 @@ import cn from "classnames";
 import React, {
   FunctionComponent,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import { useViewerEvent } from "coral-framework/lib/events";
 import {
   useLocal,
   useRefetch,
@@ -19,6 +21,7 @@ import {
 } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import Spinner from "coral-stream/common/Spinner";
+import { ViewNotificationsFeedEvent } from "coral-stream/events";
 import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
@@ -40,6 +43,13 @@ interface Props {
 
 const NotificationsPaginator: FunctionComponent<Props> = (props) => {
   const [disableLoadMore, setDisableLoadMore] = useState(false);
+  const emitViewNotificationsFeedEvent = useViewerEvent(
+    ViewNotificationsFeedEvent
+  );
+
+  useEffect(() => {
+    emitViewNotificationsFeedEvent({ userID: props.viewerID });
+  }, []);
 
   const [{ hasNewNotifications }, setLocal] =
     useLocal<NotificationsPaginatorLocal>(graphql`

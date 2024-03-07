@@ -459,6 +459,13 @@ export const ViewConversationEvent = createViewerEvent<{
 }>("viewConversation");
 
 /**
+ * This event is emitted when the viewer clicks to view their notifications feed.
+ */
+export const ViewNotificationsFeedEvent = createViewerEvent<{
+  userID?: string;
+}>("viewNotificationsFeedEvent");
+
+/**
  * This event is emitted when the viewer clicks
  * on a username which shows the user popover.
  */
