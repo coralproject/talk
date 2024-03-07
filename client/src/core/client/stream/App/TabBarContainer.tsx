@@ -33,26 +33,13 @@ interface Props {
   setActiveTab: SetActiveTabMutation;
 }
 
-// use this to avoid linting errors complaining about casting
-// a possible `any` to `string | undefined` when initializing
-// the live notifications polling.
-const getViewerID = (
-  viewer: TabBarContainer_viewer | null
-): string | undefined => {
-  if (!viewer) {
-    return undefined;
-  }
-
-  return viewer.id;
-};
-
 export const TabBarContainer: FunctionComponent<Props> = ({
   viewer,
   story,
   settings,
   setActiveTab,
 }) => {
-  useLiveNotificationsPolling(getViewerID(viewer));
+  useLiveNotificationsPolling(settings, viewer);
 
   const setCommentID = useMutation(SetCommentIDMutation);
   const { window } = useCoralContext();
@@ -131,6 +118,7 @@ const enhanced = withSetActiveTabMutation(
         inPageNotifications {
           enabled
         }
+        ...useLiveNotificationsPolling_viewer
       }
     `,
     story: graphql`
@@ -148,6 +136,7 @@ const enhanced = withSetActiveTabMutation(
           enabled
           floatingBellIndicator
         }
+        ...useLiveNotificationsPolling_settings
       }
     `,
   })(TabBarContainer)
