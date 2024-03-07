@@ -150,6 +150,7 @@ createComment.error
 - <a href="#viewNewComments">viewNewComments</a>
 - <a href="#viewNewCommentsNetwork">viewNewCommentsNetwork</a>
 - <a href="#viewNewRepliesNetwork">viewNewRepliesNetwork</a>
+- <a href="#viewNotificationsFeed">viewNotificationsFeed</a>
 
 ### Events
 - <a id="addACommentButton">**addACommentButton**</a>: This event is emitted when the viewer clicks the add a comment button in alternate oldest view.
@@ -727,6 +728,12 @@ createComment.error
           message: string;
           code?: string | undefined;
       };
+  }
+  ```
+- <a id="viewNotificationsFeed">**viewNotificationsFeed**</a>: This event is emitted when the viewer clicks to view their notifications feed.
+  ```ts
+  {
+      userID?: string | undefined;
   }
   ```
 <!-- END docs:events -->
