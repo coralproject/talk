@@ -24,6 +24,7 @@ export interface Notification extends TenantResource {
 
   commentID?: string;
   commentStatus?: GQLCOMMENT_STATUS;
+  previousStatus?: GQLCOMMENT_STATUS;
 
   replyID?: string;
 

@@ -27,6 +27,7 @@ export const NotificationResolver: Required<
     return await ctx.loaders.Comments.comment.load(replyID);
   },
   commentStatus: ({ commentStatus }) => commentStatus,
+  previousStatus: ({ previousStatus }) => previousStatus,
   dsaReport: async ({ reportID }, input, ctx) => {
     if (!reportID) {
       return null;

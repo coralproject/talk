@@ -1083,6 +1083,8 @@ notifications-defaultTitle = Notification
 
 notifications-rejectedComment-body =
   The content of your comment was against our community guidelines. The comment has been removed.
+notifications-rejectedComment-wasPending-body =
+  The content of your comment was against our community guidelines.
 notifications-reasonForRemoval = Reason for removal
 notifications-legalGrounds = Legal grounds
 notifications-additionalExplanation = Additional explanation

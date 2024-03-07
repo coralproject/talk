@@ -183,6 +183,7 @@ const rejectComment = async (
       comment: result.after,
       rejectionReason: reason,
       type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
+      previousStatus: result.before.status,
     });
   }
 
