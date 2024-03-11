@@ -6073,6 +6073,10 @@ input TopCommenterConfigurationInput {
   enabled: Boolean
 }
 
+"""
+newCommenter specifies whether or not the feature is enabled to show that commenters
+are new and have joined within the last seven days.
+"""
 input NewCommenterConfigurationInput {
   enabled: Boolean
 }
