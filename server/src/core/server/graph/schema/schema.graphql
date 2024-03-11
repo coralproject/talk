@@ -2222,6 +2222,10 @@ type Settings @cacheControl(maxAge: 30) {
   """
   topCommenter: TopCommenterConfiguration
 
+  """
+  newCommenter specifies whether or not the feature is enabled to show that commenters
+  are new and have joined within the last seven days.
+  """
   newCommenter: NewCommenterConfiguration
 
   """
@@ -3355,6 +3359,9 @@ type User {
   """
   featuredCommenter: Boolean
 
+  """
+  newCommenter is whether a user has joined within the last seven days.
+  """
   newCommenter: Boolean
 }
 
@@ -6473,6 +6480,10 @@ input SettingsInput {
   """
   topCommenter: TopCommenterConfigurationInput
 
+  """
+  newCommenter specifies whether or not the feature is enabled to show that commenters
+  are new and have joined within the last seven days.
+  """
   newCommenter: NewCommenterConfigurationInput
 
   """
