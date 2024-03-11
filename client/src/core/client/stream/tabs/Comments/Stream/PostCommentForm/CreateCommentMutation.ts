@@ -143,6 +143,7 @@ graphql`
     role
     username
     featuredCommenter
+    newCommenter
     status {
       current
       ban {
