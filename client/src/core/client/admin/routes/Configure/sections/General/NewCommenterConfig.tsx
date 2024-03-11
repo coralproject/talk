@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { PlantIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   FieldSet,
   FormField,
@@ -34,12 +35,17 @@ const NewCommenterConfig: FunctionComponent<Props> = ({ disabled }) => (
       </Localized>
     }
   >
-    <Localized id="configure-general-newCommenter-explanation">
-      <FormFieldDescription>
-        Add [icon] badge to commenters who created their accounts in the past
-        seven days.
-      </FormFieldDescription>
-    </Localized>
+    <FormFieldDescription>
+      <Localized
+        id="configure-general-newCommenter-explanation"
+        elems={{ icon: <SvgIcon Icon={PlantIcon} /> }}
+      >
+        <span>
+          Add <SvgIcon Icon={PlantIcon} /> badge to commenters who created their
+          accounts in the past seven days.
+        </span>
+      </Localized>
+    </FormFieldDescription>
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-newCommenter-enabled">
         <Label component="legend">New commenter</Label>

@@ -1641,6 +1641,10 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
 
+configure-general-newCommenter-title = New commenter
+configure-general-newCommenter-explanation = Add <icon></icon> badge to commenters who created their accounts in the past seven days.
+configure-general-newCommenter-enabled = New commenter
+
 configure-general-badges-title = Member badges
 configure-general-badges-explanation =
   Show a custom badge for users with specified roles. This badge appears
