@@ -84,56 +84,25 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
             <Flex marginRight={2}>
               <div>
                 <Tooltip
-                  // className={CLASSES.comment.topBar.topCommenterStarTooltip}
+                  className={CLASSES.comment.topBar.newCommenter.tooltip}
                   id="newCommenter-tooltip"
                   title=""
                   body={
-                    <>
-                      <Localized
-                        id="comment-new-commenter-tooltip-header"
-                        elems={{
-                          icon: (
-                            <SvgIcon
-                              size="xxs"
-                              Icon={PlantIcon}
-                              // className={styles.topCommenterTooltipHeaderIcon}
-                            />
-                          ),
-                        }}
+                    <Localized id="comment-new-commenter-tooltip-details">
+                      <span
+                        className={
+                          CLASSES.comment.topBar.newCommenter.tooltipDetails
+                        }
                       >
-                        <span
-                        // className={cn(
-                        //   styles.topCommenterTooltipHeader,
-                        //   CLASSES.comment.topBar.topCommenterStarTooltipHeader
-                        // )}
-                        >
-                          <SvgIcon
-                            size="xxs"
-                            Icon={PlantIcon}
-                            // className={styles.topCommenterTooltipHeaderIcon}
-                            filled="currentColor"
-                          />{" "}
-                          New commenter
-                        </span>
-                      </Localized>
-                      <Localized id="comment-new-commenter-tooltip-details">
-                        <span
-                        // className={
-                        //   CLASSES.comment.topBar
-                        //     .topCommenterStarTooltipDetails
-                        // }
-                        >
-                          New commenter, say hi
-                        </span>
-                      </Localized>
-                    </>
+                        New commenter, say hi
+                      </span>
+                    </Localized>
                   }
                   button={({ toggleVisibility, ref }) => (
                     <Button onClick={toggleVisibility} ref={ref} variant="text">
                       <ButtonSvgIcon
-                        className={CLASSES.comment.topBar.topCommenterStar}
-                        size="xxs"
-                        Icon={RatingStarIcon}
+                        className={CLASSES.comment.topBar.newCommenter.plant}
+                        Icon={PlantIcon}
                         filled="currentColor"
                       />
                     </Button>
