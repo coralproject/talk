@@ -360,8 +360,6 @@ comments-reacted =
 comments-jumpToComment-title = Your reply has posted below
 comments-jumpToComment-GoToReply = Go to reply
 
-comments-mobileToolbar-closeButton =
-  .aria-label = Close
 comments-mobileToolbar-unmarkAll = Mark all as read
 comments-mobileToolbar-nextUnread = Next unread
 
@@ -376,6 +374,9 @@ comments-refreshReviews-refreshButton = <icon></icon> Refresh reviews
 
 comments-replyChangedWarning-theCommentHasJust =
   This comment has just been edited. The latest version is displayed above.
+
+comments-mobileToolbar-notifications-closeButton = 
+  .aria-label = Close notifications
 
 ### Q&A
 
@@ -726,6 +727,17 @@ profile-account-notifications-updated = Your notification settings have been upd
 profile-account-notifications-button = Update Notification Settings
 profile-account-notifications-button-update = Update
 
+profile-account-notifications-inPageNotifications = Notifications
+profile-account-notifications-includeInPageWhen = Alert me when
+
+profile-account-notifications-inPageNotifications-on = Badges on
+profile-account-notifications-inPageNotifications-off = Badges off
+
+profile-account-notifications-showReplies-fromAnyone = from anyone
+profile-account-notifications-showReplies-fromStaff = from a staff member
+profile-account-notifications-showReplies =
+  .aria-label = Show replies from
+
 ## Report Comment Popover
 comments-reportPopover =
   .description = A dialog for reporting comments
@@ -1043,12 +1055,21 @@ stream-footer-navigation =
 
 notifications-title = Notifications
 notifications-loadMore = Load More
+notifications-loadNew = Load New
+
+notifications-adjustPreferences = Adjust notification settings in My Profile &gt;<button>Preferences.</button>
 
 notification-comment-toggle-default-open = - Comment
 notification-comment-toggle-default-closed = + Comment
 
 notifications-comment-showRemovedComment = + Show removed comment
 notifications-comment-hideRemovedComment = - Hide removed comment
+
+notification-comment-description-featured = your comment on "{ $title }" was featured by a member of our team.
+notification-comment-description-default = on "{ $title }"
+notification-comment-media-image = Image
+notification-comment-media-embed = Embed
+notification-comment-media-gif = Gif
 
 notifications-yourIllegalContentReportHasBeenReviewed =
   Your illegal content report has been reviewed
@@ -1058,13 +1079,22 @@ notifications-yourCommentHasBeenApproved =
   Your comment has been approved
 notifications-yourCommentHasBeenFeatured =
   Your comment has been featured
+notifications-yourCommentHasReceivedAReply =
+  New reply from { $author }
 notifications-defaultTitle = Notification
 
 notifications-rejectedComment-body =
   The content of your comment was against our community guidelines. The comment has been removed.
+notifications-rejectedComment-wasPending-body =
+  The content of your comment was against our community guidelines.
 notifications-reasonForRemoval = Reason for removal
 notifications-legalGrounds = Legal grounds
 notifications-additionalExplanation = Additional explanation
+
+notifications-repliedComment-hideReply = - Hide the reply
+notifications-repliedComment-showReply = + Show the reply
+notifications-repliedComment-hideOriginalComment = - Hide my original comment
+notifications-repliedComment-showOriginalComment = + Show my original comment
 
 notifications-dsaReportLegality-legal = Legal content
 notifications-dsaReportLegality-illegal = Illegal content
@@ -1097,3 +1127,5 @@ notifications-methodOfRedress-url =
   To appeal a decision that appears here please visit <a>{ $url }</a>
 
 notifications-youDoNotCurrentlyHaveAny = You do not currently have any notifications
+
+notifications-floatingIcon-close = close

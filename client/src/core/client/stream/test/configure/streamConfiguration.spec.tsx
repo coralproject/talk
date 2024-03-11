@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { pureMerge } from "coral-common/common/lib/utils";
@@ -44,6 +44,7 @@ const createTestRenderer = async (
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(story.id, "storyID");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -53,9 +54,12 @@ const createTestRenderer = async (
   customRenderAppWithContext(context);
 
   let tabPane: HTMLElement | undefined;
-  await waitFor(async () => {
-    tabPane = await screen.findByRole("region", { name: "Tab:" });
+  await act(async () => {
+    await waitFor(async () => {
+      tabPane = await screen.findByTestId("current-tab-pane");
+    });
   });
+
   const applyButton = await screen.findByTestId("configure-stream-apply");
   const form = screen.getByRole("region", {
     name: "Configure this stream",
@@ -74,7 +78,7 @@ it("change premod", async () => {
       }
     );
 
-  const { form, applyButton } = await createTestRenderer({
+  const { applyButton, form } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
         updateStorySettings: updateStorySettingsStub,
@@ -116,7 +120,7 @@ it("change premod links", async () => {
         };
       }
     );
-  const { form, applyButton } = await createTestRenderer({
+  const { applyButton, form } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
         updateStorySettings: updateStorySettingsStub,

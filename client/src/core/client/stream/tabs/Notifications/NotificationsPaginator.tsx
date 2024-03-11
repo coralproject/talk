@@ -1,14 +1,33 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import cn from "classnames";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { useRefetch, withPaginationContainer } from "coral-framework/lib/relay";
+import { useViewerEvent } from "coral-framework/lib/events";
+import {
+  useLocal,
+  useRefetch,
+  withPaginationContainer,
+} from "coral-framework/lib/relay";
+import {
+  GQLCOMMENT_STATUS,
+  GQLNOTIFICATION_TYPE,
+} from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
 import Spinner from "coral-stream/common/Spinner";
+import { ViewNotificationsFeedEvent } from "coral-stream/events";
+import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { GQLDSA_METHOD_OF_REDRESS } from "coral-common/client/src/core/client/framework/schema/__generated__/types";
 import { NotificationsPaginator_query } from "coral-stream/__generated__/NotificationsPaginator_query.graphql";
+import { NotificationsPaginatorLocal } from "coral-stream/__generated__/NotificationsPaginatorLocal.graphql";
 import { NotificationsPaginatorPaginationQueryVariables } from "coral-stream/__generated__/NotificationsPaginatorPaginationQuery.graphql";
 
 import NotificationContainer from "./NotificationContainer";
@@ -19,10 +38,32 @@ interface Props {
   query: NotificationsPaginator_query;
   relay: RelayPaginationProp;
   viewerID: string;
+  reload: () => void;
 }
 
 const NotificationsPaginator: FunctionComponent<Props> = (props) => {
   const [disableLoadMore, setDisableLoadMore] = useState(false);
+  const emitViewNotificationsFeedEvent = useViewerEvent(
+    ViewNotificationsFeedEvent
+  );
+
+  useEffect(() => {
+    emitViewNotificationsFeedEvent({ userID: props.viewerID });
+  }, []);
+
+  const [{ hasNewNotifications }, setLocal] =
+    useLocal<NotificationsPaginatorLocal>(graphql`
+      fragment NotificationsPaginatorLocal on Local {
+        activeTab
+        profileTab
+        hasNewNotifications
+      }
+    `);
+
+  const onPreferencesClick = useCallback(() => {
+    setLocal({ activeTab: "PROFILE" });
+    setLocal({ profileTab: "PREFERENCES" });
+  }, [setLocal]);
 
   const [, isRefetching] =
     useRefetch<NotificationsPaginatorPaginationQueryVariables>(
@@ -51,6 +92,27 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
     );
   }, [props.relay]);
 
+  const reload = useCallback(() => {
+    props.reload();
+  }, [props]);
+
+  const notificationsToShow = useMemo(() => {
+    return props.query.notifications.edges.filter((n) => {
+      if (
+        n.node.type !==
+        (GQLNOTIFICATION_TYPE.REPLY || GQLNOTIFICATION_TYPE.REPLY_STAFF)
+      ) {
+        return true;
+      } else {
+        // filter out Rejected comments and deleted comments
+        return (
+          n.node.commentReply?.status !== GQLCOMMENT_STATUS.REJECTED &&
+          !n.node.commentReply?.deleted
+        );
+      }
+    });
+  }, [props.query.notifications.edges]);
+
   if (!props.query || !props.query.viewer) {
     return null;
   }
@@ -67,65 +129,114 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
 
   return (
     <>
-      <div className={styles.methodOfRedress}>
-        {props.query.settings.dsa.methodOfRedress.method ===
-          GQLDSA_METHOD_OF_REDRESS.NONE && (
-          <Localized id="notifications-methodOfRedress-none">
-            All moderation decisions are final and cannot be appealed
-          </Localized>
-        )}
-        {props.query.settings.dsa.methodOfRedress.method ===
-          GQLDSA_METHOD_OF_REDRESS.EMAIL && (
-          <Localized
-            id="notifications-methodOfRedress-email"
-            vars={{
-              email: props.query.settings.dsa.methodOfRedress.email,
-            }}
-            elems={{
-              a: (
-                <a
-                  href={`mailto: ${props.query.settings.dsa.methodOfRedress.email}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {props.query.settings.dsa.methodOfRedress.email}
-                </a>
-              ),
-            }}
+      {props.query.settings.dsa.enabled && (
+        <div className={styles.methodOfRedress}>
+          {props.query.settings.dsa.methodOfRedress.method ===
+            GQLDSA_METHOD_OF_REDRESS.NONE && (
+            <Localized id="notifications-methodOfRedress-none">
+              All moderation decisions are final and cannot be appealed
+            </Localized>
+          )}
+          {props.query.settings.dsa.methodOfRedress.method ===
+            GQLDSA_METHOD_OF_REDRESS.EMAIL && (
+            <Localized
+              id="notifications-methodOfRedress-email"
+              vars={{
+                email: props.query.settings.dsa.methodOfRedress.email,
+              }}
+              elems={{
+                a: (
+                  <a
+                    href={`mailto: ${props.query.settings.dsa.methodOfRedress.email}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {props.query.settings.dsa.methodOfRedress.email}
+                  </a>
+                ),
+              }}
+            >
+              <span>{`To appeal a decision that appears here please contact ${props.query.settings.dsa.methodOfRedress.email}`}</span>
+            </Localized>
+          )}
+          {props.query.settings.dsa.methodOfRedress.method ===
+            GQLDSA_METHOD_OF_REDRESS.URL && (
+            <Localized
+              id="notifications-methodOfRedress-url"
+              vars={{
+                url: props.query.settings.dsa.methodOfRedress.url,
+              }}
+              elems={{
+                a: (
+                  <a
+                    href={`${props.query.settings.dsa.methodOfRedress.url}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {props.query.settings.dsa.methodOfRedress.url}
+                  </a>
+                ),
+              }}
+            >
+              <span>{`To appeal a decision that appears here please visit ${props.query.settings.dsa.methodOfRedress.url}`}</span>
+            </Localized>
+          )}
+        </div>
+      )}
+      <Localized
+        id="notifications-adjustPreferences"
+        elems={{
+          button: (
+            <Button
+              className={styles.preferencesButton}
+              variant="none"
+              onClick={onPreferencesClick}
+            >
+              {" "}
+              Preferences.
+            </Button>
+          ),
+        }}
+      >
+        <Flex className={styles.adjustPreferences}>
+          <span>Adjust notification settings in My Profile &gt; </span>
+          <Button
+            className={styles.preferencesButton}
+            variant="none"
+            onClick={onPreferencesClick}
           >
-            <span>{`To appeal a decision that appears here please contact ${props.query.settings.dsa.methodOfRedress.email}`}</span>
-          </Localized>
-        )}
-        {props.query.settings.dsa.methodOfRedress.method ===
-          GQLDSA_METHOD_OF_REDRESS.URL && (
-          <Localized
-            id="notifications-methodOfRedress-url"
-            vars={{
-              url: props.query.settings.dsa.methodOfRedress.url,
-            }}
-            elems={{
-              a: (
-                <a
-                  href={`${props.query.settings.dsa.methodOfRedress.url}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {props.query.settings.dsa.methodOfRedress.url}
-                </a>
-              ),
-            }}
-          >
-            <span>{`To appeal a decision that appears here please visit ${props.query.settings.dsa.methodOfRedress.url}`}</span>
-          </Localized>
-        )}
-      </div>
+            {" "}
+            Preferences.
+          </Button>
+        </Flex>
+      </Localized>
       <div>
-        {props.query.notifications.edges.map(({ node }) => {
+        {hasNewNotifications && (
+          <Localized id="notifications-loadNew">
+            <Button
+              key={props.query.notifications.edges.length}
+              onClick={reload}
+              variant="outlined"
+              color="secondary"
+              fullWidth
+              disabled={disableLoadMore}
+              aria-controls="notifications-loadNew"
+              className={cn(
+                styles.loadNew,
+                CLASSES.tabBarNotifications.loadNew
+              )}
+            >
+              Load New
+            </Button>
+          </Localized>
+        )}
+        {notificationsToShow.map(({ node }) => {
           return (
             <NotificationContainer
               key={node.id}
               notification={node}
               viewer={props.query.viewer}
+              settings={props.query.settings}
             />
           );
         })}
@@ -170,7 +281,9 @@ const enhanced = withPaginationContainer<
           ...NotificationContainer_viewer
         }
         settings {
+          ...NotificationContainer_settings
           dsa {
+            enabled
             methodOfRedress {
               method
               email
@@ -183,6 +296,11 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
+              type
+              commentReply {
+                status
+                deleted
+              }
               ...NotificationContainer_notification
             }
           }

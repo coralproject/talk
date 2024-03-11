@@ -16,6 +16,7 @@ const initLocalState = (
   localRecord.setValue("PROFILE", "activeTab");
   localRecord.setValue("jti", "accessTokenJTI");
   localRecord.setValue(story.id, "storyID");
+
   if (params.initLocalState) {
     params.initLocalState(localRecord, source, environment);
   }

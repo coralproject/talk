@@ -25,22 +25,22 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { NotificationSettingsContainer_viewer } from "coral-stream/__generated__/NotificationSettingsContainer_viewer.graphql";
+import { EmailNotificationSettingsContainer_viewer } from "coral-stream/__generated__/EmailNotificationSettingsContainer_viewer.graphql";
 
-import UpdateNotificationSettingsMutation from "./UpdateNotificationSettingsMutation";
+import UpdateEmailNotificationSettingsMutation from "./UpdateEmailNotificationSettingsMutation";
 
-import styles from "./NotificationSettingsContainer.css";
+import styles from "./EmailNotificationSettingsContainer.css";
 
 interface Props {
-  viewer: NotificationSettingsContainer_viewer;
+  viewer: EmailNotificationSettingsContainer_viewer;
 }
 
-type FormProps = NotificationSettingsContainer_viewer["notifications"];
+type FormProps = EmailNotificationSettingsContainer_viewer["notifications"];
 
-const NotificationSettingsContainer: FunctionComponent<Props> = ({
+const EmailNotificationSettingsContainer: FunctionComponent<Props> = ({
   viewer: { notifications },
 }) => {
-  const mutation = useMutation(UpdateNotificationSettingsMutation);
+  const mutation = useMutation(UpdateEmailNotificationSettingsMutation);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const closeSuccess = useCallback(() => {
@@ -73,7 +73,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
   return (
     <HorizontalGutter
       data-testid="profile-account-notifications"
-      className={CLASSES.emailNotifications.$root}
+      className={CLASSES.notifications.$root}
       container="section"
       aria-labelledby="profile-account-notifications-emailNotifications-title"
     >
@@ -90,10 +90,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
               <HorizontalGutter>
                 <Localized id="profile-account-notifications-emailNotifications">
                   <h2
-                    className={cn(
-                      styles.title,
-                      CLASSES.emailNotifications.heading
-                    )}
+                    className={cn(styles.title, CLASSES.notifications.heading)}
                     id="profile-account-notifications-emailNotifications-title"
                   >
                     Email Notifications
@@ -103,10 +100,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
               <HorizontalGutter>
                 <Localized id="profile-account-notifications-receiveWhen">
                   <div
-                    className={cn(
-                      styles.header,
-                      CLASSES.emailNotifications.label
-                    )}
+                    className={cn(styles.header, CLASSES.notifications.label)}
                     id="profile-account-notifications-receiveWhen"
                   >
                     Receive notifications when:
@@ -183,7 +177,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                         className={cn(
                           styles.header,
                           styles.sendNotifications,
-                          CLASSES.emailNotifications.label
+                          CLASSES.notifications.label
                         )}
                         htmlFor="digestFrequency"
                       >
@@ -238,7 +232,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
                   <Button
                     type="submit"
                     disabled={submitting || pristine}
-                    className={CLASSES.emailNotifications.updateButton}
+                    className={CLASSES.notifications.updateButton}
                     upperCase
                   >
                     Update
@@ -288,7 +282,7 @@ const NotificationSettingsContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
-    fragment NotificationSettingsContainer_viewer on User {
+    fragment EmailNotificationSettingsContainer_viewer on User {
       notifications {
         onReply
         onFeatured
@@ -298,6 +292,6 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
-})(NotificationSettingsContainer);
+})(EmailNotificationSettingsContainer);
 
 export default enhanced;

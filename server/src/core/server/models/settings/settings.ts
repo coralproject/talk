@@ -317,6 +317,10 @@ export interface TopCommenterConfig {
 export interface NewCommenterConfig {
   enabled?: boolean;
 }
+export interface InPageNotificationsConfig {
+  enabled?: boolean;
+  floatingBellIndicator?: boolean;
+}
 
 export interface PremoderateEmailAddressConfig {
   tooManyPeriods?: {
@@ -440,7 +444,14 @@ export type Settings = GlobalModerationSettings &
      * with comments featured within the last 10 days are top commenters
      */
     topCommenter?: TopCommenterConfig;
+
     newCommenter?: NewCommenterConfig;
+
+    /**
+     * inPageNotifications specifies whether or not in-page notifications are enabled
+     * as an option for commenters
+     */
+    inPageNotifications?: InPageNotificationsConfig;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

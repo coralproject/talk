@@ -1985,6 +1985,12 @@ type PremoderateEmailAddressConfiguration {
   tooManyPeriods: TooManyPeriodsConfig
 }
 
+type InPageNotificationsConfiguration {
+  enabled: Boolean
+
+  floatingBellIndicator: Boolean
+}
+
 input TooManyPeriodsConfigInput {
   """
   enabled decides whether the too many periods config is enabled or not.
@@ -2356,6 +2362,12 @@ type Settings @cacheControl(maxAge: 30) {
   addresses at sign up and premoderating them according to various rules.
   """
   premoderateEmailAddress: PremoderateEmailAddressConfiguration
+
+  """
+  inPageNotifcations is the configuration for in-page notifications, including
+  whether it's enabled as an option for commenters.
+  """
+  inPageNotifications: InPageNotificationsConfiguration
 }
 
 ################################################################################
@@ -2949,23 +2961,23 @@ type UserMediaSettings {
 }
 
 """
-UserNotificationSettings stores the notification settings for a given User.
+UserEmailNotificationSettings stores the email notification settings for a given User.
 """
-type UserNotificationSettings {
+type UserEmailNotificationSettings {
   """
-  onReply, when true, will enable notifications to be sent to users that have
+  onReply, when true, will enable email notifications to be sent to users that have
   replies to their comments.
   """
   onReply: Boolean!
 
   """
-  onFeatured, when true, will enable notifications to be sent to users that have
+  onFeatured, when true, will enable email notifications to be sent to users that have
   their comment's featured.
   """
   onFeatured: Boolean!
 
   """
-  onStaffReplies when true, will enable notifications to be sent to users that
+  onStaffReplies when true, will enable email notifications to be sent to users that
   have a staff member reply to their comments. These notifications will
   supercede notifications that would have been sent for a basic reply
   notification.
@@ -2973,16 +2985,71 @@ type UserNotificationSettings {
   onStaffReplies: Boolean!
 
   """
-  onModeration when true, will enable notifications to be sent to users when a
+  onModeration when true, will enable email notifications to be sent to users when a
   comment that they wrote that was previously unpublished, becomes published due
   to a moderator action.
   """
   onModeration: Boolean!
 
   """
-  digestFrequency is the frequency to send notifications.
+  digestFrequency is the frequency to send email notifications.
   """
   digestFrequency: DIGEST_FREQUENCY!
+}
+
+enum InPageNotificationReplyType {
+  """
+  The user wishes to receive in-page notifications from everyone
+  """
+  ALL
+
+  """
+  The user wishes to receive in-page notifications from staff members only
+  """
+  STAFF
+}
+
+type OnReplySettings {
+  """
+  In-page notifications for replies is enabled
+  """
+  enabled: Boolean!
+
+  """
+  This keeps track of what type of reply the user would like to be notified on when
+  in-page reply notifications is enabled
+  """
+  showReplies: InPageNotificationReplyType!
+}
+
+"""
+UserInPageNotificationSettings stores the in-page notification settings for a given User.
+"""
+type UserInPageNotificationSettings {
+  """
+  enabled, when true, means the in-page notifications updates with notification count;
+  when disabled, it still appears and can be clicked but shows no indication of updates
+  """
+  enabled: Boolean!
+
+  """
+  onReply, when true, will enable in-page notifications to be sent to users that have
+  replies to their comments.
+  """
+  onReply: OnReplySettings!
+
+  """
+  onFeatured, when true, will enable in-page notifications to be sent to users that have
+  their comment's featured.
+  """
+  onFeatured: Boolean!
+
+  """
+  onModeration when true, will enable in-page notifications to be sent to users when a
+  comment that they wrote that was previously unpublished, becomes published due
+  to a moderator action.
+  """
+  onModeration: Boolean!
 }
 
 """
@@ -3234,9 +3301,19 @@ type User {
     )
 
   """
-  notifications stores the notification settings for the given User.
+  notifications stores the email notification settings for the given User.
   """
-  notifications: UserNotificationSettings!
+  notifications: UserEmailNotificationSettings!
+    @auth(
+      userIDField: "id"
+      roles: [ADMIN]
+      permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED]
+    )
+
+  """
+  inPageNotifications stores the in-page notification settings for the given User.
+  """
+  inPageNotifications: UserInPageNotificationSettings!
     @auth(
       userIDField: "id"
       roles: [ADMIN]
@@ -4897,6 +4974,8 @@ enum NOTIFICATION_TYPE {
   COMMENT_REJECTED
   ILLEGAL_REJECTED
   DSA_REPORT_DECISION_MADE
+  REPLY
+  REPLY_STAFF
 }
 
 type Notification {
@@ -4927,12 +5006,24 @@ type Notification {
   comment: Comment
 
   """
+  commentReply is the optional comment reply that is linked to this notification.
+  """
+  commentReply: Comment
+
+  """
   commentStatus is the optional status of the comment when the notification
   was created. This allows for the context of the state of the comment to be
   persisted even if the comment reference undergoes multiple moderation actions
   since the notification was created.
   """
   commentStatus: COMMENT_STATUS
+
+  """
+  previousStatus is the optional prior status of the comment when the notification
+  was created. This allows us to determine if a comment was previously pending
+  review, or reported to compare against the current status (rejected, approved, etc).
+  """
+  previousStatus: COMMENT_STATUS
 
   """
   rejectionReason is an optional field that defines why a comment was rejected.
@@ -5242,6 +5333,8 @@ type Query {
     first: Int = 10 @constraint(max: 50)
     after: Cursor
   ): NotificationsConnection!
+
+  notificationCount(userID: ID!): Int
 }
 
 ################################################################################
@@ -5249,24 +5342,24 @@ type Query {
 ################################################################################
 
 ##################
-## updateNotificationSettings
+## updateEmailNotificationSettings
 ##################
 
-input UpdateNotificationSettingsInput {
+input UpdateEmailNotificationSettingsInput {
   """
-  onReply, when true, will enable notifications to be sent to users that have
+  onReply, when true, will enable email notifications to be sent to users that have
   replies to their comments.
   """
   onReply: Boolean
 
   """
-  onFeatured, when true, will enable notifications to be sent to users that have
+  onFeatured, when true, will enable email notifications to be sent to users that have
   their comment's featured.
   """
   onFeatured: Boolean
 
   """
-  onStaffReplies when true, will enable notifications to be sent to users that
+  onStaffReplies when true, will enable email notifications to be sent to users that
   have a staff member reply to their comments. These notifications will
   supercede notifications that would have been sent for a basic reply
   notification.
@@ -5274,14 +5367,14 @@ input UpdateNotificationSettingsInput {
   onStaffReplies: Boolean
 
   """
-  onModeration when true, will enable notifications to be sent to users when a
+  onModeration when true, will enable email notifications to be sent to users when a
   comment that they wrote that was previously unpublished, becomes published due
   to a moderator action.
   """
   onModeration: Boolean
 
   """
-  digestFrequency is the frequency to send notifications.
+  digestFrequency is the frequency to send email notifications.
   """
   digestFrequency: DIGEST_FREQUENCY
 
@@ -5291,7 +5384,67 @@ input UpdateNotificationSettingsInput {
   clientMutationId: String!
 }
 
-type UpdateNotificationSettingsPayload {
+type UpdateEmailNotificationSettingsPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+input OnReplySettingsInput {
+  """
+  In-page notifications for replies is enabled
+  """
+  enabled: Boolean!
+
+  """
+  This keeps track of what type of reply the user would like to be notified on when
+  in-page reply notifications is enabled
+  """
+  showReplies: InPageNotificationReplyType!
+}
+
+##################
+## updateInPageNotificationSettings
+##################
+
+input UpdateInPageNotificationSettingsInput {
+  """
+  onReply, when true, will enable in-page notifications to be sent to users that have
+  replies to their comments.
+  """
+  onReply: OnReplySettingsInput
+
+  """
+  onFeatured, when true, will enable in-page notifications to be sent to users that have
+  their comment's featured.
+  """
+  onFeatured: Boolean
+
+  """
+  onModeration when true, will enable in-page notifications to be sent to users when a
+  comment that they wrote that was previously unpublished, becomes published due
+  to a moderator action.
+  """
+  onModeration: Boolean
+
+  """
+  enabled, when true, shows a notification count for in-page notifications
+  """
+  enabled: Boolean
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateInPageNotificationSettingsPayload {
   """
   user is the possibly modified User.
   """
@@ -6311,6 +6464,22 @@ input RTEConfigurationInput {
 }
 
 """
+InPageNotificationsConfigurationInput specifies the configuration for in-page notifications.
+"""
+input InPageNotificationsConfigurationInput {
+  """
+  enabled when true turns on in-page notifications as an option for commenters.
+  """
+  enabled: Boolean
+
+  """
+  floatingBellIndicator when true shows a floating bell for notifications; when false,
+  there is no floating bell and the Notifications tab is aligned left.
+  """
+  floatingBellIndicator: Boolean
+}
+
+"""
 FlairBadgeConfigurationInput specifies the configuration for flair badges,
 including whether they are enabled and their image urls.
 """
@@ -6587,6 +6756,11 @@ input SettingsInput {
   addresses at sign up and premoderating them according to various rules.
   """
   premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
+
+  """
+  inPageNotifications specifies the configuration for in-page notifications
+  """
+  inPageNotifications: InPageNotificationsConfigurationInput
 }
 
 """
@@ -10461,12 +10635,21 @@ type Mutation {
     @rate(seconds: 10)
 
   """
-  updateNotificationSettings can be used to update the notification settings for
+  updateEmailNotificationSettings can be used to update the email notification settings for
   the current logged in user.
   """
-  updateNotificationSettings(
-    input: UpdateNotificationSettingsInput!
-  ): UpdateNotificationSettingsPayload!
+  updateEmailNotificationSettings(
+    input: UpdateEmailNotificationSettingsInput!
+  ): UpdateEmailNotificationSettingsPayload!
+    @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
+
+  """
+  updateInPageNotificationSettings can be used to update the in-page notification settings for
+  the current logged in user.
+  """
+  updateInPageNotificationSettings(
+    input: UpdateInPageNotificationSettingsInput!
+  ): UpdateInPageNotificationSettingsPayload!
     @auth(permit: [SUSPENDED, BANNED, PENDING_DELETION, WARNED])
 
   """

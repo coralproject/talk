@@ -5,7 +5,7 @@ const CLASSES = {
   app: "coral coral-stream",
 
   /**
-   * guidlines represents the box containing the guidlines.
+   * guidelines represents the box containing the guidelines.
    */
   guidelines: {
     container: "coral coral-guidelines",
@@ -13,7 +13,7 @@ const CLASSES = {
   },
 
   /**
-   * guidlines represents the box containing the guidlines.
+   * announcement represents the box containing the announcement.
    */
   announcement: "coral coral-announcement",
 
@@ -79,6 +79,8 @@ const CLASSES = {
     activeTab: "coral-tabBar-tab-active",
 
     notifications: "coral coral-tabBar-tab coral-tabBar-notifications",
+
+    mobile: "coral-tabBar-tab-mobile",
   },
 
   /**
@@ -153,6 +155,7 @@ const CLASSES = {
 
   tabBarNotifications: {
     loadMore: "coral coral-tabBarNotifications-loadMore",
+    loadNew: "coral coral-tabBarNotifications-loadNew",
   },
 
   /**
@@ -1070,11 +1073,42 @@ const CLASSES = {
     openButton: "coral coral-openCommentStream-openButton",
   },
 
-  emailNotifications: {
-    $root: "coral coral-emailNotifications",
-    heading: "coral coral-emailNotifications-heading",
-    label: "coral coral-emailNotifications-label",
-    updateButton: "coral coral-emailNotifications-updateButton",
+  notifications: {
+    $root: "coral coral-emailNotifications coral-notifications",
+    heading:
+      "coral coral-emailNotifications-heading coral-notifications-heading",
+    label: "coral coral-emailNotifications-label coral-notifications-label",
+    updateButton:
+      "coral coral-emailNotifications-updateButton coral-notifications-updateButton",
+
+    live: {
+      root: "coral coral-notifications-live-root",
+      icon: "coral coral-notifications-live-icon",
+      counter: "coral coral-notifications-live-counter",
+    },
+
+    floating: {
+      root: "coral coral-notifications-floating-root",
+      action: "coral coral-notifications-floating-action",
+      actionOpen: "coral coral-notifications-floating-action-open",
+      actionClosed: "coral coral-notifications-floating-action-closed",
+      close: "coral coral-notifications-floating-close",
+      icon: "coral coral-notifications-floating-icon",
+      feed: {
+        root: "coral coral-notifications-floating-feed-root",
+        panel: "coral coral-notifications-floating-feed-panel",
+        title: "coral coral-notifications-floating-feed-title",
+        container: "coral coral-notifications-floating-feed-container",
+      },
+    },
+
+    mobileToolBar: {
+      root: "coral coral-notifications-mobileToolBar-root",
+      tray: "coral coral-notifications-mobileToolBar-tray",
+      header: "coral coral-notifications-mobileToolBar-header",
+      close: "coral coral-notifications-mobileToolBar-close",
+      list: "coral coral-notifications-mobileToolBar-list",
+    },
   },
 
   mediaPreferences: {
@@ -1150,7 +1184,13 @@ const CLASSES = {
     },
   },
 
-  mobileToolbar: "coral coral-mobileToolbar",
+  mobileToolbar: {
+    $root: "coral coral-mobileToolbar",
+    close: "coral coral-mobileToolbar-close",
+    markAllAsRead: "coral coral-mobileToolbar-markAllAsRead",
+    nextUnread: "coral coral-mobileToolbar-nextUnread",
+    notificationsAction: "coral coral-mobileToolbar-notifications",
+  },
 
   viewersWatching: {
     $root: "coral coral-viewersWatching",

@@ -34,6 +34,8 @@ async function createTestRenderer(
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("PREFERENCES", "profileTab");
+      localRecord.setValue(3000, "notificationsPollRate");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -46,8 +48,8 @@ async function createTestRenderer(
   };
 }
 
-it("render notifications form", async () => {
-  const updateNotificationSettings = sinon
+it("render email notifications form", async () => {
+  const updateEmailNotificationSettings = sinon
     .stub()
     .callsFake((_: any, { input: { clientMutationId, ...notifications } }) => {
       expectAndFail(notifications).toMatchObject({
@@ -67,15 +69,28 @@ it("render notifications form", async () => {
   await act(async () => {
     await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => {
+            return {
+              ...settings,
+              inPageNotifications: {
+                enabled: false,
+                floatingBellIndicator: true,
+              },
+            };
+          },
+        },
         Mutation: {
-          updateNotificationSettings,
+          updateEmailNotificationSettings,
         },
       }),
     });
   });
 
   const container = await screen.findByTestId("profile-account-notifications");
-  expect(await axe(container)).toHaveNoViolations();
+  await act(async () => {
+    expect(await axe(container)).toHaveNoViolations();
+  });
 
   // Get the form fields.
   const onReply = within(container).getByRole("checkbox", {
@@ -120,7 +135,96 @@ it("render notifications form", async () => {
 
   // Ensure that the mutation was called and that the save button is now
   // disabled.
-  expect(updateNotificationSettings.calledOnce).toEqual(true);
+  expect(updateEmailNotificationSettings.calledOnce).toEqual(true);
+  expect(save).toBeDisabled();
+
+  // Change a notification option.
+  userEvent.click(onReply);
+
+  // The save button should now be enabled.
+  expect(save).toBeEnabled();
+
+  // Change a notification back (making it pristine).
+  await act(async () => {
+    userEvent.click(onReply);
+  });
+
+  // The save button should now be disabled.
+  expect(save).toBeDisabled();
+});
+
+it("render and update in-page notifications form", async () => {
+  const updateInPageNotificationSettings = sinon
+    .stub()
+    .callsFake(
+      (_: any, { input: { clientMutationId, ...inPageNotifications } }) => {
+        expectAndFail(inPageNotifications).toMatchObject({
+          onReply: { enabled: false, showReplies: "ALL" },
+          onFeatured: false,
+          onModeration: false,
+          enabled: true,
+        });
+        return {
+          user: pureMerge<typeof viewer>(viewer, {
+            inPageNotifications,
+          }),
+          clientMutationId,
+        };
+      }
+    );
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Mutation: {
+          updateInPageNotificationSettings,
+        },
+        Query: {
+          settings: () => {
+            return { ...settings, inPageNotifications: { enabled: true } };
+          },
+          viewer: () => viewer,
+          stream: () => story,
+        },
+      }),
+    });
+  });
+
+  const container = await screen.findByTestId(
+    "profile-account-inPageNotifications"
+  );
+  await act(async () => {
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  // Get the form fields.
+  const onReply = within(container).getByRole("checkbox", {
+    name: "My comment receives a reply",
+  });
+  const onModeration = within(container).getByRole("checkbox", {
+    name: "My pending comment has been reviewed",
+  });
+  const onFeatured = within(container).getByRole("checkbox", {
+    name: "My comment is featured",
+  });
+
+  const save = within(container).getByRole("button", { name: "Update" });
+
+  // The save button should be disabled for unchanged fields.
+  expect(save).toBeDisabled();
+
+  // Disable the options.
+  userEvent.click(onReply);
+  userEvent.click(onModeration);
+  userEvent.click(onFeatured);
+
+  // Submit the form.
+  await act(async () => {
+    userEvent.click(save);
+  });
+
+  // Ensure that the mutation was called and that the save button is now
+  // disabled.
+  expect(updateInPageNotificationSettings.calledOnce).toEqual(true);
   expect(save).toBeDisabled();
 
   // Change a notification option.
