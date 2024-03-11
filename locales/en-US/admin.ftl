@@ -1198,6 +1198,8 @@ moderate-user-drawer-account-history-premod-removed = Removed pre-moderate
 moderate-user-drawer-account-history-modMessage-sent = User messaged
 moderate-user-drawer-account-history-modMessage-acknowledged = Message acknowledged at { $acknowledgedAt }
 
+moderate-user-drawer-newCommenter = New commenter
+
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
     [second] { $value ->

@@ -8,9 +8,11 @@ import { useDateTimeFormatter } from "coral-framework/hooks";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLFEATURE_FLAG } from "coral-framework/schema";
 import {
+  ButtonSvgIcon,
   CalendarIcon,
   EmailActionUnreadIcon,
   MultipleNeutralIcon,
+  PlantIcon,
   RemoveIcon,
   SingleNeutralProfilePictureIcon,
   SvgIcon,
@@ -127,6 +129,28 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
                   />
                 </Flex>
               )}
+              {settings.newCommenter?.enabled && user.newCommenter && (
+                <span>
+                  <Tooltip
+                    id="newCommenter-tooltip"
+                    title=""
+                    body={
+                      <Localized id="moderate-user-drawer-newCommenter">
+                        <span>New commenter</span>
+                      </Localized>
+                    }
+                    button={({ toggleVisibility, ref }) => (
+                      <Button
+                        onClick={toggleVisibility}
+                        ref={ref}
+                        variant="text"
+                      >
+                        <ButtonSvgIcon Icon={PlantIcon} filled="currentColor" />
+                      </Button>
+                    )}
+                  />
+                </span>
+              )}
               <div>
                 <UserBadgesContainer user={user} />
               </div>
@@ -240,6 +264,7 @@ const enhanced = withFragmentContainer<Props>({
       username
       email
       createdAt
+      newCommenter
     }
   `,
   settings: graphql`
@@ -251,6 +276,9 @@ const enhanced = withFragmentContainer<Props>({
       }
       externalProfileURL
       featureFlags
+      newCommenter {
+        enabled
+      }
     }
   `,
   viewer: graphql`
