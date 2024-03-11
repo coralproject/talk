@@ -99,7 +99,12 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
                     </Localized>
                   }
                   button={({ toggleVisibility, ref }) => (
-                    <Button onClick={toggleVisibility} ref={ref} variant="text">
+                    <Button
+                      onClick={toggleVisibility}
+                      ref={ref}
+                      variant="text"
+                      data-testid="new-user-badge"
+                    >
                       <ButtonSvgIcon
                         className={CLASSES.comment.topBar.newCommenter.plant}
                         Icon={PlantIcon}

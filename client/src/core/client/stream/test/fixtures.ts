@@ -147,6 +147,7 @@ export const settings = createFixture<GQLSettings>({
     enabled: true,
     floatingBellIndicator: true,
   },
+  newCommenter: { enabled: false },
 });
 
 export const site = createFixtures<GQLSite>([
@@ -807,6 +808,17 @@ export const commentFromModerator = denormalizeComment(
           code: GQLTAG.MODERATOR,
         },
       ],
+    },
+    baseComment
+  )
+);
+
+export const commentFromNewUser = denormalizeComment(
+  createFixture<GQLComment>(
+    {
+      id: "comment-from-new-user",
+      author: { ...commenters[0], newCommenter: true },
+      body: "Hi I am new",
     },
     baseComment
   )
