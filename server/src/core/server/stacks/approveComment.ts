@@ -97,6 +97,7 @@ const approveComment = async (
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: result.after.authorID!,
       comment: result.after,
+      previousStatus: result.before.status,
       type: GQLNOTIFICATION_TYPE.COMMENT_APPROVED,
     });
   }
