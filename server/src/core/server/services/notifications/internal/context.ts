@@ -259,6 +259,14 @@ export class InternalNotificationContext {
         shouldIncrementCount = false;
       }
 
+      // Don't increment the count if the reply is still in pre-mod
+      if (
+        type === GQLNOTIFICATION_TYPE.REPLY &&
+        reply?.status === GQLCOMMENT_STATUS.PREMOD
+      ) {
+        shouldIncrementCount = false;
+      }
+
       if (shouldIncrementCount) {
         await this.incrementCountForUser(tenantID, targetUserID);
       }
