@@ -107,6 +107,7 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
         // filter out Rejected comments and deleted comments
         return (
           n.node.commentReply?.status !== GQLCOMMENT_STATUS.REJECTED &&
+          n.node.commentReply?.status !== GQLCOMMENT_STATUS.PREMOD &&
           !n.node.commentReply?.deleted
         );
       }

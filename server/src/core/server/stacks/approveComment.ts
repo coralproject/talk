@@ -102,9 +102,12 @@ const approveComment = async (
     });
   }
 
-  // if comment was previously rejected, and there is a reply notification for it, increment
+  // if comment was previously rejected or in pre-mod, and there is a reply notification for it, increment
   // the notificationCount for that notification's owner since it was decremented upon original rejection
-  if (previousComment?.status === GQLCOMMENT_STATUS.REJECTED) {
+  if (
+    previousComment?.status === GQLCOMMENT_STATUS.REJECTED ||
+    previousComment?.status === GQLCOMMENT_STATUS.PREMOD
+  ) {
     const replyNotification = await retrieveNotificationByCommentReply(
       mongo,
       tenant.id,
