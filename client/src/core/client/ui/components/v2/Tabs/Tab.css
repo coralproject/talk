@@ -151,3 +151,60 @@ $tab-stream-default: var(--palette-text-500);
 .uppercase {
   text-transform: uppercase;
 }
+
+.notifications {
+  position: relative;
+
+  margin-right: 0px;
+  margin-bottom: -1px;
+
+  padding-top: var(--spacing-3);
+  padding-bottom: var(--spacing-3);
+  padding-left: var(--spacing-6);
+  padding-right: var(--spacing-6);
+
+  background: var(--palette-grey-100);
+  border: 1px solid var(--palette-grey-300);
+  border-bottom-width: 0px;
+
+  font-family: var(--font-family-secondary);
+  font-style: normal;
+  font-weight: var(--font-weight-secondary-regular);
+  font-size: var(--font-size-4);
+  line-height: 1.11;
+
+  color: var(--palette-text-500);
+
+  &.active {
+    z-index: 10;
+
+    background-color: var(--palette-background-body);
+    border-bottom: 0;
+    border-radius: 0;
+
+    color: var(--palette-primary-500);
+    font-weight: var(--font-weight-secondary-bold);
+
+    overflow: visible;
+  }
+}
+
+.notifications.active::before {
+  position: absolute;
+
+  top: -1px;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: 4px;
+
+  background-color: var(--palette-primary-500);
+  color: var(--palette-primary-500);
+  content: "active";
+  overflow: hidden;
+}
+
+.floatRight {
+  position: absolute;
+  right: 0;
+  top: 0;
+}

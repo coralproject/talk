@@ -13,6 +13,11 @@ export const moderation: NotificationCategory<CommentStatusUpdatedCoralEventPayl
   {
     name: "moderation",
     process: async (ctx, input) => {
+      // Don't send email notification if in-page notifications enabld
+      if (ctx.tenant?.inPageNotifications?.enabled) {
+        return null;
+      }
+
       // Check to see if this comment was previously in a moderation status.
       if (!hasModeratorStatus({ status: input.data.oldStatus })) {
         return null;

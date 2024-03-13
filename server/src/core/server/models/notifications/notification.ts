@@ -24,10 +24,15 @@ export interface Notification extends TenantResource {
 
   commentID?: string;
   commentStatus?: GQLCOMMENT_STATUS;
+  previousStatus?: GQLCOMMENT_STATUS;
+
+  replyID?: string;
 
   rejectionReason?: GQLREJECTION_REASON_CODE;
   decisionDetails?: GQLNotificationDecisionDetails;
   customReason?: string;
+
+  isDSA?: boolean;
 }
 
 type BaseConnectionInput = ConnectionInput<Notification>;
@@ -53,6 +58,17 @@ export const retrieveNotificationsConnection = async (
   }
 
   return resolveConnection(query, input, (n) => n.createdAt);
+};
+
+export const retrieveNotificationByCommentReply = async (
+  mongo: MongoContext,
+  tenantID: string,
+  replyCommentID: string
+) => {
+  const notification = await mongo
+    .notifications()
+    .findOne({ replyID: replyCommentID, tenantID });
+  return notification;
 };
 
 export const createNotification = async (

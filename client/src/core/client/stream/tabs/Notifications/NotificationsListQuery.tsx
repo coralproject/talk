@@ -1,11 +1,13 @@
-import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+import React, { FunctionComponent, useCallback, useState } from "react";
+import { graphql } from "relay-runtime";
 
-import { QueryRenderer } from "coral-framework/lib/relay";
+import { useFetch, useLocal } from "coral-framework/lib/relay";
 import { Spinner } from "coral-ui/components/v2";
-import { QueryError } from "coral-ui/components/v3";
 
-import { NotificationsListQuery as QueryTypes } from "coral-stream/__generated__/NotificationsListQuery.graphql";
+import { NotificationsListFetchQueryResponse } from "coral-stream/__generated__/NotificationsListFetchQuery.graphql";
+import { NotificationsListQueryLocal } from "coral-stream/__generated__/NotificationsListQueryLocal.graphql";
+
+import NotificationsListFetch from "./NotificationsListFetch";
 import NotificationsPaginator from "./NotificationsPaginator";
 
 interface Props {
@@ -13,29 +15,45 @@ interface Props {
 }
 
 const NotificationsListQuery: FunctionComponent<Props> = ({ viewerID }) => {
-  return (
-    <QueryRenderer<QueryTypes>
-      query={graphql`
-        query NotificationsListQuery($viewerID: ID!) {
-          ...NotificationsPaginator_query @arguments(viewerID: $viewerID)
-        }
-      `}
-      variables={{
-        viewerID,
-      }}
-      render={({ error, props }) => {
-        if (error) {
-          return <QueryError error={error} />;
-        }
+  const query = useFetch(NotificationsListFetch);
+  const [shouldLoad, setShouldLoad] = useState<boolean>(true);
+  const [queryResult, setQueryResult] =
+    useState<NotificationsListFetchQueryResponse | null>();
 
-        if (!props) {
-          return <Spinner />;
-        }
+  const [, setLocal] = useLocal<NotificationsListQueryLocal>(graphql`
+    fragment NotificationsListQueryLocal on Local {
+      hasNewNotifications
+    }
+  `);
 
-        return <NotificationsPaginator query={props} viewerID={viewerID} />;
-      }}
-    />
-  );
+  const load = useCallback(async () => {
+    setShouldLoad(false);
+    setQueryResult(null);
+    const result = await query({ viewerID });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    setQueryResult(result);
+  }, [query, viewerID]);
+
+  const reload = useCallback(async () => {
+    await load();
+    setLocal({ hasNewNotifications: false });
+  }, [load, setLocal]);
+
+  if (shouldLoad) {
+    void load();
+  }
+
+  if (!queryResult) {
+    return <Spinner />;
+  } else {
+    return (
+      <NotificationsPaginator
+        query={queryResult}
+        viewerID={viewerID}
+        reload={reload}
+      />
+    );
+  }
 };
 
 export default NotificationsListQuery;

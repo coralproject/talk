@@ -3,7 +3,10 @@ import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision } from "coral-server/models/comment";
+import { retrieveNotificationByCommentReply } from "coral-server/models/notifications/notification";
 import { Tenant } from "coral-server/models/tenant";
+import { retrieveUser } from "coral-server/models/user";
+import { retrieveComment } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
 import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
@@ -31,9 +34,13 @@ const approveComment = async (
   commentRevisionID: string,
   moderatorID: string,
   now: Date,
-  request?: Request | undefined
+  request?: Request | undefined,
+  createNotification = true
 ) => {
   const updateAllCommentCountsArgs = { actionCounts: {} };
+
+  // Get comment status before approval
+  const previousComment = await retrieveComment(mongo, tenant.id, commentID);
 
   // Approve the comment.
   const { result, counts } = await moderate(
@@ -86,11 +93,44 @@ const approveComment = async (
     }
   }
 
-  await notifications.create(tenant.id, tenant.locale, {
-    targetUserID: result.after.authorID!,
-    comment: result.after,
-    type: GQLNOTIFICATION_TYPE.COMMENT_APPROVED,
-  });
+  if (createNotification) {
+    await notifications.create(tenant.id, tenant.locale, {
+      targetUserID: result.after.authorID!,
+      comment: result.after,
+      previousStatus: result.before.status,
+      type: GQLNOTIFICATION_TYPE.COMMENT_APPROVED,
+    });
+  }
+
+  // if comment was previously rejected, system withheld, or in pre-mod,
+  // and there is a reply notification for it, increment the notificationCount
+  // for that notification's owner since it was decremented upon original
+  // rejection
+  if (
+    previousComment?.status === GQLCOMMENT_STATUS.REJECTED ||
+    previousComment?.status === GQLCOMMENT_STATUS.PREMOD ||
+    previousComment?.status === GQLCOMMENT_STATUS.SYSTEM_WITHHELD
+  ) {
+    const replyNotification = await retrieveNotificationByCommentReply(
+      mongo,
+      tenant.id,
+      commentID
+    );
+    if (replyNotification) {
+      const { ownerID } = replyNotification;
+      const notificationOwner = await retrieveUser(mongo, tenant.id, ownerID);
+      if (notificationOwner) {
+        if (
+          !notificationOwner.lastSeenNotificationDate ||
+          (notificationOwner.lastSeenNotificationDate &&
+            notificationOwner.lastSeenNotificationDate <
+              replyNotification.createdAt)
+        ) {
+          await notifications.incrementCountForUser(tenant.id, ownerID);
+        }
+      }
+    }
+  }
 
   // Return the resulting comment.
   return result.after;

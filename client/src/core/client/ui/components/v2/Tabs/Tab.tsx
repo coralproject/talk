@@ -34,7 +34,8 @@ export interface TabProps {
     | "secondary"
     | "default"
     | "streamSecondary"
-    | "streamPrimary";
+    | "streamPrimary"
+    | "notifications";
   /**
    * Action taken on tab click
    */
@@ -45,6 +46,8 @@ export interface TabProps {
   "aria-label"?: string;
   title?: string;
   children?: React.ReactNode;
+
+  float?: "none" | "right";
 }
 
 class Tab extends React.Component<TabProps> {
@@ -65,6 +68,7 @@ class Tab extends React.Component<TabProps> {
       uppercase,
       "aria-label": ariaLabel,
       title,
+      float,
     } = this.props;
 
     const buttonClassName = cn(
@@ -74,9 +78,11 @@ class Tab extends React.Component<TabProps> {
         [classes.secondary]: variant === "secondary",
         [classes.streamSecondary]: variant === "streamSecondary",
         [classes.streamPrimary]: variant === "streamPrimary",
+        [classes.notifications]: variant === "notifications",
         [classes.default]: variant === "default",
         [classes.uppercase]: uppercase,
         [classes.active]: active,
+        [classes.floatRight]: float === "right",
       },
       className
     );

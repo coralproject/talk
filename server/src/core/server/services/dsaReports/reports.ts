@@ -254,6 +254,7 @@ export async function makeDSAReportDecision(
         targetUserID: rejectedComment.authorID,
         type: GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED,
         comment: rejectedComment,
+        previousStatus: comment.status,
         legal: {
           legality: input.legality,
           grounds: legalGrounds,
