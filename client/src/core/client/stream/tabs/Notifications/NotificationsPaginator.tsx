@@ -107,6 +107,7 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
         return (
           n.node.commentReply?.status !== GQLCOMMENT_STATUS.REJECTED &&
           n.node.commentReply?.status !== GQLCOMMENT_STATUS.PREMOD &&
+          n.node.commentReply?.status !== GQLCOMMENT_STATUS.SYSTEM_WITHHELD &&
           !n.node.commentReply?.deleted
         );
       }
