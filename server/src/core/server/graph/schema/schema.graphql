@@ -10392,7 +10392,7 @@ type Mutation {
   """
   createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload!
     @auth
-    @rate(seconds: 3)
+    @rate(max: 2, seconds: 3)
 
   """
   featureComment will mark a given Comment as featured.
