@@ -29,7 +29,7 @@ You will then have to generate a JWT with the following claims:
   to update the user. Any claims not present on the jwt will be ignored on update, and will not overwrite existing values.
 - `user.id` **(required)** - the unique ID of the user from your authentication system.
   This is required to connect the user in your system to allow a seamless
-  connection to Coral.
+  connection to Coral. This should **not** contain personally identifiable information (such as email address) because this unique identifier is exposed in our API.
 - `user.email` **(required)** - the unique email address of the user from your
   authentication system. This is required to facilitate notification email's
   about status changes on a user account such as bans or suspensions.

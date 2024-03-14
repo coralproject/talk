@@ -74,6 +74,13 @@ const processNotificationDigesting =
         log,
       });
 
+      if (ctx.tenant?.inPageNotifications?.enabled) {
+        log.info(
+          "cancelling process notification digesting as in-page notifications is enabled"
+        );
+        return;
+      }
+
       ctx.log.debug("starting digesting for tenant");
 
       // Process all the notifications for this Tenant.

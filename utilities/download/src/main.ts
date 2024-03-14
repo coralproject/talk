@@ -112,13 +112,14 @@ const run = async () => {
   for (const tenantID of config.tenantIDs) {
     const tenant = await tenants.findOne({ id: tenantID });
     if (!tenant) {
-      console.warn(`unable to find tenant: ${tenantID}`);
-      continue;
+      console.warn(`unable to find tenant document for "${tenantID}", using tenantID instead...`);
     }
 
-    console.log(`downloading ${tenant.organization.name}...`);
+    const orgName = tenant ? tenant.organization.name : tenantID;
 
-    const niceTenantName = getNiceTenantName(tenant.organization.name);
+    console.log(`downloading ${orgName}...`);
+
+    const niceTenantName = getNiceTenantName(orgName);
     const relOutputDir = path.join(config.outputDir, niceTenantName);
     ensureDirectoryExists(relOutputDir);
 

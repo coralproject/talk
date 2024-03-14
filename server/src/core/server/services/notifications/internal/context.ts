@@ -9,14 +9,21 @@ import {
   createNotification,
   Notification,
 } from "coral-server/models/notifications/notification";
-import { retrieveUser } from "coral-server/models/user";
+import {
+  defaultInPageNotificationSettings,
+  retrieveUser,
+  User,
+} from "coral-server/models/user";
 import { I18n } from "coral-server/services/i18n";
 
 import {
+  GQLCOMMENT_STATUS,
   GQLDSAReportDecisionLegality,
+  GQLInPageNotificationReplyType,
   GQLNOTIFICATION_TYPE,
   GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
+import { AugmentedRedis } from "coral-server/services/redis";
 
 export interface DSALegality {
   legality: GQLDSAReportDecisionLegality;
@@ -36,10 +43,11 @@ export interface CreateNotificationInput {
   type: GQLNOTIFICATION_TYPE;
 
   comment?: Readonly<Comment> | null;
+  reply?: Readonly<Comment> | null;
+  previousStatus?: GQLCOMMENT_STATUS;
+
   rejectionReason?: RejectionReasonInput | null;
-
   report?: Readonly<DSAReport> | null;
-
   legal?: DSALegality;
 }
 
@@ -48,13 +56,36 @@ interface CreationResult {
   attempted: boolean;
 }
 
+const shouldSendReplyNotification = (
+  replyAuthorID: string | null,
+  targetUser: Readonly<User>
+) => {
+  if (replyAuthorID) {
+    // don't notify on replies to own comments
+    if (replyAuthorID === targetUser.id) {
+      return false;
+    }
+    // don't notify when ignored users reply
+    return !targetUser.ignoredUsers.some((user) => user.id === replyAuthorID);
+  }
+
+  return false;
+};
+
 export class InternalNotificationContext {
   private mongo: MongoContext;
+  private redis: AugmentedRedis;
   private log: Logger;
   // private i18n: I18n;
 
-  constructor(mongo: MongoContext, i18n: I18n, log: Logger) {
+  constructor(
+    mongo: MongoContext,
+    redis: AugmentedRedis,
+    i18n: I18n,
+    log: Logger
+  ) {
     this.mongo = mongo;
+    this.redis = redis;
     // this.i18n = i18n;
     this.log = log;
   }
@@ -64,11 +95,19 @@ export class InternalNotificationContext {
     lang: LanguageCode,
     input: CreateNotificationInput
   ) {
-    const { type, targetUserID, comment, rejectionReason, report, legal } =
-      input;
+    const {
+      type,
+      targetUserID,
+      comment,
+      reply,
+      rejectionReason,
+      report,
+      legal,
+      previousStatus,
+    } = input;
 
-    const existingUser = retrieveUser(this.mongo, tenantID, targetUserID);
-    if (!existingUser) {
+    const targetUser = await retrieveUser(this.mongo, tenantID, targetUserID);
+    if (!targetUser) {
       this.log.warn(
         { userID: targetUserID },
         "attempted to create notification for user that does not exist, ignoring"
@@ -83,37 +122,33 @@ export class InternalNotificationContext {
       attempted: false,
     };
 
-    /*
-      For the time being, we are not doing approved and featured
-      comment notifications.
-    */
-    // if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED && comment) {
-    //   result.notification = await this.createFeatureCommentNotification(
-    //     tenantID,
-    //     type,
-    //     targetUserID,
-    //     comment,
-    //     now
-    //   );
-    //   result.attempted = true;
-    // } else if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED && comment) {
-    //   result.notification = await this.createApproveCommentNotification(
-    //     tenantID,
-    //     type,
-    //     targetUserID,
-    //     comment,
-    //     now
-    //   );
-    //   result.attempted = true;
-    // }
-    if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED && comment) {
+    if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED && comment) {
+      result.notification = await this.createFeatureCommentNotification(
+        tenantID,
+        type,
+        targetUserID,
+        comment,
+        now
+      );
+      result.attempted = true;
+    } else if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED && comment) {
+      result.notification = await this.createApproveCommentNotification(
+        tenantID,
+        type,
+        targetUserID,
+        comment,
+        now
+      );
+      result.attempted = true;
+    } else if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED && comment) {
       result.notification = await this.createRejectCommentNotification(
         tenantID,
         type,
         targetUserID,
         comment,
         rejectionReason,
-        now
+        now,
+        previousStatus
       );
       result.attempted = true;
     } else if (type === GQLNOTIFICATION_TYPE.ILLEGAL_REJECTED && comment) {
@@ -141,19 +176,145 @@ export class InternalNotificationContext {
         now
       );
       result.attempted = true;
+    } else if (type === GQLNOTIFICATION_TYPE.REPLY && comment && reply) {
+      const shouldNotifyReply = shouldSendReplyNotification(
+        reply.authorID,
+        targetUser
+      );
+      if (!shouldNotifyReply) {
+        return;
+      }
+      result.notification = await this.createCommentReplyNotification(
+        tenantID,
+        type,
+        targetUserID,
+        comment,
+        reply,
+        now,
+        previousStatus
+      );
+      result.attempted = true;
+    } else if (type === GQLNOTIFICATION_TYPE.REPLY_STAFF && comment && reply) {
+      const shouldNotifyReply = shouldSendReplyNotification(
+        reply.authorID,
+        targetUser
+      );
+      if (!shouldNotifyReply) {
+        return;
+      }
+      result.notification = await this.createCommentReplyStaffNotification(
+        tenantID,
+        type,
+        targetUserID,
+        comment,
+        reply,
+        now
+      );
+      result.attempted = true;
     }
 
     if (!result.notification && result.attempted) {
       this.logCreateNotificationError(tenantID, input);
     }
+
+    if (result.notification && result.attempted) {
+      const preferences = targetUser.inPageNotifications
+        ? targetUser.inPageNotifications
+        : defaultInPageNotificationSettings;
+
+      // Determine whether to increment notificationCount based on user's in-page notification settings
+      let shouldIncrementCount = true;
+      if (
+        type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED &&
+        !preferences?.onModeration
+      ) {
+        shouldIncrementCount = false;
+      }
+      if (
+        type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED &&
+        !preferences?.onFeatured
+      ) {
+        shouldIncrementCount = false;
+      }
+      if (
+        type === GQLNOTIFICATION_TYPE.REPLY &&
+        (!preferences?.onReply?.enabled ||
+          !(
+            preferences?.onReply?.showReplies ===
+            GQLInPageNotificationReplyType.ALL
+          ))
+      ) {
+        shouldIncrementCount = false;
+      }
+      if (
+        type === GQLNOTIFICATION_TYPE.REPLY_STAFF &&
+        !preferences?.onReply?.enabled
+      ) {
+        shouldIncrementCount = false;
+      }
+
+      // If a comment was rejected at creation for including a banned word, then we shouldn't
+      // increment the count since it won't be displayed
+      if (reply && reply.status === GQLCOMMENT_STATUS.REJECTED) {
+        shouldIncrementCount = false;
+      }
+
+      // Don't increment the count if the reply is still in pre-mod
+      // or is system withheld
+      if (
+        type === GQLNOTIFICATION_TYPE.REPLY &&
+        (reply?.status === GQLCOMMENT_STATUS.PREMOD ||
+          reply?.status === GQLCOMMENT_STATUS.SYSTEM_WITHHELD)
+      ) {
+        shouldIncrementCount = false;
+      }
+
+      if (shouldIncrementCount) {
+        await this.incrementCountForUser(tenantID, targetUserID);
+      }
+    }
   }
 
-  private async createRejectCommentNotification(
+  public async incrementCountForUser(tenantID: string, userID: string) {
+    const key = this.computeCountKey(tenantID, userID);
+    await this.redis.incr(key);
+  }
+
+  public async decrementCountForUser(tenantID: string, userID: string) {
+    const key = this.computeCountKey(tenantID, userID);
+    await this.redis.decr(key);
+  }
+
+  public async clearCountForUser(tenantID: string, userID: string) {
+    const key = this.computeCountKey(tenantID, userID);
+    await this.redis.del(key);
+  }
+
+  public async retrieveCount(tenantID: string, userID: string) {
+    const key = this.computeCountKey(tenantID, userID);
+
+    const countStr = await this.redis.get(key);
+    if (!countStr) {
+      return 0;
+    }
+
+    try {
+      return parseInt(countStr, 10);
+    } catch {
+      this.log.warn({ userID, key }, `unable to parse notification count`);
+      return 0;
+    }
+  }
+
+  private computeCountKey(tenantID: string, userID: string) {
+    return `${tenantID}:${userID}:notifications:count`;
+  }
+
+  private async createApproveCommentNotification(
     tenantID: string,
     type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
     comment: Readonly<Comment>,
-    rejectionReason?: RejectionReasonInput | null,
     now = new Date()
   ) {
     const notification = await createNotification(this.mongo, {
@@ -164,6 +325,29 @@ export class InternalNotificationContext {
       ownerID: targetUserID,
       commentID: comment.id,
       commentStatus: comment.status,
+    });
+
+    return notification;
+  }
+
+  private async createRejectCommentNotification(
+    tenantID: string,
+    type: GQLNOTIFICATION_TYPE,
+    targetUserID: string,
+    comment: Readonly<Comment>,
+    rejectionReason?: RejectionReasonInput | null,
+    now = new Date(),
+    previousStatus?: GQLCOMMENT_STATUS
+  ) {
+    const notification = await createNotification(this.mongo, {
+      id: uuid(),
+      tenantID,
+      type,
+      createdAt: now,
+      ownerID: targetUserID,
+      commentID: comment.id,
+      commentStatus: comment.status,
+      previousStatus,
       rejectionReason: rejectionReason?.code ?? undefined,
       customReason: rejectionReason?.customReason ?? undefined,
       decisionDetails: {
@@ -174,45 +358,71 @@ export class InternalNotificationContext {
     return notification;
   }
 
-  // private async createFeatureCommentNotification(
-  //   tenantID: string,
-  //   type: GQLNOTIFICATION_TYPE,
-  //   targetUserID: string,
-  //   comment: Readonly<Comment>,
-  //   now: Date
-  // ) {
-  //   const notification = await createNotification(this.mongo, {
-  //     id: uuid(),
-  //     tenantID,
-  //     type,
-  //     createdAt: now,
-  //     ownerID: targetUserID,
-  //     commentID: comment.id,
-  //     commentStatus: comment.status,
-  //   });
+  private async createFeatureCommentNotification(
+    tenantID: string,
+    type: GQLNOTIFICATION_TYPE,
+    targetUserID: string,
+    comment: Readonly<Comment>,
+    now: Date
+  ) {
+    const notification = await createNotification(this.mongo, {
+      id: uuid(),
+      tenantID,
+      type,
+      createdAt: now,
+      ownerID: targetUserID,
+      commentID: comment.id,
+      commentStatus: comment.status,
+    });
 
-  //   return notification;
-  // }
+    return notification;
+  }
 
-  // private async createApproveCommentNotification(
-  //   tenantID: string,
-  //   type: GQLNOTIFICATION_TYPE,
-  //   targetUserID: string,
-  //   comment: Readonly<Comment>,
-  //   now: Date
-  // ) {
-  //   const notification = await createNotification(this.mongo, {
-  //     id: uuid(),
-  //     tenantID,
-  //     type,
-  //     createdAt: now,
-  //     ownerID: targetUserID,
-  //     commentID: comment.id,
-  //     commentStatus: comment.status,
-  //   });
+  private async createCommentReplyStaffNotification(
+    tenantID: string,
+    type: GQLNOTIFICATION_TYPE,
+    targetUserID: string,
+    comment: Readonly<Comment>,
+    reply: Readonly<Comment>,
+    now: Date
+  ) {
+    const notification = await createNotification(this.mongo, {
+      id: uuid(),
+      tenantID,
+      type,
+      createdAt: now,
+      ownerID: targetUserID,
+      commentID: comment.id,
+      replyID: reply.id,
+      commentStatus: comment.status,
+    });
 
-  //   return notification;
-  // }
+    return notification;
+  }
+
+  private async createCommentReplyNotification(
+    tenantID: string,
+    type: GQLNOTIFICATION_TYPE,
+    targetUserID: string,
+    comment: Readonly<Comment>,
+    reply: Readonly<Comment>,
+    now: Date,
+    previousStatus?: GQLCOMMENT_STATUS
+  ) {
+    const notification = await createNotification(this.mongo, {
+      id: uuid(),
+      tenantID,
+      type,
+      createdAt: now,
+      ownerID: targetUserID,
+      commentID: comment.id,
+      replyID: reply.id,
+      commentStatus: comment.status,
+      previousStatus,
+    });
+
+    return notification;
+  }
 
   private async createIllegalRejectionNotification(
     tenantID: string,
@@ -236,6 +446,7 @@ export class InternalNotificationContext {
         grounds: legal ? legal.grounds : undefined,
         explanation: legal ? legal.explanation : undefined,
       },
+      isDSA: true,
     });
 
     return notification;
@@ -272,6 +483,7 @@ export class InternalNotificationContext {
         grounds: legal.grounds,
         explanation: legal.explanation,
       },
+      isDSA: true,
     });
 
     return notification;

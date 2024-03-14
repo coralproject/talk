@@ -307,6 +307,10 @@ export const combineTenantDefaultsAndInput = (
       enabled: false,
     },
     protectedEmailDomains: Array.from(PROTECTED_EMAIL_DOMAINS),
+    inPageNotifications: {
+      enabled: true,
+      floatingBellIndicator: true,
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.

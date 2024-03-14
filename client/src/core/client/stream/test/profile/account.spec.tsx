@@ -39,6 +39,8 @@ async function createTestRenderer(
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("ACCOUNT", "profileTab");
+      localRecord.setValue(3000, "notificationsPollRate");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -56,7 +58,9 @@ it("renders the empty settings pane", async () => {
     await createTestRenderer();
   });
   const account = await screen.findByTestId("profile-manageAccount");
-  expect(await axe(account)).toHaveNoViolations();
+  await act(async () => {
+    expect(await axe(account)).toHaveNoViolations();
+  });
 });
 
 it("doesn't show the change password pane when local auth is disabled", async () => {
@@ -99,7 +103,9 @@ it("render password change form", async () => {
 
   const oldPassword = within(changePassword).getByLabelText("Old Password");
   const newPassword = within(changePassword).getByLabelText("New Password");
-  expect(await axe(changePassword)).toHaveNoViolations();
+  await act(async () => {
+    expect(await axe(changePassword)).toHaveNoViolations();
+  });
 
   const submitButton = within(changePassword).getByRole("button", {
     name: "Change Password",

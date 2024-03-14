@@ -536,6 +536,15 @@ configure-general-flairBadge-table-preview = Preview
 configure-general-flairBadge-table-deleteButton = <icon></icon> Delete
 configure-general-flairBadge-table-empty = No custom flair added for this site
 
+#### In-page notifications
+configure-general-inPageNotifications-title = In-page notifications
+configure-general-inPageNotifications-explanation = Add notifications to Coral. When enabled, commenters can receive
+  notifications when they receive all replies, replies only from members
+  of your team, when a Pending comment is published. Commenters can
+  disable visual notification indicators in their Profile preferences. This will remove e-mail notifications.
+configure-general-inPageNotifications-enabled = In-page notifications enabled
+configure-general-inPageNotifications-floatingBellIndicator = Floating bell indicator
+
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed comment stream message
 configure-general-closedStreamMessage-explanation = Write a message to appear when a story is closed for commenting.
@@ -883,6 +892,16 @@ configure-moderation-emailDomains-form-description-add = Add a domain and select
 configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
 configure-moderation-emailDomains-exceptions-header = Exceptions
 configure-moderation-emailDomains-exceptions-helperText = These domains cannot be banned. Domains should be written without www, for example `gmail.com`. Separate domains with a comma.
+
+configure-moderation-emailDomains-showCurrent = Show current domain list
+configure-moderation-emailDomains-hideCurrent = Hide current domain list
+configure-moderation-emailDomains-filterByStatus = 
+  .aria-label = Filter by email domain status
+configuration-moderation-emailDomains-empty = There are no email domains configured.
+
+configure-moderation-emailDomains-allDomains = All domains
+configure-moderation-emailDomains-preMod = Pre-mod
+configure-moderation-emailDomains-banned = Banned
 
 #### Pre-moderate  Email Address Configuration
 
@@ -1422,7 +1441,9 @@ community-userStatus-removePremod = Remove pre-moderate
 
 community-banModal-allSites-title = Are you sure you want to ban <username></username>?
 community-banModal-banEmailDomain-title = Email domain ban
-community-banModal-banEmailDomain = Ban all new commenter accounts from { $domain }
+community-banModal-banEmailDomain = Ban all commenter accounts from { $domain }
+community-banModal-banEmailDomain-callOut = This will prevent any commenter from using this email domain.
+community-banModal-banEmailDomain-confirmationText = Type in "{ $text }" to confirm
 community-banModal-specificSites-title = Are you sure you want to manage the ban status of <username></username>?
 community-banModal-noSites-title = Are you sure you want to unban <username></username>?
 community-banModal-allSites-consequence =

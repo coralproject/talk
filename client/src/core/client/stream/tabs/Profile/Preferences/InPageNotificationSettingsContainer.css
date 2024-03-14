@@ -1,0 +1,100 @@
+.bellIcon {
+  margin-right: var(--spacing-1);
+}
+
+.bellWrapper {
+  position: relative;
+  margin-right: var(--spacing-2);
+}
+
+.bellCounter {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--palette-primary-500);
+  color: var(--palette-text-000);
+
+  position: absolute;
+  top: -2px;
+  left: 11px;
+
+  font-size: 8px;
+
+  min-width: 8px;
+
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 2px;
+  padding-right: 2px;
+  border-radius: 12px;
+}
+
+.title {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-4);
+  line-height: 1.11;
+  margin: 0;
+
+  color: var(--palette-text-900);
+
+  padding-bottom: var(--spacing-1);
+}
+
+.header {
+  display: inline-block;
+
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
+  font-size: var(--font-size-2);
+  line-height: 1.14;
+
+  color: var(--palette-text-500);
+
+  padding-bottom: var(--spacing-1);
+
+  margin-top: var(--spacing-2) !important;
+}
+
+.disabledHeader {
+  opacity: 0.6;
+}
+
+.sendNotifications {
+  padding-top: var(--spacing-1);
+}
+
+.checkBox {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.125;
+
+  color: var(--palette-text-500);
+}
+
+.featuredCheckbox {
+  margin-bottom: var(--spacing-3) !important;
+}
+
+.showReplies {
+  margin-left: var(--spacing-2);
+}
+
+.updateButton {
+  padding-top: var(--spacing-2);
+  padding-bottom: var(--spacing-3);
+}
+
+.updateButtonNotification {
+  padding-top: var(--spacing-2);
+  padding-bottom: var(--spacing-1);
+}
+
+.callOut {
+  padding-bottom: var(--spacing-2);
+}

@@ -1,30 +1,54 @@
 .flexContainer {
   height: 100%;
+
+  padding-left: var(--spacing-3);
+  padding-right: var(--spacing-3);
 }
 
 .unmarkAllContainer {
-  flex-grow: 1;
-  border-right: 1px solid currentColor;
+}
+
+.actionButton {
+  border-radius: 8px;
+  background-color: var(--palette-primary-600);
+
+  border-style: none;
+
+  color: var(--palette-text-000);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+
+  padding: var(--spacing-1);
+  padding-right: var(--spacing-2);
+  padding-left: var(--spacing-2);
+
+  &.disabled {
+    color: var(--palette-primary-300);
+    background-color: var(--palette-primary-600);
+  }
+
+  &:hover:not(.disabled) {
+    color: var(--palette-text-000);
+    background-color: var(--palette-primary-400);
+  }
+
+  &:active:not(.disabled) {
+    color: var(--palette-text-000);
+    background-color: var(--palette-primary-400);
+  }
+}
+
+.unmarkAllIcon {
+  margin-right: var(--spacing-1);
+}
+
+.nextUnreadIcon {
+  margin-left: var(--spacing-1);
 }
 
 .nextActionContainer {
-  flex-grow: 1;
-  border-right: 1px solid currentColor;
 }
 
-.closeContainer {
-  flex-shrink: 0;
-}
-
-.button {
-  padding: 9px 16px;
-  width: 100%;
-}
-.buttonColor {}
-.buttonDisabled {}
-.button.buttonColor, .button:not(:disabled).buttonColor, .button:not(.buttonDisabled).buttonColor {
-  &:hover {
-    color: currentColor;
-  }
-  color: currentColor;
+.notificationActionContainer {
 }

@@ -1,0 +1,17 @@
+.buttons {
+  margin-left: auto;
+}
+
+.editButton {
+  padding-right: var(--spacing-2);
+}
+
+.empty {
+  color: var(--palette-text-500);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-3);
+}
+
+.textArea {
+  height: 150px;
+}
