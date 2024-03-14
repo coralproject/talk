@@ -11,7 +11,3 @@
   font-family: var(--font-family-primary);
   font-size: var(--font-size-3);
 }
-
-.textArea {
-  height: 150px;
-}
