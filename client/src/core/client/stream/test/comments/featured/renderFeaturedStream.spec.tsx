@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/common/lib/utils";
 import { GQLResolver, StoryToCommentsResolver } from "coral-framework/schema";
 import {
+  act,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -36,6 +37,8 @@ async function createTestRenderer(
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(story.id, "storyID");
+      localRecord.setValue(3000, "notificationsPollRate");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -52,5 +55,7 @@ it("renders comment stream", async () => {
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-featuredComments-log")
   );
-  expect(await within(testRenderer.root).axe()).toHaveNoViolations();
+  await act(async () => {
+    expect(await within(testRenderer.root).axe()).toHaveNoViolations();
+  });
 });

@@ -21,7 +21,11 @@ const preload = once(() =>
 
 const LazyLoadContainer = React.lazy(loadNotificationsContainer);
 
-export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
+export const render = (
+  { error, props }: QueryRenderData<QueryTypes>,
+  showUserBox: boolean,
+  showTitle: boolean
+) => {
   if (error) {
     return <QueryError error={error} />;
   }
@@ -46,12 +50,25 @@ export const render = ({ error, props }: QueryRenderData<QueryTypes>) => {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <LazyLoadContainer viewer={props.viewer} settings={props.settings} />
+      <LazyLoadContainer
+        viewer={props.viewer}
+        settings={props.settings}
+        showUserBox={showUserBox}
+        showTitle={showTitle}
+      />
     </Suspense>
   );
 };
 
-const NotificationsQuery: FunctionComponent = () => {
+interface Props {
+  showUserBox?: boolean;
+  showTitle?: boolean;
+}
+
+const NotificationsQuery: FunctionComponent<Props> = ({
+  showUserBox = true,
+  showTitle = true,
+}) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -66,7 +83,7 @@ const NotificationsQuery: FunctionComponent = () => {
       `}
       variables={{}}
       render={(data) => {
-        return render(data);
+        return render(data, showUserBox, showTitle);
       }}
     />
   );

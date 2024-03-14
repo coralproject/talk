@@ -12,6 +12,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLDIGEST_FREQUENCY,
   GQLDSA_METHOD_OF_REDRESS,
+  GQLInPageNotificationReplyType,
   GQLMODERATION_MODE,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -195,6 +196,10 @@ export const createTenantFixture = (
       allowReplies: true,
       oEmbedAllowedOrigins: [],
     },
+    inPageNotifications: {
+      enabled: true,
+      floatingBellIndicator: true,
+    },
   };
 
   return merge(fixture, defaults);
@@ -236,6 +241,15 @@ export const createUserFixture = (defaults: Defaults<User> = {}): User => {
       onModeration: false,
       onStaffReplies: false,
       digestFrequency: GQLDIGEST_FREQUENCY.NONE,
+    },
+    inPageNotifications: {
+      onReply: {
+        enabled: true,
+        showReplies: GQLInPageNotificationReplyType.ALL,
+      },
+      onFeatured: true,
+      onModeration: true,
+      enabled: true,
     },
     digests: [],
     hasDigests: false,

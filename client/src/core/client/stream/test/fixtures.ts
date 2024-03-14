@@ -5,6 +5,7 @@ import {
   GQLDIGEST_FREQUENCY,
   GQLDSA_METHOD_OF_REDRESS,
   GQLFEATURE_FLAG,
+  GQLInPageNotificationReplyType,
   GQLMODERATION_MODE,
   GQLSettings,
   GQLSite,
@@ -142,6 +143,10 @@ export const settings = createFixture<GQLSettings>({
       method: GQLDSA_METHOD_OF_REDRESS.NONE,
     },
   },
+  inPageNotifications: {
+    enabled: true,
+    floatingBellIndicator: true,
+  },
 });
 
 export const site = createFixtures<GQLSite>([
@@ -236,6 +241,12 @@ export const baseUser = createFixture<GQLUser>({
     onStaffReplies: false,
     onFeatured: false,
     digestFrequency: GQLDIGEST_FREQUENCY.NONE,
+  },
+  inPageNotifications: {
+    onReply: { enabled: true, showReplies: GQLInPageNotificationReplyType.ALL },
+    onModeration: true,
+    onFeatured: true,
+    enabled: true,
   },
   ignoreable: true,
   profiles: [

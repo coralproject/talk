@@ -18,6 +18,11 @@ type Payloads =
 export const reply: NotificationCategory<Payloads> = {
   name: "reply",
   process: async (ctx, input) => {
+    // Don't send email notification if in-page notifications enabled
+    if (ctx.tenant?.inPageNotifications?.enabled) {
+      return null;
+    }
+
     const comment = await ctx.comments.load(input.data.commentID);
     if (!comment || !hasPublishedStatus(comment)) {
       return null;
