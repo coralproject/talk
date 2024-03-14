@@ -720,6 +720,10 @@ it("deletes email domains from configuration", async () => {
   const emailDomainConfig = within(moderationContainer).getByTestId(
     "emailDomain-container"
   );
+  const showCurrent = within(moderationContainer).getByRole("button", {
+    name: "Show current domain list",
+  });
+  userEvent.click(showCurrent);
   const deleteDomainButton = within(emailDomainConfig).getByTestId(
     "domain-delete-1a60424a-c116-483a-b315-837a7fd5b496"
   );

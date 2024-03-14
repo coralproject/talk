@@ -891,6 +891,16 @@ configure-moderation-emailDomains-confirmDelete = Deleting this email domain wil
 configure-moderation-emailDomains-form-description-add = Add a domain and select the action that should be taken when on every new account created using the specified domain.
 configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
 
+configure-moderation-emailDomains-showCurrent = Show current domain list
+configure-moderation-emailDomains-hideCurrent = Hide current domain list
+configure-moderation-emailDomains-filterByStatus = 
+  .aria-label = Filter by email domain status
+configuration-moderation-emailDomains-empty = There are no email domains configured.
+
+configure-moderation-emailDomains-allDomains = All domains
+configure-moderation-emailDomains-preMod = Pre-mod
+configure-moderation-emailDomains-banned = Banned
+
 #### Pre-moderate  Email Address Configuration
 
 configure-moderation-premoderateEmailAddress-title = Email address

@@ -1,62 +1,24 @@
 import { Localized } from "@fluent/react/compat";
-import { useRouter } from "found";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { graphql } from "relay-runtime";
 
-import { urls } from "coral-framework/helpers";
-import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { getMessage } from "coral-framework/lib/i18n";
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import {
-  AddIcon,
-  BinIcon,
-  ButtonSvgIcon,
-  PencilIcon,
-} from "coral-ui/components/icons";
-import {
-  Button,
-  Flex,
-  FormFieldDescription,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "coral-ui/components/v2";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { AddIcon, ButtonSvgIcon } from "coral-ui/components/icons";
+import { Button, Flex, FormFieldDescription } from "coral-ui/components/v2";
 
 import { EmailDomainConfigContainer_settings } from "coral-admin/__generated__/EmailDomainConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
-import DeleteEmailDomainMutation from "../EmailDomains/DeleteEmailDomainMutation";
 
-import styles from "./EmailDomainConfigContainer.css";
+import EmailDomainTableContainer from "./EmailDomainTableContainer";
 
 interface Props {
   settings: EmailDomainConfigContainer_settings;
 }
 
 const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
-  const { emailDomainModeration } = settings;
-  const { localeBundles } = useCoralContext();
-  const { router } = useRouter();
-  const deleteEmailDomain = useMutation(DeleteEmailDomainMutation);
-
-  const onDelete = useCallback(
-    async (domainId: string) => {
-      const message = getMessage(
-        localeBundles,
-        "configure-moderation-emailDomains-confirmDelete",
-        "Deleting this email domain will stop any new accounts created with it from being banned or always pre-moderated. Are you sure you want to continue?"
-      );
-
-      // eslint-disable-next-line no-restricted-globals
-      if (window.confirm(message)) {
-        await deleteEmailDomain({ id: domainId });
-      }
-    },
-    [router]
-  );
+  const [showDomainList, setShowDomainList] = useState(false);
 
   return (
     <ConfigBox
@@ -83,82 +45,22 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
           Add domain
         </Button>
       </Localized>
-      {emailDomainModeration.length > 0 && (
-        <Table
-          fullWidth
-          data-testid="configuration-moderation-emailDomains-table"
-        >
-          <TableHead>
-            <TableRow>
-              <Localized id="configure-moderation-emailDomains-table-domain">
-                <TableCell>Domain</TableCell>
-              </Localized>
-              <Localized id="configure-moderation-emailDomains-table-action">
-                <TableCell>Action</TableCell>
-              </Localized>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {emailDomainModeration.map((domain) => {
-              const actionDetails =
-                domain.newUserModeration === "BAN"
-                  ? {
-                      id: "configure-moderation-emailDomains-banAllUsers",
-                      message: "Ban all new commenter accounts",
-                    }
-                  : {
-                      id: "configure-moderation-emailDomains-alwaysPremod",
-                      message: "Always pre-moderate comments",
-                    };
-              const actionText = getMessage(
-                localeBundles,
-                actionDetails.id,
-                actionDetails.message
-              );
-              return (
-                <TableRow key={domain.id}>
-                  <TableCell>{domain.domain}</TableCell>
-                  <TableCell>
-                    <Flex>
-                      {actionText}
-                      <Flex className={styles.buttons}>
-                        <Localized
-                          id="configure-moderation-emailDomains-table-edit"
-                          elems={{ icon: <ButtonSvgIcon Icon={PencilIcon} /> }}
-                        >
-                          <Button
-                            variant="text"
-                            iconLeft
-                            to={`${urls.admin.configureModeration}/domains/${domain.id}`}
-                            className={styles.editButton}
-                          >
-                            Edit
-                          </Button>
-                        </Localized>
-                        <Localized
-                          id="configure-moderation-emailDomains-table-delete"
-                          elems={{
-                            icon: <ButtonSvgIcon Icon={BinIcon} />,
-                          }}
-                        >
-                          <Button
-                            variant="text"
-                            iconLeft
-                            onClick={() => onDelete(domain.id)}
-                            data-testid={`domain-delete-${domain.id}`}
-                          >
-                            Delete
-                          </Button>
-                        </Localized>
-                      </Flex>
-                    </Flex>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      )}
+      <Flex>
+        {!showDomainList ? (
+          <Localized id="configure-moderation-emailDomains-showCurrent">
+            <Button variant="text" onClick={() => setShowDomainList(true)}>
+              Show current domain list
+            </Button>
+          </Localized>
+        ) : (
+          <Localized id="configure-moderation-emailDomains-hideCurrent">
+            <Button variant="text" onClick={() => setShowDomainList(false)}>
+              Hide current domain list
+            </Button>
+          </Localized>
+        )}
+      </Flex>
+      {showDomainList && <EmailDomainTableContainer settings={settings} />}
     </ConfigBox>
   );
 };
@@ -166,11 +68,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({ settings }) => {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment EmailDomainConfigContainer_settings on Settings {
-      emailDomainModeration {
-        domain
-        id
-        newUserModeration
-      }
+      ...EmailDomainTableContainer_settings
     }
   `,
 })(EmailDomainConfigContainer);
