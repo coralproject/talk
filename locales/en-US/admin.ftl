@@ -872,7 +872,7 @@ configure-moderation-newCommenters-comments = comments
 
 #### Email domain
 configure-moderation-emailDomains-header = Email domain
-configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain. Action only applies to newly created accounts.
+configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain.
 configure-moderation-emailDomains-add = Add email domain
 configure-moderation-emailDomains-edit = Edit email domain
 configure-moderation-emailDomains-addDomain = <icon></icon> Add domain
@@ -890,6 +890,8 @@ configure-moderation-emailDomains-form-editDomain = Update
 configure-moderation-emailDomains-confirmDelete = Deleting this email domain will stop any new accounts created with it from being banned or always pre-moderated. Are you sure you want to continue?
 configure-moderation-emailDomains-form-description-add = Add a domain and select the action that should be taken when on every new account created using the specified domain.
 configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
+configure-moderation-emailDomains-exceptions-header = Exceptions
+configure-moderation-emailDomains-exceptions-helperText = These domains cannot be banned. Domains should be written without www, for example `gmail.com`. Separate domains with a comma.
 
 configure-moderation-emailDomains-showCurrent = Show current domain list
 configure-moderation-emailDomains-hideCurrent = Hide current domain list

@@ -2,7 +2,6 @@ import { createEmailDomain } from "./tenant";
 jest.mock("coral-server/models/user");
 jest.mock("coral-server/models/site");
 
-import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import { UserForbiddenError } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import {
@@ -67,7 +66,7 @@ it("does not create domain bans for protected domains", async () => {
     tenantID: tenant.id,
     role: GQLUSER_ROLE.ADMIN,
   });
-  const protectedDomain = PROTECTED_EMAIL_DOMAINS.values().next().value;
+  const protectedDomain = "gmail.com";
   await expect(async () =>
     createEmailDomain(mockMongo, mockRedis, mockTenantCache, tenant, viewer, {
       domain: protectedDomain,

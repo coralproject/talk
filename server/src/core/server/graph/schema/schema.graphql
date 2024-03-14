@@ -2325,6 +2325,12 @@ type Settings @cacheControl(maxAge: 30) {
   emailDomainModeration: [EmailDomain!]!
 
   """
+  protectedEmailDomains is the configuration for email domains that are protected from email
+  domain moderation rules such as all accounts banned
+  """
+  protectedEmailDomains: [String!]!
+
+  """
   externalProfileURL is a string template for a link to a user's
   external profile.
   """
@@ -6727,6 +6733,12 @@ input SettingsInput {
   addresses at sign up and premoderating them according to various rules.
   """
   premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
+
+  """
+  protectedEmailDomains is the configuration for email domains that are protected from email
+  domain moderation rules such as all accounts banned
+  """
+  protectedEmailDomains: [String!]
 
   """
   inPageNotifications specifies the configuration for in-page notifications

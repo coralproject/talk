@@ -11,7 +11,6 @@ import { Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import { extractDomain } from "coral-common/common/lib/email";
 import {
   isOrgModerator,
@@ -77,6 +76,7 @@ interface Props {
   emailDomainModeration: UserStatusChangeContainer_settings["emailDomainModeration"];
   userRole: string;
   isMultisite: boolean;
+  protectedEmailDomains: ReadonlyArray<string>;
 }
 
 interface BanButtonProps {
@@ -141,6 +141,7 @@ const BanModal: FunctionComponent<Props> = ({
   userBanStatus,
   userRole,
   isMultisite,
+  protectedEmailDomains,
 }) => {
   const createDomainBan = useMutation(BanDomainMutation);
   const banUser = useMutation(BanUserMutation);
@@ -233,7 +234,7 @@ const BanModal: FunctionComponent<Props> = ({
     updateType !== UpdateType.NO_SITES &&
     emailDomain &&
     !domainIsConfigured &&
-    !PROTECTED_EMAIL_DOMAINS.has(emailDomain);
+    !protectedEmailDomains.includes(emailDomain);
 
   useEffect(() => {
     if (viewerIsSingleSiteMod) {

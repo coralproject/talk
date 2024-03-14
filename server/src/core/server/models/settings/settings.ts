@@ -443,6 +443,12 @@ export type Settings = GlobalModerationSettings &
     topCommenter?: TopCommenterConfig;
 
     /**
+     * protectedEmailDomains is the configuration for email domains that are protected from email
+     * domain moderation rules such as all accounts banned
+     */
+    protectedEmailDomains: string[];
+
+    /**
      * inPageNotifications specifies whether or not in-page notifications are enabled
      * as an option for commenters
      */
