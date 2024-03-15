@@ -28,7 +28,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay:stream", {
+      executor: new CommandExecutor("pnpm run --silent generate:relay:stream", {
         runOnInit: true,
       }),
     },
@@ -45,7 +45,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run generate:relay:account", {
+      executor: new CommandExecutor("pnpm run generate:relay:account", {
         runOnInit: true,
       }),
     },
@@ -62,7 +62,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay:admin", {
+      executor: new CommandExecutor("pnpm run --silent generate:relay:admin", {
         runOnInit: true,
       }),
     },
@@ -79,7 +79,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay:auth", {
+      executor: new CommandExecutor("pnpm run --silent generate:relay:auth", {
         runOnInit: true,
       }),
     },
@@ -96,20 +96,23 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay:install", {
-        runOnInit: true,
-      }),
+      executor: new CommandExecutor(
+        "pnpm run --silent generate:relay:install",
+        {
+          runOnInit: true,
+        }
+      ),
     },
     generateCSSTypes: {
       paths: ["**/*.css"],
-      executor: new CommandExecutor("npm run --silent generate:css-types", {
+      executor: new CommandExecutor("pnpm run --silent generate:css-types", {
         runOnInit: true,
       }),
     },
     runWebpackDevServer: {
       paths: [],
       executor: new LongRunningExecutor(
-        "npm run --silent start:webpackDevServer"
+        "pnpm run --silent start:webpackDevServer"
       ),
     },
     // runDocz: {

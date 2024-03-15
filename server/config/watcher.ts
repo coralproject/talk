@@ -28,7 +28,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay:stream", {
+      executor: new CommandExecutor("pnpm run --silent generate:relay:stream", {
         runOnInit: true,
       }),
     },
@@ -45,7 +45,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run generate:relay:account", {
+      executor: new CommandExecutor("pnpm run generate:relay:account", {
         runOnInit: true,
       }),
     },
@@ -62,7 +62,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay:admin", {
+      executor: new CommandExecutor("pnpm run --silent generate:relay:admin", {
         runOnInit: true,
       }),
     },
@@ -79,7 +79,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay:auth", {
+      executor: new CommandExecutor("pnpm run --silent generate:relay:auth", {
         runOnInit: true,
       }),
     },
@@ -96,47 +96,50 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run --silent generate:relay:install", {
-        runOnInit: true,
-      }),
+      executor: new CommandExecutor(
+        "pnpm run --silent generate:relay:install",
+        {
+          runOnInit: true,
+        }
+      ),
     },
     generateCSSTypes: {
       paths: ["**/*.css"],
-      executor: new CommandExecutor("npm run --silent generate:css-types", {
+      executor: new CommandExecutor("pnpm run --silent generate:css-types", {
         runOnInit: true,
       }),
     },
     runServer: {
       paths: ["../../locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
-      executor: new LongRunningExecutor("npm run --silent start:development"),
+      executor: new LongRunningExecutor("pnpm run --silent start:development"),
     },
     runServerWithWebpackDevServerSupport: {
       paths: ["../../locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
       executor: new LongRunningExecutor(
-        "WEBPACK_DEV_SERVER=true npm run --silent start:development"
+        "WEBPACK_DEV_SERVER=true pnpm run --silent start:development"
       ),
     },
     runServerLint: {
       paths: ["core/**/*.ts"],
       ignore: ["core/client/**/*"],
-      executor: new LongRunningExecutor("npm run --silent lint:server"),
+      executor: new LongRunningExecutor("pnpm run --silent lint:server"),
     },
     runServerSyntaxCheck: {
       paths: ["core/**/*.ts"],
       ignore: ["core/client/**/*"],
-      executor: new LongRunningExecutor("npm run --silent tscheck:server"),
+      executor: new LongRunningExecutor("pnpm run --silent tscheck:server"),
     },
     runWebpackDevServer: {
       paths: [],
       executor: new LongRunningExecutor(
-        "npm run --silent start:webpackDevServer"
+        "pnpm run --silent start:webpackDevServer"
       ),
     },
     runDocz: {
       paths: [],
-      executor: new LongRunningExecutor("npm run --silent docz -- dev"),
+      executor: new LongRunningExecutor("pnpm run --silent docz -- dev"),
     },
   },
   defaultSet: "client",
