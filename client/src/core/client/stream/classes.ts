@@ -375,6 +375,17 @@ const CLASSES = {
         "coral coral-topCommenter-star-tooltip-details",
 
       /**
+       * newCommenter is the plant icon shown beside a commenter's username if the New commenter
+       * feature is enabled and it is a new commenter. This also includes the tooltip that explains the
+       * new commenter plant icon.
+       */
+      newCommenter: {
+        plant: "coral coral-newCommenter-plant",
+        tooltip: "coral coral-newCommenter-plant-tooltip",
+        tooltipDetails: "coral coral-newCommenter-plant-tooltip-details",
+      },
+
+      /**
        * timestamp is the text that contains the time since the comment was
        * published.
        */

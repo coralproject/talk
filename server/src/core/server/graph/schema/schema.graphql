@@ -1744,6 +1744,10 @@ type TopCommenterConfiguration {
   enabled: Boolean
 }
 
+type NewCommenterConfiguration {
+  enabled: Boolean
+}
+
 """
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
@@ -2223,6 +2227,12 @@ type Settings @cacheControl(maxAge: 30) {
   with comments featured within the last 10 days are top commenters
   """
   topCommenter: TopCommenterConfiguration
+
+  """
+  newCommenter specifies whether or not the feature is enabled to show that commenters
+  are new and have joined within the last seven days.
+  """
+  newCommenter: NewCommenterConfiguration
 
   """
   staff specifies the configuration for the user badges assigned to users with
@@ -3431,6 +3441,11 @@ type User {
   last 10 days or not
   """
   featuredCommenter: Boolean
+
+  """
+  newCommenter is whether a user has joined within the last seven days.
+  """
+  newCommenter: Boolean
 }
 
 """
@@ -6225,6 +6240,14 @@ input TopCommenterConfigurationInput {
 }
 
 """
+newCommenter specifies whether or not the feature is enabled to show that commenters
+are new and have joined within the last seven days.
+"""
+input NewCommenterConfigurationInput {
+  enabled: Boolean
+}
+
+"""
 BadgeConfigurationInput specifies the configuration for the staff badges
 assigned to users with any role above COMMENTER.
 """
@@ -6631,6 +6654,12 @@ input SettingsInput {
   with comments featured within the last 10 days are top commenters
   """
   topCommenter: TopCommenterConfigurationInput
+
+  """
+  newCommenter specifies whether or not the feature is enabled to show that commenters
+  are new and have joined within the last seven days.
+  """
+  newCommenter: NewCommenterConfigurationInput
 
   """
   badges specifies the configuration for user badges assigned to users with

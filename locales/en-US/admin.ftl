@@ -1219,6 +1219,8 @@ moderate-user-drawer-account-history-premod-removed = Removed pre-moderate
 moderate-user-drawer-account-history-modMessage-sent = User messaged
 moderate-user-drawer-account-history-modMessage-acknowledged = Message acknowledged at { $acknowledgedAt }
 
+moderate-user-drawer-newCommenter = New commenter
+
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
     [second] { $value ->
@@ -1661,6 +1663,10 @@ configure-general-reactions-sort-input =
   .placeholder = E.g. Most Respected
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
+
+configure-general-newCommenter-title = New commenter
+configure-general-newCommenter-explanation = Add <icon></icon> badge to commenters who created their accounts in the past seven days.
+configure-general-newCommenter-enabled = New commenter
 
 configure-general-badges-title = Member badges
 configure-general-badges-explanation =

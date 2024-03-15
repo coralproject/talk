@@ -61,6 +61,7 @@ export { default as NavigationMenuVerticalIcon } from "./NavigationMenuVerticalI
 export { default as NotificationBellIcon } from "./NotificationBellIcon";
 export { default as PaperWriteIcon } from "./PaperWriteIcon";
 export { default as PencilIcon } from "./PencilIcon";
+export { default as PlantIcon } from "./PlantIcon";
 export { default as QuestionCircleIcon } from "./QuestionCircleIcon";
 export { default as QuestionHelpMessageIcon } from "./QuestionHelpMessageIcon";
 export { default as RatingHalfStarIcon } from "./RatingHalfStarIcon";

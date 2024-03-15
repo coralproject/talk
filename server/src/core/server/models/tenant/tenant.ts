@@ -306,6 +306,9 @@ export const combineTenantDefaultsAndInput = (
     topCommenter: {
       enabled: false,
     },
+    newCommenter: {
+      enabled: false,
+    },
     protectedEmailDomains: Array.from(PROTECTED_EMAIL_DOMAINS),
     inPageNotifications: {
       enabled: true,

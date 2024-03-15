@@ -314,6 +314,9 @@ export interface TopCommenterConfig {
   enabled?: boolean;
 }
 
+export interface NewCommenterConfig {
+  enabled?: boolean;
+}
 export interface InPageNotificationsConfig {
   enabled?: boolean;
   floatingBellIndicator?: boolean;
@@ -441,6 +444,8 @@ export type Settings = GlobalModerationSettings &
      * with comments featured within the last 10 days are top commenters
      */
     topCommenter?: TopCommenterConfig;
+
+    newCommenter?: NewCommenterConfig;
 
     /**
      * protectedEmailDomains is the configuration for email domains that are protected from email

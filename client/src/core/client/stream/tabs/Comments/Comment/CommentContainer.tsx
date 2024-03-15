@@ -543,6 +543,8 @@ export const CommentContainer: FunctionComponent<Props> = ({
           parent={comment.parent}
           featuredCommenter={comment.author?.featuredCommenter}
           topCommenterEnabled={settings.topCommenter?.enabled}
+          newCommenter={comment.author?.newCommenter}
+          newCommenterEnabled={settings.newCommenter?.enabled}
           staticUsername={
             comment.author && (
               <Flex direction="row" alignItems="center" wrap>
@@ -864,6 +866,7 @@ const enhanced = withShowAuthPopupMutation(
           avatar
           badges
           featuredCommenter
+          newCommenter
         }
         parent {
           id
@@ -918,6 +921,9 @@ const enhanced = withShowAuthPopupMutation(
           enabled
         }
         topCommenter {
+          enabled
+        }
+        newCommenter {
           enabled
         }
         featureFlags
