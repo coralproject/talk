@@ -8,8 +8,8 @@ FAST_LINT=true
 
 cd server
 
-npm run precommit
+npx pnpm run precommit
 
 cd ../client
 
-npm run precommit
+npx pnpm run precommit
