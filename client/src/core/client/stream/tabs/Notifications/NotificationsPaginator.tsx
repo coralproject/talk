@@ -22,7 +22,6 @@ import {
 import CLASSES from "coral-stream/classes";
 import Spinner from "coral-stream/common/Spinner";
 import { ViewNotificationsFeedEvent } from "coral-stream/events";
-import { Flex } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { GQLDSA_METHOD_OF_REDRESS } from "coral-common/client/src/core/client/framework/schema/__generated__/types";
@@ -107,6 +106,8 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
         // filter out Rejected comments and deleted comments
         return (
           n.node.commentReply?.status !== GQLCOMMENT_STATUS.REJECTED &&
+          n.node.commentReply?.status !== GQLCOMMENT_STATUS.PREMOD &&
+          n.node.commentReply?.status !== GQLCOMMENT_STATUS.SYSTEM_WITHHELD &&
           !n.node.commentReply?.deleted
         );
       }
@@ -198,7 +199,7 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
           ),
         }}
       >
-        <Flex className={styles.adjustPreferences}>
+        <div className={styles.adjustPreferences}>
           <span>Adjust notification settings in My Profile &gt; </span>
           <Button
             className={styles.preferencesButton}
@@ -208,7 +209,7 @@ const NotificationsPaginator: FunctionComponent<Props> = (props) => {
             {" "}
             Preferences.
           </Button>
-        </Flex>
+        </div>
       </Localized>
       <div>
         {hasNewNotifications && (

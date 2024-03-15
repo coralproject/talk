@@ -2,7 +2,10 @@ import { isEmpty } from "lodash";
 import { DateTime } from "luxon";
 import { v4 as uuid } from "uuid";
 
-import { DEFAULT_SESSION_DURATION } from "coral-common/common/lib/constants";
+import {
+  DEFAULT_SESSION_DURATION,
+  PROTECTED_EMAIL_DOMAINS,
+} from "coral-common/common/lib/constants";
 import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
 import TIME from "coral-common/common/lib/time";
 import { DeepPartial, Sub } from "coral-common/common/lib/types";
@@ -306,6 +309,7 @@ export const combineTenantDefaultsAndInput = (
     newCommenter: {
       enabled: false,
     },
+    protectedEmailDomains: Array.from(PROTECTED_EMAIL_DOMAINS),
     inPageNotifications: {
       enabled: true,
       floatingBellIndicator: true,

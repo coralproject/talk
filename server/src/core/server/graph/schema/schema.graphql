@@ -2335,6 +2335,12 @@ type Settings @cacheControl(maxAge: 30) {
   emailDomainModeration: [EmailDomain!]!
 
   """
+  protectedEmailDomains is the configuration for email domains that are protected from email
+  domain moderation rules such as all accounts banned
+  """
+  protectedEmailDomains: [String!]!
+
+  """
   externalProfileURL is a string template for a link to a user's
   external profile.
   """
@@ -6758,6 +6764,12 @@ input SettingsInput {
   premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
 
   """
+  protectedEmailDomains is the configuration for email domains that are protected from email
+  domain moderation rules such as all accounts banned
+  """
+  protectedEmailDomains: [String!]
+
+  """
   inPageNotifications specifies the configuration for in-page notifications
   """
   inPageNotifications: InPageNotificationsConfigurationInput
@@ -10421,7 +10433,7 @@ type Mutation {
   """
   createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload!
     @auth
-    @rate(seconds: 3)
+    @rate(max: 2, seconds: 3)
 
   """
   featureComment will mark a given Comment as featured.

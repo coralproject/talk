@@ -239,6 +239,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
           emailDomainModeration={settings.emailDomainModeration}
           userBanStatus={user.status.ban}
           userRole={user.role}
+          protectedEmailDomains={settings.protectedEmailDomains}
         />
       )}
     </>
@@ -286,6 +287,7 @@ const enhanced = withFragmentContainer<Props>({
         newUserModeration
       }
       multisite
+      protectedEmailDomains
     }
   `,
   viewer: graphql`
