@@ -7,46 +7,43 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { UpdateNotificationSettingsEvent } from "coral-stream/events";
+import { UpdateInPageNotificationSettingsEvent } from "coral-stream/events";
 
-import { UpdateNotificationSettingsMutation as MutationTypes } from "coral-stream/__generated__/UpdateNotificationSettingsMutation.graphql";
+import { UpdateInPageNotificationSettingsMutation as MutationTypes } from "coral-stream/__generated__/UpdateInPageNotificationSettingsMutation.graphql";
 
 let clientMutationId = 0;
 
-const UpdateNotificationSettingsMutation = createMutation(
-  "updateNotificationSettings",
+const UpdateInPageNotificationSettingsMutation = createMutation(
+  "updateInPageNotificationSettings",
   async (
     environment: Environment,
     input: MutationInput<MutationTypes>,
     { eventEmitter }: CoralContext
   ) => {
-    const updateNofitificationSettings = UpdateNotificationSettingsEvent.begin(
-      eventEmitter,
-      {
-        digestFrequency: input.digestFrequency,
+    const updateInPageNotificationSettings =
+      UpdateInPageNotificationSettingsEvent.begin(eventEmitter, {
         onFeatured: input.onFeatured,
         onModeration: input.onModeration,
-        onStaffReplies: input.onStaffReplies,
-        onReply: input.onReply,
-      }
-    );
+      });
     try {
       const result = await commitMutationPromiseNormalized<MutationTypes>(
         environment,
         {
           mutation: graphql`
-            mutation UpdateNotificationSettingsMutation(
-              $input: UpdateNotificationSettingsInput!
+            mutation UpdateInPageNotificationSettingsMutation(
+              $input: UpdateInPageNotificationSettingsInput!
             ) {
-              updateNotificationSettings(input: $input) {
+              updateInPageNotificationSettings(input: $input) {
                 user {
                   id
-                  notifications {
-                    onReply
+                  inPageNotifications {
+                    onReply {
+                      enabled
+                      showReplies
+                    }
                     onFeatured
-                    onStaffReplies
                     onModeration
-                    digestFrequency
+                    enabled
                   }
                 }
                 clientMutationId
@@ -55,16 +52,19 @@ const UpdateNotificationSettingsMutation = createMutation(
           `,
           variables: {
             input: {
-              ...input,
+              onReply: input.onReply,
+              onFeatured: input.onFeatured,
+              onModeration: input.onModeration,
+              enabled: input.enabled,
               clientMutationId: (clientMutationId++).toString(),
             },
           },
         }
       );
-      updateNofitificationSettings.success();
+      updateInPageNotificationSettings.success();
       return result;
     } catch (error) {
-      updateNofitificationSettings.error({
+      updateInPageNotificationSettings.error({
         message: error.message,
         code: error.code,
       });
@@ -73,4 +73,4 @@ const UpdateNotificationSettingsMutation = createMutation(
   }
 );
 
-export default UpdateNotificationSettingsMutation;
+export default UpdateInPageNotificationSettingsMutation;

@@ -51,7 +51,7 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
       <RecentCommentHistoryConfig disabled={submitting} />
       <ExternalLinksConfigContainer disabled={submitting} settings={settings} />
       <PremoderateEmailAddressConfig disabled={submitting} />
-      <EmailDomainConfigContainer settings={settings} />
+      <EmailDomainConfigContainer disabled={submitting} settings={settings} />
     </HorizontalGutter>
   );
 };
@@ -67,6 +67,7 @@ const enhanced = withFragmentContainer<Props>({
       ...NewCommentersConfigContainer_formValues @relay(mask: false)
       ...NewCommentersConfigContainer_settings
       ...EmailDomainConfigContainer_settings
+      ...EmailDomainConfigContainer_formValues @relay(mask: false)
       ...ExternalLinksConfigContainer_formValues @relay(mask: false)
       ...ExternalLinksConfigContainer_settings
       ...PremoderateEmailAddressConfig_formValues @relay(mask: false)

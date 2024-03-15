@@ -6,6 +6,24 @@ The goal of this document is to date-mark the indexes you add to support the cha
 
 If you are releasing, you can use this readme to check all the indexes prior to the release you are deploying and have a good idea of what indexes you might need to deploy to Mongo along with your release of a new Coral Docker image to kubernetes.
 
+## 2024-03-07
+
+```
+db.notifications.createIndex({ tenantID: 1, replyID: 1 });
+```
+
+- This index speeds up the retrieval of notifications by replyID, which is used to determine whether to decrement/increment notification counts if a comment is rejected/approved in moderation.
+
+## 2024-02-02
+
+```
+db.notifications.createIndex({ createdAt: 1 }, { partialFilterExpression: { isDSA: { $eq: null } }, expireAfterSeconds: 30 * 24 * 60 * 60 });
+```
+
+- This creates a TTL on non-DSA marked notifications that will delete them after 30 days
+  - The `partialFilterExpression` finds any notifications that aren't marked as `isDSA` so we don't delete important DSA notifications
+  - You can modify the expiry time by changing `expireAfterSeconds`
+
 ## 2023-11-24
 
 ```

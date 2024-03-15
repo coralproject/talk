@@ -12,12 +12,21 @@
   padding: var(--spacing-2);
 }
 
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .seen {
   border-left-color: var(--palette-background-body);
 }
 
 .notSeen {
   border-left-color: var(--palette-primary-500);
+}
+
+.badges {
+  margin-left: var(--spacing-1);
 }
 
 .title {

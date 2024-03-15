@@ -32,6 +32,8 @@ async function createTestRenderer(
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("ACCOUNT", "profileTab");
+      localRecord.setValue(3000, "notificationsPollRate");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -100,7 +102,9 @@ describe("delete account steps", () => {
       userEvent.click(nextButton);
     }
 
-    expect(await axe(modal)).toHaveNoViolations();
+    await act(async () => {
+      expect(await axe(modal)).toHaveNoViolations();
+    });
     const confirm = within(modal).getByTestId("confirm-page-confirmation");
     const password = within(modal).getByTestId("password-field");
     const submitButton = within(modal).getByRole("button", {

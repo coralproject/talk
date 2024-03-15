@@ -1,3 +1,4 @@
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import {
   defaultDSAConfiguration,
   defaultRTEConfiguration,
@@ -79,4 +80,10 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     return flairBadges;
   },
   dsa: ({ dsa = defaultDSAConfiguration }) => dsa,
+  protectedEmailDomains: ({
+    protectedEmailDomains = Array.from(PROTECTED_EMAIL_DOMAINS),
+  }) => protectedEmailDomains,
+  inPageNotifications: ({
+    inPageNotifications = { enabled: true, floatingBellIndicator: true },
+  }) => inPageNotifications,
 };
