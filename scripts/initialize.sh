@@ -21,6 +21,10 @@ else
   brew install watchman
 fi
 
+echo "installing correct pnpm version globally (needed for git hooks)"
+nvm i v18.16.0
+npm install -g pnpm@8.14.3
+
 # set working directory here within `scripts`
 cd "$(dirname "$0")"
 
