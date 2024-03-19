@@ -81,12 +81,8 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
       })
   );
 
-  return forwardRef ? (
+  return (
     <ul className={rootClassName} role="tablist" ref={forwardRef}>
-      {tabs}
-    </ul>
-  ) : (
-    <ul className={rootClassName} role="tablist">
       {tabs}
     </ul>
   );
