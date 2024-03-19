@@ -29,3 +29,7 @@ $moderateCardTabSecondaryColor: var(--palette-divider);
 .streamPrimary {
   border-bottom: 1px solid $moderateCardTabPrimaryColor;
 }
+
+.notifications {
+  border-bottom: 1px solid $moderateCardTabPrimaryColor;
+}

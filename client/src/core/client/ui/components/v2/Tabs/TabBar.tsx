@@ -61,6 +61,7 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
         [classes.secondary]: variant === "secondary",
         [classes.streamSecondary]: variant === "streamSecondary",
         [classes.streamPrimary]: variant === "streamPrimary",
+        [classes.notifications]: variant === "notifications",
         [classes.default]: variant === "default",
       },
     ],
