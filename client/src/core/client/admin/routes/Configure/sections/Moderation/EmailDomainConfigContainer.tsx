@@ -95,7 +95,8 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
         <Localized id="configure-moderation-emailDomains-exceptions-helperText">
           <HelperText>
             These domains cannot be banned. Domains should be written without
-            www, for example `gmail.com`. Separate domains with a comma.
+            www, for example "gmail.com". Separate domains with a comma and a
+            space.
           </HelperText>
         </Localized>
         <Field

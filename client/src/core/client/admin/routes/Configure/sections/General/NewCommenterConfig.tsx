@@ -31,7 +31,7 @@ const NewCommenterConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-general-newCommenter-title">
-        <Header container="h2">New commenter</Header>
+        <Header container="h2">New commenter badge</Header>
       </Localized>
     }
   >
@@ -48,7 +48,7 @@ const NewCommenterConfig: FunctionComponent<Props> = ({ disabled }) => (
     </FormFieldDescription>
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-newCommenter-enabled">
-        <Label component="legend">New commenter</Label>
+        <Label component="legend">Enable new commenter badges</Label>
       </Localized>
       <OnOffField name="newCommenter.enabled" disabled={disabled} />
     </FormField>

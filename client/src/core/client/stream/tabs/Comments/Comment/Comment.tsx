@@ -106,7 +106,10 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
                       data-testid="new-user-badge"
                     >
                       <ButtonSvgIcon
-                        className={CLASSES.comment.topBar.newCommenter.plant}
+                        className={cn(
+                          CLASSES.comment.topBar.newCommenter.plant,
+                          styles.plantIcon
+                        )}
                         Icon={PlantIcon}
                         filled="currentColor"
                       />
