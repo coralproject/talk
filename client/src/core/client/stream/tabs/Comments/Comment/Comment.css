@@ -66,3 +66,7 @@ $commentTimestampColor: var(--palette-grey-500);
 .innerTopBar {
   min-height: 25px;
 }
+
+.plantIcon {
+  margin-left: -5px !important;
+}
