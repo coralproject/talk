@@ -560,7 +560,7 @@ const BanModal: FunctionComponent<Props> = ({
                         <Localized id="community-banModal-banEmailDomain-callOut">
                           <span>
                             This will prevent any commenter from using this
-                            email domain.
+                            email domain
                           </span>
                         </Localized>
                       </CallOut>

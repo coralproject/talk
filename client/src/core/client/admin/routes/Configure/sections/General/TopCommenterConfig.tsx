@@ -30,7 +30,7 @@ const TopCommenterConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBox
     title={
       <Localized id="configure-general-topCommenter-title">
-        <Header container="h2">Top commenter</Header>
+        <Header container="h2">Top commenter badge</Header>
       </Localized>
     }
   >
@@ -42,7 +42,7 @@ const TopCommenterConfig: FunctionComponent<Props> = ({ disabled }) => (
     </Localized>
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-topCommenter-enabled">
-        <Label component="legend">Top commenter</Label>
+        <Label component="legend">Enable top commenter badges</Label>
       </Localized>
       <OnOffField name="topCommenter.enabled" disabled={disabled} />
     </FormField>

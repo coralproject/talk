@@ -22,7 +22,8 @@ export interface TabBarProps {
     | "secondary"
     | "default"
     | "streamSecondary"
-    | "streamPrimary";
+    | "streamPrimary"
+    | "notifications";
   /**
    * Active tab id/name
    */
@@ -60,6 +61,7 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
         [classes.secondary]: variant === "secondary",
         [classes.streamSecondary]: variant === "streamSecondary",
         [classes.streamPrimary]: variant === "streamPrimary",
+        [classes.notifications]: variant === "notifications",
         [classes.default]: variant === "default",
       },
     ],
@@ -74,7 +76,7 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
           defaultActiveTab && !activeTab
             ? child.props.tabID === defaultActiveTab
             : child.props.tabID === activeTab,
-        variant: child.props.variant,
+        variant: child.props.variant ? child.props.variant : variant,
         float: child.props.float,
         onTabClick,
       })
