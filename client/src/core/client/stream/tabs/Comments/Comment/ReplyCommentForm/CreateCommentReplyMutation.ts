@@ -364,6 +364,7 @@ async function commit(
                   ignoreable: false,
                   avatar: viewer.avatar,
                   featuredCommenter: viewer.featuredCommenter,
+                  newCommenter: viewer.newCommenter,
                 },
                 body: input.body || "",
                 revision: {

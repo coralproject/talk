@@ -6,10 +6,11 @@
 
 FAST_LINT=true
 
-cd server
+export PATH=$PATH:~/.nvm/versions/node/v18.16.0/bin
 
-npm run precommit
+cd server
+pnpm run precommit
 
 cd ../client
 
-npm run precommit
+pnpm run precommit

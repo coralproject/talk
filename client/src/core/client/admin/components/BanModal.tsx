@@ -11,7 +11,6 @@ import { Form } from "react-final-form";
 import { graphql } from "react-relay";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import { extractDomain } from "coral-common/common/lib/email";
 import {
   isOrgModerator,
@@ -21,9 +20,11 @@ import { useGetMessage } from "coral-framework/lib/i18n";
 import { useLocal, useMutation } from "coral-framework/lib/relay";
 import { GQLREJECTION_REASON_CODE, GQLUSER_ROLE } from "coral-framework/schema";
 import {
+  AlertTriangleIcon,
   ArrowsDownIcon,
   ArrowsUpIcon,
   ButtonSvgIcon,
+  SvgIcon,
 } from "coral-ui/components/icons";
 import {
   Button,
@@ -75,6 +76,7 @@ interface Props {
   emailDomainModeration: UserStatusChangeContainer_settings["emailDomainModeration"];
   userRole: string;
   isMultisite: boolean;
+  protectedEmailDomains: ReadonlyArray<string>;
 }
 
 interface BanButtonProps {
@@ -139,6 +141,7 @@ const BanModal: FunctionComponent<Props> = ({
   userBanStatus,
   userRole,
   isMultisite,
+  protectedEmailDomains,
 }) => {
   const createDomainBan = useMutation(BanDomainMutation);
   const banUser = useMutation(BanUserMutation);
@@ -231,7 +234,7 @@ const BanModal: FunctionComponent<Props> = ({
     updateType !== UpdateType.NO_SITES &&
     emailDomain &&
     !domainIsConfigured &&
-    !PROTECTED_EMAIL_DOMAINS.has(emailDomain);
+    !protectedEmailDomains.includes(emailDomain);
 
   useEffect(() => {
     if (viewerIsSingleSiteMod) {
@@ -328,6 +331,17 @@ const BanModal: FunctionComponent<Props> = ({
     rejectExistingCommentsMessage,
   } = getTextForUpdateType(updateType);
 
+  const domainBanConfirmationText = "ban";
+  const [domainBanConfirmationTextInput, setDomainBanConfirmationTextInput] =
+    useState("");
+
+  const onDomainBanConfirmationTextInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setDomainBanConfirmationTextInput(e.target.value);
+    },
+    [setDomainBanConfirmationTextInput]
+  );
+
   const pendingSiteBanUpdates = banSiteIDs.length + unbanSiteIDs.length > 0;
   const requiresSiteBanUpdates =
     updateType === UpdateType.SPECIFIC_SITES ||
@@ -340,7 +354,13 @@ const BanModal: FunctionComponent<Props> = ({
 
   const disableForm =
     (requiresSiteBanUpdates && !pendingSiteBanUpdates) ||
-    requiresRejectionReasonForDSA;
+    requiresRejectionReasonForDSA ||
+    (!!canBanDomain &&
+      banDomain &&
+      !(
+        domainBanConfirmationTextInput.toLowerCase() ===
+        domainBanConfirmationText
+      ));
 
   return (
     <ChangeStatusModal
@@ -519,11 +539,47 @@ const BanModal: FunctionComponent<Props> = ({
                               setBanDomain(target.checked);
                             }}
                           >
-                            Ban all new commenter accounts from{" "}
+                            Ban all commenter accounts from{" "}
                             <strong>{emailDomain}</strong>
                           </CheckBox>
                         </Localized>
                       </HorizontalGutter>
+                    </Flex>
+                  )}
+                  {canBanDomain && banDomain && (
+                    <Flex direction="column">
+                      <CallOut
+                        className={styles.domainBanCallOut}
+                        color="warning"
+                      >
+                        <SvgIcon
+                          size="xs"
+                          className={styles.alertIcon}
+                          Icon={AlertTriangleIcon}
+                        />
+                        <Localized id="community-banModal-banEmailDomain-callOut">
+                          <span>
+                            This will prevent any commenter from using this
+                            email domain
+                          </span>
+                        </Localized>
+                      </CallOut>
+
+                      <Localized
+                        id="community-banModal-banEmailDomain-confirmationText"
+                        vars={{ text: domainBanConfirmationText }}
+                      >
+                        <div className={styles.domainBanConfirmationLabel}>
+                          Type in "{domainBanConfirmationText}" to confirm
+                        </div>
+                      </Localized>
+                      <input
+                        data-testid="domainBanConfirmation"
+                        className={styles.domainBanConfirmationInput}
+                        type="text"
+                        placeholder=""
+                        onChange={onDomainBanConfirmationTextInputChange}
+                      />
                     </Flex>
                   )}
                   {/* customize message button*/}

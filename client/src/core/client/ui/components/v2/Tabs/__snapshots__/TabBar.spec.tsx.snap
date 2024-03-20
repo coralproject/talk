@@ -13,7 +13,7 @@ exports[`sets initial tab as active 1`] = `
     <button
       aria-controls="tabPane-one"
       aria-selected={true}
-      className="BaseButton-root Tab-button Tab-active"
+      className="BaseButton-root Tab-button Tab-default Tab-active"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}
@@ -41,7 +41,7 @@ exports[`sets initial tab as active 1`] = `
     <button
       aria-controls="tabPane-two"
       aria-selected={false}
-      className="BaseButton-root Tab-button"
+      className="BaseButton-root Tab-button Tab-default"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}
@@ -69,7 +69,7 @@ exports[`sets initial tab as active 1`] = `
     <button
       aria-controls="tabPane-three"
       aria-selected={false}
-      className="BaseButton-root Tab-button"
+      className="BaseButton-root Tab-button Tab-default"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}

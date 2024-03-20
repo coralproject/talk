@@ -428,6 +428,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           userEmail={comment.author.email}
           userRole={comment.author.role}
           isMultisite={settings.multisite}
+          protectedEmailDomains={settings.protectedEmailDomains}
         />
       )}
     </>
@@ -530,6 +531,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment ModerateCardContainer_settings on Settings {
+      protectedEmailDomains
       locale
       wordList {
         banned

@@ -2,10 +2,7 @@ import { Redis } from "ioredis";
 import { isUndefined, toLower, uniqBy } from "lodash";
 import { URL } from "url";
 
-import {
-  FLAIR_BADGE_NAME_REGEX,
-  PROTECTED_EMAIL_DOMAINS,
-} from "coral-common/common/lib/constants";
+import { FLAIR_BADGE_NAME_REGEX } from "coral-common/common/lib/constants";
 import { ERROR_CODES } from "coral-common/common/lib/errors";
 import {
   isModerator,
@@ -455,7 +452,7 @@ export async function createEmailDomain(
   // protected email domains
   if (
     input.newUserModeration === GQLNEW_USER_MODERATION.BAN &&
-    PROTECTED_EMAIL_DOMAINS.has(input.domain)
+    tenant?.protectedEmailDomains?.includes(input.domain)
   ) {
     throw new OperationForbiddenError(
       ERROR_CODES.EMAIL_DOMAIN_PROTECTED,

@@ -324,6 +324,24 @@ export const validatePercentage = (min: number, max: number) =>
 export const validateDeleteConfirmation = (phrase: string) =>
   createValidator((v) => v === phrase, DELETE_CONFIRMATION_INVALID());
 
+export const validateEmailDomainList = createValidator((v) => {
+  if (!Array.isArray(v)) {
+    return false;
+  }
+
+  for (const domain of v) {
+    if (typeof domain !== "string") {
+      return false;
+    }
+
+    if (!EMAIL_DOMAIN_REGEX.test(domain)) {
+      return false;
+    }
+  }
+
+  return true;
+}, INVALID_EMAIL_DOMAIN());
+
 export const validateStrictURLList = createValidator((v) => {
   if (!Array.isArray(v)) {
     return false;
@@ -355,7 +373,6 @@ export type Condition<T = any, V = any> = (value: T, values: V) => boolean;
 /**
  * composeSomeConditions will return true when some of the conditions return
  * true, false if all return false.
- *
  * @param conditions conditions to use
  */
 export function composeSomeConditions<T = any, V = any>(

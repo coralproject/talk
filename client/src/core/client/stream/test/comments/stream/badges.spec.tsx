@@ -8,6 +8,7 @@ import {
   commenters,
   commentFromMember,
   commentFromModerator,
+  commentFromNewUser,
   commentsFromStaff,
   settings,
 } from "../../fixtures";
@@ -40,6 +41,10 @@ const storyWithBadgeComments = denormalizeStory(
           {
             node: commentFromModerator,
             cursor: commentFromModerator.createdAt,
+          },
+          {
+            node: commentFromNewUser,
+            cursor: commentFromNewUser.createdAt,
           },
         ],
       },
@@ -124,5 +129,29 @@ describe("user badges", () => {
       "src",
       "https://wwww.example.com/image.jpg"
     );
+  });
+
+  it("renders new user badge if comment by new user", async () => {
+    const resolvers = createResolversStub<GQLResolver>({
+      Query: {
+        stream: () => {
+          return storyWithBadgeComments;
+        },
+        settings: () => {
+          return { ...settings, newCommenter: { enabled: true } };
+        },
+      },
+    });
+    await act(async () => {
+      await createTestRenderer({
+        resolvers,
+      });
+    });
+
+    const comment = screen.getByRole("article", {
+      name: "Comment from Markus 2018-07-06T18:24:00.000Z",
+    });
+    const newUserBadge = within(comment).getByTestId("new-user-badge");
+    expect(newUserBadge).toBeVisible();
   });
 });

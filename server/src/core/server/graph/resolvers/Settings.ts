@@ -1,3 +1,4 @@
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import {
   defaultDSAConfiguration,
   defaultRTEConfiguration,
@@ -46,6 +47,7 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   emailDomainModeration: ({ emailDomainModeration = [] }) =>
     emailDomainModeration,
   topCommenter: ({ topCommenter = { enabled: false } }) => topCommenter,
+  newCommenter: ({ newCommenter = { enabled: false } }) => newCommenter,
   badges: ({ badges, staff }, args, ctx) => {
     const badgeConfig = badges || staff;
 
@@ -79,6 +81,9 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     return flairBadges;
   },
   dsa: ({ dsa = defaultDSAConfiguration }) => dsa,
+  protectedEmailDomains: ({
+    protectedEmailDomains = Array.from(PROTECTED_EMAIL_DOMAINS),
+  }) => protectedEmailDomains,
   inPageNotifications: ({
     inPageNotifications = { enabled: true, floatingBellIndicator: true },
   }) => inPageNotifications,

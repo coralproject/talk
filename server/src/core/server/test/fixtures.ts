@@ -1,6 +1,7 @@
 import { merge } from "lodash";
 import { v4 as uuid } from "uuid";
 
+import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import TIME from "coral-common/common/lib/time";
 import { Comment } from "coral-server/models/comment";
 import { Site } from "coral-server/models/site";
@@ -196,6 +197,7 @@ export const createTenantFixture = (
       allowReplies: true,
       oEmbedAllowedOrigins: [],
     },
+    protectedEmailDomains: Array.from(PROTECTED_EMAIL_DOMAINS),
     inPageNotifications: {
       enabled: true,
       floatingBellIndicator: true,

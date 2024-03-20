@@ -21,12 +21,16 @@ else
   brew install watchman
 fi
 
+echo "installing correct pnpm version globally (needed for git hooks)"
+nvm i v18.16.0
+npm install -g pnpm@8.14.3
+
 # set working directory here within `scripts`
 cd "$(dirname "$0")"
 
-echo "running \`npm install\` for sub-directories"
+echo "running \`pnpm install\` for sub-directories"
 
-sh npm-i.sh
+sh pnpm-i.sh
 
 echo "running generation steps for sub-directories"
 

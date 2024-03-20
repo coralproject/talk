@@ -1744,6 +1744,10 @@ type TopCommenterConfiguration {
   enabled: Boolean
 }
 
+type NewCommenterConfiguration {
+  enabled: Boolean
+}
+
 """
 FlairBadgeConfiguration specifies the configuration for flair badges, including
 whether they are enabled and any configured image urls.
@@ -2225,6 +2229,12 @@ type Settings @cacheControl(maxAge: 30) {
   topCommenter: TopCommenterConfiguration
 
   """
+  newCommenter specifies whether or not the feature is enabled to show that commenters
+  are new and have joined within the last seven days.
+  """
+  newCommenter: NewCommenterConfiguration
+
+  """
   staff specifies the configuration for the user badges assigned to users with
   any role above COMMENTER
   """
@@ -2323,6 +2333,12 @@ type Settings @cacheControl(maxAge: 30) {
   pre-moderating new users at a certain email domain
   """
   emailDomainModeration: [EmailDomain!]!
+
+  """
+  protectedEmailDomains is the configuration for email domains that are protected from email
+  domain moderation rules such as all accounts banned
+  """
+  protectedEmailDomains: [String!]!
 
   """
   externalProfileURL is a string template for a link to a user's
@@ -3425,6 +3441,11 @@ type User {
   last 10 days or not
   """
   featuredCommenter: Boolean
+
+  """
+  newCommenter is whether a user has joined within the last seven days.
+  """
+  newCommenter: Boolean
 }
 
 """
@@ -6219,6 +6240,14 @@ input TopCommenterConfigurationInput {
 }
 
 """
+newCommenter specifies whether or not the feature is enabled to show that commenters
+are new and have joined within the last seven days.
+"""
+input NewCommenterConfigurationInput {
+  enabled: Boolean
+}
+
+"""
 BadgeConfigurationInput specifies the configuration for the staff badges
 assigned to users with any role above COMMENTER.
 """
@@ -6627,6 +6656,12 @@ input SettingsInput {
   topCommenter: TopCommenterConfigurationInput
 
   """
+  newCommenter specifies whether or not the feature is enabled to show that commenters
+  are new and have joined within the last seven days.
+  """
+  newCommenter: NewCommenterConfigurationInput
+
+  """
   badges specifies the configuration for user badges assigned to users with
   any role above COMMENTER.
   """
@@ -6727,6 +6762,12 @@ input SettingsInput {
   addresses at sign up and premoderating them according to various rules.
   """
   premoderateEmailAddress: PremoderateEmailAddressConfigurationInput
+
+  """
+  protectedEmailDomains is the configuration for email domains that are protected from email
+  domain moderation rules such as all accounts banned
+  """
+  protectedEmailDomains: [String!]
 
   """
   inPageNotifications specifies the configuration for in-page notifications
@@ -10392,7 +10433,7 @@ type Mutation {
   """
   createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload!
     @auth
-    @rate(seconds: 3)
+    @rate(max: 2, seconds: 3)
 
   """
   featureComment will mark a given Comment as featured.

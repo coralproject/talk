@@ -511,9 +511,9 @@ configure-general-featuredBy-title = Featured by
 configure-general-featuredBy-enabled = Featured by enabled
 configure-general-featuredBy-explanation = Add moderator name to featured comment display
 
-configure-general-topCommenter-title = Top commenter
+configure-general-topCommenter-title = Top commenter badge
 configure-general-topCommenter-explanation = Add top commenter badge to commenters with featured comments in the last 10 days
-configure-general-topCommenter-enabled = Top commenter
+configure-general-topCommenter-enabled = Enable top commenter badges
 
 configure-general-flairBadge-header = Custom flair badges
 configure-general-flairBadge-description = Encourage user engagement and participation by adding custom flair
@@ -872,7 +872,7 @@ configure-moderation-newCommenters-comments = comments
 
 #### Email domain
 configure-moderation-emailDomains-header = Email domain
-configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain. Action only applies to newly created accounts.
+configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain.
 configure-moderation-emailDomains-add = Add email domain
 configure-moderation-emailDomains-edit = Edit email domain
 configure-moderation-emailDomains-addDomain = <icon></icon> Add domain
@@ -890,6 +890,18 @@ configure-moderation-emailDomains-form-editDomain = Update
 configure-moderation-emailDomains-confirmDelete = Deleting this email domain will stop any new accounts created with it from being banned or always pre-moderated. Are you sure you want to continue?
 configure-moderation-emailDomains-form-description-add = Add a domain and select the action that should be taken when on every new account created using the specified domain.
 configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
+configure-moderation-emailDomains-exceptions-header = Exceptions
+configure-moderation-emailDomains-exceptions-helperText = These domains cannot be banned. Domains should be written without www, for example "gmail.com". Separate domains with a comma and a space.
+
+configure-moderation-emailDomains-showCurrent = Show current domain list
+configure-moderation-emailDomains-hideCurrent = Hide current domain list
+configure-moderation-emailDomains-filterByStatus = 
+  .aria-label = Filter by email domain status
+configuration-moderation-emailDomains-empty = There are no email domains configured.
+
+configure-moderation-emailDomains-allDomains = All domains
+configure-moderation-emailDomains-preMod = Pre-mod
+configure-moderation-emailDomains-banned = Banned
 
 #### Pre-moderate  Email Address Configuration
 
@@ -1207,6 +1219,8 @@ moderate-user-drawer-account-history-premod-removed = Removed pre-moderate
 moderate-user-drawer-account-history-modMessage-sent = User messaged
 moderate-user-drawer-account-history-modMessage-acknowledged = Message acknowledged at { $acknowledgedAt }
 
+moderate-user-drawer-newCommenter = New commenter
+
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
     [second] { $value ->
@@ -1429,7 +1443,9 @@ community-userStatus-removePremod = Remove pre-moderate
 
 community-banModal-allSites-title = Are you sure you want to ban <username></username>?
 community-banModal-banEmailDomain-title = Email domain ban
-community-banModal-banEmailDomain = Ban all new commenter accounts from { $domain }
+community-banModal-banEmailDomain = Ban all commenter accounts from { $domain }
+community-banModal-banEmailDomain-callOut = This will prevent any commenter from using this email domain
+community-banModal-banEmailDomain-confirmationText = Type in "{ $text }" to confirm
 community-banModal-specificSites-title = Are you sure you want to manage the ban status of <username></username>?
 community-banModal-noSites-title = Are you sure you want to unban <username></username>?
 community-banModal-allSites-consequence =
@@ -1647,6 +1663,10 @@ configure-general-reactions-sort-input =
   .placeholder = E.g. Most Respected
 configure-general-reactions-preview = Preview
 configure-general-reaction-sortMenu-sortBy = Sort by
+
+configure-general-newCommenter-title = New commenter badge
+configure-general-newCommenter-explanation = Add <icon></icon> badge to commenters who created their accounts in the past seven days.
+configure-general-newCommenter-enabled = Enable new commenter badges
 
 configure-general-badges-title = Member badges
 configure-general-badges-explanation =

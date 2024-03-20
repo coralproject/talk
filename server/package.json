@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "8.8.0",
+  "version": "9.0.0",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -13,7 +13,7 @@
   },
   "engines": {
     "node": "^18.16.0",
-    "npm": "8.0.0"
+    "pnpm": "8.14.3"
   },
   "bugs": "https://github.com/coralproject/talk/issues",
   "contributors": [
@@ -21,24 +21,25 @@
   ],
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
-    "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development npm-run-all generate --parallel build:server",
+    "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development pnpm run generate && pnpm run build:server",
     "build:server": "gulp server",
-    "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true npm-run-all generate --parallel build:server",
-    "build": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production npm-run-all generate-persist --parallel build:server",
+    "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true pnpm run generate && pnpm run build:server",
+    "build": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production pnpm run generate-persist && pnpm run build:server",
     "clean": "gulp clean",
     "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' WEBHOOKS.md EXTERNAL_MODERATION_PHASES.md",
-    "generate-persist": "npm-run-all generate:schema",
+    "generate-persist": "pnpm run generate:schema",
     "generate:schema": "node ./scripts/generateSchemaTypes.js",
-    "generate": "npm-run-all generate:schema",
+    "generate": "pnpm run generate:schema",
     "job-pods:up": "docker-compose up -d",
     "job-pods:down": "docker-compose down",
-    "precommit": "node scripts/precommitLint.js && npm run lint:graphql",
-    "lint-fix": "npm run lint:server -- --fix && npm run lint:scripts -- --fix",
+    "precommit": "node scripts/precommitLint.js && pnpm run lint:graphql",
+    "lint-fix": "pnpm run lint:server --fix && pnpm run lint:scripts --fix",
     "lint:graphql": "graphql-schema-linter src/core/server/graph/schema/schema.graphql",
     "lint:scripts": "eslint 'scripts/**/*.{js,ts,tsx}'",
     "lint:server": "eslint 'src/**/*.{js,ts,tsx}'",
-    "lint": "npm-run-all lint:* tscheck:*",
+    "lint": "pnpm run '/^lint:.*/' && pnpm run '/^tscheck:.*/'",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
+    "preinstall": "npx only-allow pnpm",
     "start:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
     "start:development:withJobs": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
     "start": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production node dist/index.js",
@@ -47,7 +48,7 @@
     "test:cache": "node --trace-warnings scripts/test.cache.js --env=jsdom",
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",
-    "tscheck": "npm-run-all --parallel tscheck:*",
+    "tscheck": "pnpm run --parallel '/^tscheck:.*/'",
     "watch": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development STATIC_URI=http://127.0.0.1:8080 ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },
   "license": "Apache-2.0",
@@ -68,6 +69,8 @@
     "abort-controller": "^3.0.0",
     "address": "^1.2.2",
     "akismet-api": "^6.0.0",
+    "apollo-cache-control": "^0.11.3",
+    "apollo-server-caching": "^0.5.2",
     "apollo-server-express": "^2.18.1",
     "apollo-server-plugin-base": "^0.10.1",
     "apollo-server-plugin-response-cache": "^0.5.5",
@@ -75,6 +78,7 @@
     "axios": "^0.21.2",
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
     "bull": "^3.18.0",
     "bunyan": "^1.8.12",
     "bytes": "^3.1.0",
@@ -85,6 +89,7 @@
     "convict-format-with-validator": "^6.2.0",
     "cookie": "^0.4.1",
     "coral-common": "../common/dist",
+    "coral-config": "../config/dist",
     "cors": "^2.8.5",
     "cron": "^1.8.2",
     "csv-stringify": "^5.3.6",
@@ -140,6 +145,7 @@
     "source-map-support": "^0.5.16",
     "stack-utils": "^2.0.1",
     "striptags": "^3.2.0",
+    "subscriptions-transport-ws": "^0.9.16",
     "tsscmp": "^1.0.6",
     "url-regex-safe": "^2.0.2",
     "uuid": "^7.0.3",
@@ -152,7 +158,6 @@
     "@babel/preset-react": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
     "@babel/runtime-corejs3": "^7.10.3",
-    "@coralproject/npm-run-all": "^4.1.5",
     "@giphy/js-fetch-api": "^4.1.2",
     "@graphql-codegen/cli": "^1.20.0",
     "@graphql-codegen/introspection": "^1.18.1",
@@ -160,6 +165,7 @@
     "@types/archiver": "^3.1.0",
     "@types/basic-auth": "^1.1.3",
     "@types/bcryptjs": "^2.4.2",
+    "@types/body-parser": "^1.19.2",
     "@types/bull": "^3.14.2",
     "@types/bunyan": "^1.8.6",
     "@types/bytes": "^3.1.0",
@@ -319,7 +325,6 @@
     "staged-git-files": "^1.3.0",
     "strip-ansi": "^6.0.0",
     "style-loader": "^2.0.0",
-    "subscriptions-transport-ws": "^0.9.16",
     "terser-webpack-plugin": "^4.2.3",
     "thread-loader": "^2.1.3",
     "ts-jest": "29.0.3",
@@ -341,6 +346,11 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.3",
     "whatwg-fetch": "^3.4.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "protobufjs": ">=7.2.4"
+    }
   },
   "dependencies-pins-documentation": {
     "ts-node-dev@1.0.0-pre.44": [
