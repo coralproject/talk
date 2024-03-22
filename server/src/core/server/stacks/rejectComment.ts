@@ -176,7 +176,8 @@ const rejectComment = async (
 
   if (
     sendNotification &&
-    !(reason?.code === GQLREJECTION_REASON_CODE.BANNED_WORD)
+    !(reason?.code === GQLREJECTION_REASON_CODE.BANNED_WORD) &&
+    tenant.dsa?.enabled
   ) {
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: result.after.authorID!,
