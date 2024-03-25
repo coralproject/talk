@@ -246,8 +246,8 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                     <div className={styles.confirmationDescription}>
                       Your report will now be reviewed by our moderation team
                       and you will receive a notification once a decision is
-                      made. If the content is found to contain potentially it
-                      will be removed from our site.
+                      made. If the content is found to contain potentially
+                      illegal content it will be removed from our site.
                     </div>
                   </Localized>
                 </Flex>
