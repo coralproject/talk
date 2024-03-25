@@ -265,7 +265,8 @@ const SingleReportRoute: FunctionComponent<Props> & {
                       <div>
                         <Localized id="reports-singleReport-decision-doesItContain">
                           <div className={styles.label}>
-                            Does this comment contain illegal content?
+                            Does this comment contain potentially illegal
+                            content?
                           </div>
                         </Localized>
                         {dsaReport.decision.legality ===

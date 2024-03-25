@@ -158,13 +158,13 @@ comments-permalinkView-section =
 comments-permalinkView-viewFullDiscussion = View full discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
-comments-permalinkView-reportIllegalContent-title = Report illegal content
+comments-permalinkView-reportIllegalContent-title = Report potentially illegal content
 comments-permalinkView-reportIllegalContent-description = Please fill this form out to the best of your ability so our moderation team can make a decision and if necessary consult with our site's legal department.
 comments-permalinkView-reportIllegalContent-reportingComment = You are reporting this comment
 comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel = What law do you believe has been broken? (required)
 comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel = Please include additional information why this comment is illegal (required)
 comments-permalinkView-reportIllegalContent-additionalInformation-helperText = Any detail you include will help us investigate this further
-comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Would you like to report any other comments for containing illegal content?
+comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Would you like to report any other comments for containing potentially illegal content?
 comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = I believe that the information included in this report is accurate and complete
 comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton = <Button></Button>Add
 comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton = Comment URL
@@ -174,10 +174,10 @@ comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundEr
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = This is not a valid URL. Please enter a valid comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = You've already added this comment to this report. Please add a unique comment URL
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Additional comment URL length exceeds maximum.
-comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing illegal content. You may only report a comment for this reason one time.
+comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing potentially illegal content. You may only report a comment for this reason one time.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
 comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
-  found to contain illegal content, it will be removed from the site and further action may be taken against the commenter.
+  found to contain potentially illegal content, it will be removed from the site and further action may be taken against the commenter.
 comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Thank you for submitting this report
 comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We were unable to submit your report for the following reason(s):
 comments-permalinkView-reportIllegalContent-confirmation-returnToComments = You may now close this tab to return to the comments
@@ -766,7 +766,7 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dismiss
 
-comments-reportForm-reportIllegalContent-button = This comment contains illegal content
+comments-reportForm-reportIllegalContent-button = This comment contains potentially illegal content
 comments-reportForm-signInToReport = You have to sign in to report a comment that violates our guidelines
 
 ## Archived Report Comment Popover
@@ -1097,7 +1097,7 @@ notifications-repliedComment-hideOriginalComment = - Hide my original comment
 notifications-repliedComment-showOriginalComment = + Show my original comment
 
 notifications-dsaReportLegality-legal = Legal content
-notifications-dsaReportLegality-illegal = Illegal content
+notifications-dsaReportLegality-illegal = Potentially illegal content
 notifications-dsaReportLegality-unknown = Unknown
 
 notifications-rejectionReason-offensive = This comment contains offensive language
@@ -1105,7 +1105,7 @@ notifications-rejectionReason-abusive = This comment contains abusive language
 notifications-rejectionReason-spam = This comment is spam
 notifications-rejectionReason-bannedWord = Banned word
 notifications-rejectionReason-ad = This comment is an advertisement
-notifications-rejectionReason-illegalContent = This comment contains illegal content
+notifications-rejectionReason-illegalContent = This comment contains potentially illegal content
 notifications-rejectionReason-harassmentBullying = This comment contains harassing or bullying language
 notifications-rejectionReason-misinformation = This comment contains misinformation
 notifications-rejectionReason-hateSpeech = This comment contains hate speech
@@ -1115,9 +1115,9 @@ notifications-rejectionReason-other-customReason = Other - { $customReason }
 notifications-rejectionReason-unknown = Unknown
 
 notifications-reportDecisionMade-legal =
-  On <strong>{ $date }</strong> you reported a comment written by <strong>{ $author }</strong> for containing illegal content. After reviewing your report, our moderation team has decided this comment <strong>does not appear to contain illegal content.</strong> Thank you for helping to keep our community safe.
+  On <strong>{ $date }</strong> you reported a comment written by <strong>{ $author }</strong> for containing potentially illegal content. After reviewing your report, our moderation team has decided this comment <strong>does not appear to contain illegal content.</strong> Thank you for helping to keep our community safe.
 notifications-reportDecisionMade-illegal =
-  On <strong>{ $date }</strong> you reported a comment written by <strong>{ $author }</strong> for containing illegal content. After reviewing your report, our moderation team has decided this comment <strong>does contain illegal content</strong> and has been removed. Further action may be taken against the commenter, however you will not be notified of any additional steps. Thank you for helping to keep our community safe.
+  On <strong>{ $date }</strong> you reported a comment written by <strong>{ $author }</strong> for containing potentially illegal content. After reviewing your report, our moderation team has decided this comment <strong>does contain illegal content</strong> and has been removed. Further action may be taken against the commenter, however you will not be notified of any additional steps. Thank you for helping to keep our community safe.
 
 notifications-methodOfRedress-none =
   All moderation decisions are final and cannot be appealed

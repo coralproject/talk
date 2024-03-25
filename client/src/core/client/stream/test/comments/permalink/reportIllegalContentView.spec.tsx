@@ -111,7 +111,7 @@ beforeEach(async () => {
 
 it("includes and submits report illegal content form", async () => {
   await createTestRenderer();
-  await screen.findByText("Report illegal content");
+  await screen.findByText("Report potentially illegal content");
   const currentTab = screen.getByTestId("current-tab-pane");
 
   const lawBrokenTextbox = within(currentTab).getByRole("textbox", {

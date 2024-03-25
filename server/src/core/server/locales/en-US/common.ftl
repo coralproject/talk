@@ -58,7 +58,7 @@ notifications-illegalContentReportReviewed-decision-illegal =
 
 notifications-illegalContentReportReviewed-description =
   On { $date } you reported a comment written by { $author } for
-  containing illegal content. After reviewing your report, our moderation
+  containing potentially illegal content. After reviewing your report, our moderation
   team has decided this comment { $decision }.
 
 notifications-commentRejected-title =
@@ -88,7 +88,7 @@ notification-reasonForRemoval-spam = Spam
 notification-reasonForRemoval-bannedWord = Banned word
 notification-reasonForRemoval-ad = Ad
 notification-reasonForRemoval-other = Other
-notification-reasonForRemoval-illegal = Illegal content
+notification-reasonForRemoval-illegal = Potentially illegal content
 notification-reasonForRemoval-unknown = Unknown
 
 notifications-commentRejected-details-notFound =
