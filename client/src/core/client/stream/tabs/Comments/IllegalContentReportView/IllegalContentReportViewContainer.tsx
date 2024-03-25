@@ -225,7 +225,7 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                     <div className={styles.confirmationDescription}>
                       Your report will now be reviewed by our moderation team.
                       You will receive a notification once a decision is made.
-                      If the content is found to contain illegal content, it
+                      If the content is found to contain potentially illegal
                       will be removed from the site and further action may be
                       taken against the commenter.
                     </div>
@@ -246,8 +246,8 @@ const IllegalContentReportViewContainer: FunctionComponent<Props> = (props) => {
                     <div className={styles.confirmationDescription}>
                       Your report will now be reviewed by our moderation team
                       and you will receive a notification once a decision is
-                      made. If the content is found to contain illegal content,
-                      it will be removed from our site.
+                      made. If the content is found to contain potentially it
+                      will be removed from our site.
                     </div>
                   </Localized>
                 </Flex>

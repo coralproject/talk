@@ -81,7 +81,7 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
         <FlagDetails
           category={
             <Localized id="moderate-flagDetails-illegalContent">
-              <span>Illegal content</span>
+              <span>Potentially illegal content</span>
             </Localized>
           }
           nodes={illegalContent}

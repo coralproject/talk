@@ -38,9 +38,12 @@ const DSAReportDecisionMadeNotificationBody: FunctionComponent<Props> = ({
           >
             <span>
               On <strong>{date}</strong> you reported a comment written by{" "}
-              <strong>{username}</strong> for containing illegal content. After
-              reviewing your report, our moderation team has decide this comment{" "}
-              <strong>does not appear to contain illegal content.</strong> Thank
+              <strong>{username}</strong> for containing potentially illegal
+              content. After reviewing your report, our moderation team has
+              decide this comment{" "}
+              <strong>
+                does not appear to contain potentially illegal content.
+              </strong>{" "}
               you for helping to keep our community safe.
             </span>
           </Localized>

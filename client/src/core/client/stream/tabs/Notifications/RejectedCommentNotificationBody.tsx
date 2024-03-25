@@ -97,7 +97,7 @@ const getGeneralReason = (
     return getMessage(
       bundles,
       "notifications-rejectionReason-illegalContent",
-      "This comment contains illegal content"
+      "This comment contains potentially illegal content"
     );
   }
 

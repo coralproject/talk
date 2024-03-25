@@ -195,7 +195,7 @@ const markers: Array<
     (c.revision && c.revision.actionCounts.illegal.total > 0 && (
       <Marker key={keyCounter++} color="reported">
         <Localized id="moderate-marker-illegal">
-          <span>Illegal content</span>
+          <span>Potentially illegal content</span>
         </Localized>{" "}
         <MarkerCount>{c.revision.actionCounts.illegal.total}</MarkerCount>
       </Marker>
