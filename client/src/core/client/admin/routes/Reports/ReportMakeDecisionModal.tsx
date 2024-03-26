@@ -112,7 +112,8 @@ const ReportMakeDecisionModal: FunctionComponent<Props> = ({
                     <Flex alignItems="center" direction="column">
                       <Localized id="reports-decisionModal-prompt">
                         <div className={styles.decisionModalThisComment}>
-                          Does this comment appear to contain illegal content?
+                          Does this comment appear to contain potentially
+                          illegal content?
                         </div>
                       </Localized>
                       <Flex margin={2} className={styles.buttonWrapper}>

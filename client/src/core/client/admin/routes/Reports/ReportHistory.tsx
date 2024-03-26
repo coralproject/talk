@@ -259,7 +259,7 @@ const ReportHistory: FunctionComponent<Props> = ({
                           >
                             <div
                               className={styles.reportHistoryText}
-                            >{`${h.createdBy?.username} made a decision that this report contains illegal content`}</div>
+                            >{`${h.createdBy?.username} made a decision that this report contains potentially illegal content`}</div>
                           </Localized>
                         ) : (
                           <Localized
@@ -270,7 +270,7 @@ const ReportHistory: FunctionComponent<Props> = ({
                           >
                             <div
                               className={styles.reportHistoryText}
-                            >{`${h.createdBy?.username} made a decision that this report does not contain illegal content`}</div>
+                            >{`${h.createdBy?.username} made a decision that this report does not contain potentially illegal content`}</div>
                           </Localized>
                         )}
                         {h.decision?.legality === "ILLEGAL" && (

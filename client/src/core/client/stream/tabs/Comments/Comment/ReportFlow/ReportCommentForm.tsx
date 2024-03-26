@@ -62,7 +62,7 @@ const IllegalContentLink: FunctionComponent<{ reportLink: string }> = ({
     href={reportLink}
   >
     <Localized id="comments-reportForm-reportIllegalContent-button">
-      <span>This comment contains illegal content</span>
+      <span>This comment contains potentially illegal content</span>
     </Localized>
     <ButtonSvgIcon className={styles.linkIcon} Icon={ShareExternalLinkIcon} />
   </Button>

@@ -38,10 +38,13 @@ const DSAReportDecisionMadeNotificationBody: FunctionComponent<Props> = ({
           >
             <span>
               On <strong>{date}</strong> you reported a comment written by{" "}
-              <strong>{username}</strong> for containing illegal content. After
-              reviewing your report, our moderation team has decide this comment{" "}
-              <strong>does not appear to contain illegal content.</strong> Thank
-              you for helping to keep our community safe.
+              <strong>{username}</strong> for containing potentially illegal
+              content. After reviewing your report, our moderation team has
+              decided this comment{" "}
+              <strong>
+                does not appear to contain potentially illegal content.
+              </strong>{" "}
+              Thank you for helping to keep our community safe.
             </span>
           </Localized>
         )}
@@ -57,9 +60,10 @@ const DSAReportDecisionMadeNotificationBody: FunctionComponent<Props> = ({
           >
             <span>
               On <strong>{date}</strong> you reported a comment written by{" "}
-              <strong>{username}</strong> for containing illegal content. After
-              reviewing your report, our moderation team has decided this
-              comment <strong>does contain illegal content</strong> and has been
+              <strong>{username}</strong> for containing potentially illegal
+              content. After reviewing your report, our moderation team has
+              decided this comment{" "}
+              <strong>does contain potentially illegal content</strong> and has
               removed. Further action may be taken against the commenter,
               however you will not be notified of any additional steps. Thank
               you for helping to keep our community safe.

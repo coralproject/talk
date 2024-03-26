@@ -259,7 +259,7 @@ it("can make a legality decision on a report", async () => {
   userEvent.click(submitButton);
   expect(
     await within(container).findByText(
-      "Markus made a decision that this report contains illegal content"
+      "Markus made a decision that this report contains potentially illegal content"
     )
   );
 });

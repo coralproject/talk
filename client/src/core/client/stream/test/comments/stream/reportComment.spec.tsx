@@ -205,7 +205,7 @@ it("report comment includes link to report illegal content", async () => {
   userEvent.click(reportButton);
   const form = within(comment).getByTestId("report-comment-form");
   const reportIllegalContentButton = within(form).getByRole("link", {
-    name: "This comment contains illegal content share-external-link-1",
+    name: "This comment contains potentially illegal content share-external-link-1",
   });
   expect(reportIllegalContentButton).toHaveAttribute(
     "href",
@@ -223,7 +223,7 @@ it("can report illegal content when not signed in", async () => {
   userEvent.click(reportButton);
   const form = within(comment).getByTestId("report-comment-form");
   const reportIllegalContentButton = within(form).getByRole("link", {
-    name: "This comment contains illegal content share-external-link-1",
+    name: "This comment contains potentially illegal content share-external-link-1",
   });
   expect(reportIllegalContentButton).toHaveAttribute(
     "href",
