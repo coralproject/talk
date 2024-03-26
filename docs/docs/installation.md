@@ -19,8 +19,8 @@ Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
 
 - MongoDB ^4.2
 - Redis ^3.2
-- NodeJS ^14.18
-- NPM ^8.0
+- NodeJS ^18.16.0
+- PNPM ^8.0
 
 ## Running
 
@@ -114,7 +114,7 @@ Then start Coral with:
 
 ```bash
 cd server
-ppnpm run start:development
+pnpm run start:development
 ```
 
 Then head on over to http://localhost:3000 to install Coral!
