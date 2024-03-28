@@ -677,6 +677,11 @@ export default function createWebpackConfig(
             filename: "storyAMP.html",
             template: paths.appEmbedStoryAMPHTML,
             inject: false,
+          }),
+          new HtmlWebpackPlugin({
+            filename: "ratings-and-reviews.html",
+            template: paths.appEmbedRatingsAndReviewsHTML,
+            inject: "head",
           })
         ),
         new WebpackAssetsManifest({

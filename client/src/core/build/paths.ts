@@ -46,6 +46,9 @@ export default {
   appEmbedStoryButtonHTML: resolveSrc("core/client/embed/storyButton.html"),
   appEmbedAMPHTML: resolveSrc("core/client/embed/amp.html"),
   appEmbedStoryAMPHTML: resolveSrc("core/client/embed/storyAMP.html"),
+  appEmbedRatingsAndReviewsHTML: resolveSrc(
+    "core/client/embed/ratings-and-reviews.html"
+  ),
 
   appOEmbedIndex: resolveSrc("core/client/oembed/index.ts"),
   appCommentEmbedHTML: resolveSrc("core/client/oembed/commentEmbed.html"),

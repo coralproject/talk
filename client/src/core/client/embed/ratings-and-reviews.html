@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Coral – Embed Stream – Ratings & Reviews</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0 100px 800px 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <p style="text-align: center;">
+      <a href="http://localhost:3000/admin">Admin</a> | <a href="/">Default</a> |
+    </p>
+    <h1 style="text-align: center">Coral – Story</h1>
+    <p>
+      <a href="#coralStreamEmbed" class="coral-count">Comments</a>
+    </p>
+    <p style="text-align: center;">
+      This recipe is solid.
+    </p>
+    <div id="coralStreamEmbed" style="max-width: 640px; margin: 0 auto;"></div>
+    <script>
+      const CoralStreamEmbed = Coral.createStreamEmbed({
+        id: "coralStreamEmbed",
+        rootURL: "http://localhost:3000",
+        storyMode: "RATINGS_AND_REVIEWS",
+        autoRender: true,
+      });
+      window.CoralStreamEmbed = CoralStreamEmbed;
+    </script>
+  </body>
+</html>
