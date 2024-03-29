@@ -50,24 +50,31 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
   user,
   viewer,
 }) => {
-  const system = (
-    <Localized
-      id="moderate-user-drawer-account-history-system"
-      elems={{
-        icon: (
+  const system = useMemo(
+    () => (
+      <Localized
+        id="moderate-user-drawer-account-history-system"
+        elems={{
+          icon: (
+            <SvgIcon
+              size="md"
+              className={styles.coralIcon}
+              Icon={CoralMarkIcon}
+            />
+          ),
+        }}
+      >
+        <span>
           <SvgIcon
             size="md"
             className={styles.coralIcon}
             Icon={CoralMarkIcon}
-          />
-        ),
-      }}
-    >
-      <span>
-        <SvgIcon size="md" className={styles.coralIcon} Icon={CoralMarkIcon} />{" "}
-        System
-      </span>
-    </Localized>
+          />{" "}
+          System
+        </span>
+      </Localized>
+    ),
+    []
   );
 
   const { localeBundles } = useCoralContext();
@@ -80,12 +87,12 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
     minute: "numeric",
     second: "numeric",
   });
-  const addSeconds = (date: Date, seconds: number) => {
-    return new Date(date.getTime() + seconds * 1000);
-  };
 
   const deletionDescriptionMapping = useCallback(
     (updateType: string, createdAt: string) => {
+      const addSeconds = (date: Date, seconds: number) => {
+        return new Date(date.getTime() + seconds * 1000);
+      };
       const mapping: { [key: string]: string } = {
         REQUESTED: getMessage(
           localeBundles,
@@ -117,7 +124,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
       };
       return mapping[updateType];
     },
-    [localeBundles, addSeconds, deletionFormatter]
+    [localeBundles, deletionFormatter]
   );
 
   const accountDomainBannedMessage = getMessage(
