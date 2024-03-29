@@ -3701,7 +3701,7 @@ type CommentModerationAction {
   """
   previousStatus represents the status that the comment had directly prior to this moderation action.
   """
-  previousStatus: COMMENT_STATUS!
+  previousStatus: COMMENT_STATUS
 
   """
   moderator is the User that performed the Moderator action. If null, this means

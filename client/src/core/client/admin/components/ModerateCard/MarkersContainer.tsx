@@ -43,6 +43,16 @@ const markers: Array<
       )) ||
     null,
   (c) =>
+    (c.status !== "PREMOD" &&
+      c.statusHistory.edges.map((cStatusHistory) => {
+        return cStatusHistory.node.previousStatus === "PREMOD" ? (
+          <Localized id="moderate-marker-preMod" key={keyCounter++}>
+            <Marker color="pending">Pre-Mod</Marker>
+          </Localized>
+        ) : null;
+      })) ||
+    null,
+  (c) =>
     (c.revision &&
       c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_LINKS && (
         <Localized id="moderate-marker-link" key={keyCounter++}>
@@ -247,6 +257,13 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
       status
       tags {
         code
+      }
+      statusHistory(first: 1) {
+        edges {
+          node {
+            previousStatus
+          }
+        }
       }
       author {
         premoderatedBecauseOfEmailAt
