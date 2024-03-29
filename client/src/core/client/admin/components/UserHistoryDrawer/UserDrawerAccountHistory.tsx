@@ -117,7 +117,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
       };
       return mapping[updateType];
     },
-    [getMessage, localeBundles, addSeconds, deletionFormatter]
+    [localeBundles, addSeconds, deletionFormatter]
   );
 
   const accountDomainBannedMessage = getMessage(
@@ -312,7 +312,12 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
     }
 
     return dateSortedHistory;
-  }, [system, user.status, deletionDescriptionMapping]);
+  }, [
+    system,
+    user.status,
+    deletionDescriptionMapping,
+    accountDomainBannedMessage,
+  ]);
   const formatter = useDateTimeFormatter({
     year: "numeric",
     month: "long",
