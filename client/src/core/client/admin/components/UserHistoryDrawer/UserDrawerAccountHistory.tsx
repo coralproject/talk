@@ -120,6 +120,12 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
     [getMessage, localeBundles, addSeconds, deletionFormatter]
   );
 
+  const accountDomainBannedMessage = getMessage(
+    localeBundles,
+    "moderate-user-drawer-account-history-account-domain-banned",
+    "Account domain banned"
+  );
+
   const combinedHistory = useMemo(() => {
     // Collect all the different types of history items.
     const history: HistoryRecord[] = [];
@@ -191,7 +197,9 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
           description:
             isSiteBanned && !!user.status.ban.sites
               ? user.status.ban.sites.map((s) => s.name).join(", ")
-              : "",
+              : record.createdBy
+              ? ""
+              : accountDomainBannedMessage,
         };
       } else {
         history.push({
@@ -201,10 +209,13 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
           },
           date: new Date(record.createdAt),
           takenBy: record.createdBy ? record.createdBy.username : system,
-          description:
-            siteBan && record.sites
+          description: siteBan
+            ? record.sites
               ? record.sites.map((s) => s.name).join(", ")
-              : "",
+              : ""
+            : record.createdBy
+            ? ""
+            : accountDomainBannedMessage,
         });
       }
     });
