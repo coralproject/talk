@@ -11,7 +11,7 @@ import {
 import { retrieveNotificationByCommentReply } from "coral-server/models/notifications/notification";
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
-import { removeTag, retrieveComment } from "coral-server/services/comments";
+import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
 import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
@@ -102,9 +102,6 @@ const rejectComment = async (
     actionCounts: {},
   };
 
-  // Get comment status before approval
-  const previousComment = await retrieveComment(mongo, tenant.id, commentID);
-
   // Reject the comment.
   const { result, counts } = await moderate(
     mongo,
@@ -122,8 +119,7 @@ const rejectComment = async (
     },
     now,
     isArchived,
-    updateAllCommentCountsArgs,
-    previousComment?.status
+    updateAllCommentCountsArgs
   );
 
   const revision = getLatestRevision(result.before);

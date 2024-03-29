@@ -3699,11 +3699,6 @@ type CommentModerationAction {
   status: COMMENT_STATUS!
 
   """
-  previousStatus represents the status that the comment had directly prior to this moderation action.
-  """
-  previousStatus: COMMENT_STATUS
-
-  """
   moderator is the User that performed the Moderator action. If null, this means
   that the system has assigned the moderation status.
   """
@@ -4308,6 +4303,11 @@ type Comment @cacheControl(maxAge: 5) {
   status represents the Comment's current status.
   """
   status: COMMENT_STATUS!
+
+  """
+  status represents the Comment's status when it was initially created.
+  """
+  initialStatus: COMMENT_STATUS
 
   """
   statusHistory returns a CommentModerationActionConnection that will list

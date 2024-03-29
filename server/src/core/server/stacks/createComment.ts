@@ -379,6 +379,7 @@ export default async function create(
       metadata: result.metadata,
       actionCounts,
       media,
+      initialStatus: result.status,
     },
     now
   );
@@ -485,8 +486,7 @@ export default async function create(
       false,
       {
         actionCounts,
-      },
-      null
+      }
     );
 
     await notifications.create(tenant.id, tenant.locale, {

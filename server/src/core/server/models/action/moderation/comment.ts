@@ -45,12 +45,6 @@ export interface CommentModerationAction extends TenantResource {
   status: GQLCOMMENT_STATUS;
 
   /**
-   * previousStatus is the GQLCOMMENT_STATUS that the comment had directly prior
-   * to this moderation action.
-   */
-  previousStatus: GQLCOMMENT_STATUS;
-
-  /**
    * reason is the GQLMODERATION_REASON_REASON for the decision, if it is
    * a rejection
    */

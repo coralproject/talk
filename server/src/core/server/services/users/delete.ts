@@ -173,8 +173,7 @@ async function moderateComments(
       },
       now,
       isArchived,
-      updateAllCommentCountsArgs,
-      comment.status
+      updateAllCommentCountsArgs
     );
 
     if (!result.after) {

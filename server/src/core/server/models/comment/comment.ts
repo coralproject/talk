@@ -111,6 +111,11 @@ export interface Comment extends TenantResource {
   status: GQLCOMMENT_STATUS;
 
   /**
+   * initialStatus is the initial Comment Status.
+   */
+  initialStatus: GQLCOMMENT_STATUS;
+
+  /**
    * actionCounts stores a cached count of all the Action's against this
    * Comment.
    */
