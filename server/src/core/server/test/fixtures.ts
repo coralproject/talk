@@ -391,6 +391,7 @@ export const createCommentFixture = (
     childIDs: [],
     tags: [],
     createdAt: new Date(),
+    initialStatus: GQLCOMMENT_STATUS.NONE,
   };
 
   return merge(comment, defaults) as Comment;

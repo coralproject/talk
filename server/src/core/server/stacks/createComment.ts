@@ -88,6 +88,7 @@ export type CreateComment = Omit<
   | "tags"
   | "siteID"
   | "media"
+  | "initialStatus"
 > & {
   rating?: number;
   media?: CreateCommentMediaInput;
