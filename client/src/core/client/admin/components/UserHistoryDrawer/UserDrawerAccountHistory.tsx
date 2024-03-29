@@ -197,9 +197,11 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
           description:
             isSiteBanned && !!user.status.ban.sites
               ? user.status.ban.sites.map((s) => s.name).join(", ")
-              : record.createdBy
-              ? ""
-              : accountDomainBannedMessage,
+              : record.active
+              ? record.createdBy
+                ? ""
+                : accountDomainBannedMessage
+              : "",
         };
       } else {
         history.push({
@@ -213,9 +215,11 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
             ? record.sites
               ? record.sites.map((s) => s.name).join(", ")
               : ""
-            : record.createdBy
-            ? ""
-            : accountDomainBannedMessage,
+            : record.active
+            ? record.createdBy
+              ? ""
+              : accountDomainBannedMessage
+            : "",
         });
       }
     });
