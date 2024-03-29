@@ -196,11 +196,15 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
           takenBy: record.createdBy ? record.createdBy.username : system,
           description:
             isSiteBanned && !!user.status.ban.sites
-              ? user.status.ban.sites.map((s) => s.name).join(", ")
-              : record.active
-              ? record.createdBy
+              ? // does the site ban have sites? If so, add to description
+                user.status.ban.sites.map((s) => s.name).join(", ")
+              : // is the ban created?
+              record.active
+              ? // If the ban is created, is it created by the system?
+                record.createdBy
                 ? ""
-                : accountDomainBannedMessage
+                : // If the ban is created by the system, show the account domain banned message
+                  accountDomainBannedMessage
               : "",
         };
       } else {
@@ -212,13 +216,17 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
           date: new Date(record.createdAt),
           takenBy: record.createdBy ? record.createdBy.username : system,
           description: siteBan
-            ? record.sites
+            ? // does the site ban have sites? If so, add to description
+              record.sites
               ? record.sites.map((s) => s.name).join(", ")
               : ""
-            : record.active
-            ? record.createdBy
+            : // is the ban created?
+            record.active
+            ? // If the ban is created, is it created by the system?
+              record.createdBy
               ? ""
-              : accountDomainBannedMessage
+              : // If the ban is created by the system, show the account domain banned message
+                accountDomainBannedMessage
             : "",
         });
       }
