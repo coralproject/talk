@@ -42,7 +42,8 @@ export default async function moderate(
       updateSite: boolean;
       updateUser: boolean;
     };
-  }
+  },
+  previousCommentStatus?: GQLCOMMENT_STATUS | null
 ) {
   if (
     tenant.dsa?.enabled &&
@@ -116,6 +117,7 @@ export default async function moderate(
     {
       ...input,
       storyID: comment.storyID,
+      previousStatus: previousCommentStatus,
     },
     now,
     isArchived

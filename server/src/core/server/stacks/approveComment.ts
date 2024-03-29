@@ -57,7 +57,8 @@ const approveComment = async (
     },
     now,
     undefined,
-    updateAllCommentCountsArgs
+    updateAllCommentCountsArgs,
+    previousComment?.status
   );
 
   const revision = getLatestRevision(result.before);

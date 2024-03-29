@@ -276,7 +276,8 @@ export default async function edit(
       false,
       {
         actionCounts,
-      }
+      },
+      originalStaleComment.status
     );
   }
 

@@ -485,7 +485,8 @@ export default async function create(
       false,
       {
         actionCounts,
-      }
+      },
+      null
     );
 
     await notifications.create(tenant.id, tenant.locale, {

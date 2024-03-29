@@ -132,7 +132,8 @@ const rejectArchivedComments = async (
         input,
         now,
         true,
-        updateAllCommentCountsArgs
+        updateAllCommentCountsArgs,
+        comment.status
       );
       if (!result.after) {
         continue;
