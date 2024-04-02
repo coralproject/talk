@@ -4310,7 +4310,7 @@ type Comment @cacheControl(maxAge: 5) {
   status: COMMENT_STATUS!
 
   """
-  status represents the Comment's status when it was initially created.
+  initialStatus represents the Comment's status when it was initially created.
   """
   initialStatus: COMMENT_STATUS
 
