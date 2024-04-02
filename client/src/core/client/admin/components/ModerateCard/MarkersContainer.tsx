@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import {
   Flex,
   HorizontalGutter,
@@ -27,14 +28,14 @@ const markers: Array<
   (c: MarkersContainer_comment) => React.ReactElement<any> | null
 > = [
   (c) =>
-    (c.status === "PREMOD" && (
+    (c.status === GQLCOMMENT_STATUS.PREMOD && (
       <Localized id="moderate-marker-preMod" key={keyCounter++}>
         <Marker color="pending">Pre-Mod</Marker>
       </Localized>
     )) ||
     null,
   (c) =>
-    (c.status === "PREMOD" &&
+    (c.status === GQLCOMMENT_STATUS.PREMOD &&
       c.author &&
       c.author.premoderatedBecauseOfEmailAt && (
         <Localized id="moderate-marker-preMod-userEmail" key={keyCounter++}>
@@ -43,11 +44,12 @@ const markers: Array<
       )) ||
     null,
   (c) =>
-    (c.status !== "PREMOD" && c.initialStatus === "PREMOD" && (
-      <Localized id="moderate-marker-preMod" key={keyCounter++}>
-        <Marker color="pending">Pre-Mod</Marker>
-      </Localized>
-    )) ||
+    (c.status !== GQLCOMMENT_STATUS.PREMOD &&
+      c.initialStatus === GQLCOMMENT_STATUS.PREMOD && (
+        <Localized id="moderate-marker-preMod" key={keyCounter++}>
+          <Marker color="pending">Pre-Mod</Marker>
+        </Localized>
+      )) ||
     null,
   (c) =>
     (c.revision &&
