@@ -4129,6 +4129,11 @@ type CommentRevision {
   createdAt is the time that the CommentRevision was created.
   """
   createdAt: Time!
+
+  """
+  status is the status of the CommentRevision.
+  """
+  status: COMMENT_STATUS
 }
 
 enum TAG {

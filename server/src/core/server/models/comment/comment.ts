@@ -180,7 +180,7 @@ export type CreateCommentInput = Omit<
   | "revisions"
   | "deletedAt"
 > &
-  Required<Pick<Revision, "body">> &
+  Required<Pick<Revision, "body" | "status">> &
   Pick<Revision, "metadata" | "media"> &
   Partial<Pick<Comment, "actionCounts" | "siteID">>;
 
@@ -191,7 +191,7 @@ export async function createComment(
   now = new Date()
 ) {
   // Pull out some useful properties from the input.
-  const { body, actionCounts = {}, metadata, media, ...rest } = input;
+  const { body, actionCounts = {}, metadata, media, status, ...rest } = input;
 
   // Generate the revision.
   const revision: Readonly<Revision> = {
@@ -201,6 +201,7 @@ export async function createComment(
     metadata,
     createdAt: now,
     media,
+    status,
   };
 
   // default are the properties set by the application when a new comment is
@@ -219,6 +220,7 @@ export async function createComment(
     // Defaults for things that always stay the same, or are computed.
     ...defaults,
     // Rest for things that are passed in and are not actionCounts.
+    status,
     ...rest,
     // ActionCounts because they may be passed in!
     actionCounts,
@@ -347,6 +349,7 @@ export async function editComment(
     metadata,
     createdAt: now,
     media,
+    status,
   };
 
   const update: Record<string, any> = {

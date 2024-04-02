@@ -251,11 +251,11 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
   comment: graphql`
     fragment MarkersContainer_comment on Comment {
       ...ModerateCardDetailsContainer_comment
+      initialStatus
       status
       tags {
         code
       }
-      initialStatus
       author {
         premoderatedBecauseOfEmailAt
       }

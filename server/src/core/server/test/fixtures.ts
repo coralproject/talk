@@ -384,6 +384,7 @@ export const createCommentFixture = (
         actionCounts: {},
         metadata: {},
         createdAt: new Date(),
+        status: GQLCOMMENT_STATUS.APPROVED,
       },
     ],
     actionCounts: {},
