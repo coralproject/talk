@@ -21,4 +21,5 @@ export const CommentRevision: Required<
   metadata: (w) => w.revision.metadata || {},
   createdAt: (w) => w.revision.createdAt,
   media: (w) => w.revision.media,
+  status: (w) => w.revision.status,
 };

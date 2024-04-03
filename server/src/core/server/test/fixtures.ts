@@ -384,6 +384,7 @@ export const createCommentFixture = (
         actionCounts: {},
         metadata: {},
         createdAt: new Date(),
+        status: GQLCOMMENT_STATUS.APPROVED,
       },
     ],
     actionCounts: {},
@@ -391,6 +392,7 @@ export const createCommentFixture = (
     childIDs: [],
     tags: [],
     createdAt: new Date(),
+    initialStatus: GQLCOMMENT_STATUS.NONE,
   };
 
   return merge(comment, defaults) as Comment;

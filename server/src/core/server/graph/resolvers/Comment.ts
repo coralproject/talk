@@ -81,6 +81,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.revisions.length > 0
       ? { revision: getLatestRevision(c), comment: c }
       : null,
+  initialStatus: (c) => (c.revisions.length > 0 ? c.revisions[0].status : null),
   canModerate: (c, input, ctx) => {
     if (!ctx.user) {
       return false;
