@@ -50,24 +50,31 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
   user,
   viewer,
 }) => {
-  const system = (
-    <Localized
-      id="moderate-user-drawer-account-history-system"
-      elems={{
-        icon: (
+  const system = useMemo(
+    () => (
+      <Localized
+        id="moderate-user-drawer-account-history-system"
+        elems={{
+          icon: (
+            <SvgIcon
+              size="md"
+              className={styles.coralIcon}
+              Icon={CoralMarkIcon}
+            />
+          ),
+        }}
+      >
+        <span>
           <SvgIcon
             size="md"
             className={styles.coralIcon}
             Icon={CoralMarkIcon}
-          />
-        ),
-      }}
-    >
-      <span>
-        <SvgIcon size="md" className={styles.coralIcon} Icon={CoralMarkIcon} />{" "}
-        System
-      </span>
-    </Localized>
+          />{" "}
+          System
+        </span>
+      </Localized>
+    ),
+    []
   );
 
   const { localeBundles } = useCoralContext();
@@ -80,12 +87,12 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
     minute: "numeric",
     second: "numeric",
   });
-  const addSeconds = (date: Date, seconds: number) => {
-    return new Date(date.getTime() + seconds * 1000);
-  };
 
   const deletionDescriptionMapping = useCallback(
     (updateType: string, createdAt: string) => {
+      const addSeconds = (date: Date, seconds: number) => {
+        return new Date(date.getTime() + seconds * 1000);
+      };
       const mapping: { [key: string]: string } = {
         REQUESTED: getMessage(
           localeBundles,
@@ -117,7 +124,13 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
       };
       return mapping[updateType];
     },
-    [getMessage, localeBundles, addSeconds, deletionFormatter]
+    [localeBundles, deletionFormatter]
+  );
+
+  const accountDomainBannedMessage = getMessage(
+    localeBundles,
+    "moderate-user-drawer-account-history-account-domain-banned",
+    "Account domain banned"
   );
 
   const combinedHistory = useMemo(() => {
@@ -190,7 +203,15 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
           takenBy: record.createdBy ? record.createdBy.username : system,
           description:
             isSiteBanned && !!user.status.ban.sites
-              ? user.status.ban.sites.map((s) => s.name).join(", ")
+              ? // does the site ban have sites? If so, add to description
+                user.status.ban.sites.map((s) => s.name).join(", ")
+              : // is the ban created?
+              record.active
+              ? // If the ban is created, is it created by the system?
+                record.createdBy
+                ? ""
+                : // If the ban is created by the system, show the account domain banned message
+                  accountDomainBannedMessage
               : "",
         };
       } else {
@@ -201,10 +222,19 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
           },
           date: new Date(record.createdAt),
           takenBy: record.createdBy ? record.createdBy.username : system,
-          description:
-            siteBan && record.sites
+          description: siteBan
+            ? // does the site ban have sites? If so, add to description
+              record.sites
               ? record.sites.map((s) => s.name).join(", ")
-              : "",
+              : ""
+            : // is the ban created?
+            record.active
+            ? // If the ban is created, is it created by the system?
+              record.createdBy
+              ? ""
+              : // If the ban is created by the system, show the account domain banned message
+                accountDomainBannedMessage
+            : "",
         });
       }
     });
@@ -301,7 +331,12 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
     }
 
     return dateSortedHistory;
-  }, [system, user.status, deletionDescriptionMapping]);
+  }, [
+    system,
+    user.status,
+    deletionDescriptionMapping,
+    accountDomainBannedMessage,
+  ]);
   const formatter = useDateTimeFormatter({
     year: "numeric",
     month: "long",
