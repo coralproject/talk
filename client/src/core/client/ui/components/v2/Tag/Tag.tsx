@@ -15,6 +15,7 @@ interface Props {
   color?: "grey" | "primary" | "error" | "dark" | "streamBlue";
 
   variant?: "regular" | "pill";
+  "data-tagname"?: string;
 }
 
 const Tag: FunctionComponent<Props> = (props) => {
