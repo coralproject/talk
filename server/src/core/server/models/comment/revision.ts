@@ -157,4 +157,9 @@ export interface Revision {
    * media is the optional media object attached to this revision.
    */
   media?: CommentMedia;
+
+  /**
+   * status is the comment status for the revision
+   */
+  status: GQLCOMMENT_STATUS;
 }

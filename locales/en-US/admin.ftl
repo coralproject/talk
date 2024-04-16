@@ -1205,6 +1205,7 @@ moderate-user-drawer-account-history-system = <icon></icon> System
 moderate-user-drawer-account-history-suspension-ended = Suspension ended
 moderate-user-drawer-account-history-suspension-removed = Suspension removed
 moderate-user-drawer-account-history-banned = Banned
+moderate-user-drawer-account-history-account-domain-banned = Account domain banned
 moderate-user-drawer-account-history-ban-removed = Ban removed
 moderate-user-drawer-account-history-site-banned = Site banned
 moderate-user-drawer-account-history-site-ban-removed = Site ban removed
