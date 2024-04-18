@@ -28,8 +28,8 @@ general-tabBar-myProfileTab = Min profil
 general-tabBar-discussionsTab = Diskussioner
 general-tabBar-reviewsTab = Granskning
 general-tabBar-configure = Inställningar
-general-tabBar-notifications = Aviseringar
-general-tabBar-notifications-hasNew = Aviseringar (ny finns)
+general-tabBar-notifications = Notiser
+general-tabBar-notifications-hasNew = Notiser (ny)
 
 general-mainTablist =
   .aria-label = Huvudmeny
@@ -81,6 +81,8 @@ comments-featuredCommentTooltip-toggleButton =
 
 comment-top-commenter-tooltip-header = <icon></icon> Toppskribent
 comment-top-commenter-tooltip-details = En av användarens kommentarer har blivit utvald senaste 10 dagarna
+
+comment-new-commenter-tooltip-details = Ny kommentator, säg hej
 
 comments-collapse-toggle-with-username =
   .aria-label = Dölj kommentar av { $username } och dess svar
@@ -170,7 +172,7 @@ comments-permalinkView-reportIllegalContent-submit = Skicka in rapport
 comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = Kommentaren hittades inte. Vänligen ange en giltig kommentars-URL
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = Detta är inte en giltig URL. Vänligen ange en giltig kommentars-URL
 comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = Du har redan lagt till denna kommentar i rapporten. Vänligen lägg till en unik kommentars-URL
-omments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Längden på ytterligare kommentars-URL överskrider maximalt.
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Längden på ytterligare kommentars-URL överskrider maximalt.
 comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = Du har tidigare anmält denna kommentar för att innehålla olagligt innehåll. Du kan bara anmäla en kommentar av denna anledning en gång.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = Vi har mottagit din anmälan om olagligt innehåll
 comments-permalinkView-reportIllegalContent-confirmation-description = Din rapport kommer nu att granskas av vårt modereringsteam. Du kommer att få ett meddelande när ett beslut är fattat. Om innehållet
@@ -252,10 +254,10 @@ comments-showConversationLink-readMore = Läs mer av den här diskussionen >
 comments-conversationThread-showMoreOfThisConversation =
   Visa mer av den här diskussionen
 
-comments-permalinkView-currentViewing = Du ser just nu en
-comments-permalinkView-singleConversation = ENSKILD DISKUSSION
+comments-permalinkView-currentViewing =
+comments-permalinkView-singleConversation =
 comments-permalinkView-youAreCurrentlyViewing =
-  Du tittar för närvarande på en enskild konversation
+  Du visar för närvarande en enskild konversation
 comments-inReplyTo = Som svar till <Username></Username>
 comments-replyingTo = Svarar till: <Username></Username>
 
@@ -292,6 +294,7 @@ comments-userSpamBanPopover-description-list-rejectAllComments = Avvisa alla kom
 comments-userSpamBanPopover-confirmation = Skriv in "{$text}" för att bekräfta
 
 comments-userBanPopover-title = Stäng av {$username}?
+comments-userSiteBanPopover-title = Stäng av {$username} från denna webbplats?
 comments-userBanPopover-description =
   Once banned, this user will no longer be able
   to comment, use reactions, or report comments.
@@ -321,8 +324,8 @@ comments-moderationDropdown-spam-ban = Spamblockering
 comments-moderationDropdown-ban = Stäng av användare
 comments-moderationDropdown-siteBan = Sajtblockering
 comments-moderationDropdown-banned = Avstängd
-comments-moderationDropdown-goToModerate = Gå till Moderera
-comments-moderationDropdown-moderationView = Moderationsvy
+comments-moderationDropdown-goToModerate =
+comments-moderationDropdown-moderationView = Modereringsvy
 comments-moderationDropdown-moderateStory = Moderera artikel
 comments-moderationDropdown-caretButton =
   .aria-label = Moderera
@@ -355,8 +358,6 @@ comments-reacted =
 comments-jumpToComment-title = Ditt svar har postats nedan
 comments-jumpToComment-GoToReply = Gå till svar
 
-comments-mobileToolbar-closeButton =
-  .aria-label = Stäng
 comments-mobileToolbar-unmarkAll = Markera alla som lästa
 comments-mobileToolbar-nextUnread = Nästa olästa
 
@@ -371,6 +372,9 @@ comments-refreshReviews-refreshButton = <icon></icon> Uppdatera omdömen
 
 comments-replyChangedWarning-theCommentHasJust =
   Denna kommentar har precis redigerats. Den senaste versionen visas ovan.
+
+comments-mobileToolbar-notifications-closeButton = 
+  .aria-label = Stäng notiser
 
 ### Q&A
 
@@ -721,6 +725,17 @@ profile-account-notifications-updated = Inställningar för notifieringar har ä
 profile-account-notifications-button = Ändra inställningar för notifieringar
 profile-account-notifications-button-update = Uppdatera
 
+profile-account-notifications-inPageNotifications = Aviseringar
+profile-account-notifications-includeInPageWhen = Meddela mig när
+
+profile-account-notifications-inPageNotifications-on = Märken på
+profile-account-notifications-inPageNotifications-off = Märken av
+
+profile-account-notifications-showReplies-fromAnyone = från vem som helst
+profile-account-notifications-showReplies-fromStaff = från en personalmedlem
+profile-account-notifications-showReplies =
+  .aria-label = Visa svar från
+
 ## Report Comment Popover
 comments-reportPopover =
   .description = Om att anmäla kommentarer
@@ -825,26 +840,26 @@ discussions-discussionsQuery-errorLoadingProfile = Fel vid laddning av profil
 discussions-discussionsQuery-storyNotFound = Artikeln hittades inte
 
 ## Kommentarstråd
-configure-stream-title = Konfigurera denna kommentarstråd
+configure-stream-title =
 configure-stream-title-configureThisStream =
   Konfigurera denna tråd
-configure-stream-apply = Tillämpa
+configure-stream-apply =
 configure-stream-update = Uppdatera
 configure-stream-streamHasBeenUpdated =
   Denna tråd har uppdaterats
 
-configure-premod-title = Använd förhandsmoderering
+configure-premod-title =
 configure-premod-premoderateAllComments = Förhandsmoderera alla kommentarer
 configure-premod-description =
   Moderatorer måste godkänna varje kommentar innan den publiceras vid den här artikeln.
 
-configure-premodLink-title = Förhandsmoderera kommentarer som innehåller länkar
+configure-premodLink-title =
 configure-premodLink-commentsContainingLinks =
   Förhandsmoderera kommentarer som innehåller länkar
 configure-premodLink-description =
   Moderatorer måste godkänna varje kommentar som innehåller en länk innan den publiceras vid den här artikeln.
 
-configure-messageBox-title = Använd meddelanderuta för den här artikeln
+configure-messageBox-title =
 configure-addMessage-title =
   Lägg till ett meddelande eller en fråga
 configure-messageBox-description =
@@ -887,7 +902,7 @@ configure-openStream-description =
 configure-openStream-openStream = Öppna flöde
 configure-openStream-theStreamIsNowClosed = Tråden är nu stängd
 
-configure-moderateThisStream = Moderera detta flöde
+configure-moderateThisStream =
 
 qa-experimentalTag-tooltip-content =
   Q&A-formatet är för närvarande under aktiv utveckling. Vänligen kontakta
@@ -1034,13 +1049,22 @@ stream-footer-navigation =
 ## Notifikationer
 
 notifications-title = Notifikationer
-notifications-loadMore = Ladda mer
+notifications-loadMore = Visa fler
+notifications-loadNew = Visa nya
+
+notifications-adjustPreferences = Justera notisinställningar i &gt;<button>Inställningar.</button>
 
 notification-comment-toggle-default-open = - Kommentar
 notification-comment-toggle-default-closed = + Kommentar
 
 notifications-comment-showRemovedComment = + Visa borttagen kommentar
 notifications-comment-hideRemovedComment = - Dölj borttagen kommentar
+
+notification-comment-description-featured = din kommentar på "{ $title }" blev utvald av en medlem i vårt team.
+notification-comment-description-default = på "{ $title }"
+notification-comment-media-image = Bild
+notification-comment-media-embed = Bädda in
+notification-comment-media-gif = Gif
 
 notifications-yourIllegalContentReportHasBeenReviewed =
   Din anmälan av olagligt innehåll har granskats
@@ -1050,13 +1074,22 @@ notifications-yourCommentHasBeenApproved =
   Din kommentar har godkänts
 notifications-yourCommentHasBeenFeatured =
   Din kommentar har blivit framhävd
+notifications-yourCommentHasReceivedAReply =
+  Nytt svar från { $author }
 notifications-defaultTitle = Notifikation
 
 notifications-rejectedComment-body =
-  Innehållet i din kommentar var emot våra communityriktlinjer. Kommentaren har tagits bort.
+  Innehållet i din kommentar bröt mot våra communityregler. Kommentaren har tagits bort.
+notifications-rejectedComment-wasPending-body =
+  Innehållet i din kommentar bedöms bryta mot våra communityregler.
 notifications-reasonForRemoval = Orsak till borttagning
 notifications-legalGrounds = Juridiska grunder
 notifications-additionalExplanation = Ytterligare förklaring
+
+notifications-repliedComment-hideReply = - Dölj svaret
+notifications-repliedComment-showReply = + Visa svaret
+notifications-repliedComment-hideOriginalComment = - Dölj min ursprungliga kommentar
+notifications-repliedComment-showOriginalComment = + Visa min ursprungliga kommentar
 
 notifications-dsaReportLegality-legal = Lagligt innehåll
 notifications-dsaReportLegality-illegal = Olagligt innehåll
@@ -1089,3 +1122,5 @@ notifications-methodOfRedress-url =
   För att överklaga ett beslut som visas här vänligen besök <a>{ $url }</a>
 
 notifications-youDoNotCurrentlyHaveAny = Du har för närvarande inga notifikationer
+
+notifications-floatingIcon-close = stäng
