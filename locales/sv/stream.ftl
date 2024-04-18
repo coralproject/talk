@@ -274,8 +274,8 @@ comments-sortMenu-oldest = Äldst
 comments-sortMenu-mostReplies = Flest svar
 
 comments-userPopover =
-  .description = A popover with more user information
-comments-userPopover-memberSince = Medlem sedan: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
+  .description = En dialogruta med mer användarinformation
+comments-userPopover-memberSince = Aktiv sedan: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
 comments-userPopover-ignore = Ignorera
 
 comments-userIgnorePopover-ignoreUser = Ignorera {$username}?
@@ -751,7 +751,7 @@ comments-reportPopover-reasonOther = Annat
 comments-reportPopover-additionalInformation =
   Ytterligare information <optional>Valfri</optional>
 comments-reportPopover-pleaseLeaveAdditionalInformation =
-  Lämna gärna ytterligare informations om kan vara till hjälp för våra moderatorer. (Valfritt)
+  Lämna gärna ytterligare information som kan vara till hjälp för våra moderatorer. (Valfritt)
 
 comments-reportPopover-maxCharacters = Max. { $maxCharacters } tecken
 comments-reportPopover-restrictToMaxCharacters = Vänligen begränsa din rapport till { $maxCharacters } tecken
@@ -760,7 +760,7 @@ comments-reportPopover-submit = Skicka in
 
 comments-reportPopover-thankYou = Tack!
 comments-reportPopover-receivedMessage =
-  Vi har mottagit ditt meddelande. Anmälningar från medlemmar som du hjälper till att hålla vår gemenskap säker.
+  Vi har mottagit ditt meddelande. Anmälningar från aktiva läsare som du hjälper oss att behålla ett bra debattklimat.
 
 comments-reportPopover-dismiss = Avfärda
 
@@ -1052,7 +1052,7 @@ notifications-title = Notifikationer
 notifications-loadMore = Visa fler
 notifications-loadNew = Visa nya
 
-notifications-adjustPreferences = Justera notisinställningar i &gt;<button>Inställningar.</button>
+notifications-adjustPreferences = Justera notisinställningar i Min profil &gt;<button>Inställningar.</button>
 
 notification-comment-toggle-default-open = - Kommentar
 notification-comment-toggle-default-closed = + Kommentar
