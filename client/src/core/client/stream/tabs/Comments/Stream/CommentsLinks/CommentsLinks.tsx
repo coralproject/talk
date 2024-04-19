@@ -172,12 +172,12 @@ const CommentsLinks: FunctionComponent<Props> = ({
         >
           <FooterButton
             className={CLASSES.streamFooter.articleTopLink}
-            title="Go to top of article"
+            title="Go to top of page"
             onClick={onGoToArticleTop}
             classes={classes}
             Icon={CommonFileTextIcon}
           >
-            Top of article
+            Top of page
           </FooterButton>
         </Localized>
       </nav>
