@@ -269,7 +269,7 @@ comments-reportButton-aria-reported =
   .aria-label = Anmäld
 
 comments-sortMenu-sortBy = Sortera
-comments-sortMenu-newest = Nyast
+comments-sortMenu-newest = Senaste
 comments-sortMenu-oldest = Äldst
 comments-sortMenu-mostReplies = Flest svar
 
@@ -378,7 +378,7 @@ comments-mobileToolbar-notifications-closeButton =
 
 ### Q&A
 
-general-tabBar-qaTab = Q&A
+general-tabBar-qaTab = Livechat
 
 qa-postCommentForm-section =
   .aria-label = Ställ en fråga
@@ -409,33 +409,33 @@ qa-postQuestionForm-rte =
 qa-postQuestionFormFake-rte =
   .placeholder = { qa-postQuestionForm-rteLabel }
 
-qa-sortMenu-mostVoted = Mest röstade
+qa-sortMenu-mostVoted = Mest gillade
 
 qa-answered-tag = besvarad
 qa-expert-tag = expert
 
-qa-reaction-vote = Rösta
-qa-reaction-voted = Röstad
+qa-reaction-vote = Gilla
+qa-reaction-voted = Gillad
 
 qa-reaction-aria-vote =
   .aria-label = {$count ->
-    [0] Röst på kommentar av {$username}
-    *[other] Röster ({$count}) på kommentar av {$username}
+    [0] röst på kommentar av {$username}
+    *[other] röster ({$count}) på kommentar av {$username}
   }
 qa-reaction-aria-voted =
   .aria-label = {$count ->
-    [0] Röster på kommentar av {$username}
-    [one] Röst på kommentar av {$username}
-    *[other] Röster ({$count}) på kommentar av {$username}
+    [0] röster på kommentar av {$username}
+    [one] röst på kommentar av {$username}
+    *[other] röster ({$count}) på kommentar av {$username}
   }
 
 qa-unansweredTab-doneAnswering = Klar
 
 qa-expert-email = ({ $email })
 
-qa-answeredTooltip-how = Hur besvaras en fråga?
+qa-answeredTooltip-how = Vilka frågor besvaras?
 qa-answeredTooltip-answeredComments =
-  Frågor besvaras av en Q&A-expert.
+  Alla frågor besvaras under chatten i mån av tid.
 qa-answeredTooltip-toggleButton =
   .aria-label = Visa info om besvarade frågor
   .title = Växla info om besvarade frågor
@@ -523,7 +523,7 @@ profile-historyComment-viewConversation = Visa diskussion
 profile-historyComment-replies = Svar {$replyCount}
 profile-historyComment-commentHistory = Kommentarshistorik
 profile-historyComment-story = Artikel: {$title}
-profile-historyComment-comment-on = Kommentera på:
+profile-historyComment-comment-on = Kommentar på:
 profile-profileQuery-errorLoadingProfile = Fel vid laddning av profil
 profile-profileQuery-storyNotFound = Artikel hittades inte
 profile-commentHistory-loadMore = Ladda fler
@@ -732,7 +732,7 @@ profile-account-notifications-inPageNotifications-on = Märken på
 profile-account-notifications-inPageNotifications-off = Märken av
 
 profile-account-notifications-showReplies-fromAnyone = från vem som helst
-profile-account-notifications-showReplies-fromStaff = från en personalmedlem
+profile-account-notifications-showReplies-fromStaff = från en moderator
 profile-account-notifications-showReplies =
   .aria-label = Visa svar från
 
@@ -905,26 +905,26 @@ configure-openStream-theStreamIsNowClosed = Tråden är nu stängd
 configure-moderateThisStream =
 
 qa-experimentalTag-tooltip-content =
-  Q&A-formatet är för närvarande under aktiv utveckling. Vänligen kontakta
+  Livechat är för närvarande under aktiv utveckling. Vänligen kontakta
   oss med feedback eller förfrågningar.
 
 configure-enableQA-title =
 configure-enableQA-switchToQA =
-  Byt till Q&A-format
+  Byt till livechat
 configure-enableQA-description =
-  Q&A-formatet möjliggör för communitymedlemmar att skicka in frågor till utvalda
+  Livechat möjliggör för användare att skicka in frågor till utvalda
   experter för svar.
-configure-enableQA-enableQA = Byt till Q&A
+configure-enableQA-enableQA = Byt till livechat
 configure-enableQA-streamIsNowComments =
   Denna tråd är nu i kommentarsformat
 
-configure-disableQA-title = Konfigurera denna Q&A
+configure-disableQA-title = Konfigurera denna livechat
 configure-disableQA-description =
-  Q&A-formatet möjliggör för communitymedlemmar att skicka in frågor till utvalda
+  Livechat möjliggör för användare att skicka in frågor till utvalda
   experter för svar.
 configure-disableQA-disableQA = Byt till Kommentarer
 configure-disableQA-streamIsNowQA =
-  Denna tråd är nu i Q&A-format
+  Denna tråd är nu i Livechat-läge
 
 configure-experts-title = Lägg till en expert
 configure-experts-filter-searchField =
@@ -939,7 +939,7 @@ configure-experts-filter-description =
 configure-experts-search-none-found = Inga användare hittades med den e-posten eller användarnamnet
 configure-experts-remove-button = Ta bort
 configure-experts-load-more = Ladda fler
-configure-experts-none-yet = Det finns för närvarande inga experter för denna Q&A.
+configure-experts-none-yet = Det finns för närvarande inga experter för denna livechat.
 configure-experts-search-title = Sök efter en expert
 configure-experts-assigned-title = Experter
 configure-experts-noLongerAnExpert = är inte längre expert
@@ -956,7 +956,7 @@ suspendInfo-heading-yourAccountHasBeen =
 suspendInfo-description-inAccordanceWith =
   I enlighet med { $organization }:s riktlinjer för artikelkommentarer
   har ditt konto blivit tillfälligt avstängt. Under avstängningen kan
-  du inte kommentera, ge kudos eller anmäla kommentarer.
+  du inte kommentera, gilla eller anmäla kommentarer.
 suspendInfo-until-pleaseRejoinThe =
   Välkommen att åter delta i diskussionen den { $until }
 
@@ -970,7 +970,7 @@ warning-acknowledge = Godkänn
 warning-notice = Ditt konto har fått en varning. För att fortsätta delta vänligen <a>granska varningsmeddelandet</a>.
 
 modMessage-heading = Ditt konto har fått ett meddelande från en moderator
-modMessage-acknowledge = Godkänn
+modMessage-acknowledge = Okej
 
 profile-changeEmail-unverified = (Obekräftad)
 profile-changeEmail-current = (nuvarande)
@@ -1001,7 +1001,7 @@ profile-changeEmail-success = Din e-postadress har ändrats
 ## Ratings and Reviews
 
 ratingsAndReviews-postCommentForm-section =
-  .aria-label = Skicka in en omdöme eller ställ en fråga
+  .aria-label = Skicka in ett omdöme eller ställ en fråga
 
 ratingsAndReviews-reviewsTab = Omdömen
 ratingsAndReviews-questionsTab = Frågor
