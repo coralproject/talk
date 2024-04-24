@@ -1040,8 +1040,8 @@ comments-addAReviewForm-rte =
 comments-addAReviewFormFake-rte =
   .placeholder = { comments-addAReviewForm-rteLabel }
 
-stream-footer-links-top-of-article = Top of article
-  .title = Go to top of article
+stream-footer-links-top-of-article = Top of page
+  .title = Go to top of page
 stream-footer-links-top-of-comments = Top of comments
   .title = Go to top of comments
 stream-footer-links-profile = Profile & Replies

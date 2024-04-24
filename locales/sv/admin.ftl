@@ -204,9 +204,6 @@ configure-moderationPhases-phaseNotFound = Extern modereringsfas hittades inte
 configure-moderationPhases-experimentalFeature =
   Funktionen för anpassade modereringsfaser är för närvarande under aktiv utveckling.
   Vänligen <ContactUsLink>kontakta oss med feedback eller förfrågningar</ContactUsLink>.
-configure-moderationPhases-dsaEnabled = 
-  Du har för närvarande DSA-funktioner aktiverade. Extern moderering är inte
-  för närvarande DSA-kompatibel och är därför inaktiverad.
 configure-moderationPhases-header-title = Modereringsfaser
 configure-moderationPhases-description =
   Konfigurera en extern modereringsfas för att automatisera vissa modererings
@@ -516,18 +513,18 @@ configure-general-topCommenter-title = Toppskribent
 configure-general-topCommenter-explanation = Lägg till Toppskribent-märke till kommentatorer med utvalda kommentarer de senaste 10 dagarna
 configure-general-topCommenter-enabled = Toppskribent
 
-configure-general-flairBadge-header = Anpassade utmärkelsemärken
-configure-general-flairBadge-description = Uppmuntra användarengagemang och deltagande genom att lägga till anpassade utmärkelsemärken
+configure-general-flairBadge-header = Anpassade användarsymboler
+configure-general-flairBadge-description = Uppmuntra användarengagemang och deltagande genom att lägga till anpassade användarsymboler
   för din webbplats. Märken kan tilldelas som en del av ditt <externalLink>JWT-påstående</externalLink>.
-configure-general-flairBadge-enable-label = Aktivera anpassade utmärkelsemärken
-configure-general-flairBadge-add = Flär-URL
+configure-general-flairBadge-enable-label = Aktivera anpassade användarsymboler
+configure-general-flairBadge-add = Symbol-URL
 configure-general-flairBadge-add-helperText =
-  Klistra in webbadressen för ditt anpassade utmärkelsemärke. Stödda filtyper: png, jpeg, jpg och gif
+  Klistra in webbadressen för din anpassade användarsymbol. Stödda filtyper: png, jpeg, jpg och gif
 configure-general-flairBadge-url-error =
   URL:en är ogiltig eller har en filtyp som inte stöds.
-configure-general-flairBadge-add-name = Flärnamn
+configure-general-flairBadge-add-name = Symbolnamn
 configure-general-flairBadge-add-name-helperText =
-  Namnge flären med en beskrivande identifierare
+  Namnge symbolen med en beskrivande identifierare
 configure-general-flairBadge-name-permittedCharacters =
   Endast bokstäver, siffror och specialtecken - . är tillåtna.
 configure-general-flairBadge-add-button = Lägg till
@@ -535,7 +532,16 @@ configure-general-flairBadge-table-flairName = Namn
 configure-general-flairBadge-table-flairURL = URL
 configure-general-flairBadge-table-preview = Förhandsgranskning
 configure-general-flairBadge-table-deleteButton = <icon></icon> Ta bort
-configure-general-flairBadge-table-empty = Inget anpassat flär tillagt för denna webbplats
+configure-general-flairBadge-table-empty = Ingen anpassad användarsymbol tillagd för denna webbplats
+
+#### In-page notifications
+configure-general-inPageNotifications-title = Notiser på sidan
+configure-general-inPageNotifications-explanation = Lägg till Notiser till Coral. När det är aktiverat kan kommentatorer ta emot
+  notiser när de får alla svar, endast svar från medlemmar i ditt
+  team, när en väntande kommentar publiceras. Kommentatorer kan avaktivera
+  visuella notiser i sina profilinställningar. Detta kommer att ta bort e-postnotifikationer.
+configure-general-inPageNotifications-enabled = Notiser på sidan aktiverade
+configure-general-inPageNotifications-floatingBellIndicator = Flytande notissymbol
 
 #### Meddelande för Stängd Tråd
 configure-general-closedStreamMessage-title = Meddelande för stängd kommentarstråd
@@ -876,6 +882,18 @@ configure-moderation-emailDomains-form-editDomain = Uppdatera
 configure-moderation-emailDomains-confirmDelete = Att radera denna e-postdomän kommer att stoppa alla nya konton skapade med den från att bli avstängda eller alltid förhandsmodererade. Är du säker på att du vill fortsätta?
 configure-moderation-emailDomains-form-description-add = Lägg till en domän och välj den åtgärd som ska vidtas vid varje nytt konto skapat med den angivna domänen.
 configure-moderation-emailDomains-form-description-edit = Uppdatera domänen eller åtgärden som ska vidtas vid varje nytt konto med den angivna domänen.
+configure-moderation-emailDomains-exceptions-header = Undantag
+configure-moderation-emailDomains-exceptions-helperText = Dessa domäner kan inte bannlysas. Domäner ska skrivas utan www, till exempel "gmail.com". Separera domäner med ett kommatecken och ett mellanslag.
+
+configure-moderation-emailDomains-showCurrent = Visa nuvarande domänlista
+configure-moderation-emailDomains-hideCurrent = Dölj nuvarande domänlista
+configure-moderation-emailDomains-filterByStatus = 
+  .aria-label = Filtrera efter e-postdomänstatus
+configuration-moderation-emailDomains-empty = Det finns inga e-postdomäner konfigurerade.
+
+configure-moderation-emailDomains-allDomains = Alla domäner
+configure-moderation-emailDomains-preMod = För-moderering
+configure-moderation-emailDomains-banned = Bannlysta
 
 #### Förhandsmoderera e-postadresskonfiguration
 
@@ -1045,6 +1063,8 @@ moderate-flagDetails-other = Annat
 moderate-flagDetails-illegalContent = Olagligt innehåll
 moderate-flagDetails-viewDSAReport = Visa DSA-rapport
 
+moderate-card-flag-details-anonymousUser = Anonym användare
+
 moderate-flagDetails-toxicityScore = Toxicitetsscore
 moderate-toxicityLabel-likely = Troligen <score></score>
 moderate-toxicityLabel-unlikely = Osannolikt <score></score>
@@ -1167,9 +1187,10 @@ moderate-user-drawer-username-not-available-tooltip-title = Användarnamn inte t
 moderate-user-drawer-username-not-available-tooltip-body = Användaren slutförde inte kontoinställningsprocessen
 
 moderate-user-drawer-account-history-system = <icon></icon> System
-moderate-user-drawer-account-history-suspension-ended = Avstängning avslutad
-moderate-user-drawer-account-history-suspension-removed = Avstängning borttagen
-moderate-user-drawer-account-history-banned = Avständ
+moderate-user-drawer-account-history-suspension-ended = Blockering avslutad
+moderate-user-drawer-account-history-suspension-removed = Blockering borttagen
+moderate-user-drawer-account-history-banned = Avstängd
+moderate-user-drawer-account-history-account-domain-banned = Användardomän avstängd
 moderate-user-drawer-account-history-ban-removed = Avstängning borttagen
 moderate-user-drawer-account-history-site-banned = Webbplatsavstängd
 moderate-user-drawer-account-history-site-ban-removed = Webbplatsavstängning borttagen
@@ -1183,6 +1204,8 @@ moderate-user-drawer-account-history-premod-removed = För-moderering borttagen
 
 moderate-user-drawer-account-history-modMessage-sent = Användare meddelad
 moderate-user-drawer-account-history-modMessage-acknowledged = Meddelande mottaget den { $acknowledgedAt }
+
+moderate-user-drawer-newCommenter = Ny kommentator
 
 moderate-user-drawer-suspension =
   Avstängning, { $value } { $unit ->
@@ -1407,6 +1430,8 @@ community-userStatus-removePremod = Ta bort förhandsmoderering
 community-banModal-allSites-title = Är du säker på att du vill stänga av <username></username>?
 community-banModal-banEmailDomain-title = Blockera E-postdomän
 community-banModal-banEmailDomain = Stänga av alla nya kommentarskonton från { $domain }
+community-banModal-banEmailDomain-callOut = Detta kommer att förhindra att någon kommentator använder denna e-postdomän
+community-banModal-banEmailDomain-confirmationText = Skriv in "{ $text }" för att bekräfta
 community-banModal-specificSites-title = Är du säker på att du vill hantera avstängningen för <username></username>?
 community-banModal-noSites-title = Är du säker på att du vill återaktivera <username></username>?
 community-banModal-allSites-consequence =
@@ -1622,6 +1647,10 @@ configure-general-reactions-sort-input =
   .placeholder = T.ex. Mest gillad
 configure-general-reactions-preview = Förhandsgranska
 configure-general-reaction-sortMenu-sortBy = Sortera efter
+
+configure-general-newCommenter-title = Märke för nya kommentatorer
+configure-general-newCommenter-explanation = Lägg till <icon></icon> märke till kommentatorer som skapat sina konton de senaste sju dagarna.
+configure-general-newCommenter-enabled = Aktivera märken för nya kommentatorer
 
 configure-general-badges-title = Medlemsmärken
 configure-general-badges-explanation =

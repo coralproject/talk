@@ -113,3 +113,6 @@ email-template-notificationOnCommentRejected =
 # Notification Digest
 
 email-subject-notificationDigest = Din senaste kommentarsaktivitet på { $organizationName }
+
+email-subject-testSmtpTest = Test-mejl från Coral
+email-template-testSmtpTest = Detta är ett test-mejl skickat till { $email }

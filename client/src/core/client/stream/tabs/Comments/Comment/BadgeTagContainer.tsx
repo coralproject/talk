@@ -24,22 +24,22 @@ const BadgeTagContainer: FunctionComponent<Props> = ({
   return (
     <>
       {tags.includes("ADMIN") && (
-        <Tag className={cn(className, styles.tag)}>
+        <Tag className={cn(className, styles.tag)} data-tagname="admin">
           {settings.badges.adminLabel}
         </Tag>
       )}
       {tags.includes("MODERATOR") && (
-        <Tag className={cn(className, styles.tag)}>
+        <Tag className={cn(className, styles.tag)} data-tagname="moderator">
           {settings.badges.moderatorLabel}
         </Tag>
       )}
       {tags.includes("STAFF") && (
-        <Tag className={cn(className, styles.tag)}>
+        <Tag className={cn(className, styles.tag)} data-tagname="staff">
           {settings.badges.staffLabel}
         </Tag>
       )}
       {tags.includes("MEMBER") && (
-        <Tag className={cn(className, styles.tag)}>
+        <Tag className={cn(className, styles.tag)} data-tagname="member">
           {settings.badges.memberLabel}
         </Tag>
       )}
