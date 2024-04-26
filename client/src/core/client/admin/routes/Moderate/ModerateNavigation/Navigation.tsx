@@ -31,7 +31,7 @@ interface Props {
   section?: SectionFilter | null;
   mode?: "PRE" | "POST" | "SPECIFIC_SITES_PRE" | "%future added value" | null;
   enableForReview?: boolean;
-  showUnmoderatedCounts?: boolean;
+  showUnmoderatedCounts?: boolean | null;
 }
 
 const Navigation: FunctionComponent<Props> = ({
