@@ -463,7 +463,7 @@ export const ViewConversationEvent = createViewerEvent<{
  */
 export const ViewNotificationsFeedEvent = createViewerEvent<{
   userID?: string;
-}>("viewNotificationsFeedEvent");
+}>("viewNotificationsFeed");
 
 /**
  * This event is emitted when the viewer clicks
