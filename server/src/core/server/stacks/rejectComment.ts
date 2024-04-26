@@ -126,8 +126,8 @@ const rejectComment = async (
   if (
     revision &&
     tenant.integrations.akismet.enabled &&
-    (revision.actionCounts.COMMENT_REPORTED_SPAM > 0 ||
-      revision.actionCounts.COMMENT_DETECTED_SPAM > 0)
+    (revision.actionCounts.FLAG__COMMENT_REPORTED_SPAM > 0 ||
+      revision.actionCounts.FLAG__COMMENT_DETECTED_SPAM > 0)
   ) {
     await submitCommentAsSpam(mongo, tenant, result.before, request);
   }
