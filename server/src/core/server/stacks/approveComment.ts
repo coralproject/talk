@@ -7,7 +7,10 @@ import { retrieveNotificationByCommentReply } from "coral-server/models/notifica
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import { retrieveComment } from "coral-server/services/comments";
-import { moderate } from "coral-server/services/comments/moderation";
+import {
+  PENDING_STATUS,
+  moderate,
+} from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
 import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -99,11 +102,8 @@ const approveComment = async (
     }
   }
 
-  if (
-    createNotification &&
-    previousComment &&
-    notVisibleStatuses.includes(previousComment?.status)
-  ) {
+  // only create notification upon approval of comments with previous pending status
+  if (createNotification && PENDING_STATUS.includes(result.before.status)) {
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: result.after.authorID!,
       comment: result.after,
@@ -116,7 +116,11 @@ const approveComment = async (
   // and there is a reply notification for it, increment the notificationCount
   // for that notification's owner since it was decremented upon original
   // rejection
-  if (previousComment && notVisibleStatuses.includes(previousComment?.status)) {
+  if (
+    previousComment?.status === GQLCOMMENT_STATUS.REJECTED ||
+    previousComment?.status === GQLCOMMENT_STATUS.PREMOD ||
+    previousComment?.status === GQLCOMMENT_STATUS.SYSTEM_WITHHELD
+  ) {
     const replyNotification = await retrieveNotificationByCommentReply(
       mongo,
       tenant.id,
