@@ -8,8 +8,8 @@ import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import { retrieveComment } from "coral-server/services/comments";
 import {
-  PENDING_STATUS,
   moderate,
+  PENDING_STATUS,
 } from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
 import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
@@ -23,12 +23,6 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { publishChanges } from "./helpers";
-
-const notVisibleStatuses = [
-  GQLCOMMENT_STATUS.PREMOD,
-  GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
-  GQLCOMMENT_STATUS.REJECTED,
-];
 
 const approveComment = async (
   mongo: MongoContext,
