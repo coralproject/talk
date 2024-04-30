@@ -21,6 +21,12 @@ import {
 
 import { publishChanges } from "./helpers";
 
+const notVisibleStatuses = [
+  GQLCOMMENT_STATUS.PREMOD,
+  GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
+  GQLCOMMENT_STATUS.REJECTED,
+];
+
 const approveComment = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
@@ -93,7 +99,11 @@ const approveComment = async (
     }
   }
 
-  if (createNotification) {
+  if (
+    createNotification &&
+    previousComment &&
+    notVisibleStatuses.includes(previousComment?.status)
+  ) {
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: result.after.authorID!,
       comment: result.after,
@@ -106,11 +116,7 @@ const approveComment = async (
   // and there is a reply notification for it, increment the notificationCount
   // for that notification's owner since it was decremented upon original
   // rejection
-  if (
-    previousComment?.status === GQLCOMMENT_STATUS.REJECTED ||
-    previousComment?.status === GQLCOMMENT_STATUS.PREMOD ||
-    previousComment?.status === GQLCOMMENT_STATUS.SYSTEM_WITHHELD
-  ) {
+  if (previousComment && notVisibleStatuses.includes(previousComment?.status)) {
     const replyNotification = await retrieveNotificationByCommentReply(
       mongo,
       tenant.id,
