@@ -7,7 +7,10 @@ import { retrieveNotificationByCommentReply } from "coral-server/models/notifica
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import { retrieveComment } from "coral-server/services/comments";
-import { moderate } from "coral-server/services/comments/moderation";
+import {
+  moderate,
+  PENDING_STATUS,
+} from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
 import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -93,7 +96,8 @@ const approveComment = async (
     }
   }
 
-  if (createNotification) {
+  // only create notification upon approval of comments with previous pending status
+  if (createNotification && PENDING_STATUS.includes(result.before.status)) {
     await notifications.create(tenant.id, tenant.locale, {
       targetUserID: result.after.authorID!,
       comment: result.after,
