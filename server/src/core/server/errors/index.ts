@@ -1064,3 +1064,12 @@ export class InvalidFlairBadgeName extends CoralError {
     });
   }
 }
+
+export class UnableToPrimeCachedCommentsForStory extends CoralError {
+  constructor(tenantID: string, storyID: string) {
+    super({
+      code: ERROR_CODES.UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY,
+      context: { pub: { tenantID } },
+    });
+  }
+}

@@ -467,4 +467,10 @@ export enum ERROR_CODES {
    * to a DSA report that is too long
    */
   DSA_REPORT_ADDITIONAL_INFO_TOO_LONG = "DSA_REPORT_ADDITIONAL_INFO_TOO_LONG",
+  /**
+   * UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY is thrown when DATA_CACHE is enabled and the
+   * priming of comments for the story in the data caches `commentCache` returns an undefined
+   * result. This usually means something went very wrong loading from Redis or Mongo.
+   */
+  UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY = "UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY"
 }

@@ -2,7 +2,10 @@ import DataLoader from "dataloader";
 import { defaultTo, isNumber } from "lodash";
 import { DateTime } from "luxon";
 
-import { StoryNotFoundError } from "coral-server/errors";
+import {
+  StoryNotFoundError,
+  UnableToPrimeCachedCommentsForStory,
+} from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
@@ -369,11 +372,16 @@ export default (ctx: GraphContext) => ({
       return connection;
     }
 
-    const { userIDs } = await ctx.cache.comments.primeCommentsForStory(
+    const primeResult = await ctx.cache.comments.primeCommentsForStory(
       ctx.tenant.id,
       storyID,
       isArchived
     );
+    if (!primeResult) {
+      throw new UnableToPrimeCachedCommentsForStory(ctx.tenant.id, storyID);
+    }
+
+    const { userIDs } = primeResult;
     await ctx.cache.users.loadUsers(ctx.tenant.id, userIDs);
     await ctx.cache.commentActions.primeCommentActions(ctx.tenant.id, story.id);
 

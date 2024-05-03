@@ -35,6 +35,7 @@ export class CommentCache implements IDataCache {
   private commentsByKey: Map<string, Readonly<Comment>>;
   private membersLookup: Map<string, string[]>;
   private tenantCache: TenantCache | null;
+  private primedStories: Set<string>;
 
   constructor(
     mongo: MongoContext,
@@ -55,6 +56,8 @@ export class CommentCache implements IDataCache {
 
     this.commentsByKey = new Map<string, Readonly<Comment>>();
     this.membersLookup = new Map<string, string[]>();
+
+    this.primedStories = new Set<string>();
   }
 
   public async available(tenantID: string): Promise<boolean> {
@@ -192,6 +195,10 @@ export class CommentCache implements IDataCache {
     storyID: string,
     isArchived: boolean
   ) {
+    if (this.primedStories.has(storyID)) {
+      return;
+    }
+
     const lockKey = this.computeLockKey(tenantID, storyID);
     const hasCommentsInRedis = await this.redis.exists(lockKey);
 
@@ -213,6 +220,8 @@ export class CommentCache implements IDataCache {
       }
       commentIDs.add(comment.id);
     }
+
+    this.primedStories.add(storyID);
 
     return {
       userIDs: Array.from(userIDs),
