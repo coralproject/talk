@@ -25,6 +25,8 @@ export interface Filter {
 }
 
 export class CommentCache implements IDataCache {
+  public readonly primedStories: Set<string>;
+
   private disableLocalCaching: boolean;
   private expirySeconds: number;
 
@@ -35,7 +37,6 @@ export class CommentCache implements IDataCache {
   private commentsByKey: Map<string, Readonly<Comment>>;
   private membersLookup: Map<string, string[]>;
   private tenantCache: TenantCache | null;
-  private primedStories: Set<string>;
 
   constructor(
     mongo: MongoContext,
@@ -190,15 +191,15 @@ export class CommentCache implements IDataCache {
     };
   }
 
+  public shouldPrimeForStory(tenantID: string, storyID: string) {
+    return !this.primedStories.has(`${tenantID}:${storyID}`);
+  }
+
   public async primeCommentsForStory(
     tenantID: string,
     storyID: string,
     isArchived: boolean
   ) {
-    if (this.primedStories.has(storyID)) {
-      return;
-    }
-
     const lockKey = this.computeLockKey(tenantID, storyID);
     const hasCommentsInRedis = await this.redis.exists(lockKey);
 
@@ -221,7 +222,7 @@ export class CommentCache implements IDataCache {
       commentIDs.add(comment.id);
     }
 
-    this.primedStories.add(storyID);
+    this.primedStories.add(`${tenantID}:${storyID}`);
 
     return {
       userIDs: Array.from(userIDs),

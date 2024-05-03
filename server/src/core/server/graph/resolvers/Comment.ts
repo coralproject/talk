@@ -155,7 +155,10 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     }
 
     const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
-    if (cacheAvailable) {
+    if (
+      cacheAvailable &&
+      ctx.cache.comments.shouldPrimeForStory(ctx.tenant.id, c.storyID)
+    ) {
       const story = await ctx.loaders.Stories.find.load({ id: c.storyID });
       await ctx.cache.comments.primeCommentsForStory(
         ctx.tenant.id,
