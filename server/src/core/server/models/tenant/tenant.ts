@@ -314,6 +314,7 @@ export const combineTenantDefaultsAndInput = (
       enabled: true,
       floatingBellIndicator: true,
     },
+    showUnmoderatedCounts: true,
   };
 
   // Create the new Tenant by merging it together with the defaults.

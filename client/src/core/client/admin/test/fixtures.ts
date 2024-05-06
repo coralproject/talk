@@ -242,6 +242,7 @@ export const settings = createFixture<GQLSettings>({
     },
   },
   protectedEmailDomains: Array.from(PROTECTED_EMAIL_DOMAINS),
+  showUnmoderatedCounts: true,
 });
 
 export const settingsWithMultisite = createFixture<GQLSettings>(

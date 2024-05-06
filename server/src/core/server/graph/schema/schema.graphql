@@ -2374,6 +2374,12 @@ type Settings @cacheControl(maxAge: 30) {
   whether it's enabled as an option for commenters.
   """
   inPageNotifications: InPageNotificationsConfiguration
+
+  """
+  showUnmoderatedCounts is whether to show the unmoderated comment count in the
+  moderation queues.
+  """
+  showUnmoderatedCounts: Boolean
 }
 
 ################################################################################
@@ -6783,6 +6789,12 @@ input SettingsInput {
   inPageNotifications specifies the configuration for in-page notifications
   """
   inPageNotifications: InPageNotificationsConfigurationInput
+
+  """
+  showUnmoderatedCounts is whether or not to show the unmoderated counts in the
+  moderation queue.
+  """
+  showUnmoderatedCounts: Boolean
 }
 
 """
