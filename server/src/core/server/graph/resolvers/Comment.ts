@@ -147,12 +147,29 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   },
   statusHistory: ({ id }, input, ctx) =>
     ctx.loaders.CommentModerationActions.forComment(input, id),
-  replies: (c, input, ctx) =>
+  replies: async (c, input, ctx) => {
     // If there is at least one reply, then use the connection loader, otherwise
     // return a blank connection.
-    c.childCount > 0
-      ? ctx.loaders.Comments.forParent(c.storyID, c.id, input)
-      : createConnection(),
+    if (c.childCount === 0) {
+      return createConnection();
+    }
+
+    const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
+    if (
+      cacheAvailable &&
+      ctx.cache.comments.shouldPrimeForStory(ctx.tenant.id, c.storyID)
+    ) {
+      const story = await ctx.loaders.Stories.find.load({ id: c.storyID });
+      await ctx.cache.comments.primeCommentsForStory(
+        ctx.tenant.id,
+        c.storyID,
+        !!story?.isArchived
+      );
+    }
+
+    const result = await ctx.loaders.Comments.forParent(c.storyID, c.id, input);
+    return result;
+  },
   replyCount: async ({ storyID, childIDs }, input, ctx) => {
     // TODO: (wyattjoh) the childCount should be used eventually, but it should be managed with the status so it's only a count of published comments
     if (childIDs.length === 0) {

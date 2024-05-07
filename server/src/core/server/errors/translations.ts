@@ -84,4 +84,6 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   INVALID_FLAIR_BADGE_NAME: "error-invalidFlairBadgeName",
   DSA_REPORT_LAW_BROKEN_TOO_LONG: "error-dsaReportLawBrokenTooLong",
   DSA_REPORT_ADDITIONAL_INFO_TOO_LONG: "error-dsaReportAdditionalInfoTooLong",
+  UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY:
+    "error-unableToPrimeCachedCommentsForStory",
 };
