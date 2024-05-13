@@ -4,7 +4,7 @@ import { graphql } from "relay-runtime";
 
 import RecacheStoryAction from "coral-admin/components/StoryInfoDrawer/RecacheStoryAction";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLSTORY_STATUS } from "coral-framework/schema";
+import { GQLFEATURE_FLAG, GQLSTORY_STATUS } from "coral-framework/schema";
 import { Flex, HorizontalGutter, TextLink } from "coral-ui/components/v2";
 import ArchivedMarker from "coral-ui/components/v3/ArchivedMarker/ArchivedMarker";
 
@@ -32,6 +32,9 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
   viewer,
   settings,
 }) => {
+  const dataCacheEnabled = settings.featureFlags.includes(
+    GQLFEATURE_FLAG.DATA_CACHE
+  );
   return (
     <HorizontalGutter spacing={4} className={styles.root}>
       <Flex justifyContent="flex-start">
@@ -84,13 +87,17 @@ const StoryInfoDrawerContainer: FunctionComponent<Props> = ({
               <div className={styles.storyDrawerAction}>
                 <RescrapeStory storyID={story.id} />
               </div>
-              <div className={styles.storyDrawerAction}>
-                <RecacheStoryAction storyID={story.id} />
-              </div>
-              {story.cached && (
-                <div className={styles.storyDrawerAction}>
-                  <InvalidateCachedStoryAction storyID={story.id} />
-                </div>
+              {dataCacheEnabled && (
+                <>
+                  <div className={styles.storyDrawerAction}>
+                    <RecacheStoryAction storyID={story.id} />
+                  </div>
+                  {story.cached && (
+                    <div className={styles.storyDrawerAction}>
+                      <InvalidateCachedStoryAction storyID={story.id} />
+                    </div>
+                  )}
+                </>
               )}
               {viewer && (
                 <div className={styles.flexSizeToContentWidth}>
@@ -139,6 +146,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment StoryInfoDrawerContainer_settings on Settings {
+      featureFlags
       ...ModerateStoryButton_settings
     }
   `,

@@ -870,6 +870,10 @@ configure-moderation-newCommenters-approvedCommentsThreshold-description =
   not have to be premoderated
 configure-moderation-newCommenters-comments = comments
 
+#### Unmoderated counts
+configure-moderation-unmoderatedCounts-title = Unmoderated counts
+configure-moderation-unmoderatedCounts-enabled = Show the number of unmoderated comments in the queue
+
 #### Email domain
 configure-moderation-emailDomains-header = Email domain
 configure-moderation-emailDomains-description = Create rules to take action on accounts or comments based on the account holder's email address domain.

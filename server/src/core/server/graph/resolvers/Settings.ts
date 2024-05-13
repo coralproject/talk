@@ -87,4 +87,6 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   inPageNotifications: ({
     inPageNotifications = { enabled: true, floatingBellIndicator: true },
   }) => inPageNotifications,
+  showUnmoderatedCounts: ({ showUnmoderatedCounts = true }) =>
+    showUnmoderatedCounts,
 };

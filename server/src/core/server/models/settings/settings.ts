@@ -458,6 +458,12 @@ export type Settings = GlobalModerationSettings &
      * as an option for commenters
      */
     inPageNotifications?: InPageNotificationsConfig;
+
+    /**
+     * showUnmoderatedCounts specifies whether or not the unmoderated comment count
+     * is shown in the moderation queue
+     */
+    showUnmoderatedCounts?: boolean;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {

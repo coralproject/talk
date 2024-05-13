@@ -75,6 +75,7 @@ const ModerateNavigationContainer: React.FunctionComponent<Props> = (props) => {
       section={props.section}
       mode={props.settings?.moderation}
       enableForReview={props.settings?.forReviewQueue}
+      showUnmoderatedCounts={props.settings?.showUnmoderatedCounts}
     />
   );
 };
@@ -91,6 +92,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment ModerateNavigationContainer_settings on Settings {
       moderation
       forReviewQueue
+      showUnmoderatedCounts
     }
   `,
   moderationQueues: graphql`

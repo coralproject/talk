@@ -25,6 +25,8 @@ export interface Filter {
 }
 
 export class CommentCache implements IDataCache {
+  public readonly primedStories: Set<string>;
+
   private disableLocalCaching: boolean;
   private expirySeconds: number;
 
@@ -55,6 +57,8 @@ export class CommentCache implements IDataCache {
 
     this.commentsByKey = new Map<string, Readonly<Comment>>();
     this.membersLookup = new Map<string, string[]>();
+
+    this.primedStories = new Set<string>();
   }
 
   public async available(tenantID: string): Promise<boolean> {
@@ -187,6 +191,10 @@ export class CommentCache implements IDataCache {
     };
   }
 
+  public shouldPrimeForStory(tenantID: string, storyID: string) {
+    return !this.primedStories.has(`${tenantID}:${storyID}`);
+  }
+
   public async primeCommentsForStory(
     tenantID: string,
     storyID: string,
@@ -213,6 +221,8 @@ export class CommentCache implements IDataCache {
       }
       commentIDs.add(comment.id);
     }
+
+    this.primedStories.add(`${tenantID}:${storyID}`);
 
     return {
       userIDs: Array.from(userIDs),
