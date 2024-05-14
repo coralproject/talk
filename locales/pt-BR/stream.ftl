@@ -2,11 +2,17 @@
 
 ## General
 
+general-commentsEmbedSection =
+  .aria-label = Comentários incorporados
 general-moderate = Moderar
+general-archived = Arquivado
 
 general-userBoxUnauthenticated-joinTheConversation = Participe da conversa
 general-userBoxUnauthenticated-signIn = Entrar
 general-userBoxUnauthenticated-register = Cadastre-se
+
+general-authenticationSection =
+  .aria-label = Autenticação
 
 general-userBoxAuthenticated-signedIn =
   Logado como
@@ -19,7 +25,16 @@ general-userBox-youHaveBeenSuccessfullySignedOut =
 general-tabBar-commentsTab = Comentários
 general-tabBar-myProfileTab = Meu Perfil
 general-tabBar-discussionsTab = Discussões
+general-tabBar-reviewsTab = Revisões
 general-tabBar-configure = Configurações
+general-tabBar-notifications = Notificações
+general-tabBar-notifications-hasNew = Notificações (novas)
+
+general-mainTablist =
+  .aria-label = Lista de guias principal
+
+general-secondaryTablist =
+  .aria-label = Secondary Lista de guias
 
 ## Comment Count
 
@@ -29,12 +44,30 @@ comment-count-text =
     *[other] Comentários
   }
 
+comment-count-text-ratings =
+  { $count  ->
+    [one] Avaliação
+    *[other] Avaliações
+  }
+
 ## Comments Tab
+
+addACommentButton =
+  .aria-label = Adicione um comentário. Esse botão moverá o foco para a parte inferior dos comentários.
 
 comments-allCommentsTab = Todos os comentários
 comments-featuredTab = Destaques
 comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-watchers = { SHORT_NUMBER($count) } online
+
+comments-announcement-section =
+  .aria-label = Anúncio
+comments-announcement-closeButton =
+  .aria-label = Fechar anúncio
+
+comments-accountStatus-section =
+  .aria-label = Status da conta
+
 
 comments-featuredCommentTooltip-how = Como um comentário é destacado?
 comments-featuredCommentTooltip-handSelectedComments =
@@ -43,8 +76,19 @@ comments-featuredCommentTooltip-toggleButton =
   .aria-label = Alternar sugestão de comentários em destaque
   .title = Alternar sugestão de comentários em destaque
 
-comments-collapse-toggle =
-  .aria-label = Recolher tópico de comentários
+comment-top-commenter-tooltip-header = <icon></icon> Principais comentaristas
+comment-top-commenter-tooltip-details = Um dos seus comentários foi destaque nos últimos 10 dias
+comment-new-commenter-tooltip-details = Novo comentarista, diga oi
+comments-collapse-toggle-with-username =
+  .aria-label = Ocultar comentário de { $username } e suas respostas
+comments-collapse-toggle-without-username =
+  .aria-label = Ocultar comentário e suas respostas
+comments-expand-toggle-with-username =
+  .aria-label = Mostrar comentário de { $username } e suas respostas
+comments-expand-toggle-without-username =
+  .aria-label = Mostrar comentário e suas respostas
+
+
 comments-bannedInfo-bannedFromCommenting = Sua conta foi banida de comentar.
 comments-bannedInfo-violatedCommunityGuidelines =
   Alguém com acesso à sua conta violou nossas diretrizes da comunidade.
@@ -57,15 +101,21 @@ comments-noCommentsYet = Ainda não há comentários. Seja o primeiro a comentar
 
 comments-streamQuery-storyNotFound = História não encontrada
 
+comments-communityGuidelines-section =
+  .aria-label = Diretrizes da Comunidade
+
 comments-commentForm-cancel = Cancelar
 comments-commentForm-saveChanges = Salvar alterações
 comments-commentForm-submit = Enviar
+
+comments-postCommentForm-section =
+  .aria-label = Poste um comentário
 
 comments-postCommentForm-submit = Enviar
 comments-replyList-showAll = Mostrar Tudo
 comments-replyList-showMoreReplies = Carregar Mais
 
-comments-postCommentForm-gifSeach = Procurar por um GIF
+comments-postComment-gifSearch = Busque por um GIF
 comments-postComment-gifSearch-search =
   .aria-label = Pesquisar
 comments-postComment-gifSearch-loading = Carregando...
@@ -83,12 +133,15 @@ comments-postComment-confirmMedia-add-tweet = Adicionar Tweet
 comments-postComment-confirmMedia-add-video = Adicionar vídeo
 comments-postComment-confirmMedia-remove = Remover
 comments-commentForm-gifPreview-remove = Remover
+comments-viewNew-loading = Carregando...
 comments-viewNew =
   { $count ->
     [1] Visualizar {$count} Novo Comentário
     *[other] Visualizar {$count} Novos Comentários
   }
 comments-loadMore = Carregar Mais
+comments-loadAll = Carregar Todos os Comentários
+comments-loadAll-loading = Carregando...
 
 comments-permalinkPopover =
   .description = Uma caixa de diálogo mostrando um link permanente para o comentário
@@ -97,8 +150,35 @@ comments-permalinkPopover-permalinkToComment =
 comments-permalinkButton-share = Compartilhar
 comments-permalinkButton =
   .aria-label = Compartilhar
+comments-permalinkButton-copyReportLink = Link do Relatório
+comments-permalinkView-section =
+  .aria-label = Conversa única
 comments-permalinkView-viewFullDiscussion = Ver discussão completa
 comments-permalinkView-commentRemovedOrDoesNotExist = Este comentário foi removido ou não existe.
+
+comments-permalinkView-reportIllegalContent-title = Reportar conteúdo potencialmente ilegal
+comments-permalinkView-reportIllegalContent-description = Preencha este formulário da melhor forma possível para que nossa equipe de moderação possa tomar uma decisão e, se necessário, consultar o departamento jurídico do nosso site.
+comments-permalinkView-reportIllegalContent-reportingComment = Você está reportando este comentário
+comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel = Qual lei você acredita que foi violada? (obrigatório)
+comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel = Por favor, inclua informações adicionais sobre o porquê este comentário é ilegal (obrigatório)
+comments-permalinkView-reportIllegalContent-additionalInformation-helperText = Qualquer detalhe que você incluir nos ajudará a investigar mais a fundo
+comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Você gostaria de relatar outros comentários por conterem conteúdo potencialmente ilegal?
+comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = Acredito que as informações incluídas neste relatório são precisas e completas
+comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton = <Button></Button>Adicionar
+comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton = URL do comentário
+comments-permalinkView-reportIllegalContent-additionalComments-deleteButton = <icon></icon> Excluir
+comments-permalinkView-reportIllegalContent-submit = Enviar relatório
+comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = Comentário não encontrado. Por favor, insira uma URL de comentário válida
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = Esta não é uma URL válida. Por favor, insira uma URL de comentário válida
+comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = Você já adicionou este comentário a este relatório. Por favor, adicione uma URL de comentário única
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = O comprimento da URL de comentário adicional excede o máximo.
+comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = Você já reportou anteriormente este comentário por conter conteúdo potencialmente ilegal. Você só pode reportar um comentário por este motivo uma vez.
+comments-permalinkView-reportIllegalContent-confirmation-successHeader = Recebemos seu relatório de conteúdo ilegal
+comments-permalinkView-reportIllegalContent-confirmation-description = Seu relatório será revisado por nossa equipe de moderação. Você receberá uma notificação assim que uma decisão for tomada. Se o conteúdo for
+  considerado como potencialmente ilegal, ele será removido do site e ações adicionais podem ser tomadas contra o comentarista.
+comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Obrigado por enviar este relatório
+comments-permalinkView-reportIllegalContent-confirmation-errorDescription = Não conseguimos enviar seu relatório pelos seguintes motivos:
+comments-permalinkView-reportIllegalContent-confirmation-returnToComments = Agora você pode fechar esta aba para voltar aos comentários
 
 comments-rte-bold =
   .title = Negrito
@@ -134,8 +214,6 @@ comments-postCommentForm-rte =
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
 
-comments-postCommentForm-userScheduledForDeletion-warning =
-  Os comentários ficam desativados quando sua conta está agendada para exclusão.
 
 comments-replyButton-reply = Responder
 comments-replyButton =
@@ -148,6 +226,16 @@ comments-replyCommentForm-cancel = Cancelar
 comments-replyCommentForm-rteLabel = Escrever uma resposta
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
+
+comments-commentContainer-threadLevelLabel = Nível do Tópico { $level }:
+comments-commentContainer-highlightedLabel = Destaque:
+comments-commentContainer-ancestorLabel = Antecessor:
+comments-commentContainer-replyLabel =
+  Resposta de { $username } <RelativeTime></RelativeTime>
+comments-commentContainer-questionLabel =
+  Pergunta de { $username } <RelativeTime></RelativeTime>
+comments-commentContainer-commentLabel =
+  Comentário de { $username } <RelativeTime></RelativeTime>
 
 comments-commentContainer-editButton = Editar
 
@@ -199,13 +287,33 @@ comments-userIgnorePopover-description =
 comments-userIgnorePopover-ignore = Ignorar
 comments-userIgnorePopover-cancel = Cancelar
 
+comments-userSpamBanPopover-title = Banimento por Spam
+comments-userSpamBanPopover-header-username = Nome de usuário
+comments-userSpamBanPopover-header-description = O banimento por Spam irá
+comments-userSpamBanPopover-callout = Apenas para uso em contas de spam óbvias
+comments-userSpamBanPopover-description-list-banFromComments = Banir esta conta dos comentários
+comments-userSpamBanPopover-description-list-rejectAllComments = Rejeitar todos os comentários escritos por esta conta
+comments-userSpamBanPopover-confirmation = Digite "{$text}" para confirmar
+
 comments-userBanPopover-title = Banir {$username}?
+comments-userSiteBanPopover-title = Banir {$username} deste site?
 comments-userBanPopover-description =
   Depois de banido, este usuário não poderá mais
   comentar, usar reações ou relatar comentários.
   Este comentário também será rejeitado.
 comments-userBanPopover-cancel = Cancelar
 comments-userBanPopover-ban = Banir
+
+comments-userBanPopover-moderator-ban-error = Não é possível banir contas com privilégios de moderador
+comments-userBanPopover-moreContext = Para mais contexto, vá para
+comments-userBanPopover-moderationView = Visualização de Moderação
+
+comments-userSiteBanPopover-confirm-title = {$username} está agora banido
+comments-userSiteBanPopover-confirm-spam-banned = Esta conta não pode mais comentar, usar reações ou relatar comentários
+comments-userSiteBanPopover-confirm-comments-rejected = Todos os comentários feitos por esta conta foram rejeitados
+comments-userSiteBanPopover-confirm-closeButton = Fechar
+comments-userSiteBanPopover-confirm-reviewAccountHistory = Ainda é possível revisar o histórico desta conta pesquisando na seção de Comunidade do Coral
+comments-userSiteBanPopover-confirm-communitySection = Seção de Comunidade
 
 comments-moderationDropdown-popover =
   .description = Um menu popover para moderar o comentário
@@ -215,7 +323,9 @@ comments-moderationDropdown-approve = Aprovar
 comments-moderationDropdown-approved = Aprovado
 comments-moderationDropdown-reject = Rejeitar
 comments-moderationDropdown-rejected = Rejeitado
+comments-moderationDropdown-spam-ban = Banir Spam
 comments-moderationDropdown-ban = Banir Usuário
+comments-moderationDropdown-siteBan = Banir Site
 comments-moderationDropdown-banned = Banido
 comments-moderationDropdown-goToModerate =
 comments-moderationDropdown-moderationView = Visão de moderação
@@ -223,11 +333,15 @@ comments-moderationDropdown-moderateStory = Moderar história
 comments-moderationDropdown-caretButton =
   .aria-label = Moderar
 
+comments-moderationDropdown-embedCode = Incorporar código
+comments-moderationDropdown-embedCodeCopied = Código Copiado
+
 comments-moderationRejectedTombstone-title = Você rejeitou este comentário.
 comments-moderationRejectedTombstone-moderateLink =
   Vá para moderação para revisar esta decisão
 
 comments-featuredTag = Destaques
+comments-featuredBy = Destaques por <strong>{$username}</strong>
 
 comments-react =
   .aria-label = {$count ->
@@ -241,18 +355,45 @@ comments-reacted =
     *[other] {$reaction} ({$count}) comentário feito por {$username}
   }
 
+comments-jumpToComment-title = Sua resposta foi publicada abaixo
+comments-jumpToComment-GoToReply = Ir para a resposta
+comments-mobileToolbar-unmarkAll = Marcar todos como lidos
+comments-mobileToolbar-nextUnread = Próximo não lido
+comments-refreshComments-closeButton = Fechar <icon></icon>
+  .aria-label = Fechar
+comments-refreshComments-refreshButton = <icon></icon> Atualizar comentários
+  .aria-label = Atualizar comentários
+comments-refreshQuestions-refreshButton = <icon></icon> Atualizar perguntas
+  .aria-label = Atualizar perguntas
+comments-refreshReviews-refreshButton = <icon></icon> Atualizar revisões
+  .aria-label = Atualizar revisões
+comments-replyChangedWarning-theCommentHasJust =
+  Este comentário acabou de ser editado. A versão mais recente está sendo exibida acima.
+comments-mobileToolbar-notifications-closeButton =
+  .aria-label = Fechar notificações
+
 ### Q&A
 
 general-tabBar-qaTab = Q&A
+
+qa-postCommentForm-section =
+  .aria-label = Postar uma Pergunta
 
 qa-answeredTab = Respondidos
 qa-unansweredTab = Não-Respondidos
 qa-allCommentsTab = Todos
 
+qa-answered-answerLabel =
+  Resposta de {$username} <RelativeTime></RelativeTime>
+qa-answered-gotoConversation = Ir para conversa
+qa-answered-replies = Respostas
+
+
 qa-noQuestionsAtAll =
   Não há perguntas nesta história.
 qa-noQuestionsYet =
   Não há perguntas ainda. Por que você não pergunta uma?
+qa-viewNew-loading = Carregando...
 qa-viewNew =
   { $count ->
     [1] Ver {$count} Nova Pergunta
@@ -310,6 +451,10 @@ comments-stream-deleteAccount-callOut-cancel =
 comments-stream-deleteAccount-callOut-cancelAccountDeletion =
   Cancelar exclusão de conta
 
+comments-permalink-copyLink = Copiar Link
+comments-permalink-linkCopied = Link copiado
+
+
 ### Embed Links
 
 comments-embedLinks-showEmbeds = Mostrar conteúdo embutido
@@ -327,10 +472,20 @@ comments-embedLinks-hide-twitter = Esconder Tweet
 comments-embedLinks-show-external = Mostrar imagem
 comments-embedLinks-hide-external = Esconder imagem
 
+comments-embedLinks-expand = Expandir
 
 ### Featured Comments
+comments-featured-label =
+  Comentário destacado por {$username} <RelativeTime></RelativeTime>
 comments-featured-gotoConversation = Ir para a conversa
 comments-featured-replies = Respostas
+
+comments-featured-gotoConversation-label-with-username =
+  .aria-label = Ir para a conversa deste comentário em destaque pelo usuário { $username } no fluxo principal de comentários
+comments-featured-gotoConversation-label-without-username =
+  .aria-label = Ir para a conversa deste comentário em destaque no fluxo principal de comentários
+comments-featured-replies = Respostas
+
 
 ## Profile Tab
 
@@ -360,6 +515,10 @@ profile-accountDeletion-cancelAccountDeletion =
   Cancelar exclusão de conta
 
 ### Comment History
+profile-commentHistory-section =
+  .aria-label = Histórico de Comentários
+profile-historyComment-commentLabel =
+  Comentário <RelativeTime></RelativeTime> em { $storyTitle }
 profile-historyComment-viewConversation = Ver conversa
 profile-historyComment-replies = Respostas {$replyCount}
 profile-historyComment-commentHistory = Histórico de Comentários
@@ -370,6 +529,39 @@ profile-profileQuery-storyNotFound = História não encontrada
 profile-commentHistory-loadMore = Carregar Mais
 profile-commentHistory-empty = Você não escreveu nenhum comentário
 profile-commentHistory-empty-subheading = Um histórico dos seus comentários aparecerá aqui
+
+profile-commentHistory-archived-thisIsAllYourComments =
+  Estes são todos os seus comentários anteriores dos últimos { $value } { $unit ->
+    [second] { $value ->
+      [1] segundo
+      *[other] segundos
+    }
+    [minute] { $value ->
+      [1] minuto
+      *[other] minutos
+    }
+    [hour] { $value ->
+      [1] hora
+      *[other] horas
+    }
+    [day] { $value ->
+      [1] dia
+      *[other] dias
+    }
+    [week] { $value ->
+      [1] semana
+      *[other] semanas
+    }
+    [month] { $value ->
+      [1] mês
+      *[other] meses
+    }
+    [year] { $value ->
+      [1] ano
+      *[other] anos
+    }
+    *[other] unidade desconhecida
+  }. Para ver o restante dos seus comentários, entre em contato conosco.
 
 ### Preferences
 
@@ -514,6 +706,73 @@ profile-account-deleteAccount-pages-completeWhyDeleteAccount =
 profile-account-changePassword-edit = Editar
 profile-account-changePassword-change = Alterar
 
+stream-footer-navigation =
+  .aria-label = Rodapé de Comentários
+
+## Notifications
+notifications-title = Notificações
+notifications-loadMore = Carregar Mais
+notifications-loadNew = Carregar Novos
+notifications-adjustPreferences = Ajustar configurações de notificação em Meu Perfil &gt;<button>Preferências.</button>
+notification-comment-toggle-default-open = - Comentário
+notification-comment-toggle-default-closed = + Comentário
+notifications-comment-showRemovedComment = + Mostrar comentário removido
+notifications-comment-hideRemovedComment = - Ocultar comentário removido
+notification-comment-description-featured = seu comentário em “{ $title }” foi destacado por um membro de nossa equipe.
+notification-comment-description-default = em “{ $title }”
+notification-comment-media-image = Imagem
+notification-comment-media-embed = Incorporação
+notification-comment-media-gif = GIF
+notifications-yourIllegalContentReportHasBeenReviewed =
+  Sua denúncia de conteúdo ilegal foi revisada
+notifications-yourCommentHasBeenRejected =
+  Seu comentário foi rejeitado
+notifications-yourCommentHasBeenApproved =
+  Seu comentário foi aprovado
+notifications-yourCommentHasBeenFeatured =
+  Seu comentário foi destacado
+notifications-yourCommentHasReceivedAReply =
+  Nova resposta de { $author }
+notifications-defaultTitle = Notificação
+notifications-rejectedComment-body =
+  O conteúdo do seu comentário violou nossas diretrizes da comunidade. O comentário foi removido.
+notifications-rejectedComment-wasPending-body =
+  O conteúdo do seu comentário violou nossas diretrizes da comunidade.
+notifications-reasonForRemoval = Motivo da remoção
+notifications-legalGrounds = Fundamentos legais
+notifications-additionalExplanation = Explicação adicional
+notifications-repliedComment-hideReply = - Ocultar a resposta
+notifications-repliedComment-showReply = + Mostrar a resposta
+notifications-repliedComment-hideOriginalComment = - Ocultar meu comentário original
+notifications-repliedComment-showOriginalComment = + Mostrar meu comentário original
+notifications-dsaReportLegality-legal = Conteúdo legal
+notifications-dsaReportLegality-illegal = Conteúdo potencialmente ilegal
+notifications-dsaReportLegality-unknown = Desconhecido
+notifications-rejectionReason-offensive = Este comentário contém linguagem ofensiva
+notifications-rejectionReason-abusive = Este comentário contém linguagem abusiva
+notifications-rejectionReason-spam = Este comentário é spam
+notifications-rejectionReason-bannedWord = Palavra banida
+notifications-rejectionReason-ad = Este comentário é um anúncio
+notifications-rejectionReason-illegalContent = Este comentário contém conteúdo potencialmente ilegal
+notifications-rejectionReason-harassmentBullying = Este comentário contém linguagem de assédio ou bullying
+notifications-rejectionReason-misinformation = Este comentário contém desinformação
+notifications-rejectionReason-hateSpeech = Este comentário contém discurso de ódio
+notifications-rejectionReason-irrelevant = Este comentário é irrelevante para a discussão
+notifications-rejectionReason-other = Outro
+notifications-rejectionReason-other-customReason = Outro - { $customReason }
+notifications-rejectionReason-unknown = Desconhecido
+notifications-reportDecisionMade-legal =
+  Em <strong>{ $date }</strong> você denunciou um comentário escrito por <strong>{ $author }</strong> por conter conteúdo potencialmente ilegal. Após revisar sua denúncia, nossa equipe de moderação decidiu que este comentário <strong>não parece conter conteúdo ilegal.</strong> Obrigado por ajudar a manter nossa comunidade segura.
+notifications-reportDecisionMade-illegal =
+  Em <strong>{ $date }</strong> você denunciou um comentário escrito por <strong>{ $author }</strong> por conter conteúdo potencialmente ilegal. Após revisar sua denúncia, nossa equipe de moderação decidiu que este comentário <strong>contém conteúdo ilegal</strong> e foi removido. Medidas adicionais podem ser tomadas contra o autor do comentário, no entanto, você não será notificado de nenhum passo adicional. Obrigado por ajudar a manter nossa comunidade segura.
+notifications-methodOfRedress-none =
+  Todas as decisões de moderação são finais e não podem ser contestadas
+notifications-methodOfRedress-email =
+  Para contestar uma decisão que aparece aqui, entre em contato com <a>{ $email }</a>
+notifications-methodOfRedress-url =
+  Para contestar uma decisão que aparece aqui, visite <a>{ $url }</a>
+notifications-youDoNotCurrentlyHaveAny = Você não tem notificações atualmente
+notifications-floatingIcon-close = fechar
 
 ## Notifications
 profile-notificationsTab = Notificações
@@ -531,6 +790,17 @@ profile-account-notifications-sendNotifications-hourly = A cada hora
 profile-account-notifications-updated = Suas configurações de notificação foram atualizadas
 profile-account-notifications-button = Atualizar configurações de notificação
 profile-account-notifications-button-update = Atualizar
+
+profile-account-notifications-inPageNotifications = Notificações
+profile-account-notifications-includeInPageWhen = Me avise quando
+
+profile-account-notifications-inPageNotifications-on = Badges ligadas
+profile-account-notifications-inPageNotifications-off = Badges desligadas
+
+profile-account-notifications-showReplies-fromAnyone = de qualquer pessoa
+profile-account-notifications-showReplies-fromStaff = de um membro da equipe
+profile-account-notifications-showReplies =
+  .aria-label = Mostrar respostas de
 
 ## Report Comment Popover
 comments-reportPopover =
@@ -559,6 +829,27 @@ comments-reportPopover-receivedMessage =
   Recebemos sua mensagem. Denuncias de membros como você mantêm a comunidade segura.
 
 comments-reportPopover-dismiss = Dispensar
+comments-reportForm-reportIllegalContent-button = Esse comentário potencialmente contém conteúdo ilegal
+comments-reportForm-signInToReport = Você precisa fazer login para denunciar um comentário que viola nossas diretrizes
+
+## Archived Report Comment Popover
+
+comments-archivedReportPopover-reportThisComment = Reportar Este Comentário
+comments-archivedReportPopover-doesThisComment =
+  Este comentário viola nossas diretrizes da comunidade? É ofensivo ou spam?
+  Envie um e-mail para nossa equipe de moderação em <a>{ $orgName }</a> com um link para
+  este comentário e uma breve explicação.
+comments-archivedReportPopover-needALink =
+  Precisa de um link para este comentário?
+comments-archivedReportPopover-copyLink = Copiar link
+comments-archivedReportPopover-emailSubject = Relatar comentário
+comments-archivedReportPopover-emailBody =
+  Gostaria de relatar o seguinte comentário:
+  %0A
+  { $permalinkURL }
+  %0A
+  %0A
+  Pelas razões declaradas abaixo:
 
 ## Submit Status
 comments-submitStatus-dismiss = Dispensar
@@ -570,6 +861,15 @@ comments-submitStatus-submittedAndRejected =
 # Configure
 configure-configureQuery-errorLoadingProfile = Erro ao carregar o configure
 configure-configureQuery-storyNotFound = História não encontrada
+
+## Archive
+configure-archived-title = Este fluxo de comentários foi arquivado
+configure-archived-onArchivedStream =
+  Nos fluxos arquivados, nenhum novo comentário, reação ou relatório pode ser
+  enviado. Além disso, os comentários não podem ser moderados.
+configure-archived-toAllowTheseActions =
+  Para permitir essas ações, desarquive o fluxo.
+configure-archived-unarchiveStream = Desarquivar fluxo
 
 ## Change username
 profile-changeUsername-username = Usuário
@@ -707,10 +1007,12 @@ configure-experts-none-yet = Não existem especialistas para estas Peguntas & Re
 configure-experts-search-title = Procurar por um especialista
 configure-experts-assigned-title = Especialistas
 configure-experts-noLongerAnExpert = Não é mais um especialista
-comments-tombstone-ignore = Este comentário está oculto porque você ignorou {$username}
+comments-tombstone-ignore-user = Este comentário está escondido porque você ignorou esse usuário.
 comments-tombstone-showComment = Mostrar comentário
 comments-tombstone-deleted =
   Este comentário não está mais disponível. O usuário excluiu sua conta.
+comments-tombstone-rejected =
+  Esse comentário foi removido por um moderador por violar nossas diretrizes de comunidade.
 
 suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
@@ -732,6 +1034,9 @@ warning-instructions =
 warning-acknowledge = Reconhecer
 
 warning-notice = Sua conta recebeu uma advertência. Para continuar comentando, <a>verifique a mensagem de aviso</a>.
+
+modMessage-heading = Sua conta recebeu uma mensagem de um moderador
+modMessage-acknowledge = Reconhecer
 
 profile-changeEmail-unverified = (Não verificado)
 profile-changeEmail-edit = Editar
@@ -759,6 +1064,9 @@ profile-changeEmail-title = Endereço de email
 profile-changeEmail-success = Seu e-mail foi atualizado com sucesso
 
 ## Ratings and Reviews
+
+ratingsAndReviews-postCommentForm-section =
+  .aria-label = Envie uma Avaliação ou faça uma Pergunta
 
 ratingsAndReviews-reviewsTab = Reviews
 ratingsAndReviews-questionsTab = Perguntas
