@@ -49,6 +49,7 @@ signUp-signUpWithGoogle = Cadastre-se com o Google
 signUp-signUpWithOIDC = Cadastre-se como { $name }
 
 signUp-accountAvailableSignIn = Já tem uma conta? <textlink>Entre</textlink>
+signUp-usernameAlreadyExists = Esse nome de usuário já existe. Por favor, escolha outro.
 
 ## Forgot Password
 
