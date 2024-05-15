@@ -51,7 +51,6 @@ module.exports = {
         },
         "migrating-5-to-6",
         "migrating-6-to-7",
-        "migrating-7-to-8",
       ],
     },
     {
