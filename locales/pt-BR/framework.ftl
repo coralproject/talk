@@ -35,6 +35,8 @@ framework-validation-usernamesDoNotMatch = Os nomes de usuário não coincidem. 
 framework-validation-deleteConfirmationInvalid = Confirmação incorreta. Tente novamente.
 framework-validation-invalidWebhookEndpointEventSelection = Selecione pelo menos um evento para receber.
 framework-validation-media-url-invalid = Por favor, entre com uma URL de imagem válida (.png, .jpg, or .gif)
+framework-validation-invalidEmailDomain = Formato de domínio de e-mail inválido. Por favor use "email.com"
+framework-validation-invalidExternalProfileURL = Todos os padrões de URL de perfil externo devem conter $USER_NAME ou $USER_ID.
 
 framework-timeago-just-now = Agora mesmo
 
@@ -135,3 +137,9 @@ framework-starRating =
     [1] 1 Estrela
     *[other] {$value} Estrelas
   }
+
+### Relay Network Request Error
+
+framework-error-relayNetworkRequestError-anUnexpectedNetworkError =
+  Ocorreu um erro inesperado de rede. Por favor, tente novamente mais tarde.
+framework-error-relayNetworkRequestError-code = Código
