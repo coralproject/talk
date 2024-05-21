@@ -1,9 +1,13 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
+import { graphql } from "relay-runtime";
 
 import useGetMessage from "coral-framework/lib/i18n/useGetMessage";
+import { useInView } from "coral-framework/lib/intersection";
+import { useLocal } from "coral-framework/lib/relay";
 import { GQLSTORY_MODE } from "coral-framework/schema";
 import CLASSES from "coral-stream/classes";
+import { LiveBellIcon } from "coral-stream/tabs/Notifications/LiveBellIcon";
 import {
   CogIcon,
   ConversationChatIcon,
@@ -15,9 +19,17 @@ import {
 } from "coral-ui/components/icons";
 import { MatchMedia, Tab, TabBar } from "coral-ui/components/v2";
 
+import { TabBar_local } from "coral-stream/__generated__/TabBar_local.graphql";
+
 import styles from "./TabBar.css";
 
-type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
+type TabValue =
+  | "COMMENTS"
+  | "PROFILE"
+  | "DISCUSSIONS"
+  | "CONFIGURE"
+  | "NOTIFICATIONS"
+  | "%future added value";
 
 export interface Props {
   activeTab: TabValue;
@@ -25,6 +37,13 @@ export interface Props {
   showProfileTab: boolean;
   showDiscussionsTab: boolean;
   showConfigureTab: boolean;
+  showNotificationsTab: boolean;
+  hasNewNotifications: boolean;
+  userNotificationsEnabled: boolean;
+  inPageNotifications?: {
+    enabled: boolean | null;
+    floatingBellIndicator: boolean | null;
+  } | null;
   mode:
     | "COMMENTS"
     | "QA"
@@ -34,6 +53,17 @@ export interface Props {
 }
 
 const AppTabBar: FunctionComponent<Props> = (props) => {
+  const [, setLocal] = useLocal<TabBar_local>(graphql`
+    fragment TabBar_local on Local {
+      appTabBarVisible
+    }
+  `);
+
+  const { inView, intersectionRef } = useInView();
+  useEffect(() => {
+    setLocal({ appTabBarVisible: inView });
+  }, [inView, setLocal]);
+
   const getMessage = useGetMessage();
 
   let commentsTabText: string;
@@ -53,15 +83,19 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
   );
   const myProfileText = getMessage("general-tabBar-myProfileTab", "My Profile");
   const configureText = getMessage("general-tabBar-configure", "Configure");
+  const notificationsText = getMessage("notifications-title", "Notifications");
 
   return (
     <MatchMedia gteWidth="sm">
       {(matches) => (
         <TabBar
-          className={CLASSES.tabBar.$root}
+          className={cn(CLASSES.tabBar.$root, {
+            [CLASSES.tabBar.mobile]: !matches,
+          })}
           activeTab={props.activeTab}
           onTabClick={props.onTabClick}
           variant="streamPrimary"
+          forwardRef={intersectionRef}
         >
           <Tab
             className={cn(CLASSES.tabBar.comments, {
@@ -140,7 +174,8 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
 
           {props.showConfigureTab && (
             <Tab
-              className={cn(CLASSES.tabBar.configure, styles.configureTab, {
+              className={cn(CLASSES.tabBar.configure, {
+                [CLASSES.tabBar.activeTab]: props.activeTab === "CONFIGURE",
                 [styles.smallTab]: !matches,
               })}
               tabID="CONFIGURE"
@@ -150,9 +185,41 @@ const AppTabBar: FunctionComponent<Props> = (props) => {
                 <span>{configureText}</span>
               ) : (
                 <div>
-                  <SvgIcon size="md" Icon={CogIcon} />
+                  <SvgIcon size="lg" Icon={CogIcon} />
+                  <div className={styles.smallText}>{configureText}</div>
                 </div>
               )}
+            </Tab>
+          )}
+
+          {props.showNotificationsTab && (
+            <Tab
+              className={cn(
+                CLASSES.tabBar.notifications,
+                styles.notificationsTab,
+                {
+                  [CLASSES.tabBar.activeTab]:
+                    props.activeTab === "NOTIFICATIONS",
+                  [styles.notificationsTabSmall]: !matches,
+                  [styles.floatingBellDisabled]:
+                    !props.inPageNotifications?.floatingBellIndicator,
+                }
+              )}
+              tabID="NOTIFICATIONS"
+              variant="notifications"
+              float={
+                props.inPageNotifications?.floatingBellIndicator
+                  ? "right"
+                  : "none"
+              }
+              title={notificationsText}
+            >
+              <div className={cn(styles.notificationsIcon)}>
+                <LiveBellIcon
+                  size="lg"
+                  enabled={props.userNotificationsEnabled}
+                />
+              </div>
             </Tab>
           )}
         </TabBar>

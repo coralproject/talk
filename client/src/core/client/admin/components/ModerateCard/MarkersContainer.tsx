@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import {
   Flex,
   HorizontalGutter,
@@ -27,11 +28,28 @@ const markers: Array<
   (c: MarkersContainer_comment) => React.ReactElement<any> | null
 > = [
   (c) =>
-    (c.status === "PREMOD" && (
+    (c.status === GQLCOMMENT_STATUS.PREMOD && (
       <Localized id="moderate-marker-preMod" key={keyCounter++}>
         <Marker color="pending">Pre-Mod</Marker>
       </Localized>
     )) ||
+    null,
+  (c) =>
+    (c.status === GQLCOMMENT_STATUS.PREMOD &&
+      c.author &&
+      c.author.premoderatedBecauseOfEmailAt && (
+        <Localized id="moderate-marker-preMod-userEmail" key={keyCounter++}>
+          <Marker color="pending">User email</Marker>
+        </Localized>
+      )) ||
+    null,
+  (c) =>
+    (c.status !== GQLCOMMENT_STATUS.PREMOD &&
+      c.initialStatus === GQLCOMMENT_STATUS.PREMOD && (
+        <Localized id="moderate-marker-preMod" key={keyCounter++}>
+          <Marker color="pending">Pre-Mod</Marker>
+        </Localized>
+      )) ||
     null,
   (c) =>
     (c.revision &&
@@ -182,6 +200,16 @@ const markers: Array<
         </Localized>
       )) ||
     null,
+  (c) =>
+    (c.revision && c.revision.actionCounts.illegal.total > 0 && (
+      <Marker key={keyCounter++} color="reported">
+        <Localized id="moderate-marker-illegal">
+          <span>Potentially illegal content</span>
+        </Localized>{" "}
+        <MarkerCount>{c.revision.actionCounts.illegal.total}</MarkerCount>
+      </Marker>
+    )) ||
+    null,
 ];
 
 export const MarkersContainer: React.FunctionComponent<
@@ -225,12 +253,19 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
   comment: graphql`
     fragment MarkersContainer_comment on Comment {
       ...ModerateCardDetailsContainer_comment
+      initialStatus
       status
       tags {
         code
       }
+      author {
+        premoderatedBecauseOfEmailAt
+      }
       revision {
         actionCounts {
+          illegal {
+            total
+          }
           flag {
             reasons {
               COMMENT_REPORTED_SPAM

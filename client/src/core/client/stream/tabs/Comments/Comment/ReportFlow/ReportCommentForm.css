@@ -87,3 +87,14 @@
 .cancel {
   margin-right: var(--spacing-2);
 }
+
+.reportIllegalLink {
+  margin-bottom: var(--spacing-3);
+  white-space: initial;
+}
+
+.linkIcon {
+  margin-left: var(--spacing-1);
+  display: inline-block;
+  vertical-align: middle;
+}

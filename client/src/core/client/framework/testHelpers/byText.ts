@@ -7,7 +7,6 @@ import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 /**
  * Turns list of children of a dom element into a string.
  * This will also handle React Fragments.
- *
  * @param children list of children
  */
 const childrenToString = (children: ReactTestInstance["children"]) => {
@@ -34,7 +33,7 @@ const matcher =
     if (typeof i.type !== "string") {
       return false;
     }
-    const content = i.props.dangerouslySetInnerHTML
+    const content: string = i.props.dangerouslySetInnerHTML
       ? i.props.dangerouslySetInnerHTML.__html
       : childrenToString(i.children);
     return matchText(pattern, content, options);

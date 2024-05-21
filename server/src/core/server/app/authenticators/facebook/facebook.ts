@@ -77,7 +77,6 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
    * getProof will generate a proof that we have the client secret. For more
    * information, see:
    * https://developers.facebook.com/docs/reference/api/securing-graph-api/
-   *
    * @param accessToken the access token aquired during the auth flow
    */
   private getProof(accessToken: string) {
@@ -172,7 +171,7 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
 
         return this.success(state, user, req, res);
       } catch (err) {
-        return this.fail(state, err, req, res);
+        return this.fail(state, err as Error, req, res);
       }
     };
 }

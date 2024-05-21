@@ -81,7 +81,7 @@ const Flex: FunctionComponent<Props> = (props) => {
     classes.flex,
     classObject,
     (itemGutter || spacing) && "gutter",
-    spacing && (classes as any)[`spacing-${spacing}`]
+    spacing && ((classes as any)[`spacing-${spacing}`] as string)
   );
 
   // text nodes can't be modified with css, so replace them with spans.

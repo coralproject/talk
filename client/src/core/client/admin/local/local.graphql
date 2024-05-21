@@ -48,4 +48,6 @@ extend type Local {
 
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!
+
+  dsaFeaturesEnabled: Boolean
 }

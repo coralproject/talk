@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import { EmailActionReplyIcon, SvgIcon } from "coral-ui/components/icons";
@@ -7,11 +8,16 @@ import { BaseButton, Flex } from "coral-ui/components/v2";
 import styles from "./InReplyTo.css";
 
 interface Props {
+  className?: string;
   children: string;
   onUsernameClick: () => void;
 }
 
-const InReplyTo: FunctionComponent<Props> = ({ children, onUsernameClick }) => {
+const InReplyTo: FunctionComponent<Props> = ({
+  className,
+  children,
+  onUsernameClick,
+}) => {
   const Username = () => (
     <Localized
       id="common-username"
@@ -19,7 +25,7 @@ const InReplyTo: FunctionComponent<Props> = ({ children, onUsernameClick }) => {
       vars={{ username: children }}
     >
       <BaseButton onClick={onUsernameClick} className={styles.usernameButton}>
-        <span className={styles.username}>{children}</span>
+        <span className={cn(styles.username, className)}>{children}</span>
       </BaseButton>
     </Localized>
   );
@@ -29,7 +35,7 @@ const InReplyTo: FunctionComponent<Props> = ({ children, onUsernameClick }) => {
       <SvgIcon
         className={styles.icon}
         size="xs"
-        filled
+        filled="currentColor"
         Icon={EmailActionReplyIcon}
       />{" "}
       <Localized

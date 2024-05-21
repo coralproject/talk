@@ -42,8 +42,8 @@ import {
 } from "coral-server/models/story";
 import { ensureFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { isSiteBanned } from "coral-server/models/user/helpers";
-import { removeTag } from "coral-server/services/comments";
+import { isSiteBanned, roleIsStaff } from "coral-server/models/user/helpers";
+import { moderate, removeTag } from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
@@ -58,6 +58,7 @@ import {
 } from "coral-server/services/comments/pipeline";
 import { WordListService } from "coral-server/services/comments/pipeline/phases/wordList/service";
 import { I18n } from "coral-server/services/i18n";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { updateUserLastCommentID } from "coral-server/services/users";
 import { Request } from "coral-server/types/express";
@@ -65,6 +66,7 @@ import { Request } from "coral-server/types/express";
 import {
   GQLCOMMENT_STATUS,
   GQLFEATURE_FLAG,
+  GQLNOTIFICATION_TYPE,
   GQLSTORY_MODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
@@ -86,6 +88,7 @@ export type CreateComment = Omit<
   | "tags"
   | "siteID"
   | "media"
+  | "initialStatus"
 > & {
   rating?: number;
   media?: CreateCommentMediaInput;
@@ -98,6 +101,7 @@ const markCommentAsAnswered = async (
   config: Config,
   i18n: I18n,
   broker: CoralEventPublisherBroker,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   comment: Readonly<Comment>,
   story: Story,
@@ -148,11 +152,14 @@ const markCommentAsAnswered = async (
       config,
       i18n,
       broker,
+      notifications,
       tenant,
       comment.parentID,
       comment.parentRevisionID,
       author.id,
-      now
+      now,
+      undefined,
+      false
     ),
   ]);
 
@@ -206,6 +213,7 @@ export default async function create(
   config: Config,
   i18n: I18n,
   broker: CoralEventPublisherBroker,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -347,11 +355,11 @@ export default async function create(
   // is added, that it can already know that the comment is already in the
   // queue.
   let actionCounts: EncodedCommentActionCounts = {};
-  if (result.actions.length > 0) {
+  if (result.commentActions.length > 0) {
     // Determine the unique actions, we will use this to compute the comment
     // action counts. This should match what is added below.
     actionCounts = encodeActionCounts(
-      ...filterDuplicateActions(result.actions)
+      ...filterDuplicateActions(result.commentActions)
     );
   }
 
@@ -372,6 +380,7 @@ export default async function create(
       metadata: result.metadata,
       actionCounts,
       media,
+      initialStatus: result.status,
     },
     now
   );
@@ -392,6 +401,7 @@ export default async function create(
       config,
       i18n,
       broker,
+      notifications,
       tenant,
       comment,
       story,
@@ -422,15 +432,27 @@ export default async function create(
       )) ?? null;
 
     log.trace("pushed child comment id onto parent");
+
+    if (parent) {
+      const type = roleIsStaff(author.role)
+        ? GQLNOTIFICATION_TYPE.REPLY_STAFF
+        : GQLNOTIFICATION_TYPE.REPLY;
+      await notifications.create(tenant.id, tenant.locale, {
+        targetUserID: parent.authorID!,
+        comment: parent,
+        reply: comment,
+        type,
+      });
+    }
   }
 
-  if (result.actions.length > 0) {
+  if (result.commentActions.length > 0) {
     // Actually add the actions to the database. This will not interact with the
     // counts at all.
     await addCommentActions(
       mongo,
       tenant,
-      result.actions.map(
+      result.commentActions.map(
         (action): CreateAction => ({
           ...action,
           commentID: comment.id,
@@ -445,6 +467,35 @@ export default async function create(
       ),
       now
     );
+  }
+
+  if (result.moderationAction) {
+    // Actually add the actions to the database. This will not interact with the
+    // counts at all.
+    await moderate(
+      mongo,
+      redis,
+      config,
+      i18n,
+      tenant,
+      {
+        ...result.moderationAction,
+        commentID: comment.id,
+        commentRevisionID: revision.id,
+      },
+      now,
+      false,
+      {
+        actionCounts,
+      }
+    );
+
+    await notifications.create(tenant.id, tenant.locale, {
+      targetUserID: comment.authorID!,
+      comment,
+      rejectionReason: result.moderationAction.rejectionReason,
+      type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
+    });
   }
 
   // Update all the comment counts on stories and users.

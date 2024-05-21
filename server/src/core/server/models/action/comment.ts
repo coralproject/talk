@@ -23,9 +23,11 @@ import {
   GQLCOMMENT_SORT,
   GQLDontAgreeActionCounts,
   GQLFlagActionCounts,
+  GQLIllegalActionCounts,
   GQLReactionActionCounts,
 } from "coral-server/graph/schema/__generated__/types";
 
+// eslint-disable-next-line no-shadow
 export enum ACTION_TYPE {
   /**
    * REACTION corresponds to a reaction to a comment from a user.
@@ -37,6 +39,11 @@ export enum ACTION_TYPE {
    * agree with.
    */
   DONT_AGREE = "DONT_AGREE",
+
+  /**
+   * ILLEGAL corresponds to when a user reports a comment as containing illegal content.
+   */
+  ILLEGAL = "ILLEGAL",
 
   /**
    * FLAG corresponds to a flag action that indicates that the given resource needs
@@ -66,6 +73,11 @@ export interface ActionCounts {
    * restricted to administrators and moderators.
    */
   flag: FlagActionCounts;
+
+  /**
+   * illegal returns the counts for the illegal content action on an item.
+   */
+  illegal: GQLIllegalActionCounts;
 }
 
 /**
@@ -147,6 +159,12 @@ export interface CommentAction extends TenantResource {
    * the section will be null here.
    */
   section?: string;
+
+  /**
+   * reportID is the id of the DSAReport that was created when the comment was flagged
+  as potentially containing illegal content. Only exists for illegal content flag type.
+   */
+  reportID?: string;
 }
 
 const ActionSchema = Joi.compile([
@@ -165,6 +183,7 @@ const ActionSchema = Joi.compile([
   {
     actionType: ACTION_TYPE.REACTION,
   },
+  { actionType: ACTION_TYPE.ILLEGAL },
 ]);
 
 /**
@@ -218,6 +237,7 @@ export async function createAction(
   mongo: MongoContext,
   tenantID: string,
   input: CreateActionInput,
+  isArchived: boolean,
   now = new Date()
 ): Promise<CreateActionResultObject> {
   const { metadata, additionalDetails, ...rest } = input;
@@ -251,8 +271,13 @@ export async function createAction(
     $setOnInsert: action,
   };
 
+  const collection =
+    mongo.archive && isArchived
+      ? mongo.archivedCommentActions()
+      : mongo.commentActions();
+
   // Insert the action into the database using an upsert operation.
-  const result = await mongo.commentActions().findOneAndUpdate(filter, update, {
+  const result = await collection.findOneAndUpdate(filter, update, {
     // We are using this to create a action, so we need to upsert it.
     upsert: true,
 
@@ -283,11 +308,12 @@ export async function createActions(
   mongo: MongoContext,
   tenantID: string,
   inputs: CreateActionInput[],
+  isArchived: boolean,
   now = new Date()
 ): Promise<CreateActionResultObject[]> {
   // TODO: (wyattjoh) replace with a batch write.
   return Promise.all(
-    inputs.map((input) => createAction(mongo, tenantID, input, now))
+    inputs.map((input) => createAction(mongo, tenantID, input, isArchived, now))
   );
 }
 
@@ -357,11 +383,14 @@ export async function retrieveManyUserActionPresence(
   commentActionsCache: CommentActionsCache,
   tenantID: string,
   userID: string | null,
-  commentIDs: string[]
+  commentIDs: string[],
+  useCache = true,
+  isArchived = false
 ): Promise<GQLActionPresence[]> {
-  let actions: Readonly<CommentAction>[] = [];
+  let actions: Array<Readonly<CommentAction>> = [];
 
-  const cacheAvailable = await commentActionsCache.available(tenantID);
+  const cacheAvailable =
+    useCache && (await commentActionsCache.available(tenantID));
   if (cacheAvailable) {
     const actionsFromCache = await commentActionsCache.findMany(
       tenantID,
@@ -374,7 +403,11 @@ export async function retrieveManyUserActionPresence(
       }
     }
   } else {
-    const cursor = mongo.commentActions().find(
+    const collection =
+      mongo.archive && isArchived
+        ? mongo.archivedCommentActions()
+        : mongo.commentActions();
+    const cursor = collection.find(
       {
         tenantID,
         userID,
@@ -408,6 +441,7 @@ export async function retrieveManyUserActionPresence(
           reaction: false,
           dontAgree: false,
           flag: false,
+          illegal: false,
         }
       )
     );
@@ -474,7 +508,6 @@ export const ACTION_COUNT_JOIN_CHAR = "__";
 /**
  * encodeActionCounts will take a list of actions, and generate action counts
  * from it.
- *
  * @param actions list of actions to generate the action counts from
  */
 export function encodeActionCounts(
@@ -498,7 +531,6 @@ export function encodeActionCounts(
 
 /**
  * invertEncodedActionCounts will allow inverting of the action count object.
- *
  * @param actionCounts the encoded action counts to invert
  */
 export function invertEncodedActionCounts(
@@ -620,6 +652,9 @@ function createEmptyActionCounts(): ActionCounts {
     reaction: {
       total: 0,
     },
+    illegal: {
+      total: 0,
+    },
     dontAgree: {
       total: 0,
     },
@@ -665,7 +700,6 @@ export function countTotalActionCounts(
 /**
  * decodeActionCounts will take the encoded action counts and decode them into
  * a useable format.
- *
  * @param encodedActionCounts the action counts to decode
  */
 export function decodeActionCounts(
@@ -706,6 +740,9 @@ function incrementActionCounts(
       break;
     case ACTION_TYPE.DONT_AGREE:
       actionCounts.dontAgree.total += count;
+      break;
+    case ACTION_TYPE.ILLEGAL:
+      actionCounts.illegal.total += count;
       break;
     case ACTION_TYPE.FLAG:
       // When we have a reason, we are incrementing for that particular reason

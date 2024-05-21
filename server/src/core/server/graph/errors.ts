@@ -5,7 +5,6 @@ import { CoralError } from "coral-server/errors";
  * mapFieldsetToErrorCodes will wait for any errors to occur with the request,
  * and then associate the appropriate field that caused the error to the error
  * itself so it can link context in the UI.
- *
  * @param promise the promise to await on for any errors to occur
  * @param errorMap the map of error codes to associate with a given fieldSet
  */

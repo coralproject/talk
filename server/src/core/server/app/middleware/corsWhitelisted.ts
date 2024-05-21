@@ -7,7 +7,6 @@ import { Request } from "coral-server/types/express";
 /**
  * Creates the options for the "cors" middleware which whitelists
  * site origins.
- *
  * @param mongo the database connection
  * @returns CorsOptionsDelegate
  */
@@ -36,7 +35,6 @@ export function createCorsOptionsDelegate(
 
 /**
  * corsWhitelisted is a middleware that provides cors with whitelisted site origins.
- *
  * @param mongo the database connection.
  * @returns RequestHandler
  */

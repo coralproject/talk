@@ -23,9 +23,12 @@ const customErrorMiddleware: (localeBundles: FluentBundle[]) => Middleware =
       return res;
     } catch (error) {
       // Make sure we are online, otherwise throw.
-      assertOnline(error);
-      if (isRRNLRequestError(error)) {
-        throw new RelayNetworkRequestError(error, localeBundles);
+      assertOnline(error as Error);
+      if (isRRNLRequestError(error as Error)) {
+        throw new RelayNetworkRequestError(
+          error as RRNLRequestError,
+          localeBundles
+        );
       }
       throw error;
     }

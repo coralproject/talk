@@ -18,12 +18,13 @@ const initLocalState = (
   localRecord.setValue("jti", "accessTokenJTI");
   localRecord.setValue("CREATED_AT_DESC", "commentsOrderBy");
   localRecord.setValue(false, "refreshStream");
+
   if (params.initLocalState) {
     params.initLocalState(localRecord, source, environment);
   }
 };
 
-export default function create(params: CreateTestRendererParams) {
+export default function create(params: CreateTestRendererParams<GQLResolver>) {
   return createTopLevel({
     ...params,
     initLocalState: (localRecord, source, environment) => {
@@ -32,7 +33,7 @@ export default function create(params: CreateTestRendererParams) {
   });
 }
 
-export function createContext(params: CreateTestRendererParams) {
+export function createContext(params: CreateTestRendererParams<GQLResolver>) {
   return createTopLevelContext({
     ...params,
     initLocalState: (localRecord, source, environment) => {

@@ -11,7 +11,7 @@ function callWhenReallyIdle(window: Window, callback: () => void) {
   const supportsIdleCallbacks =
     (window as any).requestIdleCallback && (window as any).cancelIdleCallback;
 
-  let handle: any = null;
+  let handle: NodeJS.Timeout | null = null;
   const rIC = (cb: () => void) => {
     if (supportsIdleCallbacks) {
       handle = (window as any).requestIdleCallback(cb, { timeout: 300 });
@@ -34,7 +34,9 @@ function callWhenReallyIdle(window: Window, callback: () => void) {
     if (supportsIdleCallbacks) {
       (window as any).cancelIdleCallback(handle);
     } else {
-      clearTimeout(handle);
+      if (handle) {
+        clearTimeout(handle);
+      }
     }
   };
 }

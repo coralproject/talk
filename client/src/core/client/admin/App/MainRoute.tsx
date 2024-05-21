@@ -20,7 +20,12 @@ const MainRoute: React.FunctionComponent<Props> = (props) => {
   return (
     <>
       {ErrorReporterSetUser}
-      <Main viewer={props.data && props.data.viewer}>{props.children}</Main>
+      <Main
+        viewer={props.data && props.data.viewer}
+        settings={props.data && props.data.settings}
+      >
+        {props.children}
+      </Main>
     </>
   );
 };
@@ -32,6 +37,9 @@ const enhanced = withRouteConfig<Props>({
         ...ErrorReporterSetUserContainer_viewer
         ...UserMenuContainer_viewer
         ...NavigationContainer_viewer
+      }
+      settings {
+        ...NavigationContainer_settings
       }
     }
   `,

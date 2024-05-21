@@ -23,12 +23,16 @@ import {
   roleMiddleware,
   tenantMiddleware,
 } from "coral-server/app/middleware";
-import { STAFF_ROLES } from "coral-server/models/user/constants";
+import {
+  MODERATOR_ROLES,
+  STAFF_ROLES,
+} from "coral-server/models/user/constants";
 
 import { createNewAccountRouter } from "./account";
 import { createNewAuthRouter } from "./auth";
 import { createCommentRouter } from "./comment";
 import { createDashboardRouter } from "./dashboard";
+import { createDSAReportRouter } from "./dsaReport";
 import { createNewInstallRouter } from "./install";
 import { createRemoteMediaRouter } from "./remoteMedia";
 import { createStoryRouter } from "./story";
@@ -80,6 +84,14 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
 
   // Attach the GraphQL router (which will be mounted on the same path).
   router.use(apolloGraphQLMiddleware(app));
+
+  router.use(
+    "/dsaReport",
+    authenticate(options.passport),
+    loggedInMiddleware,
+    roleMiddleware(MODERATOR_ROLES),
+    createDSAReportRouter(app)
+  );
 
   router.use(
     "/dashboard",

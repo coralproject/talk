@@ -17,10 +17,9 @@ function extractQuery(href: string) {
 
 /**
  * Injects react-axe for runtime a11y checks under certain conditions:
- *   - During development
- *   - Not on mobile
- *   - `axe` has been added to the url query.
- *
+ * - During development
+ * - Not on mobile
+ * - `axe` has been added to the url query.
  * @param href url to check for the `axe` property.
  */
 export default async function potentiallyInjectAxe(

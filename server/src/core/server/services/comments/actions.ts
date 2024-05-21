@@ -49,10 +49,17 @@ export async function addCommentActions(
   mongo: MongoContext,
   tenant: Tenant,
   inputs: CreateAction[],
-  now = new Date()
+  now = new Date(),
+  isArchived = false
 ) {
   // Create each of the actions, returning each of the action results.
-  const results = await createActions(mongo, tenant.id, inputs, now);
+  const results = await createActions(
+    mongo,
+    tenant.id,
+    inputs,
+    isArchived,
+    now
+  );
 
   // Get the actions that were upserted, we only want to increment the action
   // counts of actions that were just created.
@@ -65,7 +72,8 @@ export async function addCommentActionCounts(
   mongo: MongoContext,
   tenant: Tenant,
   oldComment: Readonly<Comment>,
-  action: EncodedCommentActionCounts
+  action: EncodedCommentActionCounts,
+  isArchived = false
 ) {
   // Grab the last revision (the most recent).
   const revision = getLatestRevision(oldComment);
@@ -76,7 +84,8 @@ export async function addCommentActionCounts(
     tenant.id,
     oldComment.id,
     revision.id,
-    action
+    action,
+    isArchived
   );
   if (!updatedComment) {
     // TODO: (wyattjoh) return a better error.
@@ -99,14 +108,26 @@ async function addCommentAction(
   broker: CoralEventPublisherBroker,
   tenant: Tenant,
   input: Omit<CreateActionInput, "storyID" | "siteID" | "userID">,
-  author: User,
+  author: User | null,
   now = new Date()
 ): Promise<AddCommentAction> {
-  const oldComment = await retrieveComment(
+  let oldComment = await retrieveComment(
     mongo.comments(),
     tenant.id,
     input.commentID
   );
+  let isArchived = false;
+  if (!oldComment && mongo.archive) {
+    oldComment = await retrieveComment(
+      mongo.archivedComments(),
+      tenant.id,
+      input.commentID
+    );
+    if (oldComment) {
+      isArchived = true;
+    }
+  }
+
   if (!oldComment) {
     throw new CommentNotFoundError(input.commentID);
   }
@@ -122,7 +143,7 @@ async function addCommentAction(
   // Check if the user is banned on this site, if they are, throw an error right
   // now.
   // NOTE: this should be removed with attribute based auth checks.
-  if (isSiteBanned(author, siteID)) {
+  if (author && isSiteBanned(author, siteID)) {
     // Get the site in question.
     const site = await retrieveSite(mongo, tenant.id, siteID);
     if (!site) {
@@ -137,12 +158,18 @@ async function addCommentAction(
     ...input,
     storyID,
     siteID,
-    userID: author.id,
+    userID: author ? author.id : null,
     section,
   };
 
   // Update the actions for the comment.
-  const commentActions = await addCommentActions(mongo, tenant, [action], now);
+  const commentActions = await addCommentActions(
+    mongo,
+    tenant,
+    [action],
+    now,
+    isArchived
+  );
   if (commentActions.length > 0) {
     // Get the comment action.
     const [commentAction] = commentActions;
@@ -155,7 +182,8 @@ async function addCommentAction(
       mongo,
       tenant,
       oldComment,
-      actionCounts
+      actionCounts,
+      isArchived
     );
 
     // Update the comment counts onto other documents.
@@ -167,12 +195,15 @@ async function addCommentAction(
     });
 
     // Publish changes to the event publisher.
-    await publishChanges(broker, {
-      ...counts,
-      before: oldComment,
-      after: updatedComment,
-      commentRevisionID: input.commentRevisionID,
-    });
+    // Do not publish if comment is archived
+    if (!isArchived) {
+      await publishChanges(broker, {
+        ...counts,
+        before: oldComment,
+        after: updatedComment,
+        commentRevisionID: input.commentRevisionID,
+      });
+    }
 
     return { comment: updatedComment, action: commentAction };
   }
@@ -400,6 +431,59 @@ export async function createDontAgree(
   }
 
   return comment;
+}
+
+export type CreateIllegalContent = Pick<CreateActionInput, "commentID"> & {
+  commentRevisionID?: string;
+  reportID?: string;
+};
+
+export async function createIllegalContent(
+  mongo: MongoContext,
+  redis: AugmentedRedis,
+  config: Config,
+  i18n: I18n,
+  commentActionsCache: CommentActionsCache,
+  broker: CoralEventPublisherBroker,
+  tenant: Tenant,
+  user: User | null,
+  comment: Readonly<Comment> | null,
+  input: CreateIllegalContent,
+  now = new Date()
+) {
+  let revisionID = input.commentRevisionID;
+
+  if (!comment) {
+    throw new CommentNotFoundError(input.commentID);
+  }
+
+  if (!revisionID) {
+    revisionID = getLatestRevision(comment).id;
+  }
+
+  const { comment: commentUpdated, action } = await addCommentAction(
+    mongo,
+    redis,
+    config,
+    i18n,
+    broker,
+    tenant,
+    {
+      actionType: ACTION_TYPE.ILLEGAL,
+      commentID: input.commentID,
+      commentRevisionID: revisionID,
+      reportID: input.reportID,
+    },
+    user,
+    now
+  );
+
+  const cacheAvailable = await commentActionsCache.available(tenant.id);
+  if (action && cacheAvailable) {
+    await commentActionsCache.add(action);
+  }
+
+  return commentUpdated;
 }
 
 export type RemoveCommentDontAgree = Pick<

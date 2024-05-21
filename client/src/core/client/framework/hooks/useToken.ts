@@ -41,7 +41,7 @@ export default function useToken(
           if (error instanceof InvalidRequestError) {
             handleTokenState("INVALID", error);
           } else {
-            handleTokenState("UNKNOWN", error);
+            handleTokenState("UNKNOWN", error as Error | undefined);
           }
         });
     } else {

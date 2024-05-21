@@ -2,6 +2,7 @@ import { useMemo } from "react";
 
 import { useGetMessage } from "coral-framework/lib/i18n";
 
+// eslint-disable-next-line no-shadow
 export const enum COMMON_TRANSLATION {
   NOT_AVAILABLE,
 }

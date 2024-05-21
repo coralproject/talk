@@ -11,7 +11,6 @@ import logger from "coral-server/logger";
 
 /**
  * isLanguageCode will return true if the string is a `LanguageCode`.
- *
  * @param locale the string that is being tested if it's a `LanguageCode`
  */
 function isLanguageCode(locale: string): locale is LanguageCode {
@@ -77,7 +76,6 @@ export class I18n {
 
   /**
    * getBundle will return a bundle keyed on the language.
-   *
    * @param lang the locale to get the bundle for
    */
   public getBundle(lang: LanguageCode): FluentBundle {
@@ -107,7 +105,6 @@ export class I18n {
 /**
  * translate will attempt a translation but fallback to the defaultValue if it
  * can't be translated.
- *
  * @param bundle the bundle to use for translations
  * @param defaultValue the default value if the message or translation isn't
  * available

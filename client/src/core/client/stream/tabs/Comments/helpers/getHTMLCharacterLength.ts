@@ -2,7 +2,6 @@ import getHTMLPlainText from "coral-common/common/lib/helpers/getHTMLPlainText";
 
 /**
  * getHTMLCharacterLength will return current character length.
- *
  * @param html the html which length should be determined
  */
 export default function getHTMLCharacterLength(html: string | undefined) {

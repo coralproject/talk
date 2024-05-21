@@ -36,7 +36,6 @@ export function parseAccessTokenClaims<T = {}>(
 /**
  * computeExpiresIn will return null if we are already expired, or the time in
  * milliseconds from now that we are expired.
- *
  * @param expiredAt the epoch timestamp that we're considered expired
  */
 export function computeExpiresIn(expiredAt: number) {

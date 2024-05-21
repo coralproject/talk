@@ -54,7 +54,9 @@ export function createCoralEvent<T extends CoralEventPayload>(
         { eventType: event.type, eventID: event.id },
         "publishing event"
       );
-      const promises: Promise<any>[] = [Promise.resolve(broker.emit(event))];
+      const promises: Array<Promise<any>> = [
+        Promise.resolve(broker.emit(event)),
+      ];
       if (options.forward) {
         promises.push(...options.forward.map((f) => f.publish(broker, data)));
       }

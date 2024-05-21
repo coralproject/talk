@@ -143,11 +143,14 @@ const populateStaticConfig = (staticConfig: StaticConfig, req: Request) => {
     req.coral.tenant?.featureFlags?.filter(validFeatureFlagsFilter(req.user)) ||
     [];
   const flattenReplies = req.coral.tenant?.flattenReplies || false;
+  const dsaFeaturesEnabled = req.coral.tenant?.dsa?.enabled ?? false;
+
   return {
     ...staticConfig,
     featureFlags,
     tenantDomain: req.coral.tenant?.domain,
     flattenReplies,
+    dsaFeaturesEnabled,
   };
 };
 
@@ -160,6 +163,7 @@ const clientHandler =
     defaultLocale,
     template: viewTemplate = "client",
     templateVariables = {},
+    config,
   }: ClientTargetHandlerOptions): RequestHandler =>
   async (req, res, next) => {
     // Grab the locale code from the tenant configuration, if available.
@@ -168,6 +172,12 @@ const clientHandler =
     if (req.coral.tenant) {
       locale = req.coral.tenant.locale;
       rootURL = `${req.protocol}://${req.coral.tenant?.domain}`;
+    }
+
+    // this supports local wordpress plugin development
+    if (config.get("env") === "development") {
+      const port = config.get("port");
+      rootURL = `${req.protocol}://${req.coral.tenant?.domain}:${port}`;
     }
 
     const entrypoint = await entrypointLoader();

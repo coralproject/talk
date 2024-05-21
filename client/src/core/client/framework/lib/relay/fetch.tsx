@@ -56,6 +56,7 @@ export function useFetch<V, R>(
 ): FetchProp<typeof fetch> {
   const context = useCoralContext();
   return useCallback<FetchProp<typeof fetch>>(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     ((variables: V) => {
       // TODO: (cvle) Naming of these events are deprecated.
       context.eventEmitter.emit(`fetch.${fetch.name}`, variables);

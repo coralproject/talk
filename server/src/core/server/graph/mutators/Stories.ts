@@ -136,7 +136,7 @@ export const Stories = (ctx: GraphContext) => ({
     return removeExpert(ctx.mongo, ctx.tenant, input.storyID, input.userID);
   },
   archiveStories: async (input: GQLArchiveStoriesInput) => {
-    const stories: Readonly<Story>[] = [];
+    const stories: Array<Readonly<Story>> = [];
 
     for (const storyID of input.storyIDs) {
       const markResult = await markStoryForArchiving(
@@ -166,7 +166,7 @@ export const Stories = (ctx: GraphContext) => ({
     return stories;
   },
   unarchiveStories: async (input: GQLUnarchiveStoriesInput) => {
-    const stories: Readonly<Story>[] = [];
+    const stories: Array<Readonly<Story>> = [];
 
     for (const storyID of input.storyIDs) {
       const result = await markStoryForUnarchiving(

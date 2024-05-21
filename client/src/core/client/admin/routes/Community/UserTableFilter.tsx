@@ -110,7 +110,9 @@ const UserTableFilter: FunctionComponent<Props> = (props) => (
                 value={props.roleFilter || ""}
                 className={styles.selectField}
                 onChange={(e) =>
-                  props.onSetRoleFilter((e.target.value as any) || null)
+                  props.onSetRoleFilter(
+                    (e.target.value as GQLUSER_ROLE_RL) || null
+                  )
                 }
               >
                 <Localized id="community-filter-allRoles">
@@ -156,7 +158,9 @@ const UserTableFilter: FunctionComponent<Props> = (props) => (
                 value={props.statusFilter || ""}
                 className={styles.selectField}
                 onChange={(e) =>
-                  props.onSetStatusFilter((e.target.value as any) || null)
+                  props.onSetStatusFilter(
+                    (e.target.value as GQLUSER_STATUS_FILTER_RL) || null
+                  )
                 }
               >
                 <Localized id="community-filter-allStatuses">

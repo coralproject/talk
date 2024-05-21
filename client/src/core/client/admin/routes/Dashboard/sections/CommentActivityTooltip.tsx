@@ -18,8 +18,8 @@ const CommentActivityTooltip: FunctionComponent<Props> = ({
     minute: "2-digit",
   });
   const formattedLabel = useMemo(() => {
-    if (label) {
-      return formatter(label).toLowerCase();
+    if (label && typeof label === ("string" || "number" || "Date")) {
+      return formatter(label as string | number | Date).toLowerCase();
     }
     return "";
   }, [label, formatter]);

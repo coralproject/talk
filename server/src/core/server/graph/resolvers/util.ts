@@ -10,7 +10,6 @@ import { setCacheHint } from "../setCacheHint";
 
 /**
  * getRequestedFields returns the fields in an array that are being queried for.
- *
  * @param info query information
  */
 export function getRequestedFields<T>(info: GraphQLResolveInfo) {

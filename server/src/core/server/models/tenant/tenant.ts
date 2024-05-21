@@ -2,7 +2,10 @@ import { isEmpty } from "lodash";
 import { DateTime } from "luxon";
 import { v4 as uuid } from "uuid";
 
-import { DEFAULT_SESSION_DURATION } from "coral-common/common/lib/constants";
+import {
+  DEFAULT_SESSION_DURATION,
+  PROTECTED_EMAIL_DOMAINS,
+} from "coral-common/common/lib/constants";
 import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
 import TIME from "coral-common/common/lib/time";
 import { DeepPartial, Sub } from "coral-common/common/lib/types";
@@ -13,6 +16,7 @@ import {
   DuplicateFlairBadgeError,
 } from "coral-server/errors";
 import {
+  BadgeConfiguration,
   defaultRTEConfiguration,
   generateSigningSecret,
   Settings,
@@ -23,8 +27,10 @@ import { dotize } from "coral-server/utils/dotize";
 
 import {
   GQLAnnouncement,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
+  GQLReactionConfiguration,
   GQLSettings,
   GQLWEBHOOK_EVENT_NAME,
 } from "coral-server/graph/schema/__generated__/types";
@@ -37,6 +43,7 @@ import {
 /**
  * LEGACY_FEATURE_FLAGS are feature flags, that are no longer used.
  */
+// eslint-disable-next-line no-shadow
 export enum LEGACY_FEATURE_FLAGS {
   ENABLE_AMP = "ENABLE_AMP",
   FLATTEN_REPLIES = "FLATTEN_REPLIES",
@@ -136,22 +143,13 @@ export type CreateTenantInput = Pick<
 export interface TenantComputedProperties {
   multisite: boolean;
 }
-/**
- * create will create a new Tenant.
- *
- * @param mongo the MongoDB connection used to create the tenant.
- * @param i18n i18n instance
- * @param input the customizable parts of the Tenant available during creation
- */
-export async function createTenant(
-  mongo: MongoContext,
-  i18n: I18n,
-  input: CreateTenantInput,
-  now = new Date()
-) {
-  // Get the tenant's bundle.
-  const bundle = i18n.getBundle(input.locale);
 
+export const combineTenantDefaultsAndInput = (
+  input: CreateTenantInput,
+  reaction: GQLReactionConfiguration,
+  badges: BadgeConfiguration,
+  now = new Date()
+) => {
   const defaults: Sub<Tenant, CreateTenantInput> = {
     // Create a new ID.
     id: uuid(),
@@ -258,8 +256,8 @@ export async function createTenant(
         sendFeedback: false,
       },
     },
-    reaction: getDefaultReactionConfiguration(bundle),
-    badges: getDefaultBadgeConfiguration(bundle),
+    reaction,
+    badges,
     stories: {
       scraping: {
         enabled: true,
@@ -299,6 +297,24 @@ export async function createTenant(
       flairBadgesEnabled: false,
       badges: [],
     },
+    dsa: {
+      enabled: false,
+      methodOfRedress: {
+        method: GQLDSA_METHOD_OF_REDRESS.NONE,
+      },
+    },
+    topCommenter: {
+      enabled: false,
+    },
+    newCommenter: {
+      enabled: false,
+    },
+    protectedEmailDomains: Array.from(PROTECTED_EMAIL_DOMAINS),
+    inPageNotifications: {
+      enabled: true,
+      floatingBellIndicator: true,
+    },
+    showUnmoderatedCounts: true,
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -306,6 +322,28 @@ export async function createTenant(
     ...defaults,
     ...input,
   };
+
+  return tenant;
+};
+
+/**
+ * create will create a new Tenant.
+ * @param mongo the MongoDB connection used to create the tenant.
+ * @param i18n i18n instance
+ * @param input the customizable parts of the Tenant available during creation
+ */
+export async function createTenant(
+  mongo: MongoContext,
+  i18n: I18n,
+  input: CreateTenantInput,
+  now = new Date()
+) {
+  // Get the tenant's bundle.
+  const bundle = i18n.getBundle(input.locale);
+  const reaction = getDefaultReactionConfiguration(bundle);
+  const badges = getDefaultBadgeConfiguration(bundle);
+
+  const tenant = combineTenantDefaultsAndInput(input, reaction, badges, now);
 
   // Insert the Tenant into the database.
   await mongo.tenants().insertOne(tenant);

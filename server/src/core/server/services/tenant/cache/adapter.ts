@@ -49,7 +49,6 @@ export default class TenantCacheAdapter<T> {
   /**
    * delete the cached instance (if cached) for this Tenant. This does not call
    * the optional deconstruction function.
-   *
    * @param tenantID the tenantID for the cached item
    */
   public delete(tenantID: string) {
@@ -80,7 +79,6 @@ export default class TenantCacheAdapter<T> {
 
   /**
    * get will return the cached entry keyed on the tenantID.
-   *
    * @param tenantID the tenantID for the cached item
    */
   public get(tenantID: string): T | undefined {
@@ -93,7 +91,6 @@ export default class TenantCacheAdapter<T> {
 
   /**
    * set will set the cached entry into the map (if caching is enabled).
-   *
    * @param tenantID the tenantID for the cached item
    * @param value the value to set in the map (if caching is enabled)
    */

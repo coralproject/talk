@@ -29,12 +29,11 @@ const handleResp = async (res: Response) => {
     const response = await res.text();
     throw new Error(response);
   }
-
+  const type = res.headers.get("content-type");
   if (!res.ok) {
-    const type = res.headers.get("content-type");
     if (type && type.includes("application/json")) {
       const response = await res.json();
-      throw extractTraceableError(response.error);
+      throw extractTraceableError(response.error as Error);
     } else {
       const response = await res.text();
       throw new Error(response);
@@ -43,6 +42,10 @@ const handleResp = async (res: Response) => {
 
   if (res.status === 204) {
     return res.text();
+  }
+
+  if (type && type.includes("application/octet-stream")) {
+    return res.arrayBuffer();
   }
 
   return res.json();
@@ -94,7 +97,7 @@ export class RestClient {
       const response = await fetch(`${this.uri}${path}`, buildOptions(opts));
       return handleResp(response);
     } catch (error) {
-      assertOnline(error);
+      assertOnline(error as Error);
       throw error;
     }
   }

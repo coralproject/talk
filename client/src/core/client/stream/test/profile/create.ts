@@ -16,12 +16,13 @@ const initLocalState = (
   localRecord.setValue("PROFILE", "activeTab");
   localRecord.setValue("jti", "accessTokenJTI");
   localRecord.setValue(story.id, "storyID");
+
   if (params.initLocalState) {
     params.initLocalState(localRecord, source, environment);
   }
 };
 
-export default function create(params: CreateTestRendererParams) {
+export default function create(params: CreateTestRendererParams<GQLResolver>) {
   return createTopLevel({
     ...params,
     initLocalState: (localRecord, source, environment) => {
@@ -30,7 +31,9 @@ export default function create(params: CreateTestRendererParams) {
   });
 }
 
-export function createWithContext(params: CreateTestRendererParams) {
+export function createWithContext(
+  params: CreateTestRendererParams<GQLResolver>
+) {
   return createContext({
     ...params,
     initLocalState: (localRecord, source, environment) => {

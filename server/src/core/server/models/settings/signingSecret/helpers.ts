@@ -25,7 +25,6 @@ export function generateSigningSecret(
 /**
  * isSecretExpired is a function that given a secret and the current date will
  * return whether the secret has expired.
- *
  * @param secret the secret to test
  * @param now the current date
  */
@@ -40,7 +39,6 @@ function isSigningSecretExpired({ inactiveAt }: SigningSecret, now: Date) {
 /**
  * filterExpiredSecrets is a filter function that can be used to filter only
  * secrets that are inactive or expired.
- *
  * @param now the current date
  */
 export function filterExpiredSigningSecrets(now: Date) {
@@ -58,7 +56,6 @@ export function filterFreshSigningSecrets() {
 /**
  * filterActiveSecrets is a filter function that can be used to filter only
  * secrets that are active.
- *
  * @param now the current date
  */
 export function filterActiveSigningSecrets(now: Date) {
@@ -68,7 +65,6 @@ export function filterActiveSigningSecrets(now: Date) {
 /**
  * generateSignature will generate a signature used to assist clients to
  * validate that the request came from Coral.
- *
  * @param key the secret used to sign the body with
  * @param data the data to sign
  */
@@ -79,7 +75,6 @@ function generateSignature(key: string, data: string) {
 /**
  * generateSignatures will return a header value that can be used to verify the
  * integrity and authenticity of a payload sent from Coral.
- *
  * @param signingSecrets the secrets that should be used to sign the data with
  * @param data the data to sign
  * @param now the current date

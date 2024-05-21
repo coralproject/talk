@@ -66,11 +66,11 @@ const EmailConfigContainer: React.FunctionComponent<Props> = ({
         setLoading(false);
       }
 
-      setSubmitError(error.message);
+      setSubmitError(error.message as string | null);
     }
   }, []);
   useMemo(() => {
-    let values: any = { email };
+    let values: { email: EmailConfigContainer_email } = { email };
     if (email && email.smtp && email.smtp.authentication === null) {
       values = {
         email: {

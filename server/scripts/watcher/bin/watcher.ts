@@ -20,6 +20,7 @@ async function run(
     config = config.default;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   await watch(config, { only });
 }
 

@@ -15,6 +15,7 @@ const createTestRenderer = async () => {
     comments: createSinonStub((s) =>
       s.callsFake((input: any) => {
         if (
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           isMatch(input, {
             first: 99999,
             orderBy: "CREATED_AT_DESC",
@@ -35,6 +36,7 @@ const createTestRenderer = async () => {
           };
         }
         if (
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           isMatch(input, {
             first: 20,
             orderBy: "CREATED_AT_DESC",

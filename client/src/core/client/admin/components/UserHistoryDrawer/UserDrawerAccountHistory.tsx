@@ -1,9 +1,13 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { graphql } from "react-relay";
 
+import { SCHEDULED_DELETION_WINDOW_DURATION } from "coral-common/common/lib/constants";
 import { useDateTimeFormatter } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLUSER_ROLE } from "coral-framework/schema";
 import { CoralMarkIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   CallOut,
@@ -16,16 +20,19 @@ import {
 } from "coral-ui/components/v2";
 
 import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
+import { UserDrawerAccountHistory_viewer } from "coral-admin/__generated__/UserDrawerAccountHistory_viewer.graphql";
 
 import AccountHistoryAction, {
   HistoryActionProps,
 } from "./AccountHistoryAction";
 import { BanActionProps } from "./BanAction";
+import DeleteAccountPopoverContainer from "./DeleteAccountPopoverContainer";
 
 import styles from "./UserDrawerAccountHistory.css";
 
 interface Props {
   user: UserDrawerAccountHistory_user;
+  viewer: UserDrawerAccountHistory_viewer;
 }
 
 interface From {
@@ -39,26 +46,93 @@ type HistoryRecord = HistoryActionProps & {
   description?: string | null;
 };
 
-const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
-  const system = (
-    <Localized
-      id="moderate-user-drawer-account-history-system"
-      elems={{
-        icon: (
+const UserDrawerAccountHistory: FunctionComponent<Props> = ({
+  user,
+  viewer,
+}) => {
+  const system = useMemo(
+    () => (
+      <Localized
+        id="moderate-user-drawer-account-history-system"
+        elems={{
+          icon: (
+            <SvgIcon
+              size="md"
+              className={styles.coralIcon}
+              Icon={CoralMarkIcon}
+            />
+          ),
+        }}
+      >
+        <span>
           <SvgIcon
             size="md"
             className={styles.coralIcon}
             Icon={CoralMarkIcon}
-          />
-        ),
-      }}
-    >
-      <span>
-        <SvgIcon size="md" className={styles.coralIcon} Icon={CoralMarkIcon} />{" "}
-        System
-      </span>
-    </Localized>
+          />{" "}
+          System
+        </span>
+      </Localized>
+    ),
+    []
   );
+
+  const { localeBundles } = useCoralContext();
+
+  const deletionFormatter = useDateTimeFormatter({
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
+
+  const deletionDescriptionMapping = useCallback(
+    (updateType: string, createdAt: string) => {
+      const addSeconds = (date: Date, seconds: number) => {
+        return new Date(date.getTime() + seconds * 1000);
+      };
+      const mapping: { [key: string]: string } = {
+        REQUESTED: getMessage(
+          localeBundles,
+          "moderate-user-drawer-account-history-deletion-scheduled",
+          `Deletion scheduled for ${deletionFormatter(
+            addSeconds(new Date(createdAt), SCHEDULED_DELETION_WINDOW_DURATION)
+          )}`,
+          {
+            createdAt: deletionFormatter(
+              addSeconds(
+                new Date(createdAt),
+                SCHEDULED_DELETION_WINDOW_DURATION
+              )
+            ),
+          }
+        ),
+        CANCELED: getMessage(
+          localeBundles,
+          "moderate-user-drawer-account-history-canceled-at",
+          `Canceled at ${deletionFormatter(new Date(createdAt))}`,
+          { createdAt: deletionFormatter(new Date(createdAt)) }
+        ),
+        "%future added value": getMessage(
+          localeBundles,
+          "moderate-user-drawer-account-history-updated-at",
+          `Updated at ${deletionFormatter(new Date(createdAt))}`,
+          { createdAt: deletionFormatter(new Date(createdAt)) }
+        ),
+      };
+      return mapping[updateType];
+    },
+    [localeBundles, deletionFormatter]
+  );
+
+  const accountDomainBannedMessage = getMessage(
+    localeBundles,
+    "moderate-user-drawer-account-history-account-domain-banned",
+    "Account domain banned"
+  );
+
   const combinedHistory = useMemo(() => {
     // Collect all the different types of history items.
     const history: HistoryRecord[] = [];
@@ -129,7 +203,15 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
           takenBy: record.createdBy ? record.createdBy.username : system,
           description:
             isSiteBanned && !!user.status.ban.sites
-              ? user.status.ban.sites.map((s) => s.name).join(", ")
+              ? // does the site ban have sites? If so, add to description
+                user.status.ban.sites.map((s) => s.name).join(", ")
+              : // is the ban created?
+              record.active
+              ? // If the ban is created, is it created by the system?
+                record.createdBy
+                ? ""
+                : // If the ban is created by the system, show the account domain banned message
+                  accountDomainBannedMessage
               : "",
         };
       } else {
@@ -140,10 +222,19 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
           },
           date: new Date(record.createdAt),
           takenBy: record.createdBy ? record.createdBy.username : system,
-          description:
-            siteBan && record.sites
+          description: siteBan
+            ? // does the site ban have sites? If so, add to description
+              record.sites
               ? record.sites.map((s) => s.name).join(", ")
-              : "",
+              : ""
+            : // is the ban created?
+            record.active
+            ? // If the ban is created, is it created by the system?
+              record.createdBy
+              ? ""
+              : // If the ban is created by the system, show the account domain banned message
+                accountDomainBannedMessage
+            : "",
         });
       }
     });
@@ -217,6 +308,19 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       });
     });
 
+    user.status.deletion.history.forEach((record) => {
+      history.push({
+        kind: "deletion",
+        date: new Date(record.createdAt),
+        takenBy: record.createdBy ? record.createdBy.username : system,
+        action: { action: record.updateType },
+        description: deletionDescriptionMapping(
+          record.updateType,
+          record.createdAt
+        ),
+      });
+    });
+
     // Sort the history so that it's in the right order.
     const dateSortedHistory = history.sort(
       (a, b) => b.date.getTime() - a.date.getTime()
@@ -227,7 +331,12 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
     }
 
     return dateSortedHistory;
-  }, [system, user.status]);
+  }, [
+    system,
+    user.status,
+    deletionDescriptionMapping,
+    accountDomainBannedMessage,
+  ]);
   const formatter = useDateTimeFormatter({
     year: "numeric",
     month: "long",
@@ -236,11 +345,18 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
 
   if (combinedHistory.length === 0) {
     return (
-      <CallOut fullWidth>
-        <Localized id="moderate-user-drawer-account-history-no-history">
-          No actions have been taken on this account
-        </Localized>
-      </CallOut>
+      <>
+        {viewer.role === GQLUSER_ROLE.ADMIN && (
+          <div className={styles.deleteButtonWrapper}>
+            <DeleteAccountPopoverContainer user={user} />
+          </div>
+        )}
+        <CallOut fullWidth>
+          <Localized id="moderate-user-drawer-account-history-no-history">
+            No actions have been taken on this account
+          </Localized>
+        </CallOut>
+      </>
     );
   }
 
@@ -263,6 +379,9 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
 
   return (
     <HorizontalGutter size="double">
+      {viewer.role === GQLUSER_ROLE.ADMIN && (
+        <DeleteAccountPopoverContainer user={user} />
+      )}
       <Table fullWidth>
         <TableHead className={styles.tableHeader}>
           <TableRow>
@@ -294,12 +413,28 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
 };
 
 const enhanced = withFragmentContainer<any>({
+  viewer: graphql`
+    fragment UserDrawerAccountHistory_viewer on User {
+      id
+      role
+    }
+  `,
   user: graphql`
     fragment UserDrawerAccountHistory_user on User {
+      ...DeleteAccountPopoverContainer_user
       status {
         username {
           history {
             username
+            createdAt
+            createdBy {
+              username
+            }
+          }
+        }
+        deletion {
+          history {
+            updateType
             createdAt
             createdBy {
               username

@@ -36,7 +36,7 @@ graphql`
 `;
 
 const validateMaxLongerThanMin = createValidator(
-  (v: any, values: any) =>
+  (v: string, values: { charCount: { min: string } }) =>
     v === null ||
     values.charCount.min === null ||
     parseInt(v, 10) > parseInt(values.charCount.min, 10),

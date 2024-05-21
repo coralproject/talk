@@ -39,6 +39,7 @@ interface Props {
   user: SiteRoleActions_user;
 }
 
+// eslint-disable-next-line no-shadow
 enum SiteRoleType {
   MODERATOR,
   MEMBER,

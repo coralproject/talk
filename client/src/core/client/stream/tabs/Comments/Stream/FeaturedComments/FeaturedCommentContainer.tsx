@@ -96,7 +96,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
         <Localized
           id="comments-featured-label"
           elems={{ RelativeTime: <RelativeTime date={comment.createdAt} /> }}
-          vars={{ username: comment.author?.username || "" }}
+          vars={{ username: comment.author?.username ?? "" }}
         >
           <Hidden id={`featuredComment-${comment.id}-label`}>
             Featured Comment from {comment.author?.username} {` `}
@@ -189,7 +189,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
               <Localized
                 id={gotoConvAriaLabelId}
                 attrs={{ "aria-label": true }}
-                vars={{ username: comment.author?.username }}
+                vars={{ username: comment.author?.username ?? "" }}
               >
                 <Button
                   className={cn(

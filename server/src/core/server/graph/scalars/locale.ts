@@ -4,6 +4,7 @@ import { Kind } from "graphql/language";
 import { LOCALES } from "coral-common/common/lib/helpers/i18n";
 
 function assertSupportLocale(locale: string) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   if (!LOCALES.includes(locale as any)) {
     throw new Error(`Supported locales are ${JSON.stringify(LOCALES)}`);
   }

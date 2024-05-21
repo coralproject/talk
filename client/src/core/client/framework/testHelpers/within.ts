@@ -51,6 +51,7 @@ function applyContainer<T extends [ReactTestInstance, ...any[]], R>(
   container: ReactTestInstance,
   fn: (...args: T) => R
 ): RemoveFirstArgument<T, R> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return ((...args: any[]) => fn(...([container, ...args] as any))) as any;
 }
 

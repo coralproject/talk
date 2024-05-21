@@ -530,6 +530,17 @@ profile-account-notifications-updated = Vos paramètres de notification ont ét�
 profile-account-notifications-button = Mettre à jour mes paramètres de notification
 profile-account-notifications-button-update = Mise à jour
 
+profile-account-notifications-inPageNotifications = Notifications
+profile-account-notifications-includeInPageWhen = M'alerter quand
+
+profile-account-notifications-inPageNotifications-on = Badges activés
+profile-account-notifications-inPageNotifications-off = Badges désactivés
+
+profile-account-notifications-showReplies-fromAnyone = de n'importe qui
+profile-account-notifications-showReplies-fromStaff = d'un membre de l'équipe
+profile-account-notifications-showReplies =
+  .aria-label = Montrer les réponses venant de
+
 ## Report Comment Popover
 comments-reportPopover =
   .description = Un dialogue pour les commentaires signalés
@@ -794,3 +805,82 @@ stream-footer-links-profile = Profile et réponses
 stream-footer-links-discussions = Plus de discussions
   .title = Lire plus de discussions
 
+
+## Notifications
+
+notifications-title = Notifications
+notifications-loadMore = Charger plus de notifications
+notifications-loadNew = Charger nouvelles notifications 
+
+notifications-adjustPreferences = Ajuster les paramètres de notifications dans Mon Profil &gt;<button>Préférences.</button>
+
+notification-comment-toggle-default-open = - Commentaire
+notification-comment-toggle-default-closed = + Commentaire
+
+notifications-comment-showRemovedComment = + Afficher le commentaire supprimé
+notifications-comment-hideRemovedComment = - Cacher le commentaire supprimé
+
+notification-comment-description-featured = votre commentaire sur "{ $title }" a été mis en avant par un membre de notre équipe.
+notification-comment-description-default = sur "{ $title }"
+notification-comment-media-image = Image
+notification-comment-media-embed = Embed
+notification-comment-media-gif = Gif
+
+notifications-yourIllegalContentReportHasBeenReviewed =
+  Votre signalement de contenu potentiellement illégal a été examiné
+notifications-yourCommentHasBeenRejected =
+  Votre commentaire a été rejeté
+notifications-yourCommentHasBeenApproved =
+  Votre commentaire a été approuvé
+notifications-yourCommentHasBeenFeatured =
+  Votre commentaire a été mis en avant
+notifications-yourCommentHasReceivedAReply =
+  Nouvelle réponse de { $author }
+notifications-defaultTitle = Notification
+
+notifications-rejectedComment-body =
+  Le contenu de votre commentaire ne respecte pas les règles de notre communauté. Le commentaire a été supprimé.
+notifications-rejectedComment-wasPending-body =
+  Le contenu de votre commentaire ne respecte pas les règles de notre communauté.
+notifications-reasonForRemoval = Raison de la suppression
+notifications-legalGrounds = Motifs légaux
+notifications-additionalExplanation = Explication supplémentaire 
+
+notifications-repliedComment-hideReply = - Cacher la réponse
+notifications-repliedComment-showReply = + Afficher la réponse
+notifications-repliedComment-hideOriginalComment = - Cacher mon commentaire
+notifications-repliedComment-showOriginalComment = + Afficher mon commentaire
+
+notifications-dsaReportLegality-legal = Contenu légal
+notifications-dsaReportLegality-illegal = Contenu potentiellement illégal
+notifications-dsaReportLegality-unknown = Inconnu
+
+notifications-rejectionReason-offensive = Ce commentaire contient du langage offesant
+notifications-rejectionReason-abusive = Ce commentaire contient du langage abusif
+notifications-rejectionReason-spam = Ce commentaire est du spam
+notifications-rejectionReason-bannedWord = Mot banni
+notifications-rejectionReason-ad = Ce commentaire est une publicité
+notifications-rejectionReason-illegalContent = Ce commentaire a du contenu potentiellement illégal
+notifications-rejectionReason-harassmentBullying = Ce commentaire contient du harcélement 
+notifications-rejectionReason-misinformation = Ce commentaire contient des informations inexactes
+notifications-rejectionReason-hateSpeech = Ce commentaire contient un discours haineux
+notifications-rejectionReason-irrelevant = Ce commentaire n'est pas pertinent à la discussion
+notifications-rejectionReason-other = Autre
+notifications-rejectionReason-other-customReason = Autre - { $customReason }
+notifications-rejectionReason-unknown = Inconnu
+
+notifications-reportDecisionMade-legal =
+  Le <strong>{ $date }</strong> vous avez signalé un commentaire écrit par <strong>{ $author }</strong> car il contient du contenu potentiellement illégal. Après avoir évalué votre signalement, notre équipe de modération a décidé que ce commentaire <strong>ne semble pas contenir de contenu illégal.</strong> Merci pour votre contribution à la sécurité de notre communauté.
+notifications-reportDecisionMade-illegal =
+  Le <strong>{ $date }</strong> vous avez signalé un commentaire écrit par <strong>{ $author }</strong> car il contient du contenu potentiellement illégal. Après avoir évalué votre signalement, notre équipe de modération a décidé que ce commentaire <strong>contient du contenu illégal</strong> et a été supprimé. D'autres mesures pourront être prises à l'encontre de l'auteur, mais vous n'en serez pas informé. Merci pour votre contribution à la sécurité de notre communauté.
+
+notifications-methodOfRedress-none =
+  Toutes les décisions de modération sont finales et sans appel
+notifications-methodOfRedress-email =
+  Pour contester une décision qui apparaît ici, veuillez contacter <a>{ $email }</a>
+notifications-methodOfRedress-url =
+  Pour contester une décision qui apparaît ici, veuillez visiter <a>{ $url }</a>
+
+notifications-youDoNotCurrentlyHaveAny = Vous n'avez actuellement aucune notification
+
+notifications-floatingIcon-close = fermer

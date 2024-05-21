@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import {
   EMAIL_DOMAIN_REGEX,
   EMAIL_REGEX,
+  ID_REGEX,
   PASSWORD_MIN_LENGTH,
   URL_REGEX,
   USERNAME_MAX_LENGTH,
@@ -73,9 +74,21 @@ export const required = createValidator(
 );
 
 /**
+ * requiredTrue is a Validator that checks that the value is truthy and not equal to false.
+ */
+export const requiredTrue = createValidator(
+  (v) =>
+    Array.isArray(v)
+      ? v.length > 0
+      : v !== "" && v !== null && v !== undefined && v !== false,
+  VALIDATION_REQUIRED()
+);
+
+/**
  * validateEmail is a Validator that checks that the value is an email.
  */
 export const validateEmail = createValidator(
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   (v) => !v || EMAIL_REGEX.test(v),
   INVALID_EMAIL()
 );
@@ -85,6 +98,7 @@ export const validateEmail = createValidator(
  * at the beginning and including at least one dot.
  */
 export const validateEmailDomain = createValidator(
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   (v) => !v || EMAIL_DOMAIN_REGEX.test(v),
   INVALID_EMAIL_DOMAIN()
 );
@@ -93,6 +107,7 @@ export const validateEmailDomain = createValidator(
  * validateUsernameCharacters is a Validator that checks that the username only contains valid characters.
  */
 export const validateUsernameCharacters = createValidator(
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   (v) => !v || USERNAME_REGEX.test(v),
   INVALID_CHARACTERS()
 );
@@ -116,9 +131,28 @@ export const validateImageURL = createValidator(
 );
 
 /**
+ * validateShareURL checks that a URL is valid and includes a valid commentID query param
+ */
+export const validateShareURL = (v: any) => {
+  if (!v) {
+    return false;
+  }
+  const shareURLArr = v.split("?commentID=");
+  if (!(shareURLArr.length === 2)) {
+    return false;
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const isValidUrl = URL_REGEX.test(shareURLArr[0]);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const isValidCommentID = ID_REGEX.test(shareURLArr[1]);
+  return isValidUrl && isValidCommentID;
+};
+
+/**
  * validateURL is a Validator that checks that the URL only contains valid characters.
  */
 export const validateURL = createValidator(
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   (v) => !v || URL_REGEX.test(v),
   INVALID_URL()
 );
@@ -237,6 +271,7 @@ export const validateUsernameEquals = createValidator(
  * validateWholeNumber is a Validator that checks for a valid whole number.
  */
 export const validateWholeNumber = createValidator(
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   (v) => !v || v === 0 || Number.isInteger(parseFloat(v)),
   NOT_A_WHOLE_NUMBER()
 );
@@ -246,6 +281,7 @@ export const validateWholeNumber = createValidator(
  */
 export const validateWholeNumberGreaterThan = (x: number) =>
   createValidator(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     (v) => v === null || (Number.isInteger(parseFloat(v)) && v > x),
     NOT_A_WHOLE_NUMBER_GREATER_THAN(x)
   );
@@ -255,6 +291,7 @@ export const validateWholeNumberGreaterThan = (x: number) =>
  */
 export const validateWholeNumberGreaterThanOrEqual = (x: number) =>
   createValidator(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     (v) => v === null || (Number.isInteger(parseFloat(v)) && v >= x),
     NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL(x)
   );
@@ -267,6 +304,7 @@ export const validateWholeNumberBetween = (min: number, max: number) =>
     (v) =>
       !v ||
       v === 0 ||
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       (Number.isInteger(parseFloat(v)) && v >= min && v <= max),
     NOT_A_WHOLE_NUMBER_BETWEEN(min, max)
   );
@@ -285,6 +323,24 @@ export const validatePercentage = (min: number, max: number) =>
 
 export const validateDeleteConfirmation = (phrase: string) =>
   createValidator((v) => v === phrase, DELETE_CONFIRMATION_INVALID());
+
+export const validateEmailDomainList = createValidator((v) => {
+  if (!Array.isArray(v)) {
+    return false;
+  }
+
+  for (const domain of v) {
+    if (typeof domain !== "string") {
+      return false;
+    }
+
+    if (!EMAIL_DOMAIN_REGEX.test(domain)) {
+      return false;
+    }
+  }
+
+  return true;
+}, INVALID_EMAIL_DOMAIN());
 
 export const validateStrictURLList = createValidator((v) => {
   if (!Array.isArray(v)) {
@@ -317,7 +373,6 @@ export type Condition<T = any, V = any> = (value: T, values: V) => boolean;
 /**
  * composeSomeConditions will return true when some of the conditions return
  * true, false if all return false.
- *
  * @param conditions conditions to use
  */
 export function composeSomeConditions<T = any, V = any>(

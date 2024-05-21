@@ -173,7 +173,7 @@ export class JWTStrategy extends Strategy {
 
       return this.success(user, null);
     } catch (err) {
-      return this.error(err);
+      return this.error(err as Error);
     }
   }
 }

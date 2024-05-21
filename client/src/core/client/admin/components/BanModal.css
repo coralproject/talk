@@ -39,3 +39,31 @@ $ban-modal-text: var(--palette-text-500);
 .customizeMessageArrowsIcon {
   padding-left: var(--spacing-1);
 }
+
+.rejectionReasonLink {
+  width: fit-content;
+  color: var(--palette-primary-600) !important;
+}
+
+.rejectExistingReason {
+  background-color: var(--palette-grey-100);
+}
+
+.domainBanCallOut {
+  padding: var(--spacing-1);
+  margin-bottom: var(--spacing-2);
+}
+
+.alertIcon {
+  margin-right: var(--spacing-1);
+}
+
+.domainBanConfirmationInput {
+  font-family: var(--font-family-primary);
+  line-height: 2.25;
+  padding-left: var(--spacing-2);
+}
+
+.domainBanConfirmationLabel {
+  margin-bottom: var(--spacing-1);
+}

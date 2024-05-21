@@ -5,7 +5,7 @@ const CLASSES = {
   app: "coral coral-stream",
 
   /**
-   * guidlines represents the box containing the guidlines.
+   * guidelines represents the box containing the guidelines.
    */
   guidelines: {
     container: "coral coral-guidelines",
@@ -13,7 +13,7 @@ const CLASSES = {
   },
 
   /**
-   * guidlines represents the box containing the guidlines.
+   * announcement represents the box containing the announcement.
    */
   announcement: "coral coral-announcement",
 
@@ -77,6 +77,10 @@ const CLASSES = {
     configure: "coral coral-tabBar-tab coral-tabBar-configure",
 
     activeTab: "coral-tabBar-tab-active",
+
+    notifications: "coral coral-tabBar-tab coral-tabBar-notifications",
+
+    mobile: "coral-tabBar-tab-mobile",
   },
 
   /**
@@ -99,6 +103,13 @@ const CLASSES = {
      * featured is the button for the "Featured Comments" tab.
      */
     featured: "coral coral-tabBarSecondary-tab coral-tabBarComments-featured",
+
+    /**
+     * featuredStar is the star icon shown by "Featured Comments" tab if Top commenter
+     * feature is enabled in the admin configuration.
+     */
+    featuredStar:
+      "coral coral-tabBarSecondary-tab coral-tabBarComments-featured-star",
 
     /**
      * featuredTooltip is the tooltip next to the featured tab.
@@ -140,6 +151,11 @@ const CLASSES = {
      * settings is the button for the "Settings" tab.
      */
     settings: "coral coral-tabBarSecondary-tab coral-tabBarMyProfile-settings",
+  },
+
+  tabBarNotifications: {
+    loadMore: "coral coral-tabBarNotifications-loadMore",
+    loadNew: "coral coral-tabBarNotifications-loadNew",
   },
 
   /**
@@ -315,7 +331,7 @@ const CLASSES = {
     },
 
     /**
-     * topBar is the uppper bar of the comment.
+     * topBar is the upper bar of the comment.
      */
     topBar: {
       /**
@@ -327,6 +343,47 @@ const CLASSES = {
        * username is the text display for any given Username in the system.
        */
       username: "coral coral-username coral-comment-username",
+
+      /**
+       * topCommenterStar is the star icon and its border added if the Top commenter feature
+       * is enabled and the commenter qualifies with their featured comments
+       */
+      topCommenterStar: "coral coral-topCommenter-star",
+
+      /**
+       * topCommenterStarBorder is the outer circle around the Top commenter star next to the
+       * username of a commenter with this designation.
+       */
+      topCommenterStarBorder: "coral coral-topCommenter-star-border",
+
+      /**
+       * topCommenterStarTooltip is the tooltip shown when the Top commenter star is clicked to
+       * provide additional information about why the star is shown and what a Top commenter is
+       */
+      topCommenterStarTooltip: "coral coral-topCommenter-star-tooltip",
+
+      /**
+       * topCommenterStarTooltip is the header for the Top commenter tooltip
+       */
+      topCommenterStarTooltipHeader:
+        "coral coral-topCommenter-star-tooltip-header",
+
+      /**
+       * topCommenterStarTooltip is the details for the Top commenter tooltip
+       */
+      topCommenterStarTooltipDetails:
+        "coral coral-topCommenter-star-tooltip-details",
+
+      /**
+       * newCommenter is the plant icon shown beside a commenter's username if the New commenter
+       * feature is enabled and it is a new commenter. This also includes the tooltip that explains the
+       * new commenter plant icon.
+       */
+      newCommenter: {
+        plant: "coral coral-newCommenter-plant",
+        tooltip: "coral coral-newCommenter-plant-tooltip",
+        tooltipDetails: "coral coral-newCommenter-plant-tooltip-details",
+      },
 
       /**
        * timestamp is the text that contains the time since the comment was
@@ -1016,11 +1073,42 @@ const CLASSES = {
     openButton: "coral coral-openCommentStream-openButton",
   },
 
-  emailNotifications: {
-    $root: "coral coral-emailNotifications",
-    heading: "coral coral-emailNotifications-heading",
-    label: "coral coral-emailNotifications-label",
-    updateButton: "coral coral-emailNotifications-updateButton",
+  notifications: {
+    $root: "coral coral-emailNotifications coral-notifications",
+    heading:
+      "coral coral-emailNotifications-heading coral-notifications-heading",
+    label: "coral coral-emailNotifications-label coral-notifications-label",
+    updateButton:
+      "coral coral-emailNotifications-updateButton coral-notifications-updateButton",
+
+    live: {
+      root: "coral coral-notifications-live-root",
+      icon: "coral coral-notifications-live-icon",
+      counter: "coral coral-notifications-live-counter",
+    },
+
+    floating: {
+      root: "coral coral-notifications-floating-root",
+      action: "coral coral-notifications-floating-action",
+      actionOpen: "coral coral-notifications-floating-action-open",
+      actionClosed: "coral coral-notifications-floating-action-closed",
+      close: "coral coral-notifications-floating-close",
+      icon: "coral coral-notifications-floating-icon",
+      feed: {
+        root: "coral coral-notifications-floating-feed-root",
+        panel: "coral coral-notifications-floating-feed-panel",
+        title: "coral coral-notifications-floating-feed-title",
+        container: "coral coral-notifications-floating-feed-container",
+      },
+    },
+
+    mobileToolBar: {
+      root: "coral coral-notifications-mobileToolBar-root",
+      tray: "coral coral-notifications-mobileToolBar-tray",
+      header: "coral coral-notifications-mobileToolBar-header",
+      close: "coral coral-notifications-mobileToolBar-close",
+      list: "coral coral-notifications-mobileToolBar-list",
+    },
   },
 
   mediaPreferences: {
@@ -1096,7 +1184,13 @@ const CLASSES = {
     },
   },
 
-  mobileToolbar: "coral coral-mobileToolbar",
+  mobileToolbar: {
+    $root: "coral coral-mobileToolbar",
+    close: "coral coral-mobileToolbar-close",
+    markAllAsRead: "coral coral-mobileToolbar-markAllAsRead",
+    nextUnread: "coral coral-mobileToolbar-nextUnread",
+    notificationsAction: "coral coral-mobileToolbar-notifications",
+  },
 
   viewersWatching: {
     $root: "coral coral-viewersWatching",

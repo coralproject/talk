@@ -4,6 +4,8 @@ export const USERNAME_REGEX = new RegExp(/^[a-zA-ZÀ-ÖØ-öø-ÿ0-9_.]+$/);
 export const USERNAME_MAX_LENGTH = 30;
 export const USERNAME_MIN_LENGTH = 3;
 
+export const ID_REGEX = new RegExp(/^[a-zA-Z0-9-.]+$/);
+
 export const PASSWORD_MIN_LENGTH = 8;
 
 export const EMAIL_REGEX = new RegExp(/^\S+@\S+.\S+$/);

@@ -38,7 +38,6 @@ export function getURLOrigins(urls: ReadonlyArray<string>) {
 
 /**
  * create will create a new Site.
- *
  * @param mongo the MongoDB connection used to create the Site.
  * @param input the customizable parts of the Site available during creation
  */

@@ -9,7 +9,7 @@ import { Claims, computeExpiresIn, parseAccessTokenClaims } from "./helpers";
 /**
  * ACCESS_TOKEN_KEY is the key in storage where the accessToken is stored.
  */
-const ACCESS_TOKEN_KEY = "v2:accessToken";
+export const ACCESS_TOKEN_KEY = "v2:accessToken";
 
 export interface AuthState {
   /**

@@ -48,7 +48,9 @@ export default class FluentShortNumber extends FluentNumber {
     if (this.value < 1000) {
       return super.toString(scope);
     }
-    const key = `framework-shortNumber-${getShortNumberCode(this.value)}`;
+    const key = `framework-shortNumber-${getShortNumberCode(
+      this.value as number
+    )}`;
     const fmt = scope.bundle.getMessage(key);
 
     // Handle message not found.
@@ -75,7 +77,7 @@ export default class FluentShortNumber extends FluentNumber {
       return super.toString(scope);
     }
 
-    return formatShortNumber(this.value, fmt.value, scope);
+    return formatShortNumber(this.value as number, fmt.value, scope);
   }
 
   public match(bundle: FluentBundle, other: FluentType) {

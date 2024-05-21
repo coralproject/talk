@@ -32,6 +32,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "../context";
+import { isQA, isRatingsAndReviews } from "../loaders/Comments";
 import { setCacheHint } from "../setCacheHint";
 
 export const maybeLoadOnlyID = async (
@@ -80,6 +81,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     c.revisions.length > 0
       ? { revision: getLatestRevision(c), comment: c }
       : null,
+  initialStatus: (c) => (c.revisions.length > 0 ? c.revisions[0].status : null),
   canModerate: (c, input, ctx) => {
     if (!ctx.user) {
       return false;
@@ -145,12 +147,29 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   },
   statusHistory: ({ id }, input, ctx) =>
     ctx.loaders.CommentModerationActions.forComment(input, id),
-  replies: (c, input, ctx) =>
+  replies: async (c, input, ctx) => {
     // If there is at least one reply, then use the connection loader, otherwise
     // return a blank connection.
-    c.childCount > 0
-      ? ctx.loaders.Comments.forParent(c.storyID, c.id, input)
-      : createConnection(),
+    if (c.childCount === 0) {
+      return createConnection();
+    }
+
+    const cacheAvailable = await ctx.cache.available(ctx.tenant.id);
+    if (
+      cacheAvailable &&
+      ctx.cache.comments.shouldPrimeForStory(ctx.tenant.id, c.storyID)
+    ) {
+      const story = await ctx.loaders.Stories.find.load({ id: c.storyID });
+      await ctx.cache.comments.primeCommentsForStory(
+        ctx.tenant.id,
+        c.storyID,
+        !!story?.isArchived
+      );
+    }
+
+    const result = await ctx.loaders.Comments.forParent(c.storyID, c.id, input);
+    return result;
+  },
   replyCount: async ({ storyID, childIDs }, input, ctx) => {
     // TODO: (wyattjoh) the childCount should be used eventually, but it should be managed with the status so it's only a count of published comments
     if (childIDs.length === 0) {
@@ -171,7 +190,8 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     } else {
       const children = await ctx.loaders.Comments.visible.loadMany(childIDs);
       return children.reduce(
-        (sum: number, c: any) => (c && hasPublishedStatus(c) ? sum + 1 : sum),
+        (sum: number, c: Readonly<comment.Comment> | null) =>
+          c && hasPublishedStatus(c) ? sum + 1 : sum,
         0
       );
     }
@@ -198,14 +218,34 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         commentID: id,
       },
     }),
-  viewerActionPresence: (c, input, ctx, info) => {
+  illegalContent: ({ id }, { first, after }, ctx) =>
+    ctx.loaders.CommentActions.connection({
+      first: defaultTo(first, 10),
+      after,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      filter: {
+        actionType: ACTION_TYPE.ILLEGAL,
+        commentID: id,
+      },
+    }),
+  viewerActionPresence: async (c, input, ctx, info) => {
     if (!ctx.user) {
       return null;
     }
 
     setCacheHint(info, { scope: CacheScope.Private });
 
-    return ctx.loaders.Comments.retrieveMyActionPresence.load(c.id);
+    const story = await ctx.loaders.Stories.find.load({ id: c.storyID });
+    if (!story) {
+      throw new StoryNotFoundError(c.storyID);
+    }
+
+    return ctx.loaders.Comments.retrieveMyActionPresence.load({
+      commentID: c.id,
+      isArchived: !!story.isArchived,
+      isRR: isRatingsAndReviews(ctx.tenant, story),
+      isQA: isQA(ctx.tenant, story),
+    });
   },
 
   parentCount: (c) => getDepth(c),

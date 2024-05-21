@@ -12,6 +12,7 @@ export default class CSSAsset {
   constructor(
     href: string,
     onLoad?: React.ReactEventHandler<HTMLLinkElement>,
+    // eslint-disable-next-line no-shadow
     onError?: (href: string) => void
   ) {
     this._href = href;

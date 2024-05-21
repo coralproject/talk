@@ -1,11 +1,13 @@
 import { LanguageCode } from "coral-common/common/lib/helpers";
 import { WordlistMatch } from "coral-server/models/comment";
 
+// eslint-disable-next-line no-shadow
 export enum MessageType {
   Initialize = "initialize",
   Process = "process",
 }
 
+// eslint-disable-next-line no-shadow
 export enum WordListCategory {
   Banned = "banned",
   Suspect = "suspect",

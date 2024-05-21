@@ -13,7 +13,6 @@ import { Revision } from "./revision";
 
 /**
  * hasAncestors will check to see if a given comment has any ancestors.
- *
  * @param comment the comment to check the ancestors on
  */
 export function hasAncestors(
@@ -25,7 +24,6 @@ export function hasAncestors(
 /**
  * hasPublishedStatus will check to see if the comment has a visibility status
  * where readers could see it.
- *
  * @param comment the comment to check the status on
  */
 export function hasPublishedStatus(comment: Pick<Comment, "status">): boolean {
@@ -38,7 +36,6 @@ export function hasModeratorStatus(comment: Pick<Comment, "status">): boolean {
 
 /**
  * getLatestRevision will get the latest revision from a Comment.
- *
  * @param comment the comment that contains the revisions
  */
 export function getLatestRevision(
@@ -67,7 +64,6 @@ export function hasTag(comment: Pick<Comment, "tags">, tag: GQLTAG) {
 
 /**
  * getDepth will return the depth of the comment.
- *
  * @param comment the comment to check for depth
  */
 export function getDepth(

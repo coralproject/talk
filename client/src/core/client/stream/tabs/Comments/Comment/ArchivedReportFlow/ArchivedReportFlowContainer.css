@@ -40,3 +40,14 @@
 
   margin-bottom: var(--spacing-2);
 }
+
+.illegalContentReportButton {
+  margin-bottom: var(--spacing-2);
+  white-space: initial;
+}
+
+.linkIcon {
+  margin-left: var(--spacing-1);
+  display: inline-block;
+  vertical-align: middle;
+}

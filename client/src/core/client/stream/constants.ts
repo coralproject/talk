@@ -9,3 +9,10 @@ export const MAX_REPLY_INDENT_DEPTH = 7;
 export const NUM_INITIAL_COMMENTS = 20;
 
 export const RTE_ELEMENT_ID = "Coral-RTE";
+
+export const NOTIFICATION_COMMENT_BODY_LENGTH = 120;
+
+// eslint-disable-next-line no-shadow
+export const enum URLViewType {
+  IllegalContentReport = "illegalContentReport",
+}

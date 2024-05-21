@@ -160,6 +160,7 @@ export const StandardClaimsSchema = Joi.object().keys({
   iat: Joi.number(),
 });
 
+// eslint-disable-next-line no-shadow
 export enum AsymmetricSigningAlgorithm {
   RS256 = "RS256",
   RS384 = "RS384",
@@ -169,6 +170,7 @@ export enum AsymmetricSigningAlgorithm {
   ES512 = "ES512",
 }
 
+// eslint-disable-next-line no-shadow
 export enum SymmetricSigningAlgorithm {
   HS256 = "HS256",
   HS384 = "HS384",
@@ -300,7 +302,6 @@ export async function signString<T extends {}>(
 /**
  * isExpressRequest will check to see if this is a Request or an
  * IncomingMessage.
- *
  * @param req a request to test if it is an Express Request or not.
  */
 export function isExpressRequest(
@@ -342,7 +343,6 @@ export function isExpressRequest(
 // }
 
 /**
- *
  * @param req the request to extract the JWT from
  * @param excludeQuery when true, does not pull from the query params
  */
@@ -366,7 +366,6 @@ function extractJWTFromRequestHeaders(
 /**
  * extractJWTFromRequest will extract the token from the request if it can find
  * it. It will try to extract the token from the headers.
- *
  * @param req the request to extract the JWT from
  * @param excludeQuery when true, does not pull from the query params
  */
@@ -386,7 +385,6 @@ function generateJTIRevokedKey(jti: string) {
 
 /**
  * revokeJWT will place the token into a blacklist until it expires.
- *
  * @param redis the Redis instance to revoke the JWT with
  * @param jti the JTI claim of the JWT token being revoked
  * @param exp time that the token expired at
@@ -414,7 +412,6 @@ export async function revokeJWT(
 /**
  * isJWTRevoked will check to see if the given token referenced by the JWT has
  * been revoked or not.
- *
  * @param redis the Redis instance to check to see if the token was revoked
  * @param jti the JTI claim of the JWT token being tested
  */
@@ -430,7 +427,6 @@ export async function isJWTRevoked(redis: Redis, jti: string) {
 /**
  * checkJWTRevoked will test the JWT's JTI to see if it's revoked, if it is, it
  * will throw an error.
- *
  * @param redis the Redis instance to check to see if the token was revoked
  * @param jti the JTI claim of the JWT token being tested
  */
@@ -457,7 +453,7 @@ export function verifyJWT(
       tokenString,
       "token validation error",
       undefined,
-      err
+      err as Error
     );
   }
 }
@@ -470,7 +466,7 @@ export function decodeJWT(tokenString: string) {
       tokenString,
       "token validation error",
       undefined,
-      err
+      err as Error
     );
   }
 }

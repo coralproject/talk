@@ -1,0 +1,22 @@
+.statusLabel {
+  color: var(--palette-text-000);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-primary-semi-bold);
+  padding-right: var(--spacing-2);
+}
+
+.toggleButton {
+  background-color: var(--palette-background-body);
+  width: calc(20 * var(--mini-unit));
+}
+
+.dropdownButton {
+  font-size: var(--font-size-1);
+}
+
+.dropdown {
+  max-height: 15em;
+  width: calc(20 * var(--mini-unit));
+  overflow: auto;
+}

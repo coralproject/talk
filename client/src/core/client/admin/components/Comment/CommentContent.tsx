@@ -48,8 +48,8 @@ interface Props {
   className?: string;
   children: string | React.ReactElement;
   highlight?: boolean;
-  bannedWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
-  suspectWords?: Readonly<Readonly<GQLWordlistMatch>[]>;
+  bannedWords?: Readonly<Array<Readonly<GQLWordlistMatch>>>;
+  suspectWords?: Readonly<Array<Readonly<GQLWordlistMatch>>>;
 }
 
 const CommentContent: FunctionComponent<Props> = ({

@@ -68,18 +68,19 @@ export interface RevisionMetadata {
    * externalModeration is any details about if and when this comment revision
    * was analyzed by an external moderation phase.
    */
-  externalModeration?: {
+  externalModeration?: Array<{
     name: string;
     analyzedAt: Date;
     result: {
       status?: GQLCOMMENT_STATUS;
       tags?: GQLTAG[];
-      actions?: {
+      actions?: Array<{
         type?: ACTION_TYPE;
         reason?: FLAG_REASON;
-      }[];
+      }>;
     };
-  }[];
+    missingReason?: boolean;
+  }>;
 }
 
 export interface GiphyMedia {
@@ -156,4 +157,9 @@ export interface Revision {
    * media is the optional media object attached to this revision.
    */
   media?: CommentMedia;
+
+  /**
+   * status is the comment status for the revision
+   */
+  status: GQLCOMMENT_STATUS;
 }

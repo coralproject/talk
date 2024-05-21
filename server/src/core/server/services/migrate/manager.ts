@@ -106,7 +106,6 @@ export default class Manager {
 
   /**
    * pending will return the pending migrations that need to be completed.
-   *
    * @param mongo the database handle to use to get the migrations
    */
   private async pending(mongo: MongoContext): Promise<Migration[]> {

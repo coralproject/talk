@@ -3,6 +3,7 @@ import RedisClient from "ioredis";
 import { waitFor } from "coral-common/common/lib/helpers";
 import { CommentCache } from "coral-server/data/cache/commentCache";
 import { MongoContext, MongoContextImpl } from "coral-server/data/context";
+import { UnableToPrimeCachedCommentsForStory } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
 import { createMongoDB } from "coral-server/services/mongodb";
@@ -84,6 +85,10 @@ it("can load root comments from commentCache", async () => {
     story.id,
     false
   );
+  if (!primeResult) {
+    throw new UnableToPrimeCachedCommentsForStory(story.tenantID, story.id);
+  }
+
   const results = await comments.rootComments(
     story.tenantID,
     story.id,
@@ -144,6 +149,10 @@ it("can load replies from commentCache", async () => {
     story.id,
     false
   );
+  if (!primeResult) {
+    throw new UnableToPrimeCachedCommentsForStory(story.tenantID, story.id);
+  }
+
   const rootResults = await comments.rootComments(
     story.tenantID,
     story.id,
@@ -211,6 +220,9 @@ it("cache expires appropriately", async () => {
     story.id,
     false
   );
+  if (!primeResult) {
+    throw new UnableToPrimeCachedCommentsForStory(story.tenantID, story.id);
+  }
   expect(primeResult.retrievedFrom).toEqual("redis");
 
   let lockExists = await redis.exists(lockKey);

@@ -85,7 +85,7 @@ const SuspendForm: FunctionComponent<Props> = ({
         const unit = DURATIONS.find((d) => d.value === duration);
         const expectedEmailMessage = getMessageWithDuration(unit!);
         if (expectedEmailMessage === emailMessage) {
-          changeValue(state, name, () => newValue);
+          changeValue(state, name as string, () => newValue);
         }
       }
     },
@@ -103,7 +103,7 @@ const SuspendForm: FunctionComponent<Props> = ({
       const unit = DURATIONS.find((d) => d.value === duration);
       const expectedEmailMessage = getMessageWithDuration(unit!);
       if (expectedEmailMessage !== emailMessage) {
-        changeValue(state, name, () => expectedEmailMessage);
+        changeValue(state, name as string, () => expectedEmailMessage);
       }
     }
   };

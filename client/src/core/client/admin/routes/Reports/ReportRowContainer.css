@@ -1,0 +1,8 @@
+.tableRow:hover {
+  cursor: pointer;
+}
+
+.lawBrokenCell {
+  max-height: 100px;
+  overflow: hidden;
+}

@@ -8,6 +8,7 @@ import {
 } from "coral-server/queue/tasks/loadCache";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import {
   AugmentedRedis,
   createRedisClient,
@@ -58,6 +59,7 @@ export interface QueueOptions {
   i18n: I18n;
   signingConfig: JWTSigningConfig;
   redis: AugmentedRedis;
+  notifications: InternalNotificationContext;
 }
 
 export interface TaskQueue {

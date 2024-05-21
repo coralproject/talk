@@ -64,7 +64,6 @@ export interface ViewerNetworkEvent<
 
 /**
  * createViewerEvent creates a ViewerNetworkEvent object.
- *
  * @param name name of the event
  */
 export function createViewerNetworkEvent<
@@ -104,7 +103,6 @@ export function createViewerNetworkEvent<
 
 /**
  * createViewerEvent creates a ViewerEvent object.
- *
  * @param name name of the event
  */
 export function createViewerEvent<T>(name: string): ViewerEvent<T> {
@@ -125,6 +123,7 @@ export function useViewerEvent<T>(
 ): keyof T extends never ? () => void : (data: T) => void {
   const { eventEmitter } = useCoralContext();
   return ((data?: T) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     viewerEvent.emit(eventEmitter, data as any);
   }) as any;
 }
@@ -144,6 +143,7 @@ export function useViewerNetworkEvent<
     ) => ViewerNetworkEventStarted<T> {
   const { eventEmitter } = useCoralContext();
   return ((data?: T) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return viewerNetworkEvent.begin(eventEmitter, data as any);
   }) as any;
 }

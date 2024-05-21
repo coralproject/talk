@@ -4,6 +4,7 @@ import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { Logger } from "coral-server/logger";
 import { CreateActionInput } from "coral-server/models/action/comment";
+import { CreateCommentModerationActionInput } from "coral-server/models/action/moderation/comment";
 import {
   Comment,
   CreateCommentInput,
@@ -26,16 +27,26 @@ import { mergePhaseResult } from "./helpers";
 import { moderationPhases } from "./phases";
 import { WordListService } from "./phases/wordList/service";
 
-export type ModerationAction = Omit<
+export type CommentAction = Omit<
   CreateActionInput,
+  "commentID" | "commentRevisionID" | "storyID" | "siteID" | "userID"
+>;
+
+export type ModerationAction = Omit<
+  CreateCommentModerationActionInput,
   "commentID" | "commentRevisionID" | "storyID" | "siteID" | "userID"
 >;
 
 export interface PhaseResult {
   /**
-   * actions are moderation actions that are added to the comment revision.
+   * moderationActions are moderation actions that are added to the comment revision.
    */
-  actions: ModerationAction[];
+  moderationAction?: ModerationAction;
+
+  /**
+   * commentActions are comment actions that are added to the comment revision.
+   */
+  commentActions: CommentAction[];
 
   /**
    * status when provided decides and terminates the moderation process by
@@ -122,7 +133,7 @@ export const compose =
     const final: PhaseResult = {
       status: GQLCOMMENT_STATUS.NONE,
       body: context.comment.body,
-      actions: [],
+      commentActions: [],
       metadata: {
         // Merge in the passed comment metadata.
         ...(context.comment.metadata || {}),

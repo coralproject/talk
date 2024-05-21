@@ -10,6 +10,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   COMMENTING_DISABLED: "error-commentingDisabled",
   DUPLICATE_EMAIL: "error-duplicateEmail",
   DUPLICATE_EMAIL_DOMAIN: "error-duplicateEmailDomain",
+  DUPLICATE_DSA_REPORT: "error-duplicateDSAReport",
   DUPLICATE_STORY_ID: "error-duplicateStoryID",
   DUPLICATE_STORY_URL: "error-duplicateStoryURL",
   DUPLICATE_FLAIR_BADGE: "error-duplicateFlairBadge",
@@ -81,4 +82,8 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   UNABLE_TO_UPDATE_STORY_URL: "error-unableToUpdateStoryURL",
   DATA_CACHING_NOT_AVAILABLE: "error-dataCachingNotAvailable",
   INVALID_FLAIR_BADGE_NAME: "error-invalidFlairBadgeName",
+  DSA_REPORT_LAW_BROKEN_TOO_LONG: "error-dsaReportLawBrokenTooLong",
+  DSA_REPORT_ADDITIONAL_INFO_TOO_LONG: "error-dsaReportAdditionalInfoTooLong",
+  UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY:
+    "error-unableToPrimeCachedCommentsForStory",
 };

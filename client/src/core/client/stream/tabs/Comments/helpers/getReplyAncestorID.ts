@@ -2,7 +2,6 @@ import { RecordProxy } from "relay-runtime";
 
 /**
  * Find the ancestor id of the reply.
- *
  * @param comment RecordProxy of comment
  * @param depth Depth of comment as returned by `determineDepthTillAncestor`
  */

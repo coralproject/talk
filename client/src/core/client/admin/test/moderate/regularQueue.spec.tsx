@@ -1,4 +1,10 @@
-import { act, screen, waitFor, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { commitLocalUpdate } from "relay-runtime";
 
@@ -11,6 +17,7 @@ import {
   MutationToApproveCommentResolver,
   MutationToBanUserResolver,
   MutationToRejectCommentResolver,
+  QueryToSitesResolver,
 } from "coral-framework/schema";
 import {
   createMutationResolverStub,
@@ -27,8 +34,10 @@ import {
   emptyRejectedComments,
   reportedComments,
   settings,
+  settingsWithMultisite,
   site,
   siteConnection,
+  sites,
   users,
 } from "../fixtures";
 
@@ -613,6 +622,7 @@ it("approves comment in reported queue", async () => {
               edges: [
                 {
                   node: {
+                    createdAt: "2023-06-01T14:21:21.890Z",
                     id: "mod-action",
                     status: GQLCOMMENT_STATUS.APPROVED,
                     moderator: {
@@ -721,6 +731,7 @@ it("rejects comment in reported queue", async () => {
               edges: [
                 {
                   node: {
+                    createdAt: "2023-06-01T14:21:21.890Z",
                     id: "mod-action",
                     status: GQLCOMMENT_STATUS.REJECTED,
                     moderator: {
@@ -742,6 +753,9 @@ it("rejects comment in reported queue", async () => {
     );
 
   await createTestRenderer({
+    initLocalState(local, source, environment) {
+      local.setValue(false, "dsaFeaturesEnabled");
+    },
     resolvers: createResolversStub<GQLResolver>({
       Query: {
         moderationQueues: () =>
@@ -785,6 +799,7 @@ it("rejects comment in reported queue", async () => {
   const comment = await screen.findByTestId(
     `moderate-comment-card-${reportedComments[0].id}`
   );
+
   const rejectButton = within(comment).getByRole("button", {
     name: "Reject",
   });
@@ -811,6 +826,132 @@ it("rejects comment in reported queue", async () => {
     "moderate-navigation-reported-count"
   );
   expect(within(reportedCount).getByText("1")).toBeVisible();
+});
+
+it("enables filtering sites by text search", async () => {
+  const commentsResoverStub =
+    createQueryResolverStub<ModerationQueueToCommentsResolver>(
+      ({ variables, callCount }) => {
+        switch (callCount) {
+          case 0:
+            expectAndFail(variables).toEqual({
+              first: 5,
+              orderBy: "CREATED_AT_DESC",
+            });
+            return {
+              edges: [
+                {
+                  node: reportedComments[0],
+                  cursor: reportedComments[0].createdAt,
+                },
+                {
+                  node: reportedComments[1],
+                  cursor: reportedComments[1].createdAt,
+                },
+              ],
+              pageInfo: {
+                endCursor: reportedComments[1].createdAt,
+                hasNextPage: true,
+              },
+            };
+          default:
+            expectAndFail(variables).toEqual({
+              first: 10,
+              query: "second",
+              orderBy: "CREATED_AT_DESC",
+            });
+            return {
+              pageInfo: {
+                endCursor: reportedComments[2].createdAt,
+                hasNextPage: false,
+              },
+            };
+        }
+      }
+    ) as any;
+  const moderationQueuesStub = pureMerge(emptyModerationQueues, {
+    reported: {
+      count: 2,
+      comments: commentsResoverStub,
+    },
+  });
+
+  const sitesResolverStub = createQueryResolverStub<QueryToSitesResolver>(
+    ({ variables, callCount }) => {
+      switch (callCount) {
+        case 0:
+          return siteConnection;
+        default:
+          expectAndFail(variables).toEqual({
+            first: 10,
+            after: null,
+            query: "third",
+          });
+
+          return {
+            edges: [
+              {
+                cursor: "1",
+                node: {
+                  ...sites[0],
+                  id: "site-3",
+                  name: "Third Site",
+                },
+              },
+            ],
+            pageInfo: {
+              hasNextPage: false,
+            },
+          };
+      }
+    }
+  );
+
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: () => moderationQueuesStub,
+          sites: sitesResolverStub,
+          settings: () => settingsWithMultisite,
+        },
+      }),
+    });
+  });
+
+  const searchBarContainer = await screen.findByTestId(
+    "moderate-searchBar-container"
+  );
+
+  const siteSelector = await within(searchBarContainer).findByLabelText(
+    "Select site",
+    { exact: false }
+  );
+  expect(siteSelector).toBeInTheDocument();
+
+  userEvent.click(siteSelector);
+
+  expect(
+    await within(siteSelector).findByLabelText("Filter results")
+  ).toBeVisible();
+
+  const dropDown = screen.getByRole("dialog");
+  expect(dropDown).toBeVisible();
+
+  const textInput = await within(siteSelector).findByLabelText(
+    "Filter results"
+  );
+  expect(textInput).toHaveFocus();
+
+  await act(async () => {
+    userEvent.type(textInput, "third");
+    await new Promise((res) => setTimeout(res, 3000));
+  });
+
+  expect(within(dropDown).queryByText("Test Site")).toBeNull();
+
+  const filteredResult = within(dropDown).queryByText("Third Site");
+  expect(filteredResult).toBeInTheDocument();
 });
 
 it("doesnt show comments from banned users whose commens have been rejected", async () => {
@@ -850,7 +991,7 @@ it("doesnt show comments from banned users whose commens have been rejected", as
           }),
       },
       Mutation: {
-        banUser: createMutationResolverStub<MutationToBanUserResolver>(
+        rejectComment: createMutationResolverStub<MutationToBanUserResolver>(
           ({ variables }) => {
             return {};
           }
@@ -877,4 +1018,98 @@ it("doesnt show comments from banned users whose commens have been rejected", as
       screen.queryByTestId(`moderate-comment-card-${reportedComments[0].id}`)
     ).toBeNull();
   });
+});
+
+it("requires moderation reason when DSA features enabled", async () => {
+  const rejectCommentStub =
+    createMutationResolverStub<MutationToRejectCommentResolver>(
+      ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          commentID: reportedComments[0].id,
+          commentRevisionID: reportedComments[0].revision!.id,
+          reason: {
+            code: "ABUSIVE",
+          },
+        });
+        return {};
+      }
+    );
+  await createTestRenderer({
+    initLocalState(local, source, environment) {
+      local.setValue(true, "dsaFeaturesEnabled");
+    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        moderationQueues: () =>
+          pureMerge(emptyModerationQueues, {
+            reported: {
+              count: 2,
+              comments:
+                createQueryResolverStub<ModerationQueueToCommentsResolver>(
+                  ({ variables }) => {
+                    expectAndFail(variables).toEqual({
+                      first: 5,
+                      orderBy: "CREATED_AT_DESC",
+                    });
+                    return {
+                      edges: [
+                        {
+                          node: reportedComments[0],
+                          cursor: reportedComments[0].createdAt,
+                        },
+                        {
+                          node: reportedComments[1],
+                          cursor: reportedComments[1].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: reportedComments[1].createdAt,
+                        hasNextPage: false,
+                      },
+                    };
+                  }
+                ) as any,
+            },
+          }),
+      },
+      Mutation: {
+        rejectComment: rejectCommentStub,
+      },
+    }),
+  });
+
+  const comment = reportedComments[0];
+
+  const modCard = await screen.findByTestId(
+    `moderate-comment-card-${comment.id}`
+  );
+
+  expect(modCard).toBeInTheDocument();
+
+  const rejectButton = within(modCard).getByLabelText("Reject");
+  expect(rejectButton).toBeVisible();
+  // click it
+  fireEvent.click(rejectButton);
+
+  const reasonModalID = `moderation-reason-modal-${comment.id}`;
+
+  await waitFor(() => {
+    expect(screen.queryByTestId(reasonModalID)).toBeInTheDocument();
+  });
+
+  const reasonModal = screen.queryByTestId(reasonModalID)!;
+
+  const abusiveRadio = within(reasonModal).getByRole("radio", {
+    name: "Abusive",
+  });
+
+  fireEvent.click(abusiveRadio);
+
+  const submitReasonButton = within(reasonModal).getByRole("button", {
+    name: "Reject",
+  });
+
+  expect(submitReasonButton).toBeEnabled();
+
+  fireEvent.click(submitReasonButton);
 });

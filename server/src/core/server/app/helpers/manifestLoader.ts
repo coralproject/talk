@@ -16,7 +16,7 @@ import Entrypoints, { Entrypoint, RawEntrypoint } from "./entrypoints";
  * TODO: (cvle) Unsure if we need this. Does `webpack-assets-manifest` always
  * eventually create a valid manifest? Needs more investigation. Setting it to
  * a high number for now.
- **/
+ */
 const INVALID_MANIFEST_MAX_RETRIES = 9999;
 
 export interface Asset {
@@ -195,7 +195,7 @@ export function createManifestLoader(config: Config, manifestFilename: string) {
   const fromWebpackDevServerURL =
     process.env.WEBPACK_DEV_SERVER === "true"
       ? // Loading manifests from Webpack Dev Server
-        `http://localhost:${config.get("dev_port")}`
+        `http://127.0.0.1:${config.get("dev_port")}`
       : null;
   return new ManifestLoader(manifestFilename, {
     fromWebpackDevServerURL,

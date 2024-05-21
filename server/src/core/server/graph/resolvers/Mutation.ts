@@ -23,12 +23,20 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     },
     clientMutationId: input.clientMutationId,
   }),
-  updateNotificationSettings: async (
+  updateEmailNotificationSettings: async (
     source,
     { input: { clientMutationId, ...input } },
     ctx
   ) => ({
-    user: await ctx.mutators.Users.updateNotificationSettings(input),
+    user: await ctx.mutators.Users.updateEmailNotificationSettings(input),
+    clientMutationId,
+  }),
+  updateInPageNotificationSettings: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    user: await ctx.mutators.Users.updateInPageNotificationSettings(input),
     clientMutationId,
   }),
   updateUserMediaSettings: async (
@@ -65,6 +73,30 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   }),
   createCommentFlag: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comments.createFlag(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  createDSAReport: async (source, { input }, ctx) => ({
+    dsaReport: await ctx.mutators.DSAReports.createDSAReport(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  addDSAReportNote: async (source, { input }, ctx) => ({
+    dsaReport: await ctx.mutators.DSAReports.addDSAReportNote(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  deleteDSAReportNote: async (source, { input }, ctx) => ({
+    dsaReport: await ctx.mutators.DSAReports.deleteDSAReportNote(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  changeDSAReportStatus: async (source, { input }, ctx) => ({
+    dsaReport: await ctx.mutators.DSAReports.changeDSAReportStatus(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  addDSAReportShare: async (source, { input }, ctx) => ({
+    dsaReport: await ctx.mutators.DSAReports.addDSAReportShare(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  makeDSAReportDecision: async (source, { input }, ctx) => ({
+    dsaReport: await ctx.mutators.DSAReports.makeDSAReportDecision(input),
     clientMutationId: input.clientMutationId,
   }),
   featureComment: async (
@@ -281,6 +313,14 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   }),
   requestAccountDeletion: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.requestAccountDeletion(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  scheduleAccountDeletion: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.scheduleAccountDeletion(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  cancelScheduledAccountDeletion: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.Users.cancelScheduledAccountDeletion(input),
     clientMutationId: input.clientMutationId,
   }),
   cancelAccountDeletion: async (source, { input }, ctx) => ({

@@ -216,6 +216,7 @@ const ReplyCommentFormContainer: FunctionComponent<Props> = ({
   const handleOnChange: ReplyCommentFormProps["onChange"] = useCallback(
     (state: any, form: any) => {
       if (state.values.body) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         void sessionStorage.setItem(contextKey, state.values.body);
       } else {
         void sessionStorage.removeItem(contextKey);

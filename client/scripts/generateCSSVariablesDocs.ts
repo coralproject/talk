@@ -128,6 +128,7 @@ function replaceObjectVariablesInText(
   variableName: string
 ) {
   let result = text;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   Object.keys(object).forEach((c: string) => {
     if (typeof object[c] === "object") {
       result = replaceObjectVariablesInText(
@@ -136,6 +137,7 @@ function replaceObjectVariablesInText(
         `${variableName}.${c}`
       );
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       result = result.replace(`${variableName}.${c}`, object[c]);
     }
   });
@@ -225,7 +227,6 @@ function entries2Doc(entries: DocEntry[], header = "###", prefix = ""): string {
 
 /**
  * Append or update previous documention in markdownFile.
- *
  * @param markdownFile The markdown file we want to inject the docs too.
  * @param entries data as returned by gatherEntries.
  */

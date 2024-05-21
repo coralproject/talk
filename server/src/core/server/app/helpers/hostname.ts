@@ -4,7 +4,6 @@ import { IncomingMessage } from "http";
  * Duplicates the functionality from expressjs:
  *
  * https://github.com/expressjs/express/blob/b8e50568af9c73ef1ade434e92c60d389868361d/lib/request.js#L416-L450
- *
  * @param req incoming request
  */
 export function getHostname(req: IncomingMessage) {

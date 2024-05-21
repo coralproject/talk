@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express";
 import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
-import passport, { Authenticator } from "passport";
+import passport, { AuthenticateOptions, Authenticator } from "passport";
 
 import { AppOptions } from "coral-server/app";
 import { JWTStrategy } from "coral-server/app/middleware/passport/strategies/jwt";
@@ -120,7 +120,6 @@ export async function handleSuccessfulLogin(
 /**
  * wrapAuthn will wrap a authenticators authenticate method with one that
  * will return a valid login token for a valid login by a compatible strategy.
- *
  * @param authenticator the base authenticator instance
  * @param signingConfig used to sign the tokens that are issued.
  * @param name the name of the authenticator to use
@@ -131,7 +130,7 @@ export const wrapAuthn =
     authenticator: passport.Authenticator,
     signingConfig: JWTSigningConfig,
     name: string,
-    options?: any
+    options?: AuthenticateOptions
   ): RequestHandler<TenantCoralRequest> =>
   (req, res, next) =>
     authenticator.authenticate(
@@ -157,7 +156,6 @@ export const wrapAuthn =
 /**
  * authenticate will wrap the authenticator to forward any error to the error
  * handler from ExpressJS.
- *
  * @param authenticator the authenticator to use
  */
 export const authenticate =

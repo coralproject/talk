@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import cn from "classnames";
 import { ListenerFn } from "eventemitter2";
 import React, {
   FunctionComponent,
@@ -9,7 +10,8 @@ import React, {
 } from "react";
 import { Environment, graphql } from "react-relay";
 
-import { useInMemoryState } from "coral-framework/hooks";
+import CLASSES from "coral-stream/classes";
+
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { globalErrorReporter } from "coral-framework/lib/errors";
 import { useLocal, useMutation } from "coral-framework/lib/relay";
@@ -19,7 +21,6 @@ import { GQLCOMMENT_SORT } from "coral-framework/schema";
 import isElementIntersecting from "coral-framework/utils/isElementIntersecting";
 import { NUM_INITIAL_COMMENTS } from "coral-stream/constants";
 import {
-  CloseMobileToolbarEvent,
   JumpToNextCommentEvent,
   JumpToNextUnseenCommentEvent,
   JumpToPreviousCommentEvent,
@@ -36,13 +37,13 @@ import parseCommentElementID from "coral-stream/tabs/Comments/Comment/parseComme
 import { useCommentSeenEnabled } from "coral-stream/tabs/Comments/commentSeen/";
 import useZKeyEnabled from "coral-stream/tabs/Comments/commentSeen/useZKeyEnabled";
 import useAMP from "coral-stream/tabs/Comments/helpers/useAMP";
+import { MobileNotificationButton } from "coral-stream/tabs/Notifications/mobileButton/MobileNotificationButton";
 import {
   ButtonSvgIcon,
   CheckDoubleIcon,
   ControlsNextIcon,
-  RemoveIcon,
 } from "coral-ui/components/icons";
-import { Button, Flex } from "coral-ui/components/v2";
+import { Flex } from "coral-ui/components/v2";
 import { MatchMedia } from "coral-ui/components/v2/MatchMedia/MatchMedia";
 import { useShadowRootOrDocument } from "coral-ui/encapsulation";
 
@@ -77,10 +78,12 @@ interface Comment {
 
 interface Props {
   storyID: string;
+  viewerID: string;
   currentScrollRef: any;
   comments: ReadonlyArray<Comment>;
   viewNewCount: number;
   hasMore: boolean;
+  userNotificationsEnabled: boolean;
 }
 
 export interface KeyboardEventData {
@@ -164,7 +167,7 @@ const getCurrentKeyStop = (
   root: ShadowRoot | Document,
   relayEnvironment: Environment
 ) => {
-  const currentCommentID = lookup(
+  const currentCommentID: string = lookup(
     relayEnvironment,
     LOCAL_ID
   ).commentWithTraversalFocus;
@@ -282,10 +285,12 @@ const loadMoreEvents = [
 
 const KeyboardShortcuts: FunctionComponent<Props> = ({
   storyID,
+  viewerID,
   currentScrollRef,
   comments,
   viewNewCount,
   hasMore,
+  userNotificationsEnabled,
 }) => {
   const {
     relayEnvironment,
@@ -296,10 +301,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   } = useCoralContext();
 
   const root = useShadowRootOrDocument();
-  const [toolbarClosed, setToolbarClosed] = useInMemoryState(
-    "keyboardShortcutMobileToolbarClosed",
-    false
-  );
 
   const setTraversalFocus = useMutation(SetTraversalFocus);
   const markSeen = useMutation(MarkCommentsAsSeenMutation);
@@ -425,6 +426,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         setDisableUnreadButtons(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     comments,
     newCommentsAreStillMarkedUnseen,
@@ -462,11 +464,6 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   const handleUnmarkAllButton = useCallback(async () => {
     await unmarkAll({ source: "mobileToolbar" });
   }, [unmarkAll]);
-
-  const handleCloseToolbarButton = useCallback(() => {
-    setToolbarClosed(true);
-    CloseMobileToolbarEvent.emit(eventEmitter);
-  }, [eventEmitter, setToolbarClosed]);
 
   const setFocusAndMarkSeen = useCallback(
     (commentID: string) => {
@@ -1090,6 +1087,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         return true;
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       eventEmitter,
       relayEnvironment,
@@ -1168,6 +1166,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
       // search through comments to find and navigate to next unseen
       findAndNavigateToNextUnseen(undefined, source);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       findAndNavigateToNextUnseen,
       traverse,
@@ -1298,7 +1297,16 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
 
   // Traverse to next comment/reply after loading more/new comments and replies
   useEffect(() => {
-    const listener: ListenerFn = async (e, data) => {
+    const listener: ListenerFn = async (
+      e: string,
+      data: {
+        keyboardShortcutsConfig: {
+          key: "z" | "c";
+          reverse: boolean;
+          source: "keyboard" | "mobileToolbar";
+        };
+      }
+    ) => {
       if (loadMoreEvents.includes(e)) {
         // Announce height change to embed to allow
         // immediately updating amp iframe height
@@ -1312,7 +1320,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
         if (data.keyboardShortcutsConfig && zKeyClickedButton) {
           if (e === LoadMoreAllCommentsEvent.nameSuccess) {
             let count = 0;
-            const stopExists: any = setInterval(async () => {
+            const stopExists: NodeJS.Timeout = setInterval(async () => {
               count += 1;
               const stopElement = root.getElementById("comments-loadAll");
               if (stopElement === null) {
@@ -1348,17 +1356,19 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   // Subscribe to keypress events.
   useEffect(() => {
     renderWindow.addEventListener("keypress", handleWindowKeypress);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     root.addEventListener("keypress", handleKeypress as any);
 
     return () => {
       if (renderWindow.removeEventListener) {
         renderWindow.removeEventListener("keypress", handleWindowKeypress);
       }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       root.removeEventListener("keypress", handleKeypress as any);
     };
   }, [handleKeypress, handleWindowKeypress, renderWindow, root]);
 
-  if (amp || toolbarClosed || !zKeyEnabled) {
+  if (amp || !zKeyEnabled) {
     return null;
   }
 
@@ -1370,65 +1380,67 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
           browserInfo.tablet ||
           browserInfo.iPadOS) && (
           <MobileToolbar onKeyPress={handleKeypress}>
-            <Flex className={styles.flexContainer} alignItems="center">
+            <Flex
+              className={styles.flexContainer}
+              alignItems="center"
+              justifyContent="space-around"
+            >
               <div className={styles.unmarkAllContainer}>
-                <Button
-                  variant="text"
-                  size="large"
-                  uppercase={false}
+                <button
+                  className={cn(
+                    styles.actionButton,
+                    CLASSES.mobileToolbar.markAllAsRead,
+                    {
+                      [styles.disabled]: disableUnreadButtons,
+                    }
+                  )}
                   disabled={disableUnreadButtons}
                   onClick={handleUnmarkAllButton}
-                  classes={{
-                    variantText: styles.button,
-                    disabled: styles.buttonDisabled,
-                    colorRegular: styles.buttonColor,
-                  }}
                 >
-                  <ButtonSvgIcon Icon={CheckDoubleIcon} />
-                  <Localized id="comments-mobileToolbar-unmarkAll">
-                    <span>Mark all as read</span>
-                  </Localized>
-                </Button>
+                  <Flex justifyContent="center" alignItems="center">
+                    <ButtonSvgIcon
+                      Icon={CheckDoubleIcon}
+                      className={styles.unmarkAllIcon}
+                    />
+                    <Localized id="comments-mobileToolbar-unmarkAll">
+                      <span>Mark all as read</span>
+                    </Localized>
+                  </Flex>
+                </button>
               </div>
               <div className={styles.nextActionContainer}>
-                <Button
-                  variant="text"
-                  size="large"
-                  uppercase={false}
+                <button
+                  className={cn(
+                    styles.actionButton,
+                    CLASSES.mobileToolbar.nextUnread,
+                    {
+                      [styles.disabled]: disableUnreadButtons,
+                    }
+                  )}
                   disabled={disableUnreadButtons}
-                  classes={{
-                    variantText: styles.button,
-                    disabled: styles.buttonDisabled,
-                    colorRegular: styles.buttonColor,
-                  }}
                   onClick={handleZKeyButton}
                 >
-                  <Localized id="comments-mobileToolbar-nextUnread">
-                    <span>Next unread</span>
-                  </Localized>
-                  <ButtonSvgIcon Icon={ControlsNextIcon} />
-                </Button>
+                  <Flex justifyContent="center" alignItems="center">
+                    <Localized id="comments-mobileToolbar-nextUnread">
+                      <span>Next unread</span>
+                    </Localized>
+                    <ButtonSvgIcon
+                      Icon={ControlsNextIcon}
+                      className={styles.nextUnreadIcon}
+                    />
+                  </Flex>
+                </button>
               </div>
-              <div className={styles.closeContainer}>
-                <Localized
-                  id="comments-mobileToolbar-closeButton"
-                  attrs={{ "aria-label": true }}
-                >
-                  <Button
-                    variant="text"
-                    size="large"
-                    uppercase={false}
-                    classes={{
-                      variantText: styles.button,
-                      disabled: styles.buttonDisabled,
-                      colorRegular: styles.buttonColor,
-                    }}
-                    onClick={handleCloseToolbarButton}
-                    aria-label="Close"
-                  >
-                    <ButtonSvgIcon Icon={RemoveIcon} />
-                  </Button>
-                </Localized>
+              <div
+                className={cn(
+                  styles.notificationActionContainer,
+                  CLASSES.mobileToolbar.notificationsAction
+                )}
+              >
+                <MobileNotificationButton
+                  viewerID={viewerID}
+                  enabled={userNotificationsEnabled}
+                />
               </div>
             </Flex>
           </MobileToolbar>

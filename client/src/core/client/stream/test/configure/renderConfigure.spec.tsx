@@ -30,6 +30,7 @@ async function createTestRenderer(
     resolvers,
     initLocalState: (localRecord) => {
       localRecord.setValue(stories[0].id, "storyID");
+      localRecord.setValue(3000, "notificationsPollRate");
     },
   });
 
@@ -44,5 +45,7 @@ it("renders configure", async () => {
   });
   const tabPane = await screen.findByTestId("current-tab-pane");
 
-  expect(await axe(tabPane)).toHaveNoViolations();
+  await act(async () => {
+    expect(await axe(tabPane)).toHaveNoViolations();
+  });
 });

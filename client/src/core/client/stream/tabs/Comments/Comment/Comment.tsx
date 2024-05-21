@@ -1,10 +1,23 @@
+import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
-import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
+import {
+  ButtonSvgIcon,
+  PlantIcon,
+  RatingStarIcon,
+  SvgIcon,
+} from "coral-ui/components/icons";
+import {
+  Button,
+  Flex,
+  HorizontalGutter,
+  MatchMedia,
+  Tooltip,
+} from "coral-ui/components/v2";
 import { StarRating } from "coral-ui/components/v3";
 
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
@@ -32,6 +45,10 @@ export interface CommentProps {
   collapsed?: boolean;
   media?: React.ReactNode;
   enableJumpToParent?: boolean;
+  featuredCommenter?: boolean | null;
+  topCommenterEnabled?: boolean | null;
+  newCommenter?: boolean | null;
+  newCommenterEnabled?: boolean | null;
 }
 
 const Comment: FunctionComponent<CommentProps> = (props) => {
@@ -62,6 +79,108 @@ const Comment: FunctionComponent<CommentProps> = (props) => {
                 </div>
               )}
             </MatchMedia>
+          )}
+          {props.newCommenterEnabled && props.newCommenter && (
+            <Flex marginRight={2}>
+              <div>
+                <Tooltip
+                  className={CLASSES.comment.topBar.newCommenter.tooltip}
+                  id="newCommenter-tooltip"
+                  title=""
+                  body={
+                    <Localized id="comment-new-commenter-tooltip-details">
+                      <span
+                        className={
+                          CLASSES.comment.topBar.newCommenter.tooltipDetails
+                        }
+                      >
+                        New commenter, say hi
+                      </span>
+                    </Localized>
+                  }
+                  button={({ toggleVisibility, ref }) => (
+                    <Button
+                      onClick={toggleVisibility}
+                      ref={ref}
+                      variant="text"
+                      data-testid="new-user-badge"
+                    >
+                      <ButtonSvgIcon
+                        className={cn(
+                          CLASSES.comment.topBar.newCommenter.plant,
+                          styles.plantIcon
+                        )}
+                        Icon={PlantIcon}
+                        filled="currentColor"
+                      />
+                    </Button>
+                  )}
+                />
+              </div>
+            </Flex>
+          )}
+          {props.topCommenterEnabled && props.featuredCommenter && (
+            <Flex marginRight={2}>
+              <div className={styles.featuredStarBorder}>
+                <Tooltip
+                  className={CLASSES.comment.topBar.topCommenterStarTooltip}
+                  id="featuredCommenter-tooltip"
+                  title=""
+                  body={
+                    <>
+                      <Localized
+                        id="comment-top-commenter-tooltip-header"
+                        elems={{
+                          icon: (
+                            <SvgIcon
+                              size="xxs"
+                              Icon={RatingStarIcon}
+                              className={styles.topCommenterTooltipHeaderIcon}
+                            />
+                          ),
+                        }}
+                      >
+                        <span
+                          className={cn(
+                            styles.topCommenterTooltipHeader,
+                            CLASSES.comment.topBar.topCommenterStarTooltipHeader
+                          )}
+                        >
+                          <SvgIcon
+                            size="xxs"
+                            Icon={RatingStarIcon}
+                            className={styles.topCommenterTooltipHeaderIcon}
+                            filled="currentColor"
+                          />{" "}
+                          Top commenter
+                        </span>
+                      </Localized>
+                      <Localized id="comment-top-commenter-tooltip-details">
+                        <span
+                          className={
+                            CLASSES.comment.topBar
+                              .topCommenterStarTooltipDetails
+                          }
+                        >
+                          One of their comments has been featured in the last 10
+                          days
+                        </span>
+                      </Localized>
+                    </>
+                  }
+                  button={({ toggleVisibility, ref }) => (
+                    <Button onClick={toggleVisibility} ref={ref} variant="text">
+                      <ButtonSvgIcon
+                        className={CLASSES.comment.topBar.topCommenterStar}
+                        size="xxs"
+                        Icon={RatingStarIcon}
+                        filled="currentColor"
+                      />
+                    </Button>
+                  )}
+                />
+              </div>
+            </Flex>
           )}
           <Flex direction="row" alignItems="center" wrap>
             {props.tags && (

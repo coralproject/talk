@@ -7,6 +7,7 @@ import { CommentReleasedSubscription } from "./commentReleased";
 import { CommentReplyCreatedSubscription } from "./commentReplyCreated";
 import { CommentStatusUpdatedSubscription } from "./commentStatusUpdated";
 
+// eslint-disable-next-line no-shadow
 export enum SUBSCRIPTION_CHANNELS {
   COMMENT_ENTERED_MODERATION_QUEUE = "COMMENT_ENTERED_MODERATION_QUEUE",
   COMMENT_LEFT_MODERATION_QUEUE = "COMMENT_LEFT_MODERATION_QUEUE",

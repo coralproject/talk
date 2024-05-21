@@ -112,7 +112,7 @@ describe("updateRole", () => {
   );
 
   let uut: (
-    mongo: MongoContext,
+    mongoContext: MongoContext,
     tenant: Tenant,
     viewer: User,
     user: User,

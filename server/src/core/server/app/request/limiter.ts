@@ -70,6 +70,7 @@ export class Limiter {
       const resetsAt = DateTime.fromJSDate(new Date())
         .plus({ seconds: this.ttl })
         .toJSDate();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       throw new RateLimitExceeded(key, this.max, resetsAt, tries);
     }
 

@@ -1,5 +1,6 @@
 import {
   DEFAULT_SESSION_DURATION,
+  PROTECTED_EMAIL_DOMAINS,
   TOXICITY_THRESHOLD_DEFAULT,
 } from "coral-common/common/lib/constants";
 import TIME from "coral-common/common/lib/time";
@@ -10,6 +11,10 @@ import {
   GQLCOMMENT_STATUS,
   GQLCommentModerationAction,
   GQLCommentsConnection,
+  GQLDSA_METHOD_OF_REDRESS,
+  GQLDSAReport,
+  GQLDSAReportDecisionLegality,
+  GQLDSAReportStatus,
   GQLFlag,
   GQLFlagsConnection,
   GQLMODERATION_MODE,
@@ -230,6 +235,14 @@ export const settings = createFixture<GQLSettings>({
     flairBadgesEnabled: false,
     badges: [],
   },
+  dsa: {
+    enabled: false,
+    methodOfRedress: {
+      method: GQLDSA_METHOD_OF_REDRESS.NONE,
+    },
+  },
+  protectedEmailDomains: Array.from(PROTECTED_EMAIL_DOMAINS),
+  showUnmoderatedCounts: true,
 });
 
 export const settingsWithMultisite = createFixture<GQLSettings>(
@@ -430,6 +443,12 @@ export const baseUser = createFixture<GQLUser>({
     },
     modMessage: {
       active: false,
+      history: [],
+    },
+    deletion: {
+      history: [],
+    },
+    username: {
       history: [],
     },
   },
@@ -757,6 +776,9 @@ export const baseComment = createFixture<GQLComment>({
   revision: {
     media: NULL_VALUE,
     actionCounts: {
+      illegal: {
+        total: 0,
+      },
       flag: {
         reasons: {
           COMMENT_REPORTED_SPAM: 0,
@@ -784,6 +806,11 @@ export const baseComment = createFixture<GQLComment>({
     },
   },
   flags: {
+    edges: [],
+    pageInfo: { endCursor: null, hasNextPage: false },
+    nodes: [],
+  },
+  illegalContent: {
     edges: [],
     pageInfo: { endCursor: null, hasNextPage: false },
     nodes: [],
@@ -825,6 +852,51 @@ export const comments = createFixtures<GQLComment>(
   ],
   baseComment
 );
+
+export const dsaReports = createFixtures<GQLDSAReport>([
+  {
+    id: "dsa-report-1",
+    reporter: users.commenters[0],
+    referenceID: "dsa-report-1-referenceID",
+    createdAt: "2023-07-06T18:24:00.000Z",
+    comment: comments[0],
+    status: GQLDSAReportStatus.AWAITING_REVIEW,
+    lawBrokenDescription: "The law that is alleged to be broken",
+    additionalInformation:
+      "The additional information supporting why that law is alleged to have been broken",
+    history: [],
+    relatedReports: { edges: [], pageInfo: { hasNextPage: false } },
+  },
+  {
+    id: "dsa-report-2",
+    reporter: users.commenters[1],
+    referenceID: "dsa-report-2-referenceID",
+    createdAt: "2023-07-06T18:24:00.000Z",
+    comment: comments[0],
+    status: GQLDSAReportStatus.COMPLETED,
+    lawBrokenDescription: "Law number 2 that is alleged to be broken",
+    additionalInformation:
+      "The additional information supporting why Law number 2 is alleged to have been broken",
+    decision: {
+      legality: GQLDSAReportDecisionLegality.ILLEGAL,
+      legalGrounds: "Violation of Law number 2",
+      detailedExplanation:
+        "A detailed explanation of why it is a violation of Law number 2",
+    },
+    history: [],
+    relatedReports: { edges: [], pageInfo: { hasNextPage: false } },
+  },
+]);
+
+export const dsaReportConnection = {
+  edges: [
+    { node: dsaReports[0], cursor: dsaReports[0].createdAt },
+    { node: dsaReports[1], cursor: dsaReports[1].createdAt },
+  ],
+  pageInfo: {
+    hasNextPage: false,
+  },
+};
 
 export const unmoderatedComments = createFixtures<GQLComment>(
   [
@@ -871,6 +943,9 @@ export const reportedComments = createFixtures<GQLComment>(
       revision: {
         id: "comment-0-revision-0",
         actionCounts: {
+          illegal: {
+            total: 0,
+          },
           flag: {
             reasons: {
               COMMENT_DETECTED_BANNED_WORD: 1,
@@ -985,6 +1060,9 @@ export const reportedComments = createFixtures<GQLComment>(
       revision: {
         id: "comment-1-revision-1",
         actionCounts: {
+          illegal: {
+            total: 0,
+          },
           flag: {
             reasons: {
               COMMENT_REPORTED_OFFENSIVE: 3,
@@ -1062,6 +1140,9 @@ export const reportedComments = createFixtures<GQLComment>(
       revision: {
         id: "comment-2-revision-2",
         actionCounts: {
+          illegal: {
+            total: 0,
+          },
           flag: {
             reasons: {
               COMMENT_REPORTED_SPAM: 1,
@@ -1126,6 +1207,9 @@ export const reportedComments = createFixtures<GQLComment>(
       revision: {
         id: "comment-3-revision-3",
         actionCounts: {
+          illegal: {
+            total: 0,
+          },
           flag: {
             reasons: {
               COMMENT_REPORTED_SPAM: 1,
@@ -1174,6 +1258,9 @@ export const reportedComments = createFixtures<GQLComment>(
       revision: {
         id: "comment-4-revision-4",
         actionCounts: {
+          illegal: {
+            total: 0,
+          },
           flag: {
             reasons: {
               COMMENT_REPORTED_SPAM: 1,

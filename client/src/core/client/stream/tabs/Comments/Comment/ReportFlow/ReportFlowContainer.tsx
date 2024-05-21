@@ -25,8 +25,14 @@ const ReportFlowContainer: FunctionComponent<Props> = ({
   const onFormClose = useCallback(() => {
     onClose();
   }, [onClose]);
+
+  let anonymousWithDSA = false;
   if (!viewer) {
-    return null;
+    if (!settings.dsa?.enabled) {
+      return null;
+    } else {
+      anonymousWithDSA = true;
+    }
   }
 
   return (
@@ -34,6 +40,7 @@ const ReportFlowContainer: FunctionComponent<Props> = ({
       comment={comment}
       onClose={onFormClose}
       settings={settings}
+      anonymousWithDSA={anonymousWithDSA}
     />
   );
 };
@@ -41,6 +48,9 @@ const ReportFlowContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ReportFlowContainer_settings on Settings {
+      dsa {
+        enabled
+      }
       ...ReportCommentFormContainer_settings
     }
   `,

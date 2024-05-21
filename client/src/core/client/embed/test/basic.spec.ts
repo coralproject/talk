@@ -61,7 +61,7 @@ describe("Basic integration test", () => {
       (window as any).CoralStream = {
         attach: attachStub,
       };
-      scriptElement!.onload!({} as any);
+      scriptElement!.onload!({} as unknown as Event);
       expect(attachStub.called).toBe(true);
       expect(args).toMatchInlineSnapshot(`
         Object {
@@ -166,7 +166,7 @@ describe("Basic integration test", () => {
       (window as any).CoralStream = {
         attach: attachStub,
       };
-      scriptElement!.onload!({} as any);
+      scriptElement!.onload!({} as unknown as Event);
       expect(attachStub.called).toBe(true);
       expect(args && args.storyURL).toBe("http://localhost/canonical");
     } finally {
@@ -207,7 +207,7 @@ describe("Basic integration test", () => {
         attach: () => {},
         remove: removeStub,
       };
-      scriptElement!.onload!({} as any);
+      scriptElement!.onload!({} as unknown as Event);
       CoralEmbedStream.remove();
       expect(removeStub.called).toBe(true);
     } finally {

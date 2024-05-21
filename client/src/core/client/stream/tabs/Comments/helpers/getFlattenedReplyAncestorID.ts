@@ -4,7 +4,6 @@ import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 
 /**
  * Find the common ancestor id to flatten replies to.
- *
  * @param comment RecordProxy of comment
  * @param depth Depth of comment as returned by `determineDepthTillAncestor`
  */

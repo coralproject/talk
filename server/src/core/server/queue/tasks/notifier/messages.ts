@@ -1,8 +1,8 @@
 import { CoralEventPayload } from "coral-server/events/event";
 import logger from "coral-server/logger";
-import { NotificationCategory } from "coral-server/services/notifications/categories";
-import NotificationContext from "coral-server/services/notifications/context";
-import { Notification } from "coral-server/services/notifications/notification";
+import { NotificationCategory } from "coral-server/services/notifications/email/categories";
+import NotificationContext from "coral-server/services/notifications/email/context";
+import { Notification } from "coral-server/services/notifications/email/notification";
 
 import { GQLDIGEST_FREQUENCY } from "coral-server/graph/schema/__generated__/types";
 

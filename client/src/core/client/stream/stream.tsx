@@ -13,7 +13,10 @@ import { LanguageCode } from "coral-common/common/lib/helpers/i18n/locales";
 import { parseQuery } from "coral-common/common/lib/utils";
 import { RefreshAccessTokenCallback } from "coral-embed/Coral";
 import { createManaged } from "coral-framework/lib/bootstrap";
-import { RefreshAccessTokenPromise } from "coral-framework/lib/bootstrap/createManaged";
+import {
+  RefreshAccessTokenPromise,
+  resolveStorage,
+} from "coral-framework/lib/bootstrap/createManaged";
 import {
   CSSAsset,
   EncapsulationContext,
@@ -28,6 +31,7 @@ import localesData from "./locales";
 import { EmotionShadowRoot } from "./shadow";
 
 // Import css variables.
+import { ACCESS_TOKEN_KEY } from "coral-framework/lib/auth";
 import "coral-ui/theme/streamEmbed.css";
 import "coral-ui/theme/typography.css";
 
@@ -79,7 +83,7 @@ const hideStyle: React.CSSProperties = {
 /**
  * Insert link tag is called by css loaders like style-loader or mini-css-extract plugin.
  * See webpack config.
- **/
+ */
 export function insertLinkTag(linkTag: HTMLLinkElement) {
   // Inject link tag into Index Component
   injectLinkTag(linkTag);
@@ -87,7 +91,7 @@ export function insertLinkTag(linkTag: HTMLLinkElement) {
 
 /**
  * Create and attach CoralStream to Element.
- **/
+ */
 export async function attach(options: AttachOptions) {
   // Detect and extract the storyID and storyURL from the current page so we can
   // add it to the managed provider.
@@ -98,6 +102,13 @@ export async function attach(options: AttachOptions) {
     refreshAccessTokenPromise = async () =>
       await new Promise((resolve) => options.refreshAccessToken!(resolve));
   }
+
+  const onContextAuthError = async () => {
+    const localStorage = resolveStorage("localStorage");
+    await localStorage.removeItem(ACCESS_TOKEN_KEY);
+    await remove(options.element);
+    await attach(options);
+  };
 
   const ManagedCoralContextProvider = await createManaged({
     rootURL: options.rootURL,
@@ -111,6 +122,7 @@ export async function attach(options: AttachOptions) {
     refreshAccessTokenPromise,
     staticConfig: options.staticConfig,
     customScrollContainer: options.customScrollContainer,
+    onAuthError: onContextAuthError,
   });
 
   // Amount of initial css files to be loaded.
@@ -134,6 +146,7 @@ export async function attach(options: AttachOptions) {
     // flash of unstyled content.
     const [isCSSLoaded, setIsCSSLoaded] = useState(false);
     const [loadError, setLoadError] = useState(false);
+
     const handleLoadError = useCallback((href: string) => {
       globalErrorReporter.report(
         // encode href, otherwise sentry will not send it.
@@ -245,13 +258,14 @@ export async function attach(options: AttachOptions) {
     );
   };
 
-  // eslint-disable-next-line no-restricted-globals
+  // eslint-disable-next-line no-restricted-globals, react/no-deprecated
   ReactDOM.render(<Index />, options.element);
 }
 
 /**
  * Remove will unmount Coral Stream.
- **/
+ */
 export async function remove(element: HTMLElement) {
+  // eslint-disable-next-line react/no-deprecated
   ReactDOM.unmountComponentAtNode(element);
 }

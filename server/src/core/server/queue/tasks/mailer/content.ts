@@ -21,7 +21,6 @@ export interface MailerContentOptions {
 
 /**
  * render will render the nunjucks template using the provided environment.
- *
  * @param env the nunjucks rendering environment
  * @param template the template to render
  */
@@ -67,7 +66,6 @@ export default class MailerContent {
   /**
    * getEnvironment will get the environment from the cache if it exists, or
    * create it, and add it to the cache otherwise.
-   *
    * @param tenant the Tenant to generate the environment for
    */
   private getEnvironment(tenant: Pick<Tenant, "id">): nunjucks.Environment {
@@ -88,10 +86,9 @@ export default class MailerContent {
   /**
    * generateHTML will generate the HTML for a template and optionally cache
    * the compiled template based on the configured environment.
-   *
    * @param tenant the tenant
    * @param template the HTML email template
-   **/
+   */
   public async generateHTML(
     tenant: Tenant,
     template: EmailTemplate

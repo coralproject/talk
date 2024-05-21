@@ -162,12 +162,13 @@ export async function publishCommentFeatured(
 export async function publishModerationQueueChanges(
   broker: CoralEventPublisherBroker,
   moderationQueue: Pick<CommentModerationQueueCounts, "queues">,
-  comment: Pick<Comment, "id" | "storyID" | "siteID" | "section">
+  comment: Pick<Comment, "id" | "storyID" | "siteID" | "section" | "status">
 ) {
   if (moderationQueue.queues.pending === 1) {
     await CommentEnteredModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.PENDING,
       commentID: comment.id,
+      status: comment.status,
       storyID: comment.storyID,
       siteID: comment.siteID,
       section: comment.section,
@@ -176,6 +177,7 @@ export async function publishModerationQueueChanges(
     await CommentLeftModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.PENDING,
       commentID: comment.id,
+      status: comment.status,
       storyID: comment.storyID,
       siteID: comment.siteID,
       section: comment.section,
@@ -185,6 +187,7 @@ export async function publishModerationQueueChanges(
     await CommentEnteredModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.REPORTED,
       commentID: comment.id,
+      status: comment.status,
       storyID: comment.storyID,
       siteID: comment.siteID,
       section: comment.section,
@@ -193,6 +196,7 @@ export async function publishModerationQueueChanges(
     await CommentLeftModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.REPORTED,
       commentID: comment.id,
+      status: comment.status,
       storyID: comment.storyID,
       siteID: comment.siteID,
       section: comment.section,
@@ -202,6 +206,7 @@ export async function publishModerationQueueChanges(
     await CommentEnteredModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.UNMODERATED,
       commentID: comment.id,
+      status: comment.status,
       storyID: comment.storyID,
       siteID: comment.siteID,
       section: comment.section,
@@ -210,6 +215,7 @@ export async function publishModerationQueueChanges(
     await CommentLeftModerationQueueCoralEvent.publish(broker, {
       queue: GQLMODERATION_QUEUE.UNMODERATED,
       commentID: comment.id,
+      status: comment.status,
       storyID: comment.storyID,
       siteID: comment.siteID,
       section: comment.section,

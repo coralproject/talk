@@ -30,26 +30,34 @@ interface Props {
   settings: ModerationPhasesConfigContainer_settings;
 }
 
+const ModerationPhasesBox: FunctionComponent<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <ConfigBox
+    title={
+      <Localized id="configure-moderationPhases-header-title">
+        <Header htmlFor="configure-moderationPhases-header.title">
+          Moderation Phases
+        </Header>
+      </Localized>
+    }
+  >
+    {children}
+  </ConfigBox>
+);
+
 const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
   settings,
 }) => {
   return (
     <HorizontalGutter size="double" data-testid="moderation-phases-container">
       <ExperimentalExternalModerationPhaseCallOut />
-      <ConfigBox
-        title={
-          <Localized id="configure-moderationPhases-header-title">
-            <Header htmlFor="configure-moderationPhases-header.title">
-              Moderation Phases
-            </Header>
-          </Localized>
-        }
-      >
+      <ModerationPhasesBox>
         <Localized
           id="configure-moderationPhases-description"
           elems={{
             externalLink: (
-              <ExternalLink href="https://github.com/coralproject/talk/blob/main/EXTERNAL_MODERATION_PHASES.md#request-signing" />
+              <ExternalLink href="https://docs.coralproject.net/external-moderation-phases" />
             ),
           }}
         >
@@ -57,7 +65,7 @@ const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
             Configure a external moderation phase to automate some moderation
             actions. Moderation requests will be JSON encoded and signed. To
             learn more about moderation requests, visit our{" "}
-            <ExternalLink href="https://github.com/coralproject/talk/blob/main/EXTERNAL_MODERATION_PHASES.md#request-signing">
+            <ExternalLink href="https://docs.coralproject.net/external-moderation-phases">
               docs
             </ExternalLink>
             .
@@ -103,7 +111,7 @@ const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
             </CallOut>
           </Localized>
         )}
-      </ConfigBox>
+      </ModerationPhasesBox>
     </HorizontalGutter>
   );
 };

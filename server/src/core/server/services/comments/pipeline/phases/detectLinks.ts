@@ -31,7 +31,7 @@ export const detectLinks: IntermediateModerationPhase = ({
     // Add the flag related to Trust to the comment.
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
-      actions: [
+      commentActions: [
         {
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,

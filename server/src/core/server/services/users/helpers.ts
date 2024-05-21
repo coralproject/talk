@@ -19,7 +19,6 @@ import { User } from "coral-server/models/user";
  * validateUsername will validate that the username is valid. Current
  * implementation uses a RegExp statically, future versions will expose this as
  * configuration.
- *
  * @param username the username to be tested
  */
 export function validateUsername(username: string) {
@@ -45,7 +44,6 @@ export function validateUsername(username: string) {
  * validatePassword will validate that the password is valid. Current
  * implementation uses a length statically, future versions will expose this as
  * configuration.
- *
  * @param password the password to be tested
  */
 export function validatePassword(password: string) {
@@ -60,7 +58,6 @@ const EMAIL_MAX_LENGTH = 100;
 /**
  * validateEmail will validate that the email is valid. Current implementation
  * uses a length statically, future versions will expose this as configuration.
- *
  * @param email the email to be tested
  */
 export function validateEmail(email: string) {
@@ -78,17 +75,16 @@ export function validateEmail(email: string) {
  * checkforNewUserEmailDomainModeration will check the new user's email address domain against
  * configured email domains to see if the user should be automatically banned or set
  * to always pre-moderated by the system
- *
  * @param user user to be checked against email domains
  * @param emailDomainModeration email domains configured with new user moderation settings
  */
 export function checkForNewUserEmailDomainModeration(
   user: User,
-  emailDomainModeration: {
+  emailDomainModeration: Array<{
     domain: string;
     id: string;
     newUserModeration: "BAN" | "PREMOD";
-  }[]
+  }>
 ) {
   const userEmail = user.email;
   if (userEmail && emailDomainModeration) {

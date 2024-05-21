@@ -94,7 +94,9 @@ const StoryTableFilter: FunctionComponent<Props> = (props) => (
             aria-label="Search by status"
             value={props.statusFilter || ""}
             onChange={(e) =>
-              props.onSetStatusFilter((e.target.value as any) || null)
+              props.onSetStatusFilter(
+                (e.target.value as GQLSTORY_STATUS) || null
+              )
             }
           >
             <Localized id="stories-filter-allStories">

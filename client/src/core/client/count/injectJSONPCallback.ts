@@ -6,7 +6,6 @@ type GetCountFunction = (opts?: { reset?: boolean }) => void;
 
 /**
  * getPreviousCount will return the previous count if we can find it in storage.
- *
  * @param storyID the ID of the Story that we're referencing
  */
 function getPreviousCount(storyID: string): number | null {
@@ -122,7 +121,6 @@ function createCountElementEnhancer({
 
 /**
  * injectJSONPCallback will register the `CoralCount` on the window.
- *
  * @param getCount a function that when executed will allow you to reset the count
  */
 function injectJSONPCallback(getCount: GetCountFunction) {

@@ -16,12 +16,13 @@ error-tokenInvalid = Invalid API Token provided.
 error-tokenNotFound = Specified token does not exist.
 error-emailAlreadySet = Email address has already been set.
 error-emailNotSet = Email address has not been set yet.
-error-emailDomainProtected = Email domain cannot be moderated.
+error-emailDomainProtected = Email domain cannot be banned.
 error-cannotBanAccountWithModPrivileges = Cannot ban accounts with moderator privileges
 error-duplicateUser =
   Specified user already exists with a different login method.
 error-duplicateEmail = Specified email address is already in use.
 error-duplicateEmailDomain = Specified email domain is already configured.
+error-duplicateDSAReport = User has already reported this comment for potentially illegal content.
 error-localProfileAlreadySet =
   Specified account already has a password set.
 error-localProfileNotSet =
@@ -82,3 +83,6 @@ error-usernameAlreadyExists = This username already exists. Please choose anothe
 error-unableToUpdateStoryURL = Unable to update the story URL.
 error-dataCachingNotAvailable = Data caching is not available at this time.
 error-invalidFlairBadgeName = Only letters, numbers, and the special characters - . are permitted in flair badge names.
+error-dsaReportLawBrokenTooLong = What law do you believe has been broken for DSA report exceeds maximum length.
+error-dsaReportAdditionalInfoTooLong = Additional information for DSA report exceeds maximum length.
+error-unableToPrimeCachedCommentsForStory = Unable to prime cached comments for story.

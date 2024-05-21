@@ -1,13 +1,5 @@
 .smallTab {
-  padding-top: var(--spacing-3);
-  padding-bottom: var(--spacing-3);
-  padding-left: var(--spacing-3);
-  padding-right: var(--spacing-3);
-}
-
-.configureTab {
-  padding-left: var(--spacing-4);
-  padding-right: var(--spacing-4);
+  padding: var(--spacing-3);
 }
 
 .smallText {
@@ -16,4 +8,28 @@
   line-height: 1;
 
   padding-top: var(--spacing-1);
+}
+
+.notificationsTab {
+  margin-left: auto;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+}
+
+.notificationsTabSmall {
+  padding-top: 22.25px;
+  padding-bottom: 22.25px;
+  padding-left: var(--spacing-5);
+  padding-right: var(--spacing-5);
+}
+
+.notificationsIcon {
+  height: var(--spacing-5);
+}
+
+.floatingBellDisabled {
+  border-left: none;
 }

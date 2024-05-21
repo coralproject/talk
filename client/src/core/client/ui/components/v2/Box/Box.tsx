@@ -126,15 +126,15 @@ const Box: FunctionComponent<Props> = (props) => {
     classes.root,
     className,
     /* Margin */
-    final.ml && (classes as any)[`ml-${final.ml}`],
-    final.mr && (classes as any)[`mr-${final.mr}`],
-    final.mt && (classes as any)[`mt-${final.mt}`],
-    final.mb && (classes as any)[`mb-${final.mb}`],
+    final.ml && ((classes as any)[`ml-${final.ml}`] as string),
+    final.mr && ((classes as any)[`mr-${final.mr}`] as string),
+    final.mt && ((classes as any)[`mt-${final.mt}`] as string),
+    final.mb && ((classes as any)[`mb-${final.mb}`] as string),
     /* Padding */
-    final.pl && (classes as any)[`pl-${final.pl}`],
-    final.pr && (classes as any)[`pr-${final.pr}`],
-    final.pt && (classes as any)[`pt-${final.pt}`],
-    final.pb && (classes as any)[`pb-${final.pb}`]
+    final.pl && ((classes as any)[`pl-${final.pl}`] as string),
+    final.pr && ((classes as any)[`pr-${final.pr}`] as string),
+    final.pt && ((classes as any)[`pt-${final.pt}`] as string),
+    final.pb && ((classes as any)[`pb-${final.pb}`] as string)
   );
 
   const innerProps = {
@@ -149,7 +149,7 @@ const Box: FunctionComponent<Props> = (props) => {
     const child = React.Children.only(children) as ReactElement;
     return React.cloneElement(child, {
       ...innerProps,
-      className: cn(child.props.className, innerProps.className),
+      className: cn(child.props.className as string, innerProps.className),
     });
   }
   if (React.isValidElement<any>(Container)) {

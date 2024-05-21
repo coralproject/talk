@@ -2,10 +2,16 @@
 
 ## General
 general-notAvailable = Não disponível
+general-none = Nenhum
+general-noTextContent = Sem conteúdo de texto
+general-archived = Arquivado
 
 ## Story Status
 storyStatus-open = Aberto
 storyStatus-closed = Fechado
+storyStatus-archiving = Arquivando
+storyStatus-archived = Arquivado
+storyStatus-unarchiving = Desarquivando
 
 ## Roles
 role-admin = Administrador
@@ -13,12 +19,14 @@ role-moderator = Moderador
 role-siteModerator = Moderador do site
 role-organizationModerator = Moderador da Organização
 role-staff = Staff
+role-member = Membro
 role-commenter = Comentador
 
 role-plural-admin = Administradores
 role-plural-moderator = Moderadores
 role-plural-staff = Staff
-role-plural-commenter = Comentadores
+role-plural-member = Membros
+role-plural-commenter = Comentarista
 
 comments-react =
   .aria-label = {$count ->
@@ -32,6 +40,10 @@ comments-reacted =
     *[other] {$reaction} ({$count}) comentário feito por {$username}
   }
 
+## components
+admin-paginatedSelect-filter =
+  .aria-label = Filtrar Resultados
+
 ## User Statuses
 userStatus-active = Ativo
 userStatus-banned = Banido
@@ -42,12 +54,17 @@ userStatus-suspended = Suspenso
 userStatus-premod = Sempre pré-moderado
 userStatus-warned = Avisado
 
+# Queue Sort
+queue-sortMenu-newest = Mais novo
+queue-sortMenu-oldest = Mais antigo
+
 ## Navigation
 navigation-moderate = Moderação
 navigation-community = Comunidade
 navigation-stories = Histórias
 navigation-configure = Configuração
 navigation-dashboard = Dashboard
+navigation-reports = Relatórios DSA
 
 ## User Menu
 userMenu-signOut = Sair
@@ -163,6 +180,8 @@ configure-unsavedInputWarning =
 configure-sideBarNavigation-general = Geral
 configure-sideBarNavigation-authentication = Autenticação
 configure-sideBarNavigation-moderation = Moderação
+configure-sideBarNavigation-moderation-comments = Comentários
+configure-sideBarNavigation-moderation-users = Usuários
 configure-sideBarNavigation-organization = Organização
 configure-sideBarNavigation-moderationPhases = Fases de moderação
 configure-sideBarNavigation-advanced = Avançado
@@ -390,6 +409,8 @@ configure-general-memberBio-label = Permitir biografia dos usuários
 #### Locale
 configure-general-locale-language = Linguagem
 configure-general-locale-chooseLanguage = Selecione a linguagem para o seu Coral community.
+configure-general-locale-invalidLanguage =
+  O idioma selecionado anteriormente <lang></lang> não existe mais. Por favor, escolha um idioma diferente.
 
 ### Sitewide Commenting
 configure-general-sitewideCommenting-title = Comentários em todo o site
@@ -410,7 +431,7 @@ configure-general-sitewideCommenting-messageExplanation =
 
 #### Embed Links
 configure-general-embedLinks-title = Mídia incorporada
-configure-general-embedLinks-desc = Permitir que os comentadores adicionem um vídeo do YouTube, tweet ou GIF da biblioteca do GIPHY ao final do comentário
+configure-general-embedLinks-desc = Permitir que os comentaristas adicionem um vídeo do YouTube, tweet ou GIF da biblioteca do GIPHY ao final do comentário
 configure-general-embedLinks-enableTwitterEmbeds = Permitir incorporações do Twitter
 configure-general-embedLinks-enableYouTubeEmbeds = Permitir incorporações do YouTube
 configure-general-embedLinks-enableGiphyEmbeds = Permitir GIFs do GIPHY
@@ -420,7 +441,7 @@ configure-general-embedLinks-On = Sim
 configure-general-embedLinks-Off = Não
 
 configure-general-embedLinks-giphyMaxRating = Classificação de conteúdo GIF
-configure-general-embedLinks-giphyMaxRating-desc = Selecione a classificação máxima de conteúdo para os GIFs que aparecerão nos resultados de pesquisa dos comentadores
+configure-general-embedLinks-giphyMaxRating-desc = Selecione a classificação máxima de conteúdo para os GIFs que aparecerão nos resultados de pesquisa dos comentaristas
 
 configure-general-embedLinks-giphyMaxRating-g = G
 configure-general-embedLinks-giphyMaxRating-g-desc = Conteúdo apropriado para todas as idades
@@ -474,11 +495,54 @@ configure-general-commentLength-validateLongerThanMin =
 #### Comment Editing
 configure-general-commentEditing-title = Edição de Comentários
 configure-general-commentEditing-explanation =
-  Defina um limite de quanto tempo os comentadores precisam editar seus comentários em todo o site.
+  Defina um limite de quanto tempo os comentaristas precisam editar seus comentários em todo o site.
   Os comentários editados são marcados como (Editados) no fluxo de comentários e
   painel de moderação.
 configure-general-commentEditing-commentEditTimeFrame = Período de tempo de edição de comentários
 configure-general-commentEditing-seconds = Segundos
+
+#### Flatten replies
+configure-general-flattenReplies-title = Nivelamento de respostas
+configure-general-flattenReplies-enabled = Nivelamento de respostas ativado
+configure-general-flattenReplies-explanation =
+  Altera como os níveis de respostas são exibidos. Quando ativado, as respostas aos comentários podem ter até sete níveis de profundidade antes de não serem mais recuadas na página. Quando desativado, após uma profundidade de sete respostas, o restante da conversa é exibido em uma visualização dedicada, separada dos outros comentários.
+
+configure-general-featuredBy-title = Destaque
+configure-general-featuredBy-enabled = Destaque ativado
+configure-general-featuredBy-explanation = Adicionar nome do moderador à exibição de comentários em destaque
+
+configure-general-topCommenter-title = Badge de principal comentarista
+configure-general-topCommenter-explanation = Adicione badge de principal comentarista aos comentaristas com comentários em destaque nos últimos 10 dias
+configure-general-topCommenter-enabled = Ativar badges de principal comentarista
+
+configure-general-flairBadge-header = Badges de estilos personalizados
+configure-general-flairBadge-description =  Incentive o engajamento e a participação do usuário adicionando badges de estilos personalizados para o seu site. Os badges podem ser alocados como parte da sua <externalLink>JWT claim</externalLink>.
+configure-general-flairBadge-enable-label = Ativar badges de estilos personalizados
+configure-general-flairBadge-add = URL do badge
+configure-general-flairBadge-add-helperText =
+  Cole o endereço da web para o seu badge de estilo personalizado. Tipos de arquivo suportados: png, jpeg, jpg e gif
+configure-general-flairBadge-url-error =
+  A URL é inválida ou tem um tipo de arquivo não suportado.
+configure-general-flairBadge-add-name = Nome do badge
+configure-general-flairBadge-add-name-helperText =
+  Nomeie o badge com um identificador descritivo
+configure-general-flairBadge-name-permittedCharacters =
+  Apenas letras, números e os caracteres especiais - . são permitidos.
+configure-general-flairBadge-add-button = Adicionar
+configure-general-flairBadge-table-flairName = Nome
+configure-general-flairBadge-table-flairURL = URL
+configure-general-flairBadge-table-preview = Visualizar
+configure-general-flairBadge-table-deleteButton = <icon></icon> Excluir
+configure-general-flairBadge-table-empty = Nenhum badge de estilo adicionado para este site
+
+#### In-page notifications
+configure-general-inPageNotifications-title = Notificações na página
+configure-general-inPageNotifications-explanation = Adicione notificações ao Coral. Quando ativado, os comentaristas podem receber
+  notificações quando eles recebem todas as respostas, apenas respostas de membros
+  da sua equipe, quando um comentário Pendente é publicado. Os comentaristas podem
+  desativar os indicadores visuais de notificação em suas preferências de Perfil. Isso removerá as notificações por e-mail.
+configure-general-inPageNotifications-enabled = Notificações na página ativadas
+configure-general-inPageNotifications-floatingBellIndicator = Indicador de sino flutuante
 
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Mensagem de fechamento do fluxo de comentários
@@ -531,16 +595,28 @@ stories-column-site = Site
 site-table-siteName = Nome do Site
 stories-filter-sites = Site
 
+site-search-searchButton =
+  .aria-label = Pesquisar
+site-search-textField =
+  .aria-label = Pesquisar pelo nome do site
+site-search-textField =
+  .placeholder = Buscar pelo nome do site
+site-search-none-found = Nenhum site foi encontrado com essa busca
+specificSitesSelect-validation = Você deve selecionar pelo menos um site.
+
 stories-column-actions = Ações
 stories-column-rescrape = Re-coletar
 
-stories-actionsButton =
-  .aria-label = Selecionar ação
+stories-openInfoDrawer =
+  .aria-label = Abrir mais informações
 stories-actions-popover =
   .description = Uma lista para selecionar as ações da história
 stories-actions-rescrape = Re-coletar
 stories-actions-close = Fechar história
 stories-actions-open = Abrir história
+stories-actions-archive = Arquivar história
+stories-actions-unarchive = Desarquivar história
+stories-actions-isUnarchiving = Desarquivando
 
 ### Sections
 
@@ -594,6 +670,7 @@ configure-auth-facebook-toEnableIntegration =
   você precisa criar e configurar uma aplicação web.
   Para mais detalhes, visite: <link></link>.
 configure-auth-facebook-useLoginOn = Usar login com o Facebook login ligado
+
 
 configure-auth-google-loginWith = Entrar com Google
 configure-auth-google-toEnableIntegration =
@@ -658,6 +735,9 @@ configure-auth-sso-rotate-dropdown-description =
 
 configure-auth-local-loginWith = Entrar com autenticação via E-mail
 configure-auth-local-useLoginOn = Usar login com autenticação via e-mail ligado
+configure-auth-local-forceAdminLocalAuth =
+  A autenticação local do administrador foi permanentemente habilitada.
+  Isso é para garantir que as equipes que usam o serviço do Coral possam acessar o painel de administração.
 
 configure-auth-oidc-loginWith = Login com OpenID Connect
 configure-auth-oidc-toLearnMore = Saiba mais: <link></link>
@@ -697,6 +777,16 @@ configure-moderation-recentCommentHistory-triggerRejectionRate-description =
   dos comentaristas rejeitados e comentários publicados, dentro do período recente
   do histórico de comentários(não inclui comentários pendentes para toxicidade, spam ou pré-moderação.)
 
+#### External links for moderators
+configure-moderation-externalLinks-title = Links externos para moderadores
+configure-moderation-externalLinks-profile-explanation = Quando um formato de URL é incluído
+   abaixo, os links de perfil externos são adicionados à pasta do usuário dentro da interface
+   de moderação. Você pode usar o formato $USER_NAME para inserir o nome de usuário ou $USER_ID
+   para inserir o número de identificação único do usuário.
+configure-moderation-externalLinks-profile-label = Padrão de URL do perfil externo
+configure-moderation-externalLinks-profile-input =
+  .placeholder = https://example.com/users/$USER_NAME 
+
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pré-moderação
 configure-moderation-preModeration-explanation =
@@ -706,6 +796,10 @@ configure-moderation-preModeration-moderation =
   Pré-moderar todos os comentários em todo o site
 configure-moderation-preModeration-premodLinksEnable =
   Pré-moderar comentários contendo links em todo o site
+
+#### Moderation all/specific sites options
+configure-moderation-specificSites = Sites específicos
+configure-moderation-allSites = Todos os sites
 
 configure-moderation-apiKey = API Key
 
@@ -775,6 +869,55 @@ configure-moderation-newCommenters-approvedCommentsThreshold-description =
   A quantidade de comentários aprovados para que os comentários sejam aprovados automaticamente sem precisar da pré-moderação.
 configure-moderation-newCommenters-comments = comentários
 
+#### Unmoderated counts
+configure-moderation-unmoderatedCounts-title = Contagem de comentários não moderados
+configure-moderation-unmoderatedCounts-enabled = Mostra o número de comentários não moderados na fila
+
+#### Email domain
+
+configure-moderation-emailDomains-header = Domínio de e-mail
+configure-moderation-emailDomains-description = Crie regras para tomar ações em contas ou comentários com base no domínio do endereço de email do titular da conta.
+configure-moderation-emailDomains-add = Adicionar domínio de e-mail
+configure-moderation-emailDomains-edit = Editar domínio de e-mail
+configure-moderation-emailDomains-addDomain = <icon></icon> Adicionar domínio
+configure-moderation-emailDomains-table-domain = Domínio
+configure-moderation-emailDomains-table-action = Ação
+configure-moderation-emailDomains-table-edit = <icon></icon> Editar
+configure-moderation-emailDomains-table-delete = <icon></icon> Excluir
+configure-moderation-emailDomains-form-label-domain = Domínio
+configure-moderation-emailDomains-form-label-moderationAction = Ação de moderação
+configure-moderation-emailDomains-banAllUsers = Banir todas as novas contas de comentários
+configure-moderation-emailDomains-alwaysPremod = Sempre pré-moderar comentários
+configure-moderation-emailDomains-form-cancel = Cancelar
+configure-moderation-emailDomains-form-addDomain = Adicionar domínio
+configure-moderation-emailDomains-form-editDomain = Atualizar
+configure-moderation-emailDomains-confirmDelete = A exclusão deste domínio de e-mail impedirá que novas contas criadas com ele sejam banidas ou sempre pré-moderadas. Tem certeza de que deseja continuar?
+configure-moderation-emailDomains-form-description-add = Adicione um domínio e selecione a ação que deve ser tomada em cada nova conta criada usando o domínio especificado.
+configure-moderation-emailDomains-form-description-edit = Atualize o domínio ou ação que deve ser tomada em cada nova conta usando o domínio especificado.
+configure-moderation-emailDomains-exceptions-header = Exceções
+configure-moderation-emailDomains-exceptions-helperText = Esses domínios não podem ser banidos. Os domínios devem ser escritos sem www, por exemplo, "gmail.com". Separe os domínios com uma vírgula e um espaço.
+
+configure-moderation-emailDomains-showCurrent = Mostrar lista atual de domínios
+configure-moderation-emailDomains-hideCurrent = Ocultar lista atual de domínios
+configure-moderation-emailDomains-filterByStatus =
+  .aria-label = Filtrar por status de domínio de email
+configuration-moderation-emailDomains-empty = Não há domínios de email configurados.
+
+configure-moderation-emailDomains-allDomains = Todos os domínios
+configure-moderation-emailDomains-preMod = Pré-mod
+configure-moderation-emailDomains-banned = Banido
+
+
+#### Pre-moderate  Email Address Configuration
+
+configure-moderation-premoderateEmailAddress-title = Endereço de e-mail
+configure-moderation-premoderateEmailAddress-enabled =
+   Pré-moderação de e-mails com muitos pontos
+configure-moderation-premoderateEmailAddress-enabled-description = 
+  Se um usuário tiver três ou mais pontos na primeira parte do seu endereço 
+  de email (antes do @), defina seu status para pré-moderação de comentários.
+   E-mails com 3 ou mais pontos podem ter uma correlação muito alta com spam.
+   Pode ser útil pré-moderação-los de forma proativa.
 
 
 #### Banned Words Configuration
@@ -784,6 +927,30 @@ configure-wordList-banned-explanation =
 configure-wordList-banned-wordList = Lista de palavras banidas
 configure-wordList-banned-wordListDetailInstructions =
   Separe palavras e frases banidas com uma nova linha. Palavras/frases não são sensíveis a caixa alta ou baixa.
+
+
+### Advanced
+configure-advanced-customCSS = CSS personalizado
+configure-advanced-customCSS-override =
+  URL de uma folha de estilo CSS que substituirá os estilos padrão do Embed Stream.
+configure-advanced-customCSS-stylesheetURL = URL da folha de estilo CSS personalizada
+configure-advanced-customCSS-fontsStylesheetURL = URL da folha de estilo CSS personalizada para Fontes
+configure-advanced-customCSS-containsFontFace =
+  URL para uma folha de estilo CSS personalizada que contém todas as definições de @font-face necessárias 
+  pela folha de estilo acima.
+
+configure-advanced-embeddedComments = Comentários incorporados
+configure-advanced-embeddedComments-subheader =  Para sites que usam oEmbed
+configure-advanced-embeddedCommentReplies-explanation = Quando ativado, um botão de resposta 
+  aparecerá com cada comentário incorporado para incentivar discussões adicionais sobre esse comentário
+   ou história específica.
+configure-advanced-embeddedCommentReplies-label = Permitir respostas a comentários incorporados
+
+configure-advanced-oembedAllowedOrigins-header = Domínios permitidos pelo oEmbed
+configure-advanced-oembedAllowedOrigins-description = Domínios que têm permissão para fazer chamadas à API oEmbed (ex. http://localhost:3000, https://staging.domain.com, https://domain.com).
+configure-advanced-oembedAllowedOrigins-label = Domínios permitidos pelo oEmbed
+
+
 
 #### Suspect Words Configuration
 configure-wordList-suspect-bannedWordsAndPhrases = Palavras e Frases Suspeitas
@@ -826,6 +993,20 @@ configure-advanced-embedCode-comment =
   Substitua essas linhas pelo ID do ID e URL da história do seu CMS para fornecer a maior integração.
   Consulte a nossa documentação em https://docs.coralproject.net para todas as
   opções de configuração.
+
+configure-advanced-amp = Accelerated Mobile Pages
+configure-advanced-amp-explanation =
+  Ative o suporte para <LinkToAMP> (AMP)</LinkToAMP> no fluxo de comentários.
+  Uma vez ativado, você precisará adicionar o código de incorporação AMP do Coral ao modelo da sua página.
+  Consulte nossa <LinkToDocs>documentação</LinkToDocs> para mais detalhes. Ativar Suporte.
+
+configure-advanced-for-review-queue = Revisar todos os relatórios de usuários
+configure-advanced-for-review-queue-explanation =
+  Depois que um comentário for aprovado, ele não aparecerá novamente na fila de relatórios,
+  mesmo que outros usuários o relatem. Este recurso adiciona uma fila “Para revisão”,
+  permitindo que os moderadores vejam todos os relatórios de usuários no sistema e os marquem manualmente como “Revisado”.
+configure-advanced-for-review-queue-label = Mostrar fila “Para revisão”
+
 
 ## Decision History
 decisionHistory-popover =
@@ -878,11 +1059,13 @@ moderate-navigation-unmoderated = não moderado
 moderate-navigation-approved = Aprovado
 moderate-navigation-rejected = rejeitado
 moderate-navigation-comment-count = { SHORT_NUMBER($count) }
+moderate-navigation-forReview = para revisão
 
 moderate-marker-preMod = Pré-Moderado
 moderate-marker-link = Link
 moderate-marker-bannedWord = Palavra Banida
 moderate-marker-bio = Biografia
+moderate-marker-illegal = Conteúdo possivelmente ilegal
 moderate-marker-possibleBannedWord = Possível Palavra Banida
 moderate-marker-suspectWord = Palavra Suspeita
 moderate-marker-possibleSuspectWord = Possível Palavra Suspeita
@@ -896,12 +1079,19 @@ moderate-marker-abusive = Abusivo
 moderate-marker-newCommenter = Novo comentador
 moderate-marker-repeatPost = Comentário repetido
 moderate-marker-other = Outro
+moderate-marker-preMod-userEmail = E-mail do usuário
 
 moderate-markers-details = Detalhes
+moderate-flagDetails-latestReports = Últimos relatórios
 moderate-flagDetails-offensive = Ofensivo
 moderate-flagDetails-abusive = Abusivo
 moderate-flagDetails-spam = Spam
+moderate-flagDetails-bio = Biografia
 moderate-flagDetails-other = Outro
+moderate-flagDetails-illegalContent = Conteúdo possivelmente ilegal
+moderate-flagDetails-viewDSAReport = Visualizar relatório DSA
+
+moderate-card-flag-details-anonymousUser = Usuário anônimo
 
 moderate-flagDetails-toxicityScore = Score de toxicidade
 moderate-toxicityLabel-likely = Provável <score></score>
@@ -912,8 +1102,15 @@ moderate-linkDetails-label = Copiar o link deste comentário
 moderate-in-stream-link-copy = No fluxo
 moderate-in-moderation-link-copy = Na moderação
 
+moderate-decisionDetails-decisionLabel = Decisão
+moderate-decisionDetails-rejected = Rejeitado
+moderate-decisionDetails-reasonLabel = Motivo
+moderate-decisionDetails-lawBrokenLabel = Política violada
+moderate-decisionDetails-customReasonLabel = Motivo personalizado
+moderate-decisionDetails-detailedExplanationLabel = Explicação detalhada
+
 moderate-emptyQueue-pending = Muito bem! Não há mais comentários pendentes para moderar.
-moderate-emptyQueue-reported = Muito bem! Não há mais comentários relatados para moderar.
+moderate-emptyQueue-reported = Muito bem! Não há mais comentários reportados para moderar.
 moderate-emptyQueue-unmoderated = Muito bem! Todos os comentários foram moderados.
 moderate-emptyQueue-rejected = Não há comentários rejeitados.
 moderate-emptyQueue-approved = Não há comentários aprovados.
@@ -974,7 +1171,24 @@ moderate-searchBar-goTo = Ir para
 moderate-searchBar-seeAllResults = Ver todos os resultados
 
 moderateCardDetails-tab-info = Informações
+moderateCardDetails-tab-decision = Decisão
 moderateCardDetails-tab-edits = Editar história
+moderateCardDetails-tab-automatedActions = Ações automatizadas
+moderateCardDetails-tab-reactions = Reações
+moderateCardDetails-tab-reactions-loadMore = Carregar mais
+moderateCardDetails-tab-noIssuesFound = Nenhum problema encontrado
+moderateCardDetails-tab-missingPhase = Não foi executado
+
+moderateCardDetails-tab-externalMod-status = Status
+moderateCardDetails-tab-externalMod-flags = Flags
+moderateCardDetails-tab-externalMod-tags = Tags
+
+moderateCardDetails-tab-externalMod-none = Nenhum
+moderateCardDetails-tab-externalMod-approved = Aprovado
+moderateCardDetails-tab-externalMod-rejected = Rejeitado
+moderateCardDetails-tab-externalMod-premod = Pre-moderado
+moderateCardDetails-tab-externalMod-systemWithheld = Sistema retido
+
 ### Moderate User History Drawer
 
 moderate-user-drawer-email =
@@ -983,6 +1197,9 @@ moderate-user-drawer-created-at =
   .title = Data de criação da conta
 moderate-user-drawer-member-id =
   .title = ID do membro
+moderate-user-drawer-external-profile-URL =
+  .title = URL do perfil externo
+moderate-user-drawer-external-profile-URL-link = URL do perfil externo
 moderate-user-drawer-tab-all-comments = Todos comentários
 moderate-user-drawer-tab-rejected-comments = Rejeitados
 moderate-user-drawer-tab-account-history = Histórico da Conta
@@ -1001,6 +1218,7 @@ moderate-user-drawer-account-history-system = <icon></icon> Sistema
 moderate-user-drawer-account-history-suspension-ended = Suspensão terminada
 moderate-user-drawer-account-history-suspension-removed = Suspensão removida
 moderate-user-drawer-account-history-banned = Banida
+moderate-user-drawer-account-history-account-domain-banned = Domínio da conta banido
 moderate-user-drawer-account-history-ban-removed = Banimento removido
 moderate-user-drawer-account-history-site-banned = Site banido
 moderate-user-drawer-account-history-site-ban-removed = Banimento do site removido
@@ -1011,6 +1229,11 @@ moderate-user-drawer-username-change-old = Antigo:
 
 moderate-user-drawer-account-history-premod-set = Sempre pré-moderado
 moderate-user-drawer-account-history-premod-removed = Removida pré-moderação
+
+moderate-user-drawer-account-history-modMessage-sent = Mensagem do usuário
+moderate-user-drawer-account-history-modMessage-acknowledged = Mensagem reconhecida a { $acknowledgedAt }
+
+moderate-user-drawer-newCommenter = Novo comentarista
 
 moderate-user-drawer-suspension =
   Suspensão, { $value } { $unit ->
@@ -1045,6 +1268,34 @@ moderate-user-drawer-suspension =
     *[other] unidade desconhecida
   }
 
+moderate-user-drawer-deleteAccount-popover =
+  .description = Um menu suspenso para excluir a conta de um usuário
+moderate-user-drawer-deleteAccount-button =
+  .aria-label = Excluir conta
+moderate-user-drawer-deleteAccount-popover-confirm = Digite "{ $text }” para confirmar
+moderate-user-drawer-deleteAccount-popover-title = Excluir conta
+moderate-user-drawer-deleteAccount-popover-username = Nome de usuário
+moderate-user-drawer-deleteAccount-popover-header-description = Excluir a conta irá
+moderate-user-drawer-deleteAccount-popover-description-list-removeComments = Remover todos os comentários escritos por este usuário do banco de dados.
+moderate-user-drawer-deleteAccount-popover-description-list-deleteAll = Excluir todos os registros desta conta. O 
+  usuário poderá então criar uma nova conta usando o mesmo endereço de e-mail. Se você deseja banir este usuário em vez disso e 
+  manter seu histórico, pressione “CANCELAR” e use o menu suspenso de status abaixo do nome de usuário.
+moderate-user-drawer-deleteAccount-popover-callout = Isso remove todos os registros deste usuário
+moderate-user-drawer-deleteAccount-popover-timeframe =  Isso entrará em vigor em 24 horas.
+moderate-user-drawer-deleteAccount-popover-cancelButton = Cancelar
+moderate-user-drawer-deleteAccount-popover-deleteButton = Excluir
+
+moderate-user-drawer-deleteAccount-scheduled-callout = Exclusão de usuário ativada
+moderate-user-drawer-deleteAccount-scheduled-timeframe = Isso ocorrerá em { $deletionDate }.
+moderate-user-drawer-deleteAccount-scheduled-cancelDeletion = Cancelar exclusão de usuário
+
+moderate-user-drawer-user-scheduled-deletion = Usuário agendado para exclusão
+moderate-user-drawer-user-deletion-canceled = Solicitação de exclusão de usuário cancelada
+
+moderate-user-drawer-account-history-deletion-scheduled = Exclusão agendada para { $createdAt }
+moderate-user-drawer-account-history-canceled-at = Cancelado em { $createdAt }
+moderate-user-drawer-account-history-updated-at = Atualizado em { $createdAt }
+
 
 moderate-user-drawer-recent-history-title = Histórico recente de comentários
 moderate-user-drawer-recent-history-calculated =
@@ -1063,6 +1314,78 @@ moderate-user-drawer-notes-field =
 moderate-user-drawer-notes-button = Adicionar notação
 moderatorNote-left-by = Deixado por
 moderatorNote-delete = Deletar
+
+moderate-user-drawer-all-comments-archiveThreshold-allOfThisUsers =
+  Todos os comentários deste usuário dos { $value } { $unit ->
+    [second] { $value ->
+      [1] segundo
+      *[other] segundos
+    }
+    [minute] { $value ->
+      [1] minuto
+      *[other] minutos
+    }
+    [hour] { $value ->
+      [1] hora
+      *[other] horas
+    }
+    [day] { $value ->
+      [1] dia
+      *[other] dias
+    }
+    [week] { $value ->
+      [1] semana
+      *[other] semanas
+    }
+    [month] { $value ->
+      [1] mês
+      *[other] meses
+    }
+    [year] { $value ->
+      [1] ano
+      *[other] anos
+    }
+    *[other] unidade desconhecida
+  }.
+
+# For Review Queue
+
+moderate-forReview-reviewedButton =
+  .aria-label = Revisado
+moderate-forReview-markAsReviewedButton =
+  .aria-label = Marcar como revisado
+moderate-forReview-time = Tempo
+moderate-forReview-comment = Comentário
+moderate-forReview-reportedBy = Reportado por
+moderate-forReview-reason = Motivo
+moderate-forReview-description = Descrição
+moderate-forReview-reviewed = Revisado
+
+
+moderate-forReview-detectedBannedWord = Palavra proibida
+moderate-forReview-detectedLinks = Links
+moderate-forReview-detectedNewCommenter = Novo comentarista
+moderate-forReview-detectedPreModUser = Usuário pré-moderado
+moderate-forReview-detectedRecentHistory = Histórico recente
+moderate-forReview-detectedRepeatPost = Postagem repetida
+moderate-forReview-detectedSpam = Spam
+moderate-forReview-detectedSuspectWord = Palavra suspeita
+moderate-forReview-detectedToxic = Linguagem tóxica
+moderate-forReview-reportedAbusive = Abusivo
+moderate-forReview-reportedBio = Biografia do usuário
+moderate-forReview-reportedOffensive = Ofensivo
+moderate-forReview-reportedOther = Outro
+moderate-forReview-reportedSpam = Spam
+
+
+# Archive
+
+moderate-archived-queue-title = Esta história foi arquivada
+moderate-archived-queue-noModerationActions =
+  Nenhuma ação de moderação pode ser realizada nos comentários quando uma história está arquivada.
+moderate-archived-queue-toPerformTheseActions =
+  Para realizar essas ações, desarquivar a história.
+
 
 ## Community
 community-emptyMessage = Não conseguimos encontrar ninguém na sua comunidade que corresponda aos seus critérios.
@@ -1084,12 +1407,18 @@ community-changeRoleButton =
 
 community-assignMySitesToModerator = Atribuir meus sites
 community-removeMySitesFromModerator = Remover meus sites
+community-assignMySitesToMember = Atribuir membro aos meus sites
+community-removeMySitesFromMember = Remover membro dos meus sites
 community-stillHaveSiteModeratorPrivileges = Eles ainda terão privilégios de moderador do site para:
+community-stillHaveMemberPrivileges = Eles ainda terão privilégios de membro para:
 community-userNoLongerPermitted = O usuário não terá mais permissão para tomar decisões de moderação ou atribuir suspensões em:
+community-memberNoLongerPermitted = Usuário não receberá mais privilégios de Membro em:
 community-assignThisUser = Atribuir este usuário a
 community-assignYourSitesTo = Atribuir seus sites a <strong>{ $username }</strong>
 community-siteModeratorsArePermitted = Os moderadores de sites têm permissão para tomar decisões de moderação e emitir suspensões nos sites que lhes são atribuídos.
+community-membersArePermitted = Os membros têm permissão para receber um badge nos sites aos quais são atribuídos.
 community-removeSiteModeratorPermissions = Remover permissões de moderador do site
+community-removeMemberPermissions = Remover permissões de membro
 
 community-filter-optGroupAudience =
   .label = Público
@@ -1118,10 +1447,7 @@ community-siteRoleActions-popover =
 community-userStatus-popover =
   .description = Um menu suspenso para alterar o status do usuário
 
-community-userStatus-banUser = Banir Usuário
-community-userStatus-ban = Banir
-community-userStatus-removeBan = Remover Banimento
-community-userStatus-removeUserBan = Remover banimento
+community-userStatus-manageBan = Gerenciar banimento
 community-userStatus-suspendUser = Suspender Usuário
 community-userStatus-suspend = Suspender
 community-userStatus-suspendEverywhere = Suspender em todos os lugares
@@ -1133,14 +1459,28 @@ community-userStatus-changeButton =
 community-userStatus-premodUser = Sempre pré-moderado
 community-userStatus-removePremod = Remover pré-moderação
 
-community-banModal-areYouSure = Você tem certeza que quer banir <username></username>?
-community-banModal-consequence =
+community-banModal-allSites-title = Tem certeza de que deseja banir <username></username>?
+community-banModal-banEmailDomain-title = Banir domínio de e-mail
+community-banModal-banEmailDomain = Banir todas as contas de comentaristas de { $domain }
+community-banModal-banEmailDomain-callOut = Isso impedirá que qualquer comentarista utilize este domínio de e-mail
+community-banModal-banEmailDomain-confirmationText = Digite "{ $text }” para confirmar
+community-banModal-specificSites-title = Tem certeza de que deseja gerenciar o status de banimento de <username></username>?
+community-banModal-noSites-title = Tem certeza de que deseja desbanir <username></username>?
+community-banModal-allSites-consequence =
   Uma vez banido, este usuário não poderá mais comentar, usar
-  reações ou relatar comentários.
+  reações ou reportar comentários.
+community-banModal-noSites-consequence =
+  Uma vez desbanido, este usuário poderá comentar, usar reações e reportar comentários.
+community-banModal-specificSites-consequence =
+  Esta ação afetará em quais sites o usuário poderá comentar, usar reações e reportar comentários.
 community-banModal-cancel = Cancelar
-community-banModal-banUser = Banir Usuário
+community-banModal-updateBan = Salvar
+community-banModal-ban = Banir
+community-banModal-unban = Desbanir
 community-banModal-customize = Customizar mensagem de e-mail de banimento
 community-banModal-reject-existing = Rejeitar todos os comentários feitos por usuário
+community-banModal-reject-existing-specificSites = Rejeitar todos os comentários nesses sites
+community-banModal-reject-existing-singleSite = Rejeitar todos os comentários deste sites
 
 community-banModal-noSites = Nenhum site
 community-banModal-banFrom = Banir a partir de
@@ -1182,9 +1522,9 @@ community-siteRoleModal-assignSites =
 community-siteRoleModal-assignSitesDescription-siteModerator =
   Os moderadores de sites têm permissão para tomar decisões de moderação e emitir suspensões nos sites que lhes são atribuídos.
 community-siteRoleModal-cancel = Cancelar
-community-siteRoleModal-assign = Atribuir
-community-siteRoleModal-remove = Remover
+community-siteRoleModal-update = Atualizar
 community-siteRoleModal-selectSites-siteModerator = Selecionar sites para moderar
+community-siteRoleModal-selectSites-member = Selecione sites para este usuário ser membro
 community-siteRoleModal-noSites = Sem sites
 
 community-invite-inviteMember = Convidar membros para sua organização
@@ -1193,17 +1533,17 @@ community-invite-inviteMore = Convidar mais
 community-invite-inviteAsLabel = Convidar como:
 community-invite-sendInvitations = Enviar convites
 community-invite-role-staff =
-  <strong>Função Staff:</strong> Recebe um crachá “Staff”, e
+  <strong>Função Staff:</strong> Recebe um badge “Staff”, e
   seus comentários são aprovados automaticamente. Não pode moderar
   ou mudar qualquer configuração { -product-name }.
 community-invite-role-moderator =
-  <strong>Função Moderador:</strong> Recebe um crachá “Staff”, e
+  <strong>Função Moderador:</strong> Recebe um badge “Staff”, e
   seus comentários são aprovados automaticamente. Tem privilégios
   totais de moderação (aprovar, rejeitar e destacar comentários).
   Pode configurar artigos individuais, mas não possui privilégios
   de configuração do site.
 community-invite-role-admin =
-  <strong>Função Admin:</strong> Recebe um crachá “Staff”, e
+  <strong>Função Admin:</strong> Recebe um badge “Staff”, e
   seus comentários são aprovados automaticamente. Tem privilégios
   totais de moderação (aprovar, rejeitar e destacar comentários).
   Pode configurar artigos individuais e tem privilégios de
@@ -1224,9 +1564,19 @@ community-warnModal-cancel = Cancelar
 community-warnModal-warnUser = Avisar usuário
 community-userStatus-warn = Avisar
 community-userStatus-warnEverywhere = Avisar em todos os lugares
+community-userStatus-message = Mensagem
+
+community-modMessageModal-success = Uma mensagem foi enviada para <strong>{ $username }</strong>.
+community-modMessageModal-success-close = Ok
+community-modMessageModal-areYouSure = Mensagem para <strong>{ $username }</strong>?
+community-modMessageModal-consequence = Enviar uma mensagem para um comentarista que é visível apenas para ele.
+community-modMessageModal-message-label = Mensagem
+community-modMessageModal-message-required = Obrigatório
+community-modMessageModal-cancel = Cancelar
+community-modMessageModal-messageUser = Mensagem ao usuário
 
 ## Stories
-stories-emptyMessage = Atualmente não há histórias publicadas.
+stories-emptyMessage = Atualmente não existem histórias publicadas.
 stories-noMatchMessage = Não foi possível encontrar nenhuma história que corresponda aos seus critérios.
 
 stories-filter-searchField =
@@ -1245,7 +1595,7 @@ stories-filter-search = Pesquisar
 stories-filter-showMe = Me mostre
 stories-filter-allStories = Todas as histórias
 stories-filter-openStories = Histórias abertas
-stories-filter-closedStories = Histórias Fechadas
+stories-filter-closedStories = Histórias fechadas
 
 stories-column-title = Título
 stories-column-author = Autor
@@ -1258,6 +1608,31 @@ stories-column-publishedCount = Publicado
 
 stories-status-popover =
   .description = Um menu suspenso para alterar o status da história
+
+storyInfoDrawer-rescrapeTriggered = Acionado
+storyInfoDrawer-triggerRescrape = Rescannear Metadados
+storyInfoDrawer-title = Detalhes da História
+storyInfoDrawer-titleNotAvailable = Título da história não disponível
+storyInfoDrawer-authorNotAvailable = Autor não disponível
+storyInfoDrawer-publishDateNotAvailable = Data de publicação não disponível
+storyInfoDrawer-scrapedMetaData = Metadados escaneados
+storyInfoDrawer-configure = Configurar
+storyInfoDrawer-storyStatus-open = Aberto
+storyInfoDrawer-storyStatus-closed = Fechado
+storyInfoDrawer-moderateStory = Moderar
+storyInfoDrawerSettings-premodLinksEnable = Pré-moderar comentários contendo links
+storyInfoDrawerSettings-premodCommentsEnable = Pré-moderar todos os comentários
+storyInfoDrawerSettings-moderation = Moderação
+storyInfoDrawerSettings-moderationMode-pre = Pré
+storyInfoDrawerSettings-moderationMode-post = Pós
+storyInfoDrawerSettings-update = Atualizar
+storyInfoDrawer-storyStatus-archiving = Arquivando
+storyInfoDrawer-storyStatus-archived = Arquivado
+storyInfoDrawer-cacheStory-recache = Recachear história
+storyInfoDrawer-cacheStory-recaching = Recacheando
+storyInfoDrawer-cacheStory-cached = Cachear
+storyInfoDrawer-cacheStory-uncacheStory = Desfazer cache da história
+storyInfoDrawer-cacheStory-uncaching = Desfazendo cache
 
 ## Invite
 
@@ -1307,24 +1682,28 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Pré-visualização
 configure-general-reaction-sortMenu-sortBy = Ordenar por
 
-configure-general-badges-title = Crachá de membros Staff
+configure-general-newCommenter-title = Badge de novo comentarista
+configure-general-newCommenter-explanation = Adicione o badge <icon></icon> aos comentaristas que criaram suas contas nos últimos sete dias.
+configure-general-newCommenter-enabled = Ativar badges de novo comentarista
+configure-general-badges-title = Badge de membros Staff
 configure-general-badges-explanation =
-  Mostra um crachá customizado para membros staff da sua organização. Este crachá
+  Mostra um badge customizado para membros staff da sua organização. Este badge
   aparecerá no fluxo de comentários e na interface de administração.
-configure-general-badges-label = Texto do crachá
-configure-general-badges-input =
+configure-general-badges-label = Texto do badge
+configure-general-badges-staff-member-input =
   .placeholder = Ex: Staff
 configure-general-badges-preview = Pré-visualização
 configure-general-badges-moderator-input =
   .placeholder = Ex: Moderador
 configure-general-badges-admin-input =
   .placeholder = Ex: Admin
+configure-general-badges-member-input =
+  .placeholder = Ex: Membro
 configure-general-badges-preview = Pré-visualizar
-configure-general-badges-moderator-preview = Pré-visualizar
-configure-general-staff-admin-preview = Pré-visualizar
-configure-general-badges-staff-member-label = Texto do crachá de membros staff
-configure-general-badges-admin-label = Texto do crachá de administradores
-configure-general-badges-moderator-label = Texto do crachá de moderadores
+configure-general-badges-staff-member-label = Texto do badge de membros staff
+configure-general-badges-admin-label = Texto do badge de administradores
+configure-general-badges-moderator-label = Texto do badge de moderadores
+configure-general-badges-member-label = Texto do badge de membro
 
 configure-general-rte-title = Comentários em texto rico
 configure-general-rte-express = Dê à sua comunidade mais maneiras de se expressar além do texto simples com formatação de texto rico.
@@ -1336,6 +1715,32 @@ configure-general-rte-spoiler = Spoiler
 configure-general-rte-spoilerDesc =
   Palavras e frases formatadas como spoiler ficam escondidas atrás de
   um fundo escuro até que o leitor decida revelar o texto.
+
+configure-general-dsaConfig-title = Conjunto de recursos da Lei de Serviços Digitais
+configure-general-dsaConfig-description =
+  A Lei de Serviços Digitais (DSA) da UE exige que os editores sediados na UE ou direcionados aos cidadãos da UE forneçam determinados recursos para seus comentaristas e moderadores.
+  <br/>
+  <br/>
+  O conjunto de ferramentas DSA da Coral inclui:
+  <br/>
+  <ul style=“padding-inline-start: var(--spacing-5);“>
+    <li>Um fluxo dedicado para comentários denunciados como ilegais</li>
+    <li>Motivos de moderação obrigatórios para cada comentário rejeitado</li>
+    <li>Notificações de comentaristas para denúncias de comentários ilegais e comentários rejeitados</li>
+    <li>Texto obrigatório explicando os métodos de reparação/apelo, se houver</li>
+  </ul>
+configure-general-dsaConfig-reportingAndModerationExperience =
+  Experiência de denúncia e moderação DSA
+configure-general-dsaConfig-methodOfRedress =
+  Selecione seu método de reparação
+configure-general-dsaConfig-methodOfRedress-explanation =
+  Informe aos usuários se e como eles podem apelar de uma decisão de moderação
+configure-general-dsaConfig-methodOfRedress-none = Nenhum
+configure-general-dsaConfig-methodOfRedress-email = E-mail
+configure-general-dsaConfig-methodOfRedress-email-placeholder = mailto:moderation@example.com
+configure-general-dsaConfig-methodOfRedress-url = URL
+configure-general-dsaConfig-methodOfRedress-url-placeholder = https://moderation.example.com
+
 
 configure-account-features-title = Gerenciamento de recursos da conta de comentaristas
 configure-account-features-explanation =
@@ -1373,6 +1778,11 @@ configure-advanced-stories-custom-user-agent-detail =
   Quando especificado, sobreescreve o header <code>User-Agent</code> enviado com cada
   request de scrape.
 
+configure-advanced-stories-authentication = Autenticação
+configure-advanced-stories-scrapingCredentialsHeader = Limpar credenciais
+configure-advanced-stories-scraping-usernameLabel = Nome de Usuário
+configure-advanced-stories-scraping-passwordLabel = Senha
+
 commentAuthor-status-banned = Banido
 commentAuthor-status-premod = Pré-moderado
 commentAuthor-status-suspended = Suspenso
@@ -1399,9 +1809,103 @@ dashboard-heading-last-updated = Última atualização:
 dashboard-today-heading = Atividade de hoje
 dashboard-today-new-comments = Novos comentários
 dashboard-alltime-new-comments = Total de todos os tempos
+
+dashboard-alltime-new-comments-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] segundo
+      *[other] segundos
+    }
+    [minute] { $value ->
+      [1] minuto
+      *[other] minutos
+    }
+    [hour] { $value ->
+      [1] hora
+      *[other] horas
+    }
+    [day] { $value ->
+      [1] dia
+      *[other] dias
+    }
+    [week] { $value ->
+      [1] semana
+      *[other] semanas
+    }
+    [month] { $value ->
+      [1] mês
+      *[other] meses
+    }
+    [year] { $value ->
+      [1] ano
+      *[other] anos
+    }
+    *[other] unidade desconhecida
+  } total
+dashboard-alltime-rejections-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] segundo
+      *[other] segundos
+    }
+    [minute] { $value ->
+      [1] minuto
+      *[other] minutos
+    }
+    [hour] { $value ->
+      [1] hora
+      *[other] horas
+    }
+    [day] { $value ->
+      [1] dia
+      *[other] dias
+    }
+    [week] { $value ->
+      [1] semana
+      *[other] semanas
+    }
+    [month] { $value ->
+      [1] mês
+      *[other] meses
+    }
+    [year] { $value ->
+      [1] ano
+      *[other] anos
+    }
+    *[other] unidade desconhecida
+  } média
+dashboard-today-staffPlus-comments = Staff + comentários
+dashboard-alltime-staff-comments-archiveEnabled = { $value } { $unit ->
+    [second] { $value ->
+      [1] segundo
+      *[other] segundos
+    }
+    [minute] { $value ->
+      [1] minuto
+      *[other] minutos
+    }
+    [hour] { $value ->
+      [1] hora
+      *[other] horas
+    }
+    [day] { $value ->
+      [1] dia
+      *[other] dias
+    }
+    [week] { $value ->
+      [1] semana
+      *[other] semanas
+    }
+    [month] { $value ->
+      [1] mês
+      *[other] meses
+    }
+    [year] { $value ->
+      [1] ano
+      *[other] anos
+    }
+    *[other] unidade desconhecida
+  } total
 dashboard-today-rejections = Taxa de rejeição
 dashboard-alltime-rejections = Média de todos os tempos
-dashboard-today-staff-comments = Comentários da equipe
 dashboard-alltime-staff-comments = Total de todos os tempos
 dashboard-today-signups = Novos membros da comunidade
 dashboard-alltime-signups = Total de membros
@@ -1418,3 +1922,103 @@ dashboard-commenters-activity-heading = Novos membros da comunidade esta semana
 dashboard-comment-activity-heading = Atividade de comentários por hora
 dashboard-comment-activity-tooltip-comments = Comentários
 dashboard-comment-activity-legend = Média dos últimos 3 dias
+
+conversation-modal-conversationOn = Conversa sobre:
+conversation-modal-moderateStory = Moderar história
+conversation-modal-showMoreParents = Mostrar mais desta conversa
+conversation-modal-showReplies = Mostrar respostas
+conversation-modal-commentNotFound = Comentário não encontrado.
+conversation-modal-showMoreReplies = Mostrar mais respostas
+conversation-modal-header-title = Conversa sobre:
+conversation-modal-header-moderate-link = Moderar história
+conversation-modal-rejectButton = <icon></icon>Rejeitar
+  .aria-label = Rejeitar
+conversation-modal-rejectButton-rejected = <icon></icon>Rejeitado
+  .aria-label = Rejeitado
+
+# DSA Reports tab
+
+reportsTable-column-created = Criado
+reportsTable-column-lastUpdated = Última atualização
+reportsTable-column-reportedBy = Reportado por
+reportsTable-column-reference = Referência
+reportsTable-column-lawBroken = Lei violada
+reportsTable-column-commentAuthor = Autor do comentário
+reportsTable-column-status = Status
+reportsTable-emptyReports = Não há relatórios DSA para exibir.
+reports-sortMenu-newest = Mais recentes
+reports-sortMenu-oldest = Mais antigos
+reports-sortMenu-sortBy = Ordenar por
+reports-table-showClosedReports = Mostrar relatórios fechados
+reports-table-showOpenReports = Mostrar relatórios abertos
+reports-singleReport-reportsLinkButton = <icon></icon> Todos os Relatórios DSA
+reports-singleReport-reportID = ID do Relatório
+reports-singleReport-shareButton = <icon></icon> CSV
+reports-singleReport-reporter = Repórter
+reports-singleReport-reporterNameNotAvailable = Nome do repórter não disponível
+reports-singleReport-reportDate = Data do relatório
+reports-singleReport-lawBroken = Qual lei foi violada?
+reports-singleReport-explanation = Explicação
+reports-singleReport-comment = Comentário
+reports-singleReport-comment-notAvailable = Este comentário não está disponível.
+reports-singleReport-comment-deleted = Este comentário não está mais disponível. O autor do comentário excluiu sua conta.
+reports-singleReport-comment-edited = (editado)
+reports-singleReport-comment-viewCommentStream = Ver comentário no fluxo
+reports-singleReport-comment-viewCommentModeration = Ver comentário na moderação
+reports-singleReport-comment-rejected = Rejeitado
+reports-singleReport-comment-unavailableInStream = Indisponível no fluxo
+reports-singleReport-commentOn = Comentar sobre
+reports-singleReport-history = Histórico
+reports-singleReport-history-reportSubmitted = Relatório de conteúdo ilegal enviado
+reports-singleReport-history-addedNote = { $username } adicionou uma nota
+reports-singleReport-history-deleteNoteButton = <icon></icon> Excluir
+reports-singleReport-history-madeDecision-illegal = { $username } tomou uma decisão de que este relatório contém conteúdo potencialmente ilegal
+reports-singleReport-history-madeDecision-legal = { $username } tomou uma decisão de que este relatório não contém conteúdo potencialmente ilegal
+reports-singleReport-history-legalGrounds = Fundamentos legais: { $legalGrounds }
+reports-singleReport-history-explanation = Explicação: { $explanation }
+reports-singleReport-history-changedStatus = { $username } alterou o status para { $status }
+reports-singleReport-reportVoid = O usuário excluiu sua conta. O relatório é inválido.
+reports-singleReport-history-sharedReport = { $username } baixou este relatório
+reports-singleReport-note-field =
+  .placeholder = Adicione sua nota...
+reports-singleReport-addUpdateButton = <icon></icon> Adicionar atualização
+reports-singleReport-decisionLabel = Decisão
+reports-singleReport-decision-legalGrounds = Fundamentos legais
+reports-singleReport-decision-explanation = Explicação detalhada
+reports-singleReport-makeDecisionButton = <icon></icon> Decisão
+reports-singleReport-decision-doesItContain = Este comentário contém potencialmente conteúdo ilegal?
+reports-singleReport-decision-doesItContain-yes = Sim
+reports-singleReport-decision-doesItContain-no = Não
+reports-status-awaitingReview = Aguardando revisão
+reports-status-inReview = Em revisão
+reports-status-completed = Concluído
+reports-status-void = Inválido
+reports-status-unknown = Status desconhecido
+reports-changeStatusModal-prompt-addNote = Você adicionou uma nota. Gostaria de atualizar seu status para Em revisão.
+reports-changeStatusModal-prompt-downloadReport = Você baixou o relatório. Gostaria de atualizar seu status para Em revisão.
+reports-changeStatusModal-prompt-madeDecision = Você tomou uma decisão. Gostaria de atualizar seu status para Concluído.
+reports-changeStatusModal-updateButton = Sim, atualizar
+reports-changeStatusModal-dontUpdateButton = Não
+reports-changeStatusModal-header = Atualizar status?
+reports-decisionModal-header = Decisão do relatório
+reports-decisionModal-prompt = Este comentário parece conter conteúdo potencialmente ilegal?
+reports-decisionModal-yes = Sim
+reports-decisionModal-no = Não
+reports-decisionModal-submit = Enviar
+reports-decisionModal-lawBrokenLabel = Lei violada
+reports-decisionModal-lawBrokenTextfield =
+  .placeholder = Adicionar lei...
+reports-decisionModal-detailedExplanationLabel = Explicação detalhada
+reports-decisionModal-detailedExplanationTextarea =
+  .placeholder = Adicionar explicação...
+reports-relatedReports-label = Relatórios relacionados
+reports-relatedReports-reportIDLabel = ID do Relatório
+reports-anonymousUser = Usuário anônimo
+reports-username-not-available = Nome de usuário não disponível
+
+
+# Control panel
+
+controlPanel-redis-redis = Redis
+controlPanel-redis-flushRedis = Limpar Redis
+controlPanel-redis-flush = Limpar

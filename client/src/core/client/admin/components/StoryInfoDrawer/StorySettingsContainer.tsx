@@ -53,10 +53,11 @@ const StorySettingsContainer: FunctionComponent<Props> = ({
   ) => {
     const updatedSettings = { ...values };
 
-    const res = await updateSettings({
-      id: storyID,
-      settings: updatedSettings,
-    });
+    const res: { story: { settings: StorySettingsContainer_storySettings } } =
+      await updateSettings({
+        id: storyID,
+        settings: updatedSettings,
+      });
 
     setSettings(res.story.settings);
   };

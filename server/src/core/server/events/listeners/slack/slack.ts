@@ -36,7 +36,6 @@ export class SlackCoralEventListener
 
   /**
    * postMessage will prepare and send the incoming Slack webhook.
-   *
    * @param hookURL url to the Slack webhook that we should send the message to
    * @param content the content for the message
    */

@@ -79,7 +79,6 @@ export class PersistedQueryCache {
 
   /**
    * get will retrieve a given PersistedQuery by ID.
-   *
    * @param id the ID of the persisted query to load
    */
   public async get(id: string) {

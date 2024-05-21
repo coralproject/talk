@@ -1,11 +1,14 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { QUEUE_NAME } from "coral-framework/helpers";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import {
   useLoadMore,
+  useRefetch,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { QueryError } from "coral-ui/components/v3";
 
 import { SiteSelectorContainer_query } from "coral-admin/__generated__/SiteSelectorContainer_query.graphql";
 import { SiteSelectorContainer_viewer } from "coral-admin/__generated__/SiteSelectorContainer_viewer.graphql";
@@ -22,7 +25,37 @@ interface Props {
 }
 
 const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
+  const context = useCoralContext();
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+  // Buffering in the sense that we gather changes and then "flush"
+  // them 1 second after the last change is received
+  const [filterBuffer, setFilterBuffer] = useState<string | null>(null);
+  const [searchFilter, setSearchFilter] = useState<string | null>(null);
+  const [searchTimeout, setSearchTimeout] = useState<number | undefined>();
+
+  const [, isRefetching, refetchError] = useRefetch(props.relay, 10, {
+    searchFilter: searchFilter || null,
+  });
+
+  useEffect(() => {
+    if (filterBuffer === searchFilter) {
+      return;
+    }
+
+    if (searchTimeout) {
+      context.window.clearTimeout(searchTimeout);
+    }
+
+    const newTimeout = context.window.setTimeout(
+      () => setSearchFilter(filterBuffer),
+      1000
+    );
+
+    setSearchTimeout(newTimeout);
+
+    return () => context.window.clearTimeout(searchTimeout);
+  }, [filterBuffer, context.window]);
+  // marcushaddon: omitting searchFilter from dependency array to avoid an infinite update loop
 
   const { sites, scoped } = useMemo(() => {
     // If the viewer is moderation scoped, then only provide those sites.
@@ -46,12 +79,17 @@ const SiteSelectorContainer: React.FunctionComponent<Props> = (props) => {
     return { scoped: false, sites: [] };
   }, [props.query, props.viewer]);
 
+  if (refetchError) {
+    return <QueryError error={refetchError} />;
+  }
+
   return (
     <SiteSelector
-      loading={!props.query}
+      loading={!props.query || isRefetching}
       scoped={scoped}
       sites={sites}
       onLoadMore={loadMore}
+      onFilter={setFilterBuffer}
       hasMore={props.relay.hasMore()}
       disableLoadMore={isLoadingMore}
       queueName={props.queueName}
@@ -73,8 +111,9 @@ const enhanced = withPaginationContainer<
       @argumentDefinitions(
         count: { type: "Int", defaultValue: 10 }
         cursor: { type: "Cursor" }
+        searchFilter: { type: "String" }
       ) {
-        sites(first: $count, after: $cursor)
+        sites(first: $count, after: $cursor, query: $searchFilter)
           @connection(key: "SitesConfig_sites") {
           edges {
             node {
@@ -105,6 +144,7 @@ const enhanced = withPaginationContainer<
       return {
         count,
         cursor,
+        searchFilter: fragmentVariables.searchFilter,
       };
     },
     query: graphql`
@@ -113,9 +153,14 @@ const enhanced = withPaginationContainer<
       query SiteSelectorContainerPaginationQuery(
         $count: Int!
         $cursor: Cursor
+        $searchFilter: String
       ) {
         ...SiteSelectorContainer_query
-          @arguments(count: $count, cursor: $cursor)
+          @arguments(
+            count: $count
+            cursor: $cursor
+            searchFilter: $searchFilter
+          )
       }
     `,
   }

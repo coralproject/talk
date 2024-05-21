@@ -38,7 +38,7 @@ export default class SlackPublishEvent {
     this.author = author;
   }
 
-  private getTriggers(): (Trigger | null)[] {
+  private getTriggers(): Array<Trigger | null> {
     if (
       this.actionType &&
       this.actionType === "created" &&
@@ -103,9 +103,12 @@ export default class SlackPublishEvent {
     );
     const commentLink = getURLWithCommentID(this.story.url, this.comment.id);
 
-    const body = getHTMLPlainText(getLatestRevision(this.comment).body);
+    // We truncate to less than 3000 characters to stay under Slack limits
+    const truncatedBody = getHTMLPlainText(
+      getLatestRevision(this.comment).body
+    ).slice(0, 2999);
     return {
-      text: body,
+      text: truncatedBody,
       blocks: [
         {
           type: "section",
@@ -121,7 +124,7 @@ export default class SlackPublishEvent {
           block_id: "body-block",
           text: {
             type: "plain_text",
-            text: body,
+            text: truncatedBody,
           },
         },
         {

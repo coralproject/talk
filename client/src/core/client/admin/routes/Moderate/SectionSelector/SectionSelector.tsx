@@ -48,6 +48,7 @@ const SectionSelector: FunctionComponent<Props> = ({
       disableLoadMore
       className={styles.button}
       selected={<SelectedSection section={section} />}
+      label="Select section"
     >
       <SectionSelectorSection
         active={!section}

@@ -52,7 +52,6 @@ type ResourceModerationScopes =
 /**
  * validateUserModerationScopes will validate if the user has access to
  * moderating the resource indicated by the resource scopes.
- *
  * @param ctx the graph context for this request
  * @param user the user being evaluated
  * @param scope scope keys for the documents referencing moderation scopes

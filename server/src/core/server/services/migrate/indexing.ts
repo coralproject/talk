@@ -67,7 +67,6 @@ export function createConnectionOrderVariants<T>(
     /**
      * createIndexVariant will create a variant on the specified `indexSpec` that
      * will include the new variation.
-     *
      * @param variantSpec the spec that makes this variant different
      */
     const createIndexVariant = (variantSpec: IndexSpecification<T>) =>

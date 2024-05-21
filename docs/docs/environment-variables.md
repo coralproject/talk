@@ -4,7 +4,7 @@ title: Environment Variables
 
 The following environment variables can be set to configure the Coral Server. You
 can expose them in your shell via `export NODE_ENV=development` or by placing
-the variables in a `.env` file in the root of the project in a simple
+the variables in a `.env` file under the `server/` directory of the project in a simple
 `NODE_ENV=development` format delimited by newlines.
 
 ## Required Configuration Variables
@@ -41,9 +41,9 @@ openssl rand -base64 45
 ### `NODE_ENV`
 
 Can be one of `production` or `development`. All production deployments should
-use `production`. Defaults to `production` when ran with `npm run start`, or
+use `production`. Defaults to `production` when ran with `pnpm run start`, or
 with Docker deployments. Defaults to `development` when run with
-`npm run start:development`.
+`pnpm run start:development`.
 
 ### `REDIS_OPTIONS`
 

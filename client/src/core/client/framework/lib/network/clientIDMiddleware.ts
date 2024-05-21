@@ -4,7 +4,6 @@ import { CLIENT_ID_HEADER } from "coral-common/common/lib/constants";
 
 /**
  * Sets clientID on the header.
- *
  * @param clientID an identifier for this client.
  */
 const clientIDMiddleware: (clientID: string) => Middleware =

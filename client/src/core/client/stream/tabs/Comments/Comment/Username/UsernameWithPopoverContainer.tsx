@@ -46,7 +46,7 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = (props) => {
           <Localized
             id="common-username"
             attrs={{ "aria-label": true }}
-            vars={{ username: props.comment.author!.username }}
+            vars={{ username: props.comment.author!.username ?? "" }}
           >
             <BaseButton
               onClick={toggleVisibility}

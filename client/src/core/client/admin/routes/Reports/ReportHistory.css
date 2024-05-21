@@ -1,0 +1,74 @@
+.reportHistoryWrapper {
+  width: 30%;
+}
+
+.reportHistory {
+  padding: var(--spacing-6) var(--spacing-4) 0 var(--spacing-4);
+  max-height: 550px;
+  overflow: scroll;
+  margin-bottom: var(--spacing-2);
+  white-space: pre-wrap;
+}
+
+.fadeBottom:after {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(255, 255, 255, 0) 200px
+  );
+  pointer-events: none;
+}
+
+.reportHistoryHeader {
+  text-transform: uppercase;
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-secondary-bold);
+  font-family: var(--font-family-secondary);
+  padding-bottom: var(--spacing-3);
+}
+
+.reportHistoryText {
+  font-size: var(--font-size-2);
+}
+
+.reportHistoryCreatedAt {
+  clear: both;
+  font-size: var(--font-size-1);
+  color: var(--palette-grey-500);
+}
+
+.reportHistoryNoteBody {
+  padding: var(--spacing-1);
+  background-color: var(--palette-grey-100);
+  margin-top: var(--spacing-1);
+  font-size: var(--font-size-2);
+}
+
+.deleteReportNoteButton {
+  float: right;
+  margin-top: var(--spacing-1);
+}
+
+.addNoteTextarea {
+  height: 80px;
+  width: 100%;
+}
+
+.addNoteForm {
+  padding: var(--spacing-2) var(--spacing-4) var(--spacing-4) var(--spacing-4);
+  width: 100%;
+}
+
+.addNoteFormWrapper {
+  position: relative;
+}
+
+.addNoteTextarea::placeholder {
+  color: var(--palette-grey-300);
+  font-size: var(--font-size-2);
+}

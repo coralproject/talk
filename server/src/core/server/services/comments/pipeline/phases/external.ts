@@ -17,6 +17,7 @@ import {
   GQLCOMMENT_BODY_FORMAT,
   GQLCOMMENT_FLAG_DETECTED_REASON,
   GQLCOMMENT_STATUS,
+  GQLREJECTION_REASON_CODE,
   GQLTAG,
   GQLUSER_ROLE,
 } from "coral-server/graph/schema/__generated__/types";
@@ -103,10 +104,27 @@ export interface ExternalModerationRequest {
 }
 
 export type ExternalModerationResponse = Partial<
-  Pick<PhaseResult, "actions" | "status" | "tags">
->;
+  Pick<PhaseResult, "status" | "tags" | "moderationAction">
+> & { actions: PhaseResult["commentActions"] };
 
 const ExternalModerationResponseSchema = Joi.object().keys({
+  moderationAction: Joi.object()
+    .optional()
+    .keys({
+      status: Joi.string()
+        .only()
+        .allow(...Object.keys(GQLCOMMENT_STATUS)),
+      rejectionReason: Joi.object()
+        .optional()
+        .keys({
+          code: Joi.string()
+            .only()
+            .allow(...Object.keys(GQLREJECTION_REASON_CODE)),
+          legalGrounds: Joi.string().optional(),
+          detailedExplanation: Joi.string().optional(),
+          customReason: Joi.string().optional(),
+        }),
+    }),
   actions: Joi.array().items(
     Joi.object().keys({
       actionType: Joi.string().only().allow(ACTION_TYPE.FLAG).required(),
@@ -129,7 +147,6 @@ const ExternalModerationResponseSchema = Joi.object().keys({
 
 /**
  * validate will validate the `ExternalModerationResponse`.
- *
  * @param body the input body that is being coerced into an `ExternalModerationResponse`.
  */
 export function validateResponse(body: object): ExternalModerationResponse {
@@ -154,7 +171,6 @@ const fetch = createFetch({ name: "Moderation" });
 /**
  * processPhase will execute the request for moderation for this particular
  * phase.
- *
  * @param ctx the context for the moderation request.
  * @param phase the current phase associated with this request.
  */
@@ -231,7 +247,7 @@ async function processPhase(
   }
 
   // Try to parse the response as JSON.
-  const body = JSON.parse(text);
+  const body: object = JSON.parse(text);
 
   // Remove the expired secrets in the next tick so that it does not affect
   // the sending performance of this job, and errors do not impact the
@@ -267,6 +283,19 @@ async function processPhase(
   return validateResponse(body);
 }
 
+/**
+ * Our external API still just has a concept of "actions", while
+ * internally we distinguish beteween "moderationActions" and "commentActions"
+ */
+const mapActions = (
+  response: ExternalModerationResponse
+): Partial<PhaseResult> => {
+  return {
+    ...response,
+    commentActions: response.actions,
+  };
+};
+
 export const external: IntermediateModerationPhase = async (ctx) => {
   // Check to see if any custom moderation phases have been defined, if there is
   // none, exit now.
@@ -297,6 +326,19 @@ export const external: IntermediateModerationPhase = async (ctx) => {
         continue;
       }
 
+      let missingReason: boolean | undefined;
+      if (
+        ctx.tenant.dsa.enabled &&
+        response.moderationAction &&
+        (!response.moderationAction.rejectionReason ||
+          !response.moderationAction.rejectionReason.code)
+      ) {
+        response.moderationAction.rejectionReason = {
+          code: GQLREJECTION_REASON_CODE.OTHER,
+        };
+        missingReason = true;
+      }
+
       // Ensure we have metadata and external moderation
       // details for metadata
       if (!result.metadata) {
@@ -315,10 +357,13 @@ export const external: IntermediateModerationPhase = async (ctx) => {
           status: response.status,
           tags: response.tags,
         },
+        missingReason,
       });
 
+      const mappedResponse = mapActions(response);
+
       // Merge the results in. If we're finished, return now!
-      const finished = mergePhaseResult(response, result);
+      const finished = mergePhaseResult(mappedResponse, result);
       if (finished) {
         return result;
       }

@@ -24,6 +24,7 @@ const STALE_CLIENT_TIMEOUT = 10 * 1000;
 
 const BATCH_PERIOD = 1000;
 
+// eslint-disable-next-line no-shadow
 export const enum CONNECTION_STATUS {
   CONNECTED = "CONNECTED",
   CONNECTING = "CONNECTING",
@@ -122,7 +123,6 @@ function batchLoop(requests: SubscriptionRequest[], timeout: number) {
 
 /**
  * Creates a ManagedSubscriptionClient
- *
  * @param url url of the graphql live server
  * @param clientID a clientID that is provided to the graphql live server
  */
@@ -145,7 +145,7 @@ export default function createManagedSubscriptionClient(
   let subscriptionClient: SubscriptionClient | null = null;
   let paused = false;
   let accessToken: string | undefined;
-  let closeStaleClientTimeout: any = null;
+  let closeStaleClientTimeout: NodeJS.Timeout | null = null;
 
   // Start batching loop that runs every second.
   batchLoop(requests, BATCH_PERIOD);
@@ -265,19 +265,19 @@ export default function createManagedSubscriptionClient(
         [BUNDLE_CONFIG_PARAM]: bundleConfig,
       },
     });
-    subscriptionClient.onConnected((payload) => {
+    subscriptionClient.onConnected((payload: any) => {
       setConnectionStatus(CONNECTION_STATUS.CONNECTED);
     });
-    subscriptionClient.onConnecting((payload) => {
+    subscriptionClient.onConnecting((payload: any) => {
       setConnectionStatus(CONNECTION_STATUS.CONNECTING);
     });
-    subscriptionClient.onReconnecting((payload) => {
+    subscriptionClient.onReconnecting((payload: any) => {
       setConnectionStatus(CONNECTION_STATUS.CONNECTING);
     });
-    subscriptionClient.onReconnected((payload) => {
+    subscriptionClient.onReconnected((payload: any) => {
       setConnectionStatus(CONNECTION_STATUS.CONNECTED);
     });
-    subscriptionClient.onDisconnected((payload) => {
+    subscriptionClient.onDisconnected((payload: any) => {
       setConnectionStatus(CONNECTION_STATUS.DISCONNECTED);
     });
   };

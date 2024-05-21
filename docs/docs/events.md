@@ -13,11 +13,11 @@ In this example, we’re logging all events to the console as well as sending th
 ```html
 <script>
   const CoralStreamEmbed = Coral.createStreamEmbed({
-    events: function(events) {
-      events.onAny(function(eventName, data) {
+    events: function (events) {
+      events.onAny(function (eventName, data) {
         console.log(eventName, data);
-        if (eventName === 'createComment.success') {
-          my_event_tracker.send('createComment', data);
+        if (eventName === "createComment.success") {
+          my_event_tracker.send("createComment", data);
         }
       });
     },
@@ -27,6 +27,6 @@ In this example, we’re logging all events to the console as well as sending th
 
 ## Available Events
 
-A complete list of trackable events is available on GitHub: https://github.com/coralproject/talk/blob/main/CLIENT_EVENTS.md
+A complete list of trackable events is available on GitHub: https://github.com/coralproject/talk/blob/main/client/CLIENT_EVENTS.md
 
 _Note: only events that occur on the comment embed stream will be emitted. No events are emitted from Coral's Moderation/Admin interface._

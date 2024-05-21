@@ -47,7 +47,6 @@ const mergeModerationInputFilters =
 /**
  * siteModerationInputResolver can be used to retrieve the moderationQueue for
  * a specific site.
- *
  * @param site the site that will be used to base the comment moderation
  *              queues on
  */
@@ -67,7 +66,6 @@ export const siteModerationInputResolver = async (
 /**
  * storyModerationInputResolver can be used to retrieve the moderationQueue for
  * a specific Story.
- *
  * @param story the story that will be used to base the comment moderation
  *              queues on
  */
@@ -88,7 +86,6 @@ export const storyModerationInputResolver = (
 /**
  * sectionModerationInputResolver can be used to retrieve the moderationQueue for
  * a specific Story.
- *
  * @param section the section that will be used to base the comment moderation
  *              queues on
  */
@@ -107,7 +104,6 @@ export const sectionModerationInputResolver = async (
 /**
  * sharedModerationInputResolver implements the resolver function style which
  * allows it to be used in a type resolver.
- *
  * @param source the source of the type, not used
  * @param args the args of the type, not used
  * @param ctx the GraphContext that will be used to get the shared counts
@@ -127,7 +123,6 @@ export const sharedModerationInputResolver = async (
  * moderationQueuesResolver implements the resolver that resolves to the
  * shared moderation queues or if `storyID` is provided to the story moderation
  * queues.
- *
  * @param source the source of the payload, not used
  * @param args the args of the payload containing potentially a Story ID
  * @param ctx the GraphContext for which we can use to retrieve the shared data

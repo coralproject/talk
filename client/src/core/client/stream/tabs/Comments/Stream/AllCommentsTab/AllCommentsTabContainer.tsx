@@ -435,10 +435,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
       {!!viewer && (
         <KeyboardShortcuts
           storyID={story.id}
+          viewerID={viewer.id}
           currentScrollRef={currentScrollRef}
           comments={comments}
           viewNewCount={viewNewCount}
           hasMore={hasMore}
+          userNotificationsEnabled={!!viewer?.inPageNotifications?.enabled}
         />
       )}
       {tag === GQLTAG.REVIEW && (
@@ -518,7 +520,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
                     aria-label={refreshCommentsLocalization.text}
                     variant="filled"
                     color="primary"
-                    paddingSize="extraSmall"
+                    paddingSize="small"
                     className={styles.refreshButton}
                     onClick={handleClickRefreshButton}
                   >
@@ -729,6 +731,9 @@ const enhanced = withPaginationContainer<
         }
         ignoredUsers {
           id
+        }
+        inPageNotifications {
+          enabled
         }
       }
     `,

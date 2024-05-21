@@ -228,6 +228,7 @@ export class StreamEmbed {
   /** Loads the boostrap config */
   private loadBootstrapConfig(attempt = 0) {
     const loadBootstrapConfigRef = (...args: any[]) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       this.loadBootstrapConfig(...args);
     const req = new XMLHttpRequest();
     const runOnBootstrapLoad = (config: EmbedBootstrapConfig) =>
@@ -242,7 +243,7 @@ export class StreamEmbed {
         }
         throw new Error("Loading bootstrap config failed");
       }
-      runOnBootstrapLoad(JSON.parse(this.responseText));
+      runOnBootstrapLoad(JSON.parse(this.responseText) as EmbedBootstrapConfig);
     });
     req.open("GET", `${this.config.rootURL}/embed/bootstrap`);
     req.send();

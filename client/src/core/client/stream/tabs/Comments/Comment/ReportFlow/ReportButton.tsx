@@ -15,6 +15,7 @@ import { Flex, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
 
 import { ReportButton_comment } from "coral-stream/__generated__/ReportButton_comment.graphql";
+import { ReportButton_settings } from "coral-stream/__generated__/ReportButton_settings.graphql";
 import { ReportButton_viewer } from "coral-stream/__generated__/ReportButton_viewer.graphql";
 
 import styles from "./ReportButton.css";
@@ -26,6 +27,7 @@ interface Props {
   showAuthPopup: MutationProp<typeof ShowAuthPopupMutation>;
   comment: ReportButton_comment;
   viewer: ReportButton_viewer | null;
+  settings: ReportButton_settings;
 }
 
 const ReportButton: FunctionComponent<Props> = ({
@@ -33,6 +35,7 @@ const ReportButton: FunctionComponent<Props> = ({
   showAuthPopup,
   comment,
   viewer,
+  settings,
   open,
 }) => {
   const isLoggedIn = !!viewer;
@@ -40,11 +43,24 @@ const ReportButton: FunctionComponent<Props> = ({
   const isReported =
     comment.viewerActionPresence &&
     (comment.viewerActionPresence.flag ||
-      comment.viewerActionPresence.dontAgree);
+      comment.viewerActionPresence.dontAgree ||
+      comment.viewerActionPresence.illegal);
 
   const signIn = useCallback(() => {
     void showAuthPopup({ view: "SIGN_IN" });
   }, [showAuthPopup]);
+
+  const handleOnClick = useCallback(() => {
+    if (settings.dsa?.enabled) {
+      onClick();
+      return;
+    }
+    if (isLoggedIn) {
+      onClick();
+    } else {
+      signIn();
+    }
+  }, [isLoggedIn, onClick, signIn, settings]);
 
   if (isReported) {
     return (
@@ -84,7 +100,7 @@ const ReportButton: FunctionComponent<Props> = ({
     <Localized
       id="comments-reportButton-aria-report"
       attrs={{ "aria-label": true }}
-      vars={{ username: comment.author ? comment.author.username : "" }}
+      vars={{ username: comment.author?.username ?? "" }}
     >
       <Button
         className={cn(CLASSES.comment.actionBar.reportButton)}
@@ -94,7 +110,7 @@ const ReportButton: FunctionComponent<Props> = ({
         fontSize="small"
         fontWeight="semiBold"
         paddingSize="extraSmall"
-        onClick={isLoggedIn ? onClick : signIn}
+        onClick={handleOnClick}
         data-testid="comment-report-button"
       >
         <Flex alignItems="center" container="span">
@@ -126,6 +142,14 @@ const enhanced = withShowAuthPopupMutation(
         viewerActionPresence {
           dontAgree
           flag
+          illegal
+        }
+      }
+    `,
+    settings: graphql`
+      fragment ReportButton_settings on Settings {
+        dsa {
+          enabled
         }
       }
     `,

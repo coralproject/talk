@@ -44,7 +44,6 @@ interface SharedModerationQueueCountsMatch {
 /**
  * recalculateSharedModerationQueueQueueCounts will reset the counts stored for
  * this Tenant.
- *
  * @param mongo mongodb database handle
  * @param redis redis database handle
  * @param tenantID the tenant ID that we are resetting the counts for
@@ -111,6 +110,7 @@ export async function recalculateSharedModerationQueueQueueCounts(
   // twice.
   await redis
     .pipeline()
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     .hmset(key, ...flatten(Object.entries(queueCounts)))
     .set(freshKey, now.getTime(), "EX", COUNT_FRESHNESS_EXPIRY_SECONDS)
     .exec();
@@ -146,7 +146,6 @@ function fillAndConvertStringToNumber<
 /**
  * retrieveSharedModerationQueueQueuesCounts will retrieve the count of comments
  * in each moderation queue for this Tenant.
- *
  * @param mongo mongodb database handle
  * @param redis redis database handle
  * @param tenantID the ID of the Tenant that we are getting the shared

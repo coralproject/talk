@@ -83,7 +83,6 @@ const statusFilter = (
 /**
  * primeUsersFromConnection will prime a given context with the users retrieved
  * via a connection.
- *
  * @param ctx graph context to use to prime the loaders.
  */
 const primeUsersFromConnection =

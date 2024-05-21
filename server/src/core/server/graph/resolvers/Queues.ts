@@ -5,7 +5,6 @@ import { QueueInput } from "./Queue";
 
 /**
  * get produces a resolver that maps the context to a QueueInput.
- *
  * @param fn the function to map the ctx to the queue.
  */
 const get =

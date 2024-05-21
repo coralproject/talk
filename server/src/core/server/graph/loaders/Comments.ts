@@ -2,7 +2,10 @@ import DataLoader from "dataloader";
 import { defaultTo, isNumber } from "lodash";
 import { DateTime } from "luxon";
 
-import { StoryNotFoundError } from "coral-server/errors";
+import {
+  StoryNotFoundError,
+  UnableToPrimeCachedCommentsForStory,
+} from "coral-server/errors";
 import GraphContext from "coral-server/graph/context";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
@@ -58,7 +61,7 @@ const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
   return {};
 };
 
-const isRatingsAndReviews = (
+export const isRatingsAndReviews = (
   tenant: Pick<Tenant, "featureFlags">,
   story: Story
 ) => {
@@ -68,7 +71,7 @@ const isRatingsAndReviews = (
   );
 };
 
-const isQA = (tenant: Pick<Tenant, "featureFlags">, story: Story) => {
+export const isQA = (tenant: Pick<Tenant, "featureFlags">, story: Story) => {
   return (
     hasFeatureFlag(tenant, GQLFEATURE_FLAG.ENABLE_QA) &&
     story.settings.mode === GQLSTORY_MODE.QA
@@ -127,7 +130,6 @@ const flattenFilter = (
 /**
  * primeCommentsFromConnection will prime a given context with the comments
  * retrieved via a connection.
- *
  * @param ctx graph context to use to prime the loaders.
  */
 const primeCommentsFromConnection =
@@ -146,7 +148,6 @@ const primeCommentsFromConnection =
 /**
  * mapVisibleComment will provide a mapping function that will mark as null each
  * comment that should not be visible to the target User.
- *
  * @param user the User to determine the visibility status with based on
  * permissions
  */
@@ -170,10 +171,16 @@ const mapVisibleComment = (user?: Pick<User, "role">) => {
   };
 };
 
+interface ActionPresenceArgs {
+  commentID: string;
+  isArchived: boolean;
+  isQA: boolean;
+  isRR: boolean;
+}
+
 /**
  * mapVisibleComments will map each comment an array to an array of Comment and
  * null.
- *
  * @param user the User to determine the visibility status with based on
  * permissions
  */
@@ -250,24 +257,33 @@ export default (ctx: GraphContext) => ({
       isArchived
     ).then(primeCommentsFromConnection(ctx));
   },
-  retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
-    (commentIDs: string[]) => {
-      if (!ctx.user) {
-        // This should only ever be accessed when a user is logged in. It should
-        // be safe to get the user here, but we'll throw an error anyways just
-        // in case.
-        throw new Error("can't get action presence of an undefined user");
-      }
-
-      return retrieveManyUserActionPresence(
-        ctx.mongo,
-        ctx.cache.commentActions,
-        ctx.tenant.id,
-        ctx.user.id,
-        commentIDs
-      );
+  retrieveMyActionPresence: new DataLoader<
+    ActionPresenceArgs,
+    GQLActionPresence
+  >(async (args: ActionPresenceArgs[]) => {
+    if (!ctx.user) {
+      // This should only ever be accessed when a user is logged in. It should
+      // be safe to get the user here, but we'll throw an error anyways just
+      // in case.
+      throw new Error("can't get action presence of an undefined user");
     }
-  ),
+
+    const commentIDs = args.map((rd) => rd.commentID);
+    const hasArchivedData = args.some((rd) => rd.isArchived);
+    const hasRROrQA = args.some((rd) => rd.isQA || rd.isRR);
+
+    const result = await retrieveManyUserActionPresence(
+      ctx.mongo,
+      ctx.cache.commentActions,
+      ctx.tenant.id,
+      ctx.user.id,
+      commentIDs,
+      !(hasRROrQA || hasArchivedData),
+      hasArchivedData
+    );
+
+    return result;
+  }),
   forUser: (userID: string, { first, orderBy, after }: UserToCommentsArgs) =>
     retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
       first: defaultTo(first, 10),
@@ -356,11 +372,16 @@ export default (ctx: GraphContext) => ({
       return connection;
     }
 
-    const { userIDs } = await ctx.cache.comments.primeCommentsForStory(
+    const primeResult = await ctx.cache.comments.primeCommentsForStory(
       ctx.tenant.id,
       storyID,
       isArchived
     );
+    if (!primeResult) {
+      throw new UnableToPrimeCachedCommentsForStory(ctx.tenant.id, storyID);
+    }
+
+    const { userIDs } = primeResult;
     await ctx.cache.users.loadUsers(ctx.tenant.id, userIDs);
     await ctx.cache.commentActions.primeCommentActions(ctx.tenant.id, story.id);
 

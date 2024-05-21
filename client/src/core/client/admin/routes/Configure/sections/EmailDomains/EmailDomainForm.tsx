@@ -12,6 +12,7 @@ import {
   required,
   validateEmailDomain,
 } from "coral-framework/lib/validation";
+import { GQLNEW_USER_MODERATION } from "coral-framework/schema";
 import {
   Button,
   CallOut,
@@ -26,11 +27,6 @@ import {
 
 import CreateEmailDomainMutation from "./CreateEmailDomainMutation";
 import UpdateEmailDomainMutation from "./UpdateEmailDomainMutation";
-
-enum NEW_USER_MODERATION {
-  BAN = "BAN",
-  PREMOD = "PREMOD",
-}
 
 interface Props {
   emailDomain?: {
@@ -77,7 +73,7 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain }) => {
       initialValues={{
         domain: emailDomain?.domain || null,
         newUserModeration:
-          emailDomain?.newUserModeration || NEW_USER_MODERATION.BAN,
+          emailDomain?.newUserModeration || GQLNEW_USER_MODERATION.BAN,
       }}
     >
       {({ handleSubmit, submitting, submitError }) => (
@@ -130,12 +126,12 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain }) => {
               <Field
                 name="newUserModeration"
                 type="radio"
-                value={NEW_USER_MODERATION.PREMOD}
+                value={GQLNEW_USER_MODERATION.PREMOD}
               >
                 {({ input }) => (
                   <RadioButton
                     {...input}
-                    id={`${input.name}-${NEW_USER_MODERATION.PREMOD}`}
+                    id={`${input.name}-${GQLNEW_USER_MODERATION.PREMOD}`}
                   >
                     <Localized id="configure-moderation-emailDomains-alwaysPremod">
                       <span>Always pre-moderate comments</span>
@@ -146,12 +142,12 @@ const EmailDomainForm: FunctionComponent<Props> = ({ emailDomain }) => {
               <Field
                 name="newUserModeration"
                 type="radio"
-                value={NEW_USER_MODERATION.BAN}
+                value={GQLNEW_USER_MODERATION.BAN}
               >
                 {({ input }) => (
                   <RadioButton
                     {...input}
-                    id={`${input.name}-${NEW_USER_MODERATION.BAN}`}
+                    id={`${input.name}-${GQLNEW_USER_MODERATION.BAN}`}
                   >
                     <Localized id="configure-moderation-emailDomains-banAllUsers">
                       <span>Ban all users</span>

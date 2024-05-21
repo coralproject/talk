@@ -203,7 +203,6 @@ function lastUsedAtTenantSSOSigningSecret(id: string): string {
 /**
  * updateLastUsedAtTenantSSOSigningSecret will update the time stamp that the
  * SSO key was last used at.
- *
  * @param redis the Redis connection to use to update the timestamp on
  * @param id the ID of the Tenant
  * @param kid the kid of the token that was used
@@ -223,7 +222,6 @@ export async function updateLastUsedAtTenantSSOSigningSecret(
 }
 
 /**
- *
  * @param redis the Redis connection to use to remove the last used on.
  * @param id the ID of the Tenant
  * @param kid the kid of the token that is being deleted
@@ -239,7 +237,6 @@ export async function deleteLastUsedAtTenantSSOSigningSecret(
 /**
  * retrieveLastUsedAtTenantSSOSigningSecrets will get the dates that the
  * requested sso keys were last used on.
- *
  * @param redis the Redis connection to use to update the timestamp on
  * @param id the ID of the Tenant
  * @param kids the kids of the tokens that we want to know when they were last used

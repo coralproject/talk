@@ -1,0 +1,91 @@
+.root {
+  width: 100%;
+  min-height: 400px;
+}
+
+.title {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-4);
+  line-height: 1.14;
+  color: var(--palette-text-500);
+}
+
+.description {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+}
+
+.reporting {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-2);
+}
+
+.additionalInfo {
+  min-height: 120px;
+}
+
+.leftIcon {
+  padding-right: var(--spacing-1);
+}
+
+.directions {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-semi-bold);
+  font-size: var(--font-size-3);
+}
+
+.directionsMoreInfo {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+}
+
+.confirmation {
+  font-family: var(--font-family-primary);
+  width: 100%;
+}
+
+.innerConfirmation {
+  max-width: 550px;
+}
+
+.icon svg {
+  stroke-width: 1.2;
+}
+
+.confirmationHeader {
+  font-size: var(--font-size-5);
+  font-weight: var(--font-weight-primary-semi-bold);
+}
+
+.confirmationDescription {
+  font-size: var(--font-size-3);
+}
+
+.error {
+  color: var(--palette-error-500);
+}
+
+.errorList {
+  margin: 0;
+  text-align: left;
+}
+
+.errorInList {
+  margin-top: var(--spacing-2);
+}
+
+.errorIcon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: var(--spacing-2);
+}
+
+.returnToComments {
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-primary-semi-bold);
+  text-align: center;
+  margin-top: var(--spacing-4);
+}

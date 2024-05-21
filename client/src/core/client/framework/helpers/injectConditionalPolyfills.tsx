@@ -5,7 +5,7 @@ export default async function injectConditionalPolyfills(
   window: Window,
   browser: BrowserInfo
 ) {
-  const pending: Promise<any>[] = [];
+  const pending: Array<Promise<any>> = [];
 
   // Polyfill Intl.
   let intlPromise = Promise.resolve();

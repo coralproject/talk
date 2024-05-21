@@ -34,7 +34,6 @@ export function hasModeratorRole(user: Pick<User, "role">) {
 
 /**
  * isSiteBanned is used to determine if the user is banned on the specific site.
- *
  * @param user the user to test if they are banned on a site
  * @param siteID id of the site to check to see if the user is banned on
  */
@@ -48,7 +47,6 @@ export function isSiteBanned(
 /**
  * canModerateUnscoped will check if a given user is unscoped (without any
  * restrictions) on their moderation capacity.
- *
  * @param user the user being checked for moderation scopes
  */
 export function canModerateUnscoped(
@@ -80,7 +78,6 @@ export interface ModerationScopeResource {
 /**
  * canModerate checks against the moderation scopes to determine if the current
  * user can moderate the given scope.
- *
  * @param user the user to check moderation scopes on
  * @param scopes the scopes to check against
  */
@@ -146,7 +143,6 @@ export function needsSSOUpdate(
 
 /**
  * getLocalProfile will get the LocalProfile from the User if it exists.
- *
  * @param user the User to pull the LocalProfile out of
  */
 export function getLocalProfile(
@@ -168,7 +164,6 @@ export function getLocalProfile(
 /**
  * hasLocalProfile will return true if the User has a LocalProfile, optionally
  * checking the email on it as well.
- *
  * @param user the User to pull the LocalProfile out of
  * @param withEmail when specified, will ensure that the LocalProfile has the
  *                  specific email provided
@@ -188,7 +183,6 @@ export function hasLocalProfile(
 /**
  * hasSSOProfile will return true if the User has an SSOProfile and false
  * if they do not.
- *
  * @param user the User to pull the SSOProfile out of
  */
 export function hasSSOProfile(user: Pick<User, "profiles">): boolean {

@@ -45,7 +45,7 @@ const EditSiteForm: FunctionComponent<Props> = ({
         onEditSuccess(result.site.name);
       }
     } catch (error) {
-      setSubmitError(error.message);
+      setSubmitError(error.message as string);
     }
   }, []);
   return (

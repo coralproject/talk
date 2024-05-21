@@ -13,6 +13,7 @@ export default new GraphQLScalarType({
     return value.toISOString();
   },
   parseValue(value) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return new Date(value);
   },
   parseLiteral(ast) {

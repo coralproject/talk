@@ -41,6 +41,7 @@ const createProxy = <T = any>(
       if (rsrc[prop]) {
         // Resolve references.
         if (rsrc[prop].__ref) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           return lookup(environment, rsrc[prop].__ref);
         }
         // Resolve array references.

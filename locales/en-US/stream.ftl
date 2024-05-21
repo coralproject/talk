@@ -28,6 +28,8 @@ general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
 general-tabBar-reviewsTab = Reviews
 general-tabBar-configure = Configure
+general-tabBar-notifications = Notifications
+general-tabBar-notifications-hasNew = Notifications (has new)
 
 general-mainTablist =
   .aria-label = Main Tablist
@@ -77,6 +79,11 @@ comments-featuredCommentTooltip-toggleButton =
   .aria-label = Toggle featured comments tooltip
   .title = Toggle featured comments tooltip
 
+comment-top-commenter-tooltip-header = <icon></icon> Top commenter
+comment-top-commenter-tooltip-details = One of their comments has been featured in the last 10 days
+
+comment-new-commenter-tooltip-details = New commenter, say hi
+
 comments-collapse-toggle-with-username =
   .aria-label = Hide comment by { $username } and its replies
 comments-collapse-toggle-without-username =
@@ -122,9 +129,9 @@ comments-postComment-pasteImage = Paste image URL
 comments-postComment-insertImage = Insert
 
 comments-postComment-confirmMedia-youtube = Add this YouTube video to the end of your comment?
-comments-postComment-confirmMedia-twitter = Add this Tweet to the end of your comment?
+comments-postComment-confirmMedia-twitter = Add this post to the end of your comment?
 comments-postComment-confirmMedia-cancel = Cancel
-comments-postComment-confirmMedia-add-tweet = Add Tweet
+comments-postComment-confirmMedia-add-tweet = Add post
 comments-postComment-confirmMedia-add-video = Add video
 comments-postComment-confirmMedia-remove = Remove
 comments-commentForm-gifPreview-remove = Remove
@@ -145,10 +152,35 @@ comments-permalinkPopover-permalinkToComment =
 comments-permalinkButton-share = Share
 comments-permalinkButton =
   .aria-label = Share comment by {$username}
+comments-permalinkButton-copyReportLink = Report link
 comments-permalinkView-section =
   .aria-label = Single Conversation
 comments-permalinkView-viewFullDiscussion = View full discussion
 comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
+
+comments-permalinkView-reportIllegalContent-title = Report potentially illegal content
+comments-permalinkView-reportIllegalContent-description = Please fill this form out to the best of your ability so our moderation team can make a decision and if necessary consult with our site's legal department.
+comments-permalinkView-reportIllegalContent-reportingComment = You are reporting this comment
+comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel = What law do you believe has been broken? (required)
+comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel = Please include additional information why this comment is illegal (required)
+comments-permalinkView-reportIllegalContent-additionalInformation-helperText = Any detail you include will help us investigate this further
+comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Would you like to report any other comments for containing potentially illegal content?
+comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = I believe that the information included in this report is accurate and complete
+comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton = <Button></Button>Add
+comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton = Comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-deleteButton = <icon></icon> Delete
+comments-permalinkView-reportIllegalContent-submit = Submit report
+comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = Comment not found. Please enter a valid comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = This is not a valid URL. Please enter a valid comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = You've already added this comment to this report. Please add a unique comment URL
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Additional comment URL length exceeds maximum.
+comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing potentially illegal content. You may only report a comment for this reason one time.
+comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
+comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
+  found to contain potentially illegal content, it will be removed from the site and further action may be taken against the commenter.
+comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Thank you for submitting this report
+comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We were unable to submit your report for the following reason(s):
+comments-permalinkView-reportIllegalContent-confirmation-returnToComments = You may now close this tab to return to the comments
 
 comments-rte-bold =
   .title = Bold
@@ -328,8 +360,6 @@ comments-reacted =
 comments-jumpToComment-title = Your reply has posted below
 comments-jumpToComment-GoToReply = Go to reply
 
-comments-mobileToolbar-closeButton =
-  .aria-label = Close
 comments-mobileToolbar-unmarkAll = Mark all as read
 comments-mobileToolbar-nextUnread = Next unread
 
@@ -344,6 +374,9 @@ comments-refreshReviews-refreshButton = <icon></icon> Refresh reviews
 
 comments-replyChangedWarning-theCommentHasJust =
   This comment has just been edited. The latest version is displayed above.
+
+comments-mobileToolbar-notifications-closeButton = 
+  .aria-label = Close notifications
 
 ### Q&A
 
@@ -437,8 +470,8 @@ comments-embedLinks-hide-giphy = Hide GIF
 comments-embedLinks-show-youtube = Show video
 comments-embedLinks-hide-youtube = Hide video
 
-comments-embedLinks-show-twitter = Show Tweet
-comments-embedLinks-hide-twitter = Hide Tweet
+comments-embedLinks-show-twitter = Show post
+comments-embedLinks-hide-twitter = Hide post
 
 comments-embedLinks-show-external = Show image
 comments-embedLinks-hide-external = Hide image
@@ -534,7 +567,7 @@ profile-commentHistory-archived-thisIsAllYourComments =
 ### Preferences
 
 profile-preferences-mediaPreferences = Media Preferences
-profile-preferences-mediaPreferences-alwaysShow = Always show GIFs, Tweets, YouTube, etc.
+profile-preferences-mediaPreferences-alwaysShow = Always show GIFs, X posts, YouTube, etc.
 profile-preferences-mediaPreferences-thisMayMake = This may make the comments slower to load
 profile-preferences-mediaPreferences-update = Update
 profile-preferences-mediaPreferences-preferencesUpdated =
@@ -694,6 +727,17 @@ profile-account-notifications-updated = Your notification settings have been upd
 profile-account-notifications-button = Update Notification Settings
 profile-account-notifications-button-update = Update
 
+profile-account-notifications-inPageNotifications = Notifications
+profile-account-notifications-includeInPageWhen = Alert me when
+
+profile-account-notifications-inPageNotifications-on = Badges on
+profile-account-notifications-inPageNotifications-off = Badges off
+
+profile-account-notifications-showReplies-fromAnyone = from anyone
+profile-account-notifications-showReplies-fromStaff = from a staff member
+profile-account-notifications-showReplies =
+  .aria-label = Show replies from
+
 ## Report Comment Popover
 comments-reportPopover =
   .description = A dialog for reporting comments
@@ -722,6 +766,9 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dismiss
 
+comments-reportForm-reportIllegalContent-button = This comment contains potentially illegal content
+comments-reportForm-signInToReport = You have to sign in to report a comment that violates our guidelines
+
 ## Archived Report Comment Popover
 
 comments-archivedReportPopover-reportThisComment = Report This Comment
@@ -747,7 +794,7 @@ comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =
   Your comment has been submitted and will be reviewed by a moderator
 comments-submitStatus-submittedAndRejected =
-  This comment has been rejected for violating our guidelines
+  This comment has been rejected for language that violates our guidelines
 
 # Configure
 configure-configureQuery-errorLoadingProfile = Error loading configure
@@ -993,8 +1040,8 @@ comments-addAReviewForm-rte =
 comments-addAReviewFormFake-rte =
   .placeholder = { comments-addAReviewForm-rteLabel }
 
-stream-footer-links-top-of-article = Top of article
-  .title = Go to top of article
+stream-footer-links-top-of-article = Top of page
+  .title = Go to top of page
 stream-footer-links-top-of-comments = Top of comments
   .title = Go to top of comments
 stream-footer-links-profile = Profile & Replies
@@ -1003,3 +1050,82 @@ stream-footer-links-discussions = More discussions
   .title = Go to more discussions
 stream-footer-navigation =
   .aria-label = Comments Footer
+
+## Notifications
+
+notifications-title = Notifications
+notifications-loadMore = Load More
+notifications-loadNew = Load New
+
+notifications-adjustPreferences = Adjust notification settings in My Profile &gt;<button>Preferences.</button>
+
+notification-comment-toggle-default-open = - Comment
+notification-comment-toggle-default-closed = + Comment
+
+notifications-comment-showRemovedComment = + Show removed comment
+notifications-comment-hideRemovedComment = - Hide removed comment
+
+notification-comment-description-featured = your comment on "{ $title }" was featured by a member of our team.
+notification-comment-description-default = on "{ $title }"
+notification-comment-media-image = Image
+notification-comment-media-embed = Embed
+notification-comment-media-gif = Gif
+
+notifications-yourIllegalContentReportHasBeenReviewed =
+  Your illegal content report has been reviewed
+notifications-yourCommentHasBeenRejected =
+  Your comment has been rejected
+notifications-yourCommentHasBeenApproved =
+  Your comment has been approved
+notifications-yourCommentHasBeenFeatured =
+  Your comment has been featured
+notifications-yourCommentHasReceivedAReply =
+  New reply from { $author }
+notifications-defaultTitle = Notification
+
+notifications-rejectedComment-body =
+  The content of your comment was against our community guidelines. The comment has been removed.
+notifications-rejectedComment-wasPending-body =
+  The content of your comment was against our community guidelines.
+notifications-reasonForRemoval = Reason for removal
+notifications-legalGrounds = Legal grounds
+notifications-additionalExplanation = Additional explanation
+
+notifications-repliedComment-hideReply = - Hide the reply
+notifications-repliedComment-showReply = + Show the reply
+notifications-repliedComment-hideOriginalComment = - Hide my original comment
+notifications-repliedComment-showOriginalComment = + Show my original comment
+
+notifications-dsaReportLegality-legal = Legal content
+notifications-dsaReportLegality-illegal = Potentially illegal content
+notifications-dsaReportLegality-unknown = Unknown
+
+notifications-rejectionReason-offensive = This comment contains offensive language
+notifications-rejectionReason-abusive = This comment contains abusive language
+notifications-rejectionReason-spam = This comment is spam
+notifications-rejectionReason-bannedWord = Banned word
+notifications-rejectionReason-ad = This comment is an advertisement
+notifications-rejectionReason-illegalContent = This comment contains potentially illegal content
+notifications-rejectionReason-harassmentBullying = This comment contains harassing or bullying language
+notifications-rejectionReason-misinformation = This comment contains misinformation
+notifications-rejectionReason-hateSpeech = This comment contains hate speech
+notifications-rejectionReason-irrelevant = This comment is irrelevant to the discussion
+notifications-rejectionReason-other = Other
+notifications-rejectionReason-other-customReason = Other - { $customReason }
+notifications-rejectionReason-unknown = Unknown
+
+notifications-reportDecisionMade-legal =
+  On <strong>{ $date }</strong> you reported a comment written by <strong>{ $author }</strong> for containing potentially illegal content. After reviewing your report, our moderation team has decided this comment <strong>does not appear to contain illegal content.</strong> Thank you for helping to keep our community safe.
+notifications-reportDecisionMade-illegal =
+  On <strong>{ $date }</strong> you reported a comment written by <strong>{ $author }</strong> for containing potentially illegal content. After reviewing your report, our moderation team has decided this comment <strong>does contain illegal content</strong> and has been removed. Further action may be taken against the commenter, however you will not be notified of any additional steps. Thank you for helping to keep our community safe.
+
+notifications-methodOfRedress-none =
+  All moderation decisions are final and cannot be appealed
+notifications-methodOfRedress-email =
+  To appeal a decision that appears here please contact <a>{ $email }</a>
+notifications-methodOfRedress-url =
+  To appeal a decision that appears here please visit <a>{ $url }</a>
+
+notifications-youDoNotCurrentlyHaveAny = You do not currently have any notifications
+
+notifications-floatingIcon-close = close

@@ -12,7 +12,12 @@ export async function commit(
   input: CompleteAccountInput,
   { postMessage, window }: CoralContext
 ) {
-  postMessage.send("setAccessToken", input.accessToken, window.opener, "*");
+  postMessage.send(
+    "setAccessToken",
+    input.accessToken,
+    window.opener as Window | undefined,
+    "*"
+  );
   window.close();
 }
 

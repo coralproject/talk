@@ -2,10 +2,7 @@ import { Redis } from "ioredis";
 import { isUndefined, toLower, uniqBy } from "lodash";
 import { URL } from "url";
 
-import {
-  FLAIR_BADGE_NAME_REGEX,
-  PROTECTED_EMAIL_DOMAINS,
-} from "coral-common/common/lib/constants";
+import { FLAIR_BADGE_NAME_REGEX } from "coral-common/common/lib/constants";
 import { ERROR_CODES } from "coral-common/common/lib/errors";
 import {
   isModerator,
@@ -50,6 +47,7 @@ import { discover } from "coral-server/services/oidc/discover";
 
 import {
   GQLFEATURE_FLAG,
+  GQLNEW_USER_MODERATION,
   GQLSettingsInput,
   GQLSettingsWordListInput,
   GQLUSER_ROLE,
@@ -219,7 +217,6 @@ export async function canInstall(cache: TenantCache) {
  * is required by any OpenID Connect compatible service:
  *
  * https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
- *
  * @param issuerString the issuer that should be used as the discovery root.
  */
 export async function discoverOIDCConfiguration(issuerString: string) {
@@ -451,10 +448,15 @@ export async function createEmailDomain(
     );
   }
 
-  if (PROTECTED_EMAIL_DOMAINS.has(input.domain)) {
+  // If attempting to set Ban all new commenter accounts, check
+  // protected email domains
+  if (
+    input.newUserModeration === GQLNEW_USER_MODERATION.BAN &&
+    tenant?.protectedEmailDomains?.includes(input.domain)
+  ) {
     throw new OperationForbiddenError(
       ERROR_CODES.EMAIL_DOMAIN_PROTECTED,
-      "This email domain may not be moderated",
+      "Email domain cannot be banned.",
       input.domain,
       input.newUserModeration
     );

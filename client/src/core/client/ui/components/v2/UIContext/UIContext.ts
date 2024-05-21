@@ -18,6 +18,7 @@ export interface UIContextProps {
   renderWindow: Window;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 const UIContext = React.createContext<UIContextProps>({} as any);
 
 export const useUIContext = () => React.useContext(UIContext);

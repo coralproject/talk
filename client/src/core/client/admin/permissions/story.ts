@@ -17,7 +17,7 @@ const permissionMap: PermissionMap<AbilityType, PermissionContext> = {
     [GQLUSER_ROLE.MODERATOR]: () => true,
   },
   ARCHIVE_STORY: {
-    [GQLUSER_ROLE.ADMIN]: () => false,
+    [GQLUSER_ROLE.ADMIN]: () => true,
   },
 };
 

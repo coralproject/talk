@@ -16,7 +16,6 @@ import { extractLoggerMetadata } from "./logging";
 
 /**
  * wrapError ensures that the error being propagated is a CoralError.
- *
  * @param err the error to be wrapped
  */
 const wrapError = (err: Error) =>
@@ -27,7 +26,6 @@ const wrapError = (err: Error) =>
 /**
  * serializeError will return a serialized error that can be returned via the
  * API response.
- *
  * @param err the CoralError that should be serialized
  * @param req the request
  * @param bundles the translation bundles

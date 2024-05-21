@@ -322,6 +322,15 @@ export class DuplicateEmailError extends CoralError {
   }
 }
 
+export class DuplicateDSAReportError extends CoralError {
+  constructor(reportID: string) {
+    super({
+      code: ERROR_CODES.DUPLICATE_DSA_REPORT,
+      context: { pub: { reportID } },
+    });
+  }
+}
+
 export class DuplicateEmailDomainError extends CoralError {
   constructor(emailDomain: string) {
     super({
@@ -521,6 +530,24 @@ export class UserBioTooLongError extends CoralError {
     super({
       code: ERROR_CODES.USER_BIO_TOO_LONG,
       context: { pub: { userID } },
+    });
+  }
+}
+
+export class DSAReportLawBrokenTooLongError extends CoralError {
+  constructor(commentID: string) {
+    super({
+      code: ERROR_CODES.DSA_REPORT_LAW_BROKEN_TOO_LONG,
+      context: { pub: { commentID } },
+    });
+  }
+}
+
+export class DSAReportAdditionalInfoTooLongError extends CoralError {
+  constructor(commentID: string) {
+    super({
+      code: ERROR_CODES.DSA_REPORT_ADDITIONAL_INFO_TOO_LONG,
+      context: { pub: { commentID } },
     });
   }
 }
@@ -1033,6 +1060,15 @@ export class InvalidFlairBadgeName extends CoralError {
   constructor(tenantID: string) {
     super({
       code: ERROR_CODES.INVALID_FLAIR_BADGE_NAME,
+      context: { pub: { tenantID } },
+    });
+  }
+}
+
+export class UnableToPrimeCachedCommentsForStory extends CoralError {
+  constructor(tenantID: string, storyID: string) {
+    super({
+      code: ERROR_CODES.UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY,
       context: { pub: { tenantID } },
     });
   }

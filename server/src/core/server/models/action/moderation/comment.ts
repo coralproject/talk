@@ -10,7 +10,10 @@ import {
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
-import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLREJECTION_REASON_CODE,
+} from "coral-server/graph/schema/__generated__/types";
 
 /**
  * CommentModerationAction stores information around a moderation action that
@@ -42,6 +45,17 @@ export interface CommentModerationAction extends TenantResource {
   status: GQLCOMMENT_STATUS;
 
   /**
+   * reason is the GQLMODERATION_REASON_REASON for the decision, if it is
+   * a rejection
+   */
+  rejectionReason?: {
+    code: GQLREJECTION_REASON_CODE;
+    legalGrounds?: string;
+    detailedExplanation?: string;
+    customReason?: string;
+  };
+
+  /**
    * moderatorID is the ID of the User that created the moderation action. If
    * null, it indicates that it was created by the system rather than a User.
    */
@@ -51,6 +65,12 @@ export interface CommentModerationAction extends TenantResource {
    * createdAt is the time that the moderation action was created on.
    */
   createdAt: Date;
+
+  /**
+   * reportID is the DSAReport on which an illegal content decision was made that led to
+   * this comment moderation action.
+   */
+  reportID?: string;
 }
 
 export type CreateCommentModerationActionInput = Omit<

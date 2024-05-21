@@ -12,7 +12,6 @@ const triggers = [
  * error codes signify that the settings on the client currently
  * mismatches with the newest settings on the server, and thus
  * e.g. validations fail.
- *
  * @param code the error code to check for
  */
 export default function shouldTriggerViewerRefresh(code: ERROR_CODES) {

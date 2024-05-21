@@ -56,6 +56,8 @@ async function createTestRenderer(
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(story.id, "storyID");
+      localRecord.setValue(3000, "notificationsPollRate");
+
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -78,7 +80,7 @@ afterAll(() => {
 });
 
 it("disables comment stream", async () => {
-  timekeeper.freeze(firstComment.createdAt);
+  timekeeper.freeze(firstComment.createdAt as Date);
   const { testRenderer, tabPane } = await createTestRenderer();
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-allComments-log")

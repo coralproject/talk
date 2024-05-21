@@ -639,9 +639,107 @@ it("can copy comment embed code", async () => {
   const embedCodeButton = within(comment).getByRole("button", {
     name: "Embed code",
   });
+
   fireEvent.click(embedCodeButton);
   expect(
     within(comment).getByRole("button", { name: "Code copied" })
   ).toBeDefined();
   window.prompt = jsdomPrompt;
+});
+
+it("requires rejection reason when dsaFeaturesEnabled", async () => {
+  await act(async () => {
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Mutation: {
+          rejectComment: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              commentID: firstComment.id,
+              commentRevisionID: firstComment.revision!.id,
+              reason: {
+                code: "OTHER",
+                detailedExplanation: "really weird comment tbh",
+                customReason: "custom reason",
+              },
+            });
+            return {
+              comment: pureMerge<typeof firstComment>(firstComment, {
+                status: GQLCOMMENT_STATUS.REJECTED,
+              }),
+            };
+          },
+        },
+      }),
+      initLocalState(local, source, environment) {
+        local.setValue(true, "dsaFeaturesEnabled");
+      },
+    });
+  });
+  const comment = screen.getByTestId(`comment-${firstComment.id}`);
+
+  const caretButton = within(comment).getByLabelText("Moderate");
+
+  await act(async () => userEvent.click(caretButton));
+
+  const rejectButton = within(comment).getByRole("button", { name: "Reject" });
+
+  act(() => {
+    fireEvent.click(rejectButton);
+  });
+
+  await waitFor(() => {
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  const reasonModal = screen.getByRole("dialog");
+
+  expect(reasonModal).toBeInTheDocument();
+
+  const otherOption = within(reasonModal).getByLabelText("other", {
+    exact: false,
+  });
+
+  expect(otherOption).toBeInTheDocument();
+
+  act(() => {
+    fireEvent.click(otherOption);
+  });
+
+  const submitReasonButton = within(reasonModal).getByRole("button", {
+    name: "Reject",
+  });
+  expect(submitReasonButton).toBeDisabled();
+
+  const addAdditionalInfoButton = within(reasonModal).getByRole("button", {
+    name: "Add explanation",
+  });
+
+  fireEvent.click(addAdditionalInfoButton);
+
+  const additionalInfo = within(reasonModal).getByTestId(
+    "moderation-reason-detailed-explanation"
+  );
+
+  act(() => {
+    fireEvent.change(additionalInfo, {
+      target: { value: "really weird comment tbh" },
+    });
+  });
+
+  expect(submitReasonButton).toBeDisabled();
+
+  const customReason =
+    within(reasonModal).getByPlaceholderText("Add your reason");
+
+  act(() => {
+    fireEvent.change(customReason, {
+      target: { value: "custom reason" },
+    });
+  });
+
+  expect(submitReasonButton).toBeEnabled();
+
+  act(() => {
+    fireEvent.click(submitReasonButton);
+  });
 });

@@ -41,6 +41,7 @@ export class WordListService {
     this.worker = new Worker(WORKER_SCRIPT);
     this.worker.on("message", this.onMessageDelegate);
 
+    // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
     this.sanitizer = createSanitize(new JSDOM("", {}).window as any, {
       // We need normalized text nodes to mark nodes for suspect/banned words.
       normalize: true,

@@ -2,6 +2,8 @@ import {
   createOperationDescriptor,
   Environment,
   getRequest,
+  GraphQLTaggedNode,
+  OperationDescriptor,
   RecordProxy,
   RecordSourceProxy,
 } from "relay-runtime";
@@ -21,7 +23,7 @@ export default function createAndRetain(
 ): RecordProxy {
   // TODO: (cvle) This part is still hacky.
   // Waiting for a solution to https://github.com/facebook/relay/issues/2997#issuecomment-604218660.
-  const query = {
+  const query: GraphQLTaggedNode = {
     kind: "Request",
     operation: {
       kind: "Operation",
@@ -34,7 +36,7 @@ export default function createAndRetain(
     },
   } as any;
   // TODO: (cvle) Third argument missing in type, remove `as any` when added.
-  const operation = (createOperationDescriptor as any)(
+  const operation: OperationDescriptor = (createOperationDescriptor as any)(
     getRequest(query),
     {},
     id

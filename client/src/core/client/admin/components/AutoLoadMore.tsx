@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from "react";
 
 import { useInView } from "coral-framework/lib/intersection";
-import { BaseButton, Spinner } from "coral-ui/components/v2";
+import { Button, Spinner } from "coral-ui/components/v2";
 
 interface Props {
   disableLoadMore?: boolean;
@@ -27,9 +27,9 @@ const AutoLoadMoresContainer: FunctionComponent<Props> = ({
   // button here to make it testable.
   if (process.env.NODE_ENV === "test") {
     return (
-      <BaseButton onClick={onLoadMore} disabled={disableLoadMore}>
+      <Button onClick={onLoadMore} disabled={disableLoadMore} variant="text">
         Load More
-      </BaseButton>
+      </Button>
     );
   }
   return (

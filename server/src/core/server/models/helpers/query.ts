@@ -31,7 +31,6 @@ export default class Query<T> {
 
   /**
    * where will merge the given filter into the existing query.
-   *
    * @param filter the filter to merge into the existing query
    */
   public where(filter: FilterQuery<T>): Query<T> {
@@ -46,7 +45,6 @@ export default class Query<T> {
 
   /**
    * after will skip the indicated number of documents.
-   *
    * @param skip the number of documents to skip
    */
   public after(skip: number): Query<T> {
@@ -56,7 +54,6 @@ export default class Query<T> {
 
   /**
    * first will limit to the indicated number of documents.
-   *
    * @param limit the number of documents to limit the result to
    */
   public first(limit: number): Query<T> {
@@ -66,7 +63,6 @@ export default class Query<T> {
 
   /**
    * orderBy will apply sorting to the query filter when executed.
-   *
    * @param sort the sorting option for the documents
    */
   public orderBy(sort: object): Query<T> {

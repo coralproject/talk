@@ -11,7 +11,7 @@ reimagines moderation, comment display, and conversation. Use Coral to add
 smarter, safer discussions to your site without giving away your data.
 
 More than 500 news sites in 28 countries trust Coral to power their on-site
-communities, including The Washington Post, The Financial Times, Wired, USA Today, and Foreign Policy. [Read more about Coral here](https://coralproject.net/).
+communities, including The Washington Post, The Financial Times, Wired, The Hindu, and Foreign Policy. [Read more about Coral here](https://coralproject.net/).
 
 Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
 
@@ -19,8 +19,8 @@ Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
 
 - MongoDB ^4.2
 - Redis ^3.2
-- NodeJS ^14.18
-- NPM ^8.0
+- NodeJS ^18.16.0
+- PNPM ^8.0
 
 ## Running
 
@@ -89,7 +89,7 @@ git clone https://github.com/coralproject/talk.git
 cd talk
 
 # Install dependencies.
-sh scripts/npm-ci.sh
+sh scripts/pnpm-ci.sh
 sh scripts/generate.sh
 
 # Build the application dependencies, this may take some time.
@@ -115,7 +115,7 @@ Then start Coral with:
 
 ```bash
 cd server
-npm run start:development
+pnpm run start:development
 ```
 
 Then head on over to http://localhost:3000 to install Coral!
@@ -129,7 +129,7 @@ the following from your `talk` directory to do this:
 SIGNING_SECRET="$(openssl rand -base64 48)"
 
 # Add a randomly generated secret to your .env file.
-cat >> .env <<EOF
+cat >> server/.env <<EOF
 SIGNING_SECRET=${SIGNING_SECRET}
 EOF
 ```
@@ -139,5 +139,5 @@ You can then run Coral with the production command instead:
 ```bash
 # Start the server in production mode.
 cd server
-npm run start
+pnpm run start
 ```

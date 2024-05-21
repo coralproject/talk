@@ -67,6 +67,7 @@ export type InitLocalState = (dependencies: {
 
 export type RefreshAccessTokenPromise = () => Promise<string>;
 
+// eslint-disable-next-line
 declare let __webpack_public_path__: string;
 interface CreateContextArguments {
   /** URL of the Coral server */
@@ -107,10 +108,18 @@ interface CreateContextArguments {
   /** Static Config from the server necessary to start the client*/
   staticConfig?: StaticConfig | null;
 
-  /** Supports a custom scroll container element if Coral is rendered outside
+  /**
+   * Supports a custom scroll container element if Coral is rendered outside
    * of the render window
    */
   customScrollContainer?: HTMLElement;
+
+  /**
+   * called when a token is invalid and we are unable to login so we can
+   * clear the local auth token allowing a user to login again instead of
+   * throwing a network error that is impassable.
+   */
+  onAuthError?: () => void;
 }
 
 /**
@@ -142,6 +151,7 @@ function createRelayEnvironment(
   clientID: string,
   localeBundles: FluentBundle[],
   tokenRefreshProvider: TokenRefreshProvider,
+  onAuthError?: () => void,
   clearCacheBefore?: Date
 ) {
   const source = new RecordSource();
@@ -160,6 +170,7 @@ function createRelayEnvironment(
       clientID,
       accessTokenProvider,
       localeBundles,
+      onAuthError,
       tokenRefreshProvider.refreshToken,
       clearCacheBefore
     ),
@@ -203,6 +214,8 @@ function createManagedCoralContextProvider(
   clientID: string,
   initLocalState: InitLocalState,
   localesData: LocalesData,
+  localStorage: PromisifiedStorage<string>,
+  onAuthError?: () => void,
   ErrorBoundary?: React.ComponentType<{ children?: React.ReactNode }>,
   refreshAccessTokenPromise?: RefreshAccessTokenPromise,
   staticConfig?: StaticConfig | null
@@ -270,6 +283,7 @@ function createManagedCoralContextProvider(
         clientID,
         this.state.context.localeBundles,
         this.state.context.tokenRefreshProvider,
+        onAuthError,
         // Disable the cache on requests for the next 30 seconds.
         new Date(Date.now() + 30 * 1000)
       );
@@ -339,7 +353,7 @@ function createManagedCoralContextProvider(
 /*
  * resolveStorage decides which storage to use in the context
  */
-function resolveStorage(
+export function resolveStorage(
   type: "localStorage" | "sessionStorage" | "indexedDB"
 ): PromisifiedStorage {
   switch (type) {
@@ -397,6 +411,7 @@ export default async function createManaged({
   refreshAccessTokenPromise,
   staticConfig = getStaticConfig(window),
   customScrollContainer,
+  onAuthError,
 }: CreateContextArguments): Promise<
   ComponentType<{ children?: React.ReactNode }>
 > {
@@ -468,7 +483,8 @@ export default async function createManaged({
     subscriptionClient,
     clientID,
     localeBundles,
-    tokenRefreshProvider
+    tokenRefreshProvider,
+    onAuthError
   );
 
   // Assemble context.
@@ -522,6 +538,8 @@ export default async function createManaged({
     clientID,
     initLocalState,
     localesData,
+    localStorage,
+    onAuthError,
     reporter?.ErrorBoundary,
     refreshAccessTokenPromise,
     staticConfig

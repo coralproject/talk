@@ -17,8 +17,10 @@ import EmailDomainConfigContainer from "./EmailDomainConfigContainer";
 import ExternalLinksConfigContainer from "./ExternalLinksConfigContainer";
 import NewCommentersConfigContainer from "./NewCommentersConfigContainer";
 import PerspectiveConfig from "./PerspectiveConfig";
+import PremoderateEmailAddressConfig from "./PremoderateEmailAddressConfig";
 import PreModerationConfigContainer from "./PreModerationConfigContainer";
 import RecentCommentHistoryConfig from "./RecentCommentHistoryConfig";
+import UnmoderatedCountsConfig from "./UnmoderatedCountsConfig";
 
 interface Props {
   submitting: boolean;
@@ -45,11 +47,13 @@ export const ModerationConfigContainer: React.FunctionComponent<Props> = ({
     <HorizontalGutter size="double" data-testid="configure-moderationContainer">
       <PreModerationConfigContainer disabled={submitting} settings={settings} />
       <PerspectiveConfig disabled={submitting} />
+      <UnmoderatedCountsConfig disabled={submitting} />
       <AkismetConfig disabled={submitting} />
       <NewCommentersConfigContainer disabled={submitting} settings={settings} />
       <RecentCommentHistoryConfig disabled={submitting} />
       <ExternalLinksConfigContainer disabled={submitting} settings={settings} />
-      <EmailDomainConfigContainer settings={settings} />
+      <PremoderateEmailAddressConfig disabled={submitting} />
+      <EmailDomainConfigContainer disabled={submitting} settings={settings} />
     </HorizontalGutter>
   );
 };
@@ -59,14 +63,17 @@ const enhanced = withFragmentContainer<Props>({
     fragment ModerationConfigContainer_settings on Settings {
       ...AkismetConfig_formValues @relay(mask: false)
       ...PerspectiveConfig_formValues @relay(mask: false)
+      ...UnmoderatedCountsConfig_formValues @relay(mask: false)
       ...PreModerationConfigContainer_formValues @relay(mask: false)
       ...PreModerationConfigContainer_settings
       ...RecentCommentHistoryConfig_formValues @relay(mask: false)
       ...NewCommentersConfigContainer_formValues @relay(mask: false)
       ...NewCommentersConfigContainer_settings
       ...EmailDomainConfigContainer_settings
+      ...EmailDomainConfigContainer_formValues @relay(mask: false)
       ...ExternalLinksConfigContainer_formValues @relay(mask: false)
       ...ExternalLinksConfigContainer_settings
+      ...PremoderateEmailAddressConfig_formValues @relay(mask: false)
     }
   `,
 })(ModerationConfigContainer);

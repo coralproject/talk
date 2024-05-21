@@ -330,7 +330,10 @@ const CommentForm: FunctionComponent<Props> = ({
                               event.ctrlKey &&
                               (event.key === "Enter" || event.keyCode === 13)
                             ) {
-                              await onFormSubmit(values as any, form);
+                              await onFormSubmit(
+                                values as FormSubmitProps,
+                                form
+                              );
                             }
                           }}
                           value={input.value}

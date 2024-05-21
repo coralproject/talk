@@ -51,7 +51,7 @@ After successful injection, it includes a shadow dom with the full comment embed
 
 Any custom CSS and CSS Font Faces stylesheets that are configured in the `Advanced` admin configuration section will be used to style the comment embed.
 
-The comment embed uses the same [CSS classes](https://github.com/coralproject/talk/blob/develop/src/core/client/stream/classes.ts) that are available to style any comment in the stream. The comment embed also includes a `coral-comment-embed-container` class that can be used to style it specifically.
+The comment embed uses the same [CSS classes](https://github.com/coralproject/talk/blob/main/client/src/core/client/stream/classes.ts) that are available to style any comment in the stream. The comment embed also includes a `coral-comment-embed-container` class that can be used to style it specifically.
 
 ### Advanced configuration
 
@@ -99,7 +99,7 @@ The simple comment embed html includes the comment's text, comment author's user
 
 - embeddedMediaIframeScript
 
-If you are embedding a comment that includes embedded media (Twitter, Youtube, external media image), you will need to add a script to set the correct height for the embed. A message is already being posted via `postMessage` from the embedded media iframe in the Coral comment. An example of how this might be added can be found in `https://github.com/coralproject/talk/tree/develop/src/core/client/oembed/commentEmbed.html`. To support the embedded media height with this iframe script, you will need to attach the comment embed via shadow dom to an element with the id of `coral-comment-embed-shadowRoot-COMMENT_ID`.
+If you are embedding a comment that includes embedded media (Twitter, Youtube, external media image), you will need to add a script to set the correct height for the embed. A message is already being posted via `postMessage` from the embedded media iframe in the Coral comment. An example of how this might be added can be found in `https://github.com/coralproject/talk/blob/main/client/src/core/client/oembed/commentEmbed.html`. To support the embedded media height with this iframe script, you will need to attach the comment embed via shadow dom to an element with the id of `coral-comment-embed-shadowRoot-COMMENT_ID`.
 
 You will not need to add this script if you are using the Oembed API to add the `simpleCommentEmbedHtml` to your page to work with `commentEmbed.js` injection. The injection script will add the needed iframe script in this case.
 

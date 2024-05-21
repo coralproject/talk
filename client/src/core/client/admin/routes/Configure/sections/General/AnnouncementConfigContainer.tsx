@@ -36,7 +36,7 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
   const createAnnouncement = useMutation(CreateAnnouncementMutaiton);
   const deleteAnnouncement = useMutation(DeleteAnnouncementMutaiton);
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [submitError, setSubmitError] = useState(null);
+  const [submitError, setSubmitError] = useState<null | string>(null);
   const onClose = useCallback(() => {
     setShowForm(false);
   }, [showForm]);
@@ -47,7 +47,7 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
         void createAnnouncement(values);
         setShowForm(false);
       } catch (error) {
-        setSubmitError(error.message);
+        setSubmitError(error.message as string);
       }
     },
     []
@@ -57,7 +57,7 @@ const AnnouncementConfigContainer: FunctionComponent<Props> = ({
       setSubmitError(null);
       void deleteAnnouncement();
     } catch (error) {
-      setSubmitError(error.message);
+      setSubmitError(error.message as string);
       setShowForm(false);
     }
   }, []);

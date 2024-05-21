@@ -33,7 +33,7 @@ it("Broadcasts events to rudderstack", () => {
     const value = { value: true };
     const eventName = testCase.eventName;
     const eventEmitter: any = {
-      onAny: (cb: (eventName: string, value: any) => void) => {
+      onAny: (cb: (event: string, val: any) => void) => {
         cb(eventName, value);
       },
     };

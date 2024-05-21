@@ -1,5 +1,5 @@
 import { NotifierQueue } from "coral-server/queue/tasks/notifier";
-import { categories } from "coral-server/services/notifications/categories";
+import { categories } from "coral-server/services/notifications/email/categories";
 
 import {
   CommentFeaturedCoralEventPayload,
@@ -31,8 +31,8 @@ export class NotifierCoralEventListener
    */
   public readonly events = categories.reduce((events, category) => {
     for (const event of category.events) {
-      if (!events.includes(event)) {
-        events.push(event);
+      if (!events.includes(event as CoralEventType)) {
+        events.push(event as CoralEventType);
       }
     }
 

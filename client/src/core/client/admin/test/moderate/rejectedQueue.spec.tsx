@@ -215,6 +215,7 @@ it("approves comment in rejected queue", async () => {
               edges: [
                 {
                   node: {
+                    createdAt: "2023-06-01T14:21:21.890Z",
                     id: "mod-action",
                     status: GQLCOMMENT_STATUS.APPROVED,
                     moderator: {

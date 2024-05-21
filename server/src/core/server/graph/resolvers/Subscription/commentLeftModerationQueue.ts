@@ -16,6 +16,7 @@ import {
 export interface CommentLeftModerationQueueInput extends SubscriptionPayload {
   queue: GQLMODERATION_QUEUE;
   commentID: string;
+  status?: string;
   storyID: string;
   siteID: string;
   section?: string;

@@ -80,7 +80,7 @@ async function createTestRenderer(
 }
 
 beforeEach(() => {
-  timekeeper.freeze(commentWithReplies.createdAt);
+  timekeeper.freeze(commentWithReplies.createdAt as Date);
 });
 
 afterEach(() => {

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, Ref } from "react";
 
 import { withStyles } from "coral-ui/hocs";
 
@@ -22,7 +22,8 @@ export interface TabBarProps {
     | "secondary"
     | "default"
     | "streamSecondary"
-    | "streamPrimary";
+    | "streamPrimary"
+    | "notifications";
   /**
    * Active tab id/name
    */
@@ -36,6 +37,8 @@ export interface TabBarProps {
    */
   onTabClick?: (tabID: string) => void;
   children?: React.ReactNode;
+
+  forwardRef?: Ref<HTMLUListElement>;
 }
 
 const TabBar: FunctionComponent<TabBarProps> = (props) => {
@@ -47,6 +50,7 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
     activeTab,
     variant,
     defaultActiveTab,
+    forwardRef,
   } = props;
 
   const rootClassName = cn(
@@ -57,6 +61,7 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
         [classes.secondary]: variant === "secondary",
         [classes.streamSecondary]: variant === "streamSecondary",
         [classes.streamPrimary]: variant === "streamPrimary",
+        [classes.notifications]: variant === "notifications",
         [classes.default]: variant === "default",
       },
     ],
@@ -71,13 +76,14 @@ const TabBar: FunctionComponent<TabBarProps> = (props) => {
           defaultActiveTab && !activeTab
             ? child.props.tabID === defaultActiveTab
             : child.props.tabID === activeTab,
-        variant,
+        variant: child.props.variant ? child.props.variant : variant,
+        float: child.props.float,
         onTabClick,
       })
   );
 
   return (
-    <ul className={rootClassName} role="tablist">
+    <ul className={rootClassName} role="tablist" ref={forwardRef}>
       {tabs}
     </ul>
   );

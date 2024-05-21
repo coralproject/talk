@@ -25,7 +25,6 @@ interface RequestQuery {
 /**
  * parseQueryFromRequest will parse the query from the request, either from the
  * actual query on the url, or the referer header if made on a trusted origin.
- *
  * @param tenant the tenant associated with this request
  * @param req the request in question
  */
@@ -82,7 +81,6 @@ function parseQueryFromRequest(
 
 /**
  * retrieveSiteFromQuery will get the site from the passed query.
- *
  * @param mongo the database connection
  * @param tenant the tenant associated with this request
  * @param query the query that was parsed for this request
@@ -122,7 +120,6 @@ async function retrieveSiteFromQuery(
 
 /**
  * retrieveSiteFromRequest will retrieve the site from the request in question.
- *
  * @param mongo the database connection
  * @param tenant the tenant associated with this request
  * @param req the request in question

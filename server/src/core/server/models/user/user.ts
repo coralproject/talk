@@ -34,14 +34,18 @@ import { dotize } from "coral-server/utils/dotize";
 import {
   GQLBanStatus,
   GQLDIGEST_FREQUENCY,
+  GQLInPageNotificationReplyType,
   GQLModMessageStatus,
   GQLPremodStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
   GQLUSER_ROLE,
+  GQLUserDeletionStatus,
+  GQLUserDeletionUpdateType,
+  GQLUserEmailNotificationSettings,
+  GQLUserInPageNotificationSettings,
   GQLUserMediaSettings,
   GQLUsernameStatus,
-  GQLUserNotificationSettings,
   GQLWarningStatus,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -112,6 +116,14 @@ export interface Token {
   name: string;
   createdAt: Date;
 }
+
+export const defaultInPageNotificationSettings: GQLUserInPageNotificationSettings =
+  {
+    enabled: true,
+    onReply: { enabled: true, showReplies: GQLInPageNotificationReplyType.ALL },
+    onFeatured: true,
+    onModeration: true,
+  };
 
 /**
  * ModeratorNote ModeratorNote is a note left by a moderator on the subject of a user.
@@ -273,6 +285,37 @@ export interface UsernameStatus {
   history: UsernameHistory[];
 }
 
+export interface UserDeletionHistory {
+  /**
+   * id is a specific reference for a particular user deletion history that will be
+   * used internally to update user deletion records.
+   */
+  id: string;
+
+  /**
+   * updateType is the kind of update to a user's deletion status that was made,
+   * whether it was requested or canceled.
+   */
+  updateType: GQLUserDeletionUpdateType;
+
+  /**
+   * createdBy is the user that made this deletion status update
+   */
+  createdBy: string;
+
+  /**
+   * createdAt is when the deletion status update was made
+   */
+  createdAt: string;
+}
+
+export interface UserDeletionStatus {
+  /**
+   * history is the list of all user deletion status updates for this user
+   */
+  history: UserDeletionHistory[];
+}
+
 /**
  * PremodStatusHistory is the history of premod status changes
  * against a specific User.
@@ -406,6 +449,11 @@ export interface UserStatus {
    * a history of moderation messages
    */
   modMessage?: ModMessageStatus;
+
+  /**
+   *  deletion stores the history of deletion status updates for a user.
+   */
+  deletion: UserDeletionStatus;
 }
 
 /**
@@ -498,6 +546,13 @@ export interface User extends TenantResource {
   badges?: string[];
 
   /**
+   * secretBadges are user display badges that are not overridden by SSO
+   * or other user upserts and can be configured for special cases like needing
+   * to signify a special user on a unique story or article situation.
+   */
+  secretBadges?: string[];
+
+  /**
    * ssoURL is the url where a user can manage their sso account
    */
   ssoURL?: string;
@@ -549,9 +604,14 @@ export interface User extends TenantResource {
   membershipScopes?: UserMembershipScopes;
 
   /**
-   * notifications stores the notification settings for the given User.
+   * notifications stores the email notification settings for the given User.
    */
-  notifications: GQLUserNotificationSettings;
+  notifications: GQLUserEmailNotificationSettings;
+
+  /**
+   * inPageNotifications stores the in-page notification settings for the given User.
+   */
+  inPageNotifications: GQLUserInPageNotificationSettings;
 
   /**
    * digests stores all the notification digests on the User that are scheduled
@@ -616,9 +676,23 @@ export interface User extends TenantResource {
    * bio is a user deifned biography
    */
   bio?: string;
+
+  /**
+   * lastSeenNotificationDate is the date of the last notification the user loaded (viewed)
+   * in their notification tab.
+   */
+  lastSeenNotificationDate?: Date | null;
+
+  premoderatedBecauseOfEmailAt?: Date;
+
+  /**
+   * lastFeaturedDate is when the user last had a comment featured
+   * used for the Top commenter feature
+   */
+  lastFeaturedDate?: Date | null;
 }
 
-function hashPassword(password: string): Promise<string> {
+export function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
 
@@ -637,12 +711,11 @@ export interface FindOrCreateUserInput {
 
 /**
  * findOrCreateUserInput converts the FindOrCreateUserInput input into aUse.
- *
  * @param tenantID ID of the Tenant to create the user for
  * @param input the input for creating a User
  * @param now the current date
  */
-async function findOrCreateUserInput(
+export async function findOrCreateUserInput(
   tenantID: string,
   { id = uuid(), profile, email, ...input }: FindOrCreateUserInput,
   now: Date
@@ -662,6 +735,9 @@ async function findOrCreateUserInput(
       premod: { active: false, history: [] },
       warning: { active: false, history: [] },
       modMessage: { active: false, history: [] },
+      deletion: {
+        history: [],
+      },
     },
     notifications: {
       onReply: false,
@@ -669,6 +745,15 @@ async function findOrCreateUserInput(
       onModeration: false,
       onStaffReplies: false,
       digestFrequency: GQLDIGEST_FREQUENCY.NONE,
+    },
+    inPageNotifications: {
+      onReply: {
+        enabled: true,
+        showReplies: GQLInPageNotificationReplyType.ALL,
+      },
+      onFeatured: true,
+      onModeration: true,
+      enabled: true,
     },
     moderatorNotes: [],
     digests: [],
@@ -871,7 +956,6 @@ export async function retrieveUserWithEmail(
 
 /**
  * updateUserRole updates a given User's role.
- *
  * @param mongo mongodb database to interact with
  * @param tenantID Tenant ID where the User resides
  * @param id ID of the User that we are updating
@@ -1146,9 +1230,18 @@ export async function updateUserPassword(
 export async function scheduleDeletionDate(
   mongo: MongoContext,
   tenantID: string,
+  requestingUserID: string,
   userID: string,
-  deletionDate: Date
+  deletionDate: Date,
+  now = new Date()
 ) {
+  const scheduleDeletionHistory = {
+    id: uuid(),
+    createdBy: requestingUserID,
+    createdAt: now,
+    updateType: GQLUserDeletionUpdateType.REQUESTED,
+  };
+
   const result = await mongo.users().findOneAndUpdate(
     {
       id: userID,
@@ -1157,6 +1250,9 @@ export async function scheduleDeletionDate(
     {
       $set: {
         scheduledDeletionDate: deletionDate,
+      },
+      $push: {
+        "status.deletion.history": scheduleDeletionHistory,
       },
     },
     {
@@ -1173,8 +1269,16 @@ export async function scheduleDeletionDate(
 export async function clearDeletionDate(
   mongo: MongoContext,
   tenantID: string,
-  userID: string
+  userID: string,
+  requestingUserID: string,
+  now = new Date()
 ) {
+  const cancelDeletionHistory = {
+    id: uuid(),
+    createdBy: requestingUserID,
+    createdAt: now,
+    updateType: GQLUserDeletionUpdateType.CANCELED,
+  };
   const result = await mongo.users().findOneAndUpdate(
     {
       id: userID,
@@ -1183,6 +1287,9 @@ export async function clearDeletionDate(
     {
       $unset: {
         scheduledDeletionDate: "",
+      },
+      $push: {
+        "status.deletion.history": cancelDeletionHistory,
       },
     },
     {
@@ -1254,7 +1361,6 @@ export async function updateUserFromSSO(
 /**
  * setUserUsername will set the username of the User if the username hasn't
  * already been used before.
- *
  * @param mongo the database handle
  * @param tenantID the ID to the Tenant
  * @param id the ID of the User where we are setting the username on
@@ -1305,7 +1411,6 @@ export async function setUserUsername(
 
 /**
  * updateUsername will set the username of the User.
- *
  * @param mongo the database handle
  * @param tenantID the ID to the Tenant
  * @param id the ID of the User where we are setting the username on
@@ -1360,7 +1465,6 @@ export async function updateUserUsername(
 /**
  * setUserEmail will set the email address of the User if they don't already
  * have one associated with them, and it hasn't been used before.
- *
  * @param mongo the database handle
  * @param tenantID the ID to the Tenant
  * @param id the ID of the User where we are setting the email address on
@@ -1424,7 +1528,6 @@ export async function setUserEmail(
 
 /**
  * updateUserEmail will update a given User's email address to the one provided.
- *
  * @param mongo the database that we are interacting with
  * @param tenantID the Tenant ID of the Tenant where the User exists
  * @param id the User ID that we are updating
@@ -1481,7 +1584,6 @@ export async function updateUserEmail(
 /**
  * updateUserBio will update the bio associated with a User. If the bio
  * is not provided, it will be unset.
- *
  * @param mongo the database that we are interacting with
  * @param tenantID the Tenant ID of the Tenant where the User exists
  * @param id the User ID that we are updating
@@ -1528,7 +1630,6 @@ export async function updateUserBio(
 /**
  * updateUserAvatar will update the avatar associated with a User. If the avatar
  * is not provided, it will be unset.
- *
  * @param mongo the database that we are interacting with
  * @param tenantID the Tenant ID of the Tenant where the User exists
  * @param id the User ID that we are updating
@@ -1576,7 +1677,6 @@ export async function updateUserAvatar(
  * setUserLocalProfile will set the local profile for a User if they don't
  * already have one associated with them and the profile doesn't exist on any
  * other User already.
- *
  * @param mongo the database handle
  * @param tenantID the ID to the Tenant
  * @param id the ID of the User where we are setting the local profile on
@@ -1818,9 +1918,14 @@ async function retrieveConnection(
   return resolveConnection(query, input, (user) => user.createdAt);
 }
 
+// eslint-disable-next-line no-shadow
+export enum PremodUserReason {
+  None = 0,
+  EmailPremodFilter,
+}
+
 /**
  * premodUser will set a user to mandatory premod.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being banned
@@ -1832,7 +1937,8 @@ export async function premodUser(
   tenantID: string,
   id: string,
   createdBy?: string,
-  now = new Date()
+  now = new Date(),
+  reason = PremodUserReason.None
 ) {
   // Create the new ban.
   const premodStatusHistory: PremodStatusHistory = {
@@ -1840,6 +1946,14 @@ export async function premodUser(
     createdBy,
     createdAt: now,
   };
+
+  const set: any = {
+    "status.premod.active": true,
+  };
+
+  if (reason === PremodUserReason.EmailPremodFilter) {
+    set.premoderatedBecauseOfEmailAt = now;
+  }
 
   // Try to update the user if the user isn't already banned.
   const result = await mongo.users().findOneAndUpdate(
@@ -1851,9 +1965,7 @@ export async function premodUser(
       },
     },
     {
-      $set: {
-        "status.premod.active": true,
-      },
+      $set: set,
       $push: {
         "status.premod.history": premodStatusHistory,
       },
@@ -1885,7 +1997,6 @@ export async function premodUser(
 
 /**
  * removeUserPremod will lift a user premod  requirement
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their ban lifted
@@ -1999,7 +2110,6 @@ export async function siteBanUser(
 
 /**
  * banUser will ban a specific user from interacting with the site.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being banned
@@ -2114,7 +2224,6 @@ export async function removeUserSiteBan(
 /**
  * removeUserBan will lift a user ban from a User allowing them to interact with
  * the site again.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their ban lifted
@@ -2188,7 +2297,6 @@ export async function removeUserBan(
 /**
  * suspendUser will suspend a user for a specific time range from interacting
  * with the site.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being suspended
@@ -2271,7 +2379,6 @@ export async function suspendUser(
 
 /**
  * removeUserSuspensions will lift any active suspensions.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the User having their suspension lifted
@@ -2392,7 +2499,6 @@ export async function warnUser(
 /**
  * removeUserWarning will remove a warning from a User allowing them to interact with
  * the site again.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their warning removed
@@ -2462,7 +2568,6 @@ export async function removeUserWarning(
 /**
  * acknowledgeWarning will remove a warning from a User allowing them to interact with
  * the site again.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their warning removed
@@ -2572,7 +2677,6 @@ export async function sendModMessageUser(
 /**
  * acknowledgeOwnModMessage will acknowledge a moderation message that was
  * sent to the user.
- *
  * @param mongo the mongo database handle
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user having their warning removed
@@ -2634,6 +2738,12 @@ export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history" | "sites"> &
 export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
   Pick<UsernameStatus, "history">;
 
+export type ConsolidatedUserDeletionStatus = Omit<
+  GQLUserDeletionStatus,
+  "history"
+> &
+  Pick<UserDeletionStatus, "history">;
+
 export type ConsolidatedPremodStatus = Omit<GQLPremodStatus, "history"> &
   Pick<PremodStatus, "history">;
 
@@ -2650,6 +2760,17 @@ export function consolidateUsernameStatus(
   username: User["status"]["username"]
 ) {
   return username;
+}
+
+export function consolidateUserDeletionStatus(
+  deletion: User["status"]["deletion"]
+) {
+  if (!deletion) {
+    return {
+      history: [],
+    };
+  }
+  return deletion;
 }
 
 const computeBanActive = (ban: BanStatus, siteID?: string) => {
@@ -2770,7 +2891,6 @@ export function consolidateUserStatus(
 /**
  * createOrRetrieveUserPasswordResetID will create/retrieve a password reset ID
  * on the User.
- *
  * @param mongo MongoDB instance to interact with
  * @param tenantID Tenant ID that the User exists on
  * @param id ID of the User that we are creating a reset ID with
@@ -3127,15 +3247,52 @@ export async function setUserLastDownloadedAt(
   return result.value;
 }
 
-export type NotificationSettingsInput = Partial<GQLUserNotificationSettings>;
+export type EmailNotificationSettingsInput =
+  Partial<GQLUserEmailNotificationSettings>;
 
-export async function updateUserNotificationSettings(
+export async function updateUserEmailNotificationSettings(
   mongo: MongoContext,
   tenantID: string,
   id: string,
-  notifications: NotificationSettingsInput
+  notifications: EmailNotificationSettingsInput
 ) {
   const update: DeepPartial<User> = { notifications };
+
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    { $set: dotize(update) },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the update operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+export type InPageNotificationSettingsInput =
+  Partial<GQLUserInPageNotificationSettings>;
+
+export async function updateUserInPageNotificationSettings(
+  mongo: MongoContext,
+  tenantID: string,
+  id: string,
+  inPageNotifications: InPageNotificationSettingsInput
+) {
+  const update: DeepPartial<User> = { inPageNotifications };
 
   const result = await mongo.users().findOneAndUpdate(
     {
@@ -3200,7 +3357,6 @@ export async function updateUserMediaSettings(
 /**
  * insertUserNotificationDigests will push the notification contexts onto the
  * User so that notifications can now be queued.
- *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param id the ID of the User to insert the digests onto
@@ -3255,7 +3411,6 @@ export async function insertUserNotificationDigests(
 /**
  * pullUserNotificationDigests will pull notification digests for a given User
  * so it can be added to the mailer queue.
- *
  * @param mongo the database to pull digests from
  * @param tenantID the tenant ID to pull digests for
  * @param frequency the frequency that we're scanning for to limit the digest
@@ -3285,7 +3440,6 @@ export async function pullUserNotificationDigests(
 /**
  * retrieveUserScheduledForDeletion will return a user that is scheduled for
  * deletion as well as create a reschedule date in the future.
- *
  * @param mongo the database to pull scheduled users to delete from
  * @param tenantID the tenant ID to pull users that have been scheduled for
  * deletion on
@@ -3325,7 +3479,6 @@ export async function retrieveLockedUserScheduledForDeletion(
 
 /**
  * createModeratorNote will add a note to a users account
- *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param id the ID of the User who is the subject of the note
@@ -3369,7 +3522,6 @@ export async function createModeratorNote(
 
 /**
  * deleteModeratorNote will remove a note from a user profile
- *
  * @param mongo the database to put the notification digests into
  * @param tenantID the ID of the Tenant that this User exists on
  * @param userID the ID of the user
@@ -3453,3 +3605,29 @@ export const updateUserCommentCounts = (
   id: string,
   commentCounts: DeepPartial<UserCommentCounts>
 ) => updateRelatedCommentCounts(mongo.users(), tenantID, id, commentCounts);
+
+export const updateLastFeaturedDate = async (
+  mongo: MongoContext,
+  tenantID: string,
+  userID: string,
+  featuredDate: Date | null = new Date()
+) => {
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $set: {
+        lastFeaturedDate: featuredDate,
+      },
+    },
+    {
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    throw new UserNotFoundError(userID);
+  }
+  return result.value;
+};

@@ -32,6 +32,7 @@ async function beginWatch(
 
 function setupCleanup(watcher: Watcher, config: Config) {
   ["SIGINT", "SIGTERM"].forEach((signal) =>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     process.once(signal as any, async () => {
       const cleanups = [];
       if (watcher.onCleanup) {

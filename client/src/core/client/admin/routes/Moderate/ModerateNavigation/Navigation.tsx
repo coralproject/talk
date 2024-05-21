@@ -31,6 +31,7 @@ interface Props {
   section?: SectionFilter | null;
   mode?: "PRE" | "POST" | "SPECIFIC_SITES_PRE" | "%future added value" | null;
   enableForReview?: boolean;
+  showUnmoderatedCounts?: boolean | null;
 }
 
 const Navigation: FunctionComponent<Props> = ({
@@ -42,6 +43,7 @@ const Navigation: FunctionComponent<Props> = ({
   section,
   mode,
   enableForReview,
+  showUnmoderatedCounts,
 }) => {
   const { match, router } = useRouter();
   const moderationLinks = useMemo(() => {
@@ -121,7 +123,7 @@ const Navigation: FunctionComponent<Props> = ({
         <Localized id="moderate-navigation-unmoderated">
           <span>Unmoderated</span>
         </Localized>
-        {isNumber(unmoderatedCount) && (
+        {showUnmoderatedCounts && isNumber(unmoderatedCount) && (
           <Counter data-testid="moderate-navigation-unmoderated-count">
             <Localized
               id="moderate-navigation-comment-count"

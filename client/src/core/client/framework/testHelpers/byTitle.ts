@@ -9,7 +9,7 @@ const matcher =
     if (typeof i.type !== "string" || !i.props.title) {
       return false;
     }
-    return matchText(pattern, i.props.title, {
+    return matchText(pattern, i.props.title as string, {
       collapseWhitespace: false,
       ...options,
     });

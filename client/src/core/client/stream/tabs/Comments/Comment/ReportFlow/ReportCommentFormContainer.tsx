@@ -4,6 +4,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import { ERROR_CODES } from "coral-common/common/lib/errors";
+import { getURLWithCommentID } from "coral-framework/helpers";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
   MutationInput,
@@ -12,6 +13,7 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 import WarningError from "coral-stream/common/WarningError";
+import { URLViewType } from "coral-stream/constants";
 import { CheckCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
 
@@ -29,17 +31,24 @@ interface Props {
   comment: ReportCommentFormContainer_comment;
   settings: ReportCommentFormContainer_settings;
   onClose: () => void;
+  anonymousWithDSA: boolean;
 }
 
 const ReportCommentFormContainer: FunctionComponent<Props> = ({
   comment,
   settings,
   onClose,
+  anonymousWithDSA,
 }) => {
   const [done, setDone] = useState(false);
   const dontAgreeMutation = useMutation(CreateCommentDisagreeMutation);
   const flagMutation = useMutation(CreateCommentFlagMutation);
   const refreshViewer = useFetch(RefreshViewerFetch);
+  const reportLink = getURLWithCommentID(
+    comment.story.url,
+    comment.id,
+    URLViewType.IllegalContentReport
+  );
   const onSubmit = useCallback(
     async (
       input:
@@ -101,6 +110,8 @@ const ReportCommentFormContainer: FunctionComponent<Props> = ({
         onSubmit={onSubmit}
         onCancel={onClose}
         biosEnabled={settings.memberBios}
+        reportLink={reportLink}
+        anonymousWithDSA={anonymousWithDSA}
       />
     );
   }
@@ -129,6 +140,9 @@ const enhanced = withFragmentContainer<Props>({
       id
       revision {
         id
+      }
+      story {
+        url
       }
     }
   `,

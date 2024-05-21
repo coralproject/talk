@@ -8,6 +8,7 @@ import {
   addModeratorNote,
   ban,
   cancelAccountDeletion,
+  cancelScheduledAccountDeletion,
   createToken,
   deactivateToken,
   demoteMember,
@@ -25,6 +26,7 @@ import {
   requestAccountDeletion,
   requestCommentsDownload,
   requestUserCommentsDownload,
+  scheduleAccountDeletion,
   sendModMessage,
   setEmail,
   setPassword,
@@ -34,10 +36,11 @@ import {
   updateBio,
   updateEmail,
   updateEmailByID,
+  updateEmailNotificationSettings,
+  updateInPageNotificationSettings,
   updateMediaSettings,
   updateMembershipScopes,
   updateModerationScopes,
-  updateNotificationSettings,
   updatePassword,
   updateRole,
   updateSSOProfileID,
@@ -52,6 +55,7 @@ import { deleteUser } from "coral-server/services/users/delete";
 import {
   GQLBanUserInput,
   GQLCancelAccountDeletionInput,
+  GQLCancelScheduledAccountDeletionInput,
   GQLCreateModeratorNoteInput,
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
@@ -72,6 +76,7 @@ import {
   GQLRequestAccountDeletionInput,
   GQLRequestCommentsDownloadInput,
   GQLRequestUserCommentsDownloadInput,
+  GQLScheduleAccountDeletionInput,
   GQLSendModMessageInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
@@ -79,7 +84,8 @@ import {
   GQLSuspendUserInput,
   GQLUpdateBioInput,
   GQLUpdateEmailInput,
-  GQLUpdateNotificationSettingsInput,
+  GQLUpdateEmailNotificationSettingsInput,
+  GQLUpdateInPageNotificationSettingsInput,
   GQLUpdatePasswordInput,
   GQLUpdateSSOProfileIDInput,
   GQLUpdateUserAvatarInput,
@@ -174,6 +180,17 @@ export const Users = (ctx: GraphContext) => ({
       ),
       { "input.password": [ERROR_CODES.PASSWORD_INCORRECT] }
     ),
+  scheduleAccountDeletion: async (
+    input: GQLScheduleAccountDeletionInput
+  ): Promise<Readonly<User> | null> =>
+    scheduleAccountDeletion(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   deleteAccount: async (
     input: GQLDeleteUserAccountInput
   ): Promise<Readonly<User> | null> => {
@@ -188,9 +205,21 @@ export const Users = (ctx: GraphContext) => ({
       ctx.i18n,
       input.userID,
       ctx.tenant.id,
-      ctx.now
+      ctx.now,
+      ctx.tenant.dsa?.enabled,
+      ctx.user!.id
     );
   },
+  cancelScheduledAccountDeletion: async (
+    input: GQLCancelScheduledAccountDeletionInput
+  ): Promise<Readonly<User> | null> =>
+    cancelScheduledAccountDeletion(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.userID
+    ),
   cancelAccountDeletion: async (
     input: GQLCancelAccountDeletionInput
   ): Promise<Readonly<User> | null> =>
@@ -243,10 +272,20 @@ export const Users = (ctx: GraphContext) => ({
       input.email,
       input.password
     ),
-  updateNotificationSettings: async (
-    input: WithoutMutationID<GQLUpdateNotificationSettingsInput>
+  updateEmailNotificationSettings: async (
+    input: WithoutMutationID<GQLUpdateEmailNotificationSettingsInput>
   ) =>
-    updateNotificationSettings(
+    updateEmailNotificationSettings(
+      ctx.mongo,
+      ctx.cache,
+      ctx.tenant,
+      ctx.user!,
+      input
+    ),
+  updateInPageNotificationSettings: async (
+    input: WithoutMutationID<GQLUpdateInPageNotificationSettingsInput>
+  ) =>
+    updateInPageNotificationSettings(
       ctx.mongo,
       ctx.cache,
       ctx.tenant,
@@ -335,6 +374,7 @@ export const Users = (ctx: GraphContext) => ({
     message,
     rejectExistingComments = false,
     siteIDs,
+    rejectionReason,
   }: GQLBanUserInput) =>
     ban(
       ctx.mongo,
@@ -347,6 +387,7 @@ export const Users = (ctx: GraphContext) => ({
       message,
       rejectExistingComments,
       siteIDs,
+      rejectionReason,
       ctx.now
     ),
   updateUserBan:
@@ -356,6 +397,7 @@ export const Users = (ctx: GraphContext) => ({
       rejectExistingComments = false,
       banSiteIDs,
       unbanSiteIDs,
+      rejectionReason,
     }: GQLUpdateUserBanInput) =>
     async () =>
       updateUserBan(
@@ -370,6 +412,7 @@ export const Users = (ctx: GraphContext) => ({
         rejectExistingComments,
         banSiteIDs,
         unbanSiteIDs,
+        rejectionReason,
         ctx.now
       ),
   warn: async (input: GQLWarnUserInput) =>

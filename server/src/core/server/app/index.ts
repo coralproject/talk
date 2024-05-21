@@ -91,7 +91,6 @@ const NON_FINGERPRINTED_FILES = ["count.js", "embed.js", "commentEmbed.js"];
 /**
  * isFingerprintedPath will return true if the path provided is a fingerprinted
  * one.
- *
  * @param requestPath the path to test if it's a fingerprinted path
  * @returns true if the path is a fingerprinted one, false if not.
  */
@@ -188,7 +187,6 @@ export async function createApp(options: AppOptions): Promise<Express> {
 
 /**
  * listenAndServe will start the given express application.
- *
  * @param app the express application to start
  * @param port the port to listen on
  */

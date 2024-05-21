@@ -189,7 +189,7 @@ export abstract class OAuth2Authenticator {
     req: Request<TenantCoralRequest>,
     res: Response
   ): Promise<ExchangeResponse> {
-    const { code } = req.query;
+    const { code }: { code: string } = req.query;
     if (!code) {
       throw new Error("no code on request");
     }
@@ -224,7 +224,7 @@ export abstract class OAuth2Authenticator {
 
       return redirectWithHash(res, state, { accessToken });
     } catch (err) {
-      return this.fail(state, err, req, res);
+      return this.fail(state, err as Error, req, res);
     }
   }
 

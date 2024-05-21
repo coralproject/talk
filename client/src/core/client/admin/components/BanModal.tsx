@@ -8,17 +8,23 @@ import React, {
   useState,
 } from "react";
 import { Form } from "react-final-form";
+import { graphql } from "react-relay";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { PROTECTED_EMAIL_DOMAINS } from "coral-common/common/lib/constants";
 import { extractDomain } from "coral-common/common/lib/email";
-import { useGetMessage } from "coral-framework/lib/i18n";
-import { useMutation } from "coral-framework/lib/relay";
-import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
+  isOrgModerator,
+  isSiteModerator,
+} from "coral-common/common/lib/permissions/types";
+import { useGetMessage } from "coral-framework/lib/i18n";
+import { useLocal, useMutation } from "coral-framework/lib/relay";
+import { GQLREJECTION_REASON_CODE, GQLUSER_ROLE } from "coral-framework/schema";
+import {
+  AlertTriangleIcon,
   ArrowsDownIcon,
   ArrowsUpIcon,
   ButtonSvgIcon,
+  SvgIcon,
 } from "coral-ui/components/icons";
 import {
   Button,
@@ -32,6 +38,7 @@ import {
 } from "coral-ui/components/v2";
 import { CallOut } from "coral-ui/components/v3";
 
+import { BanModalLocal } from "coral-admin/__generated__/BanModalLocal.graphql";
 import { UserStatusChangeContainer_settings } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
 import { UserStatusChangeContainer_user } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import { UserStatusChangeContainer_viewer } from "coral-admin/__generated__/UserStatusChangeContainer_viewer.graphql";
@@ -40,18 +47,17 @@ import BanDomainMutation from "./BanDomainMutation";
 import BanUserMutation from "./BanUserMutation";
 import ModalHeader from "./ModalHeader";
 import ModalHeaderUsername from "./ModalHeaderUsername";
+import DetailedExplanation from "./ModerationReason/DetailedExplanation";
+import Reasons from "./ModerationReason/Reasons";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
 import UpdateUserBanMutation from "./UpdateUserBanMutation";
 import ChangeStatusModal from "./UserStatus/ChangeStatusModal";
 import { getTextForUpdateType } from "./UserStatus/helpers";
 import UserStatusSitesList from "./UserStatus/UserStatusSitesList";
 
-import {
-  isOrgModerator,
-  isSiteModerator,
-} from "coral-common/common/lib/permissions/types";
 import styles from "./BanModal.css";
 
+// eslint-disable-next-line no-shadow
 export enum UpdateType {
   ALL_SITES = "ALL_SITES",
   SPECIFIC_SITES = "SPECIFIC_SITES",
@@ -70,6 +76,7 @@ interface Props {
   emailDomainModeration: UserStatusChangeContainer_settings["emailDomainModeration"];
   userRole: string;
   isMultisite: boolean;
+  protectedEmailDomains: ReadonlyArray<string>;
 }
 
 interface BanButtonProps {
@@ -134,11 +141,18 @@ const BanModal: FunctionComponent<Props> = ({
   userBanStatus,
   userRole,
   isMultisite,
+  protectedEmailDomains,
 }) => {
   const createDomainBan = useMutation(BanDomainMutation);
   const banUser = useMutation(BanUserMutation);
   const updateUserBan = useMutation(UpdateUserBanMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
+
+  const [{ dsaFeaturesEnabled }] = useLocal<BanModalLocal>(graphql`
+    fragment BanModalLocal on Local {
+      dsaFeaturesEnabled
+    }
+  `);
 
   const getMessage = useGetMessage();
   const getDefaultMessage = useMemo((): string => {
@@ -203,13 +217,24 @@ const BanModal: FunctionComponent<Props> = ({
     ({ domain }) => domain === emailDomain
   );
 
+  const [view, setView] = useState<"REASON" | "EXPLANATION">("REASON");
+  const [reasonCode, setReasonCode] = useState<GQLREJECTION_REASON_CODE | null>(
+    null
+  );
+  const [detailedExplanation, setDetailedExplanation] = useState<string | null>(
+    null
+  );
+  const [otherCustomReason, setOtherCustomReason] = useState<string | null>(
+    null
+  );
+
   const canBanDomain =
     (viewer.role === GQLUSER_ROLE.ADMIN ||
       (viewer.role === GQLUSER_ROLE.MODERATOR && !isSiteModerator(viewer))) &&
     updateType !== UpdateType.NO_SITES &&
     emailDomain &&
     !domainIsConfigured &&
-    !PROTECTED_EMAIL_DOMAINS.has(emailDomain);
+    !protectedEmailDomains.includes(emailDomain);
 
   useEffect(() => {
     if (viewerIsSingleSiteMod) {
@@ -220,6 +245,14 @@ const BanModal: FunctionComponent<Props> = ({
   }, [viewerIsSingleSiteMod, viewer.moderationScopes]);
 
   const onFormSubmit = useCallback(async () => {
+    const rejectionReason =
+      rejectExistingComments && dsaFeaturesEnabled
+        ? {
+            code: reasonCode!,
+            detailedExplanation,
+            customReason: otherCustomReason,
+          }
+        : undefined;
     switch (updateType) {
       case UpdateType.ALL_SITES:
         try {
@@ -227,6 +260,7 @@ const BanModal: FunctionComponent<Props> = ({
             userID, // Should be defined because the modal shouldn't open if author is null
             message: customizeMessage ? emailMessage : getDefaultMessage,
             rejectExistingComments,
+            rejectionReason,
             siteIDs: viewerIsScoped
               ? viewer?.moderationScopes?.sites?.map(({ id }) => id)
               : [],
@@ -243,6 +277,7 @@ const BanModal: FunctionComponent<Props> = ({
             banSiteIDs,
             unbanSiteIDs,
             rejectExistingComments,
+            rejectionReason,
           });
         } catch (err) {
           return { [FORM_ERROR]: err.message };
@@ -281,6 +316,10 @@ const BanModal: FunctionComponent<Props> = ({
     removeUserBan,
     createDomainBan,
     emailDomain,
+    reasonCode,
+    detailedExplanation,
+    otherCustomReason,
+    dsaFeaturesEnabled,
   ]);
 
   const {
@@ -292,11 +331,36 @@ const BanModal: FunctionComponent<Props> = ({
     rejectExistingCommentsMessage,
   } = getTextForUpdateType(updateType);
 
+  const domainBanConfirmationText = "ban";
+  const [domainBanConfirmationTextInput, setDomainBanConfirmationTextInput] =
+    useState("");
+
+  const onDomainBanConfirmationTextInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setDomainBanConfirmationTextInput(e.target.value);
+    },
+    [setDomainBanConfirmationTextInput]
+  );
+
   const pendingSiteBanUpdates = banSiteIDs.length + unbanSiteIDs.length > 0;
   const requiresSiteBanUpdates =
     updateType === UpdateType.SPECIFIC_SITES ||
     (updateType === UpdateType.ALL_SITES && viewerIsSingleSiteMod);
-  const disableForm = requiresSiteBanUpdates && !pendingSiteBanUpdates;
+  const requiresRejectionReasonForDSA =
+    rejectExistingComments &&
+    !!dsaFeaturesEnabled &&
+    (!reasonCode ||
+      (reasonCode === GQLREJECTION_REASON_CODE.OTHER && !otherCustomReason));
+
+  const disableForm =
+    (requiresSiteBanUpdates && !pendingSiteBanUpdates) ||
+    requiresRejectionReasonForDSA ||
+    (!!canBanDomain &&
+      banDomain &&
+      !(
+        domainBanConfirmationTextInput.toLowerCase() ===
+        domainBanConfirmationText
+      ));
 
   return (
     <ChangeStatusModal
@@ -422,6 +486,38 @@ const BanModal: FunctionComponent<Props> = ({
                         </CheckBox>
                       </Localized>
                     )}
+                    {rejectExistingComments && dsaFeaturesEnabled && (
+                      <Flex
+                        marginTop={2}
+                        direction="column"
+                        marginLeft={2}
+                        padding={2}
+                        className={styles.rejectExistingReason}
+                      >
+                        {view === "REASON" ? (
+                          <Reasons
+                            selected={reasonCode}
+                            onCode={(code) => {
+                              setReasonCode(code);
+                              setView("EXPLANATION");
+                            }}
+                          />
+                        ) : (
+                          <DetailedExplanation
+                            onBack={() => {
+                              setView("REASON");
+                              setReasonCode(null);
+                            }}
+                            code={reasonCode!}
+                            explanationValue={detailedExplanation}
+                            onChangeExplanation={setDetailedExplanation}
+                            customReasonValue={otherCustomReason}
+                            onChangeCustomReason={setOtherCustomReason}
+                            linkClassName={styles.rejectionReasonLink}
+                          />
+                        )}
+                      </Flex>
+                    )}
                   </Flex>
                   {/* EMAIL BAN */}
                   {canBanDomain && (
@@ -443,11 +539,47 @@ const BanModal: FunctionComponent<Props> = ({
                               setBanDomain(target.checked);
                             }}
                           >
-                            Ban all new commenter accounts from{" "}
+                            Ban all commenter accounts from{" "}
                             <strong>{emailDomain}</strong>
                           </CheckBox>
                         </Localized>
                       </HorizontalGutter>
+                    </Flex>
+                  )}
+                  {canBanDomain && banDomain && (
+                    <Flex direction="column">
+                      <CallOut
+                        className={styles.domainBanCallOut}
+                        color="warning"
+                      >
+                        <SvgIcon
+                          size="xs"
+                          className={styles.alertIcon}
+                          Icon={AlertTriangleIcon}
+                        />
+                        <Localized id="community-banModal-banEmailDomain-callOut">
+                          <span>
+                            This will prevent any commenter from using this
+                            email domain
+                          </span>
+                        </Localized>
+                      </CallOut>
+
+                      <Localized
+                        id="community-banModal-banEmailDomain-confirmationText"
+                        vars={{ text: domainBanConfirmationText }}
+                      >
+                        <div className={styles.domainBanConfirmationLabel}>
+                          Type in "{domainBanConfirmationText}" to confirm
+                        </div>
+                      </Localized>
+                      <input
+                        data-testid="domainBanConfirmation"
+                        className={styles.domainBanConfirmationInput}
+                        type="text"
+                        placeholder=""
+                        onChange={onDomainBanConfirmationTextInputChange}
+                      />
                     </Flex>
                   )}
                   {/* customize message button*/}

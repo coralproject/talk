@@ -33,7 +33,6 @@ export interface User {
 export interface ErrorReporter {
   /**
    * report will send a report to the reporter service.
-   *
    * @param err the error to report
    */
   report(err: any, scope?: ErrorReporterScope): ErrorReport;
@@ -41,7 +40,6 @@ export interface ErrorReporter {
   /**
    * setUser should set the user that's currently interacting with the
    * application.
-   *
    * @param user the current logged in user or null for none.
    */
   setUser(user: User | null): void;

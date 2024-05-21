@@ -8,16 +8,21 @@ import {
   hasTag,
   UpdateCommentStatus,
 } from "coral-server/models/comment";
+import { retrieveNotificationByCommentReply } from "coral-server/models/notifications/notification";
 import { Tenant } from "coral-server/models/tenant";
+import { retrieveUser } from "coral-server/models/user";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
+import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
 
 import {
   GQLCOMMENT_STATUS,
+  GQLNOTIFICATION_TYPE,
+  GQLREJECTION_REASON_CODE,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -46,7 +51,12 @@ const stripTag = async (
     return comment;
   }
 
-  const tagResult = await removeTag(mongo, tenant, comment.id, tag);
+  const { comment: tagResult } = await removeTag(
+    mongo,
+    tenant,
+    comment.id,
+    tag
+  );
 
   await updateTagCommentCounts(
     tenant.id,
@@ -71,12 +81,22 @@ const rejectComment = async (
   config: Config,
   i18n: I18n,
   broker: CoralEventPublisherBroker | null,
+  notifications: InternalNotificationContext,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
   moderatorID: string,
   now: Date,
-  request?: Request | undefined
+  reason?: {
+    code: GQLREJECTION_REASON_CODE;
+    legalGrounds?: string | undefined;
+    detailedExplanation?: string | undefined;
+    customReason?: string | undefined;
+  },
+  reportID?: string,
+  request?: Request | undefined,
+  sendNotification = true,
+  isArchived = false
 ) => {
   const updateAllCommentCountsArgs = {
     actionCounts: {},
@@ -93,10 +113,12 @@ const rejectComment = async (
       commentID,
       commentRevisionID,
       moderatorID,
+      rejectionReason: reason,
       status: GQLCOMMENT_STATUS.REJECTED,
+      reportID,
     },
     now,
-    undefined,
+    isArchived,
     updateAllCommentCountsArgs
   );
 
@@ -104,8 +126,8 @@ const rejectComment = async (
   if (
     revision &&
     tenant.integrations.akismet.enabled &&
-    (revision.actionCounts.COMMENT_REPORTED_SPAM > 0 ||
-      revision.actionCounts.COMMENT_DETECTED_SPAM > 0)
+    (revision.actionCounts.FLAG__COMMENT_REPORTED_SPAM > 0 ||
+      revision.actionCounts.FLAG__COMMENT_DETECTED_SPAM > 0)
   ) {
     await submitCommentAsSpam(mongo, tenant, result.before, request);
   }
@@ -142,7 +164,7 @@ const rejectComment = async (
 
   // TODO: (wyattjoh) (tessalt) broker cannot easily be passed to stack from tasks,
   // see CORL-935 in jira
-  if (broker && counts) {
+  if (broker && counts && !isArchived) {
     // Publish changes to the event publisher.
     await publishChanges(broker, {
       ...updateStatus,
@@ -150,6 +172,43 @@ const rejectComment = async (
       moderatorID,
       commentRevisionID,
     });
+  }
+
+  if (
+    sendNotification &&
+    !(reason?.code === GQLREJECTION_REASON_CODE.BANNED_WORD) &&
+    tenant.dsa?.enabled
+  ) {
+    await notifications.create(tenant.id, tenant.locale, {
+      targetUserID: result.after.authorID!,
+      comment: result.after,
+      rejectionReason: reason,
+      type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
+      previousStatus: result.before.status,
+    });
+  }
+
+  // check for a reply notification for the comment being rejected
+  // if exists, check that notification user's lastSeenNotificationDate to see if less than reply createdAt
+  // decrement notificationCount if so
+  const replyNotification = await retrieveNotificationByCommentReply(
+    mongo,
+    tenant.id,
+    commentID
+  );
+  if (replyNotification) {
+    const { ownerID } = replyNotification;
+    const notificationOwner = await retrieveUser(mongo, tenant.id, ownerID);
+    if (notificationOwner) {
+      if (
+        !notificationOwner.lastSeenNotificationDate ||
+        (notificationOwner.lastSeenNotificationDate &&
+          notificationOwner.lastSeenNotificationDate <
+            replyNotification.createdAt)
+      ) {
+        await notifications.decrementCountForUser(tenant.id, ownerID);
+      }
+    }
   }
 
   // Return the resulting comment.

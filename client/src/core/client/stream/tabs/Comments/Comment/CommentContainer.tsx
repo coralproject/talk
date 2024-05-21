@@ -103,6 +103,9 @@ interface Props {
 
   hideAnsweredTag?: boolean;
   hideReportButton?: boolean;
+  hideReactionButton?: boolean;
+  hideReplyButton?: boolean;
+  hideShareButton?: boolean;
   hideModerationCarat?: boolean;
   collapsed?: boolean;
   toggleCollapsed?: () => void;
@@ -137,6 +140,9 @@ export const CommentContainer: FunctionComponent<Props> = ({
   settings,
   showConversationLink,
   hideReportButton,
+  hideReactionButton,
+  hideReplyButton,
+  hideShareButton,
   story,
   toggleCollapsed,
   viewer,
@@ -354,7 +360,12 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   const commentTags = (
     <>
-      {hasFeaturedTag && !isQA && <FeaturedTag collapsed={collapsed} />}
+      {hasFeaturedTag && !isQA && (
+        <FeaturedTag
+          collapsed={collapsed}
+          topCommenterEnabled={settings.topCommenter?.enabled}
+        />
+      )}
       {hasAnsweredTag && isQA && <AnsweredTag collapsed={collapsed} />}
     </>
   );
@@ -530,6 +541,10 @@ export const CommentContainer: FunctionComponent<Props> = ({
           highlight={highlight}
           toggleCollapsed={toggleCollapsed}
           parent={comment.parent}
+          featuredCommenter={comment.author?.featuredCommenter}
+          topCommenterEnabled={settings.topCommenter?.enabled}
+          newCommenter={comment.author?.newCommenter}
+          newCommenterEnabled={settings.newCommenter?.enabled}
           staticUsername={
             comment.author && (
               <Flex direction="row" alignItems="center" wrap>
@@ -678,28 +693,31 @@ export const CommentContainer: FunctionComponent<Props> = ({
                 className={CLASSES.comment.actionBar.$root}
               >
                 <ButtonsBar className={styles.actionBar}>
-                  <ReactionButtonContainer
-                    comment={comment}
-                    settings={settings}
-                    viewer={viewer}
-                    readOnly={
-                      isViewerBanned ||
-                      isViewerSuspended ||
-                      isViewerWarned ||
-                      story.isArchived ||
-                      story.isArchiving
-                    }
-                    className={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.reactButton
-                    )}
-                    reactedClassName={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.reactedButton
-                    )}
-                    isQA={story.settings.mode === GQLSTORY_MODE.QA}
-                  />
+                  {!hideReactionButton && (
+                    <ReactionButtonContainer
+                      comment={comment}
+                      settings={settings}
+                      viewer={viewer}
+                      readOnly={
+                        isViewerBanned ||
+                        isViewerSuspended ||
+                        isViewerWarned ||
+                        story.isArchived ||
+                        story.isArchiving
+                      }
+                      className={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.reactButton
+                      )}
+                      reactedClassName={cn(
+                        styles.actionButton,
+                        CLASSES.comment.actionBar.reactedButton
+                      )}
+                      isQA={story.settings.mode === GQLSTORY_MODE.QA}
+                    />
+                  )}
                   {!disableReplies &&
+                    !hideReplyButton &&
                     !isViewerBanned &&
                     !isViewerSuspended &&
                     !isViewerWarned &&
@@ -722,15 +740,13 @@ export const CommentContainer: FunctionComponent<Props> = ({
                         )}
                       />
                     )}
-                  <PermalinkButtonContainer
-                    story={story}
-                    commentID={comment.id}
-                    author={comment.author?.username}
-                    className={cn(
-                      styles.actionButton,
-                      CLASSES.comment.actionBar.shareButton
-                    )}
-                  />
+                  {!hideShareButton && (
+                    <PermalinkButtonContainer
+                      story={story}
+                      commentID={comment.id}
+                      author={comment.author?.username}
+                    />
+                  )}
                 </ButtonsBar>
                 <ButtonsBar>
                   {!isViewerBanned &&
@@ -742,6 +758,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
                         open={showReportFlow}
                         viewer={viewer}
                         comment={comment}
+                        settings={settings}
                       />
                     )}
                 </ButtonsBar>
@@ -848,6 +865,8 @@ const enhanced = withShowAuthPopupMutation(
           username
           avatar
           badges
+          featuredCommenter
+          newCommenter
         }
         parent {
           id
@@ -901,6 +920,12 @@ const enhanced = withShowAuthPopupMutation(
         disableCommenting {
           enabled
         }
+        topCommenter {
+          enabled
+        }
+        newCommenter {
+          enabled
+        }
         featureFlags
         ...CaretContainer_settings
         ...EditCommentFormContainer_settings
@@ -913,6 +938,7 @@ const enhanced = withShowAuthPopupMutation(
         ...UserTagsContainer_settings
         ...ArchivedReportFlowContainer_settings
         ...AuthorBadgesContainer_settings
+        ...ReportButton_settings
       }
     `,
   })(CommentContainer)

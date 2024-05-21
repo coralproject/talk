@@ -8,7 +8,7 @@ description: A guide to developing and extending Coral.
 Running Coral for development is very similar to installing Coral via Source as
 described in our [Getting Started](/#source) guide.
 
-Coral requires NodeJS ^14.18, we recommend using `nvm` to help manage node
+Coral requires NodeJS ^18.16.0, we recommend using `nvm` to help manage node
 versions: https://github.com/creationix/nvm.
 
 ```bash
@@ -17,7 +17,7 @@ git clone https://github.com/coralproject/talk.git
 cd talk
 
 # Install dependencies.
-sh scripts/npm-i.sh
+sh scripts/pnpm-i.sh
 ```
 
 Running Coral with default settings assumes that you have:
@@ -42,13 +42,13 @@ sh initialize.sh
 Then inside the `client/` folder run:
 
 ```bash
-npm run watch
+pnpm run watch
 ```
 
 Then open another terminal inside the `server/` folder and similarly run:
 
 ```bash
-npm run watch
+pnpm run watch
 ```
 
 These two terminals will run through some build steps and start the system up in development mode. The `client/` hosts the front end code and the `server/` hosts the GraphQL API and underlying data management with Redis and Mongo.
@@ -58,14 +58,20 @@ to start the installation wizard.
 
 To see the comment stream goto http://localhost:8080/.
 
-To run linting and tests use the following commands:
+### To modify environment variables:
+
+Place and modify a `.env` file within `server/`.
+
+Similar to other applications, development environment variables are picked up from a `.env` file. However, since Coral is a mono-repo, you need to create this file within the `server/` folder. This allows Coral's web server to pick up on the configuration at its relative startup root.
+
+### To run linting and tests use the following commands:
 
 ```bash
 # Run the linters.
 sh scripts/lint.sh
 
 # Inside client, server you can run our unit and integration tests
-npm run test
+pnpm run test
 ```
 
 ## Email
@@ -103,7 +109,7 @@ We’re so proud to have received submissions from a lot of 3rd party contributo
 translating Coral into their own languages.
 
 You can see what languages Coral currently supports here:
-https://github.com/coralproject/talk/tree/main/src/locales
+https://github.com/coralproject/talk/tree/main/locales
 
 Coral uses the [fluent](http://projectfluent.org/) library and store our
 translations in [FTL](http://projectfluent.org/fluent/guide/) files in

@@ -2,6 +2,7 @@ import {
   GQLAuth,
   GQLAuthenticationTargetFilter,
   GQLCOMMENT_BODY_FORMAT,
+  GQLDSA_METHOD_OF_REDRESS,
   GQLEmailConfiguration,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
@@ -287,10 +288,16 @@ export interface StoryConfiguration {
   disableLazy: boolean;
 }
 
+// eslint-disable-next-line no-shadow
+export enum NewUserModeration {
+  BAN = "BAN",
+  PREMOD = "PREMOD",
+}
+
 export interface EmailDomain {
   id: string;
   domain: string;
-  newUserModeration: "BAN" | "PREMOD";
+  newUserModeration: NewUserModeration;
 }
 
 export interface FlairBadge {
@@ -301,6 +308,24 @@ export interface FlairBadge {
 export interface FlairBadgeConfig {
   flairBadgesEnabled?: boolean;
   badges?: FlairBadge[];
+}
+
+export interface TopCommenterConfig {
+  enabled?: boolean;
+}
+
+export interface NewCommenterConfig {
+  enabled?: boolean;
+}
+export interface InPageNotificationsConfig {
+  enabled?: boolean;
+  floatingBellIndicator?: boolean;
+}
+
+export interface PremoderateEmailAddressConfig {
+  tooManyPeriods?: {
+    enabled?: boolean;
+  };
 }
 
 export type Settings = GlobalModerationSettings &
@@ -321,6 +346,7 @@ export type Settings = GlobalModerationSettings &
     | "announcement"
     | "memberBios"
     | "embeddedComments"
+    | "dsa"
   > & {
     /**
      * auth is the set of configured authentication integrations.
@@ -410,10 +436,52 @@ export type Settings = GlobalModerationSettings &
     forReviewQueue?: boolean;
 
     flairBadges?: FlairBadgeConfig;
+
+    premoderateEmailAddress?: PremoderateEmailAddressConfig;
+
+    /**
+     * topCommenter specifies whether or not the feature is enabled to show that commenters
+     * with comments featured within the last 10 days are top commenters
+     */
+    topCommenter?: TopCommenterConfig;
+
+    newCommenter?: NewCommenterConfig;
+
+    /**
+     * protectedEmailDomains is the configuration for email domains that are protected from email
+     * domain moderation rules such as all accounts banned
+     */
+    protectedEmailDomains: string[];
+
+    /**
+     * inPageNotifications specifies whether or not in-page notifications are enabled
+     * as an option for commenters
+     */
+    inPageNotifications?: InPageNotificationsConfig;
+
+    /**
+     * showUnmoderatedCounts specifies whether or not the unmoderated comment count
+     * is shown in the moderation queue
+     */
+    showUnmoderatedCounts?: boolean;
   };
 
 export const defaultRTEConfiguration: RTEConfiguration = {
   enabled: true,
   spoiler: false,
   strikethrough: false,
+};
+
+export interface DSAConfiguration {
+  enabled: boolean;
+  methodOfRedress: {
+    method: GQLDSA_METHOD_OF_REDRESS;
+  };
+}
+
+export const defaultDSAConfiguration: DSAConfiguration = {
+  enabled: false,
+  methodOfRedress: {
+    method: GQLDSA_METHOD_OF_REDRESS.NONE,
+  },
 };

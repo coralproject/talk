@@ -20,6 +20,8 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 interface ResolvedConfig {
   readonly featureFlags: string[];
   readonly flattenReplies?: boolean | null;
+  readonly dsaFeaturesEnabled?: boolean;
+  readonly notificationsPollRate: number;
 }
 
 async function resolveConfig(
@@ -39,17 +41,29 @@ async function resolveConfig(
           settings {
             flattenReplies
             featureFlags
+            dsa {
+              enabled
+            }
           }
         }
       `,
       {}
     );
 
-    return data.settings as ResolvedConfig;
+    const { settings } = data;
+
+    return {
+      flattenReplies: settings.flattenReplies,
+      featureFlags: settings.featureFlags,
+      dsaFeaturesEnabled: settings.dsa.enabled ?? false,
+      notificationsPollRate: 3000,
+    } as ResolvedConfig;
   }
+
   return {
     featureFlags: [],
     flattenReplies: false,
+    notificationsPollRate: 3000,
   };
 }
 
@@ -83,10 +97,8 @@ export const createInitLocalState: (options: Options) => InitLocalState =
       ...rest,
     });
 
-    const { featureFlags, flattenReplies } = await resolveConfig(
-      environment,
-      staticConfig
-    );
+    const { featureFlags, flattenReplies, notificationsPollRate } =
+      await resolveConfig(environment, staticConfig);
 
     const commentsOrderBy =
       (await context.localStorage.getItem(COMMENTS_ORDER_BY)) ||
@@ -166,5 +178,12 @@ export const createInitLocalState: (options: Options) => InitLocalState =
 
       localRecord.setValue(false, "showCommentIDs");
       localRecord.setValue(false, "refreshStream");
+
+      const dsaFeaturesEnabled = staticConfig?.dsaFeaturesEnabled ?? false;
+      localRecord.setValue(dsaFeaturesEnabled, "dsaFeaturesEnabled");
+
+      localRecord.setValue(null, "hasNewNotifications");
+      localRecord.setValue(0, "notificationCount");
+      localRecord.setValue(notificationsPollRate, "notificationsPollRate");
     });
   };

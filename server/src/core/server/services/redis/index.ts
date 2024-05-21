@@ -63,7 +63,7 @@ export function createRedisClient(config: Config, lazyConnect = false): Redis {
 
     return redis;
   } catch (err) {
-    throw new WrappedInternalError(err, "could not connect to redis");
+    throw new WrappedInternalError(err as Error, "could not connect to redis");
   }
 }
 
@@ -82,7 +82,6 @@ export function createRedisClientFactory(config: Config) {
 /**
  * createAugmentedRedisClient will connect to the Redis instance identified in
  * the configuration.
- *
  * @param config application configuration.
  */
 export async function createAugmentedRedisClient(
@@ -96,6 +95,6 @@ export async function createAugmentedRedisClient(
 
     return redis;
   } catch (err) {
-    throw new WrappedInternalError(err, "could not connect to redis");
+    throw new WrappedInternalError(err as Error, "could not connect to redis");
   }
 }
