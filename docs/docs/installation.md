@@ -50,6 +50,7 @@ cat > docker-compose.yml <<EOF
 version: "2"
 services:
   talk:
+    platform: linux/amd64
     image: coralproject/talk:7
     restart: always
     ports:

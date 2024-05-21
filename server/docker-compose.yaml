@@ -1,6 +1,7 @@
 version: "3.7"
 services:
   jobs:
+    platform: linux/amd64
     image: coralproject/talk:7
     restart: always
     ports:
