@@ -8,6 +8,7 @@ import {
   GQLReviewCommentFlagInput,
 } from "../schema/__generated__/types";
 
+import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
 import { validateUserModerationScopes } from "./helpers";
 
 export const Actions = (ctx: GraphContext) => ({
@@ -34,6 +35,17 @@ export const Actions = (ctx: GraphContext) => ({
   rejectComment: async (input: GQLRejectCommentInput) => {
     // Validate that this user is allowed to moderate this comment
     await validateUserModerationScopes(ctx, ctx.user!, input);
+
+    const comment = await ctx.loaders.Comments.comment.load(input.commentID);
+    if (!comment) {
+      throw new CommentNotFoundError(input.commentID);
+    }
+
+    const story = await ctx.loaders.Stories.find.load({ id: comment.storyID });
+    if (!story) {
+      throw new StoryNotFoundError(comment.storyID);
+    }
+
     return rejectComment(
       ctx.mongo,
       ctx.redis,
@@ -47,7 +59,11 @@ export const Actions = (ctx: GraphContext) => ({
       input.commentRevisionID,
       ctx.user!.id,
       ctx.now,
-      input.reason
+      input.reason,
+      undefined,
+      undefined,
+      false,
+      story.isArchived || story.isArchiving
     );
   },
   reviewCommentFlag: async (input: GQLReviewCommentFlagInput) => {
