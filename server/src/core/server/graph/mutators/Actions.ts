@@ -61,7 +61,7 @@ export const Actions = (ctx: GraphContext) => ({
       ctx.now,
       input.reason,
       undefined,
-      undefined,
+      ctx.req,
       true,
       story.isArchived || story.isArchiving
     );
