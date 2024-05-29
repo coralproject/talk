@@ -21,8 +21,29 @@ else
   brew install watchman
 fi
 
+echo "checking for correct node and npm versions"
+targetNodeVer="v18.16.0"
+# excluding the v here explicitly
+targetNpmVer="8.0.0"
+
+nodeVer=$(eval "node --version")
+npmVer=$(eval "npm --version")
+
+if [ "$nodeVer" = $targetNodeVer ]; then
+  echo "node $nodeVer is installed"
+else
+  echo "incorrect node version $nodeVer detected, please install correct node version ($targetNodeVer)"
+  exit 1
+fi
+
+if [ "$npmVer" = "$targetNpmVer" ]; then
+  echo "nmp $npmVer is installed"
+else
+  echo "incorrect npm version $npmVer detected, please install correct npm version ($targetNpmVer)"
+  exit 1
+fi
+
 echo "installing correct pnpm version globally (needed for git hooks)"
-nvm i v18.16.0
 npm install -g pnpm@8.14.3
 
 # set working directory here within `scripts`
