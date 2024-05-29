@@ -6,6 +6,7 @@ ENV NODE_OPTIONS="--max-old-space-size=8192 --openssl-legacy-provider --no-exper
 RUN apk --no-cache --update add g++ make git python3 \
   && rm -rf /var/cache/apk/*
 
+RUN npm install -g node-gyp@8.4.1
 RUN npm install -g pnpm@8.14.3
 
 # Create app directory.

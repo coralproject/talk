@@ -44,6 +44,7 @@ else
 fi
 
 echo "installing correct pnpm version globally (needed for git hooks)"
+npm install -g node-gyp@8.4.1
 npm install -g pnpm@8.14.3
 
 # set working directory here within `scripts`
