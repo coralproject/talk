@@ -83,20 +83,9 @@ jobs:
         run: sh scripts/build.sh
       - name: Verify Bundle Size
         run: cd client && ./node_modules/.bin/bundlesize --enable-github-checks
-      # Debugging
-      - name: Build, Tag, Push (Debug)
-        uses: docker/build-push-action@v5
-        if: github.ref == 'refs/heads/fix/build-tag-push'
-        with:
-          push: true
-          tags: ${{ env.IMAGE_REPOSITORY }}:debug-test
-          build-args: |
-            REVISION_HASH=${GITHUB_SHA}
-          cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-debug
-          cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-debug
       # Build tag push the image after a merge to develop
       - name: Build, Tag, Push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         if: github.ref == 'refs/heads/develop'
         with:
           push: true
@@ -107,7 +96,7 @@ jobs:
           cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop
       # Build tag push the release candidate image when the branch name begins with release-
       - name: Build, Tag, Push RC
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         if: startsWith( github.ref, 'refs/heads/release-')
         with:
           push: true
