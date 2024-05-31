@@ -7,12 +7,15 @@ import { MongoContext } from "coral-server/data/context";
 import { retrieveManyStoryRatings } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { retrieveStoryCommentCounts, Story } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+} from "coral-server/graph/schema/__generated__/types";
 
 const NUMBER_CLASS_NAME = "coral-count-number";
 const TEXT_CLASS_NAME = "coral-count-text";
@@ -183,8 +186,12 @@ async function calculateStoryCount(
 export const countsV2Handler =
   ({ mongo }: CountOptions): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
+    const { tenant } = req.coral;
+
     try {
-      // Need to check for a feature flag here too
+      if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.COUNTS_V2)) {
+        return res.status(400).send("Counts V2 api not enabled");
+      }
 
       const { storyIDs }: CountsV2Body = validate(CountsV2BodySchema, req.body);
 
@@ -192,7 +199,7 @@ export const countsV2Handler =
         storyIDs.map(async (storyID) => {
           const count = await retrieveStoryCommentCounts(
             mongo,
-            req.coral.tenant.id,
+            tenant.id,
             storyID
           );
           return {
