@@ -3,6 +3,7 @@ import {
   activeJSONPHandler,
   countHandler,
   countJSONPHandler,
+  countsV2Handler,
   ratingsJSONPHandler,
 } from "coral-server/app/handlers";
 import cacheMiddleware from "coral-server/app/middleware/cache";
@@ -23,6 +24,9 @@ export function createStoryRouter(app: AppOptions) {
   router.get("/count.js", countJSONPHandler(app));
   router.get("/active.js", activeJSONPHandler(app));
   router.get("/ratings.js", ratingsJSONPHandler(app));
+
+  // v2 of count api
+  router.get("/counts/v2", countsV2Handler(app));
 
   return router;
 }

@@ -1027,3 +1027,30 @@ export async function markStoryAsUnarchived(
 
   return result.value;
 }
+
+interface CountResult {
+  count?: number;
+}
+
+export async function retrieveStoryCommentCounts(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string
+) {
+  const cursor = mongo
+    .comments()
+    .aggregate([{ $match: { tenantID, storyID } }, { $count: "count " }]);
+
+  const hasNext = await cursor.hasNext();
+  if (!hasNext) {
+    return 0;
+  }
+
+  const next = await cursor.next();
+  const result = next as CountResult;
+  if (!result) {
+    return 0;
+  }
+
+  return result.count ?? 0;
+}

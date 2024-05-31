@@ -6,7 +6,7 @@ import { validate } from "coral-server/app/request/body";
 import { MongoContext } from "coral-server/data/context";
 import { retrieveManyStoryRatings } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
-import { Story } from "coral-server/models/story";
+import { retrieveStoryCommentCounts, Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
@@ -16,6 +16,14 @@ import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
 
 const NUMBER_CLASS_NAME = "coral-count-number";
 const TEXT_CLASS_NAME = "coral-count-text";
+
+interface CountsV2Body {
+  storyIDs: string[];
+}
+
+const CountsV2BodySchema = Joi.object().keys({
+  storyIDs: Joi.array().items(Joi.string().required()).required(),
+});
 
 export type JSONPCountOptions = Pick<
   AppOptions,
@@ -171,3 +179,30 @@ async function calculateStoryCount(
     0
   );
 }
+
+export const countsV2Handler =
+  ({ mongo }: CountOptions): RequestHandler<TenantCoralRequest> =>
+  async (req, res, next) => {
+    try {
+      // Need to check for a feature flag here too
+
+      const { storyIDs }: CountsV2Body = validate(CountsV2BodySchema, req.body);
+
+      const storyCounts = await Promise.all(
+        storyIDs.map(async (storyID) => {
+          const count = await retrieveStoryCommentCounts(
+            mongo,
+            req.coral.tenant.id,
+            storyID
+          );
+          return {
+            storyID,
+            count,
+          };
+        })
+      );
+      return storyCounts;
+    } catch (err) {
+      return next(err);
+    }
+  };
