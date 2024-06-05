@@ -62,11 +62,17 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   spam,
   detectLinks,
 
-  // Apply any pre-existing conditions to these comments.
+  // If user-specific moderation is enabled, it should run before
+  // external phases as those won't have the required information
+  // about the user to decide on their own.
   statusPreModerateNewCommenter,
-  statusPreModerate,
   statusPreModerateUser,
 
   // Run any external moderation phase that missed other filters.
   external,
+
+  // If premoderation is required globally, it should act as a
+  // fallback in case external phases did not respond with
+  // a status.
+  statusPreModerate,
 ];
