@@ -934,8 +934,8 @@ notifications-rejectionReason-harassmentBullying = Dieser Kommentar enthält bel
 notifications-rejectionReason-misinformation = Dieser Kommentar enthält Fehlinformationen
 notifications-rejectionReason-hateSpeech = Dieser Kommentar enthält Hassrede
 notifications-rejectionReason-irrelevant = Dieser Kommentar ist irrelevant für die Diskussion
-notifications-rejectionReason-other = Sonstige
-notifications-rejectionReason-other-customReason = Sonstige - { $customReason }
+notifications-rejectionReason-other = Andere Gründe
+notifications-rejectionReason-other-customReason = Andere Gründe - { $customReason }
 notifications-rejectionReason-unknown = Unbekannt
 
 notifications-reportDecisionMade-legal =
