@@ -874,3 +874,82 @@ stream-footer-links-discussions = Weitere Diskussionen
   .title = Zu weiteren Diskussionen gehen.
 stream-footer-navigation =
   .aria-label = Kommentar-Fußzeile
+
+## Notifications
+
+notifications-title = Benachrichtigungen
+notifications-loadMore = Mehr laden
+notifications-loadNew = Neu laden
+
+notifications-adjustPreferences = Benachrichtigungseinstellungen anpassen unter Mein Profil &gt;<button>Einstellungen.</button>
+
+notification-comment-toggle-default-open = - Kommentar
+notification-comment-toggle-default-closed = + Kommentar
+
+notifications-comment-showRemovedComment = + Entfernten Kommentar anzeigen
+notifications-comment-hideRemovedComment = - Entfernten Kommentar ausblenden
+
+notification-comment-description-featured = Dein Kommentar zu "{ $title }" wurde von einem Mitglied unseres Teams hervorgehoben.
+notification-comment-description-default = zu "{ $title }"
+notification-comment-media-image = Bild
+notification-comment-media-embed = Embed
+notification-comment-media-gif = Gif
+
+notifications-yourIllegalContentReportHasBeenReviewed =
+  Dein Bericht über illegale Inhalte wurde überprüft
+notifications-yourCommentHasBeenRejected =
+  Dein Kommentar wurde abgelehnt
+notifications-yourCommentHasBeenApproved =
+  Dein Kommentar wurde genehmigt
+notifications-yourCommentHasBeenFeatured =
+  Dein Kommentar wurde hervorgehoben
+notifications-yourCommentHasReceivedAReply =
+  Neue Antwort von { $author }
+notifications-defaultTitle = Benachrichtigung
+
+notifications-rejectedComment-body =
+  Der Inhalt deines Kommentars verstößt gegen unsere Gemeinschaftsrichtlinien. Der Kommentar wurde entfernt.
+notifications-rejectedComment-wasPending-body =
+  Der Inhalt deines Kommentars verstößt gegen unsere Gemeinschaftsrichtlinien.
+notifications-reasonForRemoval = Grund für die Entfernung
+notifications-legalGrounds = Rechtliche Grundlage
+notifications-additionalExplanation = Zusätzliche Erklärung
+
+notifications-repliedComment-hideReply = - Antwort ausblenden
+notifications-repliedComment-showReply = + Antwort anzeigen
+notifications-repliedComment-hideOriginalComment = - Mein Originalkommentar ausblenden
+notifications-repliedComment-showOriginalComment = + Mein Originalkommentar anzeigen
+
+notifications-dsaReportLegality-legal = Legaler Inhalt
+notifications-dsaReportLegality-illegal = Potenziell illegaler Inhalt
+notifications-dsaReportLegality-unknown = Unbekannt
+
+notifications-rejectionReason-offensive = Dieser Kommentar enthält beleidigende Sprache
+notifications-rejectionReason-abusive = Dieser Kommentar enthält missbräuchliche Sprache
+notifications-rejectionReason-spam = Dieser Kommentar ist Spam
+notifications-rejectionReason-bannedWord = Verbotenes Wort
+notifications-rejectionReason-ad = Dieser Kommentar ist eine Werbung
+notifications-rejectionReason-illegalContent = Dieser Kommentar enthält potenziell illegale Inhalte
+notifications-rejectionReason-harassmentBullying = Dieser Kommentar enthält belästigende oder einschüchternde Sprache
+notifications-rejectionReason-misinformation = Dieser Kommentar enthält Fehlinformationen
+notifications-rejectionReason-hateSpeech = Dieser Kommentar enthält Hassrede
+notifications-rejectionReason-irrelevant = Dieser Kommentar ist irrelevant für die Diskussion
+notifications-rejectionReason-other = Sonstige
+notifications-rejectionReason-other-customReason = Sonstige - { $customReason }
+notifications-rejectionReason-unknown = Unbekannt
+
+notifications-reportDecisionMade-legal =
+  Am <strong>{ $date }</strong> hast du einen Kommentar von <strong>{ $author }</strong> gemeldet, weil er potenziell illegale Inhalte enthält. Nach Überprüfung deiner Meldung hat unser Moderationsteam entschieden, dass dieser Kommentar <strong>keine illegalen Inhalte zu enthalten scheint.</strong> Danke, dass du dazu beiträgst, unsere Gemeinschaft sicher zu halten.
+notifications-reportDecisionMade-illegal =
+  Am <strong>{ $date }</strong> hast du einen Kommentar von <strong>{ $author }</strong> gemeldet, weil er potenziell illegale Inhalte enthält. Nach Überprüfung deiner Meldung hat unser Moderationsteam entschieden, dass dieser Kommentar <strong>illegale Inhalte enthält</strong> und wurde entfernt. Es können weitere Maßnahmen gegen den Kommentator ergriffen werden, jedoch wirst du nicht über weitere Schritte informiert. Danke, dass du dazu beiträgst, unsere Gemeinschaft sicher zu halten.
+
+notifications-methodOfRedress-none =
+  Alle Moderationsentscheidungen sind endgültig und können nicht angefochten werden
+notifications-methodOfRedress-email =
+  Um eine Entscheidung, die hier erscheint, anzufechten, kontaktiere bitte <a>{ $email }</a>
+notifications-methodOfRedress-url =
+  Um eine Entscheidung, die hier erscheint, anzufechten, besuche bitte <a>{ $url }</a>
+
+notifications-youDoNotCurrentlyHaveAny = Du hast derzeit keine Benachrichtigungen
+
+notifications-floatingIcon-close = Schließen
