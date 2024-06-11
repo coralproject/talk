@@ -3,7 +3,7 @@ FROM node:18-alpine
 ENV NODE_OPTIONS="--max-old-space-size=8192 --openssl-legacy-provider --no-experimental-fetch"
 
 # Install build dependancies.
-RUN apk --no-cache --update add g++ make git python3 \
+RUN apk --no-cache --update add g++ make git python3 py3-pip py3-setuptools \
   && rm -rf /var/cache/apk/*
 
 RUN npm install -g pnpm@8.14.3
