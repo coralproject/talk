@@ -22,6 +22,7 @@ import { TenantResource } from "coral-server/models/tenant";
 import { dotize } from "coral-server/utils/dotize";
 
 import {
+  GQLCOMMENT_STATUS,
   GQLSTORY_MODE,
   GQLStoryMetadata,
   GQLStorySettings,
@@ -1039,7 +1040,18 @@ export async function retrieveStoryCommentCounts(
 ) {
   const cursor = mongo
     .comments()
-    .aggregate([{ $match: { tenantID, storyID } }, { $count: "count " }]);
+    // .aggregate([{ $match: { tenantID, storyID } }, { $count: "count " }]);
+    .aggregate([
+      {
+        $match: {
+          tenantID,
+          storyID,
+          status: { $in: [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE] },
+        },
+      },
+      { $count: "count" },
+    ]);
+  // test out filtering non-published statuses here vs filtering after the fact
 
   const hasNext = await cursor.hasNext();
   if (!hasNext) {
