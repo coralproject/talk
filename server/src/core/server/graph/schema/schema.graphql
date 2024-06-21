@@ -1508,11 +1508,21 @@ type StoryMessageBox {
 ## Embed Links
 ################################################################################
 
-type GiphyMediaConfiguration {
+enum GIF_MEDIA_SOURCE {
+  GIPHY
+  TENOR
+}
+
+type GifMediaConfiguration {
   """
   enabled is true when gif search via giphy and giphy media objects are enabled.
   """
   enabled: Boolean!
+
+  """
+  provider is the source that gif's are pulled from
+  """
+  provider: GIF_MEDIA_SOURCE
 
   """
   maximum allowed rating for gifs, g, pg, pg-13, r.
@@ -1520,7 +1530,7 @@ type GiphyMediaConfiguration {
   maxRating: String
 
   """
-  key is the API key for Giphy.
+  key is the API key for the gif provider.
   """
   key: String
 }
@@ -1557,9 +1567,9 @@ type MediaConfiguration {
   youtube: YouTubeMediaConfiguration!
 
   """
-  giphy is the configuration for Giphy support.
+  gifs is the configuration for Giphy support.
   """
-  giphy: GiphyMediaConfiguration!
+  gifs: GifMediaConfiguration!
 
   """
   external is the configuration for external images.
@@ -6378,11 +6388,16 @@ input YouTubeMediaConfigurationInput {
   enabled: Boolean
 }
 
-input GiphyMediaConfigurationInput {
+input GifMediaConfigurationInput {
   """
   enabled is true when gif search via giphy and giphy media objects are enabled.
   """
   enabled: Boolean
+
+  """
+  provider is the source for which gifs are pulled from
+  """
+  provider: GIF_MEDIA_SOURCE
 
   """
   maximum allowed rating for gifs, g, pg, pg-13, r
@@ -6407,9 +6422,9 @@ input MediaConfigurationInput {
   youtube: YouTubeMediaConfigurationInput
 
   """
-  giphy is the configuration for Giphy support.
+  gifs is the configuration for gif support.
   """
-  giphy: GiphyMediaConfigurationInput
+  gifs: GifMediaConfigurationInput
 }
 
 """

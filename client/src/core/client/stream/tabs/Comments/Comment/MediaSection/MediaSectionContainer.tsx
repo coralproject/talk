@@ -82,7 +82,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   if (
     (media.__typename === "TwitterMedia" && !settings.media.twitter.enabled) ||
     (media.__typename === "YouTubeMedia" && !settings.media.youtube.enabled) ||
-    (media.__typename === "GiphyMedia" && !settings.media.giphy.enabled) ||
+    (media.__typename === "GiphyMedia" && !settings.media.gifs.enabled) ||
     (media.__typename === "ExternalMedia" && !settings.media.external.enabled)
   ) {
     return null;
@@ -234,8 +234,9 @@ const enhanced = withFragmentContainer<Props>({
         youtube {
           enabled
         }
-        giphy {
+        gifs {
           enabled
+          provider
         }
         external {
           enabled

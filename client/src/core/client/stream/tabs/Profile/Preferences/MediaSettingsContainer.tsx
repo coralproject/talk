@@ -188,8 +188,9 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment MediaSettingsContainer_settings on Settings {
       media {
-        giphy {
+        gifs {
           enabled
+          provider
         }
         twitter {
           enabled

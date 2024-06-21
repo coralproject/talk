@@ -31,7 +31,7 @@ interface Props {
 }
 
 const giphyIsEnabled: Condition = (value, values) =>
-  Boolean(values.media && values.media.giphy.enabled);
+  Boolean(values.media && values.media.gifs.enabled);
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -43,10 +43,11 @@ graphql`
       youtube {
         enabled
       }
-      giphy {
+      gifs {
         enabled
         maxRating
         key
+        provider
       }
     }
   }
@@ -108,11 +109,11 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
         />
       </FormField>
       <FormField>
-        <Localized id="configure-general-embedLinks-enableGiphyEmbeds">
-          <Label component="legend">Allow GIFs from GIPHY</Label>
+        <Localized id="configure-general-embedLinks-enableGifs">
+          <Label component="legend">Allow GIFs</Label>
         </Localized>
         <OnOffField
-          name="media.giphy.enabled"
+          name="media.gifs.enabled"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">
@@ -128,10 +129,10 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
       </FormField>
       <FormSpy subscription={{ values: true }}>
         {(props) => {
-          const giphyDisabled =
+          const gifsDisabled =
             !props.values.media ||
-            !props.values.media.giphy ||
-            !props.values.media.giphy.enabled;
+            !props.values.media.gifs ||
+            !props.values.media.gifs.enabled;
           return (
             <>
               <FormField>
@@ -144,14 +145,14 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     appear in commenters’ search results
                   </HelperText>
                 </Localized>
-                <Field name="media.giphy.maxRating" type="radio" value="g">
+                <Field name="media.gifs.maxRating" type="radio" value="g">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-g">
                         <RadioButton
                           {...input}
                           id="G"
-                          disabled={giphyDisabled || disabled}
+                          disabled={gifsDisabled || disabled}
                         >
                           G
                         </RadioButton>
@@ -165,14 +166,14 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="media.giphy.maxRating" type="radio" value="pg">
+                <Field name="media.gifs.maxRating" type="radio" value="pg">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-pg">
                         <RadioButton
                           {...input}
                           id="PG"
-                          disabled={giphyDisabled || disabled}
+                          disabled={gifsDisabled || disabled}
                         >
                           PG
                         </RadioButton>
@@ -186,14 +187,14 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="media.giphy.maxRating" type="radio" value="pg13">
+                <Field name="media.gifs.maxRating" type="radio" value="pg13">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-pg13">
                         <RadioButton
                           {...input}
                           id="PG13"
-                          disabled={giphyDisabled || disabled}
+                          disabled={gifsDisabled || disabled}
                         >
                           PG-13
                         </RadioButton>
@@ -209,14 +210,14 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="media.giphy.maxRating" type="radio" value="r">
+                <Field name="media.gifs.maxRating" type="radio" value="r">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-r">
                         <RadioButton
                           {...input}
                           id="r"
-                          disabled={giphyDisabled || disabled}
+                          disabled={gifsDisabled || disabled}
                         >
                           R
                         </RadioButton>
@@ -254,11 +255,11 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                 <Localized id="configure-general-embedLinks-giphyAPIKey">
                   <Label>GIPHY API Key</Label>
                 </Localized>
-                <Field name="media.giphy.key">
+                <Field name="media.gifs.key">
                   {({ input, meta }) => (
                     <APIKeyField
                       {...input}
-                      disabled={giphyDisabled || disabled}
+                      disabled={gifsDisabled || disabled}
                       validate={validateWhen(giphyIsEnabled, required)}
                     />
                   )}

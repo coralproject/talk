@@ -37,6 +37,8 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
+import { GIF_MEDIA_SOURCE } from "coral-stream/__generated__/MediaSettingsContainer_settings.graphql";
+
 import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer, { RTEButton } from "../../RTE";
@@ -62,10 +64,11 @@ interface MediaProps {
 }
 
 interface MediaConfig {
-  giphy: {
+  gifs: {
     enabled: boolean;
     key: string | null;
     maxRating: string | null;
+    provider: GIF_MEDIA_SOURCE;
   };
   twitter: {
     enabled: boolean;
@@ -366,7 +369,7 @@ const CommentForm: FunctionComponent<Props> = ({
                                   </RTEButton>
                                 </RTELocalized>
                               ) : null}
-                              {mediaConfig && mediaConfig.giphy.enabled ? (
+                              {mediaConfig && mediaConfig.gifs.enabled ? (
                                 <RTEButton
                                   key="gif"
                                   disabled={
@@ -401,7 +404,7 @@ const CommentForm: FunctionComponent<Props> = ({
                     pastedMedia={pastedMedia}
                     setPastedMedia={setPastedMedia}
                     siteID={siteID}
-                    giphyConfig={mediaConfig.giphy}
+                    giphyConfig={mediaConfig.gifs}
                   />
                 </div>
               </div>

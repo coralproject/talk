@@ -82,7 +82,7 @@ export const tenorSearchHandler =
       return;
     }
 
-    const apiKey = tenant.media?.giphy.enabled ? tenant.media.giphy.key : null;
+    const apiKey = tenant.media?.gifs.enabled ? tenant.media.gifs.key : null;
     if (!apiKey || apiKey.length === 0) {
       res.status(200).send([]);
       return;
