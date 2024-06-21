@@ -465,7 +465,10 @@ comments-embedLinks-showEmbeds = Show embeds
 comments-embedLinks-hideEmbeds = Hide embeds
 
 comments-embedLinks-show-giphy = Show GIF
+comments-embedLinks-show-gif = Show GIF
+
 comments-embedLinks-hide-giphy = Hide GIF
+comments-embedLinks-hide-gif = Hide GIF
 
 comments-embedLinks-show-youtube = Show video
 comments-embedLinks-hide-youtube = Hide video

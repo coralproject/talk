@@ -280,6 +280,7 @@ const CommentForm: FunctionComponent<Props> = ({
             onSubmit={handleSubmit}
             id="comments-postCommentForm-form"
           >
+            <div>{hasValidationErrors}</div>
             {mode === "rating" && (
               <RatingInput disabled={submitting || disabled} />
             )}

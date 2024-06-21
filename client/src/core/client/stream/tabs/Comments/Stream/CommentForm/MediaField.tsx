@@ -63,23 +63,27 @@ const MediaField: FunctionComponent<Props> = ({
   });
 
   const onGiphySelect = useCallback(
-    (gif: IGif) =>
+    (gif: IGif) => {
       onChange({
         type: "giphy",
         id: gif.id,
         url: gif.images.original.url,
-      }),
-    [onChange]
+      });
+      setWidget(null);
+    },
+    [onChange, setWidget]
   );
 
   const onTenorSelect = useCallback(
-    (gif: GifResult) =>
+    (gif: GifResult) => {
       onChange({
         type: "tenor",
         id: gif.id,
         url: gif.url,
-      }),
-    [onChange]
+      });
+      setWidget(null);
+    },
+    [onChange, setWidget]
   );
 
   const onExternalImageSelect = useCallback(
@@ -175,11 +179,7 @@ const MediaField: FunctionComponent<Props> = ({
               />
             )}
             {gifConfig.provider === GQLGIF_MEDIA_SOURCE.TENOR && (
-              <TenorInput
-                onSelect={onTenorSelect}
-                apiKey={gifConfig.key}
-                maxRating={gifConfig.maxRating}
-              />
+              <TenorInput onSelect={onTenorSelect} />
             )}
           </>
         )

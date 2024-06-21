@@ -48,8 +48,6 @@ function createGifFetch<T>(name: string, url: string, context: CoralContext) {
 interface Props {
   onSelect: (gif: GifResult) => void;
   forwardRef?: Ref<HTMLInputElement>;
-  apiKey: string;
-  maxRating: string;
 }
 
 export interface GifResult {
@@ -58,11 +56,7 @@ export interface GifResult {
   preview: string;
 }
 
-const TenorInput: FunctionComponent<Props> = ({
-  onSelect,
-  apiKey,
-  maxRating,
-}) => {
+const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
   const [query, setQuery] = useState("");
   const [lastUpdated, setLastUpdated] = useState<string>(
     new Date().toISOString()
