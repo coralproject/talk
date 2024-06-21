@@ -9,6 +9,7 @@ import {
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
+import { GQLGIF_MEDIA_SOURCE } from "coral-framework/schema";
 import {
   FieldSet,
   FormField,
@@ -127,14 +128,57 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
           }
         />
       </FormField>
+
       <FormSpy subscription={{ values: true }}>
         {(props) => {
           const gifsDisabled =
             !props.values.media ||
             !props.values.media.gifs ||
             !props.values.media.gifs.enabled;
+          const provider = props.values.media?.gifs?.provider;
           return (
             <>
+              <FormField>
+                <Localized id="configure-general-embedLinks-gifProvider">
+                  <Label component="legend">GIF provider</Label>
+                </Localized>
+                <Localized id="configure-general-embedLinks-gifProvider-desc">
+                  <HelperText>
+                    Determines which provider commenters will search for and
+                    show GIFs from.
+                  </HelperText>
+                </Localized>
+                <Field name="media.gifs.provider" type="radio" value="GIPHY">
+                  {({ input }) => (
+                    <>
+                      <Localized id="configure-general-embedLinks-gifs-provider-Giphy">
+                        <RadioButton
+                          {...input}
+                          id="GIPHY"
+                          disabled={gifsDisabled || disabled}
+                        >
+                          Giphy
+                        </RadioButton>
+                      </Localized>
+                    </>
+                  )}
+                </Field>
+                <Field name="media.gifs.provider" type="radio" value="TENOR">
+                  {({ input }) => (
+                    <>
+                      <Localized id="configure-general-embedLinks-gifs-provider-Tenor">
+                        <RadioButton
+                          {...input}
+                          id="TENOR"
+                          disabled={gifsDisabled || disabled}
+                        >
+                          Tenor
+                        </RadioButton>
+                      </Localized>
+                    </>
+                  )}
+                </Field>
+              </FormField>
               <FormField>
                 <Localized id="configure-general-embedLinks-giphyMaxRating">
                   <Label component="legend">GIF content rating</Label>
@@ -236,25 +280,57 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
               <Localized id="configure-general-embedLinks-configuration">
                 <Subheader>Configuration</Subheader>
               </Localized>
-              <Localized
-                id="configure-general-embedLinks-configuration-desc"
-                elems={{
-                  externalLink: (
-                    <ExternalLink
-                      href={"https://developers.giphy.com/docs/api"}
-                    />
-                  ),
-                }}
-              >
-                <HelperText>
-                  For additional information on GIPHY’s API please visit:
-                  https://developers.giphy.com/docs/api
-                </HelperText>
-              </Localized>
-              <FormField>
-                <Localized id="configure-general-embedLinks-giphyAPIKey">
-                  <Label>GIPHY API Key</Label>
+
+              {provider === GQLGIF_MEDIA_SOURCE.GIPHY && (
+                <Localized
+                  id="configure-general-embedLinks-configuration-giphy-desc"
+                  elems={{
+                    externalLink: (
+                      <ExternalLink
+                        href={"https://developers.giphy.com/docs/api"}
+                      />
+                    ),
+                  }}
+                >
+                  <HelperText>
+                    For additional information on GIPHY’s API please visit:
+                    https://developers.giphy.com/docs/api
+                  </HelperText>
                 </Localized>
+              )}
+
+              {provider === GQLGIF_MEDIA_SOURCE.TENOR && (
+                <Localized
+                  id="configure-general-embedLinks-configuration-tenor-desc"
+                  elems={{
+                    externalLink: (
+                      <ExternalLink
+                        href={
+                          "https://developers.google.com/tenor/guides/endpoints"
+                        }
+                      />
+                    ),
+                  }}
+                >
+                  <HelperText>
+                    For additional information on TENOR’s API please visit:
+                    https://developers.google.com/tenor/guides/endpoints
+                  </HelperText>
+                </Localized>
+              )}
+
+              <FormField>
+                {provider === GQLGIF_MEDIA_SOURCE.GIPHY && (
+                  <Localized id="configure-general-embedLinks-giphyAPIKey">
+                    <Label>GIPHY API Key</Label>
+                  </Localized>
+                )}
+                {provider === GQLGIF_MEDIA_SOURCE.TENOR && (
+                  <Localized id="configure-general-embedLinks-tenorAPIKey">
+                    <Label>TENOR API Key</Label>
+                  </Localized>
+                )}
+
                 <Field name="media.gifs.key">
                   {({ input, meta }) => (
                     <APIKeyField

@@ -454,9 +454,22 @@ configure-general-embedLinks-giphyMaxRating-r = R
 configure-general-embedLinks-giphyMaxRating-r-desc = Strong language, strong sexual innuendo, violence, and illegal drug use; not suitable for teens or younger. No nudity.
 
 configure-general-embedLinks-configuration = Configuration
+
+configure-general-embedLinks-gifProvider = GIF provider
+configure-general-embedLinks-gifProvider-desc =
+  Determines which provider commenters will search for and show GIFs from.
+
+configure-general-embedLinks-gifs-provider-Giphy = Giphy
+configure-general-embedLinks-gifs-provider-Tenor = Tenor
+
 configure-general-embedLinks-configuration-desc =
+configure-general-embedLinks-configuration-giphy-desc =
   For additional information on GIPHY’s API please visit: <externalLink>https://developers.giphy.com/docs/api</externalLink>
 configure-general-embedLinks-giphyAPIKey = GIPHY API key
+
+configure-general-embedLinks-configuration-tenor-desc =
+  For additional information on TENOR’s API please visit: <externalLink>https://developers.google.com/tenor/guides/endpoints</externalLink>
+configure-general-embedLinks-tenorAPIKey = TENOR API key
 
 
 #### Configure Announcements
