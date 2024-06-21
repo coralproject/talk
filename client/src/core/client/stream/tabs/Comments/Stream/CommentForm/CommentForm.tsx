@@ -68,7 +68,7 @@ interface MediaConfig {
     enabled: boolean;
     key: string | null;
     maxRating: string | null;
-    provider: GIF_MEDIA_SOURCE;
+    provider?: GIF_MEDIA_SOURCE | null;
   };
   twitter: {
     enabled: boolean;
@@ -254,10 +254,10 @@ const CommentForm: FunctionComponent<Props> = ({
   }, []);
 
   const toggleGIFSelector = useCallback(() => {
-    setMediaWidget(createWidgetToggle("giphy"));
+    setMediaWidget(createWidgetToggle("gifs"));
   }, []);
 
-  const showGifSelector = mediaWidget === "giphy";
+  const showGifSelector = mediaWidget === "gifs";
   const showExternalImageInput = mediaWidget === "external";
 
   return (
@@ -404,7 +404,7 @@ const CommentForm: FunctionComponent<Props> = ({
                     pastedMedia={pastedMedia}
                     setPastedMedia={setPastedMedia}
                     siteID={siteID}
-                    giphyConfig={mediaConfig.gifs}
+                    gifConfig={mediaConfig.gifs}
                   />
                 </div>
               </div>
