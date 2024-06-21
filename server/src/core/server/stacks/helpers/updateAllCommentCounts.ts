@@ -15,7 +15,7 @@ import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { CommentTag } from "coral-server/models/comment/tag";
 import { updateSiteCounts } from "coral-server/models/site";
 import { updateStoryCounts } from "coral-server/models/story";
-import { Tenant, hasFeatureFlag } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { updateUserCommentCounts } from "coral-server/models/user";
 import {
   calculateCounts,
