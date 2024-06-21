@@ -4,6 +4,7 @@ import { CountJSONPData } from "coral-common/common/lib/types/count";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { MongoContext } from "coral-server/data/context";
+import logger from "coral-server/logger";
 import { retrieveManyStoryRatings } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { retrieveStoryCommentCounts, Story } from "coral-server/models/story";
@@ -183,8 +184,10 @@ async function calculateStoryCount(
   );
 }
 
+export type CountV2Options = Pick<AppOptions, "mongo" | "redis">;
+
 export const countsV2Handler =
-  ({ mongo }: CountOptions): RequestHandler<TenantCoralRequest> =>
+  ({ mongo, redis }: CountV2Options): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
     const { tenant } = req.coral;
 
@@ -197,16 +200,37 @@ export const countsV2Handler =
 
       const storyCounts = await Promise.all(
         storyIDs.map(async (storyID) => {
-          const count = await retrieveStoryCommentCounts(
-            mongo,
-            tenant.id,
-            storyID
-          );
+          // check that cache is available
 
-          return {
-            storyID,
-            count,
-          };
+          // try to look in Redis cache here first by key
+          const key = `${tenant.id}:${storyID}:count`;
+          const redisCount = await redis.get(key);
+
+          if (redisCount) {
+            logger.debug("found story count for counts v2 in redis cache", {
+              storyID,
+              redisCount,
+            });
+            return { storyID, redisCount };
+          } else {
+            const count = await retrieveStoryCommentCounts(
+              mongo,
+              tenant.id,
+              storyID
+            );
+
+            // add count to Redis cache here then return
+            await redis.set(key, count);
+            logger.debug("set story count for counts v2 in redis cache", {
+              storyID,
+              count,
+            });
+
+            return {
+              storyID,
+              count,
+            };
+          }
         })
       );
       res.send(JSON.stringify(storyCounts));

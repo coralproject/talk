@@ -8,10 +8,10 @@ import {
   countsV2Handler,
   ratingsJSONPHandler,
 } from "coral-server/app/handlers";
+import { jsonMiddleware } from "coral-server/app/middleware";
 import cacheMiddleware from "coral-server/app/middleware/cache";
 
 import { createAPIRouter } from "./helpers";
-import { jsonMiddleware } from "coral-server/app/middleware";
 
 const REQUEST_MAX = bytes("100kb");
 
