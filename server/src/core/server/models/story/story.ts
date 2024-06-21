@@ -1038,20 +1038,16 @@ export async function retrieveStoryCommentCounts(
   tenantID: string,
   storyID: string
 ) {
-  const cursor = mongo
-    .comments()
-    // .aggregate([{ $match: { tenantID, storyID } }, { $count: "count " }]);
-    .aggregate([
-      {
-        $match: {
-          tenantID,
-          storyID,
-          status: { $in: [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE] },
-        },
+  const cursor = mongo.comments().aggregate([
+    {
+      $match: {
+        tenantID,
+        storyID,
+        status: { $in: [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE] },
       },
-      { $count: "count" },
-    ]);
-  // test out filtering non-published statuses here vs filtering after the fact
+    },
+    { $count: "count" },
+  ]);
 
   const hasNext = await cursor.hasNext();
   if (!hasNext) {
