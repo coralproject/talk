@@ -202,13 +202,14 @@ export const countsV2Handler =
             tenant.id,
             storyID
           );
+
           return {
             storyID,
             count,
           };
         })
       );
-      return storyCounts;
+      res.send(JSON.stringify(storyCounts));
     } catch (err) {
       return next(err);
     }

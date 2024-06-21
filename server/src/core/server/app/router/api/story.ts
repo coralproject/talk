@@ -1,3 +1,5 @@
+import bytes from "bytes";
+
 import { AppOptions } from "coral-server/app";
 import {
   activeJSONPHandler,
@@ -9,6 +11,9 @@ import {
 import cacheMiddleware from "coral-server/app/middleware/cache";
 
 import { createAPIRouter } from "./helpers";
+import { jsonMiddleware } from "coral-server/app/middleware";
+
+const REQUEST_MAX = bytes("100kb");
 
 export function createStoryRouter(app: AppOptions) {
   const redisCacheDuration = app.config.get("jsonp_cache_max_age");
@@ -26,7 +31,7 @@ export function createStoryRouter(app: AppOptions) {
   router.get("/ratings.js", ratingsJSONPHandler(app));
 
   // v2 of count api
-  router.get("/counts/v2", countsV2Handler(app));
+  router.post("/counts/v2", jsonMiddleware(REQUEST_MAX), countsV2Handler(app));
 
   return router;
 }
