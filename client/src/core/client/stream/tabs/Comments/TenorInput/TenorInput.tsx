@@ -13,7 +13,6 @@ import useDebounce from "react-use/lib/useDebounce";
 import { Environment } from "relay-runtime";
 import useResizeObserver from "use-resize-observer";
 
-import { CoralContext, useCoralContext } from "coral-framework/lib/bootstrap";
 import { createFetch } from "coral-framework/lib/relay";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
 import { ButtonSvgIcon, SearchIcon } from "coral-ui/components/icons";
@@ -28,7 +27,7 @@ import GiphyAttribution from "./TenorAttribution";
 
 import styles from "./TenorInput.css";
 
-function createGifFetch<T>(name: string, url: string, context: CoralContext) {
+function createGifFetch<T>(name: string, url: string) {
   return createFetch(
     name,
     async (
@@ -56,17 +55,12 @@ export interface GifResult {
   preview: string;
 }
 
+const GifFetch = createGifFetch<GifResult[]>("tenorGifFetch", "/tenor/search");
+
 const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
   const [query, setQuery] = useState("");
   const [lastUpdated, setLastUpdated] = useState<string>(
     new Date().toISOString()
-  );
-
-  const context = useCoralContext();
-  const GifFetch = createGifFetch<GifResult[]>(
-    "tenorGifFetch",
-    "/tenor/search",
-    context
   );
 
   const [gifs, loading] = useImmediateFetch(GifFetch, { query }, lastUpdated);
