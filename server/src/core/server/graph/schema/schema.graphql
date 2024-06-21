@@ -3996,6 +3996,13 @@ type CommentRevisionMetadata {
 }
 
 """
+TenorMedia is a particular GIF that is provided by the Tenor platform.
+"""
+type TenorMedia {
+  url: String!
+}
+
+"""
 GiphyMedia is a particular GIF that is provided by the Giphy platform.
 """
 type GiphyMedia {
@@ -4105,7 +4112,7 @@ type ExternalMedia {
 """
 CommentMedia is the various media types that can be attached to a Comment.
 """
-union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia | ExternalMedia
+union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia | ExternalMedia | TenorMedia
 
 type CommentRevision {
   """
