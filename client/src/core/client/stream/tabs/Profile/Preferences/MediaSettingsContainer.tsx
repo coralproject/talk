@@ -74,7 +74,7 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
   );
 
   if (
-    !settings.media.giphy.enabled &&
+    !settings.media.gifs.enabled &&
     !settings.media.twitter.enabled &&
     !settings.media.youtube.enabled &&
     !settings.media.external.enabled
