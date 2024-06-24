@@ -3999,7 +3999,15 @@ type CommentRevisionMetadata {
 TenorMedia is a particular GIF that is provided by the Tenor platform.
 """
 type TenorMedia {
+  """
+  url is the URL to a image of the GIF.
+  """
   url: String!
+
+  """
+  title is the title of the GIF.
+  """
+  title: String
 }
 
 """

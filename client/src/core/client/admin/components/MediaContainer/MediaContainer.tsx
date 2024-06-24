@@ -59,7 +59,7 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
         />
       );
     case "TenorMedia":
-      return <TenorMedia url={media.url} />;
+      return <TenorMedia url={media.url} title={media.title} />;
     case "%other":
       return null;
   }
@@ -85,6 +85,7 @@ const enhanced = withFragmentContainer<Props>({
           }
           ... on TenorMedia {
             url
+            title
           }
           ... on TwitterMedia {
             url

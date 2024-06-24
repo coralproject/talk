@@ -6,9 +6,10 @@ import styles from "./Media.css";
 
 interface Props {
   url: string | null;
+  title: string | null;
 }
 
-const TenorMedia: FunctionComponent<Props> = ({ url }) => {
+const TenorMedia: FunctionComponent<Props> = ({ url, title }) => {
   const [showAnimated, setShowAnimated] = useState(false);
   const toggleImage = useCallback(() => {
     setShowAnimated(!showAnimated);
@@ -21,7 +22,7 @@ const TenorMedia: FunctionComponent<Props> = ({ url }) => {
           className={styles.image}
           loading="lazy"
           referrerPolicy="no-referrer"
-          alt=""
+          alt={title ?? ""}
         />
       </BaseButton>
     </div>

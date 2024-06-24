@@ -111,6 +111,7 @@ export const tenorSearchHandler =
       json.results.map((r) => {
         return {
           id: r.id,
+          title: r.title,
           url: r.media_formats.gif.url,
           preview: r.media_formats.tinygif.url,
         };
