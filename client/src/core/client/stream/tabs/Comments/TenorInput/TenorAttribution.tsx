@@ -11,7 +11,7 @@ const TenorAttribution: FunctionComponent = () => {
   return (
     <Flex justifyContent="flex-end">
       <Localized
-        id="comments-postComment-gifSearch-powered-by-giphy"
+        id="comments-postComment-gifSearch-powered-by-tenor"
         attrs={{ alt: true }}
       >
         <img

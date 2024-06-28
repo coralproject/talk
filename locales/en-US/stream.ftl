@@ -124,6 +124,8 @@ comments-postComment-gifSearch-loading = Loading...
 comments-postComment-gifSearch-no-results = No results found for {$query}
 comments-postComment-gifSearch-powered-by-giphy =
   .alt = Powered by giphy
+comments-postComment-gifSearch-powered-by-tenor =
+  .alt = Powered by tenor
 
 comments-postComment-pasteImage = Paste image URL
 comments-postComment-insertImage = Insert
