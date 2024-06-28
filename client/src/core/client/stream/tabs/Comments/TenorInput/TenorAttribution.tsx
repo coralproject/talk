@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 
 import { Flex } from "coral-ui/components/v2";
 
-import giphyAttributionImg from "./tenorAttribution.gif";
+import giphyAttributionImg from "./tenorAttribution.png";
 
 import styles from "./TenorAttribution.css";
 
