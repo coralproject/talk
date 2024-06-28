@@ -26,7 +26,7 @@ interface CountsV2Body {
 }
 
 const CountsV2BodySchema = Joi.object().keys({
-  storyIDs: Joi.array().items(Joi.string().required()).required(),
+  storyIDs: Joi.array().items(Joi.string().required()).required().max(100),
 });
 
 export type JSONPCountOptions = Pick<
