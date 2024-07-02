@@ -590,6 +590,11 @@ enum FEATURE_FLAG {
   users, and commentActions more quickly. It is disabled by default.
   """
   DATA_CACHE
+
+  """
+  COUNTS_V2 will allow the use of the new /counts/v2 api endpoint to retrieve story comment counts.
+  """
+  COUNTS_V2
 }
 
 # The moderation mode of the site.
