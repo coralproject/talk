@@ -95,6 +95,12 @@ export interface GiphyMedia {
   title?: string;
 }
 
+export interface TenorMedia {
+  type: "tenor";
+  id: string;
+  url: string;
+}
+
 export interface TwitterMedia {
   type: "twitter";
   url: string;
@@ -119,6 +125,7 @@ export interface ExternalMedia {
 
 export type CommentMedia =
   | GiphyMedia
+  | TenorMedia
   | TwitterMedia
   | YouTubeMedia
   | ExternalMedia;

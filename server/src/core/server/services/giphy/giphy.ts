@@ -59,7 +59,7 @@ const GiphyRetrieveResponseSchema = Joi.object().keys({
 
 export function ratingIsAllowed(rating: string, tenant: Tenant) {
   const compareRating = rating.toLowerCase();
-  const maxRating = tenant.media?.giphy.maxRating || "g";
+  const maxRating = tenant.media?.gifs.maxRating || "g";
 
   const compareIndex = RATINGS_ORDER.indexOf(compareRating);
   const maxIndex = RATINGS_ORDER.indexOf(maxRating);
@@ -98,17 +98,17 @@ export async function searchGiphy(
   offset: string,
   tenant: Tenant
 ): Promise<GiphyGifSearchResponse> {
-  if (!supportsMediaType(tenant, "giphy") || !tenant.media.giphy.key) {
+  if (!supportsMediaType(tenant, "giphy") || !tenant.media.gifs.key) {
     throw new InternalError("Giphy was not enabled");
   }
 
   const language = convertLanguage(tenant.locale);
   const url = new URL(GIPHY_SEARCH);
-  url.searchParams.set("api_key", tenant.media.giphy.key);
+  url.searchParams.set("api_key", tenant.media.gifs.key);
   url.searchParams.set("limit", "10");
   url.searchParams.set("lang", language);
   url.searchParams.set("offset", offset);
-  url.searchParams.set("rating", tenant.media.giphy.maxRating!);
+  url.searchParams.set("rating", tenant.media.gifs.maxRating!);
   url.searchParams.set("q", query);
 
   try {
@@ -125,7 +125,7 @@ export async function searchGiphy(
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {
-      err.message = err.message.replace(tenant.media.giphy.key, "[Sensitive]");
+      err.message = err.message.replace(tenant.media.gifs.key, "[Sensitive]");
     }
 
     // Rethrow the error.
@@ -137,12 +137,12 @@ export async function retrieveFromGiphy(
   tenant: Tenant,
   id: string
 ): Promise<GiphyGifRetrieveResponse> {
-  if (!supportsMediaType(tenant, "giphy") || !tenant.media.giphy.key) {
+  if (!supportsMediaType(tenant, "giphy") || !tenant.media.gifs.key) {
     throw new InternalError("Giphy was not enabled");
   }
 
   const url = new URL(`${GIPHY_FETCH}/${id}`);
-  url.searchParams.set("api_key", tenant.media.giphy.key);
+  url.searchParams.set("api_key", tenant.media.gifs.key);
 
   try {
     const res = await fetch(url.toString());
@@ -158,7 +158,7 @@ export async function retrieveFromGiphy(
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {
-      err.message = err.message.replace(tenant.media.giphy.key, "[Sensitive]");
+      err.message = err.message.replace(tenant.media.gifs.key, "[Sensitive]");
     }
 
     // Rethrow the error.

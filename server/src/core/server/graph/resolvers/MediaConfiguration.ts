@@ -8,6 +8,6 @@ export const MediaConfiguration: GQLMediaConfigurationTypeResolver<
 > = {
   twitter: ({ twitter = {} }) => twitter,
   youtube: ({ youtube = {} }) => youtube,
-  giphy: ({ giphy = {} }) => giphy,
+  gifs: ({ gifs = {} }) => gifs,
   external: () => ({}),
 };

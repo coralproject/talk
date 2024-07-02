@@ -14,6 +14,7 @@ import {
   TwitterMedia,
   YouTubeMedia,
 } from "coral-stream/common/Media";
+import TenorMedia from "coral-stream/common/Media/TenorMedia";
 import {
   AddIcon,
   ButtonSvgIcon,
@@ -82,7 +83,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
   if (
     (media.__typename === "TwitterMedia" && !settings.media.twitter.enabled) ||
     (media.__typename === "YouTubeMedia" && !settings.media.youtube.enabled) ||
-    (media.__typename === "GiphyMedia" && !settings.media.giphy.enabled) ||
+    (media.__typename === "GiphyMedia" && !settings.media.gifs.enabled) ||
     (media.__typename === "ExternalMedia" && !settings.media.external.enabled)
   ) {
     return null;
@@ -113,7 +114,10 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           </Localized>
         )}
         {media.__typename === "GiphyMedia" && (
-          <Localized id="comments-embedLinks-show-giphy">Show GIF</Localized>
+          <Localized id="comments-embedLinks-show-gif">Show GIF</Localized>
+        )}
+        {media.__typename === "TenorMedia" && (
+          <Localized id="comments-embedLinks-show-gif">Show GIF</Localized>
         )}
       </Button>
     );
@@ -141,7 +145,10 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
             </Localized>
           )}
           {media.__typename === "GiphyMedia" && (
-            <Localized id="comments-embedLinks-hide-giphy">Hide GIF</Localized>
+            <Localized id="comments-embedLinks-hide-gif">Hide GIF</Localized>
+          )}
+          {media.__typename === "TenorMedia" && (
+            <Localized id="comments-embedLinks-hide-gif">Hide GIF</Localized>
           )}
           {media.__typename === "YouTubeMedia" && (
             <Localized id="comments-embedLinks-hide-youtube">
@@ -188,6 +195,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
           video={media.video}
         />
       )}
+      {media.__typename === "TenorMedia" && <TenorMedia url={media.url} />}
     </HorizontalGutter>
   );
 };
@@ -208,6 +216,9 @@ const enhanced = withFragmentContainer<Props>({
             height
             still
             video
+          }
+          ... on TenorMedia {
+            url
           }
           ... on TwitterMedia {
             url
@@ -234,8 +245,9 @@ const enhanced = withFragmentContainer<Props>({
         youtube {
           enabled
         }
-        giphy {
+        gifs {
           enabled
+          provider
         }
         external {
           enabled

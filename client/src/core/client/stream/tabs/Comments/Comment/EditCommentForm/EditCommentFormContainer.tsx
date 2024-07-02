@@ -242,10 +242,11 @@ const enhanced = withEditCommentMutation(
           youtube {
             enabled
           }
-          giphy {
+          gifs {
             enabled
             key
             maxRating
+            provider
           }
           external {
             enabled

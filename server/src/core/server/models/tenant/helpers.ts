@@ -4,7 +4,10 @@ import { Config } from "coral-server/config";
 import { InternalError } from "coral-server/errors";
 import { translate } from "coral-server/services/i18n";
 
-import { GQLFEATURE_FLAG } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLFEATURE_FLAG,
+  GQLGIF_MEDIA_SOURCE,
+} from "coral-server/graph/schema/__generated__/types";
 
 import { AuthIntegrations } from "../settings";
 import { LEGACY_FEATURE_FLAGS, Tenant } from "./tenant";
@@ -105,7 +108,7 @@ export function getWebhookEndpoint(
 
 export function supportsMediaType(
   tenant: Pick<Tenant, "media" | "featureFlags">,
-  type: "twitter" | "youtube" | "giphy" | "external"
+  type: "twitter" | "youtube" | "giphy" | "tenor" | "external"
 ): tenant is Omit<Tenant, "media"> & Required<Pick<Tenant, "media">> {
   switch (type) {
     case "external":
@@ -115,7 +118,17 @@ export function supportsMediaType(
     case "youtube":
       return !!tenant.media?.youtube.enabled;
     case "giphy":
-      return !!tenant.media?.giphy.enabled && !!tenant.media.giphy.key;
+      return (
+        !!tenant.media?.gifs.enabled &&
+        !!tenant.media.gifs.key &&
+        tenant.media.gifs.provider === GQLGIF_MEDIA_SOURCE.GIPHY
+      );
+    case "tenor":
+      return (
+        !!tenant.media?.gifs.enabled &&
+        !!tenant.media.gifs.key &&
+        tenant.media.gifs.provider === GQLGIF_MEDIA_SOURCE.TENOR
+      );
   }
 }
 
