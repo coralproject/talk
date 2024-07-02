@@ -54,6 +54,30 @@ interface SearchPayload {
   results: SearchResult[];
 }
 
+export const convertGiphyContentRatingToTenorLevel = (
+  rating: string | null | undefined
+) => {
+  if (!rating) {
+    return 1;
+  }
+
+  const lowerRating = rating.toLowerCase();
+  if (lowerRating === "g") {
+    return 1;
+  }
+  if (lowerRating === "pg") {
+    return 2;
+  }
+  if (lowerRating === "pg-13") {
+    return 3;
+  }
+  if (lowerRating === "r") {
+    return 4;
+  }
+
+  return 1;
+};
+
 export const tenorSearchHandler =
   ({ mongo }: AppOptions): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
@@ -82,16 +106,27 @@ export const tenorSearchHandler =
       return;
     }
 
-    const apiKey = tenant.media?.gifs.enabled ? tenant.media.gifs.key : null;
+    const gifsEnabled = tenant.media?.gifs.enabled ?? false;
+    if (!gifsEnabled) {
+      res.status(200).send([]);
+      return;
+    }
+
+    const apiKey = tenant.media?.gifs.key ?? null;
     if (!apiKey || apiKey.length === 0) {
       res.status(200).send([]);
       return;
     }
 
+    const contentFilter = convertGiphyContentRatingToTenorLevel(
+      tenant.media?.gifs.maxRating
+    );
+
     const url = new URL("https://tenor.googleapis.com/v2/search");
     url.searchParams.set("q", params.query);
     url.searchParams.set("key", apiKey);
     url.searchParams.set("limit", `${SEARCH_LIMIT}`);
+    url.searchParams.set("ContentFilter", `${contentFilter}`);
 
     const response = await fetch(url.toString(), {
       method: "GET",
