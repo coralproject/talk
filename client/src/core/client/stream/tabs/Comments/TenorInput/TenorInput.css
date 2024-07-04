@@ -52,6 +52,9 @@
 
 .gridItem {
   width: 75px;
+  background: var(--palette-background-body);
+  border-style: none;
+  padding: 0px;
 }
 
 .gridImage {
