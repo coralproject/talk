@@ -50,6 +50,11 @@ function getMediaFromComment(comment: CommentData) {
         type: "giphy",
         url: comment.revision.media.url,
       };
+    case "TenorMedia":
+      return {
+        type: "tenor",
+        url: comment.revision.media.url,
+      };
     case "TwitterMedia":
       return {
         type: "twitter",
@@ -197,6 +202,10 @@ const enhanced = withEditCommentMutation(
               height
               still
               video
+            }
+            ... on TenorMedia {
+              url
+              title
             }
             ... on TwitterMedia {
               url

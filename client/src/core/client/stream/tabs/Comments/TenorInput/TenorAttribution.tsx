@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 
 import { Flex } from "coral-ui/components/v2";
 
-import giphyAttributionImg from "./tenorAttribution.png";
+import tenorAttributionImg from "./tenorAttribution.png";
 
 import styles from "./TenorAttribution.css";
 
@@ -16,7 +16,7 @@ const TenorAttribution: FunctionComponent = () => {
       >
         <img
           className={styles.img}
-          src={giphyAttributionImg}
+          src={tenorAttributionImg}
           alt="powered by Tenor"
         />
       </Localized>

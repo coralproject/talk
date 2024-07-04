@@ -56,7 +56,7 @@ export interface PasteEvent {
 }
 
 interface MediaProps {
-  type: "giphy" | "twitter" | "youtube" | "external";
+  type: "giphy" | "tenor" | "twitter" | "youtube" | "external";
   url: string;
   id: string | null;
   width?: string;
