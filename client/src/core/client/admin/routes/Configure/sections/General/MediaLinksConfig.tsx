@@ -31,7 +31,7 @@ interface Props {
   disabled: boolean;
 }
 
-const giphyIsEnabled: Condition = (value, values) =>
+const gifsAreEnabled: Condition = (value, values) =>
   Boolean(values.media && values.media.gifs.enabled);
 
 // eslint-disable-next-line no-unused-expressions
@@ -336,7 +336,7 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     <APIKeyField
                       {...input}
                       disabled={gifsDisabled || disabled}
-                      validate={validateWhen(giphyIsEnabled, required)}
+                      validate={validateWhen(gifsAreEnabled, required)}
                     />
                   )}
                 </Field>
