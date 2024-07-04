@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 import { AppOptions } from "coral-server/app/";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-const SEARCH_LIMIT = 16;
+const SEARCH_LIMIT = 32;
 
 const schema = Joi.object({
   query: Joi.string().required().not().empty(),
