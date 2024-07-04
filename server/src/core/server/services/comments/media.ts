@@ -59,14 +59,14 @@ async function attachTenorMedia(
   url: string
 ): Promise<TenorMedia | undefined> {
   try {
-    // Return the formed Giphy Media.
+    // Return the formed Tenor Media.
     return {
       type: "tenor",
       id,
       url,
     };
   } catch (err) {
-    throw new WrappedInternalError(err as Error, "cannot attach Giphy Media");
+    throw new WrappedInternalError(err as Error, "cannot attach Tenor Media");
   }
 }
 
