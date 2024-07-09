@@ -1567,7 +1567,7 @@ type MediaConfiguration {
   youtube: YouTubeMediaConfiguration!
 
   """
-  gifs is the configuration for Giphy support.
+  gifs is the configuration for GIF support.
   """
   gifs: GifMediaConfiguration!
 
