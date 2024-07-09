@@ -160,7 +160,11 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
                   key={gif.id}
                   onClick={() => onGifClick(gif)}
                 >
-                  <img className={styles.gridImage} alt="" src={gif.url}></img>
+                  <img
+                    className={styles.gridImage}
+                    alt=""
+                    src={gif.preview}
+                  ></img>
                 </button>
               );
             })}
