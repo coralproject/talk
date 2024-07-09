@@ -408,7 +408,7 @@ configure-general-embedLinks-description =
   Permettre aux membres d'ajouter une vidéo Youtube, un Tweet ou un GIF à la fin de leur commentaire
 configure-general-embedLinks-enableTwitterEmbeds = Permettre les intégration Twitter
 configure-general-embedLinks-enableYouTubeEmbeds = Permettre les intégration Youtube
-configure-general-embedLinks-enableGiphyEmbeds = Permettre les GIF de GIPHY
+configure-general-embedLinks-enableGifs = Permettre les GIF
 configure-general-embedLinks-enableExternalEmbeds = Permettre un média externe
 
 configure-general-embedLinks-On = Oui

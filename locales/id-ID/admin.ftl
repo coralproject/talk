@@ -612,7 +612,8 @@ configure-general-embedLinks-enableTwitterEmbeds = Izinkan penyematan Twitter
 
 configure-general-embedLinks-enableYouTubeEmbeds = Izinkan penyematan YouTube
 
-configure-general-embedLinks-enableGiphyEmbeds = Izinkan penyematan GIF dari GIPHY
+configure-general-embedLinks-enableGifs = Izinkan penyematan GIF
+
 
 configure-general-embedLinks-enableExternalEmbeds = Aktifkan media eksternal
 

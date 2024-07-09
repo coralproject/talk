@@ -391,7 +391,7 @@ configure-general-embedLinks-description =
   Consenti ai commentatori di aggiungere un video di YouTube, un Tweet o una GIF alla fine del loro commento
 configure-general-embedLinks-enableTwitterEmbeds = Consenti Twitter embed
 configure-general-embedLinks-enableYouTubeEmbeds = Consenti YouTube embed
-configure-general-embedLinks-enableGiphyEmbeds = Consenti GIFs da GIPHY
+configure-general-embedLinks-enableGifs = Consenti GIFs
 configure-general-embedLinks-enableExternalEmbeds = Attiva external media
 
 configure-general-embedLinks-On = Sì

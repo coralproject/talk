@@ -425,7 +425,7 @@ configure-general-embedLinks-description =
   Sta reageerders toe om een YouTube-video, tweet of GIF aan het einde van hun reactie toe te voegen
 configure-general-embedLinks-enableTwitterEmbeds = Sta Twitter-embeds toe
 configure-general-embedLinks-enableYouTubeEmbeds = Sta YouTube-embeds toe
-configure-general-embedLinks-enableGiphyEmbeds = Sta GIFs van GIPHY toe
+configure-general-embedLinks-enableGifs = Sta GIFs toe
 configure-general-embedLinks-enableExternalEmbeds = Externe media toestaan
 
 configure-general-embedLinks-On = Ja
