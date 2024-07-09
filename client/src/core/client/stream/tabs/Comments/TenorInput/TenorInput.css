@@ -2,16 +2,6 @@
   padding: var(--spacing-2);
 }
 
-.input {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.searchButton {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
 .noResults {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-3);

@@ -1,4 +1,3 @@
-import { Localized } from "@fluent/react/compat";
 import React, {
   ChangeEventHandler,
   FunctionComponent,
@@ -15,14 +14,9 @@ import useResizeObserver from "use-resize-observer";
 
 import { createFetch } from "coral-framework/lib/relay";
 import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
-import { ButtonSvgIcon, SearchIcon } from "coral-ui/components/icons";
-import {
-  Button,
-  HorizontalGutter,
-  InputLabel,
-  TextField,
-} from "coral-ui/components/v2";
+import { HorizontalGutter } from "coral-ui/components/v2";
 
+import { GifSearchInput } from "../GifSearchInput/GifSearchInput";
 import TenorAttribution from "./TenorAttribution";
 
 import styles from "./TenorInput.css";
@@ -118,38 +112,12 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
   return (
     <div className={styles.root} ref={ref}>
       <HorizontalGutter>
-        <HorizontalGutter>
-          <Localized id="comments-postComment-gifSearch">
-            <InputLabel htmlFor="coral-comments-postComment-gifSearch">
-              Search for a GIF
-            </InputLabel>
-          </Localized>
-          <TextField
-            className={styles.input}
-            value={debouncedQuery}
-            onChange={onChange}
-            onKeyPress={onKeyPress}
-            fullWidth
-            variant="seamlessAdornment"
-            color="streamBlue"
-            id="coral-comments-postComment-gifSearch"
-            adornment={
-              <Localized
-                id="comments-postComment-gifSearch-search"
-                attrs={{ "aria-label": true }}
-              >
-                <Button
-                  color="stream"
-                  className={styles.searchButton}
-                  aria-label="Search"
-                >
-                  <ButtonSvgIcon Icon={SearchIcon} />
-                </Button>
-              </Localized>
-            }
-            ref={inputRef}
-          />
-        </HorizontalGutter>
+        <GifSearchInput
+          debouncedQuery={debouncedQuery}
+          onChange={onChange}
+          onKeyPress={onKeyPress}
+          inputRef={inputRef}
+        />
         <div className={styles.grid}>
           {query &&
             gifs &&
