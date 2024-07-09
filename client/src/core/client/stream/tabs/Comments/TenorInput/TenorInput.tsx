@@ -23,7 +23,7 @@ import {
   TextField,
 } from "coral-ui/components/v2";
 
-import GiphyAttribution from "./TenorAttribution";
+import TenorAttribution from "./TenorAttribution";
 
 import styles from "./TenorInput.css";
 
@@ -170,7 +170,7 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
               );
             })}
         </div>
-        <GiphyAttribution />
+        <TenorAttribution />
       </HorizontalGutter>
     </div>
   );
