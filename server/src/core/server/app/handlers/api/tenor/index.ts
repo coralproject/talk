@@ -5,6 +5,7 @@ import { AppOptions } from "coral-server/app/";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const SEARCH_LIMIT = 32;
+const TENOR_SEARCH_URL = "https://tenor.googleapis.com/v2/search";
 
 const schema = Joi.object({
   query: Joi.string().required().not().empty(),
@@ -121,7 +122,7 @@ export const tenorSearchHandler =
       tenant.media?.gifs.maxRating
     );
 
-    const url = new URL("https://tenor.googleapis.com/v2/search");
+    const url = new URL(TENOR_SEARCH_URL);
     url.searchParams.set("q", params.query);
     url.searchParams.set("key", apiKey);
     url.searchParams.set("limit", `${SEARCH_LIMIT}`);
