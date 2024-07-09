@@ -5,7 +5,7 @@ interface Props {
   title?: string | null;
 }
 
-const GiphyMedia: FunctionComponent<Props> = ({ url, title }) => {
+const TenorMedia: FunctionComponent<Props> = ({ url, title }) => {
   return (
     <div style={{ maxWidth: `${100}px` }}>
       <img
@@ -18,4 +18,4 @@ const GiphyMedia: FunctionComponent<Props> = ({ url, title }) => {
   );
 };
 
-export default GiphyMedia;
+export default TenorMedia;
