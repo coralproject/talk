@@ -83,7 +83,6 @@ export const tenorSearchHandler =
   async (req, res, next) => {
     const { tenant } = req.coral;
     if (!tenant) {
-      // throw new TenantNotFoundError(req.hostname);
       res.status(403).send("tenant not found");
       return;
     }
