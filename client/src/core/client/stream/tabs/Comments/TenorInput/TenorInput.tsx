@@ -53,6 +53,7 @@ export interface GifResult {
   id: string;
   url: string;
   preview: string;
+  title?: string;
 }
 
 const GifFetch = createGifFetch<GifResult[]>("tenorGifFetch", "/tenor/search");
@@ -162,7 +163,7 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
                 >
                   <img
                     className={styles.gridImage}
-                    alt=""
+                    alt={gif.title}
                     src={gif.preview}
                   ></img>
                 </button>
