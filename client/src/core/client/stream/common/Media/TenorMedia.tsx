@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from "react";
 
+import styles from "./TenorMedia.css";
+
 interface Props {
   url: string;
   title?: string | null;
@@ -7,7 +9,7 @@ interface Props {
 
 const TenorMedia: FunctionComponent<Props> = ({ url, title }) => {
   return (
-    <div style={{ maxWidth: `${100}px` }}>
+    <div className={styles.tenorMedia}>
       <img
         src={url}
         loading="lazy"
