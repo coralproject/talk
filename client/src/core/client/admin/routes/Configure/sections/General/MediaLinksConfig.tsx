@@ -64,10 +64,10 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
       }
       container={<FieldSet />}
     >
-      <Localized id="configure-general-embedLinks-desc">
+      <Localized id="configure-general-embedLinks-description">
         <FormFieldDescription>
-          Allow commenters to add a YouTube video, X post or GIF from GIPHY's
-          library to the end of their comment
+          Allow commenters to add a YouTube video, X post or GIF's to the end of
+          their comment
         </FormFieldDescription>
       </Localized>
       <FormField>

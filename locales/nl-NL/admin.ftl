@@ -420,7 +420,9 @@ configure-general-sitewideCommenting-messageExplanation =
 
 #### Embed Links
 configure-general-embedLinks-title = Embedded media
-configure-general-embedLinks-desc = Sta reageerders toe om een YouTube-video, tweet of GIF uit GIPHYs bibliotheek aan het einde van hun reactie toe te voegen
+configure-general-embedLinks-desc =
+configure-general-embedLinks-description =
+  Sta reageerders toe om een YouTube-video, tweet of GIF aan het einde van hun reactie toe te voegen
 configure-general-embedLinks-enableTwitterEmbeds = Sta Twitter-embeds toe
 configure-general-embedLinks-enableYouTubeEmbeds = Sta YouTube-embeds toe
 configure-general-embedLinks-enableGiphyEmbeds = Sta GIFs van GIPHY toe

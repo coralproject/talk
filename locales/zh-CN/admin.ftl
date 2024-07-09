@@ -382,7 +382,8 @@ configure-general-sitewideCommenting-messageExplanation =
 
 ### Embed Links
 configure-general-embedLinks-title = 嵌入媒体
-configure-general-embedLinks-desc = 允许留言人在留言内容最后添加YouTube视频、推特或来自GIPHY相册的GIF。
+configure-general-embedLinks-desc =
+configure-general-embedLinks-description = 允许留言人在留言内容最后添加YouTube视频、推特或来自GIF。
 configure-general-embedLinks-enableTwitterEmbeds = 允许嵌入Twitter
 configure-general-embedLinks-enableYouTubeEmbeds = 允许嵌入YouTube
 configure-general-embedLinks-enableGiphyEmbeds =允许嵌入来自 GIPHY的动图

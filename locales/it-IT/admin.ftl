@@ -386,7 +386,9 @@ configure-general-sitewideCommenting-messageExplanation =
 
 #### Embed Links
 configure-general-embedLinks-title = Embedded media
-configure-general-embedLinks-desc = Consenti ai commentatori di aggiungere un video di YouTube, un Tweet o una GIF dalla libreria di GIPHY alla fine del loro commento
+configure-general-embedLinks-desc =
+configure-general-embedLinks-description =
+  Consenti ai commentatori di aggiungere un video di YouTube, un Tweet o una GIF alla fine del loro commento
 configure-general-embedLinks-enableTwitterEmbeds = Consenti Twitter embed
 configure-general-embedLinks-enableYouTubeEmbeds = Consenti YouTube embed
 configure-general-embedLinks-enableGiphyEmbeds = Consenti GIFs da GIPHY

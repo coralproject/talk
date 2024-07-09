@@ -403,7 +403,9 @@ configure-general-sitewideCommenting-messageExplanation =
 
 #### Embed Links
 configure-general-embedLinks-title = Intégration de média
-configure-general-embedLinks-desc = Permettre aux membres d'ajouter une vidéo Youtube, un Tweet ou un GIF de la bibliothèque GIPHY à la fin de leur commentaire
+configure-general-embedLinks-desc =
+configure-general-embedLinks-description =
+  Permettre aux membres d'ajouter une vidéo Youtube, un Tweet ou un GIF à la fin de leur commentaire
 configure-general-embedLinks-enableTwitterEmbeds = Permettre les intégration Twitter
 configure-general-embedLinks-enableYouTubeEmbeds = Permettre les intégration Youtube
 configure-general-embedLinks-enableGiphyEmbeds = Permettre les GIF de GIPHY

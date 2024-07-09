@@ -604,7 +604,9 @@ configure-general-sitewideCommenting-messageExplanation =
 #### Embed Links
 configure-general-embedLinks-title = Media yang disematkan
 
-configure-general-embedLinks-desc = Izinkan komentar untuk menambahkan video YouTube, Tweet, atau GIF dari perpustakaan GIPHY ke akhir komentar
+configure-general-embedLinks-desc =
+configure-general-embedLinks-description = 
+  Izinkan komentar untuk menambahkan video YouTube, Tweet, atau GIF ke akhir komentar
 
 configure-general-embedLinks-enableTwitterEmbeds = Izinkan penyematan Twitter
 
