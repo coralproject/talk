@@ -57,26 +57,26 @@ interface SearchPayload {
 
 export const convertGiphyContentRatingToTenorLevel = (
   rating: string | null | undefined
-) => {
+): string => {
   if (!rating) {
-    return 1;
+    return "high";
   }
 
   const lowerRating = rating.toLowerCase();
   if (lowerRating === "g") {
-    return 1;
+    return "high";
   }
   if (lowerRating === "pg") {
-    return 2;
+    return "medium";
   }
   if (lowerRating === "pg-13") {
-    return 3;
+    return "low";
   }
   if (lowerRating === "r") {
-    return 4;
+    return "off";
   }
 
-  return 1;
+  return "high";
 };
 
 export const tenorSearchHandler =
@@ -126,7 +126,7 @@ export const tenorSearchHandler =
     url.searchParams.set("q", params.query);
     url.searchParams.set("key", apiKey);
     url.searchParams.set("limit", `${SEARCH_LIMIT}`);
-    url.searchParams.set("ContentFilter", `${contentFilter}`);
+    url.searchParams.set("contentfilter", contentFilter);
 
     const response = await fetch(url.toString(), {
       method: "GET",
