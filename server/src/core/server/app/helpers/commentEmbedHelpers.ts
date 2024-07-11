@@ -62,6 +62,7 @@ export async function getCommentEmbedData(
 
   let mediaUrl = null;
   let giphyMedia = null;
+  let tenorMedia = null;
   let externalMediaUrl = null;
   let simpleEmbedMediaUrl = null;
   if (
@@ -81,6 +82,10 @@ export async function getCommentEmbedData(
     }
     simpleEmbedMediaUrl = giphyMedia.url;
   }
+  if (commentRevision.media?.type === "tenor") {
+    tenorMedia = commentRevision.media;
+    simpleEmbedMediaUrl = tenorMedia.url;
+  }
 
   return {
     comment,
@@ -88,6 +93,7 @@ export async function getCommentEmbedData(
     commentRevision,
     mediaUrl,
     giphyMedia,
+    tenorMedia,
     externalMediaUrl,
     simpleEmbedMediaUrl,
   };

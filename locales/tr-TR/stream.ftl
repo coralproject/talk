@@ -348,8 +348,8 @@ comments-permalink-linkCopied = Link kopyalandı
 comments-embedLinks-showEmbeds = Embedleri göster
 comments-embedLinks-hideEmbeds = Embedleri gizle
 
-comments-embedLinks-show-giphy = GIF’I göster
-comments-embedLinks-hide-giphy = GIF’I gizle
+comments-embedLinks-show-gif = GIF’I göster
+comments-embedLinks-hide-gif = GIF’I gizle
 
 comments-embedLinks-show-youtube = Videoyu göster
 comments-embedLinks-hide-youtube = Videoyu gizle

@@ -429,10 +429,12 @@ configure-general-sitewideCommenting-messageExplanation =
 
 #### Bädda in länkar
 configure-general-embedLinks-title = Inbäddade medier
-configure-general-embedLinks-desc = Tillåt kommentatorer att lägga till en YouTube-video, X inlägg eller GIF från GIPHYs bibliotek i slutet av deras kommentar
+configure-general-embedLinks-desc =
+configure-general-embedLinks-desc =
+  Tillåt kommentatorer att lägga till en YouTube-video, X inlägg eller GIF i slutet av deras kommentar
 configure-general-embedLinks-enableTwitterEmbeds = Tillåt inbäddning av X-inlägg
 configure-general-embedLinks-enableYouTubeEmbeds = Tillåt YouTube-inbäddningar
-configure-general-embedLinks-enableGiphyEmbeds = Tillåt GIFs från GIPHY
+configure-general-embedLinks-enableGifs = Tillåt GIFs
 configure-general-embedLinks-enableExternalEmbeds = Aktivera externa medier
 
 configure-general-embedLinks-On = Ja

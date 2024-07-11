@@ -36,6 +36,7 @@ import { createDSAReportRouter } from "./dsaReport";
 import { createNewInstallRouter } from "./install";
 import { createRemoteMediaRouter } from "./remoteMedia";
 import { createStoryRouter } from "./story";
+import { createTenorRouter } from "./tenor";
 import { createNewUserRouter } from "./user";
 
 export interface RouterOptions {
@@ -117,6 +118,15 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     "/external-media",
     cspSiteMiddleware(app),
     externalMediaHandler(app)
+  );
+
+  router.use(
+    "/tenor",
+    corsWhitelisted(app.mongo),
+    authenticate(options.passport),
+    loggedInMiddleware,
+    cspSiteMiddleware(app),
+    createTenorRouter(app)
   );
 
   // General API error handler.

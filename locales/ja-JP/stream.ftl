@@ -368,8 +368,8 @@ comments-permalink-linkCopied = リンクをコピーしました
 comments-embedLinks-showEmbeds = 埋め込みを表示
 comments-embedLinks-hideEmbeds = 埋め込みを非表示
 
-comments-embedLinks-show-giphy = GIFを表示
-comments-embedLinks-hide-giphy = GIFを非表示
+comments-embedLinks-show-gif = GIFを表示
+comments-embedLinks-hide-gif = GIFを非表示
 
 comments-embedLinks-show-youtube = ビデオを表示
 comments-embedLinks-hide-youtube = ビデオを非表示

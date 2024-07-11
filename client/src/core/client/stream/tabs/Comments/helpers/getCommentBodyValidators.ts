@@ -13,7 +13,9 @@ import getHTMLCharacterLength from "./getHTMLCharacterLength";
 
 const hasMediaAttached: Condition = (value, values) =>
   !!values.media &&
-  (values.media.type === "giphy" || values.media.type === "external") &&
+  (values.media.type === "giphy" ||
+    values.media.type === "tenor" ||
+    values.media.type === "external") &&
   !!values.media.url;
 
 const hasRatingAttached: Condition = (value, values) => !!values.rating;
