@@ -13,7 +13,7 @@ const useFetchWithAuth = () => {
   `);
 
   const fetchWithAuth = useCallback(
-    async (input: RequestInfo | URL, init?: RequestInit) => {
+    async (input: RequestInfo, init?: RequestInit) => {
       const params = {
         ...init,
         headers: new Headers({
