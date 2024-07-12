@@ -124,8 +124,6 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     "/tenor",
     corsWhitelisted(app.mongo),
     authenticate(options.passport),
-    loggedInMiddleware,
-    cspSiteMiddleware(app),
     createTenorRouter(app)
   );
 

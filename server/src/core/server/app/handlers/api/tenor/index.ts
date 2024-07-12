@@ -9,10 +9,12 @@ const TENOR_SEARCH_URL = "https://tenor.googleapis.com/v2/search";
 
 const schema = Joi.object({
   query: Joi.string().required().not().empty(),
+  pos: Joi.string().optional(),
 });
 
 interface BodyPayload {
   query: string;
+  pos?: string;
 }
 
 interface MediaFormat {
@@ -53,6 +55,7 @@ interface SearchResult {
 
 interface SearchPayload {
   results: SearchResult[];
+  next: string;
 }
 
 export const convertGiphyContentRatingToTenorLevel = (
@@ -84,12 +87,11 @@ export const tenorSearchHandler =
   async (req, res, next) => {
     const { tenant } = req.coral;
     if (!tenant) {
-      res.status(403).send("tenant not found");
+      res.status(404).send("tenant not found");
       return;
     }
 
-    const { user } = req;
-    if (!user) {
+    if (!req.user) {
       res.status(403).send("user is required");
       return;
     }
@@ -108,13 +110,17 @@ export const tenorSearchHandler =
 
     const gifsEnabled = tenant.media?.gifs.enabled ?? false;
     if (!gifsEnabled) {
-      res.status(200).send([]);
+      res.status(200).send({
+        results: [],
+      });
       return;
     }
 
     const apiKey = tenant.media?.gifs.key ?? null;
     if (!apiKey || apiKey.length === 0) {
-      res.status(200).send([]);
+      res.status(200).send({
+        results: [],
+      });
       return;
     }
 
@@ -128,28 +134,37 @@ export const tenorSearchHandler =
     url.searchParams.set("limit", `${SEARCH_LIMIT}`);
     url.searchParams.set("contentfilter", contentFilter);
 
+    if (params.pos) {
+      url.searchParams.set("pos", params.pos);
+    }
+
     const response = await fetch(url.toString(), {
       method: "GET",
     });
 
     if (!response.ok) {
-      res.status(500).send([]);
+      res.status(500).send({
+        results: [],
+      });
       return;
     }
 
     const json = (await response.json()) as SearchPayload;
     if (!json) {
-      res.status(500).send([]);
+      res.status(500).send({
+        results: [],
+      });
     }
 
-    res.status(200).send(
-      json.results.map((r) => {
+    res.status(200).send({
+      results: json.results.map((r) => {
         return {
           id: r.id,
           title: r.title,
           url: r.media_formats.gif.url,
-          preview: r.media_formats.tinygif.url,
+          preview: r.media_formats.nanogif.url,
         };
-      })
-    );
+      }),
+      next: json.next,
+    });
   };

@@ -39,6 +39,13 @@
   gap: 8px;
 }
 
+.gridControls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .gridItem {
   width: 85px;
   background: var(--palette-background-body);
@@ -50,3 +57,14 @@
   width: 100%;
   height: auto;
 }
+
+.input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.searchButton {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
