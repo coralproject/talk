@@ -1,3 +1,4 @@
+import { Localized } from "@fluent/react/compat";
 import React, {
   ChangeEventHandler,
   FunctionComponent,
@@ -8,35 +9,17 @@ import React, {
   useRef,
   useState,
 } from "react";
-import useDebounce from "react-use/lib/useDebounce";
-import { Environment } from "relay-runtime";
 import useResizeObserver from "use-resize-observer";
 
-import { createFetch } from "coral-framework/lib/relay";
-import { useImmediateFetch } from "coral-framework/lib/relay/fetch";
-import { HorizontalGutter } from "coral-ui/components/v2";
+import { useDebounce } from "coral-framework/hooks";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import useFetchWithAuth from "coral-stream/common/useFetchWithAuth";
+import { ButtonSvgIcon, SearchIcon } from "coral-ui/components/icons";
+import { Button, HorizontalGutter, TextField } from "coral-ui/components/v2";
 
-import { GifSearchInput } from "../GifSearchInput/GifSearchInput";
 import TenorAttribution from "./TenorAttribution";
 
 import styles from "./TenorInput.css";
-
-function createGifFetch<T>(name: string, url: string) {
-  return createFetch(
-    name,
-    async (
-      environment: Environment,
-      variables: { query: string },
-      { rest }
-    ) => {
-      const params = new URLSearchParams(variables);
-
-      return rest.fetch<T>(`${url}?${params.toString()}`, {
-        method: "GET",
-      });
-    }
-  );
-}
 
 interface Props {
   onSelect: (gif: GifResult) => void;
@@ -50,39 +33,81 @@ export interface GifResult {
   title?: string;
 }
 
-const GifFetch = createGifFetch<GifResult[]>("tenorGifFetch", "/tenor/search");
+export interface SearchPayload {
+  results: GifResult[];
+  next?: string;
+}
 
 const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
-  const [query, setQuery] = useState("");
-  const [lastUpdated, setLastUpdated] = useState<string>(
-    new Date().toISOString()
-  );
+  const { rootURL } = useCoralContext();
+  const fetchWithAuth = useFetchWithAuth();
 
-  const [gifs, loading] = useImmediateFetch(GifFetch, { query }, lastUpdated);
+  const [query, setQuery] = useState("");
+  const [next, setNext] = useState<string | null>(null);
+  const [gifs, setGifs] = useState<GifResult[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { ref } = useResizeObserver<HTMLDivElement>();
 
-  const fetchGifs = useCallback(async () => {
-    setLastUpdated(new Date().toISOString());
-  }, [setLastUpdated]);
+  const fetchGifs = useCallback(
+    async (q: string, n?: string) => {
+      if (!q || q.length === 0) {
+        return null;
+      }
 
-  // Instead of updating the query with every keystroke, debounce the change to
-  // that state parameter.
-  const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [, cancelDebounce] = useDebounce(
-    () => {
-      setQuery(debouncedQuery);
-      void fetchGifs();
+      const url = new URL("/api/tenor/search", rootURL);
+      url.searchParams.set("query", q);
+
+      if (n) {
+        url.searchParams.set("pos", n);
+      }
+
+      const response = await fetchWithAuth(url.toString());
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const json = (await response.json()) as SearchPayload;
+      if (!json) {
+        return null;
+      }
+
+      return json;
     },
-    500,
-    [debouncedQuery]
+    [fetchWithAuth, rootURL]
   );
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    setDebouncedQuery(e.target.value);
-  }, []);
+  const loadGifs = useCallback(async () => {
+    const response = await fetchGifs(query);
+    if (!response) {
+      return;
+    }
+
+    setGifs(response.results);
+    setNext(response.next ?? null);
+  }, [query, fetchGifs]);
+
+  const loadMoreGifs = useCallback(async () => {
+    const response = await fetchGifs(query);
+    if (!response) {
+      return;
+    }
+
+    setGifs([...gifs, ...response.results]);
+    setNext(response.next ?? null);
+  }, [fetchGifs, gifs, query]);
+
+  const debounceFetchGifs = useDebounce(loadGifs, 650);
+
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    async (e) => {
+      setQuery(e.target.value);
+      setTimeout(debounceFetchGifs, 300);
+    },
+    [debounceFetchGifs, setQuery]
+  );
 
   // Focus on the input as soon as the input is available.
   useEffect(() => {
@@ -91,42 +116,77 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
     }
   }, []);
 
-  const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== "Enter") {
+  const onKeyPress = useCallback(
+    async (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key !== "Enter") {
+        return;
+      }
+
+      debounceFetchGifs();
+
+      e.preventDefault();
+    },
+    [debounceFetchGifs]
+  );
+
+  const onClickSearch = useCallback(async () => {
+    setNext(null);
+    await loadGifs();
+  }, [loadGifs]);
+
+  const onLoadMore = useCallback(async () => {
+    if (!next) {
       return;
     }
 
-    e.preventDefault();
-  }, []);
+    await loadMoreGifs();
+  }, [loadMoreGifs, next]);
 
   const onGifClick = useCallback(
     (gif: GifResult) => {
       // Cancel any active timers that might cause the query to be changed.
-      cancelDebounce();
       setQuery("");
       onSelect(gif);
     },
-    [cancelDebounce, onSelect]
+    [onSelect]
   );
 
   return (
     <div className={styles.root} ref={ref}>
       <HorizontalGutter>
-        <GifSearchInput
-          debouncedQuery={debouncedQuery}
+        <TextField
+          value={query}
           onChange={onChange}
           onKeyPress={onKeyPress}
-          inputRef={inputRef}
+          fullWidth
+          variant="seamlessAdornment"
+          color="streamBlue"
+          id="coral-comments-postComment-gifSearch"
+          adornment={
+            <Localized
+              id="comments-postComment-gifSearch-search"
+              attrs={{ "aria-label": true }}
+            >
+              <Button
+                color="stream"
+                className={styles.searchButton}
+                aria-label="Search"
+                onClick={onClickSearch}
+              >
+                <ButtonSvgIcon Icon={SearchIcon} />
+              </Button>
+            </Localized>
+          }
+          ref={inputRef}
         />
         <div className={styles.grid}>
           {query &&
             gifs &&
-            !loading &&
-            gifs.map((gif) => {
+            gifs.map((gif, index) => {
               return (
                 <button
                   className={styles.gridItem}
-                  key={gif.id}
+                  key={`${gif.id}-${index}`}
                   onClick={() => onGifClick(gif)}
                 >
                   <img
@@ -137,6 +197,15 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
                 </button>
               );
             })}
+          {next && gifs && gifs.length > 0 && (
+            <div className={styles.gridControls}>
+              <Localized id="comments-postComment-gifSearch-search-loadMore">
+                <Button color="stream" onClick={onLoadMore}>
+                  Load More
+                </Button>
+              </Localized>
+            </div>
+          )}
         </div>
         <TenorAttribution />
       </HorizontalGutter>

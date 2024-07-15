@@ -120,6 +120,7 @@ comments-replyList-showMoreReplies = Show More Replies
 comments-postComment-gifSearch = Search for a GIF
 comments-postComment-gifSearch-search =
   .aria-label = Search
+comments-postComment-gifSearch-search-loadMore = Load more
 comments-postComment-gifSearch-loading = Loading...
 comments-postComment-gifSearch-no-results = No results found for {$query}
 comments-postComment-gifSearch-powered-by-giphy =
