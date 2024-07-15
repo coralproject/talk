@@ -21,6 +21,8 @@ import TenorAttribution from "./TenorAttribution";
 
 import styles from "./TenorInput.css";
 
+const DEBOUNCE_DELAY_MS = 1250;
+
 interface Props {
   onSelect: (gif: GifResult) => void;
   forwardRef?: Ref<HTMLInputElement>;
@@ -99,7 +101,7 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
     setNext(response.next ?? null);
   }, [fetchGifs, gifs, query]);
 
-  const debounceFetchGifs = useDebounce(loadGifs, 650);
+  const debounceFetchGifs = useDebounce(loadGifs, DEBOUNCE_DELAY_MS);
 
   const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     async (e) => {
