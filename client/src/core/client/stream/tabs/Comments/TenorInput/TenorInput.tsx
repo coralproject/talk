@@ -199,7 +199,7 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
                 </button>
               );
             })}
-          {next && gifs && gifs.length > 0 && (
+          {next && gifs && gifs.length > 0 && query?.length > 0 && (
             <div className={styles.gridControls}>
               <Localized id="comments-postComment-gifSearch-search-loadMore">
                 <Button color="stream" onClick={onLoadMore}>
