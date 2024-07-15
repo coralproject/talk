@@ -463,8 +463,8 @@ comments-permalink-linkCopied = Länk kopierad
 comments-embedLinks-showEmbeds = Visa inbäddningar
 comments-embedLinks-hideEmbeds = Dölj inbäddningar
 
-comments-embedLinks-show-giphy = Visa GIF
-comments-embedLinks-hide-giphy = Dölj GIF
+comments-embedLinks-show-gif = Visa GIF
+comments-embedLinks-hide-gif = Dölj GIF
 
 comments-embedLinks-show-youtube = Visa video
 comments-embedLinks-hide-youtube = Dölj video

@@ -374,8 +374,8 @@ comments-permalink-linkCopied = Link kopiert
 comments-embedLinks-showEmbeds = Eingebettete Links anzeigen
 comments-embedLinks-hideEmbeds = Eingebettete Links ausblenden
 
-comments-embedLinks-show-giphy = GIF anzeigen
-comments-embedLinks-hide-giphy = GIF ausblenden
+comments-embedLinks-show-gif = GIF anzeigen
+comments-embedLinks-hide-gif = GIF ausblenden
 
 comments-embedLinks-show-youtube = Video anzeigen
 comments-embedLinks-hide-youtube = Video ausblenden

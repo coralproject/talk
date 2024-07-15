@@ -120,10 +120,13 @@ comments-replyList-showMoreReplies = Show More Replies
 comments-postComment-gifSearch = Search for a GIF
 comments-postComment-gifSearch-search =
   .aria-label = Search
+comments-postComment-gifSearch-search-loadMore = Load more
 comments-postComment-gifSearch-loading = Loading...
 comments-postComment-gifSearch-no-results = No results found for {$query}
 comments-postComment-gifSearch-powered-by-giphy =
   .alt = Powered by giphy
+comments-postComment-gifSearch-powered-by-tenor =
+  .alt = Powered by tenor
 
 comments-postComment-pasteImage = Paste image URL
 comments-postComment-insertImage = Insert
@@ -464,8 +467,10 @@ comments-permalink-linkCopied = Link copied
 comments-embedLinks-showEmbeds = Show embeds
 comments-embedLinks-hideEmbeds = Hide embeds
 
-comments-embedLinks-show-giphy = Show GIF
-comments-embedLinks-hide-giphy = Hide GIF
+comments-embedLinks-show-gif = Show GIF
+
+comments-embedLinks-hide-gif = Hide GIF
+comments-embedLinks-hide-gif = Hide GIF
 
 comments-embedLinks-show-youtube = Show video
 comments-embedLinks-hide-youtube = Hide video

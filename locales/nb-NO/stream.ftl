@@ -399,8 +399,8 @@ comments-permalink-linkCopied = Lenke kopiert
 comments-embedLinks-showEmbeds = Vis eksternt innhold
 comments-embedLinks-hideEmbeds = Skjul eksternt innhold
 
-comments-embedLinks-show-giphy = Vis GIF
-comments-embedLinks-hide-giphy = Skjul GIF
+comments-embedLinks-show-gif = Vis GIF
+comments-embedLinks-hide-gif = Skjul GIF
 
 comments-embedLinks-show-youtube = Vis video
 comments-embedLinks-hide-youtube = Skjul video

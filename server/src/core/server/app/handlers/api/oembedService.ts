@@ -107,6 +107,7 @@ export const oembedProviderHandler = ({
           commentRevision,
           mediaUrl,
           giphyMedia,
+          tenorMedia,
           externalMediaUrl,
           simpleEmbedMediaUrl,
         } = await getCommentEmbedData(mongo, comment, tenant.id);
@@ -158,6 +159,7 @@ export const oembedProviderHandler = ({
           defaultFontsCSS,
           staticRoot: staticURI || tenantURL,
           giphyMedia,
+          tenorMedia,
           sanitized,
           replyMessage,
           goToConversationMessage,
