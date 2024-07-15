@@ -1,9 +1,16 @@
 import { useCallback } from "react";
 import { graphql } from "react-relay";
 
+import { buildURL, parseURL } from "coral-framework/utils";
+
 import { useFetchWithAuth_local } from "coral-stream/__generated__/useFetchWithAuth_local.graphql";
 
 import { useLocal } from "../../framework/lib/relay";
+
+const processURL = (url: string) => {
+  const parsedURL = parseURL(url);
+  return buildURL(parsedURL);
+};
 
 const useFetchWithAuth = () => {
   const [{ accessToken }] = useLocal<useFetchWithAuth_local>(graphql`
@@ -13,7 +20,7 @@ const useFetchWithAuth = () => {
   `);
 
   const fetchWithAuth = useCallback(
-    async (input: RequestInfo, init?: RequestInit) => {
+    async (url: string, init?: RequestInit) => {
       const params = {
         ...init,
         headers: new Headers({
@@ -21,7 +28,8 @@ const useFetchWithAuth = () => {
         }),
       };
 
-      const response = await fetch(input, params);
+      const processedURL = processURL(url);
+      const response = await fetch(processedURL, params);
 
       return response;
     },
