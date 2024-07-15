@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+import { COUNTS_V2_CACHE_DURATION } from "coral-common/common/lib/constants";
 import { CountJSONPData } from "coral-common/common/lib/types/count";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
@@ -220,7 +221,7 @@ export const countsV2Handler =
             );
 
             // add count to Redis cache here then return
-            await redis.set(key, count);
+            await redis.set(key, count, "EX", COUNTS_V2_CACHE_DURATION);
             logger.debug("set story count for counts v2 in redis cache", {
               storyID,
               count,

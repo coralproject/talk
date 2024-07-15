@@ -29,6 +29,7 @@ import {
   GQLFEATURE_FLAG,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
+import { COUNTS_V2_CACHE_DURATION } from "coral-common/common/lib/constants";
 
 interface UpdateAllCommentCountsInput {
   tenant: Readonly<Tenant>;
@@ -226,11 +227,10 @@ export default async function updateAllCommentCounts(
           updatedStory.commentCounts.status
         );
         if (PUBLISHED_STATUSES.includes(input.after.status)) {
-          // Add to Redis cache count
           const key = `${tenant.id}:${storyID}:count`;
 
           // set/update the count
-          await redis.set(key, totalCount);
+          await redis.set(key, totalCount, "EX", COUNTS_V2_CACHE_DURATION);
         }
       }
     }
