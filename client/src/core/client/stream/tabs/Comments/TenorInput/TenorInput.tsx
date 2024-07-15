@@ -53,7 +53,7 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
   const { ref } = useResizeObserver<HTMLDivElement>();
 
   const fetchGifs = useCallback(
-    async (q: string, n?: string) => {
+    async (q: string, n?: string | null) => {
       if (!q || q.length === 0) {
         return null;
       }
@@ -92,14 +92,14 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
   }, [query, fetchGifs]);
 
   const loadMoreGifs = useCallback(async () => {
-    const response = await fetchGifs(query);
+    const response = await fetchGifs(query, next);
     if (!response) {
       return;
     }
 
     setGifs([...gifs, ...response.results]);
     setNext(response.next ?? null);
-  }, [fetchGifs, gifs, query]);
+  }, [fetchGifs, gifs, query, next]);
 
   const debounceFetchGifs = useDebounce(loadGifs, DEBOUNCE_DELAY_MS);
 
