@@ -408,8 +408,8 @@ comments-permalink-linkCopied = Odkaz skopírovaný
 comments-embedLinks-showEmbeds = Zobraziť vložené položky
 comments-embedLinks-hideEmbeds = Skryť vložené položky
 
-comments-embedLinks-show-giphy = Zobraziť GIF
-comments-embedLinks-hide-giphy = Skryť GIF
+comments-embedLinks-show-gif = Zobraziť GIF
+comments-embedLinks-hide-gif = Skryť GIF
 
 comments-embedLinks-show-youtube = Zobraziť video
 comments-embedLinks-hide-youtube = Skryť video

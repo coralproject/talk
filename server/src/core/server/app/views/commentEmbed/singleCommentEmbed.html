@@ -222,6 +222,19 @@ defaultFontsCSS.integrity, staticRoot) }} {% endif %} {% for asset in streamCSS
             />
             {% endif %} </a
           >{% endif %}
+          {% if tenorMedia %}
+            <a
+              href="{{commentPermalinkURL}}&embedInteraction=generalEmbed"
+              target="_blank"
+              class="coral-nested-link"
+              >
+              <img
+                src="{{tenorMedia.url}}"
+                loading="lazy"
+                referrerpolicy="no-referrer"
+              />
+            </a>
+          {% endif %}
         </div>
         <div class="coral coral-comment-actionBar">
           <div class="coral coral-comment-leftActions">

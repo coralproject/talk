@@ -334,8 +334,8 @@ comments-stream-deleteAccount-callOut-cancel =
 comments-embedLinks-showEmbeds = Afficher les pièces jointes
 comments-embedLinks-hideEmbeds = Cacher les pièces jointes
 
-comments-embedLinks-show-giphy = Afficher les GIF
-comments-embedLinks-hide-giphy = Cacher les GIF
+comments-embedLinks-show-gif = Afficher les GIF
+comments-embedLinks-hide-gif = Cacher les GIF
 
 comments-embedLinks-show-youtube = Afficher les vidéos
 comments-embedLinks-hide-youtube = Cacher les vidéos

@@ -364,8 +364,8 @@ comments-permalink-linkCopied = تم نسخ الرابط
 comments-embedLinks-showEmbeds = إظهار التضمين
 comments-embedLinks-hideEmbeds = إخفاء التصمين
 
-comments-embedLinks-show-giphy = إظهار الصورة المتحركة
-comments-embedLinks-hide-giphy = إخفاء الصورة المتحركة
+comments-embedLinks-show-gif = إظهار الصورة المتحركة
+comments-embedLinks-hide-gif = إخفاء الصورة المتحركة
 
 comments-embedLinks-show-youtube = إظهار الفيديو
 comments-embedLinks-hide-youtube = إخفاء الفيديو

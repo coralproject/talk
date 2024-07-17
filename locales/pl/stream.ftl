@@ -318,8 +318,8 @@ comments-stream-deleteAccount-callOut-cancelAccountDeletion =
 comments-embedLinks-showEmbeds = Pokaż embedy
 comments-embedLinks-hideEmbeds = Ukryj embedy
 
-comments-embedLinks-show-giphy = Pokaż GIF
-comments-embedLinks-hide-giphy = Ukryj GIF
+comments-embedLinks-show-gif = Pokaż GIF
+comments-embedLinks-hide-gif = Ukryj GIF
 
 comments-embedLinks-show-youtube = Pokaż film
 comments-embedLinks-hide-youtube = Ukryj film

@@ -324,8 +324,8 @@ comments-stream-deleteAccount-callOut-cancelAccountDeletion =
 comments-embedLinks-showEmbeds = Показать вставки
 comments-embedLinks-hideEmbeds = Скрыть вставки
 
-comments-embedLinks-show-giphy = Показать GIF
-comments-embedLinks-hide-giphy = Скрыть GIF
+comments-embedLinks-show-gif = Показать GIF
+comments-embedLinks-hide-gif = Скрыть GIF
 
 comments-embedLinks-show-youtube = Показать видел
 comments-embedLinks-hide-youtube = Скрыть видео
