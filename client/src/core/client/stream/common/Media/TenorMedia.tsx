@@ -15,6 +15,7 @@ const TenorMedia: FunctionComponent<Props> = ({ url, title }) => {
         loading="lazy"
         referrerPolicy="no-referrer"
         alt={title || ""}
+        className={styles.tenorMediaImage}
       />
     </div>
   );

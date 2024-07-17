@@ -1,3 +1,7 @@
 .tenorMedia {
-  maxWidth: 100px;
+
+}
+
+.tenorMediaImage {
+  max-width: 100%;
 }
