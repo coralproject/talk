@@ -29,35 +29,6 @@
   max-width: 100%;
 }
 
-.grid {
-  max-height: 300px;
-  overflow: auto;
-
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-}
-
-.gridControls {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.gridItem {
-  width: 85px;
-  background: var(--palette-background-body);
-  border-style: none;
-  padding: 0px;
-}
-
-.gridImage {
-  width: 100%;
-  height: auto;
-}
-
 .input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
