@@ -25,7 +25,7 @@
   width: 85px;
   background: var(--palette-background-body);
   border-style: none;
-  padding: 0px;
+  padding: 2px;
 
   display: flex;
   justify-content: center;
