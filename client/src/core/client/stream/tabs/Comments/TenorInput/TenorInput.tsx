@@ -18,6 +18,7 @@ import { ButtonSvgIcon, SearchIcon } from "coral-ui/components/icons";
 import { Button, HorizontalGutter, TextField } from "coral-ui/components/v2";
 
 import TenorAttribution from "./TenorAttribution";
+import TenorGrid from "./TenorGrid";
 
 import styles from "./TenorInput.css";
 
@@ -181,34 +182,14 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
           }
           ref={inputRef}
         />
-        <div className={styles.grid}>
-          {query &&
-            gifs &&
-            gifs.map((gif, index) => {
-              return (
-                <button
-                  className={styles.gridItem}
-                  key={`${gif.id}-${index}`}
-                  onClick={() => onGifClick(gif)}
-                >
-                  <img
-                    className={styles.gridImage}
-                    alt={gif.title}
-                    src={gif.preview}
-                  ></img>
-                </button>
-              );
-            })}
-          {next && gifs && gifs.length > 0 && query?.length > 0 && (
-            <div className={styles.gridControls}>
-              <Localized id="comments-postComment-gifSearch-search-loadMore">
-                <Button color="stream" onClick={onLoadMore}>
-                  Load More
-                </Button>
-              </Localized>
-            </div>
-          )}
-        </div>
+        <TenorGrid
+          gifs={query ? gifs : []}
+          showLoadMore={
+            !!(next && gifs && gifs.length > 0 && query?.length > 0)
+          }
+          onSelectGif={onGifClick}
+          onLoadMore={onLoadMore}
+        />
         <TenorAttribution />
       </HorizontalGutter>
     </div>

@@ -1,0 +1,37 @@
+.grid {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.gridColumns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.gridColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.gridControls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gridItem {
+  width: 85px;
+  background: var(--palette-background-body);
+  border-style: none;
+  padding: 2px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.gridImage {
+  width: 100%;
+  height: auto;
+}
