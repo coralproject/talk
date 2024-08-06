@@ -52,6 +52,14 @@ const run = async () => {
     res.send(result);
   });
 
+  app.post("/api/none", (req, res) => {
+    console.log(req.body);
+
+    const result = {};
+
+    res.send(result);
+  });
+
   app.listen(PORT, HOST, () => {
     console.log(`external mod phase tester is listening on "${HOST}:${PORT}"...`);
   });

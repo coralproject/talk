@@ -62,11 +62,11 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   spam,
   detectLinks,
 
-  // Apply any pre-existing conditions to these comments.
+  // Run any external moderation phase that missed other filters.
+  external,
+
+  // Apply any pre-moderation conditions to these comments.
   statusPreModerateNewCommenter,
   statusPreModerate,
   statusPreModerateUser,
-
-  // Run any external moderation phase that missed other filters.
-  external,
 ];
