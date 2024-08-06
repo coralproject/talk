@@ -4,18 +4,30 @@ import { CountJSONPData } from "coral-common/common/lib/types/count";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { MongoContext } from "coral-server/data/context";
+import logger from "coral-server/logger";
 import { retrieveManyStoryRatings } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
-import { Story } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
+import { retrieveStoryCommentCounts, Story } from "coral-server/models/story";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+} from "coral-server/graph/schema/__generated__/types";
 
 const NUMBER_CLASS_NAME = "coral-count-number";
 const TEXT_CLASS_NAME = "coral-count-text";
+
+interface CountsV2Body {
+  storyIDs: string[];
+}
+
+const CountsV2BodySchema = Joi.object().keys({
+  storyIDs: Joi.array().items(Joi.string().required()).required(),
+});
 
 export type JSONPCountOptions = Pick<
   AppOptions,
@@ -171,3 +183,58 @@ async function calculateStoryCount(
     0
   );
 }
+
+export type CountV2Options = Pick<AppOptions, "mongo" | "redis">;
+
+export const countsV2Handler =
+  ({ mongo, redis }: CountV2Options): RequestHandler<TenantCoralRequest> =>
+  async (req, res, next) => {
+    const { tenant } = req.coral;
+
+    try {
+      if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.COUNTS_V2)) {
+        return res.status(400).send("Counts V2 api not enabled");
+      }
+
+      const { storyIDs }: CountsV2Body = validate(CountsV2BodySchema, req.body);
+
+      const storyCounts = await Promise.all(
+        storyIDs.map(async (storyID) => {
+          // check that cache is available
+
+          // try to look in Redis cache here first by key
+          const key = `${tenant.id}:${storyID}:count`;
+          const redisCount = await redis.get(key);
+
+          if (redisCount) {
+            logger.debug("found story count for counts v2 in redis cache", {
+              storyID,
+              redisCount,
+            });
+            return { storyID, redisCount };
+          } else {
+            const count = await retrieveStoryCommentCounts(
+              mongo,
+              tenant.id,
+              storyID
+            );
+
+            // add count to Redis cache here then return
+            await redis.set(key, count);
+            logger.debug("set story count for counts v2 in redis cache", {
+              storyID,
+              count,
+            });
+
+            return {
+              storyID,
+              count,
+            };
+          }
+        })
+      );
+      res.send(JSON.stringify(storyCounts));
+    } catch (err) {
+      return next(err);
+    }
+  };
