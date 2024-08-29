@@ -5,14 +5,14 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 
 import resizePopup from "../dom/resizePopup";
 
-export default function useResizePopup() {
+export default function useResizePopup(disableResize = false) {
   const { window } = useCoralContext();
   const polling = useRef(true);
   const pollTimeout = useRef<number | null>(null);
 
   const pollPopupHeight = useCallback(
     (interval = 200) => {
-      if (!polling.current) {
+      if (disableResize || !polling.current) {
         return;
       }
 
@@ -28,7 +28,7 @@ export default function useResizePopup() {
           });
         }, interval);
     },
-    [window]
+    [window, disableResize]
   );
 
   useEffect(() => {
@@ -45,7 +45,11 @@ export default function useResizePopup() {
   }, [pollPopupHeight, window]);
 
   const { ref } = useResizeObserver<HTMLDivElement>({
-    onResize: () => resizePopup(window),
+    onResize: () => {
+      if (!disableResize) {
+        resizePopup(window);
+      }
+    },
   });
   return ref;
 }
