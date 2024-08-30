@@ -7,12 +7,10 @@ on:
       - v[0-9]+.[0-9]+.[0-9]+
 
 env:
-  DOCKERHUB_USERNAME: "coralproject"
-  GOOGLE_CLOUD_BUCKET: "coral-cdn"
-  IMAGE_REPOSITORY: "coralproject/talk"
+  DOCKERHUB_USERNAME: "sfstandard"
+  GOOGLE_CLOUD_BUCKET: "sfstandard-coral-cdn"
+  IMAGE_REPOSITORY: "sfstandard/talk"
   IMAGE_CACHE_REPOSITORY: "coralproject/ci"
-  SENTRY_ORG: "voxmedia"
-  SENTRY_PROJECT: "coral"
 
 jobs:
   build-and-test:
@@ -23,9 +21,9 @@ jobs:
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.REPO_PATCHED_DEPLOY_KEY }}
+#      - uses: webfactory/ssh-agent@v0.7.0
+#        with:
+#          ssh-private-key: ${{ secrets.REPO_PATCHED_DEPLOY_KEY }}
       - name: Authenticate with GCP
         id: "auth"
         uses: "google-github-actions/auth@v1"
@@ -126,15 +124,8 @@ jobs:
           cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch
       - name: Deploy Static Assets to GCS Bucket
         run: |
-          CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
+          CONTAINER_ID=$(docker create "sfstandard/talk:${PATCH_TAG}")
           docker cp "${CONTAINER_ID}:/usr/src/app/client/dist/static" static/
           docker rm "${CONTAINER_ID}"
           find ./static -type f -name "*.gz" -print -delete
           gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${PATCH_TAG}/"
-      - name: Upload to Sentry
-        run: |
-          CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
-          docker cp "${CONTAINER_ID}:/usr/src/app/client/dist" dist/
-          docker rm "${CONTAINER_ID}"
-          npx @sentry/cli -V
-          npx @sentry/cli releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}

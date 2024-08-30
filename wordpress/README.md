@@ -1,6 +1,6 @@
 ## Wordpress Dev Environment
 
-This is a dev environment for testing out the [talk-wp-plugin](https://github.com/coralproject/talk-wp-plugin) with Coral.
+This is a dev environment for testing out the [talk-wp-plugin](https://github.com/sfstandard/talk-wp-plugin) with Coral.
 
 ### Usage
 
@@ -19,7 +19,7 @@ This is a dev environment for testing out the [talk-wp-plugin](https://github.co
 
 - Follow the steps to create a new admin user for the wordpress deployment.
 
-- Install the plugin from [talk-wp-plugin](https://github.com/coralproject/talk-wp-plugin) by downloading the source code and zipping it up into a `.zip` archive.
+- Install the plugin from [talk-wp-plugin](https://github.com/sfstandard/talk-wp-plugin) by downloading the source code and zipping it up into a `.zip` archive.
 
 - Navigate to http://localhost:8081/wp-admin/plugins.php and click `Add New Plugin`.
 
@@ -34,4 +34,4 @@ This is a dev environment for testing out the [talk-wp-plugin](https://github.co
 - Set the Coral stream version to `v5+`.
 
 - Head to `Appearance > Themes` and select the oldest theme you can find (Twenty Twenty-Two as of this writing) as the Coral plugin can't override the PHP for comments in newer themes yet.
-    - If you need to set this manually, check the [README](https://github.com/coralproject/talk-wp-plugin?tab=readme-ov-file#theme-usage) on the `talk-wp-plugin` repo for how to [edit the theme to show Coral comments](https://github.com/coralproject/talk-wp-plugin?tab=readme-ov-file#theme-usage).
+    - If you need to set this manually, check the [README](https://github.com/sfstandard/talk-wp-plugin?tab=readme-ov-file#theme-usage) on the `talk-wp-plugin` repo for how to [edit the theme to show Coral comments](https://github.com/sfstandard/talk-wp-plugin?tab=readme-ov-file#theme-usage).

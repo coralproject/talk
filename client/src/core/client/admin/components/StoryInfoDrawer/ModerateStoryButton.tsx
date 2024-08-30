@@ -32,8 +32,8 @@ const ModerateStoryButton: FunctionComponent<Props> = ({
   `);
 
   const href = useMemo(() => {
-    // TODO: (marcushaddon) this will need to be updated to use the new hook once https://github.com/coralproject/talk/pull/3796 dom is merged!
-    // TODO: (marcushaddon) once https://github.com/coralproject/talk/pull/3796 is merged, update the new hook to take access token as an argument
+    // TODO: (marcushaddon) this will need to be updated to use the new hook once https://github.com/sfstandard/talk/pull/3796 dom is merged!
+    // TODO: (marcushaddon) once https://github.com/sfstandard/talk/pull/3796 is merged, update the new hook to take access token as an argument
     let link = getModerationLink({ storyID: id });
     if (
       accessToken &&

@@ -10,7 +10,7 @@ Please note that but submitting a bug report, you agree to our Code of Conduct: 
 When submitting a bug report, provide as much detail as possible, including a screenshot or copy-paste of any related error messages, logs, or other output that might be related. Places to look for information include your browser console, server console, and network logs. The more information you can give the better.
 
 Please help us by doing the following steps before logging an issue:
-  * Search for other similar issues: https://github.com/coralproject/talk/search
+  * Search for other similar issues: https://github.com/sfstandard/talk/search
   * Read our docs: https://docs.coralproject.net
 
 Please fill in the *entire* template below.

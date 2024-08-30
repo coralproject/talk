@@ -13,7 +13,7 @@ versions: https://github.com/creationix/nvm.
 
 ```bash
 # Clone and cd into the Coral directory.
-git clone https://github.com/coralproject/talk.git
+git clone https://github.com/sfstandard/talk.git
 cd talk
 
 # Install dependencies.
@@ -101,7 +101,7 @@ on this screen.
 
 ## Contributing
 
-To get started contributing, check out our [Contribution Guidelines](https://github.com/coralproject/talk/blob/main/CONTRIBUTING.md).
+To get started contributing, check out our [Contribution Guidelines](https://github.com/sfstandard/talk/blob/main/CONTRIBUTING.md).
 
 ### Contributing a Translation
 
@@ -109,7 +109,7 @@ We’re so proud to have received submissions from a lot of 3rd party contributo
 translating Coral into their own languages.
 
 You can see what languages Coral currently supports here:
-https://github.com/coralproject/talk/tree/main/locales
+https://github.com/sfstandard/talk/tree/main/locales
 
 Coral uses the [fluent](http://projectfluent.org/) library and store our
 translations in [FTL](http://projectfluent.org/fluent/guide/) files in
@@ -131,7 +131,7 @@ Coral and supported by the Perspective API, the language should be added to the
 language map in `server/src/core/server/services/comments/pipeline/phases/toxic.ts`.
 
 To assist with the translation process, we have a script that is based on the
-work by @cristiandean in https://github.com/coralproject/talk/pull/2949 that
+work by @cristiandean in https://github.com/sfstandard/talk/pull/2949 that
 will detect missing, new, or changed translation keys for the specified
 language. You can use this with:
 

@@ -43,14 +43,14 @@ const EndpointStatus: FunctionComponent<Props> = ({ webhookEndpoint }) => {
           id="configure-webhooks-signingSecretDescription"
           elems={{
             externalLink: (
-              <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md#webhook-signing" />
+              <ExternalLink href="https://github.com/sfstandard/talk/blob/main/WEBHOOKS.md#webhook-signing" />
             ),
           }}
         >
           <FormFieldDescription>
             The following signing secret is used to sign request payloads sent
             to the URL. To learn more about webhook signing, visit our{" "}
-            <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md#webhook-signing">
+            <ExternalLink href="https://github.com/sfstandard/talk/blob/main/WEBHOOKS.md#webhook-signing">
               Webhook Guide
             </ExternalLink>
             .

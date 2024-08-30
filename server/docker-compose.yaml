@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   jobs:
-    image: coralproject/talk:7
+    image: sfstandard/talk:7
     restart: always
     ports:
       - "5000"

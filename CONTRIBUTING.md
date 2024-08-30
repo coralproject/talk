@@ -3,7 +3,7 @@
 Welcome! We are very excited that you are interested in contributing to Coral.
 
 This document is a companion to help you approach contributing. If it does not
-do so, please [let us know how we can improve it](https://github.com/coralproject/talk/issues)!
+do so, please [let us know how we can improve it](https://github.com/sfstandard/talk/issues)!
 
 By contributing to this project you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 
@@ -89,7 +89,7 @@ the first comment on the thread.
 
 ### When should I create a pull request?
 
-File a pull request if you've created an issue in our [issues](https://github.com/coralproject/talk/issues)
+File a pull request if you've created an issue in our [issues](https://github.com/sfstandard/talk/issues)
 page and have heard back from a member or contributor to Coral. This allows our
 team to review the proposed changes prior to time being spent if the team
 already has the feature/fix in the road map.
@@ -172,7 +172,7 @@ individual fixes or contributions to the documentation.
 If you want to contribute via source files, you can follow the procedure
 outlined below:
 
-1. Clone the Talk repository via `git clone https://github.com/coralproject/talk.git`
+1. Clone the Talk repository via `git clone https://github.com/sfstandard/talk.git`
 2. Follow the procedure outlined in the [`docs/README.md`](docs/README.md) file
    for contributing documentation changes
 3. Create a pull request to merge your changes back
@@ -186,7 +186,7 @@ the API and the runtime on the server that powers resolving data from data
 sources. This heavily influences a lot of the decisions around how we create and
 consume it's API internally and how we expose it to others to interact with.
 
-There are many GraphQL types in our [`schema.graphql`](https://github.com/coralproject/talk/blob/main/server/src/core/server/graph/schema/schema.graphql)
+There are many GraphQL types in our [`schema.graphql`](https://github.com/sfstandard/talk/blob/main/server/src/core/server/graph/schema/schema.graphql)
 that define the way we handle data in our API. We'll try to outline a few of
 them here with examples to help you understand their uses.
 
@@ -433,7 +433,7 @@ fragment on Comment {
 ```
 
 Here we see the `@auth` directive. It has documentation describing the various
-parameters allowed located in the [`schema.graphql`](https://github.com/coralproject/talk/blob/main/server/src/core/server/graph/schema/schema.graphql)
+parameters allowed located in the [`schema.graphql`](https://github.com/sfstandard/talk/blob/main/server/src/core/server/graph/schema/schema.graphql)
 file, we'll discuss below what this particular set of parameters can be read as:
 
 - The roles that are allowed to access this information are `MODERATOR` and

@@ -8,8 +8,8 @@ We're here to help with newsrooms of all sizes. Connect with us [here](https://c
 
 ## How do I request a feature or submit a bug?
 
-The best way is to [submit a GitHub issue](https://github.com/coralproject/talk/issues). Make sure you give plenty of details, our Core Team can usually respond within a few hours on weekdays.
+The best way is to [submit a GitHub issue](https://github.com/sfstandard/talk/issues). Make sure you give plenty of details, our Core Team can usually respond within a few hours on weekdays.
 
 ## How can our dev team contribute to Talk?
 
-We are lucky to work with newsroom dev teams and individual contributors who span the world, and come from newsrooms of all sizes. You can read our [Contribution Guide](https://github.com/coralproject/talk/blob/main/CONTRIBUTING.md) to get started, but feel free to reach out to us via GitHub, or get in touch with us directly via support@coralproject.net.
+We are lucky to work with newsroom dev teams and individual contributors who span the world, and come from newsrooms of all sizes. You can read our [Contribution Guide](https://github.com/sfstandard/talk/blob/main/CONTRIBUTING.md) to get started, but feel free to reach out to us via GitHub, or get in touch with us directly via support@coralproject.net.
