@@ -27,7 +27,7 @@ Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
 You can install Coral using Docker or via Source. We recommend Docker, as it
 provides the easiest deployment solution going forward, as all the dependencies
 are baked and shipped with the provided
-[coralproject/talk](https://hub.docker.com/r/coralproject/talk) image.
+[sfstandard/talk](https://hub.docker.com/r/sfstandard/talk) image.
 
 ### Docker
 
@@ -50,7 +50,7 @@ cat > docker-compose.yml <<EOF
 version: "2"
 services:
   talk:
-    image: coralproject/talk:7
+    image: sfstandard/talk:7
     restart: always
     ports:
       - "127.0.0.1:5000:5000"
@@ -84,7 +84,7 @@ versions https://github.com/nvm-sh/nvm.
 
 ```bash
 # Clone and cd into the Coral directory.
-git clone https://github.com/coralproject/talk.git
+git clone https://github.com/sfstandard/talk.git
 cd talk
 
 # Install dependencies.

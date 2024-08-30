@@ -8,15 +8,15 @@ There are a few avenues to get in touch with us and others in the community for 
 
 To log a bug or request a feature, submit a Support ticket ([support@coralproject.net](mailto:support@coralproject.net)) and someone from our team will get back to you.
 
-You can also request help on GitHub by [submitting an issue](https://github.com/coralproject/talk/issues). This also increases your chances of having someone from the community respond to help.
+You can also request help on GitHub by [submitting an issue](https://github.com/sfstandard/talk/issues). This also increases your chances of having someone from the community respond to help.
 
 ## How can our dev team contribute to Coral?
 
-We are lucky to work with newsroom dev teams and individual contributors who span the world, and come from newsrooms of all sizes. You can read our [Contribution Guide](https://github.com/coralproject/talk/blob/main/CONTRIBUTING.md) to get started, but feel free to reach out to us via GitHub too.
+We are lucky to work with newsroom dev teams and individual contributors who span the world, and come from newsrooms of all sizes. You can read our [Contribution Guide](https://github.com/sfstandard/talk/blob/main/CONTRIBUTING.md) to get started, but feel free to reach out to us via GitHub too.
 
 ## What if we want to add a feature you don't have?
 
-Coral is open source, so you're free to develop additional functionality and [submit a pull request](https://github.com/coralproject/talk).
+Coral is open source, so you're free to develop additional functionality and [submit a pull request](https://github.com/sfstandard/talk).
 
 ## Do you have GDPR features?
 
@@ -24,7 +24,7 @@ Yes! Please read our [GDPR documentation](/gdpr) for your version for more infor
 
 ## Can I import my existing comments?
 
-Yes! For version 4.x.x we have a community-supported [import framework](https://github.com/coralproject/talk-importer) that you can use to migrate your existing comments.
+Yes! For version 4.x.x we have a community-supported [import framework](https://github.com/sfstandard/talk-importer) that you can use to migrate your existing comments.
 
 Import tools are still in development for version 5, but will be coming soon! Contact us at [support@coralproject.net](mailto:support@coralproject.net) if you need an importer for version 5.x.x.
 

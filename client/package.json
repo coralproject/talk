@@ -1,5 +1,5 @@
 {
-  "name": "@coralproject/talk",
+  "name": "@sfstandard/talk",
   "version": "9.2.0",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
@@ -9,15 +9,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/coralproject/talk.git"
+    "url": "git://github.com/sfstandard/talk.git"
   },
   "engines": {
     "node": "^18.16.0",
     "pnpm": "8.14.3"
   },
-  "bugs": "https://github.com/coralproject/talk/issues",
+  "bugs": "https://github.com/sfstandard/talk/issues",
   "contributors": [
-    "https://github.com/coralproject/talk/graphs/contributors"
+    "https://github.com/sfstandard/talk/graphs/contributors"
   ],
   "description": "A better commenting experience from Vox Media.",
   "scripts": {

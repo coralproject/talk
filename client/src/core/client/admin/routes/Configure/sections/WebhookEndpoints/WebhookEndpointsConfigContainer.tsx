@@ -47,7 +47,7 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
           id="configure-webhooks-description"
           elems={{
             externalLink: (
-              <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md" />
+              <ExternalLink href="https://github.com/sfstandard/talk/blob/main/WEBHOOKS.md" />
             ),
           }}
         >
@@ -55,7 +55,7 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
             Configure an endpoint to send events to when events occur within
             Coral. These events will be JSON encoded and signed. To learn more
             about webhook signing, visit our{" "}
-            <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md">
+            <ExternalLink href="https://github.com/sfstandard/talk/blob/main/WEBHOOKS.md">
               our docs
             </ExternalLink>
             .

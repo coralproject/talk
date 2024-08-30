@@ -31,35 +31,35 @@ deploy_tag() {
   for version in ${tag_list}
   do
       echo "==> tagging ${version}"
-      docker tag coralproject/talk:latest "coralproject/talk:${version}"
+      docker tag sfstandard/talk:latest "sfstandard/talk:${version}"
   done
 
   # Push each of the tags to dockerhub, including latest
   for version in ${tag_list}
   do
       echo "==> pushing ${version}"
-      docker push "coralproject/talk:${version}"
+      docker push "sfstandard/talk:${version}"
   done
 }
 
 deploy_latest() {
   echo "==> pushing latest"
-  docker push coralproject/talk:latest
+  docker push sfstandard/talk:latest
 }
 
 deploy_branch() {
   echo "==> tagging branch ${CIRCLE_BRANCH}"
-  docker tag "coralproject/talk:latest" "coralproject/talk:${CIRCLE_BRANCH}"
+  docker tag "sfstandard/talk:latest" "sfstandard/talk:${CIRCLE_BRANCH}"
 
   echo "==> pushing branch ${CIRCLE_BRANCH}"
-  docker push "coralproject/talk:${CIRCLE_BRANCH}"
+  docker push "sfstandard/talk:${CIRCLE_BRANCH}"
 }
 
 deploy_commit() {
   SHORT_GIT_HASH=$(echo $CIRCLE_SHA1 | cut -c -6)
   SHORT_GIT_HASH="${CIRCLE_BRANCH}-${SHORT_GIT_HASH}"
   echo "==> tagging commit ${SHORT_GIT_HASH}"
-  docker tag "coralproject/talk:latest" "${GCR_IMAGE_NAME}:${SHORT_GIT_HASH}"
+  docker tag "sfstandard/talk:latest" "${GCR_IMAGE_NAME}:${SHORT_GIT_HASH}"
 
   echo "==> pushing commit ${SHORT_GIT_HASH}"
   docker push "${GCR_IMAGE_NAME}:${SHORT_GIT_HASH}"
@@ -68,7 +68,7 @@ deploy_commit() {
 deploy_develop_commit() {
   LATEST_TAG="develop-latest"
   echo "==> tagging ${GCR_IMAGE_NAME}:${LATEST_TAG}"
-  docker tag "coralproject/talk:latest" "${GCR_IMAGE_NAME}:${LATEST_TAG}"
+  docker tag "sfstandard/talk:latest" "${GCR_IMAGE_NAME}:${LATEST_TAG}"
 
   echo "==> pushing ${GCR_IMAGE_NAME}:${LATEST_TAG}"
   docker push "${GCR_IMAGE_NAME}:${LATEST_TAG}"
@@ -82,7 +82,7 @@ then
 fi
 
 # build the repo, including the onbuild tagged versions.
-docker build -t coralproject/talk:latest ${ARGS} -f Dockerfile .
+docker build -t sfstandard/talk:latest ${ARGS} -f Dockerfile .
 
 if [ "$1" = "deploy" ]
 then

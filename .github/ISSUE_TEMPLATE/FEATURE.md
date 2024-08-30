@@ -9,7 +9,7 @@ labels: "feature idea"
 Please note that but submitting a feature request, you agree to our Code of Conduct: http://code-of-conduct.voxmedia.com/
 
 Please help us by doing the following steps before logging an issue:
-  * Search to see if there are similar requests and ideas that are already logged: https://github.com/coralproject/talk/search
+  * Search to see if there are similar requests and ideas that are already logged: https://github.com/sfstandard/talk/search
 
 -->
 

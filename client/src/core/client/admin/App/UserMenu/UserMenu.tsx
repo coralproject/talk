@@ -34,7 +34,7 @@ const UserMenu: FunctionComponent<Props> = (props) => (
           <Dropdown>
             <Localized id="userMenu-viewLatestRelease">
               <DropdownButton
-                href="https://github.com/coralproject/talk/releases/latest"
+                href="https://github.com/sfstandard/talk/releases/latest"
                 target="_blank"
                 rel="noopener"
               >
@@ -43,7 +43,7 @@ const UserMenu: FunctionComponent<Props> = (props) => (
             </Localized>
             <Localized id="userMenu-reportBug">
               <DropdownButton
-                href="https://github.com/coralproject/talk/issues/new"
+                href="https://github.com/sfstandard/talk/issues/new"
                 target="_blank"
                 rel="noopener"
               >
