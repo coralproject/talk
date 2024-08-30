@@ -35,7 +35,7 @@ const AuthPopup: FunctionComponent = () => {
       open={open}
       focus={focus}
       onClose={handleClose}
-      features={{ width: 350, innerWidth: 350 }}
+      features={{ width: 600, innerWidth: 600, height: 450 }}
     />
   );
 };
