@@ -67,6 +67,10 @@ describe("Basic integration test", () => {
         Object {
           "accessToken": undefined,
           "amp": undefined,
+          "authPopup": Object {
+            "height": 450,
+            "width": 600,
+          },
           "commentID": undefined,
           "containerClassName": undefined,
           "cssAssets": Array [
