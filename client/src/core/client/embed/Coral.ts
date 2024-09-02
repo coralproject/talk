@@ -40,7 +40,7 @@ export interface Config {
   amp?: boolean;
   customScrollContainer?: HTMLElement;
 
-  authPopup: {
+  authPopup?: {
     width: number;
     height: number;
   };

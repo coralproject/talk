@@ -138,6 +138,10 @@ export default function createTestContext<
     window,
     renderWindow: window,
     rootURL: "",
+    authPopup: {
+      width: 600,
+      height: 450,
+    },
   };
 
   return {

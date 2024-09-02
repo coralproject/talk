@@ -121,7 +121,7 @@ interface CreateContextArguments {
    */
   onAuthError?: () => void;
 
-  authPopup: {
+  authPopup?: {
     width: number;
     height: number;
   };
@@ -520,7 +520,7 @@ export default async function createManaged({
     renderWindow: window,
     rootURL,
     customScrollContainer,
-    authPopup,
+    authPopup: authPopup || { width: 600, height: 450 },
   };
 
   // Initialize local state.
