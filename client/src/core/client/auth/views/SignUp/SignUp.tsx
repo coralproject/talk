@@ -36,7 +36,7 @@ const SignUp: FunctionComponent<Props> = ({
   oidcEnabled,
   auth,
 }) => {
-  const ref = useResizePopup(false);
+  const ref = useResizePopup(true);
 
   const oneClickIntegrationEnabled =
     facebookEnabled || googleEnabled || oidcEnabled;
