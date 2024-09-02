@@ -100,6 +100,11 @@ export interface CoralContext {
    * of the render window
    */
   customScrollContainer?: HTMLElement;
+
+  authPopup: {
+    width: number;
+    height: number;
+  };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

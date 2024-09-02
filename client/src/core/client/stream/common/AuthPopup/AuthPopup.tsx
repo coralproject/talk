@@ -9,7 +9,7 @@ import Popup from "coral-ui/components/v2/Popup";
 import { AuthPopup_local } from "coral-stream/__generated__/AuthPopup_local.graphql";
 
 const AuthPopup: FunctionComponent = () => {
-  const { rootURL } = useCoralContext();
+  const { rootURL, authPopup } = useCoralContext();
   const [local, setLocal] = useLocal<AuthPopup_local>(graphql`
     fragment AuthPopup_local on Local {
       authPopup {
@@ -35,7 +35,11 @@ const AuthPopup: FunctionComponent = () => {
       open={open}
       focus={focus}
       onClose={handleClose}
-      features={{ width: 600, innerWidth: 600, height: 450 }}
+      features={{
+        width: authPopup.width,
+        innerWidth: authPopup.width,
+        height: authPopup.height,
+      }}
     />
   );
 };
