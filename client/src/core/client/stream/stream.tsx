@@ -57,6 +57,10 @@ export interface AttachOptions {
   disableDefaultFonts?: boolean;
   containerClassName?: string;
   customScrollContainer?: HTMLElement;
+  authPopup: {
+    width: number;
+    height: number;
+  };
 }
 
 function extractBundleConfig() {
@@ -123,6 +127,7 @@ export async function attach(options: AttachOptions) {
     staticConfig: options.staticConfig,
     customScrollContainer: options.customScrollContainer,
     onAuthError: onContextAuthError,
+    authPopup: options.authPopup,
   });
 
   // Amount of initial css files to be loaded.

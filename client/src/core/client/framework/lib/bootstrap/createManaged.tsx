@@ -120,6 +120,11 @@ interface CreateContextArguments {
    * throwing a network error that is impassable.
    */
   onAuthError?: () => void;
+
+  authPopup: {
+    width: number;
+    height: number;
+  };
 }
 
 /**
@@ -412,6 +417,7 @@ export default async function createManaged({
   staticConfig = getStaticConfig(window),
   customScrollContainer,
   onAuthError,
+  authPopup,
 }: CreateContextArguments): Promise<
   ComponentType<{ children?: React.ReactNode }>
 > {
@@ -514,6 +520,7 @@ export default async function createManaged({
     renderWindow: window,
     rootURL,
     customScrollContainer,
+    authPopup,
   };
 
   // Initialize local state.

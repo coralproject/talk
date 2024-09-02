@@ -55,6 +55,10 @@ export interface StreamEmbedConfig {
   amp?: boolean;
   graphQLSubscriptionURI?: string;
   customScrollContainer?: HTMLElement;
+  authPopup: {
+    width: number;
+    height: number;
+  };
 }
 
 export class StreamEmbed {
@@ -384,6 +388,7 @@ export class StreamEmbed {
       version: process.env.TALK_VERSION ? process.env.TALK_VERSION : "dev",
       defaultFontsCSSURL: this.defaultFontsCSSURL,
       customScrollContainer: this.config.customScrollContainer,
+      authPopup: this.config.authPopup,
     });
   }
 

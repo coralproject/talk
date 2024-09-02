@@ -39,6 +39,11 @@ export interface Config {
   disableDefaultFonts?: boolean;
   amp?: boolean;
   customScrollContainer?: HTMLElement;
+
+  authPopup: {
+    width: number;
+    height: number;
+  };
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
@@ -78,5 +83,6 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     enableDeprecatedEvents: config.enableDeprecatedEvents,
     containerClassName: config.containerClassName || config.bodyClassName,
     customScrollContainer: config.customScrollContainer || undefined,
+    authPopup: config.authPopup || { width: 600, height: 450 },
   });
 }
