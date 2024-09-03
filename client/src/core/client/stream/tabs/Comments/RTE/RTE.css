@@ -17,6 +17,10 @@ $commentsRTEPlaceholder: var(--palette-text-placeholder);
     padding: 0 2px;
     cursor: text;
   }
+
+  &.not-expanded {
+    min-height: unset;
+  }
 }
 
 .toolbar {

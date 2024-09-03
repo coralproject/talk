@@ -23,10 +23,10 @@ const variables = {
     text: {
       "000": compat(colors.pure.white, "palette-text-light"),
       100: compat(colors.mono100, "palette-text-secondary"),
-      500: compat(colors.mono500, "palette-text-primary"),
-      900: compat(colors.mono900, "palette-text-dark"),
-      placeholder: compat(colors.grey400, "palette-grey-lighter"),
-      inputDisabled: compat(colors.grey400, "palette-grey-lighter"),
+      500: compat("#78716C", "palette-text-primary"),
+      900: compat("#1C1917", "palette-text-dark"),
+      placeholder: compat("#A8A29E", "palette-grey-lighter"),
+      inputDisabled: compat("#A8A29E", "palette-grey-lighter"),
     },
     /** Color palette that is used for grey shades. */
     grey: {
@@ -74,8 +74,8 @@ const variables = {
   },
   /** Different font families currently in use. */
   fontFamily: {
-    primary: compat('"Open Sans", sans-serif', "font-family-sans-serif"),
-    secondary: compat('"Nunito"', "font-family-serif"),
+    primary: compat('"Inter", sans-serif', "font-family-sans-serif"),
+    secondary: compat('"Inter", sans-serif', "font-family-sans-serif"),
   },
   /** Different font weights with matching values for the fonts. */
   fontWeight: {
@@ -86,6 +86,7 @@ const variables = {
     },
     secondary: {
       bold: compat("700", "font-weight-bold"),
+      semiBold: compat("600", "font-weight-medium"),
       regular: compat("300", "font-weight-light"),
     },
   },

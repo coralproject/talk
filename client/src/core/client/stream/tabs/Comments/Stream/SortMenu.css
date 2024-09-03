@@ -17,6 +17,8 @@
 .select {
   padding: calc(var(--spacing-1) + 0.8px) var(--spacing-6)
     calc(var(--spacing-1) + 1.0px) var(--spacing-2);
+  color: var(--palette-primary-900) !important;
+  font-weight: 600 !important;
 }
 
 :global(.coral-width-lte-mobile) {

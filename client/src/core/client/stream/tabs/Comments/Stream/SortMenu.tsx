@@ -32,7 +32,7 @@ const SortMenu: FunctionComponent<Props> = (props) => {
   let label = (
     <Localized id="comments-sortMenu-sortBy">
       <label className={styles.label} htmlFor="coral-comments-sortMenu">
-        Sort by
+        Sort by:
       </label>
     </Localized>
   );

@@ -179,7 +179,7 @@ comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLE
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Additional comment URL length exceeds maximum.
 comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing potentially illegal content. You may only report a comment for this reason one time.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
-comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
+comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is
   found to contain potentially illegal content, it will be removed from the site and further action may be taken against the commenter.
 comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Thank you for submitting this report
 comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We were unable to submit your report for the following reason(s):
@@ -272,7 +272,7 @@ comments-reportButton-aria-report =
 comments-reportButton-aria-reported =
   .aria-label = Reported
 
-comments-sortMenu-sortBy = Sort by
+comments-sortMenu-sortBy = Sort by:
 comments-sortMenu-newest = Newest
 comments-sortMenu-oldest = Oldest
 comments-sortMenu-mostReplies = Most replies
@@ -378,7 +378,7 @@ comments-refreshReviews-refreshButton = <icon></icon> Refresh reviews
 comments-replyChangedWarning-theCommentHasJust =
   This comment has just been edited. The latest version is displayed above.
 
-comments-mobileToolbar-notifications-closeButton = 
+comments-mobileToolbar-notifications-closeButton =
   .aria-label = Close notifications
 
 ### Q&A

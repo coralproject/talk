@@ -8,7 +8,7 @@
     <style>
       body {
         margin: 0;
-        padding: 0 100px 50px 100px;
+        padding: 0 10px 0 10px;
       }
 
       .coral-count {
@@ -33,7 +33,7 @@
   </head>
   <body>
     <p style="text-align: center;">
-      <a href="http://localhost:3000/admin">Admin</a> | <a href="/">Default</a> |
+      <a href="http://127.0.0.1:3000/admin">Admin</a> | <a href="/">Default</a> |
       <a href="/story.html">Story</a> |
       <a href="http://127.0.0.1:8080/storyAMP.html"> AMP</a>
     </p>
@@ -144,8 +144,9 @@
     </div>
     <script>
       const CoralStreamEmbed = Coral.createStreamEmbed({
-        rootURL: "http://localhost:3000",
+        rootURL: "http://127.0.0.1:3000",
         id: "coralStreamEmbed",
+        autoRender: true,
       });
       window.CoralStreamEmbed = CoralStreamEmbed;
 

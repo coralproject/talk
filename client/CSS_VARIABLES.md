@@ -25,6 +25,7 @@ the old CSS Variables, please upgrade. Currently we have a compatibility layer t
 - <a href="#variables">Variables</a>
   - <a href="#palette">palette</a>
     - <a href="#palette-primary">palette-primary</a>
+    - <a href="#palette-highlight">palette-highlight</a>
     - <a href="#palette-background">palette-background</a>
     - <a href="#palette-text">palette-text</a>
     - <a href="#palette-grey">palette-grey</a>
@@ -55,23 +56,43 @@ Use this to remove round corners or make them more round.
 
 Color palette that is used as the primary color.
 
-`--palette-primary-100: #EBF6FF;  /* Before 6.3.0: --palette-primary-lightest */`
+`--palette-primary-100: #78716C;  /* Before 6.3.0: --palette-primary-lightest */`
 
-`--palette-primary-200: #B7DCFF;  /* Before 6.3.0: --palette-primary-lighter */`
+`--palette-primary-200: #57534E;  /* Before 6.3.0: --palette-primary-lighter */`
 
-`--palette-primary-300: #61B3FF;  /* Before 6.3.0: --palette-primary-light */`
+`--palette-primary-300: #292524;  /* Before 6.3.0: --palette-primary-light */`
 
-`--palette-primary-400: #2897FF;  /* Before 6.3.0: --palette-primary-main */`
+`--palette-primary-400: #1C1917;  /* Before 6.3.0: --palette-primary-main */`
 
-`--palette-primary-500: #0070D9;  /* Before 6.3.0: --palette-primary-main */`
+`--palette-primary-500: #1C1917;  /* Before 6.3.0: --palette-primary-main */`
 
-`--palette-primary-600: #0062BE;  /* Before 6.3.0: --palette-primary-main */`
+`--palette-primary-600: #1C1917;  /* Before 6.3.0: --palette-primary-main */`
 
-`--palette-primary-700: #005AAE;  /* Before 6.3.0: --palette-primary-main */`
+`--palette-primary-700: #1C1917;  /* Before 6.3.0: --palette-primary-main */`
 
-`--palette-primary-800: #004688;  /* Before 6.3.0: --palette-primary-dark */`
+`--palette-primary-800: #1C1917;  /* Before 6.3.0: --palette-primary-dark */`
 
-`--palette-primary-900: #00386D;  /* Before 6.3.0: --palette-primary-darkest */`
+`--palette-primary-900: #1C1917;  /* Before 6.3.0: --palette-primary-darkest */`
+
+#### palette-highlight
+
+`--palette-highlight-100: #FDFCE8;  /* Before 6.3.0: --palette-primary-lightest */`
+
+`--palette-highlight-200: #FDFCE8;  /* Before 6.3.0: --palette-primary-lighter */`
+
+`--palette-highlight-300: #FDFCE8;  /* Before 6.3.0: --palette-primary-light */`
+
+`--palette-highlight-400: #FFEB2D;  /* Before 6.3.0: --palette-primary-main */`
+
+`--palette-highlight-500: #FFEB2D;  /* Before 6.3.0: --palette-primary-main */`
+
+`--palette-highlight-600: #FFEB2D;  /* Before 6.3.0: --palette-primary-main */`
+
+`--palette-highlight-700: #FFEB2D;  /* Before 6.3.0: --palette-primary-main */`
+
+`--palette-highlight-800: #FFEB2D;  /* Before 6.3.0: --palette-primary-dark */`
+
+`--palette-highlight-900: #FFEB2D;  /* Before 6.3.0: --palette-primary-darkest */`
 
 #### palette-background
 
@@ -95,13 +116,13 @@ Color palette that is used for text.
 
 `--palette-text-100: #65696B;  /* Before 6.3.0: --palette-text-secondary */`
 
-`--palette-text-500: #353F44;  /* Before 6.3.0: --palette-text-primary */`
+`--palette-text-500: #78716C;  /* Before 6.3.0: --palette-text-primary */`
 
-`--palette-text-900: #14171A;  /* Before 6.3.0: --palette-text-dark */`
+`--palette-text-900: #1C1917;  /* Before 6.3.0: --palette-text-dark */`
 
-`--palette-text-placeholder: #9FA4A6;  /* Before 6.3.0: --palette-grey-lighter */`
+`--palette-text-placeholder: #A8A29E;  /* Before 6.3.0: --palette-grey-lighter */`
 
-`--palette-text-input-disabled: #9FA4A6;  /* Before 6.3.0: --palette-grey-lighter */`
+`--palette-text-input-disabled: #A8A29E;  /* Before 6.3.0: --palette-grey-lighter */`
 
 #### palette-grey
 
@@ -183,9 +204,9 @@ Color palette that is used for indicating a warning and is usually yellow.
 
 Different font families currently in use.
 
-`--font-family-primary: "Open Sans", sans-serif;  /* Before 6.3.0: --font-family-sans-serif */`
+`--font-family-primary: "Inter", sans-serif;  /* Before 6.3.0: --font-family-sans-serif */`
 
-`--font-family-secondary: "Nunito";  /* Before 6.3.0: --font-family-serif */`
+`--font-family-secondary: "Inter", sans-serif;  /* Before 6.3.0: --font-family-sans-serif */`
 
 ### font-weight
 
@@ -202,6 +223,8 @@ Different font weights with matching values for the fonts.
 #### font-weight-secondary
 
 `--font-weight-secondary-bold: 700;  /* Before 6.3.0: --font-weight-bold */`
+
+`--font-weight-secondary-semi-bold: 600;  /* Before 6.3.0: --font-weight-medium */`
 
 `--font-weight-secondary-regular: 300;  /* Before 6.3.0: --font-weight-light */`
 
