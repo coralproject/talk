@@ -1,5 +1,5 @@
 $moderateCardTabDefaultColor: var(--palette-grey-100);
-$moderateCardTabPrimaryColor: var(--palette-grey-300);
+$moderateCardTabPrimaryColor: #000;
 $moderateCardTabSecondaryColor: var(--palette-divider);
 
 .root {
@@ -28,6 +28,7 @@ $moderateCardTabSecondaryColor: var(--palette-divider);
 
 .streamPrimary {
   border-bottom: 1px solid $moderateCardTabPrimaryColor;
+  padding-bottom: 1px;
 }
 
 .notifications {

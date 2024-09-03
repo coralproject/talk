@@ -104,13 +104,11 @@ $tab-stream-default: var(--palette-text-500);
   padding-left: var(--spacing-6);
   padding-right: var(--spacing-6);
 
-  background: var(--palette-grey-100);
-  border: 1px solid var(--palette-grey-300);
-  border-bottom-width: 0px;
+  border-left: 1px solid var(--palette-grey-300);
 
   font-family: var(--font-family-secondary);
   font-style: normal;
-  font-weight: var(--font-weight-secondary-regular);
+  font-weight: var(--font-weight-secondary-bold);
   font-size: var(--font-size-4);
   line-height: 1.11;
 
@@ -119,33 +117,22 @@ $tab-stream-default: var(--palette-text-500);
   &.active {
     z-index: 10;
 
-    background-color: var(--palette-background-body);
     border-bottom: 0;
     border-radius: 0;
 
     color: var(--palette-primary-500);
-    font-weight: var(--font-weight-secondary-bold);
 
     overflow: visible;
   }
 }
 
-.streamPrimary.active::before {
-  position: absolute;
-
-  top: -1px;
-  left: -1px;
-  width: calc(100% + 2px);
-  height: 4px;
-
-  background-color: var(--palette-primary-500);
-  color: var(--palette-primary-500);
-  content: "active";
-  overflow: hidden;
+.root:first-child .streamPrimary {
+  border-left-width: 0px;
+  padding-left: 0;
 }
 
-.root:not(:first-child) .streamPrimary {
-  border-left-width: 0px;
+.root:last-child .streamPrimary {
+  padding-right: 0;
 }
 
 .uppercase {

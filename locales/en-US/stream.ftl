@@ -23,7 +23,7 @@ general-userBoxAuthenticated-notYou =
 general-userBox-youHaveBeenSuccessfullySignedOut =
   You have been successfully signed out
 
-general-tabBar-commentsTab = Comments
+general-tabBar-commentsTab = Discussion
 general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
 general-tabBar-reviewsTab = Reviews
