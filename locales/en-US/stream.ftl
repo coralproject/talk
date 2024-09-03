@@ -211,7 +211,7 @@ comments-remainingCharacters = { $remaining } characters remaining
 
 comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
 
-comments-postCommentForm-rteLabel = Post a comment
+comments-postCommentForm-rteLabel = Join the conversation
 
 comments-postCommentForm-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
