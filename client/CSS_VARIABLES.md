@@ -26,6 +26,7 @@ the old CSS Variables, please upgrade. Currently we have a compatibility layer t
   - <a href="#palette">palette</a>
     - <a href="#palette-primary">palette-primary</a>
     - <a href="#palette-highlight">palette-highlight</a>
+    - <a href="#palette-action">palette-action</a>
     - <a href="#palette-background">palette-background</a>
     - <a href="#palette-text">palette-text</a>
     - <a href="#palette-grey">palette-grey</a>
@@ -76,23 +77,27 @@ Color palette that is used as the primary color.
 
 #### palette-highlight
 
-`--palette-highlight-100: #FDFCE8;  /* Before 6.3.0: --palette-primary-lightest */`
+`--palette-highlight-100: #FDFCE8;  /* Before 6.3.0: --palette-highlight-lightest */`
 
-`--palette-highlight-200: #FDFCE8;  /* Before 6.3.0: --palette-primary-lighter */`
+`--palette-highlight-200: #FDFCE8;  /* Before 6.3.0: --palette-highlight-lighter */`
 
-`--palette-highlight-300: #FDFCE8;  /* Before 6.3.0: --palette-primary-light */`
+`--palette-highlight-300: #FDFCE8;  /* Before 6.3.0: --palette-highlight-light */`
 
-`--palette-highlight-400: #FFEB2D;  /* Before 6.3.0: --palette-primary-main */`
+`--palette-highlight-400: #FFEB2D;  /* Before 6.3.0: --palette-highlight-main */`
 
-`--palette-highlight-500: #FFEB2D;  /* Before 6.3.0: --palette-primary-main */`
+`--palette-highlight-500: #FFEB2D;  /* Before 6.3.0: --palette-highlight-main */`
 
-`--palette-highlight-600: #FFEB2D;  /* Before 6.3.0: --palette-primary-main */`
+`--palette-highlight-600: #FFEB2D;  /* Before 6.3.0: --palette-highlight-main */`
 
-`--palette-highlight-700: #FFEB2D;  /* Before 6.3.0: --palette-primary-main */`
+`--palette-highlight-700: #FFEB2D;  /* Before 6.3.0: --palette-highlight-main */`
 
-`--palette-highlight-800: #FFEB2D;  /* Before 6.3.0: --palette-primary-dark */`
+`--palette-highlight-800: #FFEB2D;  /* Before 6.3.0: --palette-highlight-dark */`
 
-`--palette-highlight-900: #FFEB2D;  /* Before 6.3.0: --palette-primary-darkest */`
+`--palette-highlight-900: #FFEB2D;  /* Before 6.3.0: --palette-highlight-darkest */`
+
+#### palette-action
+
+`--palette-action-000: #1A6EF4;  /* Before 6.3.0: --palette-action */`
 
 #### palette-background
 

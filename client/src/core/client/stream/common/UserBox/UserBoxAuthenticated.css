@@ -34,4 +34,6 @@
   line-height: 1;
 
   padding-left: var(--spacing-1);
+
+  color: var(--palette-action-000) !important;
 }
