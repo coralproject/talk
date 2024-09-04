@@ -18,3 +18,35 @@
 .icon {
   color: var(--palette-grey-400);
 }
+
+.userAvatar {
+  margin-top: var(--spacing-1) !important;
+  width: var(--spacing-6);
+  height: var(--spacing-6);
+
+  flex-basis: var(--spacing-6);
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+  background-color: var(--palette-warm-gray-200);
+  aspect-ratio: 1;
+
+  &:has(+ * [data-tagname="admin"], + * [data-tagname="moderator"], + * [data-tagname="staff"]) {
+    background-color: var(--palette-highlight-500);
+  }
+
+  & > span {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-primary-semi-bold);
+    font-size: var(--font-size-3);
+    line-height: 1;
+
+    color: #000;
+
+    text-transform: uppercase;
+  }
+}

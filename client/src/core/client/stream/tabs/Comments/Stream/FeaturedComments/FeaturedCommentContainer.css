@@ -1,14 +1,27 @@
 .root {
-  background-color: var(--palette-primary-100);
-  border-left: 4px solid var(--palette-primary-300);
-  color: var(--palette-text-900);
-  padding: var(--spacing-4);
+  color: var(--palette-warm-gray-900);
   box-sizing: border-box;
 }
 
+.container {
+  padding-top: 9px;
+  padding-bottom: 7px;
+}
+
+.authorContainer {
+  margin-bottom: calc(0.5 * var(--mini-unit));
+  min-height: 25px;
+}
+
 .body {
-  color: var(--palette-text-900);
-  font-size: var(--font-size-4);
+  color: var(--palette-warm-gray-900);
+  line-height: 130%;
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+}
+
+.contentContainer {
+  margin-bottom: calc(1.5 * var(--mini-unit)) !important;
 }
 
 .replies,
@@ -39,5 +52,7 @@
 }
 
 .username {
-  font-size: var(--font-size-3);
+  font-size: var(--font-size-4);
+  margin-right: var(--spacing-2);
+  line-height: 1;
 }

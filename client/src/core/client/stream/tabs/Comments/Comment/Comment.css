@@ -1,4 +1,4 @@
-$commentTimestampColor: var(--palette-grey-500);
+$commentTimestampColor: var(--palette-warm-gray-700);
 
 .root {
   flex: 1;
@@ -38,7 +38,7 @@ $commentTimestampColor: var(--palette-grey-500);
 .timestamp {
   font-family: var(--font-family-primary);
   font-style: normal;
-  font-weight: var(--font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-2);
   color: $commentTimestampColor;
 

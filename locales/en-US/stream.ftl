@@ -491,7 +491,7 @@ comments-featured-gotoConversation-label-with-username =
   .aria-label = Go to conversation for this featured comment by user { $username } in the main comment stream
 comments-featured-gotoConversation-label-without-username =
   .aria-label = Go to conversation for this featured comment in the main comment stream
-comments-featured-replies = Replies
+comments-featured-replies = Reply
 
 ## Profile Tab
 

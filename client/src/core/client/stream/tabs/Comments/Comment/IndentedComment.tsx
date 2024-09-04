@@ -7,6 +7,7 @@ import Indent from "../Indent";
 import Comment, { CommentProps } from "./Comment";
 
 import styles from "./IndentedComment.css";
+import { Flex } from "coral-ui/components/v2";
 
 export interface IndentedCommentProps extends Omit<CommentProps, "ref"> {
   classNameIndented?: string;
@@ -50,8 +51,16 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
       )}
       classNameIndent={classNameIndented}
     >
-      <Comment {...rest} />
-      {/*{rest.collapsed ? (*/}
+      <Flex spacing={3}>
+        {rest.username ? (
+          <div className={styles.userAvatar}>
+            <span>{rest.username[0]}</span>
+          </div>
+        ) : null}
+        <Comment {...rest} />
+      </Flex>
+
+      {/* {rest.collapsed ? (*/}
       {/*    <CommentToggle*/}
       {/*        {...rest}*/}
       {/*        toggleCollapsed={toggleCollapsed}*/}
@@ -59,7 +68,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
       {/*        username={rest.username}*/}
       {/*        topBarRight={staticTopBarRight}*/}
       {/*    />*/}
-      {/*) : (*/}
+      {/* ) : (*/}
       {/*  <Flex alignItems="flex-start" spacing={1}>*/}
       {/*    {toggleCollapsed && (*/}
       {/*      <Localized*/}
@@ -89,7 +98,7 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
       {/*    )}*/}
       {/*    <Comment {...rest} />*/}
       {/*  </Flex>*/}
-      {/*)}*/}
+      {/* )}*/}
     </Indent>
   );
 };

@@ -1,4 +1,4 @@
-$rootMargin: calc(var(--spacing-5) + 2px);
+$rootMargin: calc(var(--spacing-7) - 2px);
 
 .root {
 }
@@ -15,42 +15,50 @@ $rootMargin: calc(var(--spacing-5) + 2px);
 
 .level1 {
   margin-left: $rootMargin;
-  border-left: 2px solid var(--palette-grey-600);
+  border-left: 1px solid var(--palette-warm-gray-500);
+  padding-left: var(--spacing-5);
 }
 
 .level2 {
-  margin-left: calc(var(--spacing-3) + $rootMargin);
-  border-left: 2px solid var(--palette-grey-500);
+  margin-left: calc(var(--spacing-2) + $rootMargin);
+  border-left: 1px solid var(--palette-warm-gray-400);
+  padding-left: var(--spacing-5);
 }
 
 .level3 {
-  margin-left: calc(2 * var(--spacing-3) + $rootMargin);
-  border-left: 2px solid #8e9ba5;
+  margin-left: calc(2 * var(--spacing-2) + $rootMargin);
+  border-left: 1px solid var(--palette-warm-gray-300);
+  padding-left: var(--spacing-5);
 }
 
 .level4 {
-  margin-left: calc(3 * var(--spacing-3) + $rootMargin);
-  border-left: 2px solid #b8bcbd;
+  margin-left: calc(3 * var(--spacing-2) + $rootMargin);
+  border-left: 1px solid var(--palette-warm-gray-200);
+  padding-left: var(--spacing-5);
 }
 
 .level5 {
-  margin-left: calc(4 * var(--spacing-3) + $rootMargin);
-  border-left: 2px solid #cccfd0;
+  margin-left: calc(4 * var(--spacing-2) + $rootMargin);
+  border-left: 1px solid var(--palette-warm-gray-100);
+  padding-left: var(--spacing-5);
 }
 
 .level6 {
-  margin-left: calc(5 * var(--spacing-3) + $rootMargin);
-  border-left: 2px solid #e1e2e3;
+  margin-left: calc(5 * var(--spacing-2) + $rootMargin);
+  border-left: 1px solid var(--palette-warm-gray-100);
+  padding-left: var(--spacing-5);
 }
 
 .level7 {
-  margin-left: calc(6 * var(--spacing-3) + $rootMargin);
-  border-left: 2px solid #e1e2e3;
+  margin-left: calc(6 * var(--spacing-2) + $rootMargin);
+  border-left: 1px solid var(--palette-warm-gray-100);
+  padding-left: var(--spacing-5);
 }
 
 .level8 {
-  margin-left: calc(7 * var(--spacing-3) + $rootMargin);
-  border-left: 2px solid #e1e2e3;
+  margin-left: calc(7 * var(--spacing-2) + $rootMargin);
+  border-left: 1px solid var(--palette-warm-gray-100);
+  padding-left: var(--spacing-5);
 }
 
 .noBorder {

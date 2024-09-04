@@ -65,6 +65,9 @@ function render(props: ReactionButtonProps) {
             Icon={LikeIcon}
           />
         )}
+        {!!totalReactions && (
+          <span className={styles.totalReactions}>{totalReactions}</span>
+        )}
         <Responsive minWidth={400}>
           {props.isQA ? (
             <span>
@@ -78,9 +81,6 @@ function render(props: ReactionButtonProps) {
             <span>{reacted ? labelActive : label}</span>
           )}
         </Responsive>
-        {!!totalReactions && (
-          <span className={styles.totalReactions}>{totalReactions}</span>
-        )}
       </Flex>
     </Button>
   );
