@@ -62,7 +62,6 @@ import BannedInfo from "./BannedInfo";
 import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
 import StreamDeletionRequestCalloutContainer from "./DeleteAccount/StreamDeletionRequestCalloutContainer";
 import FeaturedComments from "./FeaturedComments";
-import FeaturedCommentTooltip from "./FeaturedCommentTooltip";
 import ModMessageContainer from "./ModMessage/ModMessageContainer";
 import { PostCommentFormContainer } from "./PostCommentForm";
 import PreviousCountSpyContainer from "./PreviousCountSpyContainer";
@@ -82,43 +81,6 @@ interface Props {
   settings: StreamContainer_settings;
   viewer: StreamContainer_viewer | null;
 }
-
-interface TooltipTabProps extends Omit<PropTypesOf<typeof Tab>, "ref"> {
-  isQA?: boolean;
-}
-
-// Use a custom tab for featured comments, because we need to put the tooltip
-// button logically next to the tab as both are buttons and position them together
-// using absolute positioning.
-const TabWithFeaturedTooltip: FunctionComponent<TooltipTabProps> = ({
-  isQA,
-  ...props
-}) => (
-  <div className={styles.featuredCommentsTabContainer}>
-    <Tab
-      {...props}
-      classes={{
-        root: styles.featureTabRoot,
-        secondary: styles.featureTabRoot,
-      }}
-      className={cn(
-        styles.fixedTab,
-        CLASSES.tabBarComments.featured,
-        styles.featuredCommentsTab,
-        { [CLASSES.tabBarComments.activeTab]: props.active }
-      )}
-      variant="streamSecondary"
-    />
-    <FeaturedCommentTooltip
-      active={props.active}
-      isQA={isQA}
-      className={cn(
-        styles.featuredCommentsInfo,
-        CLASSES.tabBarComments.featuredTooltip
-      )}
-    />
-  </div>
-);
 
 const AccessibleCounter: FunctionComponent<PropTypesOf<typeof Counter>> = (
   props
@@ -225,12 +187,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
     // the featured comments tab first or not.
     if (local.commentsTab !== "NONE") {
       return;
-    }
-
-    // If the selected tab is FEATURED_COMMENTS, but there aren't any featured
-    // comments, then switch it to the all comments tab.
-    if (featuredCommentsCount > 0) {
-      return onChangeTab("FEATURED_COMMENTS", false);
     }
 
     if (isRatingsAndReviews) {
@@ -356,8 +312,46 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                 onTabClick={onChangeTab}
                 className={cn(CLASSES.tabBarComments.$root, styles.tabBarRoot)}
               >
+                {!isRatingsAndReviews && (
+                  <Tab
+                    tabID="ALL_COMMENTS"
+                    className={cn(
+                      {
+                        [styles.fixedTab]: featuredCommentsCount > 0,
+                        [CLASSES.tabBarComments.activeTab]:
+                          local.commentsTab === "ALL_COMMENTS",
+                      },
+                      CLASSES.tabBarComments.allComments
+                    )}
+                    variant="streamSecondary"
+                  >
+                    <Flex alignItems="center" spacing={1}>
+                      {isQA ? (
+                        <Localized id="qa-allCommentsTab">
+                          <span>All</span>
+                        </Localized>
+                      ) : (
+                        <Localized id="comments-allCommentsTab">
+                          <span>All Comments</span>
+                        </Localized>
+                      )}
+                    </Flex>
+                  </Tab>
+                )}
                 {featuredCommentsCount > 0 && (
-                  <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS" isQA={isQA}>
+                  <Tab
+                    tabID="FEATURED_COMMENTS"
+                    classes={{
+                      root: styles.featureTabRoot,
+                      secondary: styles.featureTabRoot,
+                    }}
+                    className={cn(
+                      styles.fixedTab,
+                      CLASSES.tabBarComments.featured,
+                      styles.featuredCommentsTab
+                    )}
+                    variant="streamSecondary"
+                  >
                     <Flex spacing={1} alignItems="center">
                       {isQA ? (
                         <Localized id="qa-answeredTab">
@@ -381,25 +375,8 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                           </Localized>
                         </>
                       )}
-                      <AccessibleCounter
-                        data-testid="comments-featuredCount"
-                        size="sm"
-                        className={CLASSES.counter}
-                        color={
-                          local.commentsTab === "FEATURED_COMMENTS"
-                            ? "inherit"
-                            : "grey"
-                        }
-                      >
-                        <Localized
-                          id="comments-counter-shortNum"
-                          vars={{ count: featuredCommentsCount }}
-                        >
-                          {featuredCommentsCount}
-                        </Localized>
-                      </AccessibleCounter>
                     </Flex>
-                  </TabWithFeaturedTooltip>
+                  </Tab>
                 )}
                 {isQA && (
                   <Tab
@@ -426,49 +403,6 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                         }
                       >
                         {unansweredCommentsCount}
-                      </AccessibleCounter>
-                    </Flex>
-                  </Tab>
-                )}
-                {!isRatingsAndReviews && (
-                  <Tab
-                    tabID="ALL_COMMENTS"
-                    className={cn(
-                      {
-                        [styles.fixedTab]: featuredCommentsCount > 0,
-                        [CLASSES.tabBarComments.activeTab]:
-                          local.commentsTab === "ALL_COMMENTS",
-                      },
-                      CLASSES.tabBarComments.allComments
-                    )}
-                    variant="streamSecondary"
-                  >
-                    <Flex alignItems="center" spacing={1}>
-                      {isQA ? (
-                        <Localized id="qa-allCommentsTab">
-                          <span>All</span>
-                        </Localized>
-                      ) : (
-                        <Localized id="comments-allCommentsTab">
-                          <span>All Comments</span>
-                        </Localized>
-                      )}
-
-                      <AccessibleCounter
-                        size="sm"
-                        className={CLASSES.counter}
-                        color={
-                          local.commentsTab === "ALL_COMMENTS"
-                            ? "inherit"
-                            : "grey"
-                        }
-                      >
-                        <Localized
-                          id="comments-counter-shortNum"
-                          vars={{ count: allCommentsCount }}
-                        >
-                          {allCommentsCount}
-                        </Localized>
                       </AccessibleCounter>
                     </Flex>
                   </Tab>
@@ -540,33 +474,29 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
                   </Tab>
                 )}
               </TabBar>
-              <MatchMedia ltWidth="sm">
-                {(matches) => {
-                  return !matches ? (
-                    <SortMenu
-                      className={styles.sortMenu}
-                      orderBy={local.commentsOrderBy}
-                      onChange={onChangeOrder}
-                      reactionSortLabel={props.settings.reaction.sortLabel}
-                      showLabel
-                      isQA={isQA}
-                    />
-                  ) : null;
-                }}
-              </MatchMedia>
             </Flex>
           </Localized>
           <MatchMedia ltWidth="sm">
             {(matches) => {
               return matches ? (
                 <SortMenu
+                  className={styles.smSortMenu}
                   orderBy={local.commentsOrderBy}
                   onChange={onChangeOrder}
                   reactionSortLabel={props.settings.reaction.sortLabel}
-                  fullWidth
+                  showLabel
                   isQA={isQA}
                 />
-              ) : null;
+              ) : (
+                <SortMenu
+                  className={styles.sortMenu}
+                  orderBy={local.commentsOrderBy}
+                  onChange={onChangeOrder}
+                  reactionSortLabel={props.settings.reaction.sortLabel}
+                  showLabel
+                  isQA={isQA}
+                />
+              );
             }}
           </MatchMedia>
           <TabContent activeTab={local.commentsTab}>

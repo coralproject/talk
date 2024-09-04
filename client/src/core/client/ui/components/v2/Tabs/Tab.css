@@ -32,13 +32,12 @@ $tab-stream-default: var(--palette-text-500);
   margin-bottom: -1px;
 
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-bold);
   color: $tab-default;
   padding-bottom: calc(var(--spacing-1) + 2px);
 
   &.active {
     color: $tab-selected;
-    font-weight: var(--font-weight-primary-bold);
     border-bottom: 2px solid $tab-selected;
     padding-bottom: var(--spacing-1);
   }
@@ -66,12 +65,12 @@ $tab-stream-default: var(--palette-text-500);
   margin-bottom: -1px;
 
   font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
   color: $tab-default;
   padding-bottom: var(--spacing-2);
 
   &.active {
     color: $tab-selected;
-    font-weight: var(--font-weight-primary-bold);
     border-bottom: 3px solid $tab-selected;
     padding-bottom: calc(var(--spacing-2) - 3px);
   }
@@ -82,12 +81,12 @@ $tab-stream-default: var(--palette-text-500);
   margin-bottom: -1px;
 
   font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-bold);
   color: $tab-stream-default;
   padding-bottom: var(--spacing-2);
 
   &.active {
     color: $tab-stream-selected;
-    font-weight: var(--font-weight-primary-bold);
     border-bottom: 3px solid $tab-stream-selected;
     padding-bottom: calc(var(--spacing-2) - 3px);
   }
@@ -156,7 +155,7 @@ $tab-stream-default: var(--palette-text-500);
 
   font-family: var(--font-family-secondary);
   font-style: normal;
-  font-weight: var(--font-weight-secondary-regular);
+  font-weight: var(--font-weight-secondary-bold);
   font-size: var(--font-size-4);
   line-height: 1.11;
 
@@ -170,7 +169,6 @@ $tab-stream-default: var(--palette-text-500);
     border-radius: 0;
 
     color: var(--palette-primary-500);
-    font-weight: var(--font-weight-secondary-bold);
 
     overflow: visible;
   }

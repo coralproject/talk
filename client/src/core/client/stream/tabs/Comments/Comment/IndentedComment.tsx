@@ -1,14 +1,10 @@
-import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
-import { SubtractIcon, SvgIcon } from "coral-ui/components/icons";
-import { BaseButton, Flex } from "coral-ui/components/v2";
 
 import Indent from "../Indent";
 import Comment, { CommentProps } from "./Comment";
-import CommentToggle from "./CommentToggle";
 
 import styles from "./IndentedComment.css";
 
@@ -38,9 +34,9 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
   classNameIndented,
   ...rest
 }) => {
-  const collapseCommentsLocalizationId = rest.username
-    ? "comments-collapse-toggle-with-username"
-    : "comments-collapse-toggle-without-username";
+  // const collapseCommentsLocalizationId = rest.username
+  //   ? "comments-collapse-toggle-with-username"
+  //   : "comments-collapse-toggle-without-username";
   return (
     <Indent
       level={indentLevel}
@@ -54,45 +50,46 @@ const IndentedComment: FunctionComponent<IndentedCommentProps> = ({
       )}
       classNameIndent={classNameIndented}
     >
-      {rest.collapsed ? (
-        <CommentToggle
-          {...rest}
-          toggleCollapsed={toggleCollapsed}
-          usernameEl={staticUsername}
-          username={rest.username}
-          topBarRight={staticTopBarRight}
-        />
-      ) : (
-        <Flex alignItems="flex-start" spacing={1}>
-          {toggleCollapsed && (
-            <Localized
-              id={collapseCommentsLocalizationId}
-              attrs={{ "aria-label": true }}
-              vars={{ username: rest.username ?? "" }}
-            >
-              <BaseButton
-                onClick={toggleCollapsed}
-                aria-label={`Hide comment by ${rest.username} and its replies`}
-                className={cn(
-                  styles.toggleButton,
-                  CLASSES.comment.collapseToggle.$root
-                )}
-                aria-expanded="true"
-              >
-                <SvgIcon
-                  className={cn(
-                    styles.icon,
-                    CLASSES.comment.collapseToggle.icon
-                  )}
-                  size="xs"
-                  Icon={SubtractIcon}
-                />
-              </BaseButton>
-            </Localized>
-          )}
-          <Comment {...rest} />
-        </Flex>
-      )}
+      <Comment {...rest} />
+      {/*{rest.collapsed ? (*/}
+      {/*    <CommentToggle*/}
+      {/*        {...rest}*/}
+      {/*        toggleCollapsed={toggleCollapsed}*/}
+      {/*        usernameEl={staticUsername}*/}
+      {/*        username={rest.username}*/}
+      {/*        topBarRight={staticTopBarRight}*/}
+      {/*    />*/}
+      {/*) : (*/}
+      {/*  <Flex alignItems="flex-start" spacing={1}>*/}
+      {/*    {toggleCollapsed && (*/}
+      {/*      <Localized*/}
+      {/*        id={collapseCommentsLocalizationId}*/}
+      {/*        attrs={{ "aria-label": true }}*/}
+      {/*        vars={{ username: rest.username ?? "" }}*/}
+      {/*      >*/}
+      {/*        <BaseButton*/}
+      {/*          onClick={toggleCollapsed}*/}
+      {/*          aria-label={`Hide comment by ${rest.username} and its replies`}*/}
+      {/*          className={cn(*/}
+      {/*            styles.toggleButton,*/}
+      {/*            CLASSES.comment.collapseToggle.$root*/}
+      {/*          )}*/}
+      {/*          aria-expanded="true"*/}
+      {/*        >*/}
+      {/*          <SvgIcon*/}
+      {/*            className={cn(*/}
+      {/*              styles.icon,*/}
+      {/*              CLASSES.comment.collapseToggle.icon*/}
+      {/*            )}*/}
+      {/*            size="xs"*/}
+      {/*            Icon={SubtractIcon}*/}
+      {/*          />*/}
+      {/*        </BaseButton>*/}
+      {/*      </Localized>*/}
+      {/*    )}*/}
+      {/*    <Comment {...rest} />*/}
+      {/*  </Flex>*/}
+      {/*)}*/}
     </Indent>
   );
 };

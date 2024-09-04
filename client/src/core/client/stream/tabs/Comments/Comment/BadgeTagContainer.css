@@ -5,4 +5,7 @@
 .tag {
   margin-right: var(--spacing-1);
   font-weight: var(--font-weight-primary-bold);
+  text-transform: none !important;
+  padding: 1px 5px;
+  border-radius: var(--spacing-1);
 }

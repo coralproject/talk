@@ -55,7 +55,7 @@ comment-count-text-ratings =
 addACommentButton =
   .aria-label = Add a comment. This button will move focus to the bottom of the comments.
 
-comments-allCommentsTab = All Comments
+comments-allCommentsTab = All
 comments-featuredTab = Featured
 comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-watchers =
