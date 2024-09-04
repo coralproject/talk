@@ -56,7 +56,7 @@ async function createTestRenderer(
   const rte = await waitForElement(
     () =>
       findParentWithType(
-        within(tabPane).getByLabelText("Post a comment"),
+        within(tabPane).getByLabelText("Join the conversation"),
         // We'll use the RTE component here as an exception because the
         // jsdom does not support all of what is needed for rendering the
         // Rich Text Editor.
