@@ -84,7 +84,7 @@ it("enable basic rte formatting", async () => {
         sarcasm: false,
       }
     );
-    //we disabled those on first render
+    // we disabled those on first render
     // expect(within(rte).queryByTitle("Bold")).not.toBeNull();
     // expect(within(rte).queryByTitle("Italic")).not.toBeNull();
     // expect(within(rte).queryByTitle("Blockquote")).not.toBeNull();
