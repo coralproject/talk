@@ -4,11 +4,11 @@
 
 .text {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-primary-semi-bold);
+  font-weight: var(--font-weight-primary-regular);
   font-size: var(--font-size-2);
   line-height: 1;
 
-  color: var(--palette-text-100);
+  color: var(--palette-text-900);
 
   padding-bottom: var(--spacing-1);
 }
@@ -28,6 +28,8 @@
 .signOut {
   display: flex;
   align-items: center;
+
+  color: var(--palette-text-500);
 }
 
 .userBoxButton {

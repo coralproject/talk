@@ -523,7 +523,7 @@ const CommentForm: FunctionComponent<Props> = ({
                           type="submit"
                           fullWidth={true}
                           className={CLASSES[classNameRoot].submit}
-                          upperCase
+                          upperCase={false}
                         >
                           {editableUntil ? "Save changes" : "Submit"}
                         </Button>

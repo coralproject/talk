@@ -1,6 +1,6 @@
 $commentsRTEBorder: var(--palette-grey-300);
 $commentsRTEContentBackground: var(--palette-background-input);
-$commentsRTEPlaceholder: var(--palette-text-placeholder);
+$commentsRTEPlaceholder: var(--palette-text-600);
 
 .container {
   background-color: transparent;

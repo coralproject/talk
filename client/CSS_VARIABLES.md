@@ -26,6 +26,7 @@ the old CSS Variables, please upgrade. Currently we have a compatibility layer t
   - <a href="#palette">palette</a>
     - <a href="#palette-primary">palette-primary</a>
     - <a href="#palette-highlight">palette-highlight</a>
+    - <a href="#palette-warm-gray">palette-warm-gray</a>
     - <a href="#palette-action">palette-action</a>
     - <a href="#palette-background">palette-background</a>
     - <a href="#palette-text">palette-text</a>
@@ -95,6 +96,26 @@ Color palette that is used as the primary color.
 
 `--palette-highlight-900: #FFEB2D;  /* Before 6.3.0: --palette-highlight-darkest */`
 
+#### palette-warm-gray
+
+`--palette-warm-gray-100: #F5F5F4;  /* Before 6.3.0: --palette-warm-gray-lightest */`
+
+`--palette-warm-gray-200: #E7E5E4;  /* Before 6.3.0: --palette-warm-gray-lighter */`
+
+`--palette-warm-gray-300: #D6D3D1;  /* Before 6.3.0: --palette-warm-gray-light */`
+
+`--palette-warm-gray-400: #A8A29E;  /* Before 6.3.0: --palette-warm-gray-main */`
+
+`--palette-warm-gray-500: #78716C;  /* Before 6.3.0: --palette-warm-gray-main */`
+
+`--palette-warm-gray-600: #57534E;  /* Before 6.3.0: --palette-warm-gray-main */`
+
+`--palette-warm-gray-700: #44403C;  /* Before 6.3.0: --palette-warm-gray-main */`
+
+`--palette-warm-gray-800: #292524;  /* Before 6.3.0: --palette-warm-gray-dark */`
+
+`--palette-warm-gray-900: #1C1917;  /* Before 6.3.0: --palette-warm-gray-darkest */`
+
 #### palette-action
 
 `--palette-action-000: #1A6EF4;  /* Before 6.3.0: --palette-action */`
@@ -122,6 +143,8 @@ Color palette that is used for text.
 `--palette-text-100: #65696B;  /* Before 6.3.0: --palette-text-secondary */`
 
 `--palette-text-500: #78716C;  /* Before 6.3.0: --palette-text-primary */`
+
+`--palette-text-600: #57534E;  /* Before 6.3.0: --palette-text-primary */`
 
 `--palette-text-900: #1C1917;  /* Before 6.3.0: --palette-text-dark */`
 

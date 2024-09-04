@@ -24,6 +24,7 @@ const variables = {
       "000": compat(colors.pure.white, "palette-text-light"),
       100: compat(colors.mono100, "palette-text-secondary"),
       500: compat("#78716C", "palette-text-primary"),
+      600: compat("#57534E", "palette-text-primary"),
       900: compat("#1C1917", "palette-text-dark"),
       placeholder: compat("#A8A29E", "palette-grey-lighter"),
       inputDisabled: compat("#A8A29E", "palette-grey-lighter"),

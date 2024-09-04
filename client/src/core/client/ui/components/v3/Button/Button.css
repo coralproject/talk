@@ -120,9 +120,9 @@
       border-color: var(--palette-primary-700);
     }
     &.disabled {
-      color: var(--palette-grey-400);
-      background-color: var(--palette-grey-200);
-      border-color: var(--palette-grey-200);
+      color: var(--palette-warm-gray-100);
+      background-color: var(--palette-warm-gray-400);
+      border-color: var(--palette-warm-gray-400);
     }
   }
 
