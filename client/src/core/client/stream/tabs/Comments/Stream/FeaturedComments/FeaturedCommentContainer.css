@@ -43,6 +43,10 @@
   margin-left: var(--spacing-1);
 }
 
+.gotoConversation {
+  color: var(--palette-action-000) !important;
+}
+
 .replies {
   color: var(--palette-text-100);
 }

@@ -14,8 +14,8 @@ import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import {
-  CommentBoxIcon,
   ConversationChatIcon,
+  EmailActionReplyIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
 import {
@@ -40,8 +40,8 @@ import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContain
 
 import FeaturedBy from "./FeaturedBy";
 
-import styles from "./FeaturedCommentContainer.css";
 import commentStyles from "../../Comment/IndentedComment.css";
+import styles from "./FeaturedCommentContainer.css";
 
 interface Props {
   viewer: ViewerData | null;
@@ -194,14 +194,14 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
                       CLASSES.featuredComment.actionBar.replies
                     )}
                   >
-                    <SvgIcon Icon={CommentBoxIcon} />
+                    <SvgIcon Icon={EmailActionReplyIcon} />
                     <Box mx={1}>{comment.replyCount}</Box>
                     <Localized id="comments-featured-replies">
                       <Box>Replies</Box>
                     </Localized>
                   </Flex>
                 )}
-                <Flex alignItems="center">
+                <Flex alignItems="center" ml={2}>
                   <Localized
                     id={gotoConvAriaLabelId}
                     attrs={{ "aria-label": true }}

@@ -11,6 +11,12 @@ $commentsRTEPlaceholder: var(--palette-text-600);
 
   border: 0;
 
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.5;
+  color: $commentsRTEPlaceholder;
+
   & :global(.coral-rte-spoiler) {
     background-color: black;
     color: white;

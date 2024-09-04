@@ -526,7 +526,7 @@ profile-commentHistory-section =
 profile-historyComment-commentLabel =
   Comment <RelativeTime></RelativeTime> on { $storyTitle }
 profile-historyComment-viewConversation = View Conversation
-profile-historyComment-replies = Replies {$replyCount}
+profile-historyComment-replies = {$replyCount} Reply
 profile-historyComment-commentHistory = Comment History
 profile-historyComment-story = Story: {$title}
 profile-historyComment-comment-on = Comment on:

@@ -3,11 +3,12 @@ import React, { FunctionComponent } from "react";
 
 import CLASSES from "coral-stream/classes";
 
+import { Flex } from "coral-ui/components/v2";
+
 import Indent from "../Indent";
 import Comment, { CommentProps } from "./Comment";
 
 import styles from "./IndentedComment.css";
-import { Flex } from "coral-ui/components/v2";
 
 export interface IndentedCommentProps extends Omit<CommentProps, "ref"> {
   classNameIndented?: string;

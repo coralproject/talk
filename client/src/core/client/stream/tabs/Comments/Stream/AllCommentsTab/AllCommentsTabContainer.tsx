@@ -335,13 +335,13 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     // If we aren't warned.
     !warned;
 
-  const showGoToDiscussions = useMemo(
-    () =>
-      !!viewer &&
-      !!settings &&
-      settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
-    [viewer, settings]
-  );
+  // const showGoToDiscussions = useMemo(
+  //   () =>
+  //     !!viewer &&
+  //     !!settings &&
+  //     settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
+  //   [viewer, settings]
+  // );
 
   const zKeyEnabled = useZKeyEnabled();
 
@@ -581,12 +581,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           comments={comments}
           newCommentsLength={newCommentsLength}
         />
-        {/*{!alternateOldestViewEnabled && (*/}
+        {/* {!alternateOldestViewEnabled && (*/}
         {/*  <CommentsLinks*/}
         {/*    showGoToDiscussions={showGoToDiscussions}*/}
         {/*    showGoToProfile={!!viewer}*/}
         {/*  />*/}
-        {/*)}*/}
+        {/* )}*/}
       </HorizontalGutter>
       {alternateOldestViewEnabled && (
         <HorizontalGutter mt={6} spacing={4}>
@@ -601,12 +601,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
               commentsOrderBy={commentsOrderBy}
             />
           )}
-          {/*<div className={styles.borderedFooter}>*/}
+          {/* <div className={styles.borderedFooter}>*/}
           {/*  <CommentsLinks*/}
           {/*    showGoToDiscussions={showGoToDiscussions}*/}
           {/*    showGoToProfile={!!viewer}*/}
           {/*  />*/}
-          {/*</div>*/}
+          {/* </div>*/}
         </HorizontalGutter>
       )}
     </div>

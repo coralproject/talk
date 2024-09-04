@@ -103,7 +103,7 @@
   border-width: 1px;
 
   &.colorPrimary {
-    color: var(--palette-text-000);
+    color: var(--palette-highlight-500);
 
     &:not(.disabled),
     &:not(:disabled) {
