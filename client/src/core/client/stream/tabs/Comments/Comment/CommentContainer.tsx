@@ -360,12 +360,7 @@ export const CommentContainer: FunctionComponent<Props> = ({
 
   const commentTags = (
     <>
-      {hasFeaturedTag && !isQA && (
-        <FeaturedTag
-          collapsed={collapsed}
-          topCommenterEnabled={settings.topCommenter?.enabled}
-        />
-      )}
+      {hasFeaturedTag && !isQA && <FeaturedTag />}
       {hasAnsweredTag && isQA && <AnsweredTag collapsed={collapsed} />}
     </>
   );

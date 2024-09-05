@@ -60,7 +60,6 @@ import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__
 
 import MarkCommentsAsSeenMutation from "../../Comment/MarkCommentsAsSeenMutation";
 import { useCommentSeenEnabled, useZKeyEnabled } from "../../commentSeen";
-import CommentsLinks from "../CommentsLinks";
 import NoComments from "../NoComments";
 import { PostCommentFormContainer } from "../PostCommentForm";
 import ViewersWatchingContainer from "../ViewersWatchingContainer";
@@ -336,13 +335,13 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     // If we aren't warned.
     !warned;
 
-  const showGoToDiscussions = useMemo(
-    () =>
-      !!viewer &&
-      !!settings &&
-      settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
-    [viewer, settings]
-  );
+  // const showGoToDiscussions = useMemo(
+  //   () =>
+  //     !!viewer &&
+  //     !!settings &&
+  //     settings.featureFlags.includes(GQLFEATURE_FLAG.DISCUSSIONS),
+  //   [viewer, settings]
+  // );
 
   const zKeyEnabled = useZKeyEnabled();
 
@@ -582,12 +581,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
           comments={comments}
           newCommentsLength={newCommentsLength}
         />
-        {!alternateOldestViewEnabled && (
-          <CommentsLinks
-            showGoToDiscussions={showGoToDiscussions}
-            showGoToProfile={!!viewer}
-          />
-        )}
+        {/* {!alternateOldestViewEnabled && (*/}
+        {/*  <CommentsLinks*/}
+        {/*    showGoToDiscussions={showGoToDiscussions}*/}
+        {/*    showGoToProfile={!!viewer}*/}
+        {/*  />*/}
+        {/* )}*/}
       </HorizontalGutter>
       {alternateOldestViewEnabled && (
         <HorizontalGutter mt={6} spacing={4}>
@@ -602,12 +601,12 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
               commentsOrderBy={commentsOrderBy}
             />
           )}
-          <div className={styles.borderedFooter}>
-            <CommentsLinks
-              showGoToDiscussions={showGoToDiscussions}
-              showGoToProfile={!!viewer}
-            />
-          </div>
+          {/* <div className={styles.borderedFooter}>*/}
+          {/*  <CommentsLinks*/}
+          {/*    showGoToDiscussions={showGoToDiscussions}*/}
+          {/*    showGoToProfile={!!viewer}*/}
+          {/*  />*/}
+          {/* </div>*/}
         </HorizontalGutter>
       )}
     </div>

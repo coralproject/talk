@@ -49,7 +49,7 @@ async function createTestRenderer(
     },
   });
 
-  const rte = await waitForRTE(testRenderer.root, "Post a comment");
+  const rte = await waitForRTE(testRenderer.root, "Join the conversation");
   const form = findParentWithType(rte, "form")!;
   return {
     testRenderer,

@@ -68,7 +68,7 @@ const HistoryComment: FunctionComponent<HistoryCommentProps> = (props) => {
             <InReplyTo parent={props.parent} enableJumpToParent={false} />
           </div>
         )}
-        <HorizontalGutter>
+        <HorizontalGutter mt={2}>
           {props.story.settings.mode === GQLSTORY_MODE.RATINGS_AND_REVIEWS &&
             props.rating && <StarRating rating={props.rating} />}
           <div className={styles.content}>

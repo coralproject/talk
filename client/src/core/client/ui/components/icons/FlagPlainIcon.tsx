@@ -1,21 +1,25 @@
 import React, { FunctionComponent } from "react";
 
 const FlagPlainIcon: FunctionComponent = () => {
-  // https://www.streamlinehq.com/icons/streamline-regular/social-medias-rewards-rating/flags/flag-plain-3
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="11"
+      height="13"
+      viewBox="0 0 11 13"
+    >
       <path
-        d="M0.75 23.25L0.75 0.75"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      ></path>
+        d="M0.93457 2.06763C0.93457 1.79149 1.15843 1.56763 1.43457 1.56763H4.9838V7.48345C4.9838 7.75959 4.75995 7.98345 4.4838 7.98345H1.43457C1.15843 7.98345 0.93457 7.75959 0.93457 7.48345V2.06763Z"
+        fill="currentColor"
+      />
       <path
-        d="M.75,17.708l3.154-.97a9.61,9.61,0,0,1,7.864,1A9.615,9.615,0,0,0,19.447,18.8l2.987-.854a1.125,1.125,0,0,0,.816-1.082V5.137a1.126,1.126,0,0,0-1.434-1.082l-2.369.677a9.615,9.615,0,0,1-7.679-1.056,9.61,9.61,0,0,0-7.864-1L.75,3.645"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      ></path>
+        d="M4.98389 0.500005C4.98389 0.223855 5.20775 0 5.48389 0H9.16126V6.41582H4.98389V0.500005Z"
+        fill="currentColor"
+      />
+      <path
+        d="M9.16126 0H10.5C10.7762 0 11 0.223855 11 0.499995V12.1792C11 12.4554 10.7762 12.6792 10.5 12.6792H9.66113C9.38499 12.6792 9.16113 12.4554 9.16113 12.1792L9.16126 0Z"
+        fill="currentColor"
+      />
     </svg>
   );
 };

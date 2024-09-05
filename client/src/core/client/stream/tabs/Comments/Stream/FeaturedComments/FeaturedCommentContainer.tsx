@@ -14,8 +14,8 @@ import Timestamp from "coral-stream/common/Timestamp";
 import { ViewConversationEvent } from "coral-stream/events";
 import { SetCommentIDMutation } from "coral-stream/mutations";
 import {
-  CommentBoxIcon,
   ConversationChatIcon,
+  EmailActionReplyIcon,
   SvgIcon,
 } from "coral-ui/components/icons";
 import {
@@ -40,6 +40,7 @@ import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContain
 
 import FeaturedBy from "./FeaturedBy";
 
+import commentStyles from "../../Comment/IndentedComment.css";
 import styles from "./FeaturedCommentContainer.css";
 
 interface Props {
@@ -88,134 +89,151 @@ const FeaturedCommentContainer: FunctionComponent<Props> = (props) => {
 
   return (
     <IgnoredTombstoneOrHideContainer viewer={props.viewer} comment={comment}>
-      <article
-        className={cn(CLASSES.featuredComment.$root, styles.root)}
-        data-testid={`featuredComment-${comment.id}`}
-        aria-labelledby={`featuredComment-${comment.id}-label`}
-      >
-        <Localized
-          id="comments-featured-label"
-          elems={{ RelativeTime: <RelativeTime date={comment.createdAt} /> }}
-          vars={{ username: comment.author?.username ?? "" }}
-        >
-          <Hidden id={`featuredComment-${comment.id}-label`}>
-            Featured Comment from {comment.author?.username} {` `}
-            <RelativeTime date={comment.createdAt} />
-          </Hidden>
-        </Localized>
-        <HorizontalGutter>
-          {settings.featuredBy && featuringUser?.username && (
-            <FeaturedBy username={featuringUser.username} />
-          )}
-          {isRatingsAndReviews && comment.rating && (
-            <StarRating rating={comment.rating} />
-          )}
-          <HTMLContent
-            className={cn(styles.body, CLASSES.featuredComment.content)}
+      <div className={styles.container}>
+        <Flex spacing={3}>
+          {comment.author && comment.author.username ? (
+            <div className={commentStyles.userAvatar}>
+              <span>{comment.author.username[0]}</span>
+            </div>
+          ) : null}
+
+          <article
+            className={cn(CLASSES.featuredComment.$root, styles.root)}
+            data-testid={`featuredComment-${comment.id}`}
+            aria-labelledby={`featuredComment-${comment.id}-label`}
           >
-            {comment.body || ""}
-          </HTMLContent>
-          <MediaSectionContainer
-            comment={comment}
-            settings={settings}
-            defaultExpanded={viewer?.mediaSettings?.unfurlEmbeds}
-          />
-        </HorizontalGutter>
-        <Flex
-          direction="row"
-          alignItems="center"
-          mt={3}
-          className={CLASSES.featuredComment.authorBar.$root}
-        >
-          {comment.author && (
-            <UsernameWithPopoverContainer
-              className={CLASSES.featuredComment.authorBar.username}
-              usernameClassName={styles.username}
-              comment={comment}
-              viewer={viewer}
-              settings={settings}
-            />
-          )}
-          <Box ml={1} container="span">
-            <UserTagsContainer
-              className={CLASSES.featuredComment.authorBar.userTag}
-              story={story}
-              comment={comment}
-              settings={settings}
-            />
-          </Box>
-          <Box ml={2}>
-            <Timestamp className={CLASSES.featuredComment.authorBar.timestamp}>
-              {comment.createdAt}
-            </Timestamp>
-          </Box>
-        </Flex>
-        <Flex
-          justifyContent="space-between"
-          mt={2}
-          className={CLASSES.featuredComment.actionBar.$root}
-        >
-          <ReactionButtonContainer
-            comment={comment}
-            settings={settings}
-            viewer={viewer}
-            readOnly={
-              isViewerBanned ||
-              isViewerSuspended ||
-              isViewerWarned ||
-              story.isArchived ||
-              story.isArchiving
-            }
-            className={CLASSES.featuredComment.actionBar.reactButton}
-            reactedClassName={CLASSES.featuredComment.actionBar.reactedButton}
-          />
-          <Flex alignItems="center">
-            {comment.replyCount > 0 && (
-              <Flex
-                alignItems="center"
-                className={cn(
-                  styles.replies,
-                  CLASSES.featuredComment.actionBar.replies
-                )}
-              >
-                <SvgIcon Icon={CommentBoxIcon} />
-                <Localized id="comments-featured-replies">
-                  <Box mx={1}>Replies</Box>
-                </Localized>
-                <Box>{comment.replyCount}</Box>
-              </Flex>
-            )}
-            <Flex alignItems="center">
-              <Localized
-                id={gotoConvAriaLabelId}
-                attrs={{ "aria-label": true }}
-                vars={{ username: comment.author?.username ?? "" }}
-              >
-                <Button
-                  className={cn(
-                    CLASSES.featuredComment.actionBar.goToConversation,
-                    styles.gotoConversation
-                  )}
-                  variant="flat"
-                  fontSize="small"
-                  color="none"
-                  paddingSize="none"
-                  onClick={onGotoConversation}
-                  href={getURLWithCommentID(story.url, comment.id)}
+            <Flex
+              direction="row"
+              alignItems="center"
+              className={cn(
+                CLASSES.featuredComment.authorBar.$root,
+                styles.authorContainer
+              )}
+            >
+              {comment.author && (
+                <UsernameWithPopoverContainer
+                  className={CLASSES.featuredComment.authorBar.username}
+                  usernameClassName={styles.username}
+                  comment={comment}
+                  viewer={viewer}
+                  settings={settings}
+                />
+              )}
+              <Box container="span">
+                <UserTagsContainer
+                  className={CLASSES.featuredComment.authorBar.userTag}
+                  story={story}
+                  comment={comment}
+                  settings={settings}
+                />
+              </Box>
+              <Box ml={1}>
+                <Timestamp
+                  className={CLASSES.featuredComment.authorBar.timestamp}
                 >
-                  <SvgIcon
-                    Icon={ConversationChatIcon}
-                    className={styles.icon}
-                  />
-                  <Localized id="comments-featured-gotoConversation">
-                    <span>Go to conversation</span>
-                  </Localized>
-                </Button>
-              </Localized>
+                  {comment.createdAt}
+                </Timestamp>
+              </Box>
             </Flex>
-          </Flex>
+            <Localized
+              id="comments-featured-label"
+              elems={{
+                RelativeTime: <RelativeTime date={comment.createdAt} />,
+              }}
+              vars={{ username: comment.author?.username ?? "" }}
+            >
+              <Hidden id={`featuredComment-${comment.id}-label`}>
+                Featured Comment from {comment.author?.username} {` `}
+                <RelativeTime date={comment.createdAt} />
+              </Hidden>
+            </Localized>
+            <HorizontalGutter className={styles.contentContainer}>
+              {settings.featuredBy && featuringUser?.username && (
+                <FeaturedBy username={featuringUser.username} />
+              )}
+              {isRatingsAndReviews && comment.rating && (
+                <StarRating rating={comment.rating} />
+              )}
+              <HTMLContent
+                className={cn(styles.body, CLASSES.featuredComment.content)}
+              >
+                {comment.body || ""}
+              </HTMLContent>
+              <MediaSectionContainer
+                comment={comment}
+                settings={settings}
+                defaultExpanded={viewer?.mediaSettings?.unfurlEmbeds}
+              />
+            </HorizontalGutter>
+            <Flex
+              justifyContent="space-between"
+              className={CLASSES.featuredComment.actionBar.$root}
+            >
+              <ReactionButtonContainer
+                comment={comment}
+                settings={settings}
+                viewer={viewer}
+                readOnly={
+                  isViewerBanned ||
+                  isViewerSuspended ||
+                  isViewerWarned ||
+                  story.isArchived ||
+                  story.isArchiving
+                }
+                className={CLASSES.featuredComment.actionBar.reactButton}
+                reactedClassName={
+                  CLASSES.featuredComment.actionBar.reactedButton
+                }
+              />
+              <Flex alignItems="center">
+                {comment.replyCount > 0 && (
+                  <Flex
+                    alignItems="center"
+                    className={cn(
+                      styles.replies,
+                      CLASSES.featuredComment.actionBar.replies
+                    )}
+                  >
+                    <SvgIcon Icon={EmailActionReplyIcon} />
+                    <Box mx={1}>{comment.replyCount}</Box>
+                    <Localized id="comments-featured-replies">
+                      <Box>Replies</Box>
+                    </Localized>
+                  </Flex>
+                )}
+                <Flex alignItems="center" ml={2}>
+                  <Localized
+                    id={gotoConvAriaLabelId}
+                    attrs={{ "aria-label": true }}
+                    vars={{ username: comment.author?.username ?? "" }}
+                  >
+                    <Button
+                      className={cn(
+                        CLASSES.featuredComment.actionBar.goToConversation,
+                        styles.gotoConversation
+                      )}
+                      variant="flat"
+                      fontSize="small"
+                      color="none"
+                      paddingSize="none"
+                      onClick={onGotoConversation}
+                      href={getURLWithCommentID(story.url, comment.id)}
+                    >
+                      <SvgIcon
+                        Icon={ConversationChatIcon}
+                        className={styles.icon}
+                      />
+                      <Localized id="comments-featured-gotoConversation">
+                        <span>Go to conversation</span>
+                      </Localized>
+                    </Button>
+                  </Localized>
+                </Flex>
+              </Flex>
+            </Flex>
+          </article>
         </Flex>
-      </article>
+      </div>
     </IgnoredTombstoneOrHideContainer>
   );
 };

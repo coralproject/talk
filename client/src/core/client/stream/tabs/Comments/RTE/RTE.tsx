@@ -16,6 +16,7 @@ import React, {
   Ref,
   useEffect,
   useMemo,
+  useRef,
 } from "react";
 
 import { createSanitize } from "coral-common/common/lib/helpers/sanitize";
@@ -198,9 +199,17 @@ const RTE: FunctionComponent<Props> = (props) => {
   const sanitizeToDOMFragment = useMemo(() => {
     return createSanitizeToDOMFragment(window, features);
   }, [features, window]);
+  const userInteractionOccurred = useRef(false);
+  const notExpanded =
+    !userInteractionOccurred.current && (!value || value.length === 0);
 
   const featureElements = useMemo(() => {
     const x = [];
+
+    if (notExpanded) {
+      return [];
+    }
+
     if (features?.bold) {
       x.push(
         <RTELocalized key="bold" id="comments-rte-bold" attrs={{ title: true }}>
@@ -280,7 +289,7 @@ const RTE: FunctionComponent<Props> = (props) => {
       x.push(props.toolbarButtons);
     }
     return x;
-  }, [features, props.toolbarButtons]);
+  }, [features, props.toolbarButtons, userInteractionOccurred.current]);
 
   const elementTree = (
     <div role="none">
@@ -291,7 +300,8 @@ const RTE: FunctionComponent<Props> = (props) => {
         contentClassName={cn(
           CLASSES.rte.content,
           contentClassName,
-          styles.content
+          styles.content,
+          notExpanded ? styles["not-expanded"] : undefined
         )}
         placeholderClassName={cn(
           CLASSES.rte.placeholder,
@@ -312,7 +322,12 @@ const RTE: FunctionComponent<Props> = (props) => {
           containerClassName
         )}
         contentClassNameDisabled={styles.disabled}
-        onChange={onChange}
+        onChange={(html: string) => {
+          userInteractionOccurred.current = true;
+          if (typeof onChange !== "undefined") {
+            onChange(html);
+          }
+        }}
         value={value || defaultValue || "<div><br></div>"}
         disabled={disabled}
         placeholder={placeholder}

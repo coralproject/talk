@@ -1,14 +1,14 @@
 .root {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .afterWrapper {
-  position: absolute;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  right: var(--spacing-2);
   height: 100%;
   user-select: none;
   pointer-events: none;
@@ -38,6 +38,8 @@
 }
 
 .select {
+  margin-right: var(--spacing-1);
+
   -webkit-appearance: none;
   -moz-appearance: none;
 

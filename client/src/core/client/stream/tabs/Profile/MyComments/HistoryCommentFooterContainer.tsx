@@ -64,7 +64,7 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
           >
             <ButtonSvgIcon Icon={LikeIcon} />
             <span className={cn(styles.reactionsButtonText)}>
-              {settings.reaction.label} {comment.actionCounts.reaction.total}
+              {comment.actionCounts.reaction.total} {settings.reaction.label}
             </span>
             <ButtonSvgIcon
               className={styles.buttonCaret}
@@ -83,7 +83,7 @@ const HistoryCommentFooterContainer: FunctionComponent<Props> = ({
               id="profile-historyComment-replies"
               vars={{ replyCount: comment.replyCount }}
             >
-              <span>Replies {comment.replyCount}</span>
+              <span>{comment.replyCount} Reply</span>
             </Localized>
           </div>
         )}

@@ -1,44 +1,30 @@
 import React, { FunctionComponent } from "react";
 
 const ShareIcon: FunctionComponent = () => {
-  // https://www.streamlinehq.com/icons/streamline-regular/interface-essential/share/share
   return (
-    <svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M1.500 11.250 A3.750 3.750 0 1 0 9.000 11.250 A3.750 3.750 0 1 0 1.500 11.250 Z"
-        fill="none"
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="13"
+      viewBox="0 0 15 13"
+    >
+      <circle cx="3.08972" cy="6.58496" r="2.2113" fill="currentColor" />
+      <circle cx="12.4056" cy="2.45667" r="2.2113" fill="currentColor" />
+      <circle cx="12.4056" cy="10.7133" r="2.2113" fill="currentColor" />
+      <line
+        y1="-0.5"
+        x2="9.6707"
+        y2="-0.5"
+        transform="matrix(0.92152 -0.388331 0.459597 0.888127 3.49414 6.58496)"
         stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      ></path>
-      <path
-        d="M15.000 6.000 A3.750 3.750 0 1 0 22.500 6.000 A3.750 3.750 0 1 0 15.000 6.000 Z"
-        fill="none"
+      />
+      <line
+        y1="-0.5"
+        x2="9.6707"
+        y2="-0.5"
+        transform="matrix(0.92152 0.388331 0.459597 -0.888127 3.49414 6.58496)"
         stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      ></path>
-      <path
-        d="M15.000 18.000 A3.750 3.750 0 1 0 22.500 18.000 A3.750 3.750 0 1 0 15.000 18.000 Z"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      ></path>
-      <path
-        d="M8.746 9.891L15.254 7.36"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      ></path>
-      <path
-        d="M8.605 12.928L15.395 16.323"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      ></path>
+      />
     </svg>
   );
 };

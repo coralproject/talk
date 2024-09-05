@@ -1,4 +1,7 @@
 .root {
   composes: root from "~coral-stream/shared/htmlContent.css";
   word-break: break-word;
+
+  color: var(--palette-warm-gray-900);
+  line-height: 130%;
 }

@@ -1,6 +1,6 @@
 $commentsRTEBorder: var(--palette-grey-300);
 $commentsRTEContentBackground: var(--palette-background-input);
-$commentsRTEPlaceholder: var(--palette-text-placeholder);
+$commentsRTEPlaceholder: var(--palette-text-600);
 
 .container {
   background-color: transparent;
@@ -11,11 +11,21 @@ $commentsRTEPlaceholder: var(--palette-text-placeholder);
 
   border: 0;
 
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-primary-regular);
+  font-size: var(--font-size-3);
+  line-height: 1.5;
+  color: $commentsRTEPlaceholder;
+
   & :global(.coral-rte-spoiler) {
     background-color: black;
     color: white;
     padding: 0 2px;
     cursor: text;
+  }
+
+  &.not-expanded {
+    min-height: unset;
   }
 }
 

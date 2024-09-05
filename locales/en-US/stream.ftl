@@ -23,7 +23,7 @@ general-userBoxAuthenticated-notYou =
 general-userBox-youHaveBeenSuccessfullySignedOut =
   You have been successfully signed out
 
-general-tabBar-commentsTab = Comments
+general-tabBar-commentsTab = Discussion
 general-tabBar-myProfileTab = My Profile
 general-tabBar-discussionsTab = Discussions
 general-tabBar-reviewsTab = Reviews
@@ -55,7 +55,7 @@ comment-count-text-ratings =
 addACommentButton =
   .aria-label = Add a comment. This button will move focus to the bottom of the comments.
 
-comments-allCommentsTab = All Comments
+comments-allCommentsTab = All
 comments-featuredTab = Featured
 comments-counter-shortNum = { SHORT_NUMBER($count) }
 comments-watchers =
@@ -179,7 +179,7 @@ comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLE
 comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Additional comment URL length exceeds maximum.
 comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = You've previously reported this comment for containing potentially illegal content. You may only report a comment for this reason one time.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = We have received your illegal content report
-comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is 
+comments-permalinkView-reportIllegalContent-confirmation-description = Your report will now be reviewed by our moderation team. You will receive a notification once a decision is made. If the content is
   found to contain potentially illegal content, it will be removed from the site and further action may be taken against the commenter.
 comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Thank you for submitting this report
 comments-permalinkView-reportIllegalContent-confirmation-errorDescription = We were unable to submit your report for the following reason(s):
@@ -211,7 +211,7 @@ comments-remainingCharacters = { $remaining } characters remaining
 
 comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
 
-comments-postCommentForm-rteLabel = Post a comment
+comments-postCommentForm-rteLabel = Join the conversation
 
 comments-postCommentForm-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
@@ -272,7 +272,7 @@ comments-reportButton-aria-report =
 comments-reportButton-aria-reported =
   .aria-label = Reported
 
-comments-sortMenu-sortBy = Sort by
+comments-sortMenu-sortBy = Sort by:
 comments-sortMenu-newest = Newest
 comments-sortMenu-oldest = Oldest
 comments-sortMenu-mostReplies = Most replies
@@ -378,7 +378,7 @@ comments-refreshReviews-refreshButton = <icon></icon> Refresh reviews
 comments-replyChangedWarning-theCommentHasJust =
   This comment has just been edited. The latest version is displayed above.
 
-comments-mobileToolbar-notifications-closeButton = 
+comments-mobileToolbar-notifications-closeButton =
   .aria-label = Close notifications
 
 ### Q&A
@@ -491,7 +491,7 @@ comments-featured-gotoConversation-label-with-username =
   .aria-label = Go to conversation for this featured comment by user { $username } in the main comment stream
 comments-featured-gotoConversation-label-without-username =
   .aria-label = Go to conversation for this featured comment in the main comment stream
-comments-featured-replies = Replies
+comments-featured-replies = Reply
 
 ## Profile Tab
 
@@ -526,7 +526,7 @@ profile-commentHistory-section =
 profile-historyComment-commentLabel =
   Comment <RelativeTime></RelativeTime> on { $storyTitle }
 profile-historyComment-viewConversation = View Conversation
-profile-historyComment-replies = Replies {$replyCount}
+profile-historyComment-replies = {$replyCount} Reply
 profile-historyComment-commentHistory = Comment History
 profile-historyComment-story = Story: {$title}
 profile-historyComment-comment-on = Comment on:

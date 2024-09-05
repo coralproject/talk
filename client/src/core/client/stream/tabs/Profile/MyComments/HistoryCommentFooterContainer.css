@@ -2,9 +2,9 @@ $commentsHistoryReactionsColor: var(--palette-text-900);
 $commentsHistoryReactionsHoverColor: var(--palette-text-500);
 $commentsHistoryActiveReactionsBackground: var(--palette-grey-500);
 
-$commentsHistoryViewConversationColor: var(--palette-primary-500);
-$commentsHistoryViewConversationHoverColor: var(--palette-primary-300);
-$commentsHistoryViewConversationActiveColor: var(--palette-primary-200);
+$commentsHistoryViewConversationColor: var(--palette-action-000);
+$commentsHistoryViewConversationHoverColor: var(--palette-action-000);
+$commentsHistoryViewConversationActiveColor: var(--palette-action-000);
 
 $commentsHistoryReactionsUsernamesBackground: var(--palette-grey-100);
 $commentsHistoryReactionsUsernamesColor: var(--palette-text-500);
