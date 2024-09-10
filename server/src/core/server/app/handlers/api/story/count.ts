@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+import { COUNTS_V2_CACHE_DURATION } from "coral-common/common/lib/constants";
 import { CountJSONPData } from "coral-common/common/lib/types/count";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
@@ -26,7 +27,7 @@ interface CountsV2Body {
 }
 
 const CountsV2BodySchema = Joi.object().keys({
-  storyIDs: Joi.array().items(Joi.string().required()).required(),
+  storyIDs: Joi.array().items(Joi.string().required()).required().max(100),
 });
 
 export type JSONPCountOptions = Pick<
@@ -244,7 +245,7 @@ export const countsV2Handler =
         );
 
         const key = computeCountKey(tenant.id, missingID);
-        await redis.set(key, count);
+        await redis.set(key, count, "EX", COUNTS_V2_CACHE_DURATION);
         logger.debug("set story count for counts v2 in redis cache", {
           storyID: missingID,
           count,
