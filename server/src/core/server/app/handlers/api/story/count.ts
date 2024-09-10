@@ -261,12 +261,13 @@ export const countsV2Handler =
       // we were given from the caller. Then return the values
       // from our combined redis/mongo results.
       //
-      // this means if a user asked for id's [1, 2, 3, 1], they would
+      // this means if a user asked for id's ["1", "2", "3", "does-not-exist", "1"], they would
       // receive counts like so:
       // [
       //   { storyID: 1, redisCount: 2, count: 2 },
       //   { storyID: 2, redisCount: 5, count: 5 },
       //   { storyID: 3, mongoCount: 2, count: 2 },
+      //   null,
       //   { storyID: 1, redisCount: 2, count: 2 }
       // ]
       //
