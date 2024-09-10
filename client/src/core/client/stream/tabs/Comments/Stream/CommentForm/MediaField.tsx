@@ -6,11 +6,8 @@ import {
   isMediaLink,
   MediaLink,
 } from "coral-common/common/lib/helpers/findMediaLinks";
-import { GQLGIF_MEDIA_SOURCE } from "coral-framework/schema";
 import { AlertCircleIcon, SvgIcon } from "coral-ui/components/icons";
 import { CallOut } from "coral-ui/components/v3";
-
-import { GIF_MEDIA_SOURCE } from "coral-stream/__generated__/MediaSettingsContainer_settings.graphql";
 
 import {
   MediaConfirmPrompt,
@@ -19,15 +16,13 @@ import {
 import ExternalImageInput from "../../ExternalImageInput";
 import GiphyInput, { GifPreview } from "../../GiphyInput";
 import { getMediaValidators } from "../../helpers";
-import TenorInput, { GifResult } from "../../TenorInput/TenorInput";
 
-export type Widget = "gifs" | "external" | null;
+export type Widget = "giphy" | "external" | null;
 
-interface GifConfig {
+interface GiphyConfig {
   key: string | null;
   enabled: boolean;
   maxRating: string | null;
-  provider?: GIF_MEDIA_SOURCE | null;
 }
 
 interface Props {
@@ -36,12 +31,12 @@ interface Props {
   siteID: string;
   pastedMedia: MediaLink | null;
   setPastedMedia: (media: MediaLink | null) => void;
-  gifConfig: GifConfig;
+  giphyConfig: GiphyConfig;
 }
 
 interface Media {
   id?: string;
-  type: "giphy" | "tenor" | "twitter" | "youtube" | "external";
+  type: "giphy" | "twitter" | "youtube" | "external";
   url: string;
   width?: string;
   height?: string;
@@ -53,7 +48,7 @@ const MediaField: FunctionComponent<Props> = ({
   siteID,
   pastedMedia,
   setPastedMedia,
-  gifConfig,
+  giphyConfig,
 }) => {
   const {
     input: { value, onChange },
@@ -63,27 +58,13 @@ const MediaField: FunctionComponent<Props> = ({
   });
 
   const onGiphySelect = useCallback(
-    (gif: IGif) => {
+    (gif: IGif) =>
       onChange({
         type: "giphy",
         id: gif.id,
         url: gif.images.original.url,
-      });
-      setWidget(null);
-    },
-    [onChange, setWidget]
-  );
-
-  const onTenorSelect = useCallback(
-    (gif: GifResult) => {
-      onChange({
-        type: "tenor",
-        id: gif.id,
-        url: gif.url,
-      });
-      setWidget(null);
-    },
-    [onChange, setWidget]
+      }),
+    [onChange]
   );
 
   const onExternalImageSelect = useCallback(
@@ -167,21 +148,14 @@ const MediaField: FunctionComponent<Props> = ({
           onConfirm={onConfirmPastedMedia}
           onRemove={onRemove}
         />
-      ) : widget === "gifs" ? (
-        gifConfig.key &&
-        gifConfig.maxRating && (
-          <>
-            {gifConfig.provider === GQLGIF_MEDIA_SOURCE.GIPHY && (
-              <GiphyInput
-                onSelect={onGiphySelect}
-                apiKey={gifConfig.key}
-                maxRating={gifConfig.maxRating}
-              />
-            )}
-            {gifConfig.provider === GQLGIF_MEDIA_SOURCE.TENOR && (
-              <TenorInput onSelect={onTenorSelect} />
-            )}
-          </>
+      ) : widget === "giphy" ? (
+        giphyConfig.key &&
+        giphyConfig.maxRating && (
+          <GiphyInput
+            onSelect={onGiphySelect}
+            apiKey={giphyConfig.key}
+            maxRating={giphyConfig.maxRating}
+          />
         )
       ) : widget === "external" ? (
         <ExternalImageInput onSelect={onExternalImageSelect} />

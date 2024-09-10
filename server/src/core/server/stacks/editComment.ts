@@ -25,7 +25,6 @@ import {
   getLatestRevision,
   GiphyMedia,
   retrieveComment,
-  TenorMedia,
   TwitterMedia,
   validateEditable,
   YouTubeMedia,
@@ -162,7 +161,6 @@ export default async function edit(
 
   let media:
     | GiphyMedia
-    | TenorMedia
     | TwitterMedia
     | YouTubeMedia
     | ExternalMedia

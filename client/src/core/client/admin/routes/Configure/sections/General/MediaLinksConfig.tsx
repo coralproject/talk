@@ -9,7 +9,6 @@ import {
   required,
   validateWhen,
 } from "coral-framework/lib/validation";
-import { GQLGIF_MEDIA_SOURCE } from "coral-framework/schema";
 import {
   FieldSet,
   FormField,
@@ -31,8 +30,8 @@ interface Props {
   disabled: boolean;
 }
 
-const gifsAreEnabled: Condition = (value, values) =>
-  Boolean(values.media && values.media.gifs.enabled);
+const giphyIsEnabled: Condition = (value, values) =>
+  Boolean(values.media && values.media.giphy.enabled);
 
 // eslint-disable-next-line no-unused-expressions
 graphql`
@@ -44,11 +43,10 @@ graphql`
       youtube {
         enabled
       }
-      gifs {
+      giphy {
         enabled
         maxRating
         key
-        provider
       }
     }
   }
@@ -64,10 +62,10 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
       }
       container={<FieldSet />}
     >
-      <Localized id="configure-general-embedLinks-description">
+      <Localized id="configure-general-embedLinks-desc">
         <FormFieldDescription>
-          Allow commenters to add a YouTube video, X post or GIF's to the end of
-          their comment
+          Allow commenters to add a YouTube video, X post or GIF from GIPHY's
+          library to the end of their comment
         </FormFieldDescription>
       </Localized>
       <FormField>
@@ -110,11 +108,11 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
         />
       </FormField>
       <FormField>
-        <Localized id="configure-general-embedLinks-enableGifs">
-          <Label component="legend">Allow GIFs</Label>
+        <Localized id="configure-general-embedLinks-enableGiphyEmbeds">
+          <Label component="legend">Allow GIFs from GIPHY</Label>
         </Localized>
         <OnOffField
-          name="media.gifs.enabled"
+          name="media.giphy.enabled"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">
@@ -128,57 +126,14 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
           }
         />
       </FormField>
-
       <FormSpy subscription={{ values: true }}>
         {(props) => {
-          const gifsDisabled =
+          const giphyDisabled =
             !props.values.media ||
-            !props.values.media.gifs ||
-            !props.values.media.gifs.enabled;
-          const provider = props.values.media?.gifs?.provider;
+            !props.values.media.giphy ||
+            !props.values.media.giphy.enabled;
           return (
             <>
-              <FormField>
-                <Localized id="configure-general-embedLinks-gifProvider">
-                  <Label component="legend">GIF provider</Label>
-                </Localized>
-                <Localized id="configure-general-embedLinks-gifProvider-desc">
-                  <HelperText>
-                    Determines which provider commenters will search for and
-                    show GIFs from.
-                  </HelperText>
-                </Localized>
-                <Field name="media.gifs.provider" type="radio" value="GIPHY">
-                  {({ input }) => (
-                    <>
-                      <Localized id="configure-general-embedLinks-gifs-provider-Giphy">
-                        <RadioButton
-                          {...input}
-                          id="GIPHY"
-                          disabled={gifsDisabled || disabled}
-                        >
-                          Giphy
-                        </RadioButton>
-                      </Localized>
-                    </>
-                  )}
-                </Field>
-                <Field name="media.gifs.provider" type="radio" value="TENOR">
-                  {({ input }) => (
-                    <>
-                      <Localized id="configure-general-embedLinks-gifs-provider-Tenor">
-                        <RadioButton
-                          {...input}
-                          id="TENOR"
-                          disabled={gifsDisabled || disabled}
-                        >
-                          Tenor
-                        </RadioButton>
-                      </Localized>
-                    </>
-                  )}
-                </Field>
-              </FormField>
               <FormField>
                 <Localized id="configure-general-embedLinks-giphyMaxRating">
                   <Label component="legend">GIF content rating</Label>
@@ -189,14 +144,14 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     appear in commenters’ search results
                   </HelperText>
                 </Localized>
-                <Field name="media.gifs.maxRating" type="radio" value="g">
+                <Field name="media.giphy.maxRating" type="radio" value="g">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-g">
                         <RadioButton
                           {...input}
                           id="G"
-                          disabled={gifsDisabled || disabled}
+                          disabled={giphyDisabled || disabled}
                         >
                           G
                         </RadioButton>
@@ -210,14 +165,14 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="media.gifs.maxRating" type="radio" value="pg">
+                <Field name="media.giphy.maxRating" type="radio" value="pg">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-pg">
                         <RadioButton
                           {...input}
                           id="PG"
-                          disabled={gifsDisabled || disabled}
+                          disabled={giphyDisabled || disabled}
                         >
                           PG
                         </RadioButton>
@@ -231,14 +186,14 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="media.gifs.maxRating" type="radio" value="pg13">
+                <Field name="media.giphy.maxRating" type="radio" value="pg13">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-pg13">
                         <RadioButton
                           {...input}
                           id="PG13"
-                          disabled={gifsDisabled || disabled}
+                          disabled={giphyDisabled || disabled}
                         >
                           PG-13
                         </RadioButton>
@@ -254,14 +209,14 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
-                <Field name="media.gifs.maxRating" type="radio" value="r">
+                <Field name="media.giphy.maxRating" type="radio" value="r">
                   {({ input }) => (
                     <>
                       <Localized id="configure-general-embedLinks-giphyMaxRating-r">
                         <RadioButton
                           {...input}
                           id="r"
-                          disabled={gifsDisabled || disabled}
+                          disabled={giphyDisabled || disabled}
                         >
                           R
                         </RadioButton>
@@ -280,63 +235,31 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
               <Localized id="configure-general-embedLinks-configuration">
                 <Subheader>Configuration</Subheader>
               </Localized>
-
-              {provider === GQLGIF_MEDIA_SOURCE.GIPHY && (
-                <Localized
-                  id="configure-general-embedLinks-configuration-giphy-desc"
-                  elems={{
-                    externalLink: (
-                      <ExternalLink
-                        href={"https://developers.giphy.com/docs/api"}
-                      />
-                    ),
-                  }}
-                >
-                  <HelperText>
-                    For additional information on GIPHY’s API please visit:
-                    https://developers.giphy.com/docs/api
-                  </HelperText>
-                </Localized>
-              )}
-
-              {provider === GQLGIF_MEDIA_SOURCE.TENOR && (
-                <Localized
-                  id="configure-general-embedLinks-configuration-tenor-desc"
-                  elems={{
-                    externalLink: (
-                      <ExternalLink
-                        href={
-                          "https://developers.google.com/tenor/guides/endpoints"
-                        }
-                      />
-                    ),
-                  }}
-                >
-                  <HelperText>
-                    For additional information on TENOR’s API please visit:
-                    https://developers.google.com/tenor/guides/endpoints
-                  </HelperText>
-                </Localized>
-              )}
-
+              <Localized
+                id="configure-general-embedLinks-configuration-desc"
+                elems={{
+                  externalLink: (
+                    <ExternalLink
+                      href={"https://developers.giphy.com/docs/api"}
+                    />
+                  ),
+                }}
+              >
+                <HelperText>
+                  For additional information on GIPHY’s API please visit:
+                  https://developers.giphy.com/docs/api
+                </HelperText>
+              </Localized>
               <FormField>
-                {provider === GQLGIF_MEDIA_SOURCE.GIPHY && (
-                  <Localized id="configure-general-embedLinks-giphyAPIKey">
-                    <Label>GIPHY API Key</Label>
-                  </Localized>
-                )}
-                {provider === GQLGIF_MEDIA_SOURCE.TENOR && (
-                  <Localized id="configure-general-embedLinks-tenorAPIKey">
-                    <Label>TENOR API Key</Label>
-                  </Localized>
-                )}
-
-                <Field name="media.gifs.key">
+                <Localized id="configure-general-embedLinks-giphyAPIKey">
+                  <Label>GIPHY API Key</Label>
+                </Localized>
+                <Field name="media.giphy.key">
                   {({ input, meta }) => (
                     <APIKeyField
                       {...input}
-                      disabled={gifsDisabled || disabled}
-                      validate={validateWhen(gifsAreEnabled, required)}
+                      disabled={giphyDisabled || disabled}
+                      validate={validateWhen(giphyIsEnabled, required)}
                     />
                   )}
                 </Field>

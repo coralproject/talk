@@ -414,11 +414,10 @@ const enhanced = withFragmentContainer<Props>({
         youtube {
           enabled
         }
-        gifs {
+        giphy {
           enabled
           key
           maxRating
-          provider
         }
         external {
           enabled

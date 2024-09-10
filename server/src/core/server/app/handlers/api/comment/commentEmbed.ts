@@ -123,7 +123,6 @@ export const commentEmbedJSONPHandler =
           commentRevision,
           mediaUrl,
           giphyMedia,
-          tenorMedia,
           externalMediaUrl,
         } = await getCommentEmbedData(mongo, comment, tenant.id);
 
@@ -158,7 +157,6 @@ export const commentEmbedJSONPHandler =
           customCSSURL: customCSSURLEmbed || customCSSURL,
           staticRoot: staticURI || tenantURL,
           giphyMedia,
-          tenorMedia,
           tenantURL,
           sanitized,
           replyMessage,

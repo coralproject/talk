@@ -37,8 +37,6 @@ import {
 } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
-import { GIF_MEDIA_SOURCE } from "coral-stream/__generated__/MediaSettingsContainer_settings.graphql";
-
 import { getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";
 import RTEContainer, { RTEButton } from "../../RTE";
@@ -56,7 +54,7 @@ export interface PasteEvent {
 }
 
 interface MediaProps {
-  type: "giphy" | "tenor" | "twitter" | "youtube" | "external";
+  type: "giphy" | "twitter" | "youtube" | "external";
   url: string;
   id: string | null;
   width?: string;
@@ -64,11 +62,10 @@ interface MediaProps {
 }
 
 interface MediaConfig {
-  gifs: {
+  giphy: {
     enabled: boolean;
     key: string | null;
     maxRating: string | null;
-    provider?: GIF_MEDIA_SOURCE | null;
   };
   twitter: {
     enabled: boolean;
@@ -254,10 +251,10 @@ const CommentForm: FunctionComponent<Props> = ({
   }, []);
 
   const toggleGIFSelector = useCallback(() => {
-    setMediaWidget(createWidgetToggle("gifs"));
+    setMediaWidget(createWidgetToggle("giphy"));
   }, []);
 
-  const showGifSelector = mediaWidget === "gifs";
+  const showGifSelector = mediaWidget === "giphy";
   const showExternalImageInput = mediaWidget === "external";
 
   return (
@@ -280,7 +277,6 @@ const CommentForm: FunctionComponent<Props> = ({
             onSubmit={handleSubmit}
             id="comments-postCommentForm-form"
           >
-            <div>{hasValidationErrors}</div>
             {mode === "rating" && (
               <RatingInput disabled={submitting || disabled} />
             )}
@@ -370,7 +366,7 @@ const CommentForm: FunctionComponent<Props> = ({
                                   </RTEButton>
                                 </RTELocalized>
                               ) : null}
-                              {mediaConfig && mediaConfig.gifs.enabled ? (
+                              {mediaConfig && mediaConfig.giphy.enabled ? (
                                 <RTEButton
                                   key="gif"
                                   disabled={
@@ -405,7 +401,7 @@ const CommentForm: FunctionComponent<Props> = ({
                     pastedMedia={pastedMedia}
                     setPastedMedia={setPastedMedia}
                     siteID={siteID}
-                    gifConfig={mediaConfig.gifs}
+                    giphyConfig={mediaConfig.giphy}
                   />
                 </div>
               </div>

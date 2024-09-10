@@ -35,7 +35,7 @@ import { ExternalModerationPhase } from "./ExternalModerationPhase";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { FeatureCommentPayload } from "./FeatureCommentPayload";
 import { Flag } from "./Flag";
-import { GifMediaConfiguration } from "./GifMediaConfiguration";
+import { GiphyMediaConfiguration } from "./GiphyMediaConfiguration";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { Invite } from "./Invite";
 import { LiveConfiguration } from "./LiveConfiguration";
@@ -121,7 +121,7 @@ const Resolvers: GQLResolver = {
   FacebookAuthIntegration,
   FeatureCommentPayload,
   Flag,
-  GifMediaConfiguration,
+  GiphyMediaConfiguration,
   GoogleAuthIntegration,
   Invite,
   LiveConfiguration,

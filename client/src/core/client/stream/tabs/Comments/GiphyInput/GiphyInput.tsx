@@ -16,9 +16,14 @@ import React, {
 import useDebounce from "react-use/lib/useDebounce";
 import useResizeObserver from "use-resize-observer";
 
-import { HorizontalGutter } from "coral-ui/components/v2";
+import { ButtonSvgIcon, SearchIcon } from "coral-ui/components/icons";
+import {
+  Button,
+  HorizontalGutter,
+  InputLabel,
+  TextField,
+} from "coral-ui/components/v2";
 
-import { GifSearchInput } from "../GifSearchInput/GifSearchInput";
 import GiphyAttribution from "./GiphyAttribution";
 
 import styles from "./GiphyInput.css";
@@ -101,12 +106,38 @@ const GiphyInput: FunctionComponent<Props> = ({
   return (
     <div className={styles.root} ref={ref}>
       <HorizontalGutter>
-        <GifSearchInput
-          debouncedQuery={debouncedQuery}
-          onChange={onChange}
-          onKeyPress={onKeyPress}
-          inputRef={inputRef}
-        />
+        <HorizontalGutter>
+          <Localized id="comments-postComment-gifSearch">
+            <InputLabel htmlFor="coral-comments-postComment-gifSearch">
+              Search for a GIF
+            </InputLabel>
+          </Localized>
+          <TextField
+            className={styles.input}
+            value={debouncedQuery}
+            onChange={onChange}
+            onKeyPress={onKeyPress}
+            fullWidth
+            variant="seamlessAdornment"
+            color="streamBlue"
+            id="coral-comments-postComment-gifSearch"
+            adornment={
+              <Localized
+                id="comments-postComment-gifSearch-search"
+                attrs={{ "aria-label": true }}
+              >
+                <Button
+                  color="stream"
+                  className={styles.searchButton}
+                  aria-label="Search"
+                >
+                  <ButtonSvgIcon Icon={SearchIcon} />
+                </Button>
+              </Localized>
+            }
+            ref={inputRef}
+          />
+        </HorizontalGutter>
         <div className={styles.grid}>
           {query && (
             <Grid

@@ -74,7 +74,7 @@ const MediaSettingsContainer: FunctionComponent<Props> = ({
   );
 
   if (
-    !settings.media.gifs.enabled &&
+    !settings.media.giphy.enabled &&
     !settings.media.twitter.enabled &&
     !settings.media.youtube.enabled &&
     !settings.media.external.enabled
@@ -188,9 +188,8 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment MediaSettingsContainer_settings on Settings {
       media {
-        gifs {
+        giphy {
           enabled
-          provider
         }
         twitter {
           enabled

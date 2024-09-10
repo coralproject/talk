@@ -8,8 +8,6 @@ const resolveType: GQLCommentMediaTypeResolver<comment.CommentMedia> = (
   switch (embed.type) {
     case "giphy":
       return "GiphyMedia";
-    case "tenor":
-      return "TenorMedia";
     case "youtube":
       return "YouTubeMedia";
     case "twitter":

@@ -1,5 +1,6 @@
 import { COUNT_SELECTOR } from "coral-framework/constants";
 import detectCountScript from "coral-framework/helpers/detectCountScript";
+import getCurrentScriptOrigin from "coral-framework/helpers/getCurrentScriptOrigin";
 import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
 import jsonp from "coral-framework/utils/jsonp";
 
@@ -22,11 +23,7 @@ interface DetectAndInjectArgs {
 
 /** Detects count elements and use jsonp to inject the counts. */
 function detectAndInject(opts: DetectAndInjectArgs = {}) {
-  // Get ORIGIN from the count.js script that we know will be on the page.
-  const ORIGIN = document
-    .querySelector(".coral-script")
-    ?.getAttribute("src")
-    ?.split("/assets")[0];
+  const ORIGIN = getCurrentScriptOrigin();
   const STORY_URL = resolveStoryURL(window);
 
   /** A map of references pointing to the count query arguments */

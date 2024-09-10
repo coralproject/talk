@@ -11,7 +11,6 @@ import YouTubeMedia from "../MediaContainer/YouTubeMedia";
 import { CommentRevisionContainer_comment as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
 
 import { CommentContent } from "../Comment";
-import TenorMedia from "../MediaContainer/TenorMedia";
 
 interface Props {
   comment: CommentData;
@@ -64,9 +63,6 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({ comment }) => {
                 title={c.media.title}
               />
             )}
-            {c.media && c.media.__typename === "TenorMedia" && (
-              <TenorMedia url={c.media.url} title={c.media.title} />
-            )}
           </div>
         ))}
     </HorizontalGutter>
@@ -96,10 +92,6 @@ const enhanced = withFragmentContainer<Props>({
             height
             still
             video
-          }
-          ... on TenorMedia {
-            url
-            title
           }
           ... on TwitterMedia {
             url
