@@ -24,12 +24,12 @@ import {
 import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
 
+import { COUNTS_V2_CACHE_DURATION } from "coral-common/common/lib/constants";
 import {
   GQLCommentTagCounts,
   GQLFEATURE_FLAG,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
-import { COUNTS_V2_CACHE_DURATION } from "coral-common/common/lib/constants";
 
 interface UpdateAllCommentCountsInput {
   tenant: Readonly<Tenant>;
