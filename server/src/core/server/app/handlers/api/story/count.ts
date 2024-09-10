@@ -187,6 +187,17 @@ async function calculateStoryCount(
 
 export type CountV2Options = Pick<AppOptions, "mongo" | "redis">;
 
+interface CountResult {
+  storyID: string;
+  redisCount?: number; // set if count came from redis
+  mongoCount?: number; // set if count came from mongo
+  count: number; // always set, can come from mongo or redis
+}
+
+export const computeCountKey = (tenantID: string, storyID: string) => {
+  return `${tenantID}:${storyID}:count`;
+};
+
 export const countsV2Handler =
   ({ mongo, redis }: CountV2Options): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
@@ -199,42 +210,76 @@ export const countsV2Handler =
 
       const { storyIDs }: CountsV2Body = validate(CountsV2BodySchema, req.body);
 
-      const storyCounts = await Promise.all(
-        storyIDs.map(async (storyID) => {
-          // check that cache is available
-
-          // try to look in Redis cache here first by key
-          const key = `${tenant.id}:${storyID}:count`;
-          const redisCount = await redis.get(key);
-
-          if (redisCount) {
-            logger.debug("found story count for counts v2 in redis cache", {
-              storyID,
-              redisCount,
-            });
-            return { storyID, redisCount };
-          } else {
-            const count = await retrieveStoryCommentCounts(
-              mongo,
-              tenant.id,
-              storyID
-            );
-
-            // add count to Redis cache here then return
-            await redis.set(key, count, "EX", COUNTS_V2_CACHE_DURATION);
-            logger.debug("set story count for counts v2 in redis cache", {
-              storyID,
-              count,
-            });
-
-            return {
-              storyID,
-              count,
-            };
-          }
-        })
+      // grab what keys we can that are already in Redis with one bulk call
+      const redisCounts = await redis.mget(
+        ...storyIDs.map((id) => computeCountKey(tenant.id, id))
       );
-      res.send(JSON.stringify(storyCounts));
+
+      // quickly iterate over our results and see if we're missing any of the
+      // values for our requested story id's
+      const countResults = new Map<string, CountResult>();
+      const missingIDs: string[] = [];
+      for (let i = 0; i < storyIDs.length; i++) {
+        const storyID = storyIDs[i];
+        const redisCount = redisCounts[i];
+
+        if (redisCount !== null && redisCount !== undefined) {
+          try {
+            const count = parseInt(redisCount, 10);
+            countResults.set(storyID, { storyID, redisCount: count, count });
+          } catch {
+            missingIDs.push(storyID);
+          }
+        } else {
+          missingIDs.push(storyID);
+        }
+      }
+
+      // compute out the counts for any story id's we couldn't
+      // get a count from Redis
+      for (const missingID of missingIDs) {
+        const count = await retrieveStoryCommentCounts(
+          mongo,
+          tenant.id,
+          missingID
+        );
+
+        const key = computeCountKey(tenant.id, missingID);
+        await redis.set(key, count, "EX", COUNTS_V2_CACHE_DURATION);
+        logger.debug("set story count for counts v2 in redis cache", {
+          storyID: missingID,
+          count,
+        });
+
+        countResults.set(missingID, {
+          storyID: missingID,
+          mongoCount: count,
+          count,
+        });
+      }
+
+      // strictly follow the result set based on the story id's
+      // we were given from the caller. Then return the values
+      // from our combined redis/mongo results.
+      //
+      // this means if a user asked for id's ["1", "2", "3", "does-not-exist", "1"], they would
+      // receive counts like so:
+      // [
+      //   { storyID: 1, redisCount: 2, count: 2 },
+      //   { storyID: 2, redisCount: 5, count: 5 },
+      //   { storyID: 3, mongoCount: 2, count: 2 },
+      //   null,
+      //   { storyID: 1, redisCount: 2, count: 2 }
+      // ]
+      //
+      // many of our counts endpoints appreciate this adherence.
+      const results: Array<CountResult | null> = [];
+      for (const storyID of storyIDs) {
+        const value = countResults.get(storyID) ?? null;
+        results.push(value);
+      }
+
+      res.send(JSON.stringify(results));
     } catch (err) {
       return next(err);
     }
