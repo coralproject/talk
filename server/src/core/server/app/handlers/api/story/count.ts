@@ -208,13 +208,15 @@ export const countsV2Handler =
 
       const { storyIDs }: CountsV2Body = validate(CountsV2BodySchema, req.body);
 
+      // grab what keys we can that are already in Redis with one bulk call
       const redisCounts = await redis.mget(
         ...storyIDs.map((id) => computeCountKey(tenant.id, id))
       );
 
+      // quickly iterate over our results and see if we're missing any of the
+      // values for our requested story id's
       const countResults = new Map<string, CountResult>();
       const missingIDs: string[] = [];
-
       for (let i = 0; i < storyIDs.length; i++) {
         const storyID = storyIDs[i];
         const redisCount = redisCounts[i];
@@ -231,6 +233,8 @@ export const countsV2Handler =
         }
       }
 
+      // compute out the counts for any story id's we couldn't
+      // get a count from Redis
       for (const missingID of missingIDs) {
         const count = await retrieveStoryCommentCounts(
           mongo,
@@ -248,6 +252,20 @@ export const countsV2Handler =
         countResults.set(missingID, { storyID: missingID, count });
       }
 
+      // strictly follow the result set based on the story id's
+      // we were given from the caller. Then return the values
+      // from our combined redis/mongo results.
+      //
+      // this means if a user asked for id's [1, 2, 3, 1], they would
+      // receive counts like so:
+      // [
+      //   { storyID: 1, redisCount: 2, count: 2 },
+      //   { storyID: 2, redisCount: 5, count: 5 },
+      //   { storyID: 3, count: 2 },
+      //   { storyID: 1, redisCount: 2, count: 2 },
+      // ]
+      //
+      // many of our counts endpoints appreciate this adherence.
       const results: Array<CountResult | null> = [];
       for (const storyID of storyIDs) {
         const value = countResults.get(storyID) ?? null;
