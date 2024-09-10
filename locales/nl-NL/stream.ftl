@@ -411,8 +411,8 @@ comments-permalink-linkCopied = Link kopiëren
 comments-embedLinks-showEmbeds = Laat ingesloten inhoud zien
 comments-embedLinks-hideEmbeds = Verberg ingesloten inhoud
 
-comments-embedLinks-show-giphy = Toon GIF
-comments-embedLinks-hide-giphy = Verberg GIF
+comments-embedLinks-show-gif = Toon GIF
+comments-embedLinks-hide-gif = Verberg GIF
 
 comments-embedLinks-show-youtube = Toon video
 comments-embedLinks-hide-youtube = Verberg video

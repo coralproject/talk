@@ -378,8 +378,8 @@ comments-permalink-linkCopied = Tautan disalin
 comments-embedLinks-showEmbeds = Tampilkan sematan
 comments-embedLinks-hideEmbeds = Sembunyikan Sematan
 
-comments-embedLinks-show-giphy = Tampilkan GIF
-comments-embedLinks-hide-giphy = Sembunyikan GIF
+comments-embedLinks-show-gif = Tampilkan GIF
+comments-embedLinks-hide-gif = Sembunyikan GIF
 
 comments-embedLinks-show-youtube = Tampilkan video
 comments-embedLinks-hide-youtube = Sebunyikan video

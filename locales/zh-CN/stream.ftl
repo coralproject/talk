@@ -370,8 +370,8 @@ comments-permalink-linkCopied = 链接已复制
 comments-embedLinks-showEmbeds = 显示嵌入的内容
 comments-embedLinks-hideEmbeds = 隐藏嵌入的内容
 
-comments-embedLinks-show-giphy = 显示动图
-comments-embedLinks-hide-giphy = 隐藏动图
+comments-embedLinks-show-gif = 显示动图
+comments-embedLinks-hide-gif = 隐藏动图
 
 comments-embedLinks-show-youtube = 显示视频
 comments-embedLinks-hide-youtube = 隐藏视频
