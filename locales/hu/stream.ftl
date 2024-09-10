@@ -365,8 +365,8 @@ comments-permalink-linkCopied = Link másolva
 comments-embedLinks-showEmbeds = Beágyazások megjelenítése
 comments-embedLinks-hideEmbeds = Beágyazások elrejtése
 
-comments-embedLinks-show-giphy = GIF megjelenítése
-comments-embedLinks-hide-giphy = GIF elrejtése
+comments-embedLinks-show-gif = GIF megjelenítése
+comments-embedLinks-hide-gif = GIF elrejtése
 
 comments-embedLinks-show-youtube = Videó megjelenítése
 comments-embedLinks-hide-youtube = Videó elrejtése

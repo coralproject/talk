@@ -460,8 +460,8 @@ comments-permalink-linkCopied = Link copiado
 comments-embedLinks-showEmbeds = Mostrar conteúdo embutido
 comments-embedLinks-hideEmbeds = Esconder conteúdo embutido
 
-comments-embedLinks-show-giphy = Mostrar GIF
-comments-embedLinks-hide-giphy = Esconder GIF
+comments-embedLinks-show-gif = Mostrar GIF
+comments-embedLinks-hide-gif = Esconder GIF
 
 comments-embedLinks-show-youtube = Mostrar vídeo
 comments-embedLinks-hide-youtube = ESconder vídeo

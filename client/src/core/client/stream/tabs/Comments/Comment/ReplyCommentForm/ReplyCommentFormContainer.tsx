@@ -356,10 +356,11 @@ const enhanced = withCreateCommentReplyMutation(
           youtube {
             enabled
           }
-          giphy {
+          gifs {
             enabled
             key
             maxRating
+            provider
           }
           external {
             enabled

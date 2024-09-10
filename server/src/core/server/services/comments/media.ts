@@ -4,6 +4,7 @@ import { WrappedInternalError } from "coral-server/errors";
 import {
   ExternalMedia,
   GiphyMedia,
+  TenorMedia,
   TwitterMedia,
   YouTubeMedia,
 } from "coral-server/models/comment";
@@ -49,6 +50,23 @@ async function attachGiphyMedia(
     };
   } catch (err) {
     throw new WrappedInternalError(err as Error, "cannot attach Giphy Media");
+  }
+}
+
+async function attachTenorMedia(
+  tenant: Tenant,
+  id: string,
+  url: string
+): Promise<TenorMedia | undefined> {
+  try {
+    // Return the formed Tenor Media.
+    return {
+      type: "tenor",
+      id,
+      url,
+    };
+  } catch (err) {
+    throw new WrappedInternalError(err as Error, "cannot attach Tenor Media");
   }
 }
 
@@ -137,7 +155,7 @@ async function attachOEmbedMedia(
 }
 
 export interface CreateCommentMediaInput {
-  type: "giphy" | "twitter" | "youtube" | "external";
+  type: "giphy" | "tenor" | "twitter" | "youtube" | "external";
   url: string;
   id?: string;
   width?: string;
@@ -162,6 +180,14 @@ export async function attachMedia(
       }
 
       return attachGiphyMedia(tenant, input.id, input.url);
+    case "tenor":
+      if (!input.id) {
+        throw new Error(
+          "id is required when attaching a TenorMedia object to a comment"
+        );
+      }
+
+      return attachTenorMedia(tenant, input.id, input.url);
     case "external":
       return attachExternalMedia(input.url, input.width, input.height);
     case "twitter":

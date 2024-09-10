@@ -325,8 +325,8 @@ comments-permalink-linkCopied = Linkki kopioitu
 comments-embedLinks-showEmbeds = Näytä upotukset
 comments-embedLinks-hideEmbeds = Piilota upotukset
 
-comments-embedLinks-show-giphy = Näytä GIF
-comments-embedLinks-hide-giphy = Piilota GIF
+comments-embedLinks-show-gif = Näytä GIF
+comments-embedLinks-hide-gif = Piilota GIF
 
 comments-embedLinks-show-youtube = Näytä video
 comments-embedLinks-hide-youtube = Piilota video
