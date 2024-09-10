@@ -192,6 +192,10 @@ interface CountResult {
   count: number;
 }
 
+export const computeCountKey = (tenantID: string, storyID: string) => {
+  return `${tenantID}:${storyID}:count`;
+};
+
 export const countsV2Handler =
   ({ mongo, redis }: CountV2Options): RequestHandler<TenantCoralRequest> =>
   async (req, res, next) => {
@@ -205,7 +209,7 @@ export const countsV2Handler =
       const { storyIDs }: CountsV2Body = validate(CountsV2BodySchema, req.body);
 
       const redisCounts = await redis.mget(
-        ...storyIDs.map((id) => `${tenant.id}:${id}:count`)
+        ...storyIDs.map((id) => computeCountKey(tenant.id, id))
       );
 
       const countResults = new Map<string, CountResult>();
@@ -234,7 +238,7 @@ export const countsV2Handler =
           missingID
         );
 
-        const key = `${tenant.id}:${missingID}:count`;
+        const key = computeCountKey(tenant.id, missingID);
         await redis.set(key, count);
         logger.debug("set story count for counts v2 in redis cache", {
           storyID: missingID,
