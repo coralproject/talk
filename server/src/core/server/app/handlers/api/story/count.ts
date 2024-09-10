@@ -189,6 +189,7 @@ export type CountV2Options = Pick<AppOptions, "mongo" | "redis">;
 interface CountResult {
   storyID: string;
   redisCount?: number;
+  mongoCount?: number;
   count: number;
 }
 
@@ -249,7 +250,11 @@ export const countsV2Handler =
           count,
         });
 
-        countResults.set(missingID, { storyID: missingID, count });
+        countResults.set(missingID, {
+          storyID: missingID,
+          mongoCount: count,
+          count,
+        });
       }
 
       // strictly follow the result set based on the story id's
@@ -261,8 +266,8 @@ export const countsV2Handler =
       // [
       //   { storyID: 1, redisCount: 2, count: 2 },
       //   { storyID: 2, redisCount: 5, count: 5 },
-      //   { storyID: 3, count: 2 },
-      //   { storyID: 1, redisCount: 2, count: 2 },
+      //   { storyID: 3, mongoCount: 2, count: 2 },
+      //   { storyID: 1, redisCount: 2, count: 2 }
       // ]
       //
       // many of our counts endpoints appreciate this adherence.
