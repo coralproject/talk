@@ -1,21 +1,34 @@
 import Joi from "joi";
 
+import { COUNTS_V2_CACHE_DURATION } from "coral-common/common/lib/constants";
 import { CountJSONPData } from "coral-common/common/lib/types/count";
 import { AppOptions } from "coral-server/app";
 import { validate } from "coral-server/app/request/body";
 import { MongoContext } from "coral-server/data/context";
+import logger from "coral-server/logger";
 import { retrieveManyStoryRatings } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
-import { Story } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
+import { retrieveStoryCommentCounts, Story } from "coral-server/models/story";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { I18n, translate } from "coral-server/services/i18n";
 import { find } from "coral-server/services/stories";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
-import { GQLSTORY_MODE } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLFEATURE_FLAG,
+  GQLSTORY_MODE,
+} from "coral-server/graph/schema/__generated__/types";
 
 const NUMBER_CLASS_NAME = "coral-count-number";
 const TEXT_CLASS_NAME = "coral-count-text";
+
+interface CountsV2Body {
+  storyIDs: string[];
+}
+
+const CountsV2BodySchema = Joi.object().keys({
+  storyIDs: Joi.array().items(Joi.string().required()).required().max(100),
+});
 
 export type JSONPCountOptions = Pick<
   AppOptions,
@@ -171,3 +184,103 @@ async function calculateStoryCount(
     0
   );
 }
+
+export type CountV2Options = Pick<AppOptions, "mongo" | "redis">;
+
+interface CountResult {
+  storyID: string;
+  redisCount?: number; // set if count came from redis
+  mongoCount?: number; // set if count came from mongo
+  count: number; // always set, can come from mongo or redis
+}
+
+export const computeCountKey = (tenantID: string, storyID: string) => {
+  return `${tenantID}:${storyID}:count`;
+};
+
+export const countsV2Handler =
+  ({ mongo, redis }: CountV2Options): RequestHandler<TenantCoralRequest> =>
+  async (req, res, next) => {
+    const { tenant } = req.coral;
+
+    try {
+      if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.COUNTS_V2)) {
+        return res.status(400).send("Counts V2 api not enabled");
+      }
+
+      const { storyIDs }: CountsV2Body = validate(CountsV2BodySchema, req.body);
+
+      // grab what keys we can that are already in Redis with one bulk call
+      const redisCounts = await redis.mget(
+        ...storyIDs.map((id) => computeCountKey(tenant.id, id))
+      );
+
+      // quickly iterate over our results and see if we're missing any of the
+      // values for our requested story id's
+      const countResults = new Map<string, CountResult>();
+      const missingIDs: string[] = [];
+      for (let i = 0; i < storyIDs.length; i++) {
+        const storyID = storyIDs[i];
+        const redisCount = redisCounts[i];
+
+        if (redisCount !== null && redisCount !== undefined) {
+          try {
+            const count = parseInt(redisCount, 10);
+            countResults.set(storyID, { storyID, redisCount: count, count });
+          } catch {
+            missingIDs.push(storyID);
+          }
+        } else {
+          missingIDs.push(storyID);
+        }
+      }
+
+      // compute out the counts for any story id's we couldn't
+      // get a count from Redis
+      for (const missingID of missingIDs) {
+        const count = await retrieveStoryCommentCounts(
+          mongo,
+          tenant.id,
+          missingID
+        );
+
+        const key = computeCountKey(tenant.id, missingID);
+        await redis.set(key, count, "EX", COUNTS_V2_CACHE_DURATION);
+        logger.debug("set story count for counts v2 in redis cache", {
+          storyID: missingID,
+          count,
+        });
+
+        countResults.set(missingID, {
+          storyID: missingID,
+          mongoCount: count,
+          count,
+        });
+      }
+
+      // strictly follow the result set based on the story id's
+      // we were given from the caller. Then return the values
+      // from our combined redis/mongo results.
+      //
+      // this means if a user asked for id's ["1", "2", "3", "does-not-exist", "1"], they would
+      // receive counts like so:
+      // [
+      //   { storyID: 1, redisCount: 2, count: 2 },
+      //   { storyID: 2, redisCount: 5, count: 5 },
+      //   { storyID: 3, mongoCount: 2, count: 2 },
+      //   null,
+      //   { storyID: 1, redisCount: 2, count: 2 }
+      // ]
+      //
+      // many of our counts endpoints appreciate this adherence.
+      const results: Array<CountResult | null> = [];
+      for (const storyID of storyIDs) {
+        const value = countResults.get(storyID) ?? null;
+        results.push(value);
+      }
+
+      res.send(JSON.stringify(results));
+    } catch (err) {
+      return next(err);
+    }
+  };
