@@ -188,9 +188,9 @@ export type CountV2Options = Pick<AppOptions, "mongo" | "redis">;
 
 interface CountResult {
   storyID: string;
-  redisCount?: number;
-  mongoCount?: number;
-  count: number;
+  redisCount?: number; // set if count came from redis
+  mongoCount?: number; // set if count came from mongo
+  count: number; // always set, can come from mongo or redis
 }
 
 export const computeCountKey = (tenantID: string, storyID: string) => {
