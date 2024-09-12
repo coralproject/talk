@@ -11,10 +11,11 @@ import {
   CommentTagCounts,
   updateSharedCommentCounts,
 } from "coral-server/models/comment";
+import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { CommentTag } from "coral-server/models/comment/tag";
 import { updateSiteCounts } from "coral-server/models/site";
 import { updateStoryCounts } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { updateUserCommentCounts } from "coral-server/models/user";
 import {
   calculateCounts,
@@ -23,8 +24,10 @@ import {
 import { I18n } from "coral-server/services/i18n";
 import { AugmentedRedis } from "coral-server/services/redis";
 
+import { COUNTS_V2_CACHE_DURATION } from "coral-common/common/lib/constants";
 import {
   GQLCommentTagCounts,
+  GQLFEATURE_FLAG,
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
@@ -214,6 +217,20 @@ export default async function updateAllCommentCounts(
             // set updated entry with new total comment count in Redis cache
             void redis.set(key, JSON.stringify(updatedEntry));
           }
+        }
+      }
+    }
+
+    if (hasFeatureFlag(tenant, GQLFEATURE_FLAG.COUNTS_V2)) {
+      if (updatedStory) {
+        const totalCount = calculateTotalPublishedCommentCount(
+          updatedStory.commentCounts.status
+        );
+        if (PUBLISHED_STATUSES.includes(input.after.status)) {
+          const key = `${tenant.id}:${storyID}:count`;
+
+          // set/update the count
+          await redis.set(key, totalCount, "EX", COUNTS_V2_CACHE_DURATION);
         }
       }
     }

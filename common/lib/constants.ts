@@ -87,6 +87,12 @@ export const DEFAULT_SESSION_DURATION = 90 * TIME.DAY;
 export const COMMENT_REPEAT_POST_DURATION = 6 * TIME.MINUTE;
 
 /**
+ * COUNTS_V2_CACHE_DURATION is the length of time in seconds that the comment
+ * counts for a story are cached for the counts v2 endoint.
+ */
+export const COUNTS_V2_CACHE_DURATION = 1 * TIME.DAY;
+
+/**
  * SPOILER_CLASSNAME is the classname that is attached to spoilers.
  */
 export const SPOILER_CLASSNAME = "coral-rte-spoiler";
