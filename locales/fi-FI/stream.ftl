@@ -57,7 +57,7 @@ comments-bannedInfo-violatedCommunityGuidelines =
 
 
 comments-noCommentsAtAll = Jutussa ei ole kommentteja.
-comments-noCommentsYet = Ei vielä kommentteja. Kirjoita ensimmäinen.
+comments-noCommentsYet = Ei vielä kommentteja.
 
 comments-streamQuery-storyNotFound = Juttua ei löytynyt
 
@@ -93,6 +93,8 @@ comments-viewNew =
     *[other] Näytä {$count} uutta kommenttia
   }
 comments-loadMore = Näytä lisää
+comments-loadAll = Näytä kaikki kommentit
+comments-loadAll-loading = Ladataan...
 
 comments-permalinkPopover =
   .description = Ikkuna jossa on linkki kommenttiin
@@ -103,6 +105,43 @@ comments-permalinkButton =
   .aria-label = Jaa kommentti käyttäjältä {$username}
 comments-permalinkView-viewFullDiscussion = Näytä koko keskustelu
 comments-permalinkView-commentRemovedOrDoesNotExist = Kommenttia ei ole olemassa. Se on voitu poistaa.
+
+comments-permalinkPopover =
+  .description = Ikkuna jossa on linkki kommenttiin
+comments-permalinkPopover-permalinkToComment =
+  .aria-label = Linkki kommenttiin
+comments-permalinkButton-share = Jaa
+comments-permalinkButton =
+  .aria-label = Jaa kommentti käyttäjältä {$username}
+comments-permalinkView-viewFullDiscussion = Näytä koko keskustelu
+comments-permalinkView-commentRemovedOrDoesNotExist = Kommenttia ei ole olemassa. Se on voitu poistaa.
+
+comments-permalinkView-reportIllegalContent-title = Ilmoita mahdollisesta laittomasta sisällöstä
+comments-permalinkView-reportIllegalContent-description = Täytä tämä lomake parhaan kykysi mukaan, jotta moderointitiimimme voi tehdä päätöksen ja tarvittaessa konsultoida sivustomme lakiosastoa.
+comments-permalinkView-reportIllegalContent-reportingComment = Olet ilmoittamassa tästä kommentista
+comments-permalinkView-reportIllegalContent-lawBrokenDescription-inputLabel = Mitä lakia uskot kommentin rikkovan? (pakollinen)
+comments-permalinkView-reportIllegalContent-additionalInformation-inputLabel = Anna lisää tietoa siitä, miksi tämä kommentti mielestäsi rikkoo lakia (pakollinen)
+comments-permalinkView-reportIllegalContent-additionalInformation-helperText = Kaikki antamasi lisätiedot auttavat meitä tutkimaan asiaa tarkemmin
+comments-permalinkView-reportIllegalContent-additionalComments-inputLabel = Haluatko ilmoittaa muista kommenteista, jotka sisältävät mahdollisesti laitonta sisältöä?
+comments-permalinkView-reportIllegalContent-bonafideBelief-checkbox = Uskon, että tähän ilmoitukseen sisältyvät tiedot ovat tarkkoja ja täydellisiä
+comments-permalinkView-reportIllegalContent-additionalComments-addCommentURLButton = <Button></Button>Lisää
+comments-permalinkView-reportIllegalContent-additionalComment-commentURLButton = Linkki kommenttiin
+comments-permalinkView-reportIllegalContent-additionalComments-deleteButton = <icon></icon> Poista
+comments-permalinkView-reportIllegalContent-submit = Lähetä ilmoitus
+comments-permalinkView-reportIllegalContent-additionalComments-commentNotFoundError = Kommenttia ei löytynyt. Anna toimiva linkki kommenttiin
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLError = Tämä ei ole toimiva linkki. Anna toimiva linkki kommenttiin
+comments-permalinkView-reportIllegalContent-additionalComments-uniqueCommentURLError = Olet jo lisännyt tämän kommentin tähän ilmoitukseen. Anna toinen kommentin linkki.
+comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLengthError = Lisäkommentin linkin pituus ylittää enimmäispituuden.
+comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = Olet aiemmin ilmoittanut tämän kommentin mahdollisesti laittoman sisällön vuoksi. Voit ilmoittaa kommentin tästä syystä vain kerran.
+comments-permalinkView-reportIllegalContent-confirmation-successHeader = Olemme vastaanottaneet ilmoituksesi laittomasta sisällöstä
+comments-permalinkView-reportIllegalContent-confirmation-description = Moderointitiimimme käsittelee nyt ilmoituksesi. Saat ilmoituksen, kun päätös on tehty. Jos sisällön todetaan sisältävän mahdollisesti laitonta materiaalia, se poistetaan sivustolta ja kommentoijaa vastaan saatetaan ryhtyä jatkotoimiin.
+comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Kiitos ilmoituksen lähettämisestä
+comments-permalinkView-reportIllegalContent-confirmation-errorDescription = Emme pystyneet lähettämään ilmoitustasi seuraavasta syystä / seuraavista syistä:
+comments-permalinkView-reportIllegalContent-confirmation-returnToComments = Voit nyt sulkea tämän välilehden palataksesi kommentteihin
+
+comments-reportForm-reportIllegalContent-button = Tämä kommentti sisältää mahdollisesti laitonta sisältöä
+comments-reportForm-signInToReport = Sinun täytyy kirjautua sisään ilmoittaaksesi kommentista, joka rikkoo sääntöjämme
+
 
 comments-rte-bold =
   .title = Lihavoi
@@ -247,6 +286,16 @@ comments-reacted =
 
 comments-jumpToComment-title = Vastauksesi näkyy alla
 comments-jumpToComment-GoToReply = Siirry vastaukseen
+
+comments-mobileToolbar-closeButton =
+  .aria-label = Sulje
+comments-mobileToolbar-unmarkAll = Merkitse kaikki luetuksi
+comments-mobileToolbar-nextUnread = Seuraava lukematon
+
+comments-refreshComments-closeButton = Sulje <icon></icon>
+  .aria-label = Sulje
+comments-refreshComments-refreshButton = <icon></icon> Päivitä kommentit
+  .aria-label = Päivitä kommentit
 
 ### Q&A
 
@@ -711,17 +760,16 @@ configure-experts-filter-description =
   Uusien käyttäjien on ensin luotava kirjoittajatili ja
   vierailtava kommenttisivulla.
 configure-experts-search-none-found = No users were found with that email or username
-configure-experts-
 configure-experts-remove-button = Poista
 configure-experts-load-more = Lataa lisää
 configure-experts-none-yet = Tälle K&V ketjulle ei ole vielä lisätty asiantuntijoita
 configure-experts-search-title = Hae asiantuntijaa
 configure-experts-assigned-title = Asiantuntijat
 configure-experts-noLongerAnExpert = ei ole enää asiantuntija
-comments-tombstone-ignore = Kommentti ei näy, koska olet hiljentänyt kirjoittajan {$username}
+comments-tombstone-ignore-user = Kommentti ei näy, koska olet hiljentänyt kirjoittajan
 comments-tombstone-showComment = Näytä kommentti
-comments-tombstone-deleted =
-  Kommentti on poistettu, koska sen kirjoittaja on poistanut kirjoittajatilinsä.
+comments-tombstone-deleted = Kommentti on poistettu, koska sen kirjoittaja on poistanut kirjoittajatilinsä.
+comments-tombstone-rejected = Tämä kommentti on poistettu sääntörikkomuksen vuoksi.
 
 suspendInfo-heading =
 suspendInfo-heading-yourAccountHasBeen =
