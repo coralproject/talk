@@ -1,11 +1,8 @@
-import { Localized } from "@fluent/react/compat";
 import cn from "classnames";
 import React from "react";
 
 import BaseButton from "coral-ui/components/v2/BaseButton";
 import { withStyles } from "coral-ui/hocs";
-
-import AriaInfo from "../AriaInfo";
 
 import styles from "./Tab.css";
 
@@ -103,14 +100,7 @@ class Tab extends React.Component<TabProps> {
           title={title}
           onClick={this.handleTabClick}
         >
-          <>
-            <AriaInfo>
-              <Localized id="ui-tabAriaPrefix">
-                <span>Tab:</span>
-              </Localized>
-            </AriaInfo>
-            {children}
-          </>
+          {children}
         </BaseButton>
       </li>
     );
