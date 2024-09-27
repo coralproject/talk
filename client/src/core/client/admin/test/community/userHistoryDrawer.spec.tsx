@@ -152,13 +152,13 @@ it("user drawer is open and user can be scheduled for deletion and have deletion
     "userHistoryDrawer-modal"
   );
   const historyTab = await within(isabelleUserHistory).findByRole("tab", {
-    name: "Tab: time-reverse Account History",
+    name: "time-reverse Account History",
   });
   await act(async () => {
     userEvent.click(historyTab);
   });
   const tabRegion = screen.getByRole("region", {
-    name: "Tab: time-reverse Account History",
+    name: "time-reverse Account History",
   });
   const deleteAccountButton = within(tabRegion).getByRole("button", {
     name: "Delete account",
