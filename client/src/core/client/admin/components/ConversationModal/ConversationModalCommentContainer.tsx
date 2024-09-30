@@ -128,7 +128,6 @@ const ConversationModalCommentContainer: FunctionComponent<Props> = ({
       disabled: false,
     };
   }, [comment.status]);
-
   return (
     <HorizontalGutter data-testid={`conversation-modal-comment-${comment.id}`}>
       <Flex>

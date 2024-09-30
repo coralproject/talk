@@ -1,6 +1,6 @@
 import { InternalError } from "coral-server/errors";
 import { validateSchema } from "coral-server/helpers";
-import { Tenant, supportsMediaType } from "coral-server/models/tenant";
+import { supportsMediaType, Tenant } from "coral-server/models/tenant";
 import { createFetch } from "coral-server/services/fetch";
 import Joi from "joi";
 
