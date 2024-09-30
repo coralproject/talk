@@ -4,14 +4,13 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { HorizontalGutter, Timestamp } from "coral-ui/components/v2";
 import ExternalMedia from "../MediaContainer/ExternalMedia";
-import GiphyMedia from "../MediaContainer/GiphyMedia";
+import GifMedia from "../MediaContainer/GifMedia";
 import TwitterMedia from "../MediaContainer/TwitterMedia";
 import YouTubeMedia from "../MediaContainer/YouTubeMedia";
 
 import { CommentRevisionContainer_comment as CommentData } from "coral-admin/__generated__/CommentRevisionContainer_comment.graphql";
 
 import { CommentContent } from "../Comment";
-import TenorMedia from "../MediaContainer/TenorMedia";
 
 interface Props {
   comment: CommentData;
@@ -33,12 +32,13 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({ comment }) => {
             <Timestamp>{c.createdAt}</Timestamp>
             <CommentContent>{c.body ? c.body : ""}</CommentContent>
             {c.media && c.media.__typename === "GiphyMedia" && (
-              <GiphyMedia
+              <GifMedia
                 still={c.media.still}
                 video={c.media.video}
                 title={c.media.title}
                 width={c.media.width}
                 height={c.media.height}
+                url={c.media.url}
               />
             )}
             {c.media && c.media.__typename === "ExternalMedia" && (
@@ -65,7 +65,14 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({ comment }) => {
               />
             )}
             {c.media && c.media.__typename === "TenorMedia" && (
-              <TenorMedia url={c.media.url} title={c.media.title} />
+              <GifMedia
+                still={c.media.tenorStill}
+                video={c.media.tenorVideo}
+                title={c.media.title}
+                width={c.media.width}
+                height={c.media.height}
+                url={c.media.url}
+              />
             )}
           </div>
         ))}
@@ -100,6 +107,10 @@ const enhanced = withFragmentContainer<Props>({
           ... on TenorMedia {
             url
             title
+            width
+            height
+            tenorStill: still
+            tenorVideo: video
           }
           ... on TwitterMedia {
             url

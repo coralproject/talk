@@ -6,7 +6,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import { MediaContainer_comment } from "coral-admin/__generated__/MediaContainer_comment.graphql";
 
 import ExternalMedia from "./ExternalMedia";
-import GiphyMedia from "./GiphyMedia";
+import GifMedia from "./GifMedia";
 import TwitterMedia from "./TwitterMedia";
 import YouTubeMedia from "./YouTubeMedia";
 
@@ -23,7 +23,7 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
   switch (media.__typename) {
     case "GiphyMedia":
       return (
-        <GiphyMedia
+        <GifMedia
           still={media.still}
           video={media.video}
           title={media.title}
@@ -60,7 +60,7 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
       );
     case "TenorMedia":
       return (
-        <GiphyMedia
+        <GifMedia
           still={media.tenorStill}
           video={media.tenorVideo}
           title={media.title}

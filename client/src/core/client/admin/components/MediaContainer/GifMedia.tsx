@@ -15,7 +15,7 @@ interface Props {
   url: string | null;
 }
 
-const GiphyMedia: FunctionComponent<Props> = ({
+const GifMedia: FunctionComponent<Props> = ({
   still,
   title,
   width,
@@ -111,4 +111,4 @@ const GiphyMedia: FunctionComponent<Props> = ({
   );
 };
 
-export default GiphyMedia;
+export default GifMedia;
