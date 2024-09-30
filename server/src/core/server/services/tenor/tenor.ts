@@ -1,8 +1,10 @@
+import Joi from "joi";
+
+import { FetchPayload } from "coral-common/common/lib/types/tenor";
 import { InternalError } from "coral-server/errors";
 import { validateSchema } from "coral-server/helpers";
 import { supportsMediaType, Tenant } from "coral-server/models/tenant";
 import { createFetch } from "coral-server/services/fetch";
-import Joi from "joi";
 
 const TENOR_FETCH_URL = "https://tenor.googleapis.com/v2/posts";
 const fetch = createFetch({ name: "tenor" });
@@ -25,7 +27,7 @@ const TenorRetrieveResponseSchema = Joi.object().keys({
 export async function retrieveFromTenor(
   tenant: Tenant,
   id: string
-): Promise<any> {
+): Promise<FetchPayload> {
   if (!supportsMediaType(tenant, "tenor") || !tenant.media.gifs.key) {
     throw new InternalError("Tenor was not enabled");
   }
