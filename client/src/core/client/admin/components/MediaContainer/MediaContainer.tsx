@@ -7,7 +7,6 @@ import { MediaContainer_comment } from "coral-admin/__generated__/MediaContainer
 
 import ExternalMedia from "./ExternalMedia";
 import GiphyMedia from "./GiphyMedia";
-import TenorMedia from "./TenorMedia";
 import TwitterMedia from "./TwitterMedia";
 import YouTubeMedia from "./YouTubeMedia";
 
@@ -30,6 +29,7 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
           title={media.title}
           width={media.width}
           height={media.height}
+          url={media.url}
         />
       );
     case "ExternalMedia":
@@ -59,7 +59,16 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
         />
       );
     case "TenorMedia":
-      return <TenorMedia url={media.url} title={media.title} />;
+      return (
+        <GiphyMedia
+          still={media.tenorStill}
+          video={media.tenorVideo}
+          title={media.title}
+          width={media.width}
+          height={media.height}
+          url={media.url}
+        />
+      );
     case "%other":
       return null;
   }
@@ -86,6 +95,10 @@ const enhanced = withFragmentContainer<Props>({
           ... on TenorMedia {
             url
             title
+            width
+            height
+            tenorStill: still
+            tenorVideo: video
           }
           ... on TwitterMedia {
             url

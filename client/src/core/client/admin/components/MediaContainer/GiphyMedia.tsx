@@ -2,7 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { ButtonPlayIcon, SvgIcon } from "coral-ui/components/icons";
-import { BaseButton, Flex } from "coral-ui/components/v2";
+import { BaseButton, Button, Flex } from "coral-ui/components/v2";
 
 import styles from "./Media.css";
 
@@ -12,6 +12,7 @@ interface Props {
   width: number | null;
   height: number | null;
   video: string | null;
+  url: string | null;
 }
 
 const GiphyMedia: FunctionComponent<Props> = ({
@@ -20,11 +21,47 @@ const GiphyMedia: FunctionComponent<Props> = ({
   width,
   height,
   video,
+  url,
 }) => {
   const [showAnimated, setShowAnimated] = useState(false);
   const toggleImage = useCallback(() => {
     setShowAnimated(!showAnimated);
   }, [showAnimated]);
+
+  if (!still && !video) {
+    // Fallback to show/hide gif if there is no still and no video
+    return (
+      <>
+        <Button
+          iconLeft
+          variant="outlined"
+          color="regular"
+          onClick={toggleImage}
+          size="small"
+          className={styles.showHideButton}
+          aria-expanded="false"
+        >
+          {showAnimated ? (
+            <Localized id="comments-embedLinks-hide-gif">Hide GIF</Localized>
+          ) : (
+            <Localized id="comments-embedLinks-show-gif">Show GIF</Localized>
+          )}
+        </Button>
+        {showAnimated && (
+          <div className={styles.embed}>
+            <img
+              src={url ?? ""}
+              className={styles.image}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              alt={title ?? ""}
+            />
+          </div>
+        )}
+      </>
+    );
+  }
+
   return (
     <div className={styles.embed}>
       {!showAnimated && still && (

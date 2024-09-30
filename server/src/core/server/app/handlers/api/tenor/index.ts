@@ -133,6 +133,7 @@ export const tenorSearchHandler =
     url.searchParams.set("key", apiKey);
     url.searchParams.set("limit", `${SEARCH_LIMIT}`);
     url.searchParams.set("contentfilter", contentFilter);
+    url.searchParams.set("media_filter", "gif,nanogif");
 
     if (params.pos) {
       url.searchParams.set("pos", params.pos);
