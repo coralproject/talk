@@ -135,7 +135,7 @@ async function pushNewSigningSecret<T extends {}>({
   const options: FindOneAndUpdateOption = {
     // False to return the updated document instead of the original
     // document.
-    returnOriginal: false,
+    returnDocument: "after",
   };
   if (id) {
     options.arrayFilters = [
@@ -246,7 +246,7 @@ async function deprecateOldSigningSecrets<T extends {}>(
   const options: FindOneAndUpdateOption = {
     // False to return the updated document instead of the original
     // document.
-    returnOriginal: false,
+    returnDocument: "after",
     arrayFilters: [
       // Select any signing secrets with the given ids.
       { "signingSecret.kid": { $in: secretKIDsToDeprecate } },

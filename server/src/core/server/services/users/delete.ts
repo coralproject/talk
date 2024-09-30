@@ -428,7 +428,7 @@ export async function deleteUser(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 

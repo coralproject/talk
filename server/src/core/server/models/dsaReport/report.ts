@@ -335,7 +335,7 @@ export async function createDSAReportNote(
         history: note,
       },
     },
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
   if (!updatedReport.value) {
@@ -384,7 +384,7 @@ export async function createDSAReportShare(
         history: note,
       },
     },
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
   if (!updatedReport.value) {
@@ -422,7 +422,7 @@ export async function deleteDSAReportNote(
         history: { id: { $eq: id } },
       },
     },
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
   if (!updatedReport.value) {
@@ -474,7 +474,7 @@ export async function changeDSAReportStatus(
       },
       $set: { status },
     },
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
   if (!updatedReport.value) {
@@ -549,7 +549,7 @@ export async function makeDSAReportDecision(
         status: GQLDSAReportStatus.COMPLETED,
       },
     },
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
   if (!updatedReport.value) {

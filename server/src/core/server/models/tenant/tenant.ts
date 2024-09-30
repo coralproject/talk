@@ -425,7 +425,7 @@ export async function updateTenant(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -452,7 +452,7 @@ export async function enableTenantFeatureFlag(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -479,7 +479,7 @@ export async function disableTenantFeatureFlag(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -514,7 +514,7 @@ export async function createTenantAnnouncement(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   return result.value;
@@ -545,7 +545,7 @@ export async function createTenantFlairBadge(
       $push: { "flairBadges.badges": { name: input.name, url: input.url } },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   return result.value;
@@ -568,7 +568,7 @@ export async function deleteTenantFlairBadge(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   return result.value;
@@ -607,7 +607,7 @@ export async function createTenantEmailDomain(
       $push: { emailDomainModeration: emailDomain },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   return result.value;
@@ -650,7 +650,7 @@ export async function updateTenantEmailDomain(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   return result.value;
@@ -673,7 +673,7 @@ export async function deleteTenantEmailDomain(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   return result.value;
@@ -691,7 +691,7 @@ export async function deleteTenantAnnouncement(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   return result.value;

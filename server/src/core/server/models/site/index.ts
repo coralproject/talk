@@ -167,7 +167,7 @@ export async function updateSite(
       update,
       // False to return the updated document instead of the original
       // document.
-      { returnOriginal: false }
+      { returnDocument: "after" }
     );
     return result.value || null;
   } catch (err) {

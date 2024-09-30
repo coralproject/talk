@@ -256,7 +256,7 @@ export async function updateRelatedCommentCounts<
     { $inc },
     // False to return the updated document instead of the original
     // document.
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
   return result.value || null;

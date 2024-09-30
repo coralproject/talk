@@ -22,7 +22,7 @@ const reviewCommentAction = async (
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 

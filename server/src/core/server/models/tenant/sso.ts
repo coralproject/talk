@@ -37,7 +37,7 @@ export async function deactivateTenantSSOSigningSecret(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
       // Add an ArrayFilter to only update one of the keys.
       arrayFilters: [{ "signingSecrets.kid": kid }],
     }
@@ -65,7 +65,7 @@ export async function deleteTenantSSOSigningSecret(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {

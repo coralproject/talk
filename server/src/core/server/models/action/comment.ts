@@ -254,7 +254,7 @@ export async function createAction(
   };
 
   // Extract the filter parameters.
-  const filter: FilterQuery<CommentAction> = {
+  const filter = {
     tenantID,
     ...rest,
   };
@@ -283,7 +283,7 @@ export async function createAction(
 
     // False to return the updated document instead of the original document.
     // This lets us detect if the document was updated or not.
-    returnOriginal: false,
+    returnDocument: "after",
   });
 
   // Check to see if this was a new action that was upserted, or one was found
@@ -294,12 +294,12 @@ export async function createAction(
   // Because it's relevant that we know that the action was just created, or
   // was just looked up, we need to return the action with an object that
   // indicates if it was upserted.
-  const wasUpserted = result.value!.id === id;
+  const wasUpserted = result?.id === id;
 
   // Return the action that was created/found with a boolean indicating if this
   // action was just upserted (and therefore was newly created).
   return {
-    action: result.value!,
+    action: result!,
     wasUpserted,
   };
 }
@@ -494,8 +494,8 @@ export async function removeAction(
   // Remove the action from the database, returning the action that was deleted.
   const result = await mongo.commentActions().findOneAndDelete(filter);
   return {
-    action: result.value,
-    wasRemoved: Boolean(result.ok && result.value),
+    action: result ?? undefined,
+    wasRemoved: Boolean(result),
   };
 }
 

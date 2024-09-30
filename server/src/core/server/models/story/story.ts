@@ -143,7 +143,7 @@ export async function upsertStory(
             url,
           },
         },
-        { returnOriginal: false }
+        { returnDocument: "after" }
       );
 
       if (!result.ok || !result.value) {
@@ -196,7 +196,7 @@ export async function upsertStory(
         // True to return the original document instead of the updated document.
         // This will ensure that when an upsert operation adds a new Story, it
         // should return null.
-        returnOriginal: true,
+        returnDocument: "before",
       }
     );
 
@@ -423,7 +423,7 @@ export async function updateStory(
       update,
       // False to return the updated document instead of the original
       // document.
-      { returnOriginal: false }
+      { returnDocument: "after" }
     );
     if (!result.value) {
       throw new StoryNotFoundError(id);
@@ -463,7 +463,7 @@ export async function updateStorySettings(
     update,
     // False to return the updated document instead of the original
     // document.
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
   if (!result.value) {
     throw new StoryNotFoundError(id);
@@ -494,7 +494,7 @@ export async function openStory(
     },
     // False to return the updated document instead of the original
     // document.
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
   if (!result.value) {
     throw new StoryNotFoundError(id);
@@ -520,7 +520,7 @@ export async function closeStory(
     },
     // False to return the updated document instead of the original
     // document.
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
   if (!result.value) {
     throw new StoryNotFoundError(id);
@@ -698,7 +698,7 @@ export async function addStoryExpert(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -725,7 +725,7 @@ export async function removeStoryExpert(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -752,7 +752,7 @@ export async function setStoryMode(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -813,7 +813,7 @@ export async function forceMarkStoryForArchiving(
     },
     getMarkStoryForArchivingSetParam(now),
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
@@ -836,7 +836,7 @@ export async function markStoryForArchiving(
     },
     getMarkStoryForArchivingSetParam(now),
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
@@ -865,7 +865,7 @@ export async function markStoryForUnarchiving(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
@@ -893,7 +893,7 @@ export async function retrieveStoryToBeUnarchived(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
       maxTimeMS: 30 * 60 * 1000,
     }
   );
@@ -995,7 +995,7 @@ export async function markStoryAsArchived(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
@@ -1022,7 +1022,7 @@ export async function markStoryAsUnarchived(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 

@@ -57,7 +57,7 @@ export async function createTenantWebhookEndpoint(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -109,7 +109,7 @@ export async function updateTenantWebhookEndpoint(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
       arrayFilters: [{ "endpoint.id": endpointID }],
     }
   );
@@ -145,7 +145,7 @@ export async function deleteTenantWebhookEndpointSigningSecrets(
         "webhooks.endpoints.$[endpoint].signingSecrets": { kid: { $in: kids } },
       },
     },
-    { returnOriginal: false, arrayFilters: [{ "endpoint.id": endpointID }] }
+    { returnDocument: "after", arrayFilters: [{ "endpoint.id": endpointID }] }
   );
   if (!result.value) {
     const tenant = await retrieveTenant(mongo, id);
@@ -181,7 +181,7 @@ export async function deleteTenantWebhookEndpoint(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {

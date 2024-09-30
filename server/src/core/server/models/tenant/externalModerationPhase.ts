@@ -61,7 +61,7 @@ export async function createTenantExternalModerationPhase(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -114,7 +114,7 @@ export async function updateTenantExternalModerationPhase(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
       arrayFilters: [{ "phase.id": phaseID }],
     }
   );
@@ -157,7 +157,7 @@ export async function deleteTenantExternalModerationPhase(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -187,7 +187,7 @@ export async function deleteTenantExternalModerationPhaseSigningSecrets(
         },
       },
     },
-    { returnOriginal: false, arrayFilters: [{ "phase.id": phaseID }] }
+    { returnDocument: "after", arrayFilters: [{ "phase.id": phaseID }] }
   );
   if (!result.value) {
     const tenant = await retrieveTenant(mongo, id);

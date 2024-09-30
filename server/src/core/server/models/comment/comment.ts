@@ -253,7 +253,7 @@ export async function pushChildCommentIDOntoParent(
       $inc: { childCount: 1 },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
@@ -379,7 +379,7 @@ export async function editComment(
     update,
     {
       // True to return the original document instead of the updated document.
-      returnOriginal: true,
+      returnDocument: "before",
     }
   );
   if (!result.value) {
@@ -854,7 +854,7 @@ export async function updateCommentEmbeddedAt(
     {
       // True to return the original document instead of the updated
       // document.
-      returnOriginal: true,
+      returnDocument: "before",
     }
   );
   if (!result.value) {
@@ -892,7 +892,7 @@ export async function updateCommentStatus(
     {
       // True to return the original document instead of the updated
       // document.
-      returnOriginal: true,
+      returnDocument: "before",
     }
   );
   if (!result.value) {
@@ -942,7 +942,7 @@ export async function updateCommentActionCounts(
       arrayFilters: [{ "revision.id": revisionID }],
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -1021,7 +1021,7 @@ export async function addCommentTag(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
@@ -1063,7 +1063,7 @@ export async function removeCommentTag(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
   if (!result.value) {
