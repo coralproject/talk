@@ -1082,6 +1082,8 @@ notifications-yourCommentHasBeenRejected =
   Your comment has been rejected
 notifications-yourCommentHasBeenApproved =
   Your comment has been approved
+notifications-yourPreviouslyRejectedCommentHasBeenApproved =
+  Your comment was previously rejected. It has now been restored to the page.
 notifications-yourCommentHasBeenFeatured =
   Your comment has been featured
 notifications-yourCommentHasReceivedAReply =

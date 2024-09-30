@@ -48,6 +48,9 @@ const getIcon = (type: NOTIFICATION_TYPE | null): ComponentType => {
   if (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED) {
     return CheckCircleIcon;
   }
+  if (type === GQLNOTIFICATION_TYPE.PREVIOUSLY_REJECTED_COMMENT_APPROVED) {
+    return CheckCircleIcon;
+  }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
     return RatingStarRibbonIcon;
   }
@@ -81,6 +84,13 @@ const getTitle = (
       bundles,
       "notifications-yourCommentHasBeenApproved",
       "Your comment has been published"
+    );
+  }
+  if (type === GQLNOTIFICATION_TYPE.PREVIOUSLY_REJECTED_COMMENT_APPROVED) {
+    return getMessage(
+      bundles,
+      "notifications-yourPreviouslyRejectedCommentHasBeenApproved",
+      "Your comment was previously rejected. It has now been restored to the page."
     );
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
@@ -200,7 +210,9 @@ const NotificationContainer: FunctionComponent<Props> = ({
         {(type === GQLNOTIFICATION_TYPE.REPLY ||
           type === GQLNOTIFICATION_TYPE.REPLY_STAFF ||
           type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED ||
-          type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED) && (
+          type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED ||
+          type ===
+            GQLNOTIFICATION_TYPE.PREVIOUSLY_REJECTED_COMMENT_APPROVED) && (
           <CommentNotificationBody
             notification={notification}
             reply={
