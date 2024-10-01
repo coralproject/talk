@@ -1,7 +1,12 @@
 ---
 id: schema
+slug: /api
+pagination_next: null
+pagination_prev: null
 title: Getting Started with the Coral API
 sidebar_label: Coral API
+sidebar_position: 1
+displayed_sidebar: api
 description: Coral exposes a GraphQL API for performing administrative tasks.
 ---
 
