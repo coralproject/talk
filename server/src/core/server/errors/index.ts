@@ -564,6 +564,15 @@ export class StoryNotFoundError extends CoralError {
   }
 }
 
+export class SiteNotFoundError extends CoralError {
+  constructor(siteID?: string | null, storyID?: string | null) {
+    super({
+      code: ERROR_CODES.SITE_NOT_FOUND,
+      context: { pub: { siteID, storyID } },
+    });
+  }
+}
+
 export class CommentNotFoundError extends CoralError {
   constructor(commentID: string) {
     super({

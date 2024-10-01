@@ -1,7 +1,7 @@
 import { v1 as uuid } from "uuid";
 
 import { MongoContext } from "coral-server/data/context";
-import { TenantNotFoundError } from "coral-server/errors";
+import { SiteNotFoundError, TenantNotFoundError } from "coral-server/errors";
 import logger from "coral-server/logger";
 import {
   retrieveSite,
@@ -108,6 +108,10 @@ async function retrieveSiteFromQuery(
     if (!story) {
       // We can't lookup the story, therefore we can't lookup the site, abort.
       return null;
+    }
+
+    if (!story.siteID) {
+      throw new SiteNotFoundError(null, storyID);
     }
 
     // If the site can't be found based on it's allowed origins and the story

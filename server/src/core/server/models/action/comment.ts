@@ -130,7 +130,7 @@ export interface CommentAction extends TenantResource {
   /**
    * siteID represents the ID of the Site where the comment was left on.
    */
-  siteID: string;
+  siteID: string | null;
 
   /**
    * userID is the ID of the User that left this Action. In the event that the

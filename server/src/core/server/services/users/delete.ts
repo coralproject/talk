@@ -1,4 +1,4 @@
-import { Collection, FilterQuery } from "mongodb";
+import { Collection, Document, Filter } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Config } from "coral-server/config";
@@ -23,7 +23,7 @@ import { AugmentedRedis } from "../redis";
 
 const BATCH_SIZE = 500;
 
-async function executeBulkOperations<T>(
+async function executeBulkOperations<T extends Document>(
   collection: Collection<T>,
   operations: any[]
 ) {
@@ -132,7 +132,7 @@ async function moderateComments(
   config: Config,
   i18n: I18n,
   tenant: Tenant,
-  filter: FilterQuery<Comment>,
+  filter: Filter<Comment>,
   targetStatus: GQLCOMMENT_STATUS,
   now: Date,
   isArchived = false,
@@ -432,5 +432,5 @@ export async function deleteUser(
     }
   );
 
-  return result.value || null;
+  return result;
 }

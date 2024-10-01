@@ -26,7 +26,7 @@ const reviewCommentAction = async (
     }
   );
 
-  return result.value;
+  return result;
 };
 
 export default reviewCommentAction;

@@ -19,6 +19,7 @@ import {
   BadgeConfiguration,
   defaultRTEConfiguration,
   generateSigningSecret,
+  NewUserModeration,
   Settings,
   SigningSecretResource,
 } from "coral-server/models/settings";
@@ -122,7 +123,7 @@ export interface TenantSettings
      * endpoints is all the configured endpoints that should receive events.
      */
     endpoints: Endpoint[];
-  };
+  } | null;
 }
 
 /**
@@ -428,11 +429,11 @@ export async function updateTenant(
       returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new Error("tenant not found with id");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function enableTenantFeatureFlag(
@@ -455,11 +456,11 @@ export async function enableTenantFeatureFlag(
       returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new Error("tenant not found with id");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function disableTenantFeatureFlag(
@@ -482,11 +483,11 @@ export async function disableTenantFeatureFlag(
       returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new Error("tenant not found with id");
   }
 
-  return result.value;
+  return result;
 }
 
 export interface CreateAnnouncementInput {
@@ -500,10 +501,11 @@ export async function createTenantAnnouncement(
   input: CreateAnnouncementInput,
   now = new Date()
 ) {
-  const announcement = {
+  const announcement: GQLAnnouncement = {
     id: uuid(),
     ...input,
     createdAt: now,
+    disableAt: new Date(now.getTime() + input.duration),
   };
 
   const result = await mongo.tenants().findOneAndUpdate(
@@ -517,7 +519,7 @@ export async function createTenantAnnouncement(
       returnDocument: "after",
     }
   );
-  return result.value;
+  return result;
 }
 
 export interface CreateFlairBadgeInput {
@@ -548,7 +550,7 @@ export async function createTenantFlairBadge(
       returnDocument: "after",
     }
   );
-  return result.value;
+  return result;
 }
 
 export interface DeleteFlairBadgeInput {
@@ -571,12 +573,12 @@ export async function deleteTenantFlairBadge(
       returnDocument: "after",
     }
   );
-  return result.value;
+  return result;
 }
 
 export interface CreateEmailDomainInput {
   domain: string;
-  newUserModeration: "BAN" | "PREMOD";
+  newUserModeration: NewUserModeration;
 }
 
 export async function createTenantEmailDomain(
@@ -610,7 +612,7 @@ export async function createTenantEmailDomain(
       returnDocument: "after",
     }
   );
-  return result.value;
+  return result;
 }
 
 export interface UpdateEmailDomainInput {
@@ -653,7 +655,7 @@ export async function updateTenantEmailDomain(
       returnDocument: "after",
     }
   );
-  return result.value;
+  return result;
 }
 
 export interface DeleteEmailDomainInput {
@@ -676,7 +678,7 @@ export async function deleteTenantEmailDomain(
       returnDocument: "after",
     }
   );
-  return result.value;
+  return result;
 }
 
 export async function deleteTenantAnnouncement(
@@ -694,7 +696,7 @@ export async function deleteTenantAnnouncement(
       returnDocument: "after",
     }
   );
-  return result.value;
+  return result;
 }
 
 export function retrieveAnnouncementIfEnabled(

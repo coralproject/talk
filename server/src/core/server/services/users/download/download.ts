@@ -16,7 +16,7 @@ import {
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { Cursor } from "mongodb";
+import { FindCursor as Cursor } from "mongodb";
 
 const BATCH_SIZE = 100;
 

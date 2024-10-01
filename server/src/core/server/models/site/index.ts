@@ -169,7 +169,7 @@ export async function updateSite(
       // document.
       { returnDocument: "after" }
     );
-    return result.value || null;
+    return result;
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.

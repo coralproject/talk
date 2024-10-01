@@ -86,4 +86,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   DSA_REPORT_ADDITIONAL_INFO_TOO_LONG: "error-dsaReportAdditionalInfoTooLong",
   UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY:
     "error-unableToPrimeCachedCommentsForStory",
+  SITE_NOT_FOUND: "error-siteNotFound",
 };

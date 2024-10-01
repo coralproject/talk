@@ -106,7 +106,7 @@ export interface Story extends TenantResource {
   /**
    * siteID references the site the story belongs to
    */
-  siteID: string;
+  siteID: string | null;
 
   isArchiving?: boolean;
   isArchived?: boolean;

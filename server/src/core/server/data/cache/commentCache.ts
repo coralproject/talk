@@ -127,7 +127,11 @@ export class CommentCache implements IDataCache {
         : this.mongo.comments();
 
     const comments = await collection
-      .find({ tenantID, storyID, status: { $in: ["APPROVED", "NONE"] } })
+      .find({
+        tenantID,
+        storyID,
+        status: { $in: [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE] },
+      })
       .toArray();
     if (!comments || comments.length === 0) {
       return [];
@@ -357,13 +361,13 @@ export class CommentCache implements IDataCache {
           tenantID,
           storyID,
           parentID,
-          status: { $in: ["APPROVED", "NONE"] },
+          status: { $in: [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE] },
         }
       : {
           tenantID,
           storyID,
           parentID: null,
-          status: { $in: ["APPROVED", "NONE"] },
+          status: { $in: [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE] },
         };
 
     const collection = isArchived

@@ -5,7 +5,6 @@ import {
   Filter,
   FindCursor,
   SortDirection,
-  WithId,
 } from "mongodb";
 
 import logger from "coral-server/logger";
@@ -80,7 +79,7 @@ export default class Query<T extends Document> {
   /**
    * exec will return a cursor to the query.
    */
-  public async exec(): Promise<FindCursor<WithId<T>>> {
+  public async exec(): Promise<FindCursor<T>> {
     logger.trace(
       {
         collection: this.collection.collectionName,
@@ -113,6 +112,6 @@ export default class Query<T extends Document> {
       cursor = cursor.skip(this.skip);
     }
 
-    return cursor;
+    return cursor as FindCursor<T>;
   }
 }
