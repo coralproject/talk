@@ -1,4 +1,4 @@
-import { Collection, FilterQuery } from "mongodb";
+import { Collection, Document, Filter as FilterQuery, WithId } from "mongodb";
 
 import { MongoContext } from "coral-server/data/context";
 import { StoryNotFoundError } from "coral-server/errors";
@@ -86,7 +86,7 @@ export async function archiveStory(
   });
 
   logger.info("updating site counts for archive");
-  await updateSiteCounts(mongo, tenantID, targetStory.siteID, commentCounts);
+  await updateSiteCounts(mongo, tenantID, targetStory.siteID!, commentCounts);
   logger.info("updating shared counts for archive");
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
 
@@ -114,7 +114,7 @@ export async function unarchiveStory(
 
   const targetStory = await mongo
     .stories()
-    .findOne({ id, tenantID }, { maxTimeMs: 30 * 60 * 1000 });
+    .findOne({ id, tenantID }, { maxTimeMS: 30 * 60 * 1000 });
   if (!targetStory) {
     throw new StoryNotFoundError(id);
   }
@@ -172,7 +172,7 @@ export async function unarchiveStory(
   });
 
   logger.info("updating site counts for unarchive");
-  await updateSiteCounts(mongo, tenantID, targetStory.siteID, commentCounts);
+  await updateSiteCounts(mongo, tenantID, targetStory.siteID!, commentCounts);
 
   logger.info("updating shared counts for unarchive");
   await updateSharedCommentCounts(redis, tenantID, commentCounts);
@@ -184,7 +184,7 @@ export async function unarchiveStory(
   return result;
 }
 
-interface MoveDocumentsOptions<T> {
+interface MoveDocumentsOptions<T extends Document> {
   tenantID: string;
   source: Collection<T>;
   filter: FilterQuery<T>;
@@ -201,11 +201,11 @@ async function moveDocuments<T extends { id: string }>({
   returnMovedIDs = false,
   batchSize = 100,
 }: MoveDocumentsOptions<T>) {
-  let insertBatch: T[] = [];
+  let insertBatch: Array<WithId<T>> = [];
   let deleteIDs: string[] = [];
   const allIDs: string[] = [];
 
-  const selectionCursor = source.find(filter, { maxTimeMs: 30 * 60 * 1000 });
+  const selectionCursor = source.find(filter, { maxTimeMS: 30 * 60 * 1000 });
 
   while (await selectionCursor.hasNext()) {
     const document = await selectionCursor.next();

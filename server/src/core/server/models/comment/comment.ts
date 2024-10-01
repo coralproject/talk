@@ -97,7 +97,7 @@ export interface Comment extends TenantResource {
    * section was not available when the comment was authored, the section will
    * be null here.
    */
-  section?: string;
+  section?: string | null;
 
   /**
    * revisions stores all the revisions of the Comment body including the most
@@ -1002,13 +1002,7 @@ export async function addCommentTag(
     {
       tenantID,
       id: commentID,
-      tags: {
-        $not: {
-          $eq: {
-            type: tag.type,
-          },
-        },
-      },
+      "tags.type": { $not: { $eq: tag.type } },
     },
     {
       $push: {
@@ -1021,7 +1015,7 @@ export async function addCommentTag(
       returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const comment = await retrieveComment(
       mongo.comments(),
       tenantID,
@@ -1038,7 +1032,7 @@ export async function addCommentTag(
     throw new Error("could not add a tag for an unexpected reason");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function removeCommentTag(

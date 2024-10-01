@@ -20,7 +20,7 @@ export const StorySettings: Required<
       return s.moderation;
     }
     if (ctx.tenant.moderation === GQLMODERATION_MODE.SPECIFIC_SITES_PRE) {
-      return ctx.tenant.premoderateAllCommentsSites.includes(s.story.siteID)
+      return ctx.tenant.premoderateAllCommentsSites.includes(s.story.siteID!)
         ? GQLMODERATION_MODE.PRE
         : GQLMODERATION_MODE.POST;
     }

@@ -129,7 +129,7 @@ export async function markSeenComments(
     { upsert: true }
   );
 
-  return result.value;
+  return result;
 }
 
 export async function markSeenCommentsBulk(

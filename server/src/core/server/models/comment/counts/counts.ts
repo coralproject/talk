@@ -1,5 +1,5 @@
 import { identity, isEmpty, pickBy } from "lodash";
-import { Collection } from "mongodb";
+import { Collection, Document } from "mongodb";
 
 import { DeepPartial } from "coral-common/common/lib/types";
 import logger from "coral-server/logger";
@@ -216,16 +216,14 @@ export function calculateTotalPublishedCommentCount(
   );
 }
 
-interface RelatedCommentCountsDocument {
+interface RelatedCommentCountsDocument extends Document {
   id: string;
   tenantID: string;
   commentCounts: Partial<RelatedCommentCounts>;
 }
 
-export async function updateRelatedCommentCounts<
-  T extends RelatedCommentCountsDocument
->(
-  collection: Collection<T>,
+export async function updateRelatedCommentCounts(
+  collection: Collection<any>,
   tenantID: string,
   id: string,
   commentCounts: DeepPartial<RelatedCommentCounts>
@@ -259,7 +257,7 @@ export async function updateRelatedCommentCounts<
     { returnDocument: "after" }
   );
 
-  return result.value || null;
+  return result || null;
 }
 
 export const negateCommentCounts = (options: {

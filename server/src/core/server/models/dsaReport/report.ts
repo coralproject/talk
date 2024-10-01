@@ -338,12 +338,12 @@ export async function createDSAReportNote(
     { returnDocument: "after" }
   );
 
-  if (!updatedReport.value) {
+  if (!updatedReport) {
     throw new Error();
   }
 
   return {
-    dsaReport: updatedReport.value,
+    dsaReport: updatedReport,
   };
 }
 
@@ -387,12 +387,12 @@ export async function createDSAReportShare(
     { returnDocument: "after" }
   );
 
-  if (!updatedReport.value) {
+  if (!updatedReport) {
     throw new Error();
   }
 
   return {
-    dsaReport: updatedReport.value,
+    dsaReport: updatedReport,
   };
 }
 
@@ -425,12 +425,12 @@ export async function deleteDSAReportNote(
     { returnDocument: "after" }
   );
 
-  if (!updatedReport.value) {
+  if (!updatedReport) {
     throw new Error();
   }
 
   return {
-    dsaReport: updatedReport.value,
+    dsaReport: updatedReport,
   };
 }
 
@@ -458,11 +458,13 @@ export async function changeDSAReportStatus(
   // Create a new ID for the DSAReportHistoryItem.
   const id = uuid();
 
-  const statusChangeHistoryItem = {
+  const typedStatus = status as GQLDSAReportStatus;
+
+  const statusChangeHistoryItem: ReportHistoryItem = {
     id,
     createdBy: userID,
     createdAt: now,
-    status,
+    status: typedStatus,
     type: GQLDSAReportHistoryType.STATUS_CHANGED,
   };
 
@@ -472,17 +474,17 @@ export async function changeDSAReportStatus(
       $push: {
         history: statusChangeHistoryItem,
       },
-      $set: { status },
+      $set: { status: typedStatus },
     },
     { returnDocument: "after" }
   );
 
-  if (!updatedReport.value) {
+  if (!updatedReport) {
     throw new Error();
   }
 
   return {
-    dsaReport: updatedReport.value,
+    dsaReport: updatedReport,
   };
 }
 
@@ -552,12 +554,12 @@ export async function makeDSAReportDecision(
     { returnDocument: "after" }
   );
 
-  if (!updatedReport.value) {
+  if (!updatedReport) {
     throw new Error();
   }
 
   return {
-    dsaReport: updatedReport.value,
+    dsaReport: updatedReport,
   };
 }
 

@@ -32,7 +32,7 @@ export async function primeQueries(
 
   try {
     // Execute the bulk operations.
-    await bulk.execute({ w: "majority" });
+    await bulk.execute({ writeConcern: { w: "majority" } });
 
     return;
   } catch (err) {

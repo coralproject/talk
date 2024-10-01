@@ -148,7 +148,7 @@ export async function findOrCreate(
     StoryCreatedCoralEvent.publish(broker, {
       storyID: story.id,
       storyURL: story.url,
-      siteID: story.siteID,
+      siteID: story.siteID!,
     }).catch((err) => {
       logger.error({ err }, "could not publish story created event");
     });

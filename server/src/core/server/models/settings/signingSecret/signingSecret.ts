@@ -1,5 +1,11 @@
 import { get } from "lodash";
-import { Collection, FindOneAndUpdateOption, UpdateQuery } from "mongodb";
+import {
+  Collection,
+  Document,
+  FindOneAndUpdateOptions,
+  UpdateFilter as UpdateQuery,
+  WithId,
+} from "mongodb";
 
 import logger from "coral-server/logger";
 import { FilterQuery } from "coral-server/models/helpers";
@@ -132,7 +138,7 @@ async function pushNewSigningSecret<T extends {}>({
   }
 
   // Generate the options for the operation.
-  const options: FindOneAndUpdateOption = {
+  const options: FindOneAndUpdateOptions = {
     // False to return the updated document instead of the original
     // document.
     returnDocument: "after",
@@ -146,11 +152,11 @@ async function pushNewSigningSecret<T extends {}>({
 
   // Update the resource with this new secret.
   const result = await collection.findOneAndUpdate(filter, update, options);
-  if (!result.value) {
+  if (!result) {
     return null;
   }
 
-  return result.value;
+  return result;
 }
 
 function getResourceFromDoc<T extends {}>(
@@ -190,7 +196,7 @@ function getResourceFromDoc<T extends {}>(
   return resource;
 }
 
-async function deprecateOldSigningSecrets<T extends {}>(
+async function deprecateOldSigningSecrets<T extends Document>(
   {
     collection,
     path,
@@ -202,7 +208,7 @@ async function deprecateOldSigningSecrets<T extends {}>(
     RotateSigningSecretOptions<T>,
     "collection" | "path" | "inactiveAt" | "filter" | "id" | "now"
   >,
-  doc: Readonly<T>
+  doc: Readonly<T> | WithId<Readonly<T>>
 ) {
   // Get the resource from the value.
   const resource = getResourceFromDoc({ id, path }, doc);
@@ -243,7 +249,7 @@ async function deprecateOldSigningSecrets<T extends {}>(
   }
 
   // Construct the options for the operation.
-  const options: FindOneAndUpdateOption = {
+  const options: FindOneAndUpdateOptions = {
     // False to return the updated document instead of the original
     // document.
     returnDocument: "after",
@@ -261,11 +267,11 @@ async function deprecateOldSigningSecrets<T extends {}>(
 
   // Deactivate the old keys.
   const result = await collection.findOneAndUpdate(filter, update, options);
-  if (!result.value) {
+  if (!result) {
     return null;
   }
 
-  return result.value;
+  return result;
 }
 
 export async function rotateSigningSecret<T extends {}>(

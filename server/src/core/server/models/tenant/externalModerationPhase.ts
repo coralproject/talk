@@ -64,7 +64,7 @@ export async function createTenantExternalModerationPhase(
       returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const tenant = await retrieveTenant(mongo, id);
     if (!tenant) {
       return {
@@ -78,7 +78,7 @@ export async function createTenantExternalModerationPhase(
 
   return {
     phase,
-    tenant: result.value,
+    tenant: result,
   };
 }
 
@@ -118,7 +118,7 @@ export async function updateTenantExternalModerationPhase(
       arrayFilters: [{ "phase.id": phaseID }],
     }
   );
-  if (!result.value) {
+  if (!result) {
     const tenant = await retrieveTenant(mongo, id);
     if (!tenant) {
       return null;
@@ -139,7 +139,7 @@ export async function updateTenantExternalModerationPhase(
     throw new Error("update failed for an unexpected reason");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function deleteTenantExternalModerationPhase(
@@ -160,7 +160,7 @@ export async function deleteTenantExternalModerationPhase(
       returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const tenant = await retrieveTenant(mongo, id);
     if (!tenant) {
       return null;
@@ -169,7 +169,7 @@ export async function deleteTenantExternalModerationPhase(
     throw new Error("update failed for an unexpected reason");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function deleteTenantExternalModerationPhaseSigningSecrets(
@@ -189,7 +189,7 @@ export async function deleteTenantExternalModerationPhaseSigningSecrets(
     },
     { returnDocument: "after", arrayFilters: [{ "phase.id": phaseID }] }
   );
-  if (!result.value) {
+  if (!result) {
     const tenant = await retrieveTenant(mongo, id);
     if (!tenant) {
       return null;
@@ -210,5 +210,5 @@ export async function deleteTenantExternalModerationPhaseSigningSecrets(
     throw new Error("update failed for an unexpected reason");
   }
 
-  return result.value;
+  return result;
 }

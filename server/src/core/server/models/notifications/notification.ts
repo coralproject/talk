@@ -77,7 +77,7 @@ export const createNotification = async (
 ) => {
   const op = await mongo.notifications().insertOne(notification);
 
-  return op.result.ok ? notification : null;
+  return op.acknowledged ? notification : null;
 };
 
 interface LastSeenNotificationChange {

@@ -28,7 +28,7 @@ export const statusPreModerateNewCommenter = async ({
       // If premodSites doesn't include this site id, then do nothing!
       if (
         tenant.newCommenters.moderation.premodSites &&
-        !tenant.newCommenters.moderation.premodSites.includes(story.siteID)
+        !tenant.newCommenters.moderation.premodSites.includes(story.siteID!)
       ) {
         return;
       }

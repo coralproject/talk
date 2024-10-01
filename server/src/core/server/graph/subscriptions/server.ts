@@ -261,7 +261,7 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
             options.redis,
             {
               tenantID: tenant.id,
-              siteID: story.siteID,
+              siteID: story.siteID!,
               storyID: story.id,
             },
             clientID,

@@ -28,8 +28,8 @@ export const statusPreModerate: IntermediateModerationPhase = ({
   // If the settings say that we're in premod mode, then the comment is in
   // premod status.
   if (
-    testModerationMode(tenant, story.siteID) ||
-    (story.settings && testModerationMode(story.settings, story.siteID))
+    testModerationMode(tenant, story.siteID!) ||
+    (story.settings && testModerationMode(story.settings, story.siteID!))
   ) {
     return {
       status: GQLCOMMENT_STATUS.PREMOD,

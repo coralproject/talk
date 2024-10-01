@@ -237,7 +237,7 @@ export default async function updateAllCommentCounts(
   }
 
   if (options.updateSite) {
-    await updateSiteCounts(mongo, tenant.id, siteID, {
+    await updateSiteCounts(mongo, tenant.id, siteID!, {
       action,
       status,
       moderationQueue,

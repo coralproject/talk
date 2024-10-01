@@ -1,5 +1,5 @@
 import { merge } from "lodash";
-import { Collection, IndexOptions } from "mongodb";
+import { Collection, CreateIndexesOptions, Document } from "mongodb";
 
 import { Writable } from "coral-common/common/lib/types";
 import { MongoContext } from "coral-server/data/context";
@@ -14,13 +14,13 @@ export type IndexSpecification<T> = {
 
 type IndexCreationFunction<T> = (
   indexSpec: IndexSpecification<T>,
-  indexOptions?: IndexOptions
+  indexOptions?: CreateIndexesOptions
 ) => Promise<string>;
 
-export async function createIndex<T>(
+export async function createIndex<T extends Document>(
   collection: Collection<T>,
   indexSpec: IndexSpecification<T>,
-  indexOptions: IndexOptions = {}
+  indexOptions: CreateIndexesOptions = {}
 ) {
   const log = logger.child(
     {
@@ -50,12 +50,12 @@ export async function createIndex<T>(
   }
 }
 
-export function createIndexFactory<T>(
+export function createIndexFactory<T extends Document>(
   collection: Collection<T>
 ): IndexCreationFunction<T> {
   return async (
     indexSpec: IndexSpecification<T>,
-    indexOptions: IndexOptions = {}
+    indexOptions: CreateIndexesOptions = {}
   ) => createIndex(collection, indexSpec, indexOptions);
 }
 

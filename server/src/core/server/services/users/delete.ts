@@ -301,7 +301,7 @@ async function deleteUserComments(
     },
     GQLCOMMENT_STATUS.APPROVED,
     now,
-    isArchived
+    !!isArchived
   );
 
   const bundle = i18n.getBundle(tenant.locale);
@@ -334,7 +334,7 @@ async function deleteUserComments(
     },
     GQLCOMMENT_STATUS.REJECTED,
     now,
-    isArchived,
+    !!isArchived,
     {
       code: GQLREJECTION_REASON_CODE.OTHER,
       detailedExplanation: translatedExplanation,
