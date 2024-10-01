@@ -27,7 +27,7 @@ export const sectionFilter = (
   }
 
   if (section) {
-    return { section: section.name || null };
+    return { section: section.name || undefined };
   }
 
   return {};

@@ -354,7 +354,7 @@ export class CommentCache implements IDataCache {
     tenantID: string,
     storyID: string,
     parentID?: string | null,
-    isArchived?: boolean
+    isArchived?: boolean | null
   ): Promise<Array<Readonly<Comment>>> {
     const filter = parentID
       ? {

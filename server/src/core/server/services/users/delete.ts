@@ -186,7 +186,7 @@ async function updateUserDSAReports(
   mongo: MongoContext,
   tenantID: string,
   authorID: string,
-  isArchived?: boolean
+  isArchived?: boolean | null
 ) {
   const batch: DSAReportBatch = {
     dsaReports: [],
@@ -278,7 +278,7 @@ async function deleteUserComments(
   authorID: string,
   tenantID: string,
   now: Date,
-  isArchived?: boolean
+  isArchived?: boolean | null
 ) {
   const tenant = await retrieveTenant(mongo, tenantID);
   if (!tenant) {

@@ -90,7 +90,7 @@ export interface Comment extends TenantResource {
   /**
    * siteID stores the ID of the Site that this Comment was left on.
    */
-  siteID: string | null;
+  siteID?: string | null;
 
   /**
    * section is the section of the story that this comment was left on. If the
@@ -1697,7 +1697,7 @@ export async function retrieveLatestFeaturedCommentForAuthor(
   mongo: MongoContext,
   tenantID: string,
   userID: string
-) {
+): Promise<Comment[]> {
   const $match: FilterQuery<Comment> = {
     tenantID,
     authorID: userID,
@@ -1714,5 +1714,5 @@ export async function retrieveLatestFeaturedCommentForAuthor(
     ])
     .toArray();
 
-  return results;
+  return results as Comment[];
 }

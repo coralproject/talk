@@ -112,7 +112,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
         ctx.mongo,
         ctx.tenant.id,
         c.id,
-        story.isArchived || story.isArchiving
+        !!(story.isArchived || story.isArchiving)
       );
 
       return !rejectedAncestors;
@@ -268,7 +268,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       return parent;
     } else {
       return hasAncestors(c)
-        ? maybeLoadOnlyID(ctx, info, c.storyID, c.parentID)
+        ? maybeLoadOnlyID(ctx, info, c.storyID, c.parentID!)
         : null;
     }
   },
@@ -280,7 +280,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   allChildComments: (c, input, ctx) =>
     ctx.loaders.Comments.allChildComments(c, input),
   story: (c, input, ctx) => ctx.loaders.Stories.story.load(c.storyID),
-  site: (c, input, ctx) => ctx.loaders.Sites.site.load(c.siteID),
+  site: (c, input, ctx) => ctx.loaders.Sites.site.load(c.siteID!),
   permalink: async ({ id, storyID }, input, ctx) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {

@@ -658,12 +658,12 @@ export interface User extends TenantResource {
    * scheduledDeletionDate is the time that a user is scheduled to be deleted.
    * If this is null, the user has not requested for their account to be deleted.
    */
-  scheduledDeletionDate?: Date;
+  scheduledDeletionDate?: Date | null;
 
   /**
    * deletedAt is the time that this user was deleted from our system.
    */
-  deletedAt?: Date;
+  deletedAt?: Date | null;
 
   /**
    * mediaSettings are optional media settings for the User.

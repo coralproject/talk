@@ -31,6 +31,7 @@ import {
   GQLDSA_METHOD_OF_REDRESS,
   GQLFEATURE_FLAG,
   GQLMODERATION_MODE,
+  GQLNEW_USER_MODERATION,
   GQLReactionConfiguration,
   GQLSettings,
   GQLWEBHOOK_EVENT_NAME,
@@ -578,8 +579,15 @@ export async function deleteTenantFlairBadge(
 
 export interface CreateEmailDomainInput {
   domain: string;
-  newUserModeration: NewUserModeration;
+  newUserModeration: GQLNEW_USER_MODERATION;
 }
+
+const convertUserModerationEnum = (
+  value: GQLNEW_USER_MODERATION
+): NewUserModeration => {
+  // these enums are equivalent, just do it
+  return value as unknown as NewUserModeration;
+};
 
 export async function createTenantEmailDomain(
   mongo: MongoContext,
@@ -600,7 +608,7 @@ export async function createTenantEmailDomain(
   const emailDomain = {
     id: uuid(),
     domain: input.domain,
-    newUserModeration: input.newUserModeration,
+    newUserModeration: convertUserModerationEnum(input.newUserModeration),
   };
 
   const result = await mongo.tenants().findOneAndUpdate(
