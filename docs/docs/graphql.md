@@ -1,6 +1,5 @@
 ---
 id: schema
-slug: /api
 pagination_next: null
 pagination_prev: null
 title: Getting Started with the Coral API
