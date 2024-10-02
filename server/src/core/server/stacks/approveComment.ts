@@ -107,8 +107,7 @@ const approveComment = async (
   }
 
   // create notification if dsa enabled upon approval of previously rejected comment
-  if (tenant.dsa?.enabled) {
-    if (previousComment?.status === GQLCOMMENT_STATUS.REJECTED) {
+  if (tenant.dsa?.enabled && previousComment?.status === GQLCOMMENT_STATUS.REJECTED) {
       await notifications.create(tenant.id, tenant.locale, {
         targetUserID: result.after.authorID!,
         comment: result.after,
