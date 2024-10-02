@@ -90,7 +90,7 @@ const getTitle = (
     return getMessage(
       bundles,
       "notifications-yourPreviouslyRejectedCommentHasBeenApproved",
-      "Your comment was previously rejected. It has now been restored to the page."
+      "Your comment was previously rejected. It has now been approved."
     );
   }
   if (type === GQLNOTIFICATION_TYPE.COMMENT_FEATURED) {
