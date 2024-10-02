@@ -1,6 +1,6 @@
 *.d.ts
 *.graphql.ts
 **/__generated__/**
-docs/build/
-build/
+docs/build
+build
 docs/.docusaurus
