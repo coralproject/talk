@@ -1,7 +1,5 @@
 ---
 id: schema
-pagination_next: null
-pagination_prev: null
 title: Getting Started with the Coral API
 sidebar_label: Coral API
 sidebar_position: 1

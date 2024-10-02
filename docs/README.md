@@ -2,7 +2,7 @@
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
-### Installation
+## Installation
 
 First, you'll need to do at least one full build of Coral. In the root of the repository, peform the following.
 
@@ -13,8 +13,7 @@ sh scripts/build-development.sh
 
 The reason for this is that the docs references the `client/` and `server/` generated types and components to populate the live docs information.
 
-
-### Local Development
+## Local Development
 
 Then within `docs/` you can run the following:
 
