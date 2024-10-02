@@ -1,5 +1,3 @@
-import { TextEncoder } from "util";
-
 import { COUNT_SELECTOR } from "coral-framework/constants";
 import {
   bytesToBase64,

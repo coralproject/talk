@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { toHaveNoViolations } from "jest-axe";
+import { TextEncoder } from "util";
 
 import expectAndFail from "./expectAndFail";
 
@@ -13,6 +14,9 @@ import "./setupConsole";
 // when assertion fails. This works even inside of an try-catch block
 // to get around: https://github.com/facebook/jest/issues/3917
 (global as any).expectAndFail = expectAndFail;
+
+// we need to have this for count script
+(global as any).TextEncoder = TextEncoder;
 
 // Log unhandled rejections.
 // eslint-disable-next-line no-console
