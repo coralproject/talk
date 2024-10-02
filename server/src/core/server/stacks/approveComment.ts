@@ -107,14 +107,16 @@ const approveComment = async (
   }
 
   // create notification if dsa enabled upon approval of previously rejected comment
-  if (tenant.dsa?.enabled && previousComment?.status === GQLCOMMENT_STATUS.REJECTED) {
-      await notifications.create(tenant.id, tenant.locale, {
-        targetUserID: result.after.authorID!,
-        comment: result.after,
-        previousStatus: result.before.status,
-        type: GQLNOTIFICATION_TYPE.PREVIOUSLY_REJECTED_COMMENT_APPROVED,
-      });
-    }
+  if (
+    tenant.dsa?.enabled &&
+    previousComment?.status === GQLCOMMENT_STATUS.REJECTED
+  ) {
+    await notifications.create(tenant.id, tenant.locale, {
+      targetUserID: result.after.authorID!,
+      comment: result.after,
+      previousStatus: result.before.status,
+      type: GQLNOTIFICATION_TYPE.PREVIOUSLY_REJECTED_COMMENT_APPROVED,
+    });
   }
 
   // if comment was previously rejected, system withheld, or in pre-mod,
