@@ -445,7 +445,7 @@ it("show reaction details for a comment with reactions", async () => {
   });
   userEvent.click(detailsButton);
   const reactionsButton = within(reported).getByRole("tab", {
-    name: "Tab: Reactions",
+    name: "Reactions",
   });
   await act(async () => {
     userEvent.click(reactionsButton);

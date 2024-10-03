@@ -4,20 +4,25 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus graphql-to-doc && docusaurus start",
-    "build": "export NODE_OPTIONS=\"--openssl-legacy-provider\" && docusaurus graphql-to-doc && docusaurus build",
-    "preinstall": "npx only-allow pnpm",
+    "start": "docusaurus start",
+    "build": "docusaurus graphql-to-doc && docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
+    "typecheck": "tsc",
     "lint": "eslint './**/*.{js,ts,tsx}'"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.1",
-    "@docusaurus/preset-classic": "2.0.0-beta.1",
-    "@docusaurus/theme-search-algolia": "^2.0.0-beta.1",
-    "@edno/docusaurus2-graphql-doc-generator": "^1.2.2",
-    "@mdx-js/react": "^1.6.21",
-    "@svgr/webpack": "^5.5.0",
+    "@docusaurus/core": "3.5.2",
+    "@docusaurus/preset-classic": "3.5.2",
+    "@graphql-markdown/docusaurus": "^1.26.2",
+    "@graphql-tools/graphql-file-loader": "^8.0.1",
+    "@mdx-js/react": "^3.0.0",
+    "clsx": "^2.0.0",
+    "docusaurus-lunr-search": "^3.5.0",
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest-dom": "^4.0.1",
@@ -26,11 +31,22 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "file-loader": "^6.2.0",
-    "prism-react-renderer": "^1.2.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "url-loader": "^4.1.1"
+    "graphql": "^16.9.0",
+    "graphql-config": "^5.1.2",
+    "lunr": "^2.3.9",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "3.5.2",
+    "@docusaurus/tsconfig": "3.5.2",
+    "@docusaurus/types": "3.5.2",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "prettier": "^2.7.1",
+    "typescript": "~5.5.2"
   },
   "browserslist": {
     "production": [
@@ -39,15 +55,12 @@
       "not op_mini all"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
     ]
   },
-  "devDependencies": {
-    "@docusaurus/types": "^2.0.0-beta.1",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/eslint-plugin-tslint": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0"
+  "engines": {
+    "node": ">=18.0"
   }
 }

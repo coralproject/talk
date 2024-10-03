@@ -99,6 +99,11 @@ export interface TenorMedia {
   type: "tenor";
   id: string;
   url: string;
+  title?: string;
+  still?: string;
+  width?: number;
+  height?: number;
+  video?: string;
 }
 
 export interface TwitterMedia {

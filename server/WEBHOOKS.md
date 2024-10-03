@@ -198,6 +198,8 @@ function when comparing signatures.
 - [`STORY_CREATED`](#story-created-event)
 - [`COMMENT_CREATED`](#comment-created-event)
 - [`COMMENT_REPLY_CREATED`](#comment-reply-created-event)
+- [`COMMENT_ENTERED_MODERATION_QUEUE`](#comment-entered-moderation-queue-event)
+- [`COMMENT_LEFT_MODERATION_QUEUE`](#comment-left-moderation-queue-event)
 
 ## Events
 
@@ -230,6 +232,7 @@ function when comparing signatures.
 ```
 
 - <a id="comment-created-event">**COMMENT_CREATED**</a>
+  - only sent for published comments (ie status NONE or APPROVED)
 
 ```ts
 {
@@ -258,6 +261,7 @@ function when comparing signatures.
 ```
 
 - <a id="comment-reply-created-event">**COMMENT_REPLY_CREATED**</a>
+  - only sent for published comment replies (ie status NONE or APPROVED)
 
 ```ts
 {
@@ -285,6 +289,82 @@ function when comparing signatures.
      * ancestorIDs are the IDs of the ancestoral comments like parent, grandparent, etc
      */
     ancestorIDs: string[];
+  }
+  createdAt: string;
+}
+```
+
+- <a id="comment-entered-moderation-queue-event">**COMMENT_ENTERED_MODERATION_QUEUE**</a>
+
+```ts
+{
+  id: string;
+  type: "COMMENT_ENTERED_MODERATION_QUEUE";
+  tenantID: string;
+  tenantDomain: string;
+  data: {
+    /**
+     * queue is the moderation queue that the comment has been placed into (eg PENDING).
+     */
+    queue: string;
+
+    /**
+     * commentID is the ID of the comment.
+     */
+    commentID: string;
+
+    /**
+     * status is the state that the comment now has (eg PREMOD).
+     */
+    status: string;
+
+    /**
+     * storyID is the ID of the story on which the comment was made.
+     */
+    storyID: string;
+
+    /**
+     * siteID is the ID of the site to which the story belongs.
+     */
+    siteID: string;
+  }
+  createdAt: string;
+}
+```
+
+- <a id="comment-left-moderation-queue-event">**COMMENT_LEFT_MODERATION_QUEUE**</a>
+
+```ts
+{
+  id: string;
+  type: "COMMENT_LEFT_MODERATION_QUEUE";
+  tenantID: string;
+  tenantDomain: string;
+  data: {
+    /**
+     * queue is the moderation queue that the comment has exited (eg PENDING).
+     */
+    queue: string;
+
+    /**
+     * commentID is the ID of the comment.
+     */
+    commentID: string;
+
+    /**
+     * status is the state that the comment now has (eg REJECTED).
+     */
+    status: string;
+
+    /**
+     * storyID is the ID of the story on which the comment was made.
+     */
+    storyID: string;
+
+    /**
+     * siteID is the ID of the site to which the story belongs.
+     */
+    siteID: string;
   }
   createdAt: string;
 }

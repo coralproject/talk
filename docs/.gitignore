@@ -9,6 +9,7 @@
 .cache-loader
 
 # Current generated documentation is excluded
+docs/schema
 docs/api
 
 # Misc
