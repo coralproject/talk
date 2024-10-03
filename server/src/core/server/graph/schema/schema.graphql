@@ -4014,6 +4014,26 @@ type TenorMedia {
   title is the title of the GIF.
   """
   title: String
+
+  """
+  still is a thumbnail preview of the GIF.
+  """
+  still: String
+
+  """
+  video is a URL to the mp4 video of the GIF.
+  """
+  video: String
+
+  """
+  width is the width of the GIF in pixels.
+  """
+  width: Int
+
+  """
+  height is the height of the GIF in pixels.
+  """
+  height: Int
 }
 
 """
@@ -4126,7 +4146,12 @@ type ExternalMedia {
 """
 CommentMedia is the various media types that can be attached to a Comment.
 """
-union CommentMedia = GiphyMedia | TwitterMedia | YouTubeMedia | ExternalMedia | TenorMedia
+union CommentMedia =
+    GiphyMedia
+  | TwitterMedia
+  | YouTubeMedia
+  | ExternalMedia
+  | TenorMedia
 
 type CommentRevision {
   """
@@ -4299,29 +4324,29 @@ type CommentTagCounts {
 }
 
 """
-Comment is a comment left by a [User](/api/objects/User) on an
-[Story](/api/objects/Story) or another [Comment](/api/objects/Comment)
+Comment is a comment left by a [User](/api/types/objects/User) on an
+[Story](/api/types/objects/Story) or another [Comment](/api/types/objects/Comment)
 as a reply.
 """
 type Comment @cacheControl(maxAge: 5) {
   """
-  id is the identifier of the [Comment](/api/objects/Comment).
+  id is the identifier of the [Comment](/api/types/objects/Comment).
   """
   id: ID!
 
   """
-  body is the content of the [Comment](/api/objects/Comment), and is an alias to the body of the
+  body is the content of the [Comment](/api/types/objects/Comment), and is an alias to the body of the
   `revision.body`.
   """
   body: String
 
   """
-  revision is the current revision of the [Comment](/api/objects/Comment)'s body.
+  revision is the current revision of the [Comment](/api/types/objects/Comment)'s body.
   """
   revision: CommentRevision
 
   """
-  revisionHistory stores the previous [CommentRevision](/api/objects/comment-revision)'s, with the most recent
+  revisionHistory stores the previous [CommentRevision](/api/types/objects/comment-revision)'s, with the most recent
   edit last.
   """
   revisionHistory: [CommentRevision!]!
@@ -5029,6 +5054,7 @@ enum NOTIFICATION_TYPE {
   DSA_REPORT_DECISION_MADE
   REPLY
   REPLY_STAFF
+  PREVIOUSLY_REJECTED_COMMENT_APPROVED
 }
 
 type Notification {

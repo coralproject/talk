@@ -37,8 +37,8 @@ You will then have to generate a JWT with the following claims:
   presented inside Coral to moderators and other users. There are no username validations or restrictions enforced by Coral when you're using SSO.
 - `user.badges` _(optional)_ - array of strings to be displayed as badges and custom flair badges beside username inside Coral,
   visible to other users and moderators. Badges are configured by passing through strings and can be used to indicate a user's subscription status.
-   - Custom flair badges are configured by passing through names that link to the desired flair badge image.
-   - To use custom flair badges, they must also be enabled in the admin, and each custom flair badge name, image URL must be added in the admin as well. If you include the badges claim, but you are not passing a badge value, then use an empty array instead of null.
+  - Custom flair badges are configured by passing through names that link to the desired flair badge image.
+  - To use custom flair badges, they must also be enabled in the admin, and each custom flair badge name, image URL must be added in the admin as well. If you include the badges claim, but you are not passing a badge value, then use an empty array instead of null.
 - `user.role` _(optional)_ - one of "COMMENTER", "STAFF", "MODERATOR", "ADMIN". Will create/update
   Coral user with this permission level. When users have both an assigned role greather than COMMENTER and a badge, both will be displayed.
 - `user.url` _(optional)_ - url for user account management, where a user will
@@ -108,7 +108,7 @@ as follows:
   `requestAccountDeletion` does.
 - `requestUserCommentsDownload` lets you retrieve a given account's comments download. This mutation will provide you with a `archiveURL` that can be used to download a ZIP file containing the user's comment export.
 
-If you're unsure on how to call GraphQL API's, refer to the section here on [Making your first GraphQL request](/api/schema#making-your-first-request).
+If you're unsure on how to call GraphQL API's, refer to the section here on [Making your first GraphQL request](/api/schema#quick-start).
 
 ## Login Prompts
 

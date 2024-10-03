@@ -25,7 +25,7 @@
   padding: 0 var(--ifm-pre-padding);
 }
 
-html[data-theme='dark'] .docusaurus-highlight-code-line {
+html[data-theme="dark"] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -39,7 +39,7 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
  * Remove this once https://github.com/facebook/docusaurus/issues/5084 is resolved.
  */
 .DocSearch-Dropdown-Container .DocSearch-HitsFooter {
-    display: none;
+  display: none;
 }
 
 /**
@@ -48,5 +48,5 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
  * Remove this once https://github.com/facebook/docusaurus/issues/5084 is resolved.
  */
 .DocSearch-Dropdown-Container {
-    padding-bottom: var(--docsearch-spacing);
+  padding-bottom: var(--docsearch-spacing);
 }

@@ -14,6 +14,7 @@ import {
   retrieveFromGiphy,
 } from "coral-server/services/giphy";
 import { fetchOEmbedResponse } from "coral-server/services/oembed";
+import { retrieveFromTenor } from "coral-server/services/tenor";
 
 async function attachGiphyMedia(
   tenant: Tenant,
@@ -58,12 +59,22 @@ async function attachTenorMedia(
   id: string,
   url: string
 ): Promise<TenorMedia | undefined> {
+  const { results } = await retrieveFromTenor(tenant, id);
+  if (!results || !(results.length === 1)) {
+    return;
+  }
+  const data = results[0];
   try {
     // Return the formed Tenor Media.
     return {
       type: "tenor",
       id,
       url,
+      title: data.title,
+      still: data.media_formats.gifpreview.url,
+      width: data.media_formats.gifpreview.dims[0],
+      height: data.media_formats.gifpreview.dims[1],
+      video: data.media_formats.mp4.url,
     };
   } catch (err) {
     throw new WrappedInternalError(err as Error, "cannot attach Tenor Media");
