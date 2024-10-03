@@ -2,4 +2,5 @@
 *.graphql.ts
 **/__generated__/**
 docs/build
+build
 docs/.docusaurus

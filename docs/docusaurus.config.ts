@@ -1,22 +1,38 @@
-const lightCodeTheme = require("prism-react-renderer/themes/github");
-const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+import type * as Preset from "@docusaurus/preset-classic";
+import type { Config } from "@docusaurus/types";
+import { themes as prismThemes } from "prism-react-renderer";
 
-/** @type {import('@docusaurus/types').DocusaurusConfig} */
-module.exports = {
+const config: Config = {
   title: "Coral",
   tagline: "A better commenting experience from Vox Media",
   url: "https://docs.coralproject.net",
   baseUrl: "/",
-  onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
-  favicon: "img/favicon.ico",
   organizationName: "coralproject",
   projectName: "talk",
+  onBrokenLinks: "warn",
+  onBrokenMarkdownLinks: "warn",
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en"],
+  },
+
+  presets: [
+    [
+      "classic",
+      {
+        docs: {
+          routeBasePath: "/",
+          sidebarPath: "./sidebars.ts",
+          editUrl: "https://github.com/coralproject/talk/edit/develop/docs/",
+        },
+        theme: {
+          customCss: "./src/css/custom.css",
+        },
+      } satisfies Preset.Options,
+    ],
+  ],
+
   themeConfig: {
-    algolia: {
-      apiKey: "259b9f08146e7407341fa04498544ad6",
-      indexName: "coralproject",
-    },
     navbar: {
       logo: {
         alt: "Coral by Vox Media",
@@ -85,34 +101,28 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} Vox Media, Inc.`,
     },
     prism: {
-      theme: lightCodeTheme,
-      darkTheme: darkCodeTheme,
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
     },
   },
-  presets: [
-    [
-      "@docusaurus/preset-classic",
-      {
-        docs: {
-          routeBasePath: "/",
-          sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://github.com/coralproject/talk/edit/develop/docs/",
-        },
-        theme: {
-          customCss: require.resolve("./src/css/custom.css"),
-        },
-      },
-    ],
-  ],
   plugins: [
     [
-      "@edno/docusaurus2-graphql-doc-generator",
+      "@graphql-markdown/docusaurus",
       {
         schema: "../server/src/core/server/graph/schema/schema.graphql",
         rootPath: "./docs",
         baseURL: "api",
         homepage: "./docs/graphql.md",
+        loaders: {
+          GraphQLFileLoader: "@graphql-tools/graphql-file-loader",
+        },
+        docOptions: {
+          index: true,
+        },
       },
     ],
+    "docusaurus-lunr-search",
   ],
 };
+
+export default config;

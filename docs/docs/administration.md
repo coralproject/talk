@@ -176,7 +176,7 @@ as possible, so that the feed of comments doesn’t change as you’re reading j
 because new comments are coming in. This could be especially disruptive on
 breaking news and/or controversial stories with very active discussions.
 
-This option can be disabled by setting the environment variable: [DISABLE_LIVE_UPDATES](/environment-variables#disable-live-updates)
+This option can be disabled by setting the environment variable: [DISABLE_LIVE_UPDATES](/environment-variables#disable_live_updates)
 
 ### Permitted Domains
 
