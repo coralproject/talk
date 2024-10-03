@@ -1,6 +1,6 @@
 # Website
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
 ## Installation
 
@@ -18,6 +18,7 @@ The reason for this is that the docs references the `client/` and `server/` gene
 Then within `docs/` you can run the following:
 
 ```bash
+pnpm run build
 pnpm run start
 ```
 

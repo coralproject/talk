@@ -1,6 +1,6 @@
 ---
 name: Forms
-route: '/forms'
+route: "/forms"
 ---
 
 # Forms
@@ -9,10 +9,21 @@ Let's build some forms! We will use the following compoenents `InputLabel`, `Typ
 
 ### Examples
 
-import { Playground } from 'docz'
-import { InputLabel, CallOut, ValidationMessage, TextField, InputDescription, Flex, Button, FormField, Typography } from '../core/client/ui/components'
+import { Playground } from "docz";
+import {
+  InputLabel,
+  CallOut,
+  ValidationMessage,
+  TextField,
+  InputDescription,
+  Flex,
+  Button,
+  FormField,
+  Typography,
+} from "../core/client/ui/components";
 
 ## Simple Form
+
 <Playground>
   <Flex itemGutter="double" direction="column">
     <Typography variant="heading1">Sign up to join the conversation</Typography>
@@ -40,6 +51,7 @@ import { InputLabel, CallOut, ValidationMessage, TextField, InputDescription, Fl
     </FormField>
 
     <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
+
   </Flex>
 </Playground>
 
@@ -74,6 +86,7 @@ import { InputLabel, CallOut, ValidationMessage, TextField, InputDescription, Fl
     </FormField>
 
     <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
+
   </Flex>
 </Playground>
 
@@ -107,5 +120,6 @@ import { InputLabel, CallOut, ValidationMessage, TextField, InputDescription, Fl
     </FormField>
 
     <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
+
   </Flex>
 </Playground>

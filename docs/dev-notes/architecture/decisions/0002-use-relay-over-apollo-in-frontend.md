@@ -24,7 +24,6 @@ We reached out to the Apollo team but haven't received the required attention to
 
 For v5 we needed a better solution.
 
-
 ## Decision Drivers
 
 A framework that:
@@ -39,7 +38,7 @@ A framework that:
 
 ## Considered Options
 
-* Relay
+- Relay
 
 ## Decision Outcome
 
@@ -47,17 +46,17 @@ At that time the only viable alternative to Apollo is Relay. In fact all the sol
 
 ### Positive Consequences
 
-* First class Colocation support means we were able to simplify our graphql framework to a handful of lines mostly related to typing and wrapping.
-* Typescript support eventually came out, which was a dramatic improvement in maintainability.
-* A huge chunk of bugs in v4 was related to Apollo and how Data Colocation was not used properly. Relay entirely prevents these bugs from happening.
-* Persisted Queries support for better performance, bundle size and security.
-* Precompilation lead to better performance and bundle size.
-* Relay moves in our direction, every version upgrade is exciting news for us.
-* To understand how our graphql framework works we can now just point to the Relay documentation. It was an almost impossible task to explain our framework before.
-* Relay detects problems in Queries during build time, whereas previously problems were only highlighted during runtime. This has led to faster development.
-* Relay's Client Schema Extensions allowed us to replace Redux entirely. Wow.
+- First class Colocation support means we were able to simplify our graphql framework to a handful of lines mostly related to typing and wrapping.
+- Typescript support eventually came out, which was a dramatic improvement in maintainability.
+- A huge chunk of bugs in v4 was related to Apollo and how Data Colocation was not used properly. Relay entirely prevents these bugs from happening.
+- Persisted Queries support for better performance, bundle size and security.
+- Precompilation lead to better performance and bundle size.
+- Relay moves in our direction, every version upgrade is exciting news for us.
+- To understand how our graphql framework works we can now just point to the Relay documentation. It was an almost impossible task to explain our framework before.
+- Relay detects problems in Queries during build time, whereas previously problems were only highlighted during runtime. This has led to faster development.
+- Relay's Client Schema Extensions allowed us to replace Redux entirely. Wow.
 
 ### Negative Consequences
 
-* Supporting a plugin architecture becomes much more difficult but not impossible.
-* To use advanced features in Relay, we have to adhere to some conventions when structuring the schema. It's not a big issue however as our experience in v4 with Apollo has mostly led to the same or similar conventions.
+- Supporting a plugin architecture becomes much more difficult but not impossible.
+- To use advanced features in Relay, we have to adhere to some conventions when structuring the schema. It's not a big issue however as our experience in v4 with Apollo has mostly led to the same or similar conventions.
