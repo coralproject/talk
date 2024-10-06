@@ -14,6 +14,7 @@ import {
   Tenant,
 } from "coral-server/models/tenant";
 
+import { WithId } from "mongodb";
 import { parse, stringify } from "./json";
 
 const TENANT_CACHE_CHANNEL_VERSION = 1;
@@ -114,7 +115,9 @@ export default class TenantCache {
 
         tenants
           .filter((t) => t !== null)
-          .forEach((t: Readonly<Tenant>) => this.tenantCountCache.add(t.id));
+          .forEach((t: WithId<Readonly<Tenant>>) =>
+            this.tenantCountCache.add(t.id)
+          );
 
         return tenants;
       },
@@ -134,7 +137,9 @@ export default class TenantCache {
 
         tenants
           .filter((t) => t !== null)
-          .forEach((t: Readonly<Tenant>) => this.tenantCountCache.add(t.id));
+          .forEach((t: WithId<Readonly<Tenant>>) =>
+            this.tenantCountCache.add(t.id)
+          );
 
         return tenants;
       },
