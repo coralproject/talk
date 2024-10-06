@@ -228,7 +228,7 @@ async function moveDocuments<T extends { id: string }>({
       await bulkInsert.execute();
 
       const bulkDelete = source.initializeUnorderedBulkOp();
-      bulkDelete.find({ tenantID, id: { $in: deleteIDs } }).remove();
+      bulkDelete.find({ tenantID, id: { $in: deleteIDs } }).delete();
       await bulkDelete.execute();
 
       insertBatch = [];
@@ -245,7 +245,7 @@ async function moveDocuments<T extends { id: string }>({
   }
   if (deleteIDs.length > 0) {
     const bulkDelete = source.initializeUnorderedBulkOp();
-    bulkDelete.find({ tenantID, id: { $in: deleteIDs } }).remove();
+    bulkDelete.find({ tenantID, id: { $in: deleteIDs } }).delete();
     await bulkDelete.execute();
   }
 
