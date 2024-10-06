@@ -1,11 +1,5 @@
 import { get } from "lodash";
-import {
-  Collection,
-  Document,
-  FindOneAndUpdateOptions,
-  UpdateFilter as UpdateQuery,
-  WithId,
-} from "mongodb";
+import { Collection, Document, FindOneAndUpdateOptions, WithId } from "mongodb";
 
 import logger from "coral-server/logger";
 import { FilterQuery } from "coral-server/models/helpers";
@@ -122,7 +116,7 @@ async function pushNewSigningSecret<T extends {}>({
   const secret = generateSigningSecret(prefix, now);
 
   // Generate the update for the operation.
-  let update: UpdateQuery<T>;
+  let update: object = {};
   if (id) {
     update = {
       $push: {
@@ -230,7 +224,7 @@ async function deprecateOldSigningSecrets<T extends Document>(
   );
 
   // Construct the update operation for rotating the secret.
-  let update: UpdateQuery<T>;
+  let update: object = {};
   if (id) {
     update = {
       $set: {
@@ -278,16 +272,16 @@ export async function rotateSigningSecret<T extends {}>(
   options: RotateSigningSecretOptions<T>
 ) {
   // Push the new secret into the resource and return it.
-  let doc = await pushNewSigningSecret(options);
-  if (!doc) {
+  const pushResult = await pushNewSigningSecret(options);
+  if (!pushResult) {
     return null;
   }
 
   // Deprecate any old secrets on the document.
-  doc = await deprecateOldSigningSecrets(options, doc);
-  if (!doc) {
+  const deprecateResult = await deprecateOldSigningSecrets(options, pushResult);
+  if (!deprecateResult) {
     return null;
   }
 
-  return doc;
+  return deprecateResult;
 }
