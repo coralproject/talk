@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 
 import {

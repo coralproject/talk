@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import { generateFrameOptions } from "coral-server/app/middleware/csp";
 import { Request } from "coral-server/types/express";
 

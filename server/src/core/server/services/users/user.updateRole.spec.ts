@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import { MongoContext } from "coral-server/data/context";
 import { UserForbiddenError } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";

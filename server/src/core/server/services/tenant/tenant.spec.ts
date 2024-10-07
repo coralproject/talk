@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import { createEmailDomain } from "./tenant";
 jest.mock("coral-server/models/user");
 jest.mock("coral-server/models/site");
