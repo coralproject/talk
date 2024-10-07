@@ -528,7 +528,10 @@ export async function merge(
   log.debug({ deletedStories: deletedCount }, "deleted source stories");
 
   // Return the story that had the other stories merged into.
-  return destinationStory;
+  // casting to type as we know this is what it should be, we
+  // just can't get the generics right on the update calls, so
+  // we have to assume type here.
+  return destinationStory as unknown as Readonly<Story>;
 }
 
 export async function addExpert(
