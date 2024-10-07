@@ -14,7 +14,10 @@ import {
   GQLSectionFilter,
 } from "../schema/__generated__/types";
 
-import { requiredPropertyFilter, sectionFilter } from "./helpers";
+import {
+  commentActionRequiredPropertyFilter,
+  commentActionSectionFilter,
+} from "./helpers";
 
 interface FilteredConnectionInput {
   first?: number;
@@ -58,11 +61,11 @@ export default (ctx: Context) => ({
       after,
       filter: {
         ...filter,
-        ...sectionFilter(ctx.tenant, section),
+        ...commentActionSectionFilter(ctx.tenant, section),
         // If these properties are not provided or are null, remove them from
         // the filter because they do not exist in a nullable state on the
         // database model.
-        ...requiredPropertyFilter({ storyID, siteID }),
+        ...commentActionRequiredPropertyFilter({ storyID, siteID }),
       },
       orderBy: defaultTo(orderBy, GQLCOMMENT_SORT.CREATED_AT_DESC),
     });

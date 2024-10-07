@@ -4,7 +4,12 @@ import { SectionFilter } from "coral-common/common/lib/section";
 import { CommentConnectionInput } from "coral-server/models/comment";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 
-import { GQLFEATURE_FLAG } from "../schema/__generated__/types";
+import { CommentAction } from "coral-server/models/action/comment";
+import { OrderedConnectionInput } from "coral-server/models/helpers";
+import {
+  GQLCOMMENT_SORT,
+  GQLFEATURE_FLAG,
+} from "../schema/__generated__/types";
 
 /**
  * requiredPropertyFilter will remove those properties that are nil from the
@@ -21,6 +26,31 @@ export const sectionFilter = (
   tenant: Pick<Tenant, "featureFlags">,
   section?: SectionFilter
 ): CommentConnectionInput["filter"] => {
+  // Don't filter by section if the feature flag is disabled.
+  if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SECTIONS)) {
+    return {};
+  }
+
+  if (section) {
+    return { section: section.name || undefined };
+  }
+
+  return {};
+};
+
+export type CommentActionConnectionInput = OrderedConnectionInput<
+  CommentAction,
+  GQLCOMMENT_SORT
+>;
+
+export const commentActionRequiredPropertyFilter = (
+  props: CommentActionConnectionInput["filter"]
+): CommentActionConnectionInput["filter"] => omitBy(props, isNil);
+
+export const commentActionSectionFilter = (
+  tenant: Pick<Tenant, "featureFlags">,
+  section?: SectionFilter
+): CommentActionConnectionInput["filter"] => {
   // Don't filter by section if the feature flag is disabled.
   if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.SECTIONS)) {
     return {};
