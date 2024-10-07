@@ -85,7 +85,7 @@ HTTPS, you must configure a proxy in front of Coral such as
 [Caddy](https://caddyserver.com/).
 
 **Troubleshooting**: If you are seeing redirect loops when trying to access
-pages like the admin, you may need to configure [`TRUST_PROXY`](#trust-proxy) to
+pages like the admin, you may need to configure [`TRUST_PROXY`](#trust_proxy) to
 tell Coral which upstream proxies to trust.
 
 **Warning**: When `FORCE_SSL=true`, Coral will send [HSTS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)

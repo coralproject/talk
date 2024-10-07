@@ -81,14 +81,14 @@ const EventsSelectField: FunctionComponent<Props> = ({ settings }) => {
         id="configure-webhooks-eventsToSendDescription"
         elems={{
           externalLink: (
-            <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md#events-listing" />
+            <ExternalLink href="https://github.com/coralproject/talk/blob/main/server/WEBHOOKS.md#events-listing" />
           ),
         }}
       >
         <FormFieldDescription>
           These are the events that are registered to this particular endpoint.
           Visit our{" "}
-          <ExternalLink href="https://github.com/coralproject/talk/blob/main/WEBHOOKS.md#events-listing">
+          <ExternalLink href="https://github.com/coralproject/talk/blob/main/server/WEBHOOKS.md#events-listing">
             Webhook Guide
           </ExternalLink>{" "}
           for the schema of these events. Any event matching the following will

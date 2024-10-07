@@ -1,3 +1,4 @@
+export { default as bytesToBase64 } from "./bytesToBase64";
 export { default as clearHash } from "./clearHash";
 export { default as createContextHOC } from "./createContextHOC";
 export { default as detectCommentEmbedScript } from "./detectCommentEmbedScript";

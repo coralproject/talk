@@ -1,6 +1,9 @@
 import { COUNT_SELECTOR } from "coral-framework/constants";
-import detectCountScript from "coral-framework/helpers/detectCountScript";
-import resolveStoryURL from "coral-framework/helpers/resolveStoryURL";
+import {
+  bytesToBase64,
+  detectCountScript,
+  resolveStoryURL,
+} from "coral-framework/helpers";
 import jsonp from "coral-framework/utils/jsonp";
 
 import injectJSONPCallback from "./injectJSONPCallback";
@@ -13,7 +16,7 @@ interface CountQueryArgs {
 
 /** createCountQueryRef creates a unique reference from the query args */
 function createCountQueryRef(args: CountQueryArgs) {
-  return btoa(`${args.url}`);
+  return bytesToBase64(new TextEncoder().encode(`${args.url}`));
 }
 
 interface DetectAndInjectArgs {

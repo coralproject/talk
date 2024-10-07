@@ -140,6 +140,19 @@ export class InternalNotificationContext {
         now
       );
       result.attempted = true;
+    } else if (
+      type === GQLNOTIFICATION_TYPE.PREVIOUSLY_REJECTED_COMMENT_APPROVED &&
+      comment
+    ) {
+      result.notification =
+        await this.createPreviouslyRejectedCommentApprovedNotification(
+          tenantID,
+          type,
+          targetUserID,
+          comment,
+          now
+        );
+      result.attempted = true;
     } else if (type === GQLNOTIFICATION_TYPE.COMMENT_REJECTED && comment) {
       result.notification = await this.createRejectCommentNotification(
         tenantID,
@@ -225,7 +238,8 @@ export class InternalNotificationContext {
       // Determine whether to increment notificationCount based on user's in-page notification settings
       let shouldIncrementCount = true;
       if (
-        type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED &&
+        (type === GQLNOTIFICATION_TYPE.COMMENT_APPROVED ||
+          type === GQLNOTIFICATION_TYPE.PREVIOUSLY_REJECTED_COMMENT_APPROVED) &&
         !preferences?.onModeration
       ) {
         shouldIncrementCount = false;
@@ -311,6 +325,26 @@ export class InternalNotificationContext {
   }
 
   private async createApproveCommentNotification(
+    tenantID: string,
+    type: GQLNOTIFICATION_TYPE,
+    targetUserID: string,
+    comment: Readonly<Comment>,
+    now = new Date()
+  ) {
+    const notification = await createNotification(this.mongo, {
+      id: uuid(),
+      tenantID,
+      type,
+      createdAt: now,
+      ownerID: targetUserID,
+      commentID: comment.id,
+      commentStatus: comment.status,
+    });
+
+    return notification;
+  }
+
+  private async createPreviouslyRejectedCommentApprovedNotification(
     tenantID: string,
     type: GQLNOTIFICATION_TYPE,
     targetUserID: string,
