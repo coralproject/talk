@@ -1,4 +1,4 @@
-import { MongoError } from "mongodb";
+import { Collection, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, FirstDeepPartial } from "coral-common/common/lib/types";
@@ -674,7 +674,15 @@ export const updateStoryCounts = (
   tenantID: string,
   id: string,
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
-) => updateRelatedCommentCounts(mongo.stories(), tenantID, id, commentCounts);
+) =>
+  updateRelatedCommentCounts(
+    // the generics on this won't let us extend to
+    // all Coral types
+    mongo.stories() as unknown as Collection,
+    tenantID,
+    id,
+    commentCounts
+  );
 
 export async function addStoryExpert(
   mongo: MongoContext,

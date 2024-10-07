@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { DateTime, DurationObject } from "luxon";
-import { MongoError } from "mongodb";
+import { Collection, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, Sub } from "coral-common/common/lib/types";
@@ -3602,7 +3602,15 @@ export const updateUserCommentCounts = (
   tenantID: string,
   id: string,
   commentCounts: DeepPartial<UserCommentCounts>
-) => updateRelatedCommentCounts(mongo.users(), tenantID, id, commentCounts);
+) =>
+  updateRelatedCommentCounts(
+    // the generics on this won't let us extend to
+    // all Coral types
+    mongo.users() as unknown as Collection,
+    tenantID,
+    id,
+    commentCounts
+  );
 
 export const updateLastFeaturedDate = async (
   mongo: MongoContext,

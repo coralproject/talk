@@ -1,5 +1,5 @@
 import { identity, isNumber } from "lodash";
-import { MongoError } from "mongodb";
+import { Collection, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { FirstDeepPartial } from "coral-common/common/lib/types";
@@ -186,4 +186,12 @@ export const updateSiteCounts = (
   tenantID: string,
   id: string,
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
-) => updateRelatedCommentCounts(mongo.sites(), tenantID, id, commentCounts);
+) =>
+  updateRelatedCommentCounts(
+    // the generics on this won't let us extend to
+    // all Coral types
+    mongo.sites() as unknown as Collection,
+    tenantID,
+    id,
+    commentCounts
+  );

@@ -12,7 +12,6 @@ import {
   GQLCommentTagCounts,
 } from "coral-server/graph/schema/__generated__/types";
 
-import { Story } from "coral-server/models/story";
 import {
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
@@ -224,7 +223,7 @@ interface RelatedCommentCountsDocument extends Document {
 }
 
 export async function updateRelatedCommentCounts(
-  collection: Collection<Readonly<Story>>,
+  collection: Collection,
   tenantID: string,
   id: string,
   commentCounts: DeepPartial<RelatedCommentCounts>
