@@ -131,6 +131,10 @@ export const tenorSearchHandler =
         next: json.next,
       });
     } catch (e) {
+      // Ensure that the API key doesn't get leaked to the logs by accident.
+      if (e.message) {
+        e.message = e.message.replace(tenant.media?.gifs.key, "[Sensitive]");
+      }
       throw new WrappedInternalError(e as Error, "tenor search error");
     }
   };
