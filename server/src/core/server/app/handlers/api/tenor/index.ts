@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 
 import { SearchPayload } from "coral-common/common/lib/types/tenor";
 import { AppOptions } from "coral-server/app/";
+import { WrappedInternalError } from "coral-server/errors";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const SEARCH_LIMIT = 32;
@@ -58,7 +59,7 @@ export const tenorSearchHandler =
 
     const result = schema.validate(req.query);
     if (result.error || result.errors) {
-      res.status(400).send(result.errors);
+      res.status(400).send(result.error ?? result.errors);
       return;
     }
 
@@ -99,33 +100,37 @@ export const tenorSearchHandler =
       url.searchParams.set("pos", params.pos);
     }
 
-    const response = await fetch(url.toString(), {
-      method: "GET",
-    });
-
-    if (!response.ok) {
-      res.status(500).send({
-        results: [],
+    try {
+      const response = await fetch(url.toString(), {
+        method: "GET",
       });
-      return;
-    }
 
-    const json = (await response.json()) as SearchPayload;
-    if (!json) {
-      res.status(500).send({
-        results: [],
+      if (!response.ok) {
+        res.status(500).send({
+          results: [],
+        });
+        return;
+      }
+      const json = (await response.json()) as SearchPayload;
+      if (!json) {
+        res.status(500).send({
+          results: [],
+        });
+        return;
+      }
+
+      res.status(200).send({
+        results: json.results.map((r) => {
+          return {
+            id: r.id,
+            title: r.title,
+            url: r.media_formats.gif.url,
+            preview: r.media_formats.nanogif.url,
+          };
+        }),
+        next: json.next,
       });
+    } catch (e) {
+      throw new WrappedInternalError(e as Error, "tenor search error");
     }
-
-    res.status(200).send({
-      results: json.results.map((r) => {
-        return {
-          id: r.id,
-          title: r.title,
-          url: r.media_formats.gif.url,
-          preview: r.media_formats.nanogif.url,
-        };
-      }),
-      next: json.next,
-    });
   };
