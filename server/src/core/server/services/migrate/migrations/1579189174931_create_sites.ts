@@ -191,10 +191,12 @@ export default class extends Migration {
 
       // Push the update and process it if we need to.
       await batch.add(
-        // Find the story by ID.
         { id: doc._id },
         // Dotize set the action counts on the story.
-        { $set: dotize(encodedActionCounts) }
+        {
+          filter: { id: doc._id },
+          update: { $set: dotize(encodedActionCounts) },
+        }
       );
     }
 
