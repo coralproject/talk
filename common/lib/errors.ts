@@ -472,5 +472,10 @@ export enum ERROR_CODES {
    * priming of comments for the story in the data caches `commentCache` returns an undefined
    * result. This usually means something went very wrong loading from Redis or Mongo.
    */
-  UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY = "UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY"
+  UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY = "UNABLE_TO_PRIME_CACHED_COMMENTS_FOR_STORY",
+  /**
+   * SITE_NOT_FOUND is returned when the site being looked up via an ID does not
+   * exist in the database or when a siteID has been deleted from a document.
+   */
+  SITE_NOT_FOUND = "SITE_NOT_FOUND",
 }
