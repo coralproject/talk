@@ -32,17 +32,29 @@ const mergeModerationInputFilters =
     filter: FilterQuery<Comment>,
     selector: keyof CommentModerationCountsPerQueue
   ) =>
-  (input: ModerationQueuesInput): ModerationQueueInput => ({
-    selector,
-    connection: {
-      ...input.connection,
-      filter: {
-        ...input.connection.filter,
-        ...filter,
+  (input: ModerationQueuesInput): ModerationQueueInput => {
+    // this is merging multiple fitler types together
+    // Mongo types really don't like this, but it has worked
+    // for years, because when TS compiles to JS, it has no
+    // concept of "data types", it just knows filters.
+    //
+    // If we merge this down into an object, it's the same as
+    // it was prior to upgrading our TS Mongo types to be more
+    // picky.
+    const mergedFilter: object = {
+      ...input.connection.filter,
+      ...filter,
+    };
+
+    return {
+      selector,
+      connection: {
+        ...input.connection,
+        filter: mergedFilter,
       },
-    },
-    count: input.counts ? input.counts[selector] : null,
-  });
+      count: input.counts ? input.counts[selector] : null,
+    };
+  };
 
 /**
  * siteModerationInputResolver can be used to retrieve the moderationQueue for
