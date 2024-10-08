@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import jwt from "jsonwebtoken";
 import { DateTime } from "luxon";
 

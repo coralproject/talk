@@ -142,7 +142,7 @@ export async function createMongoContext(
 ): Promise<MongoContext> {
   // Setup MongoDB.
   const liveURI = config.get("mongodb");
-  const live = await createMongoDB(liveURI);
+  const live = (await createMongoDB(liveURI)).db;
 
   // If we have an archive URI, use it, otherwise, default
   // to using the live database
@@ -154,7 +154,7 @@ export async function createMongoContext(
   ) {
     archive = live;
   } else {
-    archive = await createMongoDB(archiveURI);
+    archive = (await createMongoDB(archiveURI)).db;
   }
 
   return new MongoContextImpl(live, archive);

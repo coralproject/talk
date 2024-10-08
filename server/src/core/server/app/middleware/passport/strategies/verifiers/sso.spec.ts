@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import {
   SSOTokenSchema,
   SSOUserProfileSchema,

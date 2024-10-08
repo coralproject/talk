@@ -1,5 +1,6 @@
 import { merge } from "lodash";
 
+import { Document } from "mongodb";
 import Query, { FilterQuery } from "./query";
 
 export type Cursor = Date | number | string | null;
@@ -132,7 +133,7 @@ export function doesNotContainNull<T>(items: Array<T | null>): items is T[] {
  * @param input the pagination arguments
  * @param transformer the node transformer which converts a node to a custor
  */
-export async function resolveConnection<T>(
+export async function resolveConnection<T extends Document>(
   query: Query<T>,
   input: PaginationArgs,
   transformer: NodeToCursorTransformer<T>
@@ -147,7 +148,8 @@ export async function resolveConnection<T>(
 
   // Convert the nodes to edges (which will include the extra edge we don't need
   // if there is more results).
-  const edges = nodesToEdges(nodes, transformer);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const edges = nodesToEdges(nodes, transformer as any);
 
   // Get the pageInfo for the connection. We will use this to also determine if
   // we need to trim off the extra edge that we requested by comparing its

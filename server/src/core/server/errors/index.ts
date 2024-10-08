@@ -564,6 +564,15 @@ export class StoryNotFoundError extends CoralError {
   }
 }
 
+export class SiteNotFoundError extends CoralError {
+  constructor(siteID?: string | null, storyID?: string | null) {
+    super({
+      code: ERROR_CODES.SITE_NOT_FOUND,
+      context: { pub: { siteID, storyID } },
+    });
+  }
+}
+
 export class CommentNotFoundError extends CoralError {
   constructor(commentID: string) {
     super({
@@ -1037,9 +1046,8 @@ export class UsernameAlreadyExists extends CoralError {
 }
 
 export class UnableToUpdateStoryURL extends CoralError {
-  constructor(cause: MongoError, id: string, oldUrl: string, url: string) {
+  constructor(id: string, oldUrl: string, url: string) {
     super({
-      cause,
       reportable: true,
       code: ERROR_CODES.UNABLE_TO_UPDATE_STORY_URL,
       context: { pvt: { id, oldUrl, url } },

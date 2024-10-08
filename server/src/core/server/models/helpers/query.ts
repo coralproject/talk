@@ -1,7 +1,12 @@
 import { isUndefined, omitBy } from "lodash";
-import { Collection, Cursor, FilterQuery as MongoFilterQuery } from "mongodb";
+import {
+  Collection,
+  Document,
+  Filter,
+  FindCursor,
+  SortDirection,
+} from "mongodb";
 
-import { Writable } from "coral-common/common/lib/types";
 import logger from "coral-server/logger";
 
 /**
@@ -9,20 +14,20 @@ import logger from "coral-server/logger";
  * Writable, partial set of properties while also including MongoDB specific
  * properties (like $lt, or $gte).
  */
-export type FilterQuery<T> = MongoFilterQuery<Writable<Partial<T>>>;
+export type FilterQuery<T> = Filter<T>;
 
 /**
  * Query is a convenience class used to wrap the existing MongoDB driver to
  * provide easier complex query management.
  */
-export default class Query<T> {
-  public filter: FilterQuery<T>;
-  public projection: FilterQuery<T>;
+export default class Query<T extends Document> {
+  public filter: Filter<T>;
+  public projection: Filter<T>;
 
   private collection: Collection<T>;
   private skip?: number;
   private limit?: number;
-  private sort?: object;
+  private sort?: { [key: string]: SortDirection };
 
   constructor(collection: Collection<T>) {
     this.collection = collection;
@@ -33,12 +38,12 @@ export default class Query<T> {
    * where will merge the given filter into the existing query.
    * @param filter the filter to merge into the existing query
    */
-  public where(filter: FilterQuery<T>): Query<T> {
+  public where(filter: Filter<T>): Query<T> {
     this.filter = { ...this.filter, ...omitBy(filter, isUndefined) };
     return this;
   }
 
-  public project(projection: FilterQuery<T>): Query<T> {
+  public project(projection: Filter<T>): Query<T> {
     this.projection = projection;
     return this;
   }
@@ -65,7 +70,7 @@ export default class Query<T> {
    * orderBy will apply sorting to the query filter when executed.
    * @param sort the sorting option for the documents
    */
-  public orderBy(sort: object): Query<T> {
+  public orderBy(sort: { [key: string]: SortDirection }): Query<T> {
     this.sort = { ...this.sort, ...sort };
     return this;
   }
@@ -73,7 +78,7 @@ export default class Query<T> {
   /**
    * exec will return a cursor to the query.
    */
-  public async exec(): Promise<Cursor<T>> {
+  public async exec(): Promise<FindCursor<T>> {
     logger.trace(
       {
         collection: this.collection.collectionName,
@@ -106,6 +111,6 @@ export default class Query<T> {
       cursor = cursor.skip(this.skip);
     }
 
-    return cursor;
+    return cursor as FindCursor<T>;
   }
 }

@@ -1,18 +1,21 @@
-import { Collection, FilterQuery, UpdateQuery } from "mongodb";
+import {
+  Collection,
+  Filter as FilterQuery,
+  UpdateManyModel as UpdateQuery,
+} from "mongodb";
 
 import { Logger } from "coral-server/logger";
-import { TenantResource } from "coral-server/models/tenant";
 
-interface UpdateOneOperation<T> {
+interface UpdateOneOperation<T extends Document> {
   updateOne: {
     filter: FilterQuery<T>;
     update: UpdateQuery<T>;
   };
 }
 
-type Operation<T> = UpdateOneOperation<T>;
+type Operation<T extends Document> = UpdateOneOperation<T>;
 
-class Batch<T extends TenantResource> {
+class Batch<T extends Document> {
   private readonly logger: Logger;
   private readonly collection: Collection<T>;
   private readonly maxBatchSize: number;

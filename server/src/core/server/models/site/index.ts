@@ -1,5 +1,5 @@
 import { identity, isNumber } from "lodash";
-import { MongoError } from "mongodb";
+import { Collection, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { FirstDeepPartial } from "coral-common/common/lib/types";
@@ -132,7 +132,7 @@ async function retrieveConnection(
 }
 
 export async function countTenantSites(mongo: MongoContext, tenantID: string) {
-  return mongo.sites().find({ tenantID }).count();
+  return mongo.sites().countDocuments({ tenantID });
 }
 
 export async function retrieveSiteConnection(
@@ -167,9 +167,9 @@ export async function updateSite(
       update,
       // False to return the updated document instead of the original
       // document.
-      { returnOriginal: false }
+      { returnDocument: "after" }
     );
-    return result.value || null;
+    return result;
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
@@ -186,4 +186,12 @@ export const updateSiteCounts = (
   tenantID: string,
   id: string,
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
-) => updateRelatedCommentCounts(mongo.sites(), tenantID, id, commentCounts);
+) =>
+  updateRelatedCommentCounts(
+    // the generics on this won't let us extend to
+    // all Coral types
+    mongo.sites() as unknown as Collection,
+    tenantID,
+    id,
+    commentCounts
+  );

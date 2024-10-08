@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import { pureMerge } from "coral-common/common/lib/utils";
 jest.mock("coral-server/models/user");
 

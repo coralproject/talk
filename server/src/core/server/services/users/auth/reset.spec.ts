@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import { v1 as uuid } from "uuid";
 
 import { isResetToken, ResetToken } from "./reset";

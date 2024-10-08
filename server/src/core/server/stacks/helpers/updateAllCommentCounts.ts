@@ -14,7 +14,7 @@ import {
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { CommentTag } from "coral-server/models/comment/tag";
 import { updateSiteCounts } from "coral-server/models/site";
-import { updateStoryCounts } from "coral-server/models/story";
+import { Story, updateStoryCounts } from "coral-server/models/story";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { updateUserCommentCounts } from "coral-server/models/user";
 import {
@@ -171,12 +171,12 @@ export default async function updateAllCommentCounts(
 
   if (options.updateStory) {
     // Update the story, site, and user comment counts.
-    const updatedStory = await updateStoryCounts(mongo, tenant.id, storyID, {
+    const updatedStory = (await updateStoryCounts(mongo, tenant.id, storyID, {
       action,
       status,
       moderationQueue,
       tags,
-    });
+    })) as Readonly<Story> | null;
 
     // only update Redis cache for comment counts if jsonp_response_cache set to true
     if (config.get("jsonp_response_cache")) {
@@ -237,7 +237,7 @@ export default async function updateAllCommentCounts(
   }
 
   if (options.updateSite) {
-    await updateSiteCounts(mongo, tenant.id, siteID, {
+    await updateSiteCounts(mongo, tenant.id, siteID!, {
       action,
       status,
       moderationQueue,

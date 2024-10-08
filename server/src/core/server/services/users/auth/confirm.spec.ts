@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import { v1 as uuid } from "uuid";
 
 import { ConfirmToken, isConfirmToken } from "./confirm";

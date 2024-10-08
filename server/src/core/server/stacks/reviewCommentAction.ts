@@ -22,11 +22,11 @@ const reviewCommentAction = async (
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  return result.value;
+  return result;
 };
 
 export default reviewCommentAction;

@@ -54,7 +54,8 @@ abstract class Migration {
     tenantID: string,
     size = 500
   ) {
-    return new Batch(this.log(tenantID), collection, size, tenantID);
+    const coll = collection as unknown as Collection<Document>;
+    return new Batch(this.log(tenantID), coll, size, tenantID);
   }
 }
 

@@ -210,7 +210,7 @@ async function processPhase(
       url: story.url,
     },
     site: {
-      id: story.siteID,
+      id: story.siteID!,
     },
     tenantID: tenant.id,
     tenantDomain: tenant.domain,

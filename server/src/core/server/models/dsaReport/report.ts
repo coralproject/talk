@@ -335,15 +335,15 @@ export async function createDSAReportNote(
         history: note,
       },
     },
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
-  if (!updatedReport.value) {
+  if (!updatedReport) {
     throw new Error();
   }
 
   return {
-    dsaReport: updatedReport.value,
+    dsaReport: updatedReport,
   };
 }
 
@@ -384,15 +384,15 @@ export async function createDSAReportShare(
         history: note,
       },
     },
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
-  if (!updatedReport.value) {
+  if (!updatedReport) {
     throw new Error();
   }
 
   return {
-    dsaReport: updatedReport.value,
+    dsaReport: updatedReport,
   };
 }
 
@@ -422,15 +422,15 @@ export async function deleteDSAReportNote(
         history: { id: { $eq: id } },
       },
     },
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
-  if (!updatedReport.value) {
+  if (!updatedReport) {
     throw new Error();
   }
 
   return {
-    dsaReport: updatedReport.value,
+    dsaReport: updatedReport,
   };
 }
 
@@ -458,11 +458,13 @@ export async function changeDSAReportStatus(
   // Create a new ID for the DSAReportHistoryItem.
   const id = uuid();
 
-  const statusChangeHistoryItem = {
+  const typedStatus = status as GQLDSAReportStatus;
+
+  const statusChangeHistoryItem: ReportHistoryItem = {
     id,
     createdBy: userID,
     createdAt: now,
-    status,
+    status: typedStatus,
     type: GQLDSAReportHistoryType.STATUS_CHANGED,
   };
 
@@ -472,17 +474,17 @@ export async function changeDSAReportStatus(
       $push: {
         history: statusChangeHistoryItem,
       },
-      $set: { status },
+      $set: { status: typedStatus },
     },
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
-  if (!updatedReport.value) {
+  if (!updatedReport) {
     throw new Error();
   }
 
   return {
-    dsaReport: updatedReport.value,
+    dsaReport: updatedReport,
   };
 }
 
@@ -549,15 +551,15 @@ export async function makeDSAReportDecision(
         status: GQLDSAReportStatus.COMPLETED,
       },
     },
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
 
-  if (!updatedReport.value) {
+  if (!updatedReport) {
     throw new Error();
   }
 
   return {
-    dsaReport: updatedReport.value,
+    dsaReport: updatedReport,
   };
 }
 

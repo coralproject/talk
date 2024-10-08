@@ -6,6 +6,7 @@ import { AppOptions } from "coral-server/app";
 import { getOrigin, prefixSchemeIfRequired } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
+import { SiteNotFoundError } from "coral-server/errors";
 import {
   retrieveSite,
   retrieveSiteByOrigin,
@@ -48,6 +49,10 @@ async function retrieveSiteFromQuery(
     if (!story) {
       // We can't lookup the story, therefore we can't lookup the site, abort.
       return null;
+    }
+
+    if (!story.siteID) {
+      throw new SiteNotFoundError(null, storyID);
     }
 
     // If the site can't be found based on it's allowed origins and the story

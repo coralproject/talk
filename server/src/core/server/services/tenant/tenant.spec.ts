@@ -1,9 +1,15 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import { createEmailDomain } from "./tenant";
 jest.mock("coral-server/models/user");
 jest.mock("coral-server/models/site");
 
 import { UserForbiddenError } from "coral-server/errors";
-import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLNEW_USER_MODERATION,
+  GQLUSER_ROLE,
+} from "coral-server/graph/schema/__generated__/types";
 import {
   createSiteFixture,
   createTenantFixture,
@@ -52,7 +58,7 @@ describe("createEmailDomain", () => {
         mockAdmin,
         {
           domain: "badsite.com",
-          newUserModeration: "BAN",
+          newUserModeration: GQLNEW_USER_MODERATION.BAN,
         }
       );
 
@@ -70,7 +76,7 @@ it("does not create domain bans for protected domains", async () => {
   await expect(async () =>
     createEmailDomain(mockMongo, mockRedis, mockTenantCache, tenant, viewer, {
       domain: protectedDomain,
-      newUserModeration: "BAN",
+      newUserModeration: GQLNEW_USER_MODERATION.BAN,
     })
   ).rejects.toThrow("EMAIL_DOMAIN_PROTECTED");
 });

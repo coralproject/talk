@@ -32,7 +32,7 @@ import {
 
 export function getCollection(
   mongo: MongoContext,
-  isArchived?: boolean
+  isArchived?: boolean | null
 ): Collection<Readonly<Comment>> {
   return isArchived && mongo.archive
     ? mongo.archivedComments()
@@ -232,7 +232,7 @@ export async function retrieveCommentConnection(
   mongo: MongoContext,
   tenantID: string,
   input: CommentConnectionInput,
-  isArchived?: boolean
+  isArchived?: boolean | null
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   const collection = getCollection(mongo, isArchived);
   return retrieveCommentConnectionModel(collection, tenantID, input);
@@ -253,7 +253,7 @@ export function retrieveCommentUserConnection(
   tenantID: string,
   userID: string,
   input: CommentConnectionInput,
-  isArchived?: boolean
+  isArchived?: boolean | null
 ) {
   const collection = getCollection(mongo, isArchived);
   return retrieveCommentUserConnectionModel(
@@ -280,7 +280,7 @@ export function retrieveAllCommentsUserConnection(
   tenantID: string,
   userID: string,
   input: CommentConnectionInput,
-  isArchived?: boolean
+  isArchived?: boolean | null
 ) {
   const collection = getCollection(mongo, isArchived);
   return retrieveAllCommentsUserConnectionModel(
@@ -310,7 +310,7 @@ export function retrieveCommentsBySitesUserConnection(
   userID: string,
   siteIDs: string[],
   input: CommentConnectionInput,
-  isArchived?: boolean
+  isArchived?: boolean | null
 ) {
   const collection = getCollection(mongo, isArchived);
   return retrieveCommentsBySitesUserConnectionModel(
@@ -366,7 +366,7 @@ export async function retrieveCommentStoryConnection(
   tenantID: string,
   storyID: string,
   input: CommentConnectionInput,
-  isArchived?: boolean
+  isArchived?: boolean | null
 ) {
   const collection = getCollection(mongo, isArchived);
   const conn = await retrieveCommentStoryConnectionModel(
@@ -397,7 +397,7 @@ export function retrieveCommentRepliesConnection(
   storyID: string,
   parentID: string,
   input: CommentConnectionInput,
-  isArchived?: boolean
+  isArchived?: boolean | null
 ) {
   const collection = getCollection(mongo, isArchived);
   return retrieveCommentRepliesConnectionModel(
@@ -424,7 +424,7 @@ export function retrieveCommentParentsConnection(
   tenantID: string,
   comment: Comment,
   paginationParameters: { last: number; before?: number },
-  isArchived?: boolean
+  isArchived?: boolean | null
 ) {
   const collection =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
@@ -452,7 +452,7 @@ export function retrieveChildrenForParentConnection(
   tenantID: string,
   comment: Comment,
   input: CommentConnectionInput,
-  isArchived?: boolean
+  isArchived?: boolean | null
 ) {
   const collection =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();

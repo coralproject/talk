@@ -59,11 +59,11 @@ export async function redeemInvite(
 ) {
   // Try to snag the invite from the database safely.
   const result = await mongo.invites().findOneAndDelete({ id, tenantID }, {});
-  if (!result.value) {
+  if (!result) {
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function redeemInviteFromEmail(
@@ -76,7 +76,7 @@ export async function redeemInviteFromEmail(
     .invites()
     .findOneAndDelete({ email, tenantID }, {});
 
-  return result.value || null;
+  return result;
 }
 
 export async function retrieveInviteFromEmail(

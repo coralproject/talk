@@ -14,6 +14,7 @@ import { createManyBatchLoadFn } from "./util";
 import {
   DSAReportToRelatedReportsArgs,
   GQLDSAREPORT_STATUS_FILTER,
+  GQLDSAReportStatus,
   GQLREPORT_SORT,
   QueryToDsaReportsArgs,
 } from "coral-server/graph/schema/__generated__/types";
@@ -24,12 +25,33 @@ export interface FindDSAReportInput {
   id: string;
 }
 
+const convertStatusEnum = (
+  status: GQLDSAREPORT_STATUS_FILTER
+): GQLDSAReportStatus => {
+  if (status === GQLDSAREPORT_STATUS_FILTER.AWAITING_REVIEW) {
+    return GQLDSAReportStatus.AWAITING_REVIEW;
+  }
+  if (status === GQLDSAREPORT_STATUS_FILTER.COMPLETED) {
+    return GQLDSAReportStatus.COMPLETED;
+  }
+  if (status === GQLDSAREPORT_STATUS_FILTER.UNDER_REVIEW) {
+    return GQLDSAReportStatus.UNDER_REVIEW;
+  }
+  if (status === GQLDSAREPORT_STATUS_FILTER.VOID) {
+    return GQLDSAReportStatus.VOID;
+  }
+
+  return GQLDSAReportStatus.VOID;
+};
+
 const statusFilter = (
   status?: GQLDSAREPORT_STATUS_FILTER[]
 ): DSAReportConnectionFilterInput => {
   if (status) {
+    const inStatus = status.map((s) => convertStatusEnum(s));
+
     return {
-      status: { $in: status },
+      status: { $in: inStatus },
     };
   }
   return {};

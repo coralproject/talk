@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { DateTime, DurationObject } from "luxon";
-import { MongoError } from "mongodb";
+import { Collection, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, Sub } from "coral-common/common/lib/types";
@@ -658,12 +658,12 @@ export interface User extends TenantResource {
    * scheduledDeletionDate is the time that a user is scheduled to be deleted.
    * If this is null, the user has not requested for their account to be deleted.
    */
-  scheduledDeletionDate?: Date;
+  scheduledDeletionDate?: Date | null;
 
   /**
    * deletedAt is the time that this user was deleted from our system.
    */
-  deletedAt?: Date;
+  deletedAt?: Date | null;
 
   /**
    * mediaSettings are optional media settings for the User.
@@ -830,14 +830,14 @@ export async function findOrCreateUser(
         // True to return the original document instead of the updated document.
         // This will ensure that when an upsert operation adds a new User, it
         // should return null.
-        returnOriginal: true,
+        returnDocument: "before",
         upsert: true,
       }
     );
 
     return {
-      user: result.value || user,
-      wasUpserted: !result.value,
+      user: result || user,
+      wasUpserted: !result,
     };
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
@@ -925,7 +925,7 @@ export async function retrieveUserWithProfile(
   mongo: MongoContext,
   tenantID: string,
   profile: Partial<Pick<Profile, "id" | "type">>
-) {
+): Promise<Readonly<User> | null> {
   return mongo.users().findOne({
     tenantID,
     profiles: {
@@ -993,14 +993,14 @@ export async function updateUserRole(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(id);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function mergeUserSiteModerationScopes(
@@ -1019,14 +1019,14 @@ export async function mergeUserSiteModerationScopes(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(id);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function pullUserSiteModerationScopes(
@@ -1045,15 +1045,15 @@ export async function pullUserSiteModerationScopes(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(id);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function mergeUserMembershipScopes(
@@ -1073,15 +1073,15 @@ export async function mergeUserMembershipScopes(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(userID);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function pullUserMembershipScopes(
@@ -1101,15 +1101,15 @@ export async function pullUserMembershipScopes(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(userID);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function updateUserModerationScopes(
@@ -1124,14 +1124,14 @@ export async function updateUserModerationScopes(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(id);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function updateUserMembershipScopes(
@@ -1144,15 +1144,15 @@ export async function updateUserMembershipScopes(
     .users()
     .findOneAndUpdate(
       { id: userID, tenantID },
-      { $set: { membershipScopes: { siteIDs } } },
-      { returnOriginal: false }
+      { $set: { "membershipScopes.siteIDs": siteIDs } },
+      { returnDocument: "after" }
     );
 
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(userID);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function verifyUserPassword(
@@ -1203,10 +1203,10 @@ export async function updateUserPassword(
       arrayFilters: [{ "profiles.type": "local" }],
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
@@ -1224,7 +1224,7 @@ export async function updateUserPassword(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function scheduleDeletionDate(
@@ -1256,14 +1256,14 @@ export async function scheduleDeletionDate(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(userID);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function clearDeletionDate(
@@ -1296,14 +1296,14 @@ export async function clearDeletionDate(
       // We want to return edited user so that
       // we send back the cleared scheduledDeletionDate
       // to the client
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(userID);
   }
 
-  return result.value;
+  return result;
 }
 
 export interface UpdateUserInput {
@@ -1340,10 +1340,10 @@ export async function updateUserFromSSO(
       arrayFilters: [{ "profiles.type": "sso" }],
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const user = await retrieveUserWithProfile(mongo, tenantID, {
       type: "sso",
       id,
@@ -1355,7 +1355,7 @@ export async function updateUserFromSSO(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -1379,7 +1379,7 @@ export async function setUserUsername(
     {
       tenantID,
       id,
-      username: null,
+      username: undefined,
     },
     {
       $set: {
@@ -1389,10 +1389,10 @@ export async function setUserUsername(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Try to get the current user to discover what happened.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -1406,7 +1406,7 @@ export async function setUserUsername(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -1446,11 +1446,11 @@ export async function updateUserUsername(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  if (!result.value) {
+  if (!result) {
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
@@ -1459,7 +1459,7 @@ export async function updateUserUsername(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -1493,7 +1493,7 @@ export async function setUserEmail(
     {
       tenantID,
       id,
-      email: null,
+      email: undefined,
     },
     {
       $set: {
@@ -1506,10 +1506,10 @@ export async function setUserEmail(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Try to get the current user to discover what happened.
     user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -1523,7 +1523,7 @@ export async function setUserEmail(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -1560,10 +1560,10 @@ export async function updateUserEmail(
       },
       {
         arrayFilters: [{ "profiles.type": "local" }],
-        returnOriginal: false,
+        returnDocument: "after",
       }
     );
-    if (!result.value) {
+    if (!result) {
       // Try to get the current user to discover what happened.
       const user = await retrieveUser(mongo, tenantID, id);
       if (!user) {
@@ -1572,7 +1572,7 @@ export async function updateUserEmail(
 
       throw new Error("an unexpected error occurred");
     }
-    return result.value;
+    return result;
   } catch (err) {
     if (err instanceof MongoError && err.code === 11000) {
       throw new DuplicateEmailError(email);
@@ -1611,10 +1611,10 @@ export async function updateUserBio(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Try to get the current user to discover what happened.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -1624,7 +1624,7 @@ export async function updateUserBio(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -1657,10 +1657,10 @@ export async function updateUserAvatar(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Try to get the current user to discover what happened.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -1670,7 +1670,7 @@ export async function updateUserAvatar(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -1730,10 +1730,10 @@ export async function setUserLocalProfile(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Try to get the current user to discover what happened.
     user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -1749,7 +1749,7 @@ export async function setUserLocalProfile(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function createUserToken(
@@ -1777,15 +1777,15 @@ export async function createUserToken(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(userID);
   }
 
   return {
-    user: result.value,
+    user: result,
     token,
   };
 }
@@ -1813,11 +1813,11 @@ export async function updateUserSSOProfileID(
       arrayFilters: [{ "profiles.type": "sso" }],
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  if (!result.value) {
+  if (!result) {
     const user = await retrieveUser(mongo, tenantID, userID);
     if (!user) {
       throw new UserNotFoundError(userID);
@@ -1831,7 +1831,7 @@ export async function updateUserSSOProfileID(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function deactivateUserToken(
@@ -1853,10 +1853,10 @@ export async function deactivateUserToken(
     {
       // True to return the original document instead of the updated
       // document.
-      returnOriginal: true,
+      returnDocument: "before",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const user = await retrieveUser(mongo, tenantID, userID);
     if (!user) {
       throw new UserNotFoundError(id);
@@ -1872,12 +1872,12 @@ export async function deactivateUserToken(
 
   // We have to typecast here because we know at this point that the record does
   // contain the Token.
-  const token: Token = result.value.tokens.find((t) => t.id === id) as Token;
+  const token: Token = result.tokens.find((t) => t.id === id) as Token;
 
   // Mutate the user in order to remove the Token from the list of Token's.
   const updatedUser: Readonly<User> = {
-    ...result.value,
-    tokens: result.value.tokens.filter((t) => t.id !== id),
+    ...result,
+    tokens: result.tokens.filter((t) => t.id !== id),
   };
 
   return {
@@ -1973,10 +1973,10 @@ export async function premodUser(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the ban operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -1992,7 +1992,7 @@ export async function premodUser(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -2035,11 +2035,11 @@ export async function removeUserPremod(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the ban operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2050,7 +2050,7 @@ export async function removeUserPremod(
     return user;
   }
 
-  return result.value;
+  return result;
 }
 
 export async function siteBanUser(
@@ -2091,11 +2091,11 @@ export async function siteBanUser(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the ban operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2105,7 +2105,7 @@ export async function siteBanUser(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -2153,10 +2153,10 @@ export async function banUser(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the ban operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2166,7 +2166,7 @@ export async function banUser(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function removeUserSiteBan(
@@ -2203,11 +2203,11 @@ export async function removeUserSiteBan(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the ban operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2218,7 +2218,7 @@ export async function removeUserSiteBan(
     return user;
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -2277,10 +2277,10 @@ export async function removeUserBan(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the ban operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2291,7 +2291,7 @@ export async function removeUserBan(
     return user;
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -2352,10 +2352,10 @@ export async function suspendUser(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the suspend operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2374,7 +2374,7 @@ export async function suspendUser(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -2420,10 +2420,10 @@ export async function removeActiveUserSuspensions(
       ],
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the suspend operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2436,7 +2436,7 @@ export async function removeActiveUserSuspensions(
 
   logger.debug({ result }, "finished update operation");
 
-  return result.value;
+  return result;
 }
 
 export async function warnUser(
@@ -2474,10 +2474,10 @@ export async function warnUser(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the ban operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2493,7 +2493,7 @@ export async function warnUser(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -2548,10 +2548,10 @@ export async function removeUserWarning(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the warn operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2562,7 +2562,7 @@ export async function removeUserWarning(
     return user;
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -2607,10 +2607,10 @@ export async function acknowledgeOwnWarning(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the warn operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2621,7 +2621,7 @@ export async function acknowledgeOwnWarning(
     return user;
   }
 
-  return result.value;
+  return result;
 }
 
 export async function sendModMessageUser(
@@ -2657,11 +2657,11 @@ export async function sendModMessageUser(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the message operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2671,7 +2671,7 @@ export async function sendModMessageUser(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -2715,10 +2715,10 @@ export async function acknowledgeOwnModMessage(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the acknowledge mod message operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -2729,7 +2729,7 @@ export async function acknowledgeOwnModMessage(
     return user;
   }
 
-  return result.value;
+  return result;
 }
 
 export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history" | "sites"> &
@@ -2926,10 +2926,10 @@ export async function createOrRetrieveUserPasswordResetID(
       arrayFilters: [{ "profiles.type": "local" }],
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
@@ -2965,8 +2965,8 @@ export async function createOrRetrieveUserEmailVerificationID(
       id,
       // This ensures that we don't set a emailVerificationID when there is one
       // already.
-      emailVerificationID: null,
-      $or: [{ emailVerified: false }, { emailVerified: null }],
+      emailVerificationID: undefined,
+      $or: [{ emailVerified: false }, { emailVerified: undefined }],
     },
     {
       $set: {
@@ -2976,10 +2976,10 @@ export async function createOrRetrieveUserEmailVerificationID(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
@@ -3039,10 +3039,10 @@ export async function resetUserPassword(
       arrayFilters: [{ "profiles.type": "local", "profiles.resetID": resetID }],
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
@@ -3064,7 +3064,7 @@ export async function resetUserPassword(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function confirmUserEmail(
@@ -3093,10 +3093,10 @@ export async function confirmUserEmail(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
@@ -3113,7 +3113,7 @@ export async function confirmUserEmail(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function ignoreUser(
@@ -3132,11 +3132,9 @@ export async function ignoreUser(
     {
       id,
       tenantID,
-      ignoredUsers: {
+      "ignoredUsers.id": {
         $not: {
-          $eq: {
-            id: ignoreUserID,
-          },
+          $eq: ignoreUserID,
         },
       },
     },
@@ -3146,10 +3144,10 @@ export async function ignoreUser(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the ignore operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -3168,7 +3166,7 @@ export async function ignoreUser(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function removeUserIgnore(
@@ -3189,10 +3187,10 @@ export async function removeUserIgnore(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the ignore operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -3211,7 +3209,7 @@ export async function removeUserIgnore(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function setUserLastDownloadedAt(
@@ -3231,10 +3229,10 @@ export async function setUserLastDownloadedAt(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the ignore operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -3244,7 +3242,7 @@ export async function setUserLastDownloadedAt(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export type EmailNotificationSettingsInput =
@@ -3267,10 +3265,10 @@ export async function updateUserEmailNotificationSettings(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the update operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -3280,7 +3278,7 @@ export async function updateUserEmailNotificationSettings(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export type InPageNotificationSettingsInput =
@@ -3303,10 +3301,10 @@ export async function updateUserInPageNotificationSettings(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the update operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -3316,7 +3314,7 @@ export async function updateUserInPageNotificationSettings(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 export type UpdateUserMediaSettingsInput = Partial<GQLUserMediaSettings>;
@@ -3338,10 +3336,10 @@ export async function updateUserMediaSettings(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the update operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -3351,7 +3349,7 @@ export async function updateUserMediaSettings(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -3392,10 +3390,10 @@ export async function insertUserNotificationDigests(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Get the user so we can figure out why the update operation failed.
     const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
@@ -3405,7 +3403,7 @@ export async function insertUserNotificationDigests(
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -3430,11 +3428,11 @@ export async function pullUserNotificationDigests(
     { $set: { digests: [], hasDigests: false } },
     {
       // True to return the original document instead of the updated document.
-      returnOriginal: true,
+      returnDocument: "before",
     }
   );
 
-  return result.value || null;
+  return result;
 }
 
 /**
@@ -3470,11 +3468,11 @@ export async function retrieveLockedUserScheduledForDeletion(
     {
       // We want to get back the user with
       // modified scheduledDeletionDate
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  return result.value || null;
+  return result;
 }
 
 /**
@@ -3510,14 +3508,14 @@ export async function createModeratorNote(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(id);
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -3546,13 +3544,13 @@ export async function deleteModeratorNote(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(id);
   }
-  return result.value;
+  return result;
 }
 
 export async function linkUsers(
@@ -3566,13 +3564,13 @@ export async function linkUsers(
     id: sourceUserID,
     tenantID,
   });
-  if (!source.value) {
+  if (!source) {
     throw new UserNotFoundError(sourceUserID);
   }
 
   // If the source user doesn't have any profiles, we have nothing to do. We
   // should abort.
-  if (!source.value.profiles) {
+  if (!source.profiles) {
     throw new Error(
       "cannot link a user with no profiles, failed source authentication precondition"
     );
@@ -3587,16 +3585,16 @@ export async function linkUsers(
     {
       $push: {
         profiles: {
-          $each: source.value.profiles,
+          $each: source.profiles,
         },
       },
     }
   );
-  if (!dest.value) {
+  if (!dest) {
     throw new UserNotFoundError(destinationUserID);
   }
 
-  return dest.value;
+  return dest;
 }
 
 export const updateUserCommentCounts = (
@@ -3604,7 +3602,15 @@ export const updateUserCommentCounts = (
   tenantID: string,
   id: string,
   commentCounts: DeepPartial<UserCommentCounts>
-) => updateRelatedCommentCounts(mongo.users(), tenantID, id, commentCounts);
+) =>
+  updateRelatedCommentCounts(
+    // the generics on this won't let us extend to
+    // all Coral types
+    mongo.users() as unknown as Collection,
+    tenantID,
+    id,
+    commentCounts
+  );
 
 export const updateLastFeaturedDate = async (
   mongo: MongoContext,
@@ -3623,11 +3629,11 @@ export const updateLastFeaturedDate = async (
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new UserNotFoundError(userID);
   }
-  return result.value;
+  return result;
 };

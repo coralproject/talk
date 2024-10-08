@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import { DateTime } from "luxon";
 
 import { storyClosed } from "coral-server/services/comments/pipeline/phases/storyClosed";

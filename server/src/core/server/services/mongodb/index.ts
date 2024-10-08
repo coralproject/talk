@@ -6,7 +6,10 @@ import logger from "coral-server/logger";
 async function createMongoClient(mongoURI: string): Promise<MongoClient> {
   try {
     return await MongoClient.connect(mongoURI, {
-      useNewUrlParser: true,
+      // believe we don't need this since the new driver only uses
+      // the new URL parser. But am leaving this here in case we have
+      // issues with URL's and want to investigate into it.
+      // useNewUrlParser: true,
       ignoreUndefined: true,
     });
   } catch (err) {
@@ -17,26 +20,33 @@ async function createMongoClient(mongoURI: string): Promise<MongoClient> {
   }
 }
 
-function attachHandlers(db: Db) {
-  db.on("error", (err: Error) => {
+function attachHandlers(client: MongoClient) {
+  client.on("error", (err: Error) => {
     logger.error({ err }, "mongodb has encountered an error");
   });
-  db.on("close", () => {
+  client.on("close", () => {
     logger.warn("mongodb has closed");
   });
-  db.on("reconnect", () => {
+  client.on("reconnect", () => {
     logger.warn("mongodb has reconnected");
   });
-  db.on("timeout", () => {
+  client.on("timeout", () => {
     logger.warn("mongodb has timed out");
   });
+}
+
+interface CreateMongoDbResult {
+  client: MongoClient;
+  db: Db;
 }
 
 /**
  * create will connect to the MongoDB instance identified in the configuration.
  * @param config application configuration.
  */
-export async function createMongoDB(mongoURI: string): Promise<Db> {
+export async function createMongoDB(
+  mongoURI: string
+): Promise<CreateMongoDbResult> {
   // Connect and create a client for MongoDB.
   const client = await createMongoClient(mongoURI);
 
@@ -47,7 +57,7 @@ export async function createMongoDB(mongoURI: string): Promise<Db> {
   const db = client.db();
 
   // Attach the handlers.
-  attachHandlers(db);
+  attachHandlers(client);
 
-  return db;
+  return { client, db };
 }
