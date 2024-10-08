@@ -132,7 +132,7 @@ async function retrieveConnection(
 }
 
 export async function countTenantSites(mongo: MongoContext, tenantID: string) {
-  return mongo.sites().find({ tenantID }).count();
+  return mongo.sites().countDocuments({ tenantID });
 }
 
 export async function retrieveSiteConnection(
