@@ -71,7 +71,6 @@ export default class Query<T extends Document> {
    * @param sort the sorting option for the documents
    */
   public orderBy(sort: { [key: string]: SortDirection }): Query<T> {
-    // todo: merge sort's together
     this.sort = { ...this.sort, ...sort };
     return this;
   }
