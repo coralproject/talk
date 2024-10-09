@@ -77,6 +77,9 @@ async function attachTenorMedia(
       video: data.media_formats.mp4.url,
     };
   } catch (err) {
+    if (!(err instanceof Error)) {
+      throw new Error("cannot attach Tenor Media");
+    }
     throw new WrappedInternalError(err as Error, "cannot attach Tenor Media");
   }
 }
