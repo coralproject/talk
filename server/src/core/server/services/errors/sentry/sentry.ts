@@ -87,13 +87,7 @@ export class SentryErrorReporter extends ErrorReporter {
     }
 
     // Get the original cause of the error in case that it is wrapped.
-    let errorToReport = getErrorToReport(err as Error);
-
-    if (!(errorToReport instanceof Error)) {
-      errorToReport = new Error(
-        "Non-error thrown: " + JSON.stringify(errorToReport)
-      );
-    }
+    const errorToReport = getErrorToReport(err as Error);
 
     // Capture and report the error to Sentry.
     const id = Sentry.captureException(errorToReport, context);
