@@ -119,13 +119,13 @@ export function supportsMediaType(
       return !!tenant.media?.youtube.enabled;
     case "giphy":
       return (
-        !!tenant.media?.gifs.enabled &&
+        !!tenant.media?.gifs?.enabled &&
         !!tenant.media.gifs.key &&
         tenant.media.gifs.provider === GQLGIF_MEDIA_SOURCE.GIPHY
       );
     case "tenor":
       return (
-        !!tenant.media?.gifs.enabled &&
+        !!tenant.media?.gifs?.enabled &&
         !!tenant.media.gifs.key &&
         tenant.media.gifs.provider === GQLGIF_MEDIA_SOURCE.TENOR
       );

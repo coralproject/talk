@@ -28,7 +28,7 @@ export async function retrieveFromTenor(
   tenant: Tenant,
   id: string
 ): Promise<FetchPayload> {
-  if (!supportsMediaType(tenant, "tenor") || !tenant.media.gifs.key) {
+  if (!supportsMediaType(tenant, "tenor") || !tenant.media?.gifs?.key) {
     throw new InternalError("Tenor was not enabled");
   }
 
