@@ -14,7 +14,7 @@ import { GQLCOMMENT_STATUS } from "coral-server/graph/schema/__generated__/types
 async function retrieveParent(
   mongo: MongoContext,
   tenantID: string,
-  input: { parentID?: string; parentRevisionID?: string }
+  input: { parentID?: string | null; parentRevisionID?: string }
 ) {
   if (!input.parentID || !input.parentRevisionID) {
     return null;

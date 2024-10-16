@@ -166,7 +166,7 @@ const markCommentAsAnswered = async (
   await updateTagCommentCounts(
     tenant.id,
     comment.storyID,
-    comment.siteID,
+    comment.siteID!,
     mongo,
     redis,
     // Since we removed the UNANSWERED tag, we need to recreate the
@@ -247,9 +247,9 @@ export default async function create(
   // Check if the user is banned on this site, if they are, throw an error right
   // now.
   // NOTE: this should be removed with attribute based auth checks.
-  if (isSiteBanned(author, story.siteID)) {
+  if (isSiteBanned(author, story.siteID!)) {
     // Get the site in question.
-    const site = await retrieveSite(mongo, tenant.id, story.siteID);
+    const site = await retrieveSite(mongo, tenant.id, story.siteID!);
     if (!site) {
       throw new Error(`referenced site not found: ${story.siteID}`);
     }

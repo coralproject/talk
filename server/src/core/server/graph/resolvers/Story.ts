@@ -51,7 +51,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
       ctx.tenant
     ),
   moderationQueues: storyModerationInputResolver,
-  site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID),
+  site: (s, input, ctx) => ctx.loaders.Sites.site.load(s.siteID!),
   viewerRating: (s, input, ctx) => {
     if (
       !hasFeatureFlag(ctx.tenant, GQLFEATURE_FLAG.ENABLE_RATINGS_AND_REVIEWS)
@@ -90,7 +90,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     }
 
     // Return the computed count!
-    return ctx.loaders.Stories.viewerCount(s.siteID, s.id);
+    return ctx.loaders.Stories.viewerCount(s.siteID!, s.id);
   },
   cached: async (s, input, ctx) => {
     return ctx.cache.comments.isCached(s.tenantID, s.id);

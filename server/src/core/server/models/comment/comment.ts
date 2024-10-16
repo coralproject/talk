@@ -69,7 +69,7 @@ export interface Comment extends TenantResource {
   /**
    * parentID is the ID of the parent Comment if this Comment is a reply.
    */
-  parentID?: string;
+  parentID?: string | null;
 
   /**
    * parentRevisionID is the ID of the Revision on the Comment referenced by the
@@ -90,14 +90,14 @@ export interface Comment extends TenantResource {
   /**
    * siteID stores the ID of the Site that this Comment was left on.
    */
-  siteID: string;
+  siteID?: string | null;
 
   /**
    * section is the section of the story that this comment was left on. If the
    * section was not available when the comment was authored, the section will
    * be null here.
    */
-  section?: string;
+  section?: string | null;
 
   /**
    * revisions stores all the revisions of the Comment body including the most
@@ -253,11 +253,11 @@ export async function pushChildCommentIDOntoParent(
       $inc: { childCount: 1 },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  return result.value;
+  return result;
 }
 
 export type EditCommentInput = Pick<Comment, "id" | "authorID" | "status"> & {
@@ -379,10 +379,10 @@ export async function editComment(
     update,
     {
       // True to return the original document instead of the updated document.
-      returnOriginal: true,
+      returnDocument: "before",
     }
   );
-  if (!result.value) {
+  if (!result) {
     // Try to get the comment.
     const comment = await retrieveComment(mongo.comments(), tenantID, id);
     if (!comment) {
@@ -400,20 +400,17 @@ export async function editComment(
   // Create a new "after" where the same changes were applied to it as
   // we did to the MongoDB document.
   const after: Comment = {
-    ...result.value,
+    ...result,
     // $set status
     status,
     // $inc actionCounts
-    actionCounts: mergeCommentActionCounts(
-      result.value.actionCounts,
-      actionCounts
-    ),
+    actionCounts: mergeCommentActionCounts(result.actionCounts, actionCounts),
     // $push revisions
-    revisions: [...result.value.revisions, revision],
+    revisions: [...result.revisions, revision],
   };
 
   return {
-    before: result.value,
+    before: result,
     after,
     revision,
   };
@@ -854,17 +851,17 @@ export async function updateCommentEmbeddedAt(
     {
       // True to return the original document instead of the updated
       // document.
-      returnOriginal: true,
+      returnDocument: "before",
     }
   );
-  if (!result.value) {
+  if (!result) {
     return null;
   }
 
   return {
-    before: result.value,
+    before: result,
     after: {
-      ...result.value,
+      ...result,
       embeddedAt,
     },
   };
@@ -892,17 +889,17 @@ export async function updateCommentStatus(
     {
       // True to return the original document instead of the updated
       // document.
-      returnOriginal: true,
+      returnDocument: "before",
     }
   );
-  if (!result.value) {
+  if (!result) {
     return null;
   }
 
   return {
-    before: result.value,
+    before: result,
     after: {
-      ...result.value,
+      ...result,
       status,
     },
   };
@@ -942,14 +939,14 @@ export async function updateCommentActionCounts(
       arrayFilters: [{ "revision.id": revisionID }],
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new CommentRevisionNotFoundError(id, revisionID);
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -1005,13 +1002,7 @@ export async function addCommentTag(
     {
       tenantID,
       id: commentID,
-      tags: {
-        $not: {
-          $eq: {
-            type: tag.type,
-          },
-        },
-      },
+      "tags.type": { $not: { $eq: tag.type } },
     },
     {
       $push: {
@@ -1021,10 +1012,10 @@ export async function addCommentTag(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const comment = await retrieveComment(
       mongo.comments(),
       tenantID,
@@ -1041,7 +1032,7 @@ export async function addCommentTag(
     throw new Error("could not add a tag for an unexpected reason");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function removeCommentTag(
@@ -1063,10 +1054,10 @@ export async function removeCommentTag(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const comment = await retrieveComment(
       mongo.comments(),
       tenantID,
@@ -1079,7 +1070,7 @@ export async function removeCommentTag(
     throw new Error("could not add a tag for an unexpected reason");
   }
 
-  return result.value;
+  return result;
 }
 
 function isCountEmpty(counts: GQLCommentTagCounts): boolean {
@@ -1233,12 +1224,12 @@ export async function initializeCommentTagCountsForStory(
     }
   );
 
-  if (!result.ok || !result.value) {
+  if (!result) {
     throw new Error("unable to initialize the comment tag counts");
   }
 
   return {
-    story: result.value,
+    story: result,
     tagCounts: tagCounts[0],
   };
 }
@@ -1693,14 +1684,14 @@ export async function retrieveFeaturedComments(
     ])
     .toArray();
 
-  return results;
+  return results as Comment[];
 }
 
 export async function retrieveLatestFeaturedCommentForAuthor(
   mongo: MongoContext,
   tenantID: string,
   userID: string
-) {
+): Promise<Comment[]> {
   const $match: FilterQuery<Comment> = {
     tenantID,
     authorID: userID,
@@ -1717,5 +1708,5 @@ export async function retrieveLatestFeaturedCommentForAuthor(
     ])
     .toArray();
 
-  return results;
+  return results as Comment[];
 }

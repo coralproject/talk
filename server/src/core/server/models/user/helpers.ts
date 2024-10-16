@@ -72,7 +72,7 @@ export function canModerateUnscoped(
 }
 
 export interface ModerationScopeResource {
-  siteID?: string;
+  siteID?: string | null;
 }
 
 /**

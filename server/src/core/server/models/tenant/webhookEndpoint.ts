@@ -57,10 +57,10 @@ export async function createTenantWebhookEndpoint(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const tenant = await retrieveTenant(mongo, id);
     if (!tenant) {
       return {
@@ -74,7 +74,7 @@ export async function createTenantWebhookEndpoint(
 
   return {
     endpoint,
-    tenant: result.value,
+    tenant: result,
   };
 }
 
@@ -109,11 +109,11 @@ export async function updateTenantWebhookEndpoint(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
       arrayFilters: [{ "endpoint.id": endpointID }],
     }
   );
-  if (!result.value) {
+  if (!result) {
     const tenant = await retrieveTenant(mongo, id);
     if (!tenant) {
       return null;
@@ -129,7 +129,7 @@ export async function updateTenantWebhookEndpoint(
     throw new Error("update failed for an unexpected reason");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function deleteTenantWebhookEndpointSigningSecrets(
@@ -145,9 +145,9 @@ export async function deleteTenantWebhookEndpointSigningSecrets(
         "webhooks.endpoints.$[endpoint].signingSecrets": { kid: { $in: kids } },
       },
     },
-    { returnOriginal: false, arrayFilters: [{ "endpoint.id": endpointID }] }
+    { returnDocument: "after", arrayFilters: [{ "endpoint.id": endpointID }] }
   );
-  if (!result.value) {
+  if (!result) {
     const tenant = await retrieveTenant(mongo, id);
     if (!tenant) {
       return null;
@@ -163,7 +163,7 @@ export async function deleteTenantWebhookEndpointSigningSecrets(
     throw new Error("update failed for an unexpected reason");
   }
 
-  return result.value;
+  return result;
 }
 
 export async function deleteTenantWebhookEndpoint(
@@ -181,10 +181,10 @@ export async function deleteTenantWebhookEndpoint(
     {
       // False to return the updated document instead of the original
       // document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     const tenant = await retrieveTenant(mongo, id);
     if (!tenant) {
       return null;
@@ -193,7 +193,7 @@ export async function deleteTenantWebhookEndpoint(
     throw new Error("update failed for an unexpected reason");
   }
 
-  return result.value;
+  return result;
 }
 
 function lastUsedAtTenantSSOSigningSecret(id: string): string {

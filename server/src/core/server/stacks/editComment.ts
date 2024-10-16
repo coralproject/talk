@@ -116,9 +116,9 @@ export default async function edit(
   // Check if the user is banned on this site, if they are, throw an error right
   // now.
   // NOTE: this should be removed with attribute based auth checks.
-  if (isSiteBanned(author, siteID)) {
+  if (isSiteBanned(author, siteID!)) {
     // Get the site in question.
-    const site = await retrieveSite(mongo, tenant.id, siteID);
+    const site = await retrieveSite(mongo, tenant.id, siteID!);
     if (!site) {
       throw new Error(`referenced site not found: ${siteID}`);
     }

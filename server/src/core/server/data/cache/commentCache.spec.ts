@@ -24,8 +24,8 @@ const createRedis = (): AugmentedRedis => {
 
 const createMongo = async (): Promise<MongoContext> => {
   const uri = "mongodb://127.0.0.1:27017/coral";
-  const live = await createMongoDB(uri);
-  const archive = await createMongoDB(uri);
+  const live = (await createMongoDB(uri)).db;
+  const archive = (await createMongoDB(uri)).db;
 
   const context = new MongoContextImpl(live, archive);
 

@@ -1,3 +1,6 @@
+import { patchTextUtil } from "coral-server/test/textEncoder";
+patchTextUtil();
+
 import { Config } from "coral-server/config";
 import {
   createCommentFixture,

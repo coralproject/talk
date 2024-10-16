@@ -6,6 +6,7 @@ import { FindSeenCommentsInput } from "coral-server/graph/loaders/SeenComments";
 import SeenCommentsCollection from "coral-server/graph/seenCommentsCollection";
 import { dotize } from "coral-server/utils/dotize";
 
+import { AnyBulkWriteOperation } from "mongodb";
 import { TenantResource } from "../tenant";
 
 /**
@@ -129,7 +130,7 @@ export async function markSeenComments(
     { upsert: true }
   );
 
-  return result.value;
+  return result;
 }
 
 export async function markSeenCommentsBulk(
@@ -138,7 +139,7 @@ export async function markSeenCommentsBulk(
   seenComments: SeenCommentsCollection,
   now: Date
 ) {
-  const operations: object[] = [];
+  const operations: Array<AnyBulkWriteOperation<Readonly<SeenComments>>> = [];
 
   const keys = seenComments.keys();
   for (const { userID, storyID } of keys) {

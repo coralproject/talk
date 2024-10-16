@@ -33,15 +33,15 @@ export async function startMigration(
     },
     {
       // False to return the updated document instead of the original document.
-      returnOriginal: false,
+      returnDocument: "after",
       upsert: true,
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new Error("an unexpected error occurred");
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -71,11 +71,11 @@ async function updateMigrationState(
     },
     {
       // False to return the updated document instead of the original document.
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  return result.value || null;
+  return result;
 }
 
 export async function finishMigration(

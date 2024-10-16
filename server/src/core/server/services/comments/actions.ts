@@ -143,9 +143,9 @@ async function addCommentAction(
   // Check if the user is banned on this site, if they are, throw an error right
   // now.
   // NOTE: this should be removed with attribute based auth checks.
-  if (author && isSiteBanned(author, siteID)) {
+  if (author && isSiteBanned(author, siteID!)) {
     // Get the site in question.
-    const site = await retrieveSite(mongo, tenant.id, siteID);
+    const site = await retrieveSite(mongo, tenant.id, siteID!);
     if (!site) {
       throw new Error(`referenced site not found: ${siteID}`);
     }
@@ -157,9 +157,9 @@ async function addCommentAction(
   const action: CreateAction = {
     ...input,
     storyID,
-    siteID,
+    siteID: siteID!,
     userID: author ? author.id : null,
-    section,
+    section: section ?? undefined,
   };
 
   // Update the actions for the comment.

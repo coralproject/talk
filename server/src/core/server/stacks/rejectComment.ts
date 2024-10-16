@@ -61,7 +61,7 @@ const stripTag = async (
   await updateTagCommentCounts(
     tenant.id,
     comment.storyID,
-    comment.siteID,
+    comment.siteID!,
     mongo,
     redis,
     // Create a diff where "before" tags have the target tag and

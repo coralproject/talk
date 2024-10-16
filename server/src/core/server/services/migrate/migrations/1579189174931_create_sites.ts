@@ -71,7 +71,7 @@ export default class extends Migration {
     this.log(tenant.id).info("starting stories migration");
 
     // Add the siteID to all the stories.
-    let result = await mongo
+    const storyResult = await mongo
       .stories()
       .updateMany(
         { tenantID: tenant.id, siteID: null },
@@ -80,8 +80,8 @@ export default class extends Migration {
 
     this.log(tenant.id).info(
       {
-        matchedCount: result.matchedCount,
-        modifiedCount: result.modifiedCount,
+        matchedCount: storyResult.matchedCount,
+        modifiedCount: storyResult.modifiedCount,
       },
       "finished stories migration"
     );
@@ -89,7 +89,7 @@ export default class extends Migration {
     this.log(tenant.id).info("starting comments migration");
 
     // Add the siteID to all comments.
-    result = await mongo
+    const commentResult = await mongo
       .comments()
       .updateMany(
         { tenantID: tenant.id, siteID: null },
@@ -98,8 +98,8 @@ export default class extends Migration {
 
     this.log(tenant.id).info(
       {
-        matchedCount: result.matchedCount,
-        modifiedCount: result.modifiedCount,
+        matchedCount: commentResult.matchedCount,
+        modifiedCount: commentResult.modifiedCount,
       },
       "finished comments migration"
     );
@@ -107,7 +107,7 @@ export default class extends Migration {
     this.log(tenant.id).info("starting commentActions migration");
 
     // Add the siteID to all commentActions.
-    result = await mongo
+    const commentActionResult = await mongo
       .commentActions()
       .updateMany(
         { tenantID: tenant.id, siteID: null },
@@ -116,8 +116,8 @@ export default class extends Migration {
 
     this.log(tenant.id).info(
       {
-        matchedCount: result.matchedCount,
-        modifiedCount: result.modifiedCount,
+        matchedCount: commentActionResult.matchedCount,
+        modifiedCount: commentActionResult.modifiedCount,
       },
       "finished commentActions migration"
     );
@@ -191,10 +191,12 @@ export default class extends Migration {
 
       // Push the update and process it if we need to.
       await batch.add(
-        // Find the story by ID.
         { id: doc._id },
         // Dotize set the action counts on the story.
-        { $set: dotize(encodedActionCounts) }
+        {
+          filter: { id: doc._id },
+          update: { $set: dotize(encodedActionCounts) },
+        }
       );
     }
 

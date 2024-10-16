@@ -63,7 +63,7 @@ export const Actions = (ctx: GraphContext) => ({
       undefined,
       ctx.req,
       true,
-      story.isArchived || story.isArchiving
+      !!(story.isArchived || story.isArchiving)
     );
   },
   reviewCommentFlag: async (input: GQLReviewCommentFlagInput) => {

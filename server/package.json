@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "9.4.1",
+  "version": "9.5.0",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -126,7 +126,7 @@
     "metascraper-description": "^5.22.5",
     "metascraper-image": "^5.22.5",
     "metascraper-title": "^5.22.5",
-    "mongodb": "^3.5.9",
+    "mongodb": "^6.9.0",
     "mongodb-core": "^3.2.7",
     "ms": "^2.1.2",
     "node-fetch": "^2.6.1",
@@ -201,7 +201,6 @@
     "@types/luxon": "^1.22.0",
     "@types/marked": "^0.7.3",
     "@types/mini-css-extract-plugin": "^1.4.3",
-    "@types/mongodb": "3.1.22",
     "@types/ms": "^0.7.31",
     "@types/node": "^12.12.34",
     "@types/node-fetch": "^2.5.5",
@@ -363,11 +362,6 @@
       "Newer versions has problems with using nunjucks.",
       "Update when the following issue is resolved:",
       "https://github.com/tj/consolidate.js/issues/244"
-    ],
-    "@types/mongodb@3.1.22": [
-      "Newer versions has problems with optional fields when querying with null",
-      "Update when the following issue is resolved:",
-      "https://github.com/DefinitelyTyped/DefinitelyTyped/issues/47686"
     ]
   },
   "graphql-schema-linter": {

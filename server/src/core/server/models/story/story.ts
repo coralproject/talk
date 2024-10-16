@@ -1,4 +1,4 @@
-import { MongoError } from "mongodb";
+import { Collection, MongoError } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { DeepPartial, FirstDeepPartial } from "coral-common/common/lib/types";
@@ -91,7 +91,7 @@ export interface Story extends TenantResource {
    * closedAt is the date that the Story was forced closed at, or false to
    * indicate that the story was re-opened.
    */
-  closedAt?: Date | false;
+  closedAt?: Date | false | null;
 
   /**
    * createdAt is the date that the Story was added to the Coral database.
@@ -106,11 +106,11 @@ export interface Story extends TenantResource {
   /**
    * siteID references the site the story belongs to
    */
-  siteID: string;
+  siteID: string | null;
 
-  isArchiving?: boolean;
-  isArchived?: boolean;
-  isUnarchiving?: boolean;
+  isArchiving?: boolean | null;
+  isArchived?: boolean | null;
+  isUnarchiving?: boolean | null;
 }
 
 export interface UpsertStoryInput {
@@ -143,20 +143,15 @@ export async function upsertStory(
             url,
           },
         },
-        { returnOriginal: false }
+        { returnDocument: "after" }
       );
 
-      if (!result.ok || !result.value) {
-        throw new UnableToUpdateStoryURL(
-          result.lastErrorObject as MongoError,
-          id,
-          existingStory.url,
-          url
-        );
+      if (!result) {
+        throw new UnableToUpdateStoryURL(id, existingStory.url, url);
       }
 
       return {
-        story: result.value,
+        story: result,
         wasUpserted: true,
       };
     }
@@ -196,17 +191,17 @@ export async function upsertStory(
         // True to return the original document instead of the updated document.
         // This will ensure that when an upsert operation adds a new Story, it
         // should return null.
-        returnOriginal: true,
+        returnDocument: "before",
       }
     );
 
     return {
       // The story will either be found (via `result.value`) or upserted (via
       // `story`).
-      story: result.value || story,
+      story: result || story,
 
       // The story was upserted if the value isn't provided.
-      wasUpserted: !result.value,
+      wasUpserted: !result,
     };
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
@@ -423,13 +418,13 @@ export async function updateStory(
       update,
       // False to return the updated document instead of the original
       // document.
-      { returnOriginal: false }
+      { returnDocument: "after" }
     );
-    if (!result.value) {
+    if (!result) {
       throw new StoryNotFoundError(id);
     }
 
-    return result.value;
+    return result;
   } catch (err) {
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
@@ -463,13 +458,13 @@ export async function updateStorySettings(
     update,
     // False to return the updated document instead of the original
     // document.
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
-  if (!result.value) {
+  if (!result) {
     throw new StoryNotFoundError(id);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function openStory(
@@ -494,13 +489,13 @@ export async function openStory(
     },
     // False to return the updated document instead of the original
     // document.
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
-  if (!result.value) {
+  if (!result) {
     throw new StoryNotFoundError(id);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function closeStory(
@@ -520,13 +515,13 @@ export async function closeStory(
     },
     // False to return the updated document instead of the original
     // document.
-    { returnOriginal: false }
+    { returnDocument: "after" }
   );
-  if (!result.value) {
+  if (!result) {
     throw new StoryNotFoundError(id);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function removeStory(
@@ -538,11 +533,11 @@ export async function removeStory(
     id,
     tenantID,
   });
-  if (!result.value) {
+  if (!result) {
     throw new StoryNotFoundError(id);
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -679,7 +674,15 @@ export const updateStoryCounts = (
   tenantID: string,
   id: string,
   commentCounts: FirstDeepPartial<RelatedCommentCounts>
-) => updateRelatedCommentCounts(mongo.stories(), tenantID, id, commentCounts);
+) =>
+  updateRelatedCommentCounts(
+    // the generics on this won't let us extend to
+    // all Coral types
+    mongo.stories() as unknown as Collection,
+    tenantID,
+    id,
+    commentCounts
+  );
 
 export async function addStoryExpert(
   mongo: MongoContext,
@@ -698,14 +701,14 @@ export async function addStoryExpert(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new StoryNotFoundError(storyID);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function removeStoryExpert(
@@ -725,14 +728,14 @@ export async function removeStoryExpert(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new StoryNotFoundError(storyID);
   }
 
-  return result.value;
+  return result;
 }
 
 export async function setStoryMode(
@@ -752,14 +755,14 @@ export async function setStoryMode(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
-  if (!result.value) {
+  if (!result) {
     throw new StoryNotFoundError(storyID);
   }
 
-  return result.value;
+  return result;
 }
 
 /**
@@ -813,11 +816,11 @@ export async function forceMarkStoryForArchiving(
     },
     getMarkStoryForArchivingSetParam(now),
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  return result.value;
+  return result;
 }
 
 export async function markStoryForArchiving(
@@ -836,11 +839,11 @@ export async function markStoryForArchiving(
     },
     getMarkStoryForArchivingSetParam(now),
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  return result.value;
+  return result;
 }
 
 export async function markStoryForUnarchiving(
@@ -865,11 +868,11 @@ export async function markStoryForUnarchiving(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  return result.value;
+  return result;
 }
 
 export async function retrieveStoryToBeUnarchived(
@@ -893,12 +896,12 @@ export async function retrieveStoryToBeUnarchived(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
       maxTimeMS: 30 * 60 * 1000,
     }
   );
 
-  return result.value;
+  return result;
 }
 
 interface ArchiveCheckStory extends Story {
@@ -995,11 +998,11 @@ export async function markStoryAsArchived(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  return result.value;
+  return result;
 }
 
 export async function markStoryAsUnarchived(
@@ -1022,11 +1025,11 @@ export async function markStoryAsUnarchived(
       },
     },
     {
-      returnOriginal: false,
+      returnDocument: "after",
     }
   );
 
-  return result.value;
+  return result;
 }
 
 interface CountResult {

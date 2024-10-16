@@ -97,7 +97,7 @@ export class PerspectiveCoralEventListener
               body: {
                 text: getHTMLPlainText(revision.body),
                 commentID: comment.id,
-                commentParentID: comment.parentID,
+                commentParentID: comment.parentID ?? undefined,
                 commentStatus: status,
                 storyURL: story.url,
                 model,
