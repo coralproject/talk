@@ -1,6 +1,6 @@
 {
   "name": "common",
-  "version": "9.4.1",
+  "version": "9.5.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
