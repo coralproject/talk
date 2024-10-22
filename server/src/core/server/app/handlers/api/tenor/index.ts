@@ -69,7 +69,7 @@ export const tenorSearchHandler =
       return;
     }
 
-    const gifsEnabled = tenant.media?.gifs.enabled ?? false;
+    const gifsEnabled = tenant.media?.gifs?.enabled ?? false;
     if (!gifsEnabled) {
       res.status(200).send({
         results: [],
@@ -77,7 +77,7 @@ export const tenorSearchHandler =
       return;
     }
 
-    const apiKey = tenant.media?.gifs.key ?? null;
+    const apiKey = tenant.media?.gifs?.key ?? null;
     if (!apiKey || apiKey.length === 0) {
       res.status(200).send({
         results: [],
@@ -86,7 +86,7 @@ export const tenorSearchHandler =
     }
 
     const contentFilter = convertGiphyContentRatingToTenorLevel(
-      tenant.media?.gifs.maxRating
+      tenant.media?.gifs?.maxRating
     );
 
     const url = new URL(TENOR_SEARCH_URL);
@@ -133,7 +133,7 @@ export const tenorSearchHandler =
     } catch (e) {
       // Ensure that the API key doesn't get leaked to the logs by accident.
       if (e.message) {
-        e.message = e.message.replace(tenant.media?.gifs.key, "[Sensitive]");
+        e.message = e.message.replace(tenant.media?.gifs?.key, "[Sensitive]");
       }
       throw new WrappedInternalError(e as Error, "tenor search error");
     }
