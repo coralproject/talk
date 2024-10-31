@@ -140,9 +140,11 @@ export function isArchivingEnabled(config: Config): boolean {
 export async function createMongoContext(
   config: Config
 ): Promise<MongoContext> {
+  const maxPoolSize = config.get("mongodb_max_pool_size");
+
   // Setup MongoDB.
   const liveURI = config.get("mongodb");
-  const live = (await createMongoDB(liveURI)).db;
+  const live = (await createMongoDB(liveURI, maxPoolSize)).db;
 
   // If we have an archive URI, use it, otherwise, default
   // to using the live database
@@ -154,7 +156,7 @@ export async function createMongoContext(
   ) {
     archive = live;
   } else {
-    archive = (await createMongoDB(archiveURI)).db;
+    archive = (await createMongoDB(archiveURI, maxPoolSize)).db;
   }
 
   return new MongoContextImpl(live, archive);
