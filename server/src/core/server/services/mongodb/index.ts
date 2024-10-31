@@ -3,7 +3,10 @@ import { Db, MongoClient } from "mongodb";
 import { WrappedInternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
 
-async function createMongoClient(mongoURI: string): Promise<MongoClient> {
+async function createMongoClient(
+  mongoURI: string,
+  maxPoolSize = 50
+): Promise<MongoClient> {
   try {
     return await MongoClient.connect(mongoURI, {
       // believe we don't need this since the new driver only uses
@@ -11,6 +14,7 @@ async function createMongoClient(mongoURI: string): Promise<MongoClient> {
       // issues with URL's and want to investigate into it.
       // useNewUrlParser: true,
       ignoreUndefined: true,
+      maxPoolSize,
     });
   } catch (err) {
     throw new WrappedInternalError(
@@ -45,10 +49,11 @@ interface CreateMongoDbResult {
  * @param config application configuration.
  */
 export async function createMongoDB(
-  mongoURI: string
+  mongoURI: string,
+  maxPoolSize?: number
 ): Promise<CreateMongoDbResult> {
   // Connect and create a client for MongoDB.
-  const client = await createMongoClient(mongoURI);
+  const client = await createMongoClient(mongoURI, maxPoolSize);
 
   logger.info("mongodb has connected");
 
