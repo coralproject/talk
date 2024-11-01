@@ -186,6 +186,12 @@ const config = convict({
     env: "MONGODB_ARCHIVE_URI",
     sensitive: true,
   },
+  mongodb_max_pool_size: {
+    doc: "Max pool size for the MongoDB driver.",
+    format: Number,
+    default: 50,
+    env: "MONGODB_MAX_POOL_SIZE",
+  },
   redis: {
     doc: "The Redis database to connect to.",
     format: "redis-uri",
