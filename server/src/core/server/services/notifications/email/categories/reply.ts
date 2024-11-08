@@ -7,7 +7,8 @@ import { mapErrorsToNull } from "coral-server/helpers/dataloader";
 import { hasPublishedStatus } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { getStoryTitle, getURLWithCommentID } from "coral-server/models/story";
-import { IgnoredUser, User } from "coral-server/models/user";
+import { User } from "coral-server/models/user";
+import { authorIsIgnored } from "coral-server/models/user/helpers";
 
 import { NotificationCategory } from "./category";
 
@@ -70,11 +71,7 @@ export const reply: NotificationCategory<Payloads> = {
 
     // Check to see if this user is ignoring the user who replied to their
     // comment.
-    if (
-      parentAuthor.ignoredUsers.some(
-        (ignoredUser: IgnoredUser) => ignoredUser.id === author.id
-      )
-    ) {
+    if (authorIsIgnored(author.id, parentAuthor)) {
       return null;
     }
 

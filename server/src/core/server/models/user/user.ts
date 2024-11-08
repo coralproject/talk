@@ -54,7 +54,12 @@ import {
   createEmptyCommentStatusCounts,
   updateRelatedCommentCounts,
 } from "../comment";
-import { getLocalProfile, getSSOProfile, hasLocalProfile } from "./helpers";
+import {
+  authorIsIgnored,
+  getLocalProfile,
+  getSSOProfile,
+  hasLocalProfile,
+} from "./helpers";
 
 export interface LocalProfile {
   type: "local";
@@ -3154,11 +3159,7 @@ export async function ignoreUser(
       throw new UserNotFoundError(id);
     }
 
-    // TODO: extract function
-    if (
-      user.ignoredUsers &&
-      user.ignoredUsers.some((u) => u.id === ignoreUserID)
-    ) {
+    if (authorIsIgnored(ignoreUserID, user)) {
       // TODO: improve error
       throw new Error("user already ignored");
     }

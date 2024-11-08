@@ -14,6 +14,7 @@ import {
   retrieveUser,
   User,
 } from "coral-server/models/user";
+import { authorIsIgnored } from "coral-server/models/user/helpers";
 import { I18n } from "coral-server/services/i18n";
 
 import {
@@ -66,7 +67,7 @@ const shouldSendReplyNotification = (
       return false;
     }
     // don't notify when ignored users reply
-    return !targetUser.ignoredUsers.some((user) => user.id === replyAuthorID);
+    return !authorIsIgnored(replyAuthorID, targetUser);
   }
 
   return false;
