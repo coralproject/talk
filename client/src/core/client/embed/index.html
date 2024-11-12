@@ -35,6 +35,14 @@
          */
         events: function (events) {
           events.onAny(function (eventName, data) {
+            if (eventName === "ready") {
+              setTimeout(() => {
+
+              const form = document.querySelectorAll("coral")
+              console.log('form', form)
+              }, 0);
+            }
+            console.log(eventName)
             console.debug(eventName, data);
           });
         },
