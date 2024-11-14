@@ -106,6 +106,7 @@ import {
   warnUser,
 } from "coral-server/models/user";
 import {
+  authorIsIgnored,
   getLocalProfile,
   hasLocalProfile,
   hasStaffRole,
@@ -2299,8 +2300,7 @@ export async function ignore(
     throw new UserCannotBeIgnoredError(userID);
   }
 
-  // TODO: extract function
-  if (user.ignoredUsers && user.ignoredUsers.some((u) => u.id === userID)) {
+  if (authorIsIgnored(userID, user)) {
     // TODO: improve error
     throw new Error("user already ignored");
   }

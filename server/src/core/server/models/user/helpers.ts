@@ -6,7 +6,7 @@ import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { isSiteModerationScoped } from "coral-common/common/lib/permissions";
 
 import { MODERATOR_ROLES, STAFF_ROLES } from "./constants";
-import { LocalProfile, Profile, SSOProfile, User } from "./user";
+import { IgnoredUser, LocalProfile, Profile, SSOProfile, User } from "./user";
 
 export function roleIsStaff(role: GQLUSER_ROLE) {
   if (STAFF_ROLES.includes(role)) {
@@ -188,4 +188,17 @@ export function hasLocalProfile(
 export function hasSSOProfile(user: Pick<User, "profiles">): boolean {
   const profile = getUserProfile(user, "sso") as SSOProfile | null;
   return profile ? true : false;
+}
+
+/**
+ *  authorIsIgnored will return true if the author is ignored by the viewer
+ * @param authorID id of the author of the comment
+ * @param viewer the User who attempting to access the comment
+ */
+
+export function authorIsIgnored(authorID: string, viewer: User): boolean {
+  return (
+    viewer.ignoredUsers &&
+    viewer.ignoredUsers.some((user: IgnoredUser) => user.id === authorID)
+  );
 }
