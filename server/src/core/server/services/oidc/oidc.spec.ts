@@ -128,4 +128,21 @@ describe("OIDCIDTokenSchema", () => {
       email_verified: false,
     });
   });
+
+  it("allows null values for picture and name", () => {
+    const token = {
+      sub: "sub",
+      iss: "iss",
+      aud: "aud",
+      name: null,
+      picture: null,
+      exp: Math.round(Date.now() / 1000) + 2000,
+      nonce: "nonce",
+    };
+
+    expect(validateSchema(OIDCIDTokenSchema, token)).toEqual({
+      ...token,
+      email_verified: false,
+    });
+  });
 });
