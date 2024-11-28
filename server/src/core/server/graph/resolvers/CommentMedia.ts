@@ -14,6 +14,8 @@ const resolveType: GQLCommentMediaTypeResolver<comment.CommentMedia> = (
       return "YouTubeMedia";
     case "twitter":
       return "TwitterMedia";
+    case "bsky":
+      return "BlueskyMedia";
     case "external":
       return "ExternalMedia";
     default:

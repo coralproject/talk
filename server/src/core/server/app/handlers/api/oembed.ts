@@ -20,7 +20,7 @@ const OEmbedQuerySchema = Joi.object().keys({
 });
 
 interface OEmbedQuery {
-  type: "twitter" | "youtube";
+  type: "twitter" | "youtube" | "bsky";
   url: string;
   maxWidth?: number;
   commentID?: string;

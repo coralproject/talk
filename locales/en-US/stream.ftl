@@ -133,8 +133,10 @@ comments-postComment-insertImage = Insert
 
 comments-postComment-confirmMedia-youtube = Add this YouTube video to the end of your comment?
 comments-postComment-confirmMedia-twitter = Add this post to the end of your comment?
+comments-postComment-confirmMedia-bsky = Add this post to the end of your comment?
 comments-postComment-confirmMedia-cancel = Cancel
 comments-postComment-confirmMedia-add-tweet = Add post
+comments-postComment-confirmMedia-add-bsky = Add post
 comments-postComment-confirmMedia-add-video = Add video
 comments-postComment-confirmMedia-remove = Remove
 comments-commentForm-gifPreview-remove = Remove

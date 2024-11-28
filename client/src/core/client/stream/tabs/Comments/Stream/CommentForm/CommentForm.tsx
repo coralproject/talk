@@ -73,6 +73,9 @@ interface MediaConfig {
   twitter: {
     enabled: boolean;
   };
+  bluesky: {
+    enabled: boolean;
+  };
   youtube: {
     enabled: boolean;
   };
@@ -199,7 +202,9 @@ const CommentForm: FunctionComponent<Props> = ({
         // if there is a pending or selected twitter or youtube url
         if (
           existingLink &&
-          (existingLink.type === "twitter" || existingLink.type === "youtube")
+          (existingLink.type === "twitter" ||
+            existingLink.type === "youtube" ||
+            existingLink.type === "bsky")
         ) {
           const links = findMediaLinks(html);
           // ensure the text still contains the link
@@ -241,7 +246,8 @@ const CommentForm: FunctionComponent<Props> = ({
         link &&
         mediaConfig &&
         ((link.type === "twitter" && mediaConfig.twitter.enabled) ||
-          (link.type === "youtube" && mediaConfig.youtube.enabled))
+          (link.type === "youtube" && mediaConfig.youtube.enabled) ||
+          (link.type === "bsky" && mediaConfig.bluesky.enabled))
       ) {
         setPastedMedia({ ...link });
       }

@@ -108,13 +108,15 @@ export function getWebhookEndpoint(
 
 export function supportsMediaType(
   tenant: Pick<Tenant, "media" | "featureFlags">,
-  type: "twitter" | "youtube" | "giphy" | "tenor" | "external"
+  type: "twitter" | "bsky" | "youtube" | "giphy" | "tenor" | "external"
 ): tenant is Omit<Tenant, "media"> & Required<Pick<Tenant, "media">> {
   switch (type) {
     case "external":
       return hasFeatureFlag(tenant, GQLFEATURE_FLAG.EXTERNAL_MEDIA);
     case "twitter":
       return !!tenant.media?.twitter.enabled;
+    case "bsky":
+      return !!tenant.media?.bluesky.enabled;
     case "youtube":
       return !!tenant.media?.youtube.enabled;
     case "giphy":

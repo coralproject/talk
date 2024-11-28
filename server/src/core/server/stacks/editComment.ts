@@ -17,8 +17,8 @@ import {
   EncodedCommentActionCounts,
   filterDuplicateActions,
 } from "coral-server/models/action/comment";
-
 import {
+  BlueskyMedia,
   editComment,
   EditCommentInput,
   ExternalMedia,
@@ -164,6 +164,7 @@ export default async function edit(
     | GiphyMedia
     | TenorMedia
     | TwitterMedia
+    | BlueskyMedia
     | YouTubeMedia
     | ExternalMedia
     | undefined;

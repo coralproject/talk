@@ -1,4 +1,4 @@
-type MediaType = "twitter" | "youtube" | "external";
+type MediaType = "twitter" | "youtube" | "external" | "bsky";
 
 export interface MediaLink {
   type: MediaType;
@@ -43,6 +43,11 @@ const patterns: ReadonlyArray<{ type: MediaType; pattern: RegExp }> = [
     pattern:
       /(https?:\/\/)?(www\.|mobile\.)?(x\.com\/[a-zA-z0-9]+\/status\/[0-9]+)/g,
   },
+  {
+    type: "bsky",
+    pattern:
+      /(https?:\/\/)?(bsky\.app)?(\/profile\/[a-zA-z0-9\.]+\/post\/[a-zA-z0-9\.]+)/g,
+  }
 ];
 
 export function findMediaLinks(body: string): MediaLink[] {

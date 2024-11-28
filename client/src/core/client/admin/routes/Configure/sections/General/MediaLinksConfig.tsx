@@ -41,6 +41,9 @@ graphql`
       twitter {
         enabled
       }
+      bluesky {
+        enabled
+      }
       youtube {
         enabled
       }
@@ -76,6 +79,26 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
         </Localized>
         <OnOffField
           name="media.twitter.enabled"
+          disabled={disabled}
+          onLabel={
+            <Localized id="configure-general-embedLinks-On">
+              <span>Yes</span>
+            </Localized>
+          }
+          offLabel={
+            <Localized id="configure-general-embedLinks-Off">
+              <span>No</span>
+            </Localized>
+          }
+        />
+      </FormField>
+
+      <FormField>
+        <Localized id="configure-general-embedLinks-enableBlueskeyEmbeds">
+          <Label component="legend">Allow Bluesky post embeds</Label>
+        </Localized>
+        <OnOffField
+          name="media.bluesky.enabled"
           disabled={disabled}
           onLabel={
             <Localized id="configure-general-embedLinks-On">

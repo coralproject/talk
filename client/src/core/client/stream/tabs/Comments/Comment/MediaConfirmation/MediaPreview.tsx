@@ -7,6 +7,7 @@ import {
   TwitterMedia,
   YouTubeMedia,
 } from "coral-stream/common/Media";
+import BlueskyMedia from "coral-stream/common/Media/BlueskyMedia";
 import { RemoveIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -66,6 +67,8 @@ const MediaPreview: FunctionComponent<Props> = ({
               <ExternalMedia url={media.url} siteID={siteID} />
             ) : media.type === "twitter" ? (
               <TwitterMedia url={media.url} siteID={siteID} />
+            ) : media.type === "bsky" ? (
+              <BlueskyMedia url={media.url} siteID={siteID} />
             ) : media.type === "youtube" ? (
               <YouTubeMedia url={media.url} siteID={siteID} isToggled={true} />
             ) : null}

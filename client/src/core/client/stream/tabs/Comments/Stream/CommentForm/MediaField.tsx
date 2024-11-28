@@ -41,7 +41,7 @@ interface Props {
 
 interface Media {
   id?: string;
-  type: "giphy" | "tenor" | "twitter" | "youtube" | "external";
+  type: "giphy" | "tenor" | "twitter" | "bsky" | "youtube" | "external";
   url: string;
   width?: string;
   height?: string;

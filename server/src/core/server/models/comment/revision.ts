@@ -112,6 +112,12 @@ export interface TwitterMedia {
   width?: number;
 }
 
+export interface BlueskyMedia {
+  type: "bsky";
+  url: string;
+  width?: number;
+}
+
 export interface YouTubeMedia {
   type: "youtube";
   url: string;
@@ -132,6 +138,7 @@ export type CommentMedia =
   | GiphyMedia
   | TenorMedia
   | TwitterMedia
+  | BlueskyMedia
   | YouTubeMedia
   | ExternalMedia;
 
