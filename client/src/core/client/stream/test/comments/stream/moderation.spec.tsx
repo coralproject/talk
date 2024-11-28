@@ -354,7 +354,7 @@ it("spam ban user", async () => {
   const communityLink = screen.getByRole("link", { name: "Community section" });
   expect(communityLink).toBeInTheDocument();
   expect(communityLink).toHaveAttribute("href", "/admin/community");
-  const closeButton = screen.getByRole("button", { name: "Close" });
+  const closeButton = screen.getByTestId("UserBanPopover-close");
   fireEvent.click(closeButton);
 
   // spam ban comfirmation should no longer be shown after Close button clicked
