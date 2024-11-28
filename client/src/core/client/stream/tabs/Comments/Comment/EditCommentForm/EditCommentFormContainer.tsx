@@ -211,6 +211,10 @@ const enhanced = withEditCommentMutation(
               url
               width
             }
+            ... on BlueskyMedia {
+              url
+              width
+            }
             ... on YouTubeMedia {
               url
               width
@@ -246,6 +250,9 @@ const enhanced = withEditCommentMutation(
         }
         media {
           twitter {
+            enabled
+          }
+          bluesky {
             enabled
           }
           youtube {
