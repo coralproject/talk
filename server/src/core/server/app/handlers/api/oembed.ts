@@ -14,7 +14,7 @@ import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const OEmbedQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
-  type: Joi.string().allow("twitter", "youtube").only(),
+  type: Joi.string().allow("twitter", "youtube", "bsky").only(),
   maxWidth: Joi.number().optional(),
   commentID: Joi.string().optional(),
 });

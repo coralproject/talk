@@ -63,15 +63,18 @@ const MediaPreview: FunctionComponent<Props> = ({
             </Flex>
 
             {/* Show the actual media. */}
-            {media.type === "external" ? (
+            {media.type === "external" && (
               <ExternalMedia url={media.url} siteID={siteID} />
-            ) : media.type === "twitter" ? (
+            )}
+            {media.type === "twitter" && (
               <TwitterMedia url={media.url} siteID={siteID} />
-            ) : media.type === "bsky" ? (
+            )}
+            {media.type === "bsky" && (
               <BlueskyMedia url={media.url} siteID={siteID} />
-            ) : media.type === "youtube" ? (
+            )}
+            {media.type === "youtube" && (
               <YouTubeMedia url={media.url} siteID={siteID} isToggled={true} />
-            ) : null}
+            )}
           </HorizontalGutter>
 
           {/* On extra small screens, move the remove button to the bottom! */}

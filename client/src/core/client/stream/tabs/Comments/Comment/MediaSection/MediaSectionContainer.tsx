@@ -26,6 +26,7 @@ import { MediaSectionContainer_comment } from "coral-stream/__generated__/MediaS
 import { MediaSectionContainer_settings } from "coral-stream/__generated__/MediaSectionContainer_settings.graphql";
 import { MediaSectionContainerLocal } from "coral-stream/__generated__/MediaSectionContainerLocal.graphql";
 
+import BlueskyMedia from "coral-stream/common/Media/BlueskyMedia";
 import styles from "./MediaSectionContainer.css";
 
 interface Props {
@@ -84,7 +85,9 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
     (media.__typename === "TwitterMedia" && !settings.media.twitter.enabled) ||
     (media.__typename === "YouTubeMedia" && !settings.media.youtube.enabled) ||
     (media.__typename === "GiphyMedia" && !settings.media.gifs.enabled) ||
-    (media.__typename === "ExternalMedia" && !settings.media.external.enabled)
+    (media.__typename === "ExternalMedia" &&
+      !settings.media.external.enabled) ||
+    (media.__typename === "BlueskyMedia" && !settings.media.bluesky.enabled)
   ) {
     return null;
   }
@@ -102,6 +105,9 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
         <ButtonSvgIcon Icon={AddIcon} size="xxs" className={styles.icon} />
         {media.__typename === "TwitterMedia" && (
           <Localized id="comments-embedLinks-show-twitter">Show post</Localized>
+        )}
+        {media.__typename === "BlueskyMedia" && (
+          <Localized id="comments-embedLinks-show-bluesky">Show post</Localized>
         )}
         {media.__typename === "YouTubeMedia" && (
           <Localized id="comments-embedLinks-show-youtube">
@@ -144,6 +150,11 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
               Hide post
             </Localized>
           )}
+          {media.__typename === "BlueskyMedia" && (
+            <Localized id="comments-embedLinks-hide-bluesky">
+              Hide post
+            </Localized>
+          )}
           {media.__typename === "GiphyMedia" && (
             <Localized id="comments-embedLinks-hide-gif">Hide GIF</Localized>
           )}
@@ -172,6 +183,14 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
       )}
       {media.__typename === "TwitterMedia" && (
         <TwitterMedia
+          id={comment.id}
+          url={media.url}
+          siteID={comment.site.id}
+          isToggled={isToggled}
+        />
+      )}
+      {media.__typename === "BlueskyMedia" && (
+        <BlueskyMedia
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
@@ -224,6 +243,10 @@ const enhanced = withFragmentContainer<Props>({
             url
             width
           }
+          ... on BlueskyMedia {
+            url
+            width
+          }
           ... on YouTubeMedia {
             url
             width
@@ -240,6 +263,9 @@ const enhanced = withFragmentContainer<Props>({
     fragment MediaSectionContainer_settings on Settings {
       media {
         twitter {
+          enabled
+        }
+        bluesky {
           enabled
         }
         youtube {

@@ -48,7 +48,6 @@ export async function fetchOEmbedResponse(
       break;
     }
     case "bsky": {
-      console.log(url);
       uri = `https://embed.bsky.app/oembed?url=${encodeURIComponent(url)}`;
       break;
     }

@@ -480,6 +480,9 @@ comments-embedLinks-hide-youtube = Hide video
 comments-embedLinks-show-twitter = Show post
 comments-embedLinks-hide-twitter = Hide post
 
+comments-embedLinks-show-bluesky = Show post
+comments-embedLinks-hide-bluesky = Hide post
+
 comments-embedLinks-show-external = Show image
 comments-embedLinks-hide-external = Hide image
 
