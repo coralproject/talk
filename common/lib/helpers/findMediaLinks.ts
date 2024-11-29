@@ -11,7 +11,8 @@ export function isMediaLink<T extends {}>(
   if (
     ((link as MediaLink).type === "twitter" ||
       (link as MediaLink).type === "external" ||
-      (link as MediaLink).type === "youtube") &&
+      (link as MediaLink).type === "youtube" ||
+      (link as MediaLink).type === "bsky") &&
     (link as MediaLink).url
   ) {
     return true;
@@ -47,7 +48,7 @@ const patterns: ReadonlyArray<{ type: MediaType; pattern: RegExp }> = [
     type: "bsky",
     pattern:
       /(https?:\/\/)?(bsky\.app)?(\/profile\/[a-zA-z0-9\.]+\/post\/[a-zA-z0-9\.]+)/g,
-  }
+  },
 ];
 
 export function findMediaLinks(body: string): MediaLink[] {
