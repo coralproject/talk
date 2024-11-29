@@ -60,6 +60,11 @@ function getMediaFromComment(comment: CommentData) {
         type: "twitter",
         url: comment.revision.media.url,
       };
+    case "BlueskyMedia":
+      return {
+        type: "bsky",
+        url: comment.revision.media.url,
+      };
     case "ExternalMedia":
       return {
         type: "external",

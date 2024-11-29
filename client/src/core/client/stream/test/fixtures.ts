@@ -120,6 +120,7 @@ export const settings = createFixture<GQLSettings>({
   },
   media: {
     twitter: { enabled: false },
+    bluesky: { enabled: false },
     youtube: { enabled: false },
     gifs: { enabled: false },
     external: { enabled: false },
