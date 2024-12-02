@@ -50,10 +50,10 @@ export const OIDCIDTokenSchema = Joi.object()
     exp: Joi.number().required(),
     email: Joi.string().lowercase().email(),
     email_verified: Joi.boolean().default(false),
-    picture: Joi.string(),
-    name: Joi.string(),
-    nickname: Joi.string(),
-    preferred_username: Joi.string(),
+    picture: Joi.string().optional(),
+    name: Joi.string().optional(),
+    nickname: Joi.string().optional(),
+    preferred_username: Joi.string().optional(),
     nonce: Joi.string(),
   })
   .fork(
