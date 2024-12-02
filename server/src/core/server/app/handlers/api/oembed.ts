@@ -14,13 +14,13 @@ import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 const OEmbedQuerySchema = Joi.object().keys({
   url: Joi.string().uri().required(),
-  type: Joi.string().allow("twitter", "youtube", "bsky").only(),
+  type: Joi.string().allow("twitter", "youtube", "bluesky").only(),
   maxWidth: Joi.number().optional(),
   commentID: Joi.string().optional(),
 });
 
 interface OEmbedQuery {
-  type: "twitter" | "youtube" | "bsky";
+  type: "twitter" | "youtube" | "bluesky";
   url: string;
   maxWidth?: number;
   commentID?: string;

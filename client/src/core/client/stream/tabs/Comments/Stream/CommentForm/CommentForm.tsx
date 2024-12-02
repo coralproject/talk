@@ -204,7 +204,7 @@ const CommentForm: FunctionComponent<Props> = ({
           existingLink &&
           (existingLink.type === "twitter" ||
             existingLink.type === "youtube" ||
-            existingLink.type === "bsky")
+            existingLink.type === "bluesky")
         ) {
           const links = findMediaLinks(html);
           // ensure the text still contains the link
@@ -247,7 +247,7 @@ const CommentForm: FunctionComponent<Props> = ({
         mediaConfig &&
         ((link.type === "twitter" && mediaConfig.twitter.enabled) ||
           (link.type === "youtube" && mediaConfig.youtube.enabled) ||
-          (link.type === "bsky" && mediaConfig.bluesky.enabled))
+          (link.type === "bluesky" && mediaConfig.bluesky.enabled))
       ) {
         setPastedMedia({ ...link });
       }

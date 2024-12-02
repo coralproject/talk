@@ -22,7 +22,7 @@ const BlueskyMedia: FunctionComponent<Props> = ({
       width="100%"
       src={`/api/oembed?type=bsky&url=${component}&siteID=${siteID}`}
       isToggled={isToggled}
-      type="bsky"
+      type="bluesky"
     />
   );
 };

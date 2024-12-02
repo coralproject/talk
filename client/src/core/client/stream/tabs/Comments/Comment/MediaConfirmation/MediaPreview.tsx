@@ -69,7 +69,7 @@ const MediaPreview: FunctionComponent<Props> = ({
             {media.type === "twitter" && (
               <TwitterMedia url={media.url} siteID={siteID} />
             )}
-            {media.type === "bsky" && (
+            {media.type === "bluesky" && (
               <BlueskyMedia url={media.url} siteID={siteID} />
             )}
             {media.type === "youtube" && (

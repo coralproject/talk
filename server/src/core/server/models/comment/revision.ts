@@ -113,7 +113,7 @@ export interface TwitterMedia {
 }
 
 export interface BlueskyMedia {
-  type: "bsky";
+  type: "bluesky";
   url: string;
   width?: number;
 }

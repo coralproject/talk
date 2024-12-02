@@ -21,7 +21,7 @@ const MediaConfirmationIcon: FunctionComponent<Props> = ({ media }) => {
       {media.type === "twitter" && (
         <SvgIcon size="xs" filled="currentColor" Icon={XLogoTwitterIcon} />
       )}
-      {media.type === "bsky" && (
+      {media.type === "bluesky" && (
         <SvgIcon size="xs" filled="currentColor" Icon={BlueskyLogoIcon} />
       )}
     </>

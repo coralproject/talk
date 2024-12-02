@@ -62,7 +62,7 @@ function getMediaFromComment(comment: CommentData) {
       };
     case "BlueskyMedia":
       return {
-        type: "bsky",
+        type: "bluesky",
         url: comment.revision.media.url,
       };
     case "ExternalMedia":

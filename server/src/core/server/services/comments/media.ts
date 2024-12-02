@@ -114,7 +114,7 @@ async function attachExternalMedia(
 }
 
 async function attachOEmbedMedia(
-  type: "twitter" | "youtube" | "bsky",
+  type: "twitter" | "youtube" | "bluesky",
   url: string,
   body: string
 ): Promise<YouTubeMedia | TwitterMedia | BlueskyMedia | undefined> {
@@ -167,9 +167,9 @@ async function attachOEmbedMedia(
       };
     }
 
-    if (type === "bsky") {
+    if (type === "bluesky") {
       return {
-        type: "bsky",
+        type: "bluesky",
         url,
         width,
       };
@@ -182,7 +182,7 @@ async function attachOEmbedMedia(
 }
 
 export interface CreateCommentMediaInput {
-  type: "giphy" | "tenor" | "twitter" | "bsky" | "youtube" | "external";
+  type: "giphy" | "tenor" | "twitter" | "bluesky" | "youtube" | "external";
   url: string;
   id?: string;
   width?: string;
@@ -219,7 +219,7 @@ export async function attachMedia(
       return attachExternalMedia(input.url, input.width, input.height);
     case "twitter":
     case "youtube":
-    case "bsky":
+    case "bluesky":
       return attachOEmbedMedia(input.type, input.url, body);
     default:
       throw new Error("invalid media type");
