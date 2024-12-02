@@ -6500,7 +6500,7 @@ input MediaConfigurationInput {
   twitter: TwitterMediaConfigurationInput
 
   """
-  bluesky is the configuration for Twitter support.
+  bluesky is the configuration for Bluesky support.
   """
   bluesky: BlueskyMediaConfigurationInput
 
