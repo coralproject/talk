@@ -9,6 +9,8 @@ import {
   XLogoTwitterIcon,
 } from "coral-ui/components/icons";
 
+import styles from "./MediaConfirmationIcon.css";
+
 interface Props {
   media: MediaLink;
 }
@@ -22,7 +24,9 @@ const MediaConfirmationIcon: FunctionComponent<Props> = ({ media }) => {
         <SvgIcon size="xs" filled="currentColor" Icon={XLogoTwitterIcon} />
       )}
       {media.type === "bluesky" && (
-        <SvgIcon size="xs" filled="currentColor" Icon={BlueskyLogoIcon} />
+        <div className={styles.blueskyIcon}>
+          <SvgIcon filled="currentColor" Icon={BlueskyLogoIcon} />
+        </div>
       )}
     </>
   );
