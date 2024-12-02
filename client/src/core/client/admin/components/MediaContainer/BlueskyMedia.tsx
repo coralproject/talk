@@ -16,7 +16,7 @@ const BlueskyMedia: FunctionComponent<Props> = ({ id, url, siteID }) => {
     <div className={styles.embed}>
       <Frame
         id={id}
-        src={`/api/oembed?type=bsky&url=${component}&siteID=${siteID}`}
+        src={`/api/oembed?type=bluesky&url=${component}&siteID=${siteID}`}
         width="100%"
         showFullHeight
       />

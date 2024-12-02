@@ -20,7 +20,7 @@ const BlueskyMedia: FunctionComponent<Props> = ({
     <Frame
       id={id}
       width="100%"
-      src={`/api/oembed?type=bsky&url=${component}&siteID=${siteID}`}
+      src={`/api/oembed?type=bluesky&url=${component}&siteID=${siteID}`}
       isToggled={isToggled}
       type="bluesky"
     />
