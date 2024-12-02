@@ -94,7 +94,7 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
       </FormField>
 
       <FormField>
-        <Localized id="configure-general-embedLinks-enableBlueskeyEmbeds">
+        <Localized id="configure-general-embedLinks-enableBlueskyEmbeds">
           <Label component="legend">Allow Bluesky post embeds</Label>
         </Localized>
         <OnOffField
