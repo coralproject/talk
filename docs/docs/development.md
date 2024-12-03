@@ -22,16 +22,23 @@ sh scripts/pnpm-i.sh
 
 Running Coral with default settings assumes that you have:
 
-- MongoDB ^4.2 running on `127.0.0.1:27017`
-- Redis ^3.2 running on `127.0.0.1:6379`
+- MongoDB ^8.0.3 running on `127.0.0.1:27017`
+- Redis ^7.2.5 running on `127.0.0.1:6379`
 
-If you don't already have these databases running, you can execute the following
-assuming you have Docker installed on your local machine:
+If you don't already have these databases running, you can do either of the following:
 
-```bash
-docker run -d -p 27017:27017 --restart always --name mongo mongo:4.2
-docker run -d -p 6379:6379 --restart always --name redis redis:3.2
-```
+
+- from the root of the `talk` repository, use our development compose file to stand up the Docker images you need:
+
+  ```bash
+  docker compose up -d
+  ```
+- or if you prefer total control over your Docker images, you can manually spawn the needed images:
+
+  ```bash
+  docker run -d -p 27017:27017 --restart always --name mongo mongo:8.0.3
+  docker run -d -p 6379:6379 --restart always --name redis redis:7.2.5
+  ```
 
 Then initialize Coral using the helper script:
 
