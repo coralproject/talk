@@ -97,7 +97,7 @@ const CopyCommentEmbedCodeContainer: FunctionComponent<Props> = ({
         break;
       // Twitter and YouTube media embeds already have links in comments
       // so they don't also need to be added to the simple comment fallback
-      case "%other" || "TwitterMedia" || "YouTubeMedia":
+      case "%other" || "TwitterMedia" || "BlueskyMedia" || "YouTubeMedia":
         break;
     }
   }
@@ -161,6 +161,9 @@ const enhanced = withFragmentContainer<Props>({
             url
           }
           ... on TwitterMedia {
+            url
+          }
+          ... on BlueskyMedia {
             url
           }
           ... on YouTubeMedia {

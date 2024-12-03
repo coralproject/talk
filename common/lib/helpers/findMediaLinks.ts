@@ -1,4 +1,4 @@
-type MediaType = "twitter" | "youtube" | "external";
+type MediaType = "twitter" | "youtube" | "external" | "bluesky";
 
 export interface MediaLink {
   type: MediaType;
@@ -11,7 +11,8 @@ export function isMediaLink<T extends {}>(
   if (
     ((link as MediaLink).type === "twitter" ||
       (link as MediaLink).type === "external" ||
-      (link as MediaLink).type === "youtube") &&
+      (link as MediaLink).type === "youtube" ||
+      (link as MediaLink).type === "bluesky") &&
     (link as MediaLink).url
   ) {
     return true;
@@ -42,6 +43,11 @@ const patterns: ReadonlyArray<{ type: MediaType; pattern: RegExp }> = [
     type: "twitter",
     pattern:
       /(https?:\/\/)?(www\.|mobile\.)?(x\.com\/[a-zA-z0-9]+\/status\/[0-9]+)/g,
+  },
+  {
+    type: "bluesky",
+    pattern:
+      /(https?:\/\/)?(bsky\.app)?(\/profile\/[a-zA-z0-9\.]+\/post\/[a-zA-z0-9\.]+)/g,
   },
 ];
 

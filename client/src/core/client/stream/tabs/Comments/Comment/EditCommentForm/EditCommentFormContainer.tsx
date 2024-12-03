@@ -60,6 +60,11 @@ function getMediaFromComment(comment: CommentData) {
         type: "twitter",
         url: comment.revision.media.url,
       };
+    case "BlueskyMedia":
+      return {
+        type: "bluesky",
+        url: comment.revision.media.url,
+      };
     case "ExternalMedia":
       return {
         type: "external",
@@ -211,6 +216,10 @@ const enhanced = withEditCommentMutation(
               url
               width
             }
+            ... on BlueskyMedia {
+              url
+              width
+            }
             ... on YouTubeMedia {
               url
               width
@@ -246,6 +255,9 @@ const enhanced = withEditCommentMutation(
         }
         media {
           twitter {
+            enabled
+          }
+          bluesky {
             enabled
           }
           youtube {

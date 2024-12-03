@@ -10,6 +10,7 @@ import { AuthenticationTargetFilter } from "./AuthenticationTargetFilter";
 import { AuthIntegrations } from "./AuthIntegrations";
 import { BanStatus } from "./BanStatus";
 import { BanStatusHistory } from "./BanStatusHistory";
+import { BlueskyMediaConfiguration } from "./BlueskyMediaConfiguration";
 import { CloseCommenting } from "./CloseCommenting";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
@@ -161,6 +162,7 @@ const Resolvers: GQLResolver = {
   Tag,
   Time,
   TwitterMediaConfiguration,
+  BlueskyMediaConfiguration,
   User,
   UserDeletionHistory,
   UserDeletionStatus,

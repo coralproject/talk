@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import BlueskyMedia from "coral-stream/common/Media/BlueskyMedia";
 
 import { MediaContainer_comment } from "coral-admin/__generated__/MediaContainer_comment.graphql";
 
@@ -43,6 +44,14 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
     case "TwitterMedia":
       return (
         <TwitterMedia
+          id={comment.id}
+          url={media.url}
+          siteID={comment.site.id}
+        />
+      );
+    case "BlueskyMedia":
+      return (
+        <BlueskyMedia
           id={comment.id}
           url={media.url}
           siteID={comment.site.id}
@@ -101,6 +110,9 @@ const enhanced = withFragmentContainer<Props>({
             tenorVideo: video
           }
           ... on TwitterMedia {
+            url
+          }
+          ... on BlueskyMedia {
             url
           }
           ... on YouTubeMedia {

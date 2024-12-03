@@ -27,7 +27,7 @@ export interface OEmbedResponse {
 const fetch = createFetch({ name: "oEmbed-fetch" });
 
 export async function fetchOEmbedResponse(
-  type: "twitter" | "youtube",
+  type: "twitter" | "youtube" | "bluesky",
   url: string,
   maxWidth?: number
 ) {
@@ -45,7 +45,10 @@ export async function fetchOEmbedResponse(
     }
     case "twitter": {
       uri = `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}`;
-
+      break;
+    }
+    case "bluesky": {
+      uri = `https://embed.bsky.app/oembed?url=${encodeURIComponent(url)}`;
       break;
     }
     default:

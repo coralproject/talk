@@ -22,7 +22,7 @@ interface Props {
   isToggled?: boolean;
   width?: string;
   showFullHeight?: boolean;
-  type?: "twitter" | "youtube" | "external_media";
+  type?: "twitter" | "bluesky" | "youtube" | "external_media";
   mobile?: boolean;
 }
 

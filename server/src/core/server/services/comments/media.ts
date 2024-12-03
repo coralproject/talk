@@ -2,6 +2,7 @@ import { findMediaLinks } from "coral-common/common/lib/helpers/findMediaLinks";
 import validateImagePathname from "coral-common/common/lib/helpers/validateImagePathname";
 import { WrappedInternalError } from "coral-server/errors";
 import {
+  BlueskyMedia,
   ExternalMedia,
   GiphyMedia,
   TenorMedia,
@@ -113,10 +114,10 @@ async function attachExternalMedia(
 }
 
 async function attachOEmbedMedia(
-  type: "twitter" | "youtube",
+  type: "twitter" | "youtube" | "bluesky",
   url: string,
   body: string
-): Promise<YouTubeMedia | TwitterMedia | undefined> {
+): Promise<YouTubeMedia | TwitterMedia | BlueskyMedia | undefined> {
   // Find all the media links in the body.
   const links = findMediaLinks(body);
   if (!links) {
@@ -157,19 +158,31 @@ async function attachOEmbedMedia(
       };
     }
 
-    // Return the formed TwitterMedia.
-    return {
-      type: "twitter",
-      url,
-      width,
-    };
+    if (type === "twitter") {
+      // Return the formed TwitterMedia.
+      return {
+        type: "twitter",
+        url,
+        width,
+      };
+    }
+
+    if (type === "bluesky") {
+      return {
+        type: "bluesky",
+        url,
+        width,
+      };
+    }
+
+    return undefined;
   } catch (err) {
     throw new WrappedInternalError(err as Error, "cannot attach oEmbed Media");
   }
 }
 
 export interface CreateCommentMediaInput {
-  type: "giphy" | "tenor" | "twitter" | "youtube" | "external";
+  type: "giphy" | "tenor" | "twitter" | "bluesky" | "youtube" | "external";
   url: string;
   id?: string;
   width?: string;
@@ -206,6 +219,7 @@ export async function attachMedia(
       return attachExternalMedia(input.url, input.width, input.height);
     case "twitter":
     case "youtube":
+    case "bluesky":
       return attachOEmbedMedia(input.type, input.url, body);
     default:
       throw new Error("invalid media type");
