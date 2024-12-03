@@ -220,6 +220,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
               size="regular"
               color="stream"
               onClick={onCloseConfirm}
+              data-testid="UserBanPopover-close"
             >
               Close
             </Button>
