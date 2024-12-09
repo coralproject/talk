@@ -353,6 +353,9 @@ const enhanced = withCreateCommentReplyMutation(
           twitter {
             enabled
           }
+          bluesky {
+            enabled
+          }
           youtube {
             enabled
           }

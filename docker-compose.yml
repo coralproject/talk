@@ -1,0 +1,13 @@
+services:
+  redis:
+    image: redis:7.2.5
+    container_name: coral-redis
+    restart: always
+    ports:
+      - "6379:6379"
+  mongo:
+    image: mongo:8.0.3
+    container_name: coral-mongo
+    restart: always
+    ports:
+      - "27017:27017"
