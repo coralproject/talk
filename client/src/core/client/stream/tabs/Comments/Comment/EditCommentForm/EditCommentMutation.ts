@@ -43,6 +43,10 @@ const mutation = graphql`
               url
               width
             }
+            ... on BlueskyMedia {
+              url
+              width
+            }
             ... on YouTubeMedia {
               url
               width

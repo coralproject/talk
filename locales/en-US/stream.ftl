@@ -133,8 +133,10 @@ comments-postComment-insertImage = Insert
 
 comments-postComment-confirmMedia-youtube = Add this YouTube video to the end of your comment?
 comments-postComment-confirmMedia-twitter = Add this post to the end of your comment?
+comments-postComment-confirmMedia-bluesky = Add this post to the end of your comment?
 comments-postComment-confirmMedia-cancel = Cancel
 comments-postComment-confirmMedia-add-tweet = Add post
+comments-postComment-confirmMedia-add-bluesky = Add post
 comments-postComment-confirmMedia-add-video = Add video
 comments-postComment-confirmMedia-remove = Remove
 comments-commentForm-gifPreview-remove = Remove
@@ -477,6 +479,9 @@ comments-embedLinks-hide-youtube = Hide video
 
 comments-embedLinks-show-twitter = Show post
 comments-embedLinks-hide-twitter = Hide post
+
+comments-embedLinks-show-bluesky = Show post
+comments-embedLinks-hide-bluesky = Hide post
 
 comments-embedLinks-show-external = Show image
 comments-embedLinks-hide-external = Hide image

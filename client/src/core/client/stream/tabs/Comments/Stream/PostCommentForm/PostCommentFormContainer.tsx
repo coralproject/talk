@@ -411,6 +411,9 @@ const enhanced = withFragmentContainer<Props>({
         twitter {
           enabled
         }
+        bluesky {
+          enabled
+        }
         youtube {
           enabled
         }

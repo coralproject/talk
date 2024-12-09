@@ -51,6 +51,13 @@ const MediaConfirmPrompt: FunctionComponent<Props> = ({
                 </p>
               </Localized>
             )}
+            {media.type === "bluesky" && (
+              <Localized id="comments-postComment-confirmMedia-bluesky">
+                <p className={styles.prompt}>
+                  Add this post to the end of your comment?
+                </p>
+              </Localized>
+            )}
             <p className={styles.url}>{media.url}</p>
           </div>
         </div>
@@ -67,6 +74,17 @@ const MediaConfirmPrompt: FunctionComponent<Props> = ({
           </Localized>
           {media.type === "twitter" && (
             <Localized id="comments-postComment-confirmMedia-add-tweet">
+              <Button
+                color="mono"
+                onClick={onConfirm}
+                className={styles.promptButton}
+              >
+                Add post
+              </Button>
+            </Localized>
+          )}
+          {media.type === "bluesky" && (
+            <Localized id="comments-postComment-confirmMedia-add-bluesky">
               <Button
                 color="mono"
                 onClick={onConfirm}

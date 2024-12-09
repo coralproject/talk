@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import { MediaLink } from "coral-common/common/lib/helpers/findMediaLinks";
 import {
+  BlueskyLogoIcon,
   ImageFileLandscapeIcon,
   SvgIcon,
   VideoPlayerIcon,
@@ -19,6 +20,9 @@ const MediaConfirmationIcon: FunctionComponent<Props> = ({ media }) => {
       {media.type === "youtube" && <SvgIcon Icon={VideoPlayerIcon} />}
       {media.type === "twitter" && (
         <SvgIcon size="xs" filled="currentColor" Icon={XLogoTwitterIcon} />
+      )}
+      {media.type === "bluesky" && (
+        <SvgIcon filled="currentColor" Icon={BlueskyLogoIcon} />
       )}
     </>
   );

@@ -7,6 +7,7 @@ import {
   TwitterMedia,
   YouTubeMedia,
 } from "coral-stream/common/Media";
+import BlueskyMedia from "coral-stream/common/Media/BlueskyMedia";
 import { RemoveIcon, SvgIcon } from "coral-ui/components/icons";
 import { Flex, HorizontalGutter, MatchMedia } from "coral-ui/components/v2";
 import { Button } from "coral-ui/components/v3";
@@ -62,13 +63,18 @@ const MediaPreview: FunctionComponent<Props> = ({
             </Flex>
 
             {/* Show the actual media. */}
-            {media.type === "external" ? (
+            {media.type === "external" && (
               <ExternalMedia url={media.url} siteID={siteID} />
-            ) : media.type === "twitter" ? (
+            )}
+            {media.type === "twitter" && (
               <TwitterMedia url={media.url} siteID={siteID} />
-            ) : media.type === "youtube" ? (
+            )}
+            {media.type === "bluesky" && (
+              <BlueskyMedia url={media.url} siteID={siteID} />
+            )}
+            {media.type === "youtube" && (
               <YouTubeMedia url={media.url} siteID={siteID} isToggled={true} />
-            ) : null}
+            )}
           </HorizontalGutter>
 
           {/* On extra small screens, move the remove button to the bottom! */}

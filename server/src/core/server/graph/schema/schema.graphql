@@ -1539,9 +1539,17 @@ type GifMediaConfiguration {
   """
   key: String
 }
+
 type TwitterMediaConfiguration {
   """
   enabled is true when twitter media objects are enabled.
+  """
+  enabled: Boolean!
+}
+
+type BlueskyMediaConfiguration {
+  """
+  enabled is true when Bluesky media objects are enabled.
   """
   enabled: Boolean!
 }
@@ -1565,6 +1573,11 @@ type MediaConfiguration {
   twitter is the configuration for Twitter support.
   """
   twitter: TwitterMediaConfiguration!
+
+  """
+  bluesky is the configuration for Bluesky support.
+  """
+  bluesky: BlueskyMediaConfiguration!
 
   """
   youtube is the configuration for YouTube support.
@@ -4092,6 +4105,21 @@ type TwitterMedia {
 }
 
 """
+BlueskyMedia is a specific Bluesky Tweet.
+"""
+type BlueskyMedia {
+  """
+  url is the URL of a Bluesky tweet.
+  """
+  url: String!
+
+  """
+  width is the width of the Bluesky tweet in pixels.
+  """
+  width: Int
+}
+
+"""
 YouTubeMedia is a specific YouTube video.
 """
 type YouTubeMedia {
@@ -4152,6 +4180,7 @@ union CommentMedia =
   | YouTubeMedia
   | ExternalMedia
   | TenorMedia
+  | BlueskyMedia
 
 type CommentRevision {
   """
@@ -6428,6 +6457,13 @@ input TwitterMediaConfigurationInput {
   enabled: Boolean
 }
 
+input BlueskyMediaConfigurationInput {
+  """
+  enabled is true when Bluesky media objects are enabled.
+  """
+  enabled: Boolean
+}
+
 input YouTubeMediaConfigurationInput {
   """
   enabled is true when youtube media objects are enabled.
@@ -6462,6 +6498,11 @@ input MediaConfigurationInput {
   twitter is the configuration for Twitter support.
   """
   twitter: TwitterMediaConfigurationInput
+
+  """
+  bluesky is the configuration for Bluesky support.
+  """
+  bluesky: BlueskyMediaConfigurationInput
 
   """
   youtube is the configuration for YouTube support.

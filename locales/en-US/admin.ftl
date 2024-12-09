@@ -435,6 +435,7 @@ configure-general-embedLinks-desc =
 configure-general-embedLinks-description = 
   Allow commenters to add a YouTube video, X post or GIF's to the end of their comment
 configure-general-embedLinks-enableTwitterEmbeds = Allow X post embeds
+configure-general-embedLinks-enableBlueskyEmbeds = Allow Bluesky post embeds
 configure-general-embedLinks-enableYouTubeEmbeds = Allow YouTube embeds
 configure-general-embedLinks-enableGifs = Allow GIFs
 configure-general-embedLinks-enableExternalEmbeds = Enable external media
