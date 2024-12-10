@@ -201,6 +201,7 @@ export async function findOrCreateSSOUser(
           // not affected by this update feature.
           role: role || user.role,
           avatar,
+          ssoURL: user.ssoURL,
         },
         lastIssuedAt
       );
