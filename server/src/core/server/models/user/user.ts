@@ -1317,6 +1317,7 @@ export interface UpdateUserInput {
   badges?: string[];
   role?: GQLUSER_ROLE;
   avatar?: string;
+  ssoURL?: string;
 }
 
 export async function updateUserFromSSO(
