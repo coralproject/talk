@@ -200,7 +200,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = ({
     if (visible && isNotFirstLoad && live) {
       setShowCommentRefreshButton(true);
     }
-  }, [visible, setShowCommentRefreshButton, live, isNotFirstLoad]);
+  }, [visible, setShowCommentRefreshButton, live]);
 
   useEffect(() => {
     if (!topOfCommentsInView && allCommentsInView) {
