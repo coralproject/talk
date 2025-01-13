@@ -318,7 +318,11 @@ export class DuplicateSiteAllowedOriginError extends CoralError {
 
 export class DuplicateEmailError extends CoralError {
   constructor(email: string) {
-    super({ code: ERROR_CODES.DUPLICATE_EMAIL, context: { pvt: { email } } });
+    super({
+      code: ERROR_CODES.DUPLICATE_EMAIL,
+      context: { pvt: { email } },
+      status: 403,
+    });
   }
 }
 
