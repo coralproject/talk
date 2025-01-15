@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "9.6.1",
+  "version": "9.6.2",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -22,7 +22,7 @@
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
     "build:client": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" ts-node --transpile-only ./scripts/build.ts",
-    "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development pnpm run --parallel generate build:client",
+    "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development pnpm run generate && pnpm run build:client",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true pnpm run --parallel generate build:client",
     "build": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production pnpm run generate-persist && pnpm run build:client",
     "docs:css-variables": "ts-node ./scripts/generateCSSVariablesDocs.ts ./src/core/client/ui/theme/streamVariables.ts ./CSS_VARIABLES.md",
