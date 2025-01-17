@@ -128,8 +128,9 @@ export async function verifyAndRetrieveUser(
   }
 
   if (validationErrors.includes('SSO: "user.username" is required')) {
-    if ((token as SSOToken).user?.url) {
-      throw new UsernameNotProvidedError((token as SSOToken).user?.url!);
+    const ssoToken = token as SSOToken;
+    if (ssoToken && ssoToken.user?.url) {
+      throw new UsernameNotProvidedError(ssoToken.user.url);
     }
   }
 
