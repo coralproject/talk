@@ -6,6 +6,7 @@ import {
   JWTRevokedError,
   TenantNotFoundError,
   TokenInvalidError,
+  UsernameNotProvidedError,
 } from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
@@ -124,6 +125,12 @@ export async function verifyAndRetrieveUser(
     }
 
     throw err;
+  }
+
+  if (validationErrors.includes('SSO: "user.username" is required')) {
+    if ((token as SSOToken).user?.url) {
+      throw new UsernameNotProvidedError((token as SSOToken).user?.url!);
+    }
   }
 
   // If no verifier could be found, throw an error. Include validation errors for all enabled

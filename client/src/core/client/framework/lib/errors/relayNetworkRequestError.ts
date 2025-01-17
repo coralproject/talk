@@ -11,6 +11,14 @@ interface DupErrorObj {
   };
 }
 
+interface UsernameNotProvidedErrorObj {
+  error?: {
+    traceID: string;
+    code: string;
+    message: string;
+  };
+}
+
 const parseDuplicateEmailError = (
   error: RRNLRequestError
 ): DupErrorObj | null => {
@@ -21,6 +29,25 @@ const parseDuplicateEmailError = (
   try {
     const json = JSON.parse(error.res.text) as DupErrorObj;
     if (!json || !json.error || json.error.code !== "DUPLICATE_EMAIL") {
+      return null;
+    }
+
+    return json;
+  } catch {
+    return null;
+  }
+};
+
+const parseUsernameNotProvidedError = (
+  error: RRNLRequestError
+): UsernameNotProvidedErrorObj | null => {
+  if (!error.res || error.res.status !== 403 || !error.res.text) {
+    return null;
+  }
+
+  try {
+    const json = JSON.parse(error.res.text) as UsernameNotProvidedErrorObj;
+    if (!json || !json.error || json.error.code !== "USERNAME_NOT_PROVIDED") {
       return null;
     }
 
@@ -68,6 +95,11 @@ const computeMessage = (
   const dupeEmail = parseDuplicateEmailError(error);
   if (dupeEmail && dupeEmail.error) {
     return dupeEmail.error.message;
+  }
+
+  const usernameNotProvided = parseUsernameNotProvidedError(error);
+  if (usernameNotProvided && usernameNotProvided.error) {
+    return usernameNotProvided.error.message;
   }
 
   if (error.res) {
