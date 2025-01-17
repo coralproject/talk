@@ -127,6 +127,9 @@ export async function verifyAndRetrieveUser(
     throw err;
   }
 
+  // If SSO token does not include a username but does include a url for user account
+  // management, then throw a username not found error with information on where the username
+  // can be set to comment.
   if (validationErrors.includes('SSO: "user.username" is required')) {
     const ssoToken = token as SSOToken;
     if (ssoToken && ssoToken.user?.url) {
