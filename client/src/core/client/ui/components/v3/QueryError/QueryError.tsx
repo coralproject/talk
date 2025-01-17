@@ -2,6 +2,7 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 
 import TraceableError from "coral-framework/lib/errors/traceableError";
+import HTMLContent from "coral-stream/common/HTMLContent";
 
 import CallOut from "../CallOut";
 
@@ -38,7 +39,7 @@ const QueryError: FunctionComponent<Props> = ({ error }) => {
         <div className={styles.heading}>Message</div>
       </Localized>
       <div className={styles.section} aria-live={"polite"}>
-        {error.message}
+        <HTMLContent>{error.message}</HTMLContent>
       </div>
     </CallOut>
   );

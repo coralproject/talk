@@ -5,7 +5,7 @@ error-parentCommentRejected = A comment earlier in this conversation thread was 
 error-ancestorRejected = A comment earlier in this conversation thread was removed. No additional replies can be submitted.
 error-commentBodyExceedsMaxLength =
   Comment body exceeds maximum length of {$max} characters.
-error-usernameNotProvided = Username not provided. Go to {$url} to set your username to comment.
+error-usernameNotProvided = Username not provided. Go to <a href="{$url}">{$url}</a> to set your username to comment.
 error-storyURLNotPermitted =
   The specified story URL does not exist in the permitted domains list.
 error-duplicateStoryURL =  The specified story URL already exists.
