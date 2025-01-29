@@ -1,22 +1,19 @@
-import { Collection, Document, Filter } from "mongodb";
+import { Collection, Document, WithId } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
-import { ACTION_TYPE } from "coral-server/models/action/comment";
-import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { DSAReport } from "coral-server/models/dsaReport";
-import { Story } from "coral-server/models/story";
-import { retrieveTenant, Tenant } from "coral-server/models/tenant";
 
 import {
   GQLCOMMENT_STATUS,
   GQLDSAReportHistoryType,
   GQLDSAReportStatus,
   GQLREJECTION_REASON_CODE,
-  GQLRejectionReason,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { getLatestRevision } from "coral-server/models/comment";
+import { Tenant } from "coral-server/models/tenant";
 import { moderate } from "../comments/moderation";
 import { I18n, translate } from "../i18n";
 import { AugmentedRedis } from "../redis";
@@ -37,93 +34,8 @@ async function executeBulkOperations<T extends Document>(
   await bulk.execute();
 }
 
-interface Batch {
-  comments: any[];
-  stories: any[];
-}
-
 interface DSAReportBatch {
   dsaReports: any[];
-}
-
-async function deleteUserActionCounts(
-  mongo: MongoContext,
-  userID: string,
-  tenantID: string,
-  isArchived: boolean
-) {
-  const batch: Batch = {
-    comments: [],
-    stories: [],
-  };
-
-  async function processBatch() {
-    const comments = isArchived ? mongo.archivedComments() : mongo.comments();
-
-    await executeBulkOperations<Comment>(comments, batch.comments);
-    batch.comments = [];
-
-    if (!isArchived) {
-      await executeBulkOperations<Story>(mongo.stories(), batch.stories);
-      batch.stories = [];
-    }
-  }
-
-  const commentActions = isArchived
-    ? mongo.archivedCommentActions()
-    : mongo.commentActions();
-  const cursor = commentActions.find({
-    tenantID,
-    userID,
-    actionType: ACTION_TYPE.REACTION,
-  });
-  while (await cursor.hasNext()) {
-    const action = await cursor.next();
-    if (!action) {
-      continue;
-    }
-
-    batch.comments.push({
-      updateOne: {
-        filter: { tenantID, id: action.commentID },
-        update: {
-          $inc: {
-            "revisions.$[revisions].actionCounts.REACTION": -1,
-            "actionCounts.REACTION": -1,
-          },
-        },
-        arrayFilters: [{ "revisions.id": action.commentRevisionID }],
-      },
-    });
-
-    batch.stories.push({
-      updateOne: {
-        filter: { tenantID, id: action.storyID },
-        update: {
-          $inc: {
-            "commentCounts.action.REACTION": -1,
-          },
-        },
-      },
-    });
-
-    if (
-      batch.comments.length >= BATCH_SIZE ||
-      batch.stories.length >= BATCH_SIZE
-    ) {
-      await processBatch();
-    }
-  }
-
-  if (batch.comments.length > 0 || batch.stories.length > 0) {
-    await processBatch();
-  }
-
-  await commentActions.deleteMany({
-    tenantID,
-    userID,
-    actionType: ACTION_TYPE.REACTION,
-  });
 }
 
 async function moderateComments(
@@ -132,15 +44,25 @@ async function moderateComments(
   config: Config,
   i18n: I18n,
   tenant: Tenant,
-  filter: Filter<Comment>,
-  targetStatus: GQLCOMMENT_STATUS,
+  authorID: string,
   now: Date,
-  isArchived = false,
-  rejectionReason?: GQLRejectionReason
+  isArchived = false
 ) {
   const coll =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
-  const comments = coll.find(filter);
+  const comments = coll.find({ tenantID: tenant.id, authorID });
+
+  const bundle = i18n.getBundle(tenant.locale);
+  const translatedExplanation = translate(
+    bundle,
+    "User account deleted",
+    "common-accountDeleted"
+  );
+
+  const rejectionReason = {
+    code: GQLREJECTION_REASON_CODE.OTHER,
+    detailedExplanation: translatedExplanation,
+  };
 
   while (await comments.hasNext()) {
     const comment = await comments.next();
@@ -158,19 +80,34 @@ async function moderateComments(
       },
     };
 
+    const targetStatus =
+      comment.childCount > 0
+        ? GQLCOMMENT_STATUS.APPROVED
+        : GQLCOMMENT_STATUS.REJECTED;
+
+    const args =
+      targetStatus === GQLCOMMENT_STATUS.APPROVED
+        ? {
+            commentID: comment.id,
+            commentRevisionID: getLatestRevision(comment).id,
+            moderatorID: null,
+            status: targetStatus,
+          }
+        : {
+            commentID: comment.id,
+            commentRevisionID: getLatestRevision(comment).id,
+            moderatorID: null,
+            status: targetStatus,
+            rejectionReason,
+          };
+
     const { result } = await moderate(
       mongo,
       redis,
       config,
       i18n,
       tenant,
-      {
-        commentID: comment.id,
-        commentRevisionID: getLatestRevision(comment).id,
-        moderatorID: null,
-        status: targetStatus,
-        rejectionReason,
-      },
+      args,
       now,
       isArchived,
       updateAllCommentCountsArgs
@@ -276,76 +213,26 @@ async function deleteUserComments(
   config: Config,
   i18n: I18n,
   authorID: string,
-  tenantID: string,
+  tenant: WithId<Readonly<Tenant>>,
   now: Date,
   isArchived?: boolean | null
 ) {
-  const tenant = await retrieveTenant(mongo, tenantID);
-  if (!tenant) {
-    throw new Error("unable to retrieve tenant");
-  }
-  // Approve any comments that have children.
-  // This allows the children to be visible after
-  // the comment is deleted.
   await moderateComments(
     mongo,
     redis,
     config,
     i18n,
     tenant,
-    {
-      tenantID,
-      authorID,
-      status: GQLCOMMENT_STATUS.NONE,
-      childCount: { $gt: 0 },
-    },
-    GQLCOMMENT_STATUS.APPROVED,
+    authorID,
     now,
     !!isArchived
-  );
-
-  const bundle = i18n.getBundle(tenant.locale);
-  const translatedExplanation = translate(
-    bundle,
-    "User account deleted",
-    "common-accountDeleted"
-  );
-
-  // reject any comments that don't have children
-  // This gets rid of any empty/childless deleted comments.
-  await moderateComments(
-    mongo,
-    redis,
-    config,
-    i18n,
-    tenant,
-    {
-      tenantID,
-      authorID,
-      status: {
-        $in: [
-          GQLCOMMENT_STATUS.PREMOD,
-          GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
-          GQLCOMMENT_STATUS.NONE,
-          GQLCOMMENT_STATUS.APPROVED,
-        ],
-      },
-      childCount: 0,
-    },
-    GQLCOMMENT_STATUS.REJECTED,
-    now,
-    !!isArchived,
-    {
-      code: GQLREJECTION_REASON_CODE.OTHER,
-      detailedExplanation: translatedExplanation,
-    }
   );
 
   const collection =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
 
   await collection.updateMany(
-    { tenantID, authorID },
+    { tenantID: tenant.id, authorID },
     {
       $set: {
         authorID: null,
@@ -383,12 +270,6 @@ export async function deleteUser(
     throw new Error("could not find tenant by ID");
   }
 
-  // Delete the user's action counts.
-  await deleteUserActionCounts(mongo, userID, tenantID, false);
-  if (mongo.archive) {
-    await deleteUserActionCounts(mongo, userID, tenantID, true);
-  }
-
   // If DSA is enabled,
   // Update the user's comment's associated DSAReports; set their status to VOID
   if (dsaEnabled) {
@@ -399,7 +280,7 @@ export async function deleteUser(
   }
 
   // Delete the user's comments.
-  await deleteUserComments(mongo, redis, config, i18n, userID, tenantID, now);
+  await deleteUserComments(mongo, redis, config, i18n, userID, tenant, now);
   if (mongo.archive) {
     await deleteUserComments(
       mongo,
@@ -407,7 +288,7 @@ export async function deleteUser(
       config,
       i18n,
       userID,
-      tenantID,
+      tenant,
       now,
       true
     );
