@@ -433,7 +433,8 @@ configure-general-sitewideCommenting-messageExplanation =
 configure-general-embedLinks-title = Embedded media
 configure-general-embedLinks-desc =
 configure-general-embedLinks-description = 
-  Allow commenters to add a YouTube video, X post or GIF's to the end of their comment
+configure-general-embedLinks-description-addASinglePiece =
+  Allow commenters to add a single piece of embedded media to the end of a comment
 configure-general-embedLinks-enableTwitterEmbeds = Allow X post embeds
 configure-general-embedLinks-enableBlueskyEmbeds = Allow Bluesky post embeds
 configure-general-embedLinks-enableYouTubeEmbeds = Allow YouTube embeds
