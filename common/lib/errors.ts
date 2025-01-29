@@ -4,6 +4,7 @@ export enum ERROR_TYPES {
 }
 
 export enum ERROR_CODES {
+  USERNAME_NOT_PROVIDED = "USERNAME_NOT_PROVIDED",
   /**
    * STORY_CLOSED is used when submitting a comment on a closed story.
    */

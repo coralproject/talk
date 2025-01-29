@@ -326,6 +326,16 @@ export class DuplicateEmailError extends CoralError {
   }
 }
 
+export class UsernameNotProvidedError extends CoralError {
+  constructor(url: string) {
+    super({
+      code: ERROR_CODES.USERNAME_NOT_PROVIDED,
+      context: { pub: { url } },
+      status: 403,
+    });
+  }
+}
+
 export class DuplicateDSAReportError extends CoralError {
   constructor(reportID: string) {
     super({
