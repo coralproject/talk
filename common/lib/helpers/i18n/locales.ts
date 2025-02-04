@@ -34,6 +34,7 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
   ru: "Русский",
   "nb-NO": "Norsk Bokmål",
   "zh-CN": "中国人",
+  "hr": "Hrvatski",
 };
 
 /**
