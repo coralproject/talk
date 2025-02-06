@@ -1,4 +1,3 @@
-// import { Localized } from "@fluent/react/compat";
 import { GiphyFetch, SearchOptions } from "@giphy/js-fetch-api";
 import { IGif } from "@giphy/js-types";
 import React, {
@@ -17,9 +16,8 @@ import useResizeObserver from "use-resize-observer";
 import { useDebounce } from "coral-framework/hooks";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
+import { GifGrid, GifResult } from "../GifGrid";
 import { GifSearchInput } from "../GifSearchInput/GifSearchInput";
-import TenorGrid from "../TenorInput/TenorGrid";
-import { GifResult } from "../TenorInput/TenorInput";
 import GiphyAttribution from "./GiphyAttribution";
 
 import styles from "./GiphyInput.css";
@@ -169,7 +167,7 @@ const GiphyInput: FunctionComponent<Props> = ({
           onClickSearch={onClickSearch}
         />
         <div className={styles.grid}>
-          <TenorGrid
+          <GifGrid
             gifs={gifs}
             showLoadMore={
               !!(isNext && gifs && gifs.length > 0 && query?.length > 0)

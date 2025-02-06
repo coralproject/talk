@@ -15,9 +15,9 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import useFetchWithAuth from "coral-stream/common/useFetchWithAuth";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
+import { GifGrid, GifResult } from "../GifGrid";
 import { GifSearchInput } from "../GifSearchInput/GifSearchInput";
 import TenorAttribution from "./TenorAttribution";
-import TenorGrid from "./TenorGrid";
 
 import styles from "./TenorInput.css";
 
@@ -26,13 +26,6 @@ const DEBOUNCE_DELAY_MS = 1250;
 interface Props {
   onSelect: (gif: GifResult) => void;
   forwardRef?: Ref<HTMLInputElement>;
-}
-
-export interface GifResult {
-  id: string;
-  url: string;
-  preview: string;
-  title?: string;
 }
 
 export interface SearchPayload {
@@ -163,7 +156,7 @@ const TenorInput: FunctionComponent<Props> = ({ onSelect }) => {
           onKeyPress={onKeyPress}
           inputRef={inputRef}
         />
-        <TenorGrid
+        <GifGrid
           gifs={query ? gifs : []}
           showLoadMore={
             !!(next && gifs && gifs.length > 0 && query?.length > 0)
