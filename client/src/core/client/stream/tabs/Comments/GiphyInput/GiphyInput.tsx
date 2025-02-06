@@ -90,7 +90,7 @@ const GiphyInput: FunctionComponent<Props> = ({
     setIsNext(
       response.pagination.total_count > response.pagination.count + offset
     );
-  }, [fetchGifs, gifs, offset, mapGifs]);
+  }, [fetchGifs, offset, mapGifs]);
 
   const loadMoreGifs = useCallback(async () => {
     const response = await fetchGifs();
