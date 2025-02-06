@@ -74,30 +74,6 @@ const GiphyInput: FunctionComponent<Props> = ({
       };
     });
 
-    setGifs(mappedResponse);
-    setOffset(
-      response.pagination.offset + response.pagination.count + 1 ?? null
-    );
-    setIsNext(
-      response.pagination.total_count > response.pagination.count + offset
-    );
-  }, [fetchGifs, offset]);
-
-  const loadMoreGifs = useCallback(async () => {
-    const response = await fetchGifs();
-    if (!response) {
-      return;
-    }
-
-    const mappedResponse = response.data.map((gif) => {
-      return {
-        id: gif.id as string,
-        preview: gif.images.preview_gif.url,
-        title: gif.title,
-        url: gif.images.original.url,
-      };
-    });
-
     setGifs([...gifs, ...mappedResponse]);
     setOffset(
       response.pagination.count + response.pagination.offset + 1 ?? null
@@ -143,8 +119,8 @@ const GiphyInput: FunctionComponent<Props> = ({
   }, [loadGifs]);
 
   const onLoadMore = useCallback(async () => {
-    await loadMoreGifs();
-  }, [loadMoreGifs]);
+    await loadGifs();
+  }, [loadGifs]);
 
   const onGifClick = useCallback(
     (gif: GifResult) => {
