@@ -1,5 +1,4 @@
 import { GiphyFetch, SearchOptions } from "@giphy/js-fetch-api";
-import { IGif } from "@giphy/js-types";
 import React, {
   ChangeEventHandler,
   FunctionComponent,
@@ -25,7 +24,7 @@ import styles from "./GiphyInput.css";
 const DEBOUNCE_DELAY_MS = 1250;
 
 interface Props {
-  onSelect: (gif: IGif) => void;
+  onSelect: (gif: GifResult) => void;
   forwardRef?: Ref<HTMLInputElement>;
   apiKey: string;
   maxRating: string;
@@ -148,7 +147,7 @@ const GiphyInput: FunctionComponent<Props> = ({
   }, [loadMoreGifs]);
 
   const onGifClick = useCallback(
-    (gif: IGif) => {
+    (gif: GifResult) => {
       // Cancel any active timers that might cause the query to be changed.
       setQuery("");
       onSelect(gif);

@@ -16,9 +16,10 @@ import {
   MediaPreview,
 } from "../../Comment/MediaConfirmation";
 import ExternalImageInput from "../../ExternalImageInput";
+import { GifResult } from "../../GifGrid";
 import GiphyInput, { GifPreview } from "../../GiphyInput";
 import { getMediaValidators } from "../../helpers";
-import TenorInput, { GifResult } from "../../TenorInput/TenorInput";
+import TenorInput from "../../TenorInput/TenorInput";
 
 export type Widget = "gifs" | "external" | null;
 
