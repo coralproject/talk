@@ -121,7 +121,7 @@ const GifGrid: FunctionComponent<Props> = ({
     }
 
     const rect = gridRef.current.getBoundingClientRect();
-    const numCols = rect.width / 90;
+    const numCols = rect.width / 125;
 
     setCols(numCols);
   }, [gridRef, setCols]);

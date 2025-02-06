@@ -16,7 +16,7 @@ interface GifSearchInputProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onKeyPress: (e: KeyboardEvent<HTMLInputElement>) => void;
   inputRef: React.RefObject<HTMLInputElement>;
-  onClickSearch: () => Promise<void>;
+  onClickSearch?: () => Promise<void>;
 }
 
 export const GifSearchInput: FunctionComponent<GifSearchInputProps> = ({

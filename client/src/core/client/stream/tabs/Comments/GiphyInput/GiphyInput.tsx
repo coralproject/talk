@@ -1,4 +1,5 @@
 import { GiphyFetch, SearchOptions } from "@giphy/js-fetch-api";
+import { IGif } from "@giphy/js-types";
 import React, {
   ChangeEventHandler,
   FunctionComponent,
@@ -46,6 +47,10 @@ const GiphyInput: FunctionComponent<Props> = ({
 
   const client = useMemo(() => new GiphyFetch(apiKey), [apiKey]);
 
+  useEffect(() => {
+    setOffset(0);
+  }, [query]);
+
   const fetchGifs = useCallback(async () => {
     const response = await client.search(query, {
       offset,
@@ -59,13 +64,8 @@ const GiphyInput: FunctionComponent<Props> = ({
     return response;
   }, [client, maxRating, query, offset]);
 
-  const loadGifs = useCallback(async () => {
-    const response = await fetchGifs();
-    if (!response) {
-      return;
-    }
-
-    const mappedResponse = response.data.map((gif) => {
+  const mapGifs = useCallback((response: { data: IGif[] }) => {
+    return response.data.map((gif) => {
       return {
         id: gif.id as string,
         preview: gif.images.preview_gif.url,
@@ -73,6 +73,32 @@ const GiphyInput: FunctionComponent<Props> = ({
         url: gif.images.original.url,
       };
     });
+  }, []);
+
+  const loadGifs = useCallback(async () => {
+    const response = await fetchGifs();
+    if (!response) {
+      return;
+    }
+
+    const mappedResponse = mapGifs(response);
+
+    setGifs(mappedResponse);
+    setOffset(
+      response.pagination.count + response.pagination.offset + 1 ?? null
+    );
+    setIsNext(
+      response.pagination.total_count > response.pagination.count + offset
+    );
+  }, [fetchGifs, gifs, offset, mapGifs]);
+
+  const loadMoreGifs = useCallback(async () => {
+    const response = await fetchGifs();
+    if (!response) {
+      return;
+    }
+
+    const mappedResponse = mapGifs(response);
 
     setGifs([...gifs, ...mappedResponse]);
     setOffset(
@@ -81,7 +107,7 @@ const GiphyInput: FunctionComponent<Props> = ({
     setIsNext(
       response.pagination.total_count > response.pagination.count + offset
     );
-  }, [fetchGifs, gifs, offset]);
+  }, [fetchGifs, gifs, offset, mapGifs]);
 
   const debounceFetchGifs = useDebounce(loadGifs, DEBOUNCE_DELAY_MS);
 
@@ -113,14 +139,9 @@ const GiphyInput: FunctionComponent<Props> = ({
     [debounceFetchGifs]
   );
 
-  const onClickSearch = useCallback(async () => {
-    setOffset(0);
-    await loadGifs();
-  }, [loadGifs]);
-
   const onLoadMore = useCallback(async () => {
-    await loadGifs();
-  }, [loadGifs]);
+    await loadMoreGifs();
+  }, [loadMoreGifs]);
 
   const onGifClick = useCallback(
     (gif: GifResult) => {
@@ -139,7 +160,6 @@ const GiphyInput: FunctionComponent<Props> = ({
           onChange={onChange}
           onKeyPress={onKeyPress}
           inputRef={inputRef}
-          onClickSearch={onClickSearch}
         />
         <div className={styles.grid}>
           <GifGrid
