@@ -1,4 +1,3 @@
-import { IGif } from "@giphy/js-types";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { useField } from "react-final-form";
 
@@ -63,11 +62,11 @@ const MediaField: FunctionComponent<Props> = ({
   });
 
   const onGiphySelect = useCallback(
-    (gif: IGif) => {
+    (gif: GifResult) => {
       onChange({
         type: "giphy",
         id: gif.id,
-        url: gif.images.original.url,
+        url: gif.url,
       });
       setWidget(null);
     },

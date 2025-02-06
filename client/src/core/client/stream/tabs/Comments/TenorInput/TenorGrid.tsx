@@ -1,4 +1,5 @@
 import { Localized } from "@fluent/react/compat";
+import { IGif } from "@giphy/js-types";
 import React, {
   FunctionComponent,
   useCallback,
@@ -95,7 +96,7 @@ interface Props {
   gifs: GifResult[];
   showLoadMore?: boolean;
 
-  onSelectGif: (gif: GifResult) => void;
+  onSelectGif: (gif: GifResult | IGif) => void;
   onLoadMore: () => void;
 }
 
