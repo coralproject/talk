@@ -231,7 +231,6 @@ export async function attach(options: AttachOptions) {
 
     const encapsulationContext = useMemo(
       () => ({
-        ReactShadowRoot: undefined,
         containerClassName: options.containerClassName,
         cssAssets: shadowCSSAssets,
         customCSSAssets: customShadowCSSAssets,

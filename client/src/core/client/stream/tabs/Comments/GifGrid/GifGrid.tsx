@@ -1,5 +1,4 @@
 import { Localized } from "@fluent/react/compat";
-import { IGif } from "@giphy/js-types";
 import React, {
   FunctionComponent,
   useCallback,
@@ -100,8 +99,7 @@ const GifGridColumns: FunctionComponent<GridColumnsProps> = ({
 interface Props {
   gifs: GifResult[];
   showLoadMore?: boolean;
-
-  onSelectGif: (gif: GifResult | IGif) => void;
+  onSelectGif: (gif: GifResult) => void;
   onLoadMore: () => void;
 }
 
