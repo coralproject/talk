@@ -71,6 +71,9 @@ export const shouldPremodDueToLikelySpamEmail = (
     return false;
   }
 
+  // if a user is on auto ban list, they will become banned via their
+  // domain, therefore, we don't want to undo the ban by applying a
+  // premod state (that would un-ban them)
   if (emailIsOnAutoBanList(user.email, tenant)) {
     return false;
   }
