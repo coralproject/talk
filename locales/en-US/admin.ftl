@@ -934,6 +934,8 @@ configure-moderation-premoderateEmailAddress-enabled-description =
   email address (before the @), set their status to pre-moderate
   comments. Emails with 3 or more periods can have a very high spam
   correlation. It can be useful to pro-actively pre-moderate them.
+configure-moderation-premoderateEmailAliases-enabled =
+  Pre-moderate email aliases
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases

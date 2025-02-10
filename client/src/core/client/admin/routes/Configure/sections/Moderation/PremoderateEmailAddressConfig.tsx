@@ -21,6 +21,9 @@ graphql`
       tooManyPeriods {
         enabled
       }
+      emailAliases {
+        enabled
+      }
     }
   }
 `;
@@ -59,6 +62,17 @@ const PremoderateEmailAddressConfig: FunctionComponent<Props> = ({
         </FormFieldHeader>
         <OnOffField
           name="premoderateEmailAddress.tooManyPeriods.enabled"
+          disabled={disabled}
+        />
+      </FormField>
+      <FormField container={<FieldSet />}>
+        <FormFieldHeader>
+          <Localized id="configure-moderation-premoderateEmailAliases-enabled">
+            <Label component="legend">Pre-moderate email aliases</Label>
+          </Localized>
+        </FormFieldHeader>
+        <OnOffField
+          name="premoderateEmailAddress.emailAliases.enabled"
           disabled={disabled}
         />
       </FormField>
