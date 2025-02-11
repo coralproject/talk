@@ -109,4 +109,7 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
 
     return ctx.notifications.retrieveCount(ctx.tenant.id, userID);
   },
+  persistedQueries: async (source, args, ctx) => {
+    return await ctx.mongo.queries().find().sort({ version: -1 }).toArray();
+  },
 };
