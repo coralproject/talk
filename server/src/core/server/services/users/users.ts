@@ -63,6 +63,7 @@ import {
   FindOrCreateUserInput,
   ignoreUser,
   InPageNotificationSettingsInput,
+  linkSsoUser,
   linkUsers,
   mergeUserMembershipScopes,
   mergeUserSiteModerationScopes,
@@ -228,14 +229,26 @@ export async function findOrCreate(
       // want to have that embedded in the `...rest` object.
       const { email, emailVerified, ...rest } = input;
 
-      // Create the user again this time, but associate the duplicate email to
-      // the user account.
-      let { user } = await findOrCreateUser(
-        mongo,
-        tenant.id,
-        { ...rest, duplicateEmail: email },
-        now
-      );
+      let user: User | null = null;
+
+      if (input.profile.type === "sso") {
+        // in case the profile is an sso profile, we just add the profile to the user
+        ({ user } = await linkSsoUser(
+          mongo,
+          tenant.id,
+          { ...rest, duplicateEmail: email },
+          now
+        ));
+      } else {
+        // Create the user again this time, but associate the duplicate email to
+        // the user account.
+        ({ user } = await findOrCreateUser(
+          mongo,
+          tenant.id,
+          { ...rest, duplicateEmail: email },
+          now
+        ));
+      }
 
       if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
         user = await premodUser(

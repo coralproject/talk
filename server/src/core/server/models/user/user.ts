@@ -811,6 +811,35 @@ export async function findOrCreateUserInput(
   return user;
 }
 
+export async function linkSsoUser(
+  mongo: MongoContext,
+  tenantID: string,
+  input: FindOrCreateUserInput,
+  now: Date
+) {
+  const user = await findOrCreateUserInput(tenantID, input, now);
+
+  const result = await mongo.users().findOneAndUpdate(
+    {
+      tenantID,
+      email: input.duplicateEmail,
+    },
+    { $addToSet: { profiles: input.profile } },
+    {
+      // True to return the original document instead of the updated document.
+      // This will ensure that when an upsert operation adds a new User, it
+      // should return null.
+      returnDocument: "before",
+      upsert: true,
+    }
+  );
+
+  return {
+    user: result || user,
+    wasUpserted: !result,
+  };
+}
+
 export async function findOrCreateUser(
   mongo: MongoContext,
   tenantID: string,
