@@ -3,6 +3,7 @@ import { RepeatPostCommentError } from "coral-server/errors";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
 import { supportsMediaType } from "coral-server/models/tenant";
+import { STAFF_ROLES } from "coral-server/models/user/constants";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -51,6 +52,11 @@ export const repeatPost: IntermediateModerationPhase = async ({
     if (action === "EDIT" && comment.id && comment.id === lastComment.id) {
       // The last comment written is this comment because we're editing, so no
       // need to compare against.
+      return;
+    }
+
+    // users who have staff roles are exempt from repeat comment checks
+    if (STAFF_ROLES.includes(author.role)) {
       return;
     }
 
