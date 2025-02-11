@@ -6,7 +6,6 @@ import { PropTypesOf } from "coral-framework/types";
 import { CallOut, HorizontalGutter } from "coral-ui/components/v2";
 
 import OrSeparator from "./OrSeparator";
-import SignInWithBskyContainer from "./SignInWithBskyContainer";
 import SignInWithEmailContainer from "./SignInWithEmailContainer";
 import SignInWithFacebookContainer from "./SignInWithFacebookContainer";
 import SignInWithGoogleContainer from "./SignInWithGoogleContainer";
@@ -18,19 +17,16 @@ import styles from "./SignIn.css";
 interface Props {
   error: string | null;
   emailEnabled?: boolean;
-  bskyEnabled?: boolean;
   facebookEnabled?: boolean;
   googleEnabled?: boolean;
   oidcEnabled?: boolean;
   auth: PropTypesOf<typeof SignInWithOIDCContainer>["auth"] &
-    PropTypesOf<typeof SignInWithBskyContainer>["auth"] &
     PropTypesOf<typeof SignInWithFacebookContainer>["auth"] &
     PropTypesOf<typeof SignInWithGoogleContainer>["auth"];
 }
 
 const SignIn: FunctionComponent<Props> = ({
   emailEnabled,
-  bskyEnabled,
   facebookEnabled,
   googleEnabled,
   oidcEnabled,
@@ -38,7 +34,7 @@ const SignIn: FunctionComponent<Props> = ({
   error,
 }) => {
   const oneClickIntegrationEnabled =
-    bskyEnabled || facebookEnabled || googleEnabled || oidcEnabled;
+    facebookEnabled || googleEnabled || oidcEnabled;
   return (
     <>
       <AuthBox
@@ -64,11 +60,6 @@ const SignIn: FunctionComponent<Props> = ({
           )}
           {oneClickIntegrationEnabled && (
             <HorizontalGutter>
-              {bskyEnabled && (
-                <div className={styles.loginButton}>
-                  <SignInWithBskyContainer auth={auth} />
-                </div>
-              )}
               {facebookEnabled && (
                 <div className={styles.loginButton}>
                   <SignInWithFacebookContainer auth={auth} />
