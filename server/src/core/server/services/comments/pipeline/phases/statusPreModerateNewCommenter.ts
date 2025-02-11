@@ -64,7 +64,7 @@ export const statusPreModerateNewCommenter = async ({
   // If the number of approved comments on the user is greater than or equal to
   // the threshold, then there's nothing to do!
   if (
-    author.commentCounts.status.APPROVED >=
+    author.commentCounts.status.NONE + author.commentCounts.status.APPROVED >=
     tenant.newCommenters.approvedCommentsThreshold
   ) {
     return;
@@ -77,7 +77,9 @@ export const statusPreModerateNewCommenter = async ({
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_NEW_COMMENTER,
         metadata: {
-          count: author.commentCounts.status.APPROVED,
+          count:
+            author.commentCounts.status.APPROVED +
+            author.commentCounts.status.NONE,
         },
       },
     ],
