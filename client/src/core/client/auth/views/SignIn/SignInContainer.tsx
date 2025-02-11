@@ -59,7 +59,7 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
   );
 
   const {
-    integrations: { local, facebook, google, oidc },
+    integrations: { local, bsky, facebook, google, oidc },
   } = auth;
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
       return;
     }
 
-    const enabled = [facebook, google, oidc].filter((i) => isEnabled(i));
+    const enabled = [bsky, facebook, google, oidc].filter((i) => isEnabled(i));
 
     // If there is more than one integration enabled, or there is no
     // integrations enabled, then we can't redirect the viewer.
@@ -97,7 +97,7 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
     }
 
     return integration.redirectURL;
-  }, [error, facebook, google, local, oidc]);
+  }, [error, bsky, facebook, google, local, oidc]);
 
   useEffect(() => {
     // If there's no url to redirect to, then we can't redirect the viewer.
@@ -119,6 +119,7 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
       auth={auth}
       onGotoSignUp={goToSignUp}
       emailEnabled={isEnabled(local)}
+      bskyEnabled={isEnabled(bsky)}
       facebookEnabled={isEnabled(facebook)}
       googleEnabled={isEnabled(google)}
       oidcEnabled={isEnabled(oidc)}
@@ -134,9 +135,17 @@ const enhanced = withClearErrorMutation(
         ...SignInWithOIDCContainer_auth
         ...SignInWithGoogleContainer_auth
         ...SignInWithFacebookContainer_auth
+        ...SignInWithBskyContainer_auth
         integrations {
           local {
             enabled
+            targetFilter {
+              stream
+            }
+          }
+          bsky {
+            enabled
+            redirectURL
             targetFilter {
               stream
             }

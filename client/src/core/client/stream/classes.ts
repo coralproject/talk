@@ -1146,6 +1146,7 @@ const CLASSES = {
     field: "coral coral-login-field",
     errorContainer: "coral coral-login-errorContainer",
     error: "coral coral-login-error",
+    bskyButton: "coral coral-login-bskyButton",
     facebookButton: "coral coral-login-facebookButton",
     googleButton: "coral coral-login-googleButton",
     oidcButton: "coral coral-login-oidcButton",

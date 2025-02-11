@@ -2,6 +2,7 @@ import bytes from "bytes";
 
 import { AppOptions } from "coral-server/app";
 import {
+  bskyHandler,
   facebookHandler,
   forgotCheckHandler,
   forgotHandler,
@@ -57,6 +58,11 @@ export function createNewAuthRouter(
   router.delete("/", authenticate(passport), logoutHandler(app));
 
   // Mount the external auth integrations with middleware/handle wrappers.
+  const bsky = bskyHandler(app);
+
+  router.get("/bsky", bsky);
+  router.get("/bsky/callback", bsky);
+
   const facebook = facebookHandler(app);
 
   router.get("/facebook", facebook);

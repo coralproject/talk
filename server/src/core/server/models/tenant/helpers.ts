@@ -94,7 +94,8 @@ export function linkUsersAvailable(
 ) {
   return (
     hasEnabledAuthIntegration(config, tenant, "local") &&
-    (hasEnabledAuthIntegration(config, tenant, "facebook") ||
+    (hasEnabledAuthIntegration(config, tenant, "bsky") ||
+      hasEnabledAuthIntegration(config, tenant, "facebook") ||
       hasEnabledAuthIntegration(config, tenant, "google"))
   );
 }

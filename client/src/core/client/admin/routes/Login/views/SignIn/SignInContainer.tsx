@@ -38,6 +38,9 @@ const SignInContainer: FunctionComponent<Props> = ({ auth }) => {
       emailEnabled={
         integrations.local.enabled && integrations.local.targetFilter.admin
       }
+      bskyEnabled={
+        integrations.bsky.enabled && integrations.bsky.targetFilter.admin
+      }
       facebookEnabled={
         integrations.facebook.enabled &&
         integrations.facebook.targetFilter.admin
@@ -58,8 +61,15 @@ const enhanced = withFragmentContainer<Props>({
       ...SignInWithOIDCContainer_auth
       ...SignInWithGoogleContainer_auth
       ...SignInWithFacebookContainer_auth
+      ...SignInWithBskyContainter_auth
       integrations {
         local {
+          enabled
+          targetFilter {
+            admin
+          }
+        }
+        bsky {
           enabled
           targetFilter {
             admin
