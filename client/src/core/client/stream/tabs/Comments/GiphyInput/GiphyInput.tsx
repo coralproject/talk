@@ -1,7 +1,5 @@
-import { Localized } from "@fluent/react/compat";
 import { GiphyFetch, SearchOptions } from "@giphy/js-fetch-api";
 import { IGif } from "@giphy/js-types";
-import { Grid } from "@giphy/react-components";
 import React, {
   ChangeEventHandler,
   FunctionComponent,
@@ -13,20 +11,21 @@ import React, {
   useRef,
   useState,
 } from "react";
-import useDebounce from "react-use/lib/useDebounce";
 import useResizeObserver from "use-resize-observer";
 
+import { useDebounce } from "coral-framework/hooks";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
+import { GifGrid, GifResult } from "../GifGrid";
 import { GifSearchInput } from "../GifSearchInput/GifSearchInput";
 import GiphyAttribution from "./GiphyAttribution";
 
 import styles from "./GiphyInput.css";
 
-const APPROX_COL_WIDTH = 120;
+const DEBOUNCE_DELAY_MS = 1250;
 
 interface Props {
-  onSelect: (gif: IGif) => void;
+  onSelect: (gif: GifResult) => void;
   forwardRef?: Ref<HTMLInputElement>;
   apiKey: string;
   maxRating: string;
@@ -38,33 +37,87 @@ const GiphyInput: FunctionComponent<Props> = ({
   maxRating,
 }) => {
   const [query, setQuery] = useState("");
+  const [gifs, setGifs] = useState<GifResult[]>([]);
+  const [offset, setOffset] = useState<number>(0);
+  const [isNext, setIsNext] = useState<boolean | null>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { ref, width = 1 } = useResizeObserver<HTMLDivElement>();
+  const { ref } = useResizeObserver<HTMLDivElement>();
 
   const client = useMemo(() => new GiphyFetch(apiKey), [apiKey]);
-  const fetchGifs = useCallback(
-    async (offset: number) =>
-      client.search(query, {
-        offset,
-        limit: 10,
-        rating: maxRating as SearchOptions["rating"],
-        sort: "relevant",
-      }),
-    [client, maxRating, query]
-  );
 
-  // Instead of updating the query with every keystroke, debounce the change to
-  // that state parameter.
-  const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [, cancelDebounce] = useDebounce(() => setQuery(debouncedQuery), 500, [
-    debouncedQuery,
-  ]);
+  useEffect(() => {
+    setOffset(0);
+  }, [query]);
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    setDebouncedQuery(e.target.value);
+  const fetchGifs = useCallback(async () => {
+    const response = await client.search(query, {
+      offset,
+      limit: 10,
+      rating: maxRating as SearchOptions["rating"],
+      sort: "relevant",
+    });
+    if (!response) {
+      return null;
+    }
+    return response;
+  }, [client, maxRating, query, offset]);
+
+  const mapGifs = useCallback((response: { data: IGif[] }) => {
+    return response.data.map((gif) => {
+      return {
+        id: gif.id as string,
+        preview: gif.images.preview_gif.url,
+        title: gif.title,
+        url: gif.images.original.url,
+      };
+    });
   }, []);
+
+  const loadGifs = useCallback(async () => {
+    const response = await fetchGifs();
+    if (!response) {
+      return;
+    }
+
+    const mappedResponse = mapGifs(response);
+
+    setGifs(mappedResponse);
+    setOffset(
+      response.pagination.count + response.pagination.offset + 1 ?? null
+    );
+    setIsNext(
+      response.pagination.total_count > response.pagination.count + offset
+    );
+  }, [fetchGifs, offset, mapGifs]);
+
+  const loadMoreGifs = useCallback(async () => {
+    const response = await fetchGifs();
+    if (!response) {
+      return;
+    }
+
+    const mappedResponse = mapGifs(response);
+
+    setGifs([...gifs, ...mappedResponse]);
+    setOffset(
+      response.pagination.count + response.pagination.offset + 1 ?? null
+    );
+    setIsNext(
+      response.pagination.total_count > response.pagination.count + offset
+    );
+  }, [fetchGifs, gifs, offset, mapGifs]);
+
+  const debounceFetchGifs = useDebounce(loadGifs, DEBOUNCE_DELAY_MS);
+
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    async (e) => {
+      setQuery(e.target.value);
+      setTimeout(debounceFetchGifs, 300);
+    },
+    [debounceFetchGifs, setQuery]
+  );
 
   // Focus on the input as soon as the input is available.
   useEffect(() => {
@@ -73,63 +126,50 @@ const GiphyInput: FunctionComponent<Props> = ({
     }
   }, []);
 
-  const onKeyPress = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== "Enter") {
-      return;
-    }
+  const onKeyPress = useCallback(
+    async (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key !== "Enter") {
+        return;
+      }
 
-    e.preventDefault();
-  }, []);
+      debounceFetchGifs();
 
-  const gridColumns = useMemo(() => {
-    if (width < APPROX_COL_WIDTH * 2) {
-      return 2;
-    }
-    return Math.floor(width / APPROX_COL_WIDTH);
-  }, [width]);
+      e.preventDefault();
+    },
+    [debounceFetchGifs]
+  );
+
+  const onLoadMore = useCallback(async () => {
+    await loadMoreGifs();
+  }, [loadMoreGifs]);
 
   const onGifClick = useCallback(
-    (gif: IGif) => {
+    (gif: GifResult) => {
       // Cancel any active timers that might cause the query to be changed.
-      cancelDebounce();
       setQuery("");
       onSelect(gif);
     },
-    [cancelDebounce, onSelect]
+    [onSelect]
   );
 
   return (
     <div className={styles.root} ref={ref}>
       <HorizontalGutter>
         <GifSearchInput
-          debouncedQuery={debouncedQuery}
+          debouncedQuery={query}
           onChange={onChange}
           onKeyPress={onKeyPress}
           inputRef={inputRef}
         />
         <div className={styles.grid}>
-          {query && (
-            <Grid
-              fetchGifs={fetchGifs}
-              hideAttribution
-              noLink={true}
-              gutter={4}
-              columns={gridColumns}
-              noResultsMessage={
-                <Localized
-                  id="comments-postComment-gifSearch-no-results"
-                  vars={{ query }}
-                >
-                  <p className={styles.noResults}>
-                    No results found for "{query}"{" "}
-                  </p>
-                </Localized>
-              }
-              key={query}
-              width={width}
-              onGifClick={onGifClick}
-            />
-          )}
+          <GifGrid
+            gifs={gifs}
+            showLoadMore={
+              !!(isNext && gifs && gifs.length > 0 && query?.length > 0)
+            }
+            onSelectGif={onGifClick}
+            onLoadMore={onLoadMore}
+          />
         </div>
         <GiphyAttribution />
       </HorizontalGutter>

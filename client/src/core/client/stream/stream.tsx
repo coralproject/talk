@@ -28,7 +28,6 @@ import AppContainer from "./App";
 import CSSLoadError from "./CSSLoadError";
 import { createInitLocalState } from "./local";
 import localesData from "./locales";
-import { EmotionShadowRoot } from "./shadow";
 
 // Import css variables.
 import { ACCESS_TOKEN_KEY } from "coral-framework/lib/auth";
@@ -232,7 +231,6 @@ export async function attach(options: AttachOptions) {
 
     const encapsulationContext = useMemo(
       () => ({
-        ReactShadowRoot: EmotionShadowRoot,
         containerClassName: options.containerClassName,
         cssAssets: shadowCSSAssets,
         customCSSAssets: customShadowCSSAssets,
