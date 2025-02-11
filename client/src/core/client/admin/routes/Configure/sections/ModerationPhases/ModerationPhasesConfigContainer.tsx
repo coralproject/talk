@@ -23,7 +23,6 @@ import { ModerationPhasesConfigContainer_settings } from "coral-admin/__generate
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import Subheader from "../../Subheader";
-import ExperimentalExternalModerationPhaseCallOut from "./ExperimentalExternalModerationPhaseCallOut";
 import ExternalModerationPhaseRow from "./ExternalModerationPhaseRow";
 
 interface Props {
@@ -51,7 +50,6 @@ const ModerationPhasesConfigContainer: FunctionComponent<Props> = ({
 }) => {
   return (
     <HorizontalGutter size="double" data-testid="moderation-phases-container">
-      <ExperimentalExternalModerationPhaseCallOut />
       <ModerationPhasesBox>
         <Localized
           id="configure-moderationPhases-description"
