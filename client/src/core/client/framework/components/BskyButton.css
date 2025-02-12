@@ -13,17 +13,17 @@
 
   &:not(.disabled),
   &:not(:disabled) {
-    background-color: #0066db;
-    border-color: #0066db;
+    background-color: #b1d3fa;
+    border-color: #b1d3fa;
   }
 
   &:hover, &.mouseHover {
-    background-color: #0078ff;
-    border-color: #0078ff;
-  }
-  &:active, &.active {
     background-color: #2e8fff;
     border-color: #2e8fff;
+  }
+  &:active, &.active {
+    background-color: #b1d3fa;
+    border-color: #b1d3fa;
   }
   &.disabled {
     color: var(--palette-grey-400);
