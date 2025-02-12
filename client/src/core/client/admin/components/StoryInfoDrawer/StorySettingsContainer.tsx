@@ -5,7 +5,7 @@ import { Field, Form } from "react-final-form";
 import { graphql } from "relay-runtime";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import ExpertSelectionQuery from "coral-stream/tabs/Configure/Q&A/ExpertSelectionQuery";
+import ExpertSelectionQuery from "coral-stream/tabs/Configure/QA/ExpertSelectionQuery";
 import { CogIcon, SvgIcon } from "coral-ui/components/icons";
 import {
   CheckBox,

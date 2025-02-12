@@ -20,9 +20,3 @@
 
   margin-bottom: var(--spacing-3);
 }
-
-.experimental {
-  margin-top: var(--spacing-5);
-  margin-bottom: var(--spacing-1);
-  margin-left: var(--spacing-3);
-}
