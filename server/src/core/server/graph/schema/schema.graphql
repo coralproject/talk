@@ -5276,6 +5276,15 @@ type NotificationDecisionDetails {
   explanation: String
 }
 
+type PersistedQuery {
+  id: String!
+  operation: String!
+  operationName: String!
+  query: String!
+  bundle: String!
+  version: String!
+}
+
 ################################################################################
 ## Query
 ################################################################################
@@ -5469,6 +5478,11 @@ type Query {
   ): NotificationsConnection!
 
   notificationCount(userID: ID!): Int
+
+  """
+  persistedQueries returns all the persisted query records in the database
+  """
+  persistedQueries: [PersistedQuery!] @auth(roles: [ADMIN])
 }
 
 ################################################################################

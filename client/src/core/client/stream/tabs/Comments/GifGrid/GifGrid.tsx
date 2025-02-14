@@ -11,16 +11,21 @@ import React, {
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { Button } from "coral-ui/components/v2";
 
-import { GifResult } from "./TenorInput";
+import styles from "./GifGrid.css";
 
-import styles from "./TenorGrid.css";
+export interface GifResult {
+  id: string;
+  url: string;
+  preview: string;
+  title?: string;
+}
 
 interface GridItemProps {
   gif: GifResult;
   onSelect: (gif: GifResult) => void;
 }
 
-const TenorGridItem: FunctionComponent<GridItemProps> = ({ gif, onSelect }) => {
+const GifGridItem: FunctionComponent<GridItemProps> = ({ gif, onSelect }) => {
   const onClick = useCallback(() => {
     onSelect(gif);
   }, [gif, onSelect]);
@@ -38,7 +43,7 @@ interface GridColumnsProps {
   numColumns: number;
 }
 
-const TenorGridColumns: FunctionComponent<GridColumnsProps> = ({
+const GifGridColumns: FunctionComponent<GridColumnsProps> = ({
   gifs,
   onSelectGif,
   numColumns,
@@ -71,13 +76,13 @@ const TenorGridColumns: FunctionComponent<GridColumnsProps> = ({
       {columns.map((colGifs, colIndex) => {
         return (
           <div
-            key={`tenor-gif-result-column-${colIndex}`}
+            key={`gif-result-column-${colIndex}`}
             className={styles.gridColumn}
           >
             {colGifs &&
               colGifs.map((gif, index) => {
                 return (
-                  <TenorGridItem
+                  <GifGridItem
                     key={`${gif.id}-${index}`}
                     gif={gif}
                     onSelect={onSelectGif}
@@ -94,12 +99,11 @@ const TenorGridColumns: FunctionComponent<GridColumnsProps> = ({
 interface Props {
   gifs: GifResult[];
   showLoadMore?: boolean;
-
   onSelectGif: (gif: GifResult) => void;
   onLoadMore: () => void;
 }
 
-const TenorGrid: FunctionComponent<Props> = ({
+const GifGrid: FunctionComponent<Props> = ({
   gifs,
   showLoadMore,
   onSelectGif,
@@ -117,7 +121,7 @@ const TenorGrid: FunctionComponent<Props> = ({
     }
 
     const rect = gridRef.current.getBoundingClientRect();
-    const numCols = rect.width / 90;
+    const numCols = rect.width / 125;
 
     setCols(numCols);
   }, [gridRef, setCols]);
@@ -136,7 +140,7 @@ const TenorGrid: FunctionComponent<Props> = ({
   return (
     <div className={styles.grid}>
       {gifs && cols > 0 && (
-        <TenorGridColumns
+        <GifGridColumns
           gifs={gifs}
           onSelectGif={onSelectGif}
           numColumns={cols}
@@ -155,4 +159,4 @@ const TenorGrid: FunctionComponent<Props> = ({
   );
 };
 
-export default TenorGrid;
+export default GifGrid;

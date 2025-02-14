@@ -25,5 +25,4 @@ export type LanguageCode =
   | "pl"
   | "ru"
   | "nb-NO"
-  | "hr"
   | "zh-CN";
