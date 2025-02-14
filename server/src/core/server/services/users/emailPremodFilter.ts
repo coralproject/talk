@@ -41,6 +41,10 @@ const emailIsAnAliasOfExistingUser = async (
   tenant: Readonly<Tenant>,
   email: string | undefined
 ) => {
+  if (!tenant?.premoderateEmailAddress?.emailAliases?.enabled) {
+    return false;
+  }
+
   if (!email) {
     return false;
   }
@@ -121,7 +125,7 @@ export const shouldPremodDueToLikelySpamEmail = async (
       EMAIL_PREMOD_FILTER_PERIOD_LIMIT
     ),
     // premod email aliases if the feature is enabled
-    tenant?.premoderateEmailAddress?.emailAliases?.enabled && mongo
+    mongo
       ? await emailIsAnAliasOfExistingUser(mongo, tenant, user.email)
       : false,
   ];
