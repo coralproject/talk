@@ -1,10 +1,20 @@
+import { MongoContext } from "coral-server/data/context";
 import { NewUserModeration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { emailIsAlias } from "./helpers";
 
 export const EMAIL_PREMOD_FILTER_PERIOD_LIMIT = 3;
 
-const emailHasTooManyPeriods = (email: string | undefined, limit: number) => {
+const emailHasTooManyPeriods = (
+  tenant: Readonly<Tenant>,
+  email: string | undefined,
+  limit: number
+) => {
+  if (!tenant?.premoderateEmailAddress?.tooManyPeriods?.enabled) {
+    return false;
+  }
+
   if (!email) {
     return false;
   }
@@ -24,6 +34,33 @@ const emailHasTooManyPeriods = (email: string | undefined, limit: number) => {
   }
 
   return periodCount >= limit;
+};
+
+const emailIsAnAliasOfExistingUser = async (
+  mongo: MongoContext,
+  tenant: Readonly<Tenant>,
+  email: string | undefined
+) => {
+  if (!email) {
+    return false;
+  }
+
+  const { isAlias, base } = emailIsAlias(email);
+  if (!isAlias || !base) {
+    return false;
+  }
+
+  // only pre-mod if user is an alias of an existing
+  // user
+  //
+  // mods and admins regularly use aliases for all
+  // their users, so it is less likely they will use
+  // their base email in our system.
+  const existingUser = await mongo
+    .users()
+    .findOne({ tenantID: tenant.id, email: base });
+
+  return !!existingUser;
 };
 
 const emailIsOnAutoBanList = (
@@ -50,15 +87,11 @@ const emailIsOnAutoBanList = (
   return !!autoBanRecord;
 };
 
-export const shouldPremodDueToLikelySpamEmail = (
+export const shouldPremodDueToLikelySpamEmail = async (
+  mongo: MongoContext,
   tenant: Readonly<Tenant>,
   user: Readonly<User>
 ) => {
-  // don't premod check unless the filter is enabled
-  if (!tenant?.premoderateEmailAddress?.tooManyPeriods?.enabled) {
-    return false;
-  }
-
   // don't need to premod a user that is already premoderated
   if (user.status.premod.active) {
     return false;
@@ -82,7 +115,15 @@ export const shouldPremodDueToLikelySpamEmail = (
   // future as we play whack-a-mole trying to block spammers
   // and other trouble makers
   const results = [
-    emailHasTooManyPeriods(user.email, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
+    emailHasTooManyPeriods(
+      tenant,
+      user.email,
+      EMAIL_PREMOD_FILTER_PERIOD_LIMIT
+    ),
+    // premod email aliases if the feature is enabled
+    tenant?.premoderateEmailAddress?.emailAliases?.enabled
+      ? await emailIsAnAliasOfExistingUser(mongo, tenant, user.email)
+      : false,
   ];
 
   return results.some((v) => v === true);

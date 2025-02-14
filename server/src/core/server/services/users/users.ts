@@ -181,7 +181,7 @@ export async function findOrCreate(
     // Try to find or create the user.
     let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
 
-    if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+    if (await shouldPremodDueToLikelySpamEmail(mongo, tenant, user)) {
       user = await premodUser(
         mongo,
         tenant.id,
@@ -202,7 +202,7 @@ export async function findOrCreate(
       // exit this function.
       let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
 
-      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+      if (await shouldPremodDueToLikelySpamEmail(mongo, tenant, user)) {
         user = await premodUser(
           mongo,
           tenant.id,
@@ -237,7 +237,7 @@ export async function findOrCreate(
         now
       );
 
-      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+      if (await shouldPremodDueToLikelySpamEmail(mongo, tenant, user)) {
         user = await premodUser(
           mongo,
           tenant.id,

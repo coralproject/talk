@@ -104,3 +104,41 @@ export function checkForNewUserEmailDomainModeration(
   }
   return null;
 }
+
+interface EmailIsAliasResult {
+  base: string | null;
+  isAlias: boolean;
+}
+
+export function emailIsAlias(email?: string | null): EmailIsAliasResult {
+  if (!email) {
+    return {
+      base: null,
+      isAlias: false,
+    };
+  }
+
+  const split = email.split("@");
+  if (split.length < 2) {
+    return {
+      base: null,
+      isAlias: false,
+    };
+  }
+
+  const aliasSplit = email.split("+");
+  if (aliasSplit.length <= 1) {
+    return {
+      base: null,
+      isAlias: false,
+    };
+  }
+
+  const baseOfAlias = aliasSplit[0];
+  const baseEmail = `${baseOfAlias}@${split[2]}`;
+
+  return {
+    base: baseEmail,
+    isAlias: true,
+  };
+}
