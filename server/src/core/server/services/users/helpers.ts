@@ -106,14 +106,14 @@ export function checkForNewUserEmailDomainModeration(
 }
 
 interface EmailIsAliasResult {
-  base?: {
-    value: string;
-    start: string;
+  baseEmail?: {
+    fullBaseEmail: string;
+    baseEmailWithoutDomain: string;
     domain: string;
   } | null;
-  alias?: {
-    value: string;
-    start: string;
+  aliasEmail?: {
+    fullAliasEmail: string;
+    aliasEmailWithoutDomain: string;
     domain: string;
   } | null;
   isAlias: boolean;
@@ -122,45 +122,44 @@ interface EmailIsAliasResult {
 export function emailIsAlias(email?: string | null): EmailIsAliasResult {
   if (!email) {
     return {
-      base: null,
-      alias: null,
+      baseEmail: null,
+      aliasEmail: null,
       isAlias: false,
     };
   }
 
-  const split = email.split("@");
-  if (split.length < 2) {
+  const emailSplit = email.split("@");
+  if (emailSplit.length < 2) {
     return {
-      base: null,
-      alias: null,
+      baseEmail: null,
+      aliasEmail: null,
       isAlias: false,
     };
   }
-
-  const domain = split[2];
-  const aliasStart = split[0];
 
   const aliasSplit = email.split("+");
   if (aliasSplit.length <= 1) {
     return {
-      base: null,
-      alias: null,
+      baseEmail: null,
+      aliasEmail: null,
       isAlias: false,
     };
   }
 
+  const domain = emailSplit[2];
+  const aliasStart = emailSplit[0];
   const baseOfAlias = aliasSplit[0];
   const baseEmail = `${baseOfAlias}@${domain}`;
 
   return {
-    base: {
-      value: baseEmail,
-      start: baseOfAlias,
+    baseEmail: {
+      fullBaseEmail: baseEmail,
+      baseEmailWithoutDomain: baseOfAlias,
       domain,
     },
-    alias: {
-      value: email,
-      start: aliasStart,
+    aliasEmail: {
+      fullAliasEmail: email,
+      aliasEmailWithoutDomain: aliasStart,
       domain,
     },
     isAlias: true,
