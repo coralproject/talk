@@ -9,7 +9,6 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { ConfigureExternalModerationPhaseContainer_phase } from "coral-admin/__generated__/ConfigureExternalModerationPhaseContainer_phase.graphql";
 
-import ExperimentalExternalModerationPhaseCallOut from "../ExperimentalExternalModerationPhaseCallOut";
 import ExternalModerationPhaseDangerZone from "./ExternalModerationPhaseDangerZone";
 import ExternalModerationPhaseDetails from "./ExternalModerationPhaseDetails";
 import ExternalModerationPhaseStatus from "./ExternalModerationPhaseStatus";
@@ -26,7 +25,6 @@ const ConfigureExternalModerationPhaseContainer: FunctionComponent<Props> = ({
       size="double"
       data-testid="external-moderation-phases-container"
     >
-      <ExperimentalExternalModerationPhaseCallOut />
       <ConfigBox
         title={
           <Localized id="configure-moderationPhases-configureExternalModerationPhase">

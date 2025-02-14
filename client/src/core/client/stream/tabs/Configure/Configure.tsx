@@ -9,7 +9,7 @@ import { AddMessageContainer } from "./AddMessage";
 import ArchivedConfigurationContainer from "./ArchivedConfigurationContainer";
 import ConfigureStreamContainer from "./ConfigureStream";
 import OpenOrCloseStreamContainer from "./OpenOrCloseStream";
-import { QAConfigContainer } from "./Q&A";
+import { QAConfigContainer } from "./QA";
 
 export interface Props {
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"];

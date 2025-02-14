@@ -23,7 +23,6 @@ import { WebhookEndpointsConfigContainer_settings } from "coral-admin/__generate
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import Subheader from "../../Subheader";
-import ExperimentalWebhooksCallOut from "./ExperimentalWebhooksCallOut";
 import WebhookEndpointRow from "./WebhookEndpointRow";
 
 interface Props {
@@ -35,7 +34,6 @@ const WebhookEndpointsConfigContainer: FunctionComponent<Props> = ({
 }) => {
   return (
     <HorizontalGutter size="double" data-testid="webhooks-container">
-      <ExperimentalWebhooksCallOut />
       <ConfigBox
         title={
           <Localized id="configure-webhooks-header-title">

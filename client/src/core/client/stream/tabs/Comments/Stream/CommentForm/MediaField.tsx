@@ -1,4 +1,3 @@
-import { IGif } from "@giphy/js-types";
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { useField } from "react-final-form";
 
@@ -17,9 +16,10 @@ import {
   MediaPreview,
 } from "../../Comment/MediaConfirmation";
 import ExternalImageInput from "../../ExternalImageInput";
+import { GifResult } from "../../GifGrid";
 import GiphyInput, { GifPreview } from "../../GiphyInput";
 import { getMediaValidators } from "../../helpers";
-import TenorInput, { GifResult } from "../../TenorInput/TenorInput";
+import TenorInput from "../../TenorInput/TenorInput";
 
 export type Widget = "gifs" | "external" | null;
 
@@ -63,11 +63,11 @@ const MediaField: FunctionComponent<Props> = ({
   });
 
   const onGiphySelect = useCallback(
-    (gif: IGif) => {
+    (gif: GifResult) => {
       onChange({
         type: "giphy",
         id: gif.id,
-        url: gif.images.original.url,
+        url: gif.url,
       });
       setWidget(null);
     },

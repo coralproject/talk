@@ -8,7 +8,6 @@ import { urls } from "coral-framework/helpers";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { ConfigureExternalModerationPhaseForm } from "../ConfigureExternalModerationPhaseForm";
-import ExperimentalExternalModerationPhaseCallOut from "../ExperimentalExternalModerationPhaseCallOut";
 
 const AddExternalModerationPhaseContainer: FunctionComponent = () => {
   const { router } = useRouter();
@@ -18,7 +17,6 @@ const AddExternalModerationPhaseContainer: FunctionComponent = () => {
 
   return (
     <HorizontalGutter size="double">
-      <ExperimentalExternalModerationPhaseCallOut />
       <ConfigBox
         title={
           <Localized id="configure-moderationPhases-addExternalModerationPhase">
