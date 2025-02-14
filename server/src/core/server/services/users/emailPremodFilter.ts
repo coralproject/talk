@@ -2,6 +2,7 @@ import { MongoContext } from "coral-server/data/context";
 import { NewUserModeration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { STAFF_ROLES } from "coral-server/models/user/constants";
 import { emailIsAlias } from "./helpers";
 
 export const EMAIL_PREMOD_FILTER_PERIOD_LIMIT = 3;
@@ -64,6 +65,18 @@ const emailIsAnAliasOfExistingUser = async (
     .users()
     .findOne({ tenantID: tenant.id, email: base.fullBaseEmail });
 
+  // if no existing user, do not pre-mod (as per prior comment)
+  if (!existingUser) {
+    return false;
+  }
+
+  // if existing user is a staff member, also don't pre-mod
+  if (STAFF_ROLES.includes(existingUser.role)) {
+    return false;
+  }
+
+  // if user exists, and other checks aren't blocking, return
+  // that we should pre-mod!
   return !!existingUser;
 };
 
