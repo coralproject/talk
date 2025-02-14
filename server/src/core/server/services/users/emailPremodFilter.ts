@@ -88,7 +88,7 @@ const emailIsOnAutoBanList = (
 };
 
 export const shouldPremodDueToLikelySpamEmail = async (
-  mongo: MongoContext,
+  mongo: MongoContext | undefined = undefined,
   tenant: Readonly<Tenant>,
   user: Readonly<User>
 ) => {
@@ -121,7 +121,7 @@ export const shouldPremodDueToLikelySpamEmail = async (
       EMAIL_PREMOD_FILTER_PERIOD_LIMIT
     ),
     // premod email aliases if the feature is enabled
-    tenant?.premoderateEmailAddress?.emailAliases?.enabled
+    tenant?.premoderateEmailAddress?.emailAliases?.enabled && mongo
       ? await emailIsAnAliasOfExistingUser(mongo, tenant, user.email)
       : false,
   ];
