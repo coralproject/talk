@@ -106,7 +106,16 @@ export function checkForNewUserEmailDomainModeration(
 }
 
 interface EmailIsAliasResult {
-  base: string | null;
+  base?: {
+    value: string;
+    start: string;
+    domain: string;
+  } | null;
+  alias?: {
+    value: string;
+    start: string;
+    domain: string;
+  } | null;
   isAlias: boolean;
 }
 
@@ -114,6 +123,7 @@ export function emailIsAlias(email?: string | null): EmailIsAliasResult {
   if (!email) {
     return {
       base: null,
+      alias: null,
       isAlias: false,
     };
   }
@@ -122,23 +132,37 @@ export function emailIsAlias(email?: string | null): EmailIsAliasResult {
   if (split.length < 2) {
     return {
       base: null,
+      alias: null,
       isAlias: false,
     };
   }
+
+  const domain = split[2];
+  const aliasStart = split[0];
 
   const aliasSplit = email.split("+");
   if (aliasSplit.length <= 1) {
     return {
       base: null,
+      alias: null,
       isAlias: false,
     };
   }
 
   const baseOfAlias = aliasSplit[0];
-  const baseEmail = `${baseOfAlias}@${split[2]}`;
+  const baseEmail = `${baseOfAlias}@${domain}`;
 
   return {
-    base: baseEmail,
+    base: {
+      value: baseEmail,
+      start: baseOfAlias,
+      domain,
+    },
+    alias: {
+      value: email,
+      start: aliasStart,
+      domain,
+    },
     isAlias: true,
   };
 }

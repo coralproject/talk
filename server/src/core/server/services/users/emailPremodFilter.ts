@@ -58,7 +58,7 @@ const emailIsAnAliasOfExistingUser = async (
   // their base email in our system.
   const existingUser = await mongo
     .users()
-    .findOne({ tenantID: tenant.id, email: base });
+    .findOne({ tenantID: tenant.id, email: base.value });
 
   return !!existingUser;
 };

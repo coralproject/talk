@@ -128,6 +128,7 @@ import {
   generateAdminDownloadLink,
   generateDownloadLink,
 } from "./download/token";
+import { shouldBanEmailBecauseOtherAliasesAreBanned } from "./emailAliasBanFilter";
 import { shouldPremodDueToLikelySpamEmail } from "./emailPremodFilter";
 import {
   checkForNewUserEmailDomainModeration,
@@ -192,6 +193,10 @@ export async function findOrCreate(
       );
     }
 
+    if (await shouldBanEmailBecauseOtherAliasesAreBanned(mongo, user.email)) {
+      user = await banUser(mongo, tenant.id, user.id);
+    }
+
     return user;
   } catch (err) {
     // If this error is related to a duplicate user error, we might have
@@ -211,6 +216,10 @@ export async function findOrCreate(
           now,
           PremodUserReason.EmailPremodFilter
         );
+      }
+
+      if (await shouldBanEmailBecauseOtherAliasesAreBanned(mongo, user.email)) {
+        user = await banUser(mongo, tenant.id, user.id);
       }
 
       return user;
@@ -246,6 +255,10 @@ export async function findOrCreate(
           now,
           PremodUserReason.EmailPremodFilter
         );
+      }
+
+      if (await shouldBanEmailBecauseOtherAliasesAreBanned(mongo, user.email)) {
+        user = await banUser(mongo, tenant.id, user.id);
       }
 
       return user;
