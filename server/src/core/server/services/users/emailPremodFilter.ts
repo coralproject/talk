@@ -3,7 +3,11 @@ import { NewUserModeration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { STAFF_ROLES } from "coral-server/models/user/constants";
-import { emailIsAlias } from "./helpers";
+import {
+  emailIsAlias,
+  findBaseUserForAlias,
+  findUsersSimilarToEmail,
+} from "./helpers";
 
 export const EMAIL_PREMOD_FILTER_PERIOD_LIMIT = 3;
 
@@ -37,49 +41,6 @@ const emailHasTooManyPeriods = (
   return periodCount >= limit;
 };
 
-const emailIsAnAliasOfExistingUser = async (
-  mongo: MongoContext,
-  tenant: Readonly<Tenant>,
-  email: string | undefined
-) => {
-  if (!tenant?.premoderateEmailAddress?.emailAliases?.enabled) {
-    return false;
-  }
-
-  if (!email) {
-    return false;
-  }
-
-  const { isAlias, baseEmail: base } = emailIsAlias(email);
-  if (!isAlias || !base) {
-    return false;
-  }
-
-  // only pre-mod if user is an alias of an existing
-  // user
-  //
-  // mods and admins regularly use aliases for all
-  // their users, so it is less likely they will use
-  // their base email in our system.
-  const existingUser = await mongo
-    .users()
-    .findOne({ tenantID: tenant.id, email: base.fullBaseEmail });
-
-  // if no existing user, do not pre-mod (as per prior comment)
-  if (!existingUser) {
-    return false;
-  }
-
-  // if existing user is a staff member, also don't pre-mod
-  if (STAFF_ROLES.includes(existingUser.role)) {
-    return false;
-  }
-
-  // if user exists, and other checks aren't blocking, return
-  // that we should pre-mod!
-  return !!existingUser;
-};
-
 const emailIsOnAutoBanList = (
   email: string | undefined,
   tenant: Readonly<Tenant>
@@ -102,6 +63,45 @@ const emailIsOnAutoBanList = (
   );
 
   return !!autoBanRecord;
+};
+
+const emailIsAnAliasOfExistingUser = async (
+  mongo: MongoContext,
+  tenant: Readonly<Tenant>,
+  email: string | undefined
+) => {
+  if (!tenant?.premoderateEmailAddress?.emailAliases?.enabled) {
+    return false;
+  }
+
+  if (!email) {
+    return false;
+  }
+
+  // if it is not an alias, can't have another alias or base email
+  // user
+  const isAlias = emailIsAlias(email);
+  if (!isAlias) {
+    return false;
+  }
+
+  // see if the base user (no alias) is a staff member, if so
+  // don't premod them
+  const baseUser = await findBaseUserForAlias(mongo, tenant.id, email);
+  if (baseUser && STAFF_ROLES.includes(baseUser.role)) {
+    return false;
+  }
+
+  // if we still have a base user who is not a staff member, premod
+  // this alias as it's likely spam
+  if (baseUser) {
+    return true;
+  }
+
+  // if there are other emails similar to this alias, then we've found
+  // more aliases of this alias
+  const similarUsers = await findUsersSimilarToEmail(mongo, email, 5);
+  return similarUsers.length > 0;
 };
 
 export const shouldPremodDueToLikelySpamEmail = async (

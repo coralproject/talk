@@ -1,5 +1,5 @@
 import { MongoContext } from "coral-server/data/context";
-import { emailIsAlias } from "./helpers";
+import { parseEmailAliasIntoParts, sanitizeStringForRegex } from "./helpers";
 
 export const shouldBanEmailBecauseOtherAliasesAreBanned = async (
   mongo: MongoContext,
@@ -9,12 +9,16 @@ export const shouldBanEmailBecauseOtherAliasesAreBanned = async (
     return false;
   }
 
-  const { isAlias, baseEmail: base } = emailIsAlias(email);
+  const { isAlias, baseEmail: base } = parseEmailAliasIntoParts(email);
   if (!isAlias || !base) {
     return false;
   }
 
-  const regex = new RegExp(`^${base.baseEmailWithoutDomain}.*${base.domain}$`);
+  const regexFriendlyAddress = sanitizeStringForRegex(
+    base.baseEmailWithoutDomain
+  );
+  const regexFriendlyDomain = sanitizeStringForRegex(base.domain);
+  const regex = new RegExp(`^${regexFriendlyAddress}.*${regexFriendlyDomain}$`);
 
   const usersCursor = mongo.users().find({ email: { $regex: regex } });
   while (await usersCursor.hasNext()) {

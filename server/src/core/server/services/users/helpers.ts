@@ -5,6 +5,7 @@ import {
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
 } from "coral-common/common/lib/helpers/validate";
+import { MongoContext } from "coral-server/data/context";
 import {
   EmailExceedsMaxLengthError,
   EmailInvalidFormatError,
@@ -119,7 +120,105 @@ interface EmailIsAliasResult {
   isAlias: boolean;
 }
 
-export function emailIsAlias(email?: string | null): EmailIsAliasResult {
+interface BaseEmailResult {
+  fullEmail: string;
+  domain: string;
+  address: string;
+}
+
+export function computeBaseEmailFromAlias(
+  email?: string | null
+): BaseEmailResult | null {
+  if (!email) {
+    return null;
+  }
+
+  // all emails must contain one @ sign between
+  // the address and domain
+  const emailSplit = email.split("@");
+  if (emailSplit.length !== 2) {
+    return null;
+  }
+
+  // address is the first part of the email
+  // before the @ sign
+  const address = emailSplit[0];
+  const domain = emailSplit[1];
+
+  // strip the alias away from the address to get its base
+  const aliasSplit = address.split("+");
+  const baseAddress = aliasSplit[0];
+
+  const baseEmail = `${baseAddress}@${domain}`;
+
+  return {
+    fullEmail: baseEmail,
+    address: baseAddress,
+    domain,
+  };
+}
+
+const RegexSpecialCharacters = [
+  "\\",
+  "^",
+  "$",
+  ".",
+  "|",
+  "?",
+  "*",
+  "+",
+  "(",
+  ")",
+  "[",
+  "]",
+  "{",
+  "}",
+];
+
+export const sanitizeStringForRegex = (value: string) => {
+  let modified = value;
+
+  for (const c of RegexSpecialCharacters) {
+    const globalReplace = new RegExp(`\\${c}`, "g");
+    modified = modified.replace(globalReplace, `\\${c}`);
+  }
+
+  return modified;
+};
+
+export async function findUsersSimilarToEmail(
+  mongo: MongoContext,
+  email?: string | null,
+  count?: number
+) {
+  if (!email) {
+    return [];
+  }
+
+  const base = computeBaseEmailFromAlias(email);
+  if (!base) {
+    return [];
+  }
+
+  const regexFriendlyAddress = sanitizeStringForRegex(base.address);
+  const regexFriendlyDomain = sanitizeStringForRegex(base.domain);
+  const regex = new RegExp(`^${regexFriendlyAddress}.*${regexFriendlyDomain}$`);
+
+  const query = mongo.users().find({ email: { $regex: regex } });
+
+  if (count !== undefined && count > 0) {
+    query.limit(count);
+  }
+
+  const users = await query.toArray();
+  const otherUsers = users.filter((u) => u.email !== email);
+
+  return otherUsers ?? [];
+}
+
+export function parseEmailAliasIntoParts(
+  email?: string | null
+): EmailIsAliasResult {
   if (!email) {
     return {
       baseEmail: null,
@@ -137,7 +236,8 @@ export function emailIsAlias(email?: string | null): EmailIsAliasResult {
     };
   }
 
-  const aliasSplit = email.split("+");
+  const address = emailSplit[0];
+  const aliasSplit = address.split("+");
   if (aliasSplit.length <= 1) {
     return {
       baseEmail: null,
@@ -165,3 +265,40 @@ export function emailIsAlias(email?: string | null): EmailIsAliasResult {
     isAlias: true,
   };
 }
+
+export const emailIsAlias = (email?: string | null) => {
+  if (!email) {
+    return false;
+  }
+
+  const atSplit = email.split("@");
+  if (atSplit.length !== 2) {
+    return false;
+  }
+
+  const address = atSplit[0];
+  const aliasSplit = address.split("+");
+
+  return aliasSplit.length === 2;
+};
+
+export const findBaseUserForAlias = async (
+  mongo: MongoContext,
+  tenantID: string,
+  email: string | undefined
+) => {
+  if (!email) {
+    return null;
+  }
+
+  const base = computeBaseEmailFromAlias(email);
+  if (!base) {
+    return null;
+  }
+
+  const existingUser = await mongo
+    .users()
+    .findOne({ tenantID, email: base.fullEmail });
+
+  return existingUser ?? null;
+};
