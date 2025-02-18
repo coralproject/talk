@@ -287,20 +287,18 @@ export async function processAutomaticBanForUser(
   tenant: Tenant,
   user: User
 ) {
-  if (!tenant.emailDomainModeration) {
-    return;
-  }
+  const newUserEmailDomainModeration = tenant.emailDomainModeration
+    ? checkForNewUserEmailDomainModeration(user, tenant.emailDomainModeration)
+    : undefined;
 
-  const newUserEmailDomainModeration = checkForNewUserEmailDomainModeration(
-    user,
-    tenant.emailDomainModeration
-  );
-  if (!newUserEmailDomainModeration) {
-    return;
-  }
+  const shouldBanDueToAotherAlaisesBeingBanned = tenant.premoderateEmailAddress
+    ?.emailAliases
+    ? await shouldBanEmailBecauseOtherAliasesAreBanned(mongo, user.email)
+    : false;
 
   if (
-    newUserEmailDomainModeration === GQLNEW_USER_MODERATION.BAN &&
+    (newUserEmailDomainModeration === GQLNEW_USER_MODERATION.BAN ||
+      shouldBanDueToAotherAlaisesBeingBanned) &&
     !user.status.ban.active
   ) {
     await banUser(mongo, tenant.id, user.id);

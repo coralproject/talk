@@ -146,7 +146,7 @@ export function emailIsAlias(email?: string | null): EmailIsAliasResult {
     };
   }
 
-  const domain = emailSplit[2];
+  const domain = emailSplit[1];
   const aliasStart = emailSplit[0];
   const baseOfAlias = aliasSplit[0];
   const baseEmail = `${baseOfAlias}@${domain}`;
