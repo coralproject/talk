@@ -70,6 +70,12 @@ const PremoderateEmailAddressConfig: FunctionComponent<Props> = ({
           <Localized id="configure-moderation-premoderateEmailAliases-enabled">
             <Label component="legend">Pre-moderate email aliases</Label>
           </Localized>
+          <Localized id="configure-moderation-premoderateEmailAliases-enabled-description">
+            <HelperText>
+              Users who sign up with email addresses that contain a “+” but are
+              not aliases of existing user emails are unaffected.
+            </HelperText>
+          </Localized>
         </FormFieldHeader>
         <OnOffField
           name="premoderateEmailAddress.emailAliases.enabled"

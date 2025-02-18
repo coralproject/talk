@@ -936,6 +936,9 @@ configure-moderation-premoderateEmailAddress-enabled-description =
   correlation. It can be useful to pro-actively pre-moderate them.
 configure-moderation-premoderateEmailAliases-enabled =
   Pre-moderate email aliases
+configure-moderation-premoderateEmailAliases-enabled-description =
+  Users who sign up with email addresses that contain a “+” but are
+  not aliases of existing user emails are unaffected.
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
