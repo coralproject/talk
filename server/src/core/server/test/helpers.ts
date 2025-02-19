@@ -10,8 +10,8 @@ import { createSite, Site } from "coral-server/models/site";
 import { createTenant, Tenant } from "coral-server/models/tenant";
 import { I18n } from "coral-server/services/i18n";
 import {
-  AsymmetricSigningAlgorithm,
   JWTSigningConfig,
+  SymmetricSigningAlgorithm,
 } from "coral-server/services/jwt";
 import { createMongoDB } from "coral-server/services/mongodb";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -85,7 +85,7 @@ export const createTestSite = async (
 export const createTestSigningConfig = (): JWTSigningConfig => {
   return {
     secret: "secret",
-    algorithm: AsymmetricSigningAlgorithm.RS256,
+    algorithm: SymmetricSigningAlgorithm.HS256,
   };
 };
 
@@ -127,8 +127,14 @@ export const createTestRequest = (
   return req as unknown as Request<TenantCoralRequest>;
 };
 
+const mockedHeaderFunc = (field: string, value?: string | string[]) => {};
+const mockedJsonFunc = (body?: any) => {};
+
 export const createTestResponse = (): Response<any> => {
-  return {} as unknown as Response<any>;
+  return {
+    header: mockedHeaderFunc,
+    json: mockedJsonFunc,
+  } as unknown as Response<any>;
 };
 
 export const createTestNext = () => {

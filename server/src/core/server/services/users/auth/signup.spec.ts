@@ -51,4 +51,6 @@ it("user can sign up", async () => {
   const user = await mongo.users().findOne({ email: body.email });
 
   expect(user).toBeDefined();
+  expect(user!.email).toEqual(body.email);
+  expect(user!.username).toEqual(body.username);
 });
