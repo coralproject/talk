@@ -4,7 +4,10 @@ import { v4 as uuid } from "uuid";
 import { AppOptions } from "coral-server/app";
 import { handleSuccessfulLogin } from "coral-server/app/middleware/passport";
 import { validate } from "coral-server/app/request/body";
-import { RequestLimiter } from "coral-server/app/request/limiter";
+import {
+  RequestLimiter,
+  RequestLimiterOptions,
+} from "coral-server/app/request/limiter";
 import {
   IntegrationDisabled,
   UsernameAlreadyExists,
@@ -19,7 +22,10 @@ import {
 import { create, usernameAlreadyExists } from "coral-server/services/users";
 import { sendConfirmationEmail } from "coral-server/services/users/auth";
 import { shouldPremodDueToLikelySpamEmail } from "coral-server/services/users/emailPremodFilter";
-import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+import {
+  AsyncRequestHandler,
+  TenantCoralRequest,
+} from "coral-server/types/express";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 
@@ -38,7 +44,7 @@ export const SignupBodySchema = Joi.object().keys({
 export type SignupOptions = Pick<
   AppOptions,
   "mongo" | "signingConfig" | "mailerQueue" | "redis" | "config"
->;
+> & { limiterOptions?: RequestLimiterOptions };
 
 export const signupHandler = ({
   config,
@@ -46,14 +52,17 @@ export const signupHandler = ({
   mongo,
   signingConfig,
   mailerQueue,
-}: SignupOptions): RequestHandler<TenantCoralRequest> => {
-  const ipLimiter = new RequestLimiter({
-    redis,
-    ttl: "10m",
-    max: 10,
-    prefix: "ip",
-    config,
-  });
+  limiterOptions,
+}: SignupOptions): AsyncRequestHandler<TenantCoralRequest> => {
+  const ipLimiter = new RequestLimiter(
+    limiterOptions ?? {
+      redis,
+      ttl: "10m",
+      max: 10,
+      prefix: "ip",
+      config,
+    }
+  );
 
   return async (req, res, next) => {
     try {
