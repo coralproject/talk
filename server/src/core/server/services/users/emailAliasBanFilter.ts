@@ -12,7 +12,7 @@ export const shouldBanEmailBecauseOtherAliasesAreBanned = async (
     return false;
   }
 
-  if (!tenant?.premoderateEmailAddress?.tooManyPeriods?.enabled) {
+  if (!tenant?.premoderateEmailAddress?.emailAliases?.enabled) {
     return false;
   }
 
