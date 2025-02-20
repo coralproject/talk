@@ -16,7 +16,7 @@ const emailHasTooManyPeriods = (
   email: string | undefined,
   limit: number
 ) => {
-  if (!tenant?.premoderateEmailAddress?.tooManyPeriods?.enabled) {
+  if (!tenant?.premoderateEmailAddress?.emailAliases?.enabled) {
     return false;
   }
 

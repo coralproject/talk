@@ -193,7 +193,13 @@ export async function findOrCreate(
       );
     }
 
-    if (await shouldBanEmailBecauseOtherAliasesAreBanned(mongo, user.email)) {
+    if (
+      await shouldBanEmailBecauseOtherAliasesAreBanned(
+        mongo,
+        tenant,
+        user.email
+      )
+    ) {
       user = await banUser(mongo, tenant.id, user.id);
     }
 
@@ -218,7 +224,13 @@ export async function findOrCreate(
         );
       }
 
-      if (await shouldBanEmailBecauseOtherAliasesAreBanned(mongo, user.email)) {
+      if (
+        await shouldBanEmailBecauseOtherAliasesAreBanned(
+          mongo,
+          tenant,
+          user.email
+        )
+      ) {
         user = await banUser(mongo, tenant.id, user.id);
       }
 
@@ -257,7 +269,13 @@ export async function findOrCreate(
         );
       }
 
-      if (await shouldBanEmailBecauseOtherAliasesAreBanned(mongo, user.email)) {
+      if (
+        await shouldBanEmailBecauseOtherAliasesAreBanned(
+          mongo,
+          tenant,
+          user.email
+        )
+      ) {
         user = await banUser(mongo, tenant.id, user.id);
       }
 
@@ -293,7 +311,11 @@ export async function processAutomaticBanForUser(
 
   const shouldBanDueToAotherAlaisesBeingBanned = tenant.premoderateEmailAddress
     ?.emailAliases
-    ? await shouldBanEmailBecauseOtherAliasesAreBanned(mongo, user.email)
+    ? await shouldBanEmailBecauseOtherAliasesAreBanned(
+        mongo,
+        tenant,
+        user.email
+      )
     : false;
 
   if (

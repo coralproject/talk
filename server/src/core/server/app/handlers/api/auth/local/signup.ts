@@ -136,7 +136,13 @@ export const signupHandler = ({
         );
       }
 
-      if (await shouldBanEmailBecauseOtherAliasesAreBanned(mongo, user.email)) {
+      if (
+        await shouldBanEmailBecauseOtherAliasesAreBanned(
+          mongo,
+          tenant,
+          user.email
+        )
+      ) {
         await banUser(mongo, tenant.id, user.id);
       }
 

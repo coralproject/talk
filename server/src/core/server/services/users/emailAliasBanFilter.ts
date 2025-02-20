@@ -1,11 +1,18 @@
 import { MongoContext } from "coral-server/data/context";
+import { Tenant } from "coral-server/models/tenant";
+
 import { parseEmailAliasIntoParts, sanitizeStringForRegex } from "./helpers";
 
 export const shouldBanEmailBecauseOtherAliasesAreBanned = async (
   mongo: MongoContext,
+  tenant: Readonly<Tenant>,
   email?: string | null
 ) => {
   if (!email) {
+    return false;
+  }
+
+  if (!tenant?.premoderateEmailAddress?.tooManyPeriods?.enabled) {
     return false;
   }
 
