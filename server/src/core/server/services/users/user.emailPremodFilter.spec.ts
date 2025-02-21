@@ -2,12 +2,12 @@ import {
   createTenantFixture,
   createUserFixture,
 } from "coral-server/test/fixtures";
+import { createMockRedis } from "coral-server/test/mocks";
 
 import {
   EMAIL_PREMOD_FILTER_PERIOD_LIMIT,
   shouldPremodDueToLikelySpamEmail,
 } from "./emailPremodFilter";
-import { createMockRedis } from "coral-server/test/mocks";
 
 const tooManyPeriodsEmail = "this.has.too.many.periods@test.com";
 const justEnoughPeriodsEmail = "just.enough.periods@test.com";
