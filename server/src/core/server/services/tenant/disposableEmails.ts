@@ -21,16 +21,15 @@ export async function readDisposableEmailDomainsAndAddToRedis(
     try {
       const domainLines = stringChunk.split("\n");
 
-      domainLines.forEach((domain: any, i: any) => {
+      domainLines.forEach(async (domain: any, i: any) => {
         // TODO: Set a reasonable expiration time
-        redis.set(`${domain}${disposableDomainRedisKey}`, now.toISOString());
+        await redis.set(
+          `${domain}${disposableDomainRedisKey}`,
+          now.toISOString()
+        );
       });
-    } catch (error) {
-      console.log(error, "Error");
-    }
+    } catch (error) {}
   });
 
-  stream.data.on("end", () => {
-    console.log("Stream finished");
-  });
+  stream.data.on("end", () => {});
 }

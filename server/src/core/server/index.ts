@@ -375,7 +375,7 @@ class Server {
     await this.persistedQueryCache.prime();
 
     // Get updated disposable email domains and add to Redis
-    readDisposableEmailDomainsAndAddToRedis(this.redis);
+    await readDisposableEmailDomainsAndAddToRedis(this.redis);
 
     // Launch all of the job processors.
     if (!this.config.get("disable_job_processors")) {
