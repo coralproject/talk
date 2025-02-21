@@ -1,4 +1,5 @@
 import axios from "axios";
+import Logger from "bunyan";
 
 import { AugmentedRedis } from "../redis";
 
@@ -7,7 +8,8 @@ const disposableEmailsListUrl =
   "https://disposable.github.io/disposable-email-domains/domains_mx.txt";
 
 export async function readDisposableEmailDomainsAndAddToRedis(
-  redis: AugmentedRedis
+  redis: AugmentedRedis,
+  logger: Logger
 ) {
   // TODO: Add check for feature flag
   const stream = await axios.get(disposableEmailsListUrl, {
@@ -28,8 +30,15 @@ export async function readDisposableEmailDomainsAndAddToRedis(
           now.toISOString()
         );
       });
-    } catch (error) {}
+    } catch (error) {
+      logger.error(
+        "Error reading and setting disposable emails in Redis:",
+        error
+      );
+    }
   });
 
-  stream.data.on("end", () => {});
+  stream.data.on("end", () => {
+    logger.info("Finished streaming disposable emails list");
+  });
 }
