@@ -1,3 +1,5 @@
+import { Redis } from "ioredis";
+
 import { NewUserModeration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
@@ -26,6 +28,26 @@ const emailHasTooManyPeriods = (email: string | undefined, limit: number) => {
   return periodCount >= limit;
 };
 
+const emailIsOnDisposableEmailsList = async (
+  email: string | undefined,
+  redis: Redis
+) => {
+  if (!email) {
+    return false;
+  }
+
+  const split = email.split("@");
+  if (split.length < 2) {
+    return false;
+  }
+
+  const domain = split[1];
+
+  const userEmailDomainIsDisposable = await redis.get(`${domain}:disposable`);
+
+  return !!userEmailDomainIsDisposable;
+};
+
 const emailIsOnAutoBanList = (
   email: string | undefined,
   tenant: Readonly<Tenant>
@@ -50,12 +72,18 @@ const emailIsOnAutoBanList = (
   return !!autoBanRecord;
 };
 
-export const shouldPremodDueToLikelySpamEmail = (
+export const shouldPremodDueToLikelySpamEmail = async (
   tenant: Readonly<Tenant>,
+  redis: Redis,
   user: Readonly<User>
 ) => {
   // don't premod check unless the filter is enabled
-  if (!tenant?.premoderateEmailAddress?.tooManyPeriods?.enabled) {
+  if (
+    !(
+      tenant?.premoderateEmailAddress?.tooManyPeriods?.enabled ||
+      tenant?.disposableEmailDomains?.enabled
+    )
+  ) {
     return false;
   }
 
@@ -79,7 +107,10 @@ export const shouldPremodDueToLikelySpamEmail = (
   // future as we play whack-a-mole trying to block spammers
   // and other trouble makers
   const results = [
-    emailHasTooManyPeriods(user.email, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
+    !!tenant.premoderateEmailAddress?.tooManyPeriods?.enabled &&
+      emailHasTooManyPeriods(user.email, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
+    !!tenant.disposableEmailDomains?.enabled &&
+      (await emailIsOnDisposableEmailsList(user.email, redis)),
   ];
 
   return results.some((v) => v === true);

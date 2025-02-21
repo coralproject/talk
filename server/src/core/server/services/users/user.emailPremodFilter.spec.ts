@@ -7,10 +7,13 @@ import {
   EMAIL_PREMOD_FILTER_PERIOD_LIMIT,
   shouldPremodDueToLikelySpamEmail,
 } from "./emailPremodFilter";
+import { createMockRedis } from "coral-server/test/mocks";
 
 const tooManyPeriodsEmail = "this.has.too.many.periods@test.com";
 const justEnoughPeriodsEmail = "just.enough.periods@test.com";
 const noPeriodsEmail = "noperiodshere@test.com";
+
+const redis = createMockRedis();
 
 it("does not premod filter emails when feature is disabled", () => {
   const tenant = createTenantFixture({
@@ -25,7 +28,7 @@ it("does not premod filter emails when feature is disabled", () => {
     email: tooManyPeriodsEmail,
   });
 
-  const result = shouldPremodDueToLikelySpamEmail(tenant, user);
+  const result = shouldPremodDueToLikelySpamEmail(tenant, redis, user);
   expect(!result);
 });
 
@@ -42,7 +45,7 @@ it(`does not premod filter emails when feature enabled and has less than ${EMAIL
     email: justEnoughPeriodsEmail,
   });
 
-  const result = shouldPremodDueToLikelySpamEmail(tenant, user);
+  const result = shouldPremodDueToLikelySpamEmail(tenant, redis, user);
   expect(result);
 });
 
@@ -59,7 +62,7 @@ it(`does not premod filter emails when feature enabled and has no periods`, () =
     email: noPeriodsEmail,
   });
 
-  const result = shouldPremodDueToLikelySpamEmail(tenant, user);
+  const result = shouldPremodDueToLikelySpamEmail(tenant, redis, user);
   expect(result);
 });
 
@@ -76,6 +79,6 @@ it(`does premod filter emails when feature is enabled and has too many (${EMAIL_
     email: tooManyPeriodsEmail,
   });
 
-  const result = shouldPremodDueToLikelySpamEmail(tenant, user);
+  const result = shouldPremodDueToLikelySpamEmail(tenant, redis, user);
   expect(result);
 });

@@ -1,3 +1,4 @@
+import { Redis } from "ioredis";
 import { intersection } from "lodash";
 import { DateTime } from "luxon";
 
@@ -169,6 +170,7 @@ export interface FindOrCreateUserOptions {
 export async function findOrCreate(
   config: Config,
   mongo: MongoContext,
+  redis: Redis,
   tenant: Tenant,
   input: FindOrCreateUser,
   options: FindOrCreateUserOptions,
@@ -181,7 +183,7 @@ export async function findOrCreate(
     // Try to find or create the user.
     let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
 
-    if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+    if (await shouldPremodDueToLikelySpamEmail(tenant, redis, user)) {
       user = await premodUser(
         mongo,
         tenant.id,
@@ -202,7 +204,7 @@ export async function findOrCreate(
       // exit this function.
       let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
 
-      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+      if (await shouldPremodDueToLikelySpamEmail(tenant, redis, user)) {
         user = await premodUser(
           mongo,
           tenant.id,
@@ -237,7 +239,7 @@ export async function findOrCreate(
         now
       );
 
-      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+      if (await shouldPremodDueToLikelySpamEmail(tenant, redis, user)) {
         user = await premodUser(
           mongo,
           tenant.id,
