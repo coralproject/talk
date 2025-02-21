@@ -9,7 +9,7 @@ export function getStreams() {
   const secret = new SecretStream();
 
   // If we aren't in production mode, use the pretty stream printer.
-  if (config.get("env") !== "production") {
+  if (config && config.get("env") !== "production") {
     const pretty = new PrettyStream();
 
     // Pipe the secret stream to pretty.

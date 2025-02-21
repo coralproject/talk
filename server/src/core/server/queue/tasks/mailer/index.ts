@@ -22,7 +22,13 @@ export interface MailerInput {
   tenantID: string;
 }
 
-export class MailerQueue {
+export interface MailerQueue {
+  counts(): Promise<Queue.JobCounts>;
+  add(input: MailerInput): Promise<Queue.Job<MailerData> | undefined>;
+  process(): void;
+}
+
+export class MailerQueueImpl implements MailerQueue {
   private task: Task<MailerData>;
   private content: MailerContent;
   private tenantCache: TenantCache;
@@ -117,7 +123,7 @@ export class MailerQueue {
   /**
    * process maps the interface to the task process function.
    */
-  public process() {
+  public process(): void {
     return this.task.process();
   }
 }
@@ -125,4 +131,4 @@ export class MailerQueue {
 export const createMailerTask = (
   queue: Queue.QueueOptions,
   options: MailProcessorOptions
-) => new MailerQueue(queue, options);
+) => new MailerQueueImpl(queue, options);
