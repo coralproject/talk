@@ -9,6 +9,7 @@ import { validateEmailDomainList } from "coral-framework/lib/validation";
 import { AddIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
+  FieldSet,
   Flex,
   FormField,
   FormFieldDescription,
@@ -22,6 +23,7 @@ import { EmailDomainConfigContainer_settings } from "coral-admin/__generated__/E
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
+import OnOffField from "../../OnOffField";
 import ValidationMessage from "../../ValidationMessage";
 import EmailDomainTableContainer from "./EmailDomainTableContainer";
 
@@ -36,6 +38,9 @@ interface Props {
 graphql`
   fragment EmailDomainConfigContainer_formValues on Settings {
     protectedEmailDomains
+    disposableEmailDomains {
+      enabled
+    }
   }
 `;
 
@@ -61,6 +66,9 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
           Create rules to take action on accounts or comments based on the
           account holder's email address domain.
         </FormFieldDescription>
+      </Localized>
+      <Localized id="">
+        <Label component="legend">Protected email domains</Label>
       </Localized>
       <Localized
         id="configure-moderation-emailDomains-addDomain"
@@ -124,6 +132,22 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
           )}
         </Field>
       </FormField>
+      <FormField container={<FieldSet />}>
+        <FormFieldHeader>
+          <Localized id="configure-moderation-emailDomains-disposableEmailDomains-enabled">
+            <Label component="legend">Disposable email domains</Label>
+          </Localized>
+          <Localized id="configure-moderation-emailDomains-disposableEmailDomains-helper-text">
+            <HelperText>
+              If a new user registers using a disposable email address, set
+              their status to 'always pre-moderate comments.' Accounts with
+              disposable email addresses can have a high spam / troll
+              correlation.
+            </HelperText>
+          </Localized>
+        </FormFieldHeader>
+        <OnOffField name="disposableEmailDomains.enabled" disabled={disabled} />
+      </FormField>
     </ConfigBox>
   );
 };
@@ -132,6 +156,9 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment EmailDomainConfigContainer_settings on Settings {
       protectedEmailDomains
+      disposableEmailDomains {
+        enabled
+      }
       ...EmailDomainTableContainer_settings
     }
   `,

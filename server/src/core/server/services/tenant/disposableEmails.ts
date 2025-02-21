@@ -11,7 +11,7 @@ export async function readDisposableEmailDomainsAndAddToRedis(
   redis: AugmentedRedis,
   logger: Logger
 ) {
-  // TODO: Add check for feature flag
+  // TODO: Add check that at least one tenant has it enabled or else don't load in
   const stream = await axios.get(disposableEmailsListUrl, {
     responseType: "stream",
   });

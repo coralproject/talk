@@ -328,6 +328,10 @@ export interface PremoderateEmailAddressConfig {
   };
 }
 
+export interface DisposableEmailDomainsConfig {
+  enabled?: boolean;
+}
+
 export type Settings = GlobalModerationSettings &
   Pick<
     GQLSettings,
@@ -452,6 +456,12 @@ export type Settings = GlobalModerationSettings &
      * domain moderation rules such as all accounts banned
      */
     protectedEmailDomains: string[];
+
+    /**
+     * disposableEmailDomains is the configuration for disposable email domains and whether they
+     * should be pre-moderated
+     */
+    disposableEmailDomains?: DisposableEmailDomainsConfig;
 
     /**
      * inPageNotifications specifies whether or not in-page notifications are enabled

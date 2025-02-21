@@ -2014,6 +2014,13 @@ type PremoderateEmailAddressConfiguration {
   tooManyPeriods: TooManyPeriodsConfig
 }
 
+type DisposableEmailDomainConfiguration {
+  """
+  enabled decides whether disposable email domains should be pre-moderated
+  """
+  enabled: Boolean!
+}
+
 type InPageNotificationsConfiguration {
   enabled: Boolean
 
@@ -2368,6 +2375,12 @@ type Settings @cacheControl(maxAge: 30) {
   domain moderation rules such as all accounts banned
   """
   protectedEmailDomains: [String!]!
+
+  """
+  disposableEmailDomains is the configuration for whether or not new users registering with
+  a disposable email address should be pre-moderated.
+  """
+  disposableEmailDomains: DisposableEmailDomainConfiguration
 
   """
   externalProfileURL is a string template for a link to a user's
@@ -6573,6 +6586,14 @@ input NewCommentersConfigurationInput {
 }
 
 """
+DisposableEmailDomainsConfigurationInput specifies the configuration for disposable emails and whether
+users who sign up with them should be pre-moderated.
+"""
+input DisposableEmailDomainsConfigurationInput {
+  enabled: Boolean!
+}
+
+"""
 EmbeddedCommentsConfigurationInput specifies the configuration for comment embeds.
 """
 input EmbeddedCommentsConfigurationInput {
@@ -6901,6 +6922,12 @@ input SettingsInput {
   domain moderation rules such as all accounts banned
   """
   protectedEmailDomains: [String!]
+
+  """
+  disposableEmailDomains is the configuration for whether or not new users registering with
+  a disposable email address should be pre-moderated.
+  """
+  disposableEmailDomains: DisposableEmailDomainsConfigurationInput
 
   """
   inPageNotifications specifies the configuration for in-page notifications
