@@ -129,8 +129,8 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({
 
   const accountDomainBannedMessage = getMessage(
     localeBundles,
-    "moderate-user-drawer-account-history-account-domain-banned",
-    "Account domain banned"
+    "moderate-user-drawer-account-history-account-domain-or-alias-banned",
+    "Account domain or alias banned"
   );
 
   const combinedHistory = useMemo(() => {
