@@ -36,4 +36,52 @@ if (
   argv.push("--watch");
 }
 
-jest.run(argv);
+const createMongo = async () => {
+  const { MongoMemoryServer } = require("mongodb-memory-server");
+
+  const host = "127.0.0.1";
+  const port = 27019;
+  const uri = `mongodb://${host}:${port}`;
+
+  process.env.MONGO_TEST_URI = uri;
+
+  return await MongoMemoryServer.create({
+    instance: {
+      port,
+      ip: host,
+    },
+  });
+};
+
+const createRedis = async () => {
+  const { RedisMemoryServer } = require("redis-memory-server");
+
+  const host = "127.0.0.1";
+  const port = 6381;
+  const uri = `redis://${host}:${port}`;
+
+  process.env.REDIS_TEST_URI = uri;
+
+  const redis = await RedisMemoryServer.create({
+    instance: {
+      port: 6381,
+      ip: "0.0.0.0",
+    },
+  });
+
+  await redis.start();
+
+  return redis;
+};
+
+const run = async () => {
+  const mongo = await createMongo();
+  const redis = await createRedis();
+
+  await jest.run(argv);
+
+  await mongo.stop();
+  await redis.stop();
+};
+
+run();

@@ -52,5 +52,5 @@ it("user can sign up", async () => {
 
   expect(user).toBeDefined();
   expect(user!.email).toEqual(body.email);
-  expect(user!.username).toEqual(body.username);
+  expect(user?.username).toEqual(body.username);
 });

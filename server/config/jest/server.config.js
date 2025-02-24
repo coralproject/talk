@@ -12,6 +12,7 @@ module.exports = {
     "/node_modules/",
     "/client/",
     "/src/core/server/data/cache/",
+    "/src/core/server/services/users/integrationTests/",
   ],
   testEnvironment: "node",
   testEnvironmentOptions: {

@@ -3,7 +3,10 @@ const path = require("path");
 module.exports = {
   displayName: "cache",
   rootDir: "../../",
-  roots: ["<rootDir>/src/core/server/data/cache"],
+  roots: [
+    "<rootDir>/src/core/server/data/cache",
+    "<rootDir>/src/core/server/services/users/integrationTests/",
+  ],
   collectCoverageFrom: ["**/*.{js,jsx,mjs,ts,tsx}"],
   coveragePathIgnorePatterns: ["/node_modules/"],
   setupFilesAfterEnv: ["<rootDir>/src/core/server/test/setupTestFramework.ts"],
