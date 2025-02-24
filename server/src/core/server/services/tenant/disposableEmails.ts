@@ -2,9 +2,9 @@ import axios from "axios";
 import Logger from "bunyan";
 
 import {
+  DISPOSABLE_EMAIL_DOMAIN_CACHE_DURATION,
   DISPOSABLE_EMAIL_DOMAINS_LIST_URL,
   DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY,
-  DISPOSABLE_EMAIL_DOMAIN_CACHE_DURATION,
 } from "coral-common/common/lib/constants";
 
 import { AugmentedRedis } from "../redis";
