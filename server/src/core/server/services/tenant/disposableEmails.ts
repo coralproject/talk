@@ -49,7 +49,7 @@ export async function readDisposableEmailDomainsAndAddToRedis(
         await redis.set(
           `${domainToAdd}${DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY}`,
           now.toISOString(),
-          "EXP",
+          "EX",
           DISPOSABLE_EMAIL_DOMAIN_CACHE_DURATION
         );
       });
