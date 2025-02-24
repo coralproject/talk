@@ -109,7 +109,7 @@ export const DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY = ":disposable";
  * DISPOSABLE_EMAIL_DOMAIN_CACHE_DURATION is the length of time in seconds that
  * the disposable email domains are cached in seconds.
  */
-export const DISPOSABLE_EMAIL_DOMAIN_CACHE_DURATION = 180 * TIME.DAY;
+export const DISPOSABLE_EMAIL_DOMAIN_CACHE_DURATION = 90 * TIME.DAY;
 
 /**
  * SPOILER_CLASSNAME is the classname that is attached to spoilers.
