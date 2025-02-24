@@ -1,19 +1,19 @@
 import axios from "axios";
 import Logger from "bunyan";
 
-import { AugmentedRedis } from "../redis";
+import {
+  DISPOSABLE_EMAIL_DOMAINS_LIST_URL,
+  DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY,
+} from "coral-common/common/lib/constants";
 
-// TODO: Add to constants for use elsewhere
-const disposableDomainRedisKey = ":disposable";
-const disposableEmailsListUrl =
-  "https://disposable.github.io/disposable-email-domains/domains_mx.txt";
+import { AugmentedRedis } from "../redis";
 
 export async function readDisposableEmailDomainsAndAddToRedis(
   redis: AugmentedRedis,
   logger: Logger
 ) {
   // TODO: Add check that at least one tenant has it enabled or else don't load in
-  const stream = await axios.get(disposableEmailsListUrl, {
+  const stream = await axios.get(DISPOSABLE_EMAIL_DOMAINS_LIST_URL, {
     responseType: "stream",
   });
 
@@ -46,9 +46,8 @@ export async function readDisposableEmailDomainsAndAddToRedis(
         if (i === domainLinesLastIndex) {
           partialLine = domain;
         }
-        // TODO: Set a reasonable expiration time
         await redis.set(
-          `${domainToAdd}${disposableDomainRedisKey}`,
+          `${domainToAdd}${DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY}`,
           now.toISOString()
         );
       });
@@ -64,7 +63,7 @@ export async function readDisposableEmailDomainsAndAddToRedis(
     // This sets the very last domain into Redis
     if (partialLine !== "") {
       await redis.set(
-        `${partialLine}${disposableDomainRedisKey}`,
+        `${partialLine}${DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY}`,
         now.toISOString()
       );
     }
