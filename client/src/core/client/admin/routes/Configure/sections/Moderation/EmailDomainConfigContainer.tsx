@@ -18,6 +18,7 @@ import {
   HelperText,
   Label,
   Textarea,
+  TextLink,
 } from "coral-ui/components/v2";
 
 import { EmailDomainConfigContainer_settings } from "coral-admin/__generated__/EmailDomainConfigContainer_settings.graphql";
@@ -80,6 +81,19 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
     }
   }, [refreshEmailDomains]);
 
+  const EmailDomainsListLink = () => {
+    return (
+      <Localized id="configure-moderation-emailDomains-disposableEmailDomains-list-linkText">
+        <TextLink
+          target="_blank"
+          href="https://disposable.github.io/disposable-email-domains/domains_mx.json"
+        >
+          {"disposable-email-domains"}
+        </TextLink>
+      </Localized>
+    );
+  };
+
   return (
     <ConfigBox
       id="emailDomain"
@@ -129,11 +143,11 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
             <Label component="legend">Exceptions</Label>
           </Localized>
         </FormFieldHeader>
-        <Localized id="configure-moderation-emailDomains-exceptions-helperText">
+        <Localized id="configure-moderation-emailDomains-exceptions-ban-premod-helperText">
           <HelperText>
-            These domains cannot be banned. Domains should be written without
-            www, for example "gmail.com". Separate domains with a comma and a
-            space.
+            These domains cannot be banned or pre-moderated. Domains should be
+            written without www, for example "gmail.com". Separate domains with
+            a comma and a space.
           </HelperText>
         </Localized>
         <Field
@@ -177,10 +191,22 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
         </FormFieldHeader>
         <OnOffField name="disposableEmailDomains.enabled" disabled={disabled} />
         <Localized
+          id="configure-moderation-emailDomains-disposableEmailDomains-update-button-helper-text"
+          elems={{
+            link: <EmailDomainsListLink />,
+          }}
+        >
+          <HelperText>
+            The email domains come from the <EmailDomainsListLink /> list, which
+            is regularly updated. Use the button below to import their latest
+            list.
+          </HelperText>
+        </Localized>
+        <Localized
           id={`${
             refreshingDisposableEmailDomains
-              ? "configure-moderation-emailDomains-disposableEmailDomains-refreshing"
-              : "configure-moderation-emailDomains-disposableEmailDomains-refresh-button"
+              ? "configure-moderation-emailDomains-disposableEmailDomains-updating"
+              : "configure-moderation-emailDomains-disposableEmailDomains-update-button"
           }`}
         >
           <Button
@@ -191,8 +217,8 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
             }
           >
             {refreshingDisposableEmailDomains
-              ? "Refreshing"
-              : "Refresh disposable email domains"}
+              ? "Updating"
+              : "Update disposable domains"}
           </Button>
         </Localized>
         {refreshDisposableEmailDomainsError && (
