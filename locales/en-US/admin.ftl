@@ -914,6 +914,8 @@ configure-moderation-emailDomains-form-description-edit = Update the domain or a
 configure-moderation-emailDomains-exceptions-header = Exceptions
 configure-moderation-emailDomains-exceptions-helperText = These domains cannot be banned. Domains should be written without www, for example "gmail.com". Separate domains with a comma and a space.
 
+configure-moderation-emailDomains-protectedEmailDomains = Protected email domains
+
 configure-moderation-emailDomains-showCurrent = Show current domain list
 configure-moderation-emailDomains-hideCurrent = Hide current domain list
 configure-moderation-emailDomains-filterByStatus = 
@@ -923,6 +925,9 @@ configuration-moderation-emailDomains-empty = There are no email domains configu
 configure-moderation-emailDomains-allDomains = All domains
 configure-moderation-emailDomains-preMod = Pre-mod
 configure-moderation-emailDomains-banned = Banned
+
+configure-moderation-emailDomains-disposableEmailDomains-enabled = Disposable email domains
+configure-moderation-emailDomains-disposableEmailDomains-helper-text = If a new user registers using a disposable email address, set their status to 'always pre-moderate comments.' Accounts with disposable email addresses can have a high spam / troll correlation.
 
 #### Pre-moderate  Email Address Configuration
 
