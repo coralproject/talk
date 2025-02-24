@@ -4,6 +4,7 @@ import Logger from "bunyan";
 import {
   DISPOSABLE_EMAIL_DOMAINS_LIST_URL,
   DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY,
+  DISPOSABLE_EMAIL_DOMAIN_CACHE_DURATION,
 } from "coral-common/common/lib/constants";
 
 import { AugmentedRedis } from "../redis";
@@ -12,7 +13,6 @@ export async function readDisposableEmailDomainsAndAddToRedis(
   redis: AugmentedRedis,
   logger: Logger
 ) {
-  // TODO: Add check that at least one tenant has it enabled or else don't load in
   const stream = await axios.get(DISPOSABLE_EMAIL_DOMAINS_LIST_URL, {
     responseType: "stream",
   });
@@ -48,7 +48,9 @@ export async function readDisposableEmailDomainsAndAddToRedis(
         }
         await redis.set(
           `${domainToAdd}${DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY}`,
-          now.toISOString()
+          now.toISOString(),
+          "EXP",
+          DISPOSABLE_EMAIL_DOMAIN_CACHE_DURATION
         );
       });
     } catch (error) {
