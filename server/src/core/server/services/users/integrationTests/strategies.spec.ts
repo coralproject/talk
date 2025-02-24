@@ -84,3 +84,48 @@ it("local user, can verify and retrieve user", async () => {
   expect(result?.id).toEqual(user.id);
   expect(result?.email).toEqual(user.email);
 });
+
+it("local user can be connected with sso profile", async () => {
+  const { mongo, redis, tenant, tenantCache, signingConfig } =
+    await createTestEnv();
+
+  const user = await createTestLocalUser(mongo, tenant, {
+    username: "local-upgrade-to-sso",
+    email: "localupgradetosso@test.com",
+    role: GQLUSER_ROLE.COMMENTER,
+    password: "special-password",
+  });
+
+  const signingSecret = tenant.auth.integrations.sso.signingSecrets[0];
+
+  const tokenPayload = {
+    user: {
+      id: user.id,
+      email: user.email,
+      username: "somebody",
+      role: GQLUSER_ROLE.COMMENTER,
+    },
+  };
+  const token = jwt.sign(tokenPayload, signingSecret.secret);
+
+  const verifiers = createVerifiers({
+    mongo,
+    redis,
+    tenantCache,
+    config,
+    signingConfig,
+  });
+
+  const result = await verifyAndRetrieveUser(
+    verifiers,
+    tenant,
+    token,
+    new Date()
+  );
+
+  expect(result).toBeDefined();
+  expect(result?.id).toEqual(user.id);
+  expect(result?.email).toEqual(user.email);
+  expect(result?.profiles?.find((p) => p.type === "local")).toBeDefined();
+  expect(result?.profiles?.find((p) => p.type === "sso")).toBeDefined();
+});

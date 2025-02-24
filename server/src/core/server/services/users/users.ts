@@ -68,6 +68,7 @@ import {
   mergeUserSiteModerationScopes,
   premodUser,
   PremodUserReason,
+  Profile,
   pullUserMembershipScopes,
   pullUserSiteModerationScopes,
   removeActiveUserSuspensions,
@@ -2597,3 +2598,23 @@ export async function link(
 
   return linked;
 }
+
+export const addProfileToUser = async (
+  mongo: MongoContext,
+  user: Readonly<User>,
+  profile: Profile
+) => {
+  const result = await mongo.users().findOneAndUpdate(
+    { tenantID: user.tenantID, id: user.id },
+    {
+      $push: {
+        profiles: profile,
+      },
+    },
+    {
+      returnDocument: "after",
+    }
+  );
+
+  return result;
+};
