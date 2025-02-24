@@ -185,7 +185,10 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
         >
           <Button
             onClick={refreshDisposableEmailDomains}
-            disabled={refreshingDisposableEmailDomains}
+            disabled={
+              !settings.disposableEmailDomains?.enabled ||
+              refreshingDisposableEmailDomains
+            }
           >
             {refreshingDisposableEmailDomains
               ? "Refreshing"
