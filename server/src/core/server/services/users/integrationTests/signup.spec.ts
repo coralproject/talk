@@ -1,31 +1,23 @@
 import { signupHandler } from "coral-server/app/handlers";
 import config from "coral-server/config";
 import {
+  createTestEnv,
   createTestLimiterOptions,
-  createTestMongoContext,
   createTestNext,
-  createTestRedis,
   createTestRequest,
   createTestResponse,
-  createTestSigningConfig,
-  createTestSite,
-  createTestTenant,
-  createTestTenantCache,
 } from "coral-server/test/helpers";
-import { TestMailerQueue } from "coral-server/test/testMailerQueue";
 
 it("user can sign up", async () => {
-  const mongo = await createTestMongoContext();
-  const redis = await createTestRedis();
-
-  const tenant = await createTestTenant(mongo);
-  const tenantCache = await createTestTenantCache(mongo, redis);
-  await tenantCache.update(redis, tenant);
-
-  const site = await createTestSite(mongo, tenant.id);
-
-  const signingConfig = createTestSigningConfig();
-  const mailerQueue = new TestMailerQueue();
+  const {
+    mongo,
+    redis,
+    tenant,
+    tenantCache,
+    site,
+    signingConfig,
+    mailerQueue,
+  } = await createTestEnv();
 
   const handler = signupHandler({
     config,
@@ -52,5 +44,5 @@ it("user can sign up", async () => {
 
   expect(user).toBeDefined();
   expect(user!.email).toEqual(body.email);
-  expect(user?.username).toEqual(body.username);
+  expect(user!.username).toEqual(body.username);
 });

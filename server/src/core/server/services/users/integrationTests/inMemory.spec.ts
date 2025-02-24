@@ -9,6 +9,9 @@ import {
 it("ensure in-memory Mongo is operational", async () => {
   const mongo = await createTestMongoContext();
   const tenant = await createTestTenant(mongo);
+  if (!tenant) {
+    throw new Error("unable to create tenant");
+  }
 
   const foundTenant = await mongo.tenants().findOne({ id: tenant.id });
   const deleteResult = await mongo.tenants().deleteOne({ id: tenant.id });

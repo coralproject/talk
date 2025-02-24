@@ -5,9 +5,15 @@ import { v4 as uuid } from "uuid";
 import { RequestLimiterOptions } from "coral-server/app/request/limiter";
 import config from "coral-server/config";
 import { MongoContext, MongoContextImpl } from "coral-server/data/context";
+import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { createSite, Site } from "coral-server/models/site";
-import { createTenant, Tenant } from "coral-server/models/tenant";
+import { createTenant, Tenant, updateTenant } from "coral-server/models/tenant";
+import {
+  createUser,
+  CreateUserInput,
+  hashPassword,
+} from "coral-server/models/user";
 import { I18n } from "coral-server/services/i18n";
 import {
   JWTSigningConfig,
@@ -21,6 +27,7 @@ import {
   Request,
   TenantCoralRequest,
 } from "coral-server/types/express";
+import { TestMailerQueue } from "./testMailerQueue";
 
 export const createTestMongoContext = async (): Promise<MongoContext> => {
   const uri = process.env.MONGO_TEST_URI ?? "";
@@ -53,15 +60,40 @@ export const createTestTenantCache = async (
 
 export const createTestTenant = async (
   mongo: MongoContext
-): Promise<Readonly<Tenant>> => {
+): Promise<Readonly<Tenant> | null> => {
   const locales = await createTestLocales();
-  const tenant = await createTenant(mongo, locales, {
+  let tenant: Readonly<Tenant> | null = await createTenant(mongo, locales, {
     domain: "http://localhost:8080",
     locale: "en-US",
     organization: {
       name: "Coral",
       url: "http://localhost:3000",
       contactEmail: "coral@coralproject.net",
+    },
+  });
+
+  // enable SSO and set a signing secret
+  // so we can test SSO flows if necessary
+  tenant = await updateTenant(mongo, tenant.id, {
+    auth: {
+      integrations: {
+        sso: {
+          enabled: true,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          signingSecrets: [
+            {
+              kid: "bef233358308a104f5",
+              secret:
+                "ssosec_f73a2830f6285e398ce7ba4917194f44c395ba76512096bc9da3c7f9c9c357dd13373b",
+              createdAt: new Date(),
+            },
+          ],
+        },
+      },
     },
   });
 
@@ -80,6 +112,34 @@ export const createTestSite = async (
   });
 
   return site;
+};
+
+interface CreateLocalUserInput {
+  username: string;
+  email: string;
+  password: string;
+  role: GQLUSER_ROLE;
+}
+
+export const createTestLocalUser = async (
+  mongo: MongoContext,
+  tenant: Readonly<Tenant>,
+  input: CreateLocalUserInput,
+  now = new Date()
+) => {
+  const details: CreateUserInput = {
+    email: input.email,
+    username: input.username,
+    role: input.role,
+    profile: {
+      type: "local",
+      id: input.email,
+      password: await hashPassword(input.password),
+      passwordID: uuid(),
+    },
+  };
+
+  return await createUser(mongo, tenant.id, details, now);
 };
 
 export const createTestSigningConfig = (): JWTSigningConfig => {
@@ -106,6 +166,7 @@ export const createTestRequest = (
   tenant: Readonly<Tenant>,
   site: Site,
   body: object = {},
+  headers: object = {},
   now = new Date()
 ): Request<TenantCoralRequest> => {
   const coral: CoralRequest = {
@@ -122,6 +183,7 @@ export const createTestRequest = (
   const req = {
     coral,
     body,
+    headers,
   };
 
   return req as unknown as Request<TenantCoralRequest>;
@@ -141,5 +203,33 @@ export const createTestNext = () => {
   return (err?: Error | any) => {
     // eslint-disable-next-line no-console
     console.log(err);
+  };
+};
+
+export const createTestEnv = async () => {
+  const mongo = await createTestMongoContext();
+  const redis = await createTestRedis();
+
+  const tenant = await createTestTenant(mongo);
+  if (!tenant) {
+    throw new Error("unable to create test tenant");
+  }
+
+  const tenantCache = await createTestTenantCache(mongo, redis);
+  await tenantCache.update(redis, tenant);
+
+  const site = await createTestSite(mongo, tenant.id);
+
+  const signingConfig = createTestSigningConfig();
+  const mailerQueue = new TestMailerQueue();
+
+  return {
+    mongo,
+    redis,
+    tenant,
+    tenantCache,
+    site,
+    signingConfig,
+    mailerQueue,
   };
 };
