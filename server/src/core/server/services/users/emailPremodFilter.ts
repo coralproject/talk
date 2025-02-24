@@ -14,15 +14,7 @@ import {
 
 export const EMAIL_PREMOD_FILTER_PERIOD_LIMIT = 3;
 
-const emailHasTooManyPeriods = (
-  // tenant: Readonly<Tenant>,
-  email: string,
-  limit: number
-) => {
-  const split = email.split("@");
-
-  const firstHalf = split[0];
-
+const emailHasTooManyPeriods = (firstHalf: string, limit: number) => {
   let periodCount = 0;
   for (const char of firstHalf) {
     if (char === ".") {
@@ -112,6 +104,7 @@ export const shouldPremodDueToLikelySpamEmail = async (
     return false;
   }
 
+  const emailFirstHalf = emailSplit[0];
   const domain = emailSplit[1].trim().toLowerCase();
 
   // if a user is on auto ban list, they will become banned via their
@@ -132,7 +125,7 @@ export const shouldPremodDueToLikelySpamEmail = async (
   // and other trouble makers
   const results = [
     !!tenant.premoderateEmailAddress?.tooManyPeriods?.enabled &&
-      emailHasTooManyPeriods(user.email, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
+      emailHasTooManyPeriods(emailFirstHalf, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
     !!tenant.disposableEmailDomains?.enabled &&
       (await emailIsOnDisposableEmailsList(domain, redis)),
     // premod email aliases if the feature is enabled
