@@ -39,6 +39,7 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import {
   addProfileToUser,
   findOrCreate,
+  findUserByEmail,
   processAutomaticBanForUser,
   processAutomaticPremodForUser,
 } from "coral-server/services/users";
@@ -185,6 +186,31 @@ export async function findOrCreateSSOUser(
       id,
     });
   }
+
+  // attempt to find an existing sso user by email
+  // and if we find it, link this new sso profile to the
+  // existing user so we now have an additional sso link
+  //
+  // this exists to allow SSO providers to be replaced and
+  // updated over time. Such as when we migrate a site from,
+  // say Auth0 to Firebase and the only linking identifier
+  // between the users would be an email, but we know that
+  // for SSO, this email is unique, so we can update the link
+  // and retain the old profile just in case (also for our records).
+  if (!user && email) {
+    const matchedUser = await findUserByEmail(mongo, tenant.id, email);
+    if (matchedUser && hasSSOProfile(matchedUser)) {
+      user = await addProfileToUser(mongo, matchedUser, {
+        type: "sso",
+        id,
+      });
+    }
+  }
+
+  // // attempt to find an existing sso user by email
+  // if (!user && email) {
+  //   user = await findUserByEmail(mongo, tenant.id, email);
+  // }
 
   // Try to get the avatar.
   let avatar: string | undefined;

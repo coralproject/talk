@@ -2618,3 +2618,11 @@ export const addProfileToUser = async (
 
   return result;
 };
+
+export const findUserByEmail = async (
+  mongo: MongoContext,
+  tenantID: string,
+  email: string
+) => {
+  return await mongo.users().findOne({ tenantID, email });
+};

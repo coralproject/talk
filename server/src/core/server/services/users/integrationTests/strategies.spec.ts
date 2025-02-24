@@ -129,3 +129,72 @@ it("local user can be connected with sso profile", async () => {
   expect(result?.profiles?.find((p) => p.type === "local")).toBeDefined();
   expect(result?.profiles?.find((p) => p.type === "sso")).toBeDefined();
 });
+
+it("new sso user, can upgrade and connect to old sso user", async () => {
+  const { mongo, redis, tenant, tenantCache, signingConfig } =
+    await createTestEnv();
+
+  const signingSecret = tenant.auth.integrations.sso.signingSecrets[0];
+
+  const oldUserPayload = {
+    user: {
+      id: uuid(),
+      email: "somebody@test.com",
+      username: "somebody",
+      role: GQLUSER_ROLE.COMMENTER,
+    },
+  };
+  const oldUserSSOToken = jwt.sign(oldUserPayload, signingSecret.secret);
+
+  const verifiers = createVerifiers({
+    mongo,
+    redis,
+    tenantCache,
+    config,
+    signingConfig,
+  });
+
+  const oldUserVerifyResult = await verifyAndRetrieveUser(
+    verifiers,
+    tenant,
+    oldUserSSOToken,
+    new Date()
+  );
+
+  // ensure the existing user is valid and exists
+  expect(oldUserVerifyResult).toBeDefined();
+  expect(oldUserVerifyResult?.id).toEqual(oldUserPayload.user.id);
+  expect(oldUserVerifyResult?.email).toEqual(oldUserPayload.user.email);
+
+  const newUserPayload = {
+    user: {
+      id: uuid(),
+      email: "somebody@test.com",
+      username: "somebody",
+      role: GQLUSER_ROLE.COMMENTER,
+    },
+  };
+  const newUserSSOToken = jwt.sign(newUserPayload, signingSecret.secret);
+
+  const newUserVerifyResult = await verifyAndRetrieveUser(
+    verifiers,
+    tenant,
+    newUserSSOToken,
+    new Date()
+  );
+
+  expect(newUserVerifyResult).toBeDefined();
+  expect(newUserVerifyResult?.id).toEqual(oldUserPayload.user.id);
+  expect(newUserVerifyResult?.email).toEqual(newUserPayload.user.email);
+  expect(newUserVerifyResult?.profiles?.length).toEqual(2);
+  expect(
+    newUserVerifyResult?.profiles?.find(
+      (p) => p.type === "sso" && p.id === newUserPayload.user.id
+    )
+  ).toBeDefined();
+  expect(
+    newUserVerifyResult?.profiles?.find(
+      (p) => p.type === "sso" && p.id === oldUserPayload.user.id
+    )
+  ).toBeDefined();
+});
