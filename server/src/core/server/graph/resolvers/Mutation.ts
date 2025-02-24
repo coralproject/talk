@@ -565,4 +565,14 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
       clientMutationId,
     };
   },
+  refreshDisposableEmailDomains: async (
+    source,
+    { input: { clientMutationId } },
+    ctx
+  ) => {
+    await ctx.mutators.Settings.refreshDisposableEmailDomains();
+    return {
+      clientMutationId,
+    };
+  },
 };

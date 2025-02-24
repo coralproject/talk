@@ -20,6 +20,7 @@ import {
   enableExternalModerationPhase,
   enableFeatureFlag,
   enableWebhookEndpoint,
+  readDisposableEmailDomainsAndAddToRedis,
   rotateExternalModerationPhaseSigningSecret,
   rotateSSOSigningSecret,
   rotateWebhookEndpointSigningSecret,
@@ -68,6 +69,7 @@ export const Settings = ({
   now,
   mailerQueue,
   user,
+  logger,
 }: GraphContext) => ({
   update: async (
     input: WithoutMutationID<GQLUpdateSettingsInput>
@@ -198,5 +200,8 @@ export const Settings = ({
       input.inactiveIn,
       now
     ),
+  refreshDisposableEmailDomains: async () => {
+    await readDisposableEmailDomainsAndAddToRedis(redis, logger);
+  },
   testSMTP: () => sendSMTPTest(tenant, user!, mailerQueue),
 });

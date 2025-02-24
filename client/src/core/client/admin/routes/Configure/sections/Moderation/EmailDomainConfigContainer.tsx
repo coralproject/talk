@@ -1,14 +1,15 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "relay-runtime";
 
 import { formatStringList, parseStringList } from "coral-framework/lib/form";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { validateEmailDomainList } from "coral-framework/lib/validation";
 import { AddIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
+  CallOut,
   FieldSet,
   Flex,
   FormField,
@@ -26,6 +27,7 @@ import Header from "../../Header";
 import OnOffField from "../../OnOffField";
 import ValidationMessage from "../../ValidationMessage";
 import EmailDomainTableContainer from "./EmailDomainTableContainer";
+import RefreshDisposableEmailDomainsMutation from "./RefreshDisposableEmailDomainsMutation";
 
 import styles from "./EmailDomainConfigContainer.css";
 
@@ -50,6 +52,33 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
 }) => {
   const { protectedEmailDomains } = settings;
   const [showDomainList, setShowDomainList] = useState(false);
+  const [
+    refreshDisposableEmailDomainsError,
+    setRefreshDisposableEmailDomainsError,
+  ] = useState<string | null>(null);
+  const [
+    refreshingDisposableEmailDomains,
+    setRefreshingDisposableEmailDomains,
+  ] = useState(false);
+
+  const refreshEmailDomains = useMutation(
+    RefreshDisposableEmailDomainsMutation
+  );
+
+  const refreshDisposableEmailDomains = useCallback(async () => {
+    try {
+      setRefreshingDisposableEmailDomains(true);
+      await refreshEmailDomains();
+      setTimeout(() => {
+        setRefreshingDisposableEmailDomains(false);
+      }, 1500);
+    } catch (e) {
+      setRefreshDisposableEmailDomainsError(
+        `Error refreshing disposable domains: ${e}`
+      );
+      setRefreshingDisposableEmailDomains(false);
+    }
+  }, [refreshEmailDomains]);
 
   return (
     <ConfigBox
@@ -147,6 +176,27 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
           </Localized>
         </FormFieldHeader>
         <OnOffField name="disposableEmailDomains.enabled" disabled={disabled} />
+        <Localized
+          id={`${
+            refreshingDisposableEmailDomains
+              ? "configure-moderation-emailDomains-disposableEmailDomains-refreshing"
+              : "configure-moderation-emailDomains-disposableEmailDomains-refresh-button"
+          }`}
+        >
+          <Button
+            onClick={refreshDisposableEmailDomains}
+            disabled={refreshingDisposableEmailDomains}
+          >
+            {refreshingDisposableEmailDomains
+              ? "Refreshing"
+              : "Refresh disposable email domains"}
+          </Button>
+        </Localized>
+        {refreshDisposableEmailDomainsError && (
+          <CallOut fullWidth color="error">
+            {refreshDisposableEmailDomainsError}
+          </CallOut>
+        )}
       </FormField>
     </ConfigBox>
   );

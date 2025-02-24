@@ -928,6 +928,8 @@ configure-moderation-emailDomains-banned = Banned
 
 configure-moderation-emailDomains-disposableEmailDomains-enabled = Disposable email domains
 configure-moderation-emailDomains-disposableEmailDomains-helper-text = If a new user registers using a disposable email address, set their status to 'always pre-moderate comments.' Accounts with disposable email addresses can have a high spam / troll correlation.
+configure-moderation-emailDomains-disposableEmailDomains-refreshing = Refreshing
+configure-moderation-emailDomains-disposableEmailDomains-refresh-button = Refresh disposable email domains
 
 #### Pre-moderate  Email Address Configuration
 

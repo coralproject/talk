@@ -10504,6 +10504,17 @@ type FlushRedisPayload {
   clientMutationId: String!
 }
 
+input RefreshDisposableEmailDomainsInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RefreshDisposableEmailDomainsPayload {
+  clientMutationId: String!
+}
+
 ##################
 ## Mutation
 ##################
@@ -11252,6 +11263,13 @@ type Mutation {
   flushRedis flushes the redis instance.
   """
   flushRedis(input: FlushRedisInput!): FlushRedisPayload! @auth(roles: [ADMIN])
+
+  """
+  refreshDisposableEmailDomains will refresh disposable email domains in Redis
+  """
+  refreshDisposableEmailDomains(
+    input: RefreshDisposableEmailDomainsInput!
+  ): RefreshDisposableEmailDomainsPayload! @auth(roles: [ADMIN])
 
   """
   createDSAReport creates a DSAReport for the provided comment
