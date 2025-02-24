@@ -3,6 +3,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "relay-runtime";
 
+import { DISPOSABLE_EMAIL_DOMAINS_LIST_URL } from "coral-common/common/lib/constants";
 import { formatStringList, parseStringList } from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { validateEmailDomainList } from "coral-framework/lib/validation";
@@ -84,10 +85,7 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
   const EmailDomainsListLink = () => {
     return (
       <Localized id="configure-moderation-emailDomains-disposableEmailDomains-list-linkText">
-        <TextLink
-          target="_blank"
-          href="https://disposable.github.io/disposable-email-domains/domains_mx.json"
-        >
+        <TextLink target="_blank" href={`${DISPOSABLE_EMAIL_DOMAINS_LIST_URL}`}>
           {"disposable-email-domains"}
         </TextLink>
       </Localized>
