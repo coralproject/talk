@@ -149,6 +149,14 @@ export async function findOrCreateSSOUser(
 
   let user = null;
 
+  // attempt to find an sso profile user
+  if (!user) {
+    user = await retrieveUserWithProfile(mongo, tenant.id, {
+      type: "sso",
+      id,
+    });
+  }
+
   // attempt to find a local user that matches by id
   if (!user && id) {
     user = await retrieveUserWithProfile(mongo, tenant.id, {
@@ -177,14 +185,6 @@ export async function findOrCreateSSOUser(
         id,
       });
     }
-  }
-
-  // attempt to find an sso profile user
-  if (!user) {
-    user = await retrieveUserWithProfile(mongo, tenant.id, {
-      type: "sso",
-      id,
-    });
   }
 
   // attempt to find an existing sso user by email
