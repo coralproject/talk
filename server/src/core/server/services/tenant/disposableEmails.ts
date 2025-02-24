@@ -66,7 +66,9 @@ export async function readDisposableEmailDomainsAndAddToRedis(
     if (partialLine !== "") {
       await redis.set(
         `${partialLine}${DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY}`,
-        now.toISOString()
+        now.toISOString(),
+        "EX",
+        DISPOSABLE_EMAIL_DOMAIN_CACHE_DURATION
       );
     }
     logger.info("Finished streaming disposable emails list");
