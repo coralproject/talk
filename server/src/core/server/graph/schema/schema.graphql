@@ -2006,12 +2006,25 @@ type TooManyPeriodsConfig {
   enabled: Boolean!
 }
 
+type EmailAliasesConfig {
+  """
+  enabled decides whether the email aliases config is enabled or not.
+  """
+  enabled: Boolean!
+}
+
 type PremoderateEmailAddressConfiguration {
   """
   tooManyPeriods is the configuration for premoderating emails
   that have too many periods.
   """
   tooManyPeriods: TooManyPeriodsConfig
+
+  """
+  emailAliases is the configuration for premoderating email aliases that
+  already exist
+  """
+  emailAliases: EmailAliasesConfig
 }
 
 type DisposableEmailDomainConfiguration {
@@ -2034,12 +2047,25 @@ input TooManyPeriodsConfigInput {
   enabled: Boolean
 }
 
+input EmailAliasesConfigInput {
+  """
+  enabled decides whether the email aliases config is enabled or not.
+  """
+  enabled: Boolean
+}
+
 input PremoderateEmailAddressConfigurationInput {
   """
   tooManyPeriods is the configuration for premoderating emails
   that have too many periods.
   """
   tooManyPeriods: TooManyPeriodsConfigInput
+
+  """
+  emailAliases is the configuration for premoderating email aliases that
+  already exist
+  """
+  emailAliases: EmailAliasesConfigInput
 }
 
 enum DSA_METHOD_OF_REDRESS {

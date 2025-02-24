@@ -326,6 +326,9 @@ export interface PremoderateEmailAddressConfig {
   tooManyPeriods?: {
     enabled?: boolean;
   };
+  emailAliases?: {
+    enabled?: boolean;
+  };
 }
 
 export interface DisposableEmailDomainsConfig {

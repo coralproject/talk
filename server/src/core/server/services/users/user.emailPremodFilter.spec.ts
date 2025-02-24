@@ -28,7 +28,12 @@ it("does not premod filter emails when feature is disabled", () => {
     email: tooManyPeriodsEmail,
   });
 
-  const result = shouldPremodDueToLikelySpamEmail(tenant, redis, user);
+  const result = shouldPremodDueToLikelySpamEmail(
+    undefined,
+    tenant,
+    redis,
+    user
+  );
   expect(!result);
 });
 
@@ -45,7 +50,12 @@ it(`does not premod filter emails when feature enabled and has less than ${EMAIL
     email: justEnoughPeriodsEmail,
   });
 
-  const result = shouldPremodDueToLikelySpamEmail(tenant, redis, user);
+  const result = shouldPremodDueToLikelySpamEmail(
+    undefined,
+    tenant,
+    redis,
+    user
+  );
   expect(result);
 });
 
@@ -62,7 +72,12 @@ it(`does not premod filter emails when feature enabled and has no periods`, () =
     email: noPeriodsEmail,
   });
 
-  const result = shouldPremodDueToLikelySpamEmail(tenant, redis, user);
+  const result = shouldPremodDueToLikelySpamEmail(
+    undefined,
+    tenant,
+    redis,
+    user
+  );
   expect(result);
 });
 
@@ -79,6 +94,11 @@ it(`does premod filter emails when feature is enabled and has too many (${EMAIL_
     email: tooManyPeriodsEmail,
   });
 
-  const result = shouldPremodDueToLikelySpamEmail(tenant, redis, user);
+  const result = shouldPremodDueToLikelySpamEmail(
+    undefined,
+    tenant,
+    redis,
+    user
+  );
   expect(result);
 });

@@ -1,21 +1,25 @@
 import { Redis } from "ioredis";
 
 import { DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY } from "coral-common/common/lib/constants";
+import { MongoContext } from "coral-server/data/context";
 import { NewUserModeration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { STAFF_ROLES } from "coral-server/models/user/constants";
+import {
+  emailIsAlias,
+  findBaseUserForAlias,
+  findUsersSimilarToEmail,
+} from "./helpers";
 
 export const EMAIL_PREMOD_FILTER_PERIOD_LIMIT = 3;
 
-const emailHasTooManyPeriods = (email: string | undefined, limit: number) => {
-  if (!email) {
-    return false;
-  }
-
+const emailHasTooManyPeriods = (
+  // tenant: Readonly<Tenant>,
+  email: string,
+  limit: number
+) => {
   const split = email.split("@");
-  if (split.length < 2) {
-    return false;
-  }
 
   const firstHalf = split[0];
 
@@ -50,21 +54,43 @@ const emailIsOnAutoBanList = (
   return !!autoBanRecord;
 };
 
+const emailIsAnAliasOfExistingUser = async (
+  mongo: MongoContext,
+  tenant: Readonly<Tenant>,
+  email: string | undefined
+) => {
+  // if it is not an alias, can't have another alias or base email
+  // user
+  const isAlias = emailIsAlias(email);
+  if (!isAlias) {
+    return false;
+  }
+
+  // see if the base user (no alias) is a staff member, if so
+  // don't premod them
+  const baseUser = await findBaseUserForAlias(mongo, tenant.id, email);
+  if (baseUser && STAFF_ROLES.includes(baseUser.role)) {
+    return false;
+  }
+
+  // if we still have a base user who is not a staff member, premod
+  // this alias as it's likely spam
+  if (baseUser) {
+    return true;
+  }
+
+  // if there are other emails similar to this alias, then we've found
+  // more aliases of this alias
+  const similarUsers = await findUsersSimilarToEmail(mongo, email, 5);
+  return similarUsers.length > 0;
+};
+
 export const shouldPremodDueToLikelySpamEmail = async (
+  mongo: MongoContext | undefined = undefined,
   tenant: Readonly<Tenant>,
   redis: Redis,
   user: Readonly<User>
 ) => {
-  // don't premod check unless the filter is enabled
-  if (
-    !(
-      tenant?.premoderateEmailAddress?.tooManyPeriods?.enabled ||
-      tenant?.disposableEmailDomains?.enabled
-    )
-  ) {
-    return false;
-  }
-
   // don't need to premod a user that is already premoderated
   if (user.status.premod.active) {
     return false;
@@ -81,16 +107,19 @@ export const shouldPremodDueToLikelySpamEmail = async (
     return false;
   }
 
-  if (emailIsOnAutoBanList(user.email, tenant)) {
-    return false;
-  }
-
   const emailSplit = user.email.split("@");
   if (emailSplit.length < 2) {
     return false;
   }
 
   const domain = emailSplit[1].trim().toLowerCase();
+
+  // if a user is on auto ban list, they will become banned via their
+  // domain, therefore, we don't want to undo the ban by applying a
+  // premod state (that would un-ban them)
+  if (emailIsOnAutoBanList(domain, tenant)) {
+    return false;
+  }
 
   // if domain is included in protected email domains, we should
   // not pre-moderate it
@@ -103,9 +132,13 @@ export const shouldPremodDueToLikelySpamEmail = async (
   // and other trouble makers
   const results = [
     !!tenant.premoderateEmailAddress?.tooManyPeriods?.enabled &&
-      emailHasTooManyPeriods(domain, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
+      emailHasTooManyPeriods(user.email, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
     !!tenant.disposableEmailDomains?.enabled &&
       (await emailIsOnDisposableEmailsList(domain, redis)),
+    // premod email aliases if the feature is enabled
+    mongo &&
+      !!tenant?.premoderateEmailAddress?.emailAliases?.enabled &&
+      (await emailIsAnAliasOfExistingUser(mongo, tenant, user.email)),
   ];
 
   return results.some((v) => v === true);
