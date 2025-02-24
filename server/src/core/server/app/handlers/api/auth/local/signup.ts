@@ -14,6 +14,7 @@ import {
 } from "coral-server/errors";
 import { hasEnabledAuthIntegration } from "coral-server/models/tenant";
 import {
+  banUser,
   LocalProfile,
   premodUser,
   PremodUserReason,
@@ -28,6 +29,7 @@ import {
 } from "coral-server/types/express";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+import { shouldBanEmailBecauseOtherAliasesAreBanned } from "coral-server/services/users/emailAliasBanFilter";
 
 export interface SignupBody {
   username: string;
@@ -132,7 +134,7 @@ export const signupHandler = ({
         now
       );
 
-      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+      if (await shouldPremodDueToLikelySpamEmail(mongo, tenant, user)) {
         await premodUser(
           mongo,
           tenant.id,
@@ -141,6 +143,16 @@ export const signupHandler = ({
           now,
           PremodUserReason.EmailPremodFilter
         );
+      }
+
+      if (
+        await shouldBanEmailBecauseOtherAliasesAreBanned(
+          mongo,
+          tenant,
+          user.email
+        )
+      ) {
+        await banUser(mongo, tenant.id, user.id);
       }
 
       // Send off to the passport handler.

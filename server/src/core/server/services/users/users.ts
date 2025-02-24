@@ -129,6 +129,7 @@ import {
   generateAdminDownloadLink,
   generateDownloadLink,
 } from "./download/token";
+import { shouldBanEmailBecauseOtherAliasesAreBanned } from "./emailAliasBanFilter";
 import { shouldPremodDueToLikelySpamEmail } from "./emailPremodFilter";
 import {
   checkForNewUserEmailDomainModeration,
@@ -182,7 +183,7 @@ export async function findOrCreate(
     // Try to find or create the user.
     let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
 
-    if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+    if (await shouldPremodDueToLikelySpamEmail(mongo, tenant, user)) {
       user = await premodUser(
         mongo,
         tenant.id,
@@ -191,6 +192,16 @@ export async function findOrCreate(
         now,
         PremodUserReason.EmailPremodFilter
       );
+    }
+
+    if (
+      await shouldBanEmailBecauseOtherAliasesAreBanned(
+        mongo,
+        tenant,
+        user.email
+      )
+    ) {
+      user = await banUser(mongo, tenant.id, user.id);
     }
 
     return user;
@@ -203,7 +214,7 @@ export async function findOrCreate(
       // exit this function.
       let { user } = await findOrCreateUser(mongo, tenant.id, input, now);
 
-      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+      if (await shouldPremodDueToLikelySpamEmail(mongo, tenant, user)) {
         user = await premodUser(
           mongo,
           tenant.id,
@@ -212,6 +223,16 @@ export async function findOrCreate(
           now,
           PremodUserReason.EmailPremodFilter
         );
+      }
+
+      if (
+        await shouldBanEmailBecauseOtherAliasesAreBanned(
+          mongo,
+          tenant,
+          user.email
+        )
+      ) {
+        user = await banUser(mongo, tenant.id, user.id);
       }
 
       return user;
@@ -238,7 +259,7 @@ export async function findOrCreate(
         now
       );
 
-      if (shouldPremodDueToLikelySpamEmail(tenant, user)) {
+      if (await shouldPremodDueToLikelySpamEmail(mongo, tenant, user)) {
         user = await premodUser(
           mongo,
           tenant.id,
@@ -247,6 +268,16 @@ export async function findOrCreate(
           now,
           PremodUserReason.EmailPremodFilter
         );
+      }
+
+      if (
+        await shouldBanEmailBecauseOtherAliasesAreBanned(
+          mongo,
+          tenant,
+          user.email
+        )
+      ) {
+        user = await banUser(mongo, tenant.id, user.id);
       }
 
       return user;
@@ -275,20 +306,22 @@ export async function processAutomaticBanForUser(
   tenant: Tenant,
   user: User
 ) {
-  if (!tenant.emailDomainModeration) {
-    return;
-  }
+  const newUserEmailDomainModeration = tenant.emailDomainModeration
+    ? checkForNewUserEmailDomainModeration(user, tenant.emailDomainModeration)
+    : undefined;
 
-  const newUserEmailDomainModeration = checkForNewUserEmailDomainModeration(
-    user,
-    tenant.emailDomainModeration
-  );
-  if (!newUserEmailDomainModeration) {
-    return;
-  }
+  const shouldBanDueToAotherAlaisesBeingBanned = tenant.premoderateEmailAddress
+    ?.emailAliases
+    ? await shouldBanEmailBecauseOtherAliasesAreBanned(
+        mongo,
+        tenant,
+        user.email
+      )
+    : false;
 
   if (
-    newUserEmailDomainModeration === GQLNEW_USER_MODERATION.BAN &&
+    (newUserEmailDomainModeration === GQLNEW_USER_MODERATION.BAN ||
+      shouldBanDueToAotherAlaisesBeingBanned) &&
     !user.status.ban.active
   ) {
     await banUser(mongo, tenant.id, user.id);
