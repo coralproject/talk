@@ -92,12 +92,6 @@ export const shouldPremodDueToLikelySpamEmail = async (
 
   const domain = emailSplit[1].trim().toLowerCase();
 
-  // if domain is included in protected email domains, we should
-  // not pre-moderate it
-  if (tenant?.protectedEmailDomains?.includes(domain)) {
-    return false;
-  }
-
   // this is an array to allow for adding more rules in the
   // future as we play whack-a-mole trying to block spammers
   // and other trouble makers
