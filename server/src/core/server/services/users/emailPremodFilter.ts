@@ -1,5 +1,6 @@
 import { Redis } from "ioredis";
 
+import { DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY } from "coral-common/common/lib/constants";
 import { NewUserModeration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
@@ -43,7 +44,9 @@ const emailIsOnDisposableEmailsList = async (
 
   const domain = split[1];
 
-  const userEmailDomainIsDisposable = await redis.get(`${domain}:disposable`);
+  const userEmailDomainIsDisposable = await redis.get(
+    `${domain}${DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY}`
+  );
 
   return !!userEmailDomainIsDisposable;
 };
