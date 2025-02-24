@@ -97,7 +97,7 @@ export const COUNTS_V2_CACHE_DURATION = 1 * TIME.DAY;
  * domains and add them to Redis for moderation usage
  */
 export const DISPOSABLE_EMAIL_DOMAINS_LIST_URL =
-  "https://disposable.github.io/disposable-email-domains/domains_mx.txt";
+  "https://disposable.github.io/disposable-email-domains/domains_mx.json";
 
 /**
  * DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY is the pattern added to disposable email domains

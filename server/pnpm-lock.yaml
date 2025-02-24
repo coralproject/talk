@@ -281,6 +281,9 @@ dependencies:
   stack-utils:
     specifier: ^2.0.1
     version: 2.0.6
+  stream-json:
+    specifier: ^1.9.1
+    version: 1.9.1
   striptags:
     specifier: ^3.2.0
     version: 3.2.0
@@ -508,6 +511,9 @@ devDependencies:
   '@types/stack-utils':
     specifier: ^1.0.1
     version: 1.0.1
+  '@types/stream-json':
+    specifier: ^1.7.8
+    version: 1.7.8
   '@types/uuid':
     specifier: ^7.0.2
     version: 7.0.2
@@ -4325,6 +4331,19 @@ packages:
 
   /@types/stack-utils@2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
+    dev: true
+
+  /@types/stream-chain@2.1.0:
+    resolution: {integrity: sha512-guDyAl6s/CAzXUOWpGK2bHvdiopLIwpGu8v10+lb9hnQOyo4oj/ZUQFOvqFjKGsE3wJP1fpIesCcMvbXuWsqOg==}
+    dependencies:
+      '@types/node': 12.20.55
+    dev: true
+
+  /@types/stream-json@1.7.8:
+    resolution: {integrity: sha512-MU1OB1eFLcYWd1LjwKXrxdoPtXSRzRmAnnxs4Js/ayB5O/NvHraWwuOaqMWIebpYwM6khFlsJOHEhI9xK/ab4Q==}
+    dependencies:
+      '@types/node': 12.20.55
+      '@types/stream-chain': 2.1.0
     dev: true
 
   /@types/strip-bom@3.0.0:
@@ -18926,6 +18945,10 @@ packages:
       readable-stream: 2.3.6
     dev: true
 
+  /stream-chain@2.2.5:
+    resolution: {integrity: sha512-1TJmBx6aSWqZ4tx7aTpBDXK0/e2hhcNSTV8+CbFJtDjbb+I1mZ8lHit0Grw9GRT+6JbIrrDd8esncgBi8aBXGA==}
+    dev: false
+
   /stream-each@1.2.2:
     resolution: {integrity: sha512-mc1dbFhGBxvTM3bIWmAAINbqiuAk9TATcfIQC8P+/+HJefgaiTlMn2dHvkX8qlI12KeYKSQ1Ua9RrIqrn1VPoA==}
     dependencies:
@@ -18952,6 +18975,12 @@ packages:
       to-arraybuffer: 1.0.1
       xtend: 4.0.2
     dev: true
+
+  /stream-json@1.9.1:
+    resolution: {integrity: sha512-uWkjJ+2Nt/LO9Z/JyKZbMusL8Dkh97uUBTv3AJQ74y07lVahLY4eEFsPsE97pxYBwr8nnjMAIch5eqI0gPShyw==}
+    dependencies:
+      stream-chain: 2.2.5
+    dev: false
 
   /stream-shift@1.0.0:
     resolution: {integrity: sha512-Afuc4BKirbx0fwm9bKOehZPG01DJkm/4qbklw4lo9nMPqd2x0kZTLcgwQUXdGiPPY489l3w8cQ5xEEAGbg8ACQ==}
