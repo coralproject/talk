@@ -915,8 +915,6 @@ configure-moderation-emailDomains-exceptions-header = Exceptions
 configure-moderation-emailDomains-exceptions-helperText = These domains cannot be banned. Domains should be written without www, for example "gmail.com". Separate domains with a comma and a space.
 configure-moderation-emailDomains-exceptions-ban-premod-helperText = These domains cannot be banned or pre-moderated. Domains should be written without www, for example "gmail.com". Separate domains with a comma and a space.
 
-configure-moderation-emailDomains-protectedEmailDomains = Protected email domains
-
 configure-moderation-emailDomains-showCurrent = Show current domain list
 configure-moderation-emailDomains-hideCurrent = Hide current domain list
 configure-moderation-emailDomains-filterByStatus = 

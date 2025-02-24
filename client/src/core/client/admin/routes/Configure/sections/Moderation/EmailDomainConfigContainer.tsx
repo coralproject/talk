@@ -108,9 +108,6 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
           account holder's email address domain.
         </FormFieldDescription>
       </Localized>
-      <Localized id="configure-moderation-emailDomains-protectedEmailDomains">
-        <Label component="legend">Protected email domains</Label>
-      </Localized>
       <Localized
         id="configure-moderation-emailDomains-addDomain"
         elems={{ icon: <ButtonSvgIcon size="xs" Icon={AddIcon} /> }}
