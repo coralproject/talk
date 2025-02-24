@@ -29,21 +29,7 @@ const emailHasTooManyPeriods = (email: string | undefined, limit: number) => {
   return periodCount >= limit;
 };
 
-const emailIsOnDisposableEmailsList = async (
-  email: string | undefined,
-  redis: Redis
-) => {
-  if (!email) {
-    return false;
-  }
-
-  const split = email.split("@");
-  if (split.length < 2) {
-    return false;
-  }
-
-  const domain = split[1];
-
+const emailIsOnDisposableEmailsList = async (domain: string, redis: Redis) => {
   const userEmailDomainIsDisposable = await redis.get(
     `${domain}${DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY}`
   );
@@ -52,20 +38,9 @@ const emailIsOnDisposableEmailsList = async (
 };
 
 const emailIsOnAutoBanList = (
-  email: string | undefined,
+  domain: string,
   tenant: Readonly<Tenant>
 ): boolean => {
-  if (!email) {
-    return false;
-  }
-
-  const emailSplit = email.split("@");
-  if (emailSplit.length < 2) {
-    return false;
-  }
-
-  const domain = emailSplit[1].trim().toLowerCase();
-
   const autoBanRecord = tenant.emailDomainModeration?.find(
     (record) =>
       record.domain.toLowerCase() === domain &&
@@ -102,7 +77,24 @@ export const shouldPremodDueToLikelySpamEmail = async (
     return false;
   }
 
+  if (!user.email) {
+    return false;
+  }
+
   if (emailIsOnAutoBanList(user.email, tenant)) {
+    return false;
+  }
+
+  const emailSplit = user.email.split("@");
+  if (emailSplit.length < 2) {
+    return false;
+  }
+
+  const domain = emailSplit[1].trim().toLowerCase();
+
+  // if domain is included in protected email domains, we should
+  // not pre-moderate it
+  if (tenant?.protectedEmailDomains?.includes(domain)) {
     return false;
   }
 
@@ -111,9 +103,9 @@ export const shouldPremodDueToLikelySpamEmail = async (
   // and other trouble makers
   const results = [
     !!tenant.premoderateEmailAddress?.tooManyPeriods?.enabled &&
-      emailHasTooManyPeriods(user.email, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
+      emailHasTooManyPeriods(domain, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
     !!tenant.disposableEmailDomains?.enabled &&
-      (await emailIsOnDisposableEmailsList(user.email, redis)),
+      (await emailIsOnDisposableEmailsList(domain, redis)),
   ];
 
   return results.some((v) => v === true);
