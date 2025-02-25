@@ -207,11 +207,6 @@ export async function findOrCreateSSOUser(
     }
   }
 
-  // // attempt to find an existing sso user by email
-  // if (!user && email) {
-  //   user = await findUserByEmail(mongo, tenant.id, email);
-  // }
-
   // Try to get the avatar.
   let avatar: string | undefined;
   if (decodedToken.user.avatar && isValidImageURL(decodedToken.user.avatar)) {
