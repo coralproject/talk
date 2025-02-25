@@ -1,3 +1,4 @@
+import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
 import {
@@ -156,6 +157,7 @@ export function verifyIDToken(
 export async function findOrCreateOIDCUser(
   config: Config,
   mongo: MongoContext,
+  redis: Redis,
   tenant: Tenant,
   integration: OIDCAuthIntegration,
   {
@@ -203,6 +205,7 @@ export async function findOrCreateOIDCUser(
   return await findOrCreate(
     config,
     mongo,
+    redis,
     tenant,
     {
       username,
@@ -220,6 +223,7 @@ export async function findOrCreateOIDCUser(
 export async function findOrCreateOIDCUserWithToken(
   config: Config,
   mongo: MongoContext,
+  redis: Redis,
   tenant: Tenant,
   client: JwksClient,
   integration: Required<OIDCAuthIntegration>,
@@ -235,5 +239,13 @@ export async function findOrCreateOIDCUserWithToken(
   );
 
   // Find or create the user based on the verified token.
-  return findOrCreateOIDCUser(config, mongo, tenant, integration, token, now);
+  return findOrCreateOIDCUser(
+    config,
+    mongo,
+    redis,
+    tenant,
+    integration,
+    token,
+    now
+  );
 }

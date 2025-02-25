@@ -50,7 +50,10 @@ import { WordListCategory } from "./services/comments/pipeline/phases/wordList/m
 import { WordListService } from "./services/comments/pipeline/phases/wordList/service";
 import { ErrorReporter, SentryErrorReporter } from "./services/errors";
 import { InternalNotificationContext } from "./services/notifications/internal/context";
-import { isInstalled } from "./services/tenant";
+import {
+  isInstalled,
+  readDisposableEmailDomainsAndAddToRedis,
+} from "./services/tenant";
 
 export interface ServerOptions {
   /**
@@ -370,6 +373,9 @@ class Server {
 
     // Prime the queries in the database.
     await this.persistedQueryCache.prime();
+
+    // Get updated disposable email domains and add to Redis
+    await readDisposableEmailDomainsAndAddToRedis(this.redis, logger);
 
     // Launch all of the job processors.
     if (!this.config.get("disable_job_processors")) {
