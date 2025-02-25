@@ -934,6 +934,13 @@ configure-moderation-premoderateEmailAddress-enabled-description =
   email address (before the @), set their status to pre-moderate
   comments. Emails with 3 or more periods can have a very high spam
   correlation. It can be useful to pro-actively pre-moderate them.
+configure-moderation-premoderateEmailAliases-enabled =
+  Pre-moderate email aliases
+configure-moderation-premoderateEmailAliases-enabled-description =
+  If a user signs up for a new account with an email address that is
+  an alias (using a + sign) of an existing account, set their status
+  to pre-moderate comments. Email aliases are commonly used by
+  spammers and trolls to evade bans.
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
@@ -1226,7 +1233,9 @@ moderate-user-drawer-account-history-system = <icon></icon> System
 moderate-user-drawer-account-history-suspension-ended = Suspension ended
 moderate-user-drawer-account-history-suspension-removed = Suspension removed
 moderate-user-drawer-account-history-banned = Banned
-moderate-user-drawer-account-history-account-domain-banned = Account domain banned
+moderate-user-drawer-account-history-account-domain-banned =
+moderate-user-drawer-account-history-account-domain-or-alias-banned =
+  Account domain or alias banned
 moderate-user-drawer-account-history-ban-removed = Ban removed
 moderate-user-drawer-account-history-site-banned = Site banned
 moderate-user-drawer-account-history-site-ban-removed = Site ban removed

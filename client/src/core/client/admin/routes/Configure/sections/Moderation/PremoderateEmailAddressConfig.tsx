@@ -21,6 +21,9 @@ graphql`
       tooManyPeriods {
         enabled
       }
+      emailAliases {
+        enabled
+      }
     }
   }
 `;
@@ -59,6 +62,25 @@ const PremoderateEmailAddressConfig: FunctionComponent<Props> = ({
         </FormFieldHeader>
         <OnOffField
           name="premoderateEmailAddress.tooManyPeriods.enabled"
+          disabled={disabled}
+        />
+      </FormField>
+      <FormField container={<FieldSet />}>
+        <FormFieldHeader>
+          <Localized id="configure-moderation-premoderateEmailAliases-enabled">
+            <Label component="legend">Pre-moderate email aliases</Label>
+          </Localized>
+          <Localized id="configure-moderation-premoderateEmailAliases-enabled-description">
+            <HelperText>
+              If a user signs up for a new account with an email address that is
+              an alias (using a + sign) of an existing account, set their status
+              to pre-moderate comments. Email aliases are commonly used by
+              spammers and trolls to evade bans.
+            </HelperText>
+          </Localized>
+        </FormFieldHeader>
+        <OnOffField
+          name="premoderateEmailAddress.emailAliases.enabled"
           disabled={disabled}
         />
       </FormField>
