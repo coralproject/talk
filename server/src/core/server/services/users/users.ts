@@ -46,6 +46,7 @@ import { linkUsersAvailable, Tenant } from "coral-server/models/tenant";
 import {
   acknowledgeOwnModMessage,
   acknowledgeOwnWarning,
+  addProfileToUser as addProfileToUserModel,
   banUser,
   clearDeletionDate,
   consolidateUserBanStatus,
@@ -2638,47 +2639,7 @@ export const addProfileToUser = async (
   user: Readonly<User>,
   profile: Profile
 ) => {
-  if (
-    user.profiles?.find((p) => p.id === profile.id && p.type === profile.type)
-  ) {
-    return;
-  }
-
-  const existing = await mongo
-    .users()
-    .findOne({ tenantID: user.tenantID, id: user.id });
-
-  if (!existing) {
-    throw new UserNotFoundError(user.id);
-  }
-
-  const profiles = new Map<string, Profile>();
-
-  if (user.profiles) {
-    for (const p of user.profiles) {
-      profiles.set(`${p.type}:${p.id}`, p);
-    }
-  }
-
-  if (existing.profiles) {
-    for (const p of existing.profiles) {
-      profiles.set(`${p.type}:${p.id}`, p);
-    }
-  }
-
-  profiles.set(`${profile.type}:${profile.id}`, profile);
-
-  const uniqueProfiles = Array.from(profiles.values());
-
-  return await mongo.users().findOneAndUpdate(
-    { tenantID: user.tenantID, id: user.id },
-    {
-      $set: {
-        profiles: uniqueProfiles,
-      },
-    },
-    { returnDocument: "after" }
-  );
+  return await addProfileToUserModel(mongo, user, profile);
 };
 
 export const findUserByEmail = async (
