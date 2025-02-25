@@ -61,6 +61,7 @@ import {
   EmailNotificationSettingsInput,
   findOrCreateUser,
   FindOrCreateUserInput,
+  findUserByEmail as findUserByEmailModel,
   ignoreUser,
   InPageNotificationSettingsInput,
   linkUsers,
@@ -2685,5 +2686,5 @@ export const findUserByEmail = async (
   tenantID: string,
   email: string
 ) => {
-  return await mongo.users().findOne({ tenantID, email });
+  return await findUserByEmailModel(mongo, tenantID, email);
 };
