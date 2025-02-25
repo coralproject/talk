@@ -279,7 +279,7 @@ export const emailIsAlias = (email?: string | null) => {
   const address = atSplit[0];
   const aliasSplit = address.split("+");
 
-  return aliasSplit.length === 2;
+  return aliasSplit.length >= 2;
 };
 
 export const findBaseUserForAlias = async (
