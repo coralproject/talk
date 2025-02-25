@@ -25,7 +25,17 @@ const emailHasTooManyPeriods = (firstHalf: string, limit: number) => {
   return periodCount >= limit;
 };
 
-const emailIsOnDisposableEmailsList = async (domain: string, redis: Redis) => {
+const emailIsOnDisposableEmailsList = async (
+  domain: string,
+  redis: Redis,
+  tenant: Readonly<Tenant>
+) => {
+  // if domain is included in protected email domains, we should
+  // not pre-moderate it
+  if (tenant?.protectedEmailDomains?.includes(domain)) {
+    return false;
+  }
+
   const userEmailDomainIsDisposable = await redis.get(
     `${domain}${DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY}`
   );
@@ -114,12 +124,6 @@ export const shouldPremodDueToLikelySpamEmail = async (
     return false;
   }
 
-  // if domain is included in protected email domains, we should
-  // not pre-moderate it
-  if (tenant?.protectedEmailDomains?.includes(domain)) {
-    return false;
-  }
-
   // this is an array to allow for adding more rules in the
   // future as we play whack-a-mole trying to block spammers
   // and other trouble makers
@@ -127,7 +131,7 @@ export const shouldPremodDueToLikelySpamEmail = async (
     !!tenant.premoderateEmailAddress?.tooManyPeriods?.enabled &&
       emailHasTooManyPeriods(emailFirstHalf, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
     !!tenant.disposableEmailDomains?.enabled &&
-      (await emailIsOnDisposableEmailsList(domain, redis)),
+      (await emailIsOnDisposableEmailsList(domain, redis, tenant)),
     // premod email aliases if the feature is enabled
     mongo &&
       !!tenant?.premoderateEmailAddress?.emailAliases?.enabled &&
