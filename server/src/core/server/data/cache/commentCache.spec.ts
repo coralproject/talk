@@ -1,36 +1,18 @@
-import RedisClient from "ioredis";
-
 import { waitFor } from "coral-common/common/lib/helpers";
 import { CommentCache } from "coral-server/data/cache/commentCache";
-import { MongoContext, MongoContextImpl } from "coral-server/data/context";
 import { UnableToPrimeCachedCommentsForStory } from "coral-server/errors";
 import logger from "coral-server/logger";
 import { Comment } from "coral-server/models/comment";
-import { createMongoDB } from "coral-server/services/mongodb";
-import { AugmentedRedis } from "coral-server/services/redis";
 import {
   createCommentFixture,
   createStoryFixture,
 } from "coral-server/test/fixtures";
 
 import { GQLCOMMENT_SORT } from "coral-server/graph/schema/__generated__/types";
-
-const createRedis = (): AugmentedRedis => {
-  const uri = "redis://127.0.0.1:6379";
-  const redis = new RedisClient(uri, { lazyConnect: false });
-
-  return redis as AugmentedRedis;
-};
-
-const createMongo = async (): Promise<MongoContext> => {
-  const uri = "mongodb://127.0.0.1:27017/coral";
-  const live = (await createMongoDB(uri)).db;
-  const archive = (await createMongoDB(uri)).db;
-
-  const context = new MongoContextImpl(live, archive);
-
-  return context;
-};
+import {
+  createTestMongoContext,
+  createTestRedis,
+} from "coral-server/test/helpers";
 
 interface FixtureOptions {
   expirySeconds?: number;
@@ -39,8 +21,8 @@ interface FixtureOptions {
 const createFixtures = async (
   options: FixtureOptions = { expirySeconds: 5 * 60 }
 ) => {
-  const redis = createRedis();
-  const mongo = await createMongo();
+  const redis = await createTestRedis();
+  const mongo = await createTestMongoContext();
 
   const commentCache = new CommentCache(
     mongo,

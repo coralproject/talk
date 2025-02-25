@@ -23,9 +23,11 @@ import {
   retrieveUserWithProfile,
   SSOProfile,
   updateUserFromSSO,
+  User,
 } from "coral-server/models/user";
 import {
   getSSOProfile,
+  hasSSOProfile,
   needsSSOUpdate,
 } from "coral-server/models/user/helpers";
 import {
@@ -35,7 +37,9 @@ import {
 } from "coral-server/services/jwt";
 import { AugmentedRedis } from "coral-server/services/redis";
 import {
+  addProfileToUser,
   findOrCreate,
+  findUserByEmail,
   processAutomaticBanForUser,
   processAutomaticPremodForUser,
 } from "coral-server/services/users";
@@ -102,6 +106,18 @@ export const SSOTokenSchema = Joi.object().keys({
   user: SSOUserProfileSchema.required(),
 });
 
+export const ensureHasSSOProfile = (
+  mongo: MongoContext,
+  user: Readonly<User>,
+  profile: SSOProfile
+) => {
+  if (hasSSOProfile(user)) {
+    return;
+  }
+
+  return addProfileToUser(mongo, user, profile);
+};
+
 export async function findOrCreateSSOUser(
   config: Config,
   mongo: MongoContext,
@@ -131,11 +147,65 @@ export async function findOrCreateSSOUser(
   // Compute the last issued at time stamp.
   const lastIssuedAt = iat ? DateTime.fromSeconds(iat).toJSDate() : now;
 
-  // Try to lookup user given their id provided in the `sub` claim.
-  let user = await retrieveUserWithProfile(mongo, tenant.id, {
-    type: "sso",
-    id,
-  });
+  let user = null;
+
+  // attempt to find an sso profile user
+  if (!user) {
+    user = await retrieveUserWithProfile(mongo, tenant.id, {
+      type: "sso",
+      id,
+    });
+  }
+
+  // attempt to find a local user that matches by id
+  if (!user && id) {
+    user = await retrieveUserWithProfile(mongo, tenant.id, {
+      type: "local",
+      id,
+    });
+
+    if (user) {
+      user = await ensureHasSSOProfile(mongo, user, {
+        type: "sso",
+        id,
+      });
+    }
+  }
+
+  // attempt to find a local user that matches by email
+  if (!user && email) {
+    user = await retrieveUserWithProfile(mongo, tenant.id, {
+      type: "local",
+      id: email,
+    });
+
+    if (user) {
+      user = await ensureHasSSOProfile(mongo, user, {
+        type: "sso",
+        id,
+      });
+    }
+  }
+
+  // attempt to find an existing sso user by email
+  // and if we find it, link this new sso profile to the
+  // existing user so we now have an additional sso link
+  //
+  // this exists to allow SSO providers to be replaced and
+  // updated over time. Such as when we migrate a site from,
+  // say Auth0 to Firebase and the only linking identifier
+  // between the users would be an email, but we know that
+  // for SSO, this email is unique, so we can update the link
+  // and retain the old profile just in case (also for our records).
+  if (!user && email) {
+    const matchedUser = await findUserByEmail(mongo, tenant.id, email);
+    if (matchedUser && hasSSOProfile(matchedUser)) {
+      user = await addProfileToUser(mongo, matchedUser, {
+        type: "sso",
+        id,
+      });
+    }
+  }
 
   // Try to get the avatar.
   let avatar: string | undefined;
