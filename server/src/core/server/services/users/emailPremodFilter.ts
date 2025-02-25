@@ -36,8 +36,9 @@ const emailIsOnDisposableEmailsList = async (
     return false;
   }
 
-  const userEmailDomainIsDisposable = await redis.get(
-    `${domain}${DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY}`
+  const userEmailDomainIsDisposable = await redis.hget(
+    DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY,
+    domain
   );
 
   return !!userEmailDomainIsDisposable;

@@ -87,12 +87,6 @@ export const DEFAULT_SESSION_DURATION = 90 * TIME.DAY;
 export const COMMENT_REPEAT_POST_DURATION = 6 * TIME.MINUTE;
 
 /**
- * COUNTS_V2_CACHE_DURATION is the length of time in seconds that the comment
- * counts for a story are cached for the counts v2 endoint.
- */
-export const COUNTS_V2_CACHE_DURATION = 1 * TIME.DAY;
-
-/**
  * DISPOSABLE_EMAIL_DOMAINS_LIST_URL is the url for where we grab disposable email
  * domains and add them to Redis for moderation usage
  */
@@ -103,7 +97,7 @@ export const DISPOSABLE_EMAIL_DOMAINS_LIST_URL =
  * DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY is the pattern added to disposable email domains
  * when they are added to Redis, to identify them
  */
-export const DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY = ":disposable";
+export const DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY = "disposableDomains";
 
 /**
  * DISPOSABLE_EMAIL_DOMAIN_CACHE_DURATION is the length of time in seconds that
