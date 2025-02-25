@@ -9,6 +9,7 @@ import {
   CommentModerationQueueCounts,
   CommentStatusCounts,
   CommentTagCounts,
+  retrieveCountOfAllRepliesForComment,
   updateSharedCommentCounts,
 } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
@@ -26,6 +27,7 @@ import { AugmentedRedis } from "coral-server/services/redis";
 
 import { COUNTS_V2_CACHE_DURATION } from "coral-common/common/lib/constants";
 import {
+  GQLCOMMENT_STATUS,
   GQLCommentTagCounts,
   GQLFEATURE_FLAG,
   GQLTAG,
@@ -170,6 +172,16 @@ export default async function updateAllCommentCounts(
   } = input;
 
   if (options.updateStory) {
+    // If after status is REJECTED, then we get count of all replies to the comment since these will no
+    // longer be visible in the stream
+    if (input.after.status === GQLCOMMENT_STATUS.REJECTED) {
+      await retrieveCountOfAllRepliesForComment(
+        mongo,
+        input.tenant.id,
+        input.after.id
+      );
+    }
+
     // Update the story, site, and user comment counts.
     const updatedStory = (await updateStoryCounts(mongo, tenant.id, storyID, {
       action,

@@ -1710,3 +1710,32 @@ export async function retrieveLatestFeaturedCommentForAuthor(
 
   return results as Comment[];
 }
+
+export async function retrieveCountOfAllRepliesForComment(
+  mongo: MongoContext,
+  tenantID: string,
+  commentID: string
+) {
+  const cursor = mongo.comments().aggregate([
+    {
+      $match: {
+        tenantID,
+        ancestorIDs: commentID,
+      },
+    },
+    { $count: "count" },
+  ]);
+
+  const hasNext = await cursor.hasNext();
+  if (!hasNext) {
+    return 0;
+  }
+
+  const next = await cursor.next();
+  const result = next;
+  if (!result) {
+    return 0;
+  }
+
+  return result.count ?? 0;
+}
