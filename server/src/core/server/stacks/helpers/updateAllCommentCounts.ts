@@ -151,33 +151,19 @@ const hasRejectedAncestor = async (
   commentID: string,
   cache?: DataCache
 ) => {
-  const cacheAvailable = await cache?.available(tenantID);
-  if (cacheAvailable) {
-    const ancestors = await cache?.comments.findAncestors(
-      tenantID,
-      storyID,
-      commentID
-    );
-    const rejected = ancestors?.filter(
-      (a) => a.status === GQLCOMMENT_STATUS.REJECTED
-    );
-
-    return rejected?.length === 0;
-  } else {
-    const story = await mongo.stories().findOne({ id: storyID });
-    if (!story || story.isArchived || story.isArchiving) {
-      return false;
-    }
-
-    const rejectedAncestors = await hasRejectedAncestors(
-      mongo,
-      tenantID,
-      commentID,
-      !!(story.isArchived || story.isArchiving)
-    );
-
-    return !rejectedAncestors;
+  const story = await mongo.stories().findOne({ id: storyID });
+  if (!story || story.isArchived || story.isArchiving) {
+    return false;
   }
+
+  const rejectedAncestors = await hasRejectedAncestors(
+    mongo,
+    tenantID,
+    commentID,
+    !!(story.isArchived || story.isArchiving)
+  );
+
+  return !!rejectedAncestors;
 };
 
 export const calculatePresentation = async (
