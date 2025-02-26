@@ -80,6 +80,7 @@ function getBatch(
 const rejectArchivedComments = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   config: Config,
   i18n: I18n,
   tenant: Readonly<Tenant>,
@@ -132,7 +133,8 @@ const rejectArchivedComments = async (
         input,
         now,
         true,
-        updateAllCommentCountsArgs
+        updateAllCommentCountsArgs,
+        cache
       );
       if (!result.after) {
         continue;
@@ -268,6 +270,7 @@ const createJobProcessor =
       await rejectArchivedComments(
         mongo,
         redis,
+        cache,
         config,
         i18n,
         tenant,

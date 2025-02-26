@@ -103,6 +103,7 @@ interface AddCommentAction {
 async function addCommentAction(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   config: Config,
   i18n: I18n,
   broker: CoralEventPublisherBroker,
@@ -187,12 +188,20 @@ async function addCommentAction(
     );
 
     // Update the comment counts onto other documents.
-    const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
-      tenant,
-      actionCounts,
-      before: oldComment,
-      after: updatedComment,
-    });
+    const counts = await updateAllCommentCounts(
+      mongo,
+      redis,
+      config,
+      i18n,
+      {
+        tenant,
+        actionCounts,
+        before: oldComment,
+        after: updatedComment,
+      },
+      undefined,
+      cache
+    );
 
     // Publish changes to the event publisher.
     // Do not publish if comment is archived
@@ -284,12 +293,20 @@ export async function removeCommentAction(
     }
 
     // Update the comment counts onto other documents.
-    const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
-      tenant,
-      actionCounts,
-      before: oldComment,
-      after: updatedComment,
-    });
+    const counts = await updateAllCommentCounts(
+      mongo,
+      redis,
+      config,
+      i18n,
+      {
+        tenant,
+        actionCounts,
+        before: oldComment,
+        after: updatedComment,
+      },
+      undefined,
+      cache
+    );
 
     // Publish changes to the event publisher.
     await publishChanges(broker, {
@@ -325,6 +342,7 @@ export async function createReaction(
   const { comment, action } = await addCommentAction(
     mongo,
     redis,
+    cache,
     config,
     i18n,
     broker,
@@ -399,6 +417,7 @@ export type CreateCommentDontAgree = Pick<
 export async function createDontAgree(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   config: Config,
   i18n: I18n,
   commentActionsCache: CommentActionsCache,
@@ -411,6 +430,7 @@ export async function createDontAgree(
   const { comment, action } = await addCommentAction(
     mongo,
     redis,
+    cache,
     config,
     i18n,
     broker,
@@ -441,6 +461,7 @@ export type CreateIllegalContent = Pick<CreateActionInput, "commentID"> & {
 export async function createIllegalContent(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   config: Config,
   i18n: I18n,
   commentActionsCache: CommentActionsCache,
@@ -464,6 +485,7 @@ export async function createIllegalContent(
   const { comment: commentUpdated, action } = await addCommentAction(
     mongo,
     redis,
+    cache,
     config,
     i18n,
     broker,
@@ -529,6 +551,7 @@ export type CreateCommentFlag = Pick<
 export async function createFlag(
   mongo: MongoContext,
   redis: AugmentedRedis,
+  cache: DataCache,
   config: Config,
   i18n: I18n,
   commentActionsCache: CommentActionsCache,
@@ -542,6 +565,7 @@ export async function createFlag(
   const { comment, action } = await addCommentAction(
     mongo,
     redis,
+    cache,
     config,
     i18n,
     broker,

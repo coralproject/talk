@@ -388,6 +388,7 @@ class Server {
       this.scheduledTasks = startScheduledTasks({
         mongo: this.mongo,
         redis: this.redis,
+        cache: undefined,
         config: this.config,
         i18n: this.i18n,
         mailerQueue: this.tasks.mailer,

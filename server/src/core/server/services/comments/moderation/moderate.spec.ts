@@ -9,6 +9,7 @@ import {
   createUserFixture,
 } from "coral-server/test/fixtures";
 import {
+  createMockDataCache,
   createMockMongoContex,
   createMockRedis,
 } from "coral-server/test/mocks";
@@ -34,6 +35,7 @@ it("requires a valid rejection reason if dsaFeatures are enabled", async () => {
   });
   const config = {} as Config;
   const story = createStoryFixture({ tenantID: tenant.id });
+  const cache = createMockDataCache();
   const comment = createCommentFixture({ storyID: story.id });
   const moderator = createUserFixture({
     tenantID: tenant.id,
@@ -82,7 +84,8 @@ it("requires a valid rejection reason if dsaFeatures are enabled", async () => {
         false,
         {
           actionCounts: {},
-        }
+        },
+        cache
       )
   ).rejects.toThrow();
 });

@@ -119,7 +119,8 @@ const rejectComment = async (
     },
     now,
     isArchived,
-    updateAllCommentCountsArgs
+    updateAllCommentCountsArgs,
+    cache
   );
 
   const revision = getLatestRevision(result.before);

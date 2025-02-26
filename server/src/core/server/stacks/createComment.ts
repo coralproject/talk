@@ -487,7 +487,8 @@ export default async function create(
       false,
       {
         actionCounts,
-      }
+      },
+      cache
     );
 
     await notifications.create(tenant.id, tenant.locale, {
@@ -499,11 +500,19 @@ export default async function create(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
-    tenant,
-    actionCounts,
-    after: comment,
-  });
+  const counts = await updateAllCommentCounts(
+    mongo,
+    redis,
+    config,
+    i18n,
+    {
+      tenant,
+      actionCounts,
+      after: comment,
+    },
+    undefined,
+    cache
+  );
 
   const cacheAvailable = await cache.available(tenant.id);
   if (cacheAvailable) {

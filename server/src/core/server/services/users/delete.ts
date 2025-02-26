@@ -2,6 +2,7 @@ import { Collection, Document, WithId } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Config } from "coral-server/config";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { DSAReport } from "coral-server/models/dsaReport";
 
@@ -46,7 +47,8 @@ async function moderateComments(
   tenant: Tenant,
   authorID: string,
   now: Date,
-  isArchived = false
+  isArchived = false,
+  cache?: DataCache
 ) {
   const coll =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
@@ -110,7 +112,8 @@ async function moderateComments(
       args,
       now,
       isArchived,
-      updateAllCommentCountsArgs
+      updateAllCommentCountsArgs,
+      cache
     );
 
     if (!result.after) {
@@ -215,7 +218,8 @@ async function deleteUserComments(
   authorID: string,
   tenant: WithId<Readonly<Tenant>>,
   now: Date,
-  isArchived?: boolean | null
+  isArchived?: boolean | null,
+  cache?: DataCache
 ) {
   await moderateComments(
     mongo,
@@ -225,7 +229,8 @@ async function deleteUserComments(
     tenant,
     authorID,
     now,
-    !!isArchived
+    !!isArchived,
+    cache
   );
 
   const collection =
@@ -253,7 +258,8 @@ export async function deleteUser(
   tenantID: string,
   now: Date,
   dsaEnabled: boolean,
-  requestingUser: string | null = null
+  requestingUser: string | null = null,
+  cache?: DataCache
 ) {
   const user = await mongo.users().findOne({ id: userID, tenantID });
   if (!user) {
@@ -280,7 +286,17 @@ export async function deleteUser(
   }
 
   // Delete the user's comments.
-  await deleteUserComments(mongo, redis, config, i18n, userID, tenant, now);
+  await deleteUserComments(
+    mongo,
+    redis,
+    config,
+    i18n,
+    userID,
+    tenant,
+    now,
+    undefined,
+    cache
+  );
   if (mongo.archive) {
     await deleteUserComments(
       mongo,
@@ -290,7 +306,8 @@ export async function deleteUser(
       userID,
       tenant,
       now,
-      true
+      true,
+      cache
     );
   }
 

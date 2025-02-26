@@ -1,5 +1,6 @@
 import { ERROR_CODES } from "coral-common/common/lib/errors";
 import { Config } from "coral-server/config";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import {
   CommentNotFoundError,
@@ -42,7 +43,8 @@ export default async function moderate(
       updateSite: boolean;
       updateUser: boolean;
     };
-  }
+  },
+  cache?: DataCache
 ) {
   if (
     tenant.dsa?.enabled &&
@@ -136,7 +138,8 @@ export default async function moderate(
       tenant,
       actionCounts: updateAllCommentCountsArgs.actionCounts,
     },
-    updateAllCommentCountsArgs.options
+    updateAllCommentCountsArgs.options,
+    cache
   );
 
   return { result, counts };

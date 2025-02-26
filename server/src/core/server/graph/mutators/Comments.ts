@@ -157,6 +157,7 @@ export const Comments = (ctx: GraphContext) => ({
     createIllegalContent(
       ctx.mongo,
       ctx.redis,
+      ctx.cache,
       ctx.config,
       ctx.i18n,
       ctx.cache.commentActions,
@@ -178,6 +179,7 @@ export const Comments = (ctx: GraphContext) => ({
     createDontAgree(
       ctx.mongo,
       ctx.redis,
+      ctx.cache,
       ctx.config,
       ctx.i18n,
       ctx.cache.commentActions,
@@ -222,6 +224,7 @@ export const Comments = (ctx: GraphContext) => ({
     createFlag(
       ctx.mongo,
       ctx.redis,
+      ctx.cache,
       ctx.config,
       ctx.i18n,
       ctx.cache.commentActions,

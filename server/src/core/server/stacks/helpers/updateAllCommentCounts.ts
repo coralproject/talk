@@ -1,6 +1,7 @@
 import { getTextHTML } from "coral-server/app/handlers";
 import { get, getCountRedisCacheKey } from "coral-server/app/middleware/cache";
 import { Config } from "coral-server/config";
+import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
@@ -18,6 +19,7 @@ import { updateSiteCounts } from "coral-server/models/site";
 import { Story, updateStoryCounts } from "coral-server/models/story";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { updateUserCommentCounts } from "coral-server/models/user";
+import { hasRejectedAncestors } from "coral-server/services/comments";
 import {
   calculateCounts,
   calculateCountsDiff,
@@ -142,17 +144,70 @@ interface UpdateAllCommentCountsOptions {
   updateShared?: boolean;
 }
 
+const hasRejectedAncestor = async (
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  commentID: string,
+  cache?: DataCache
+) => {
+  const cacheAvailable = await cache?.available(tenantID);
+  if (cacheAvailable) {
+    const ancestors = await cache?.comments.findAncestors(
+      tenantID,
+      storyID,
+      commentID
+    );
+    const rejected = ancestors?.filter(
+      (a) => a.status === GQLCOMMENT_STATUS.REJECTED
+    );
+
+    return rejected?.length === 0;
+  } else {
+    const story = await mongo.stories().findOne({ id: storyID });
+    if (!story || story.isArchived || story.isArchiving) {
+      return false;
+    }
+
+    const rejectedAncestors = await hasRejectedAncestors(
+      mongo,
+      tenantID,
+      commentID,
+      !!(story.isArchived || story.isArchiving)
+    );
+
+    return !rejectedAncestors;
+  }
+};
+
 export const calculatePresentation = async (
   input: UpdateAllCommentCountsInput,
-  mongo: MongoContext
+  mongo: MongoContext,
+  cache?: DataCache
 ) => {
-  // if no replies at all, then no replies to calculate
-  if (input.after.childCount === 0) {
-    return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: 0 };
+  // check if newly rejected replies have already been calculated earlier
+  // due to an already rejected parent
+  if (
+    input.after.parentID &&
+    input.after.status === GQLCOMMENT_STATUS.REJECTED
+  ) {
+    const rejectedAncestor = await hasRejectedAncestor(
+      mongo,
+      input.tenant.id,
+      input.after.storyID,
+      input.after.id,
+      cache
+    );
+    // if they have been calculated earlier due to an already rejected parent,
+    // decrement PUBLISHED_REPLIES_TO_REJECTED_COMMENTS count by 1 due to this reply
+    // no longer being published
+    if (rejectedAncestor) {
+      return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: -1 };
+    }
   }
 
-  // only check for top-level comments for now
-  if (input.after.parentID) {
+  // if no replies at all, then no replies to calculate
+  if (input.after.childCount === 0) {
     return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: 0 };
   }
 
@@ -195,7 +250,8 @@ export default async function updateAllCommentCounts(
     updateSite: true,
     updateUser: true,
     updateShared: true,
-  }
+  },
+  cache?: DataCache
 ) {
   // Compute the queue difference as a result of the old status and the new
   // status and the action counts.
@@ -206,7 +262,7 @@ export default async function updateAllCommentCounts(
 
   const tags = calculateTags(input.before?.tags, input.after.tags);
 
-  const presentation = await calculatePresentation(input, mongo);
+  const presentation = await calculatePresentation(input, mongo, cache);
 
   // Pull out some params from the input for easier usage.
   const {

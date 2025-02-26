@@ -38,6 +38,7 @@ export const DSAReports = (ctx: GraphContext) => ({
     await createIllegalContent(
       ctx.mongo,
       ctx.redis,
+      ctx.cache,
       ctx.config,
       ctx.i18n,
       ctx.cache.commentActions,
