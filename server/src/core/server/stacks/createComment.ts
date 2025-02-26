@@ -487,8 +487,7 @@ export default async function create(
       false,
       {
         actionCounts,
-      },
-      cache
+      }
     );
 
     await notifications.create(tenant.id, tenant.locale, {
@@ -510,8 +509,7 @@ export default async function create(
       actionCounts,
       after: comment,
     },
-    undefined,
-    cache
+    undefined
   );
 
   const cacheAvailable = await cache.available(tenant.id);

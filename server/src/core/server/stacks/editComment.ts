@@ -279,8 +279,7 @@ export default async function edit(
       false,
       {
         actionCounts,
-      },
-      cache
+      }
     );
   }
 
@@ -295,8 +294,7 @@ export default async function edit(
       actionCounts,
       ...result,
     },
-    undefined,
-    cache
+    undefined
   );
 
   // only clear Redis cache for single comment embed if jsonp_response_cache set to true

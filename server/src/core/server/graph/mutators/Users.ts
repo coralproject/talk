@@ -207,8 +207,7 @@ export const Users = (ctx: GraphContext) => ({
       ctx.tenant.id,
       ctx.now,
       ctx.tenant.dsa?.enabled,
-      ctx.user!.id,
-      ctx.cache
+      ctx.user!.id
     );
   },
   cancelScheduledAccountDeletion: async (

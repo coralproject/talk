@@ -1,7 +1,6 @@
 import { getTextHTML } from "coral-server/app/handlers";
 import { get, getCountRedisCacheKey } from "coral-server/app/middleware/cache";
 import { Config } from "coral-server/config";
-import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
@@ -148,8 +147,7 @@ const hasRejectedAncestor = async (
   mongo: MongoContext,
   tenantID: string,
   storyID: string,
-  commentID: string,
-  cache?: DataCache
+  commentID: string
 ) => {
   const story = await mongo.stories().findOne({ id: storyID });
   if (!story || story.isArchived || story.isArchiving) {
@@ -168,8 +166,7 @@ const hasRejectedAncestor = async (
 
 export const calculatePresentation = async (
   input: UpdateAllCommentCountsInput,
-  mongo: MongoContext,
-  cache?: DataCache
+  mongo: MongoContext
 ) => {
   // check if newly rejected replies have already been calculated earlier
   // due to an already rejected parent
@@ -181,8 +178,7 @@ export const calculatePresentation = async (
       mongo,
       input.tenant.id,
       input.after.storyID,
-      input.after.id,
-      cache
+      input.after.id
     );
     // if they have been calculated earlier due to an already rejected parent,
     // decrement PUBLISHED_REPLIES_TO_REJECTED_COMMENTS count by 1 due to this reply
@@ -236,8 +232,7 @@ export default async function updateAllCommentCounts(
     updateSite: true,
     updateUser: true,
     updateShared: true,
-  },
-  cache?: DataCache
+  }
 ) {
   // Compute the queue difference as a result of the old status and the new
   // status and the action counts.
@@ -248,7 +243,7 @@ export default async function updateAllCommentCounts(
 
   const tags = calculateTags(input.before?.tags, input.after.tags);
 
-  const presentation = await calculatePresentation(input, mongo, cache);
+  const presentation = await calculatePresentation(input, mongo);
 
   // Pull out some params from the input for easier usage.
   const {

@@ -2,7 +2,6 @@ import { Collection, Document, WithId } from "mongodb";
 import { v4 as uuid } from "uuid";
 
 import { Config } from "coral-server/config";
-import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { DSAReport } from "coral-server/models/dsaReport";
 
@@ -47,8 +46,7 @@ async function moderateComments(
   tenant: Tenant,
   authorID: string,
   now: Date,
-  isArchived = false,
-  cache?: DataCache
+  isArchived = false
 ) {
   const coll =
     isArchived && mongo.archive ? mongo.archivedComments() : mongo.comments();
@@ -112,8 +110,7 @@ async function moderateComments(
       args,
       now,
       isArchived,
-      updateAllCommentCountsArgs,
-      cache
+      updateAllCommentCountsArgs
     );
 
     if (!result.after) {
@@ -218,8 +215,7 @@ async function deleteUserComments(
   authorID: string,
   tenant: WithId<Readonly<Tenant>>,
   now: Date,
-  isArchived?: boolean | null,
-  cache?: DataCache
+  isArchived?: boolean | null
 ) {
   await moderateComments(
     mongo,
@@ -229,8 +225,7 @@ async function deleteUserComments(
     tenant,
     authorID,
     now,
-    !!isArchived,
-    cache
+    !!isArchived
   );
 
   const collection =
@@ -258,8 +253,7 @@ export async function deleteUser(
   tenantID: string,
   now: Date,
   dsaEnabled: boolean,
-  requestingUser: string | null = null,
-  cache?: DataCache
+  requestingUser: string | null = null
 ) {
   const user = await mongo.users().findOne({ id: userID, tenantID });
   if (!user) {
@@ -294,8 +288,7 @@ export async function deleteUser(
     userID,
     tenant,
     now,
-    undefined,
-    cache
+    undefined
   );
   if (mongo.archive) {
     await deleteUserComments(
@@ -306,8 +299,7 @@ export async function deleteUser(
       userID,
       tenant,
       now,
-      true,
-      cache
+      true
     );
   }
 

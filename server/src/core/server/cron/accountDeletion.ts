@@ -42,7 +42,6 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
   log,
   mongo,
   redis,
-  cache,
   config,
   i18n,
   mailerQueue,
@@ -79,8 +78,7 @@ const deleteScheduledAccounts: ScheduledJobCommand<Options> = async ({
         tenant.id,
         now,
         tenant.dsa?.enabled,
-        null,
-        cache
+        null
       );
 
       // If the user has an email, then send them a confirmation that their account

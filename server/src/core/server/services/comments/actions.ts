@@ -103,7 +103,6 @@ interface AddCommentAction {
 async function addCommentAction(
   mongo: MongoContext,
   redis: AugmentedRedis,
-  cache: DataCache,
   config: Config,
   i18n: I18n,
   broker: CoralEventPublisherBroker,
@@ -199,8 +198,7 @@ async function addCommentAction(
         before: oldComment,
         after: updatedComment,
       },
-      undefined,
-      cache
+      undefined
     );
 
     // Publish changes to the event publisher.
@@ -304,8 +302,7 @@ export async function removeCommentAction(
         before: oldComment,
         after: updatedComment,
       },
-      undefined,
-      cache
+      undefined
     );
 
     // Publish changes to the event publisher.
@@ -342,7 +339,6 @@ export async function createReaction(
   const { comment, action } = await addCommentAction(
     mongo,
     redis,
-    cache,
     config,
     i18n,
     broker,
@@ -417,7 +413,6 @@ export type CreateCommentDontAgree = Pick<
 export async function createDontAgree(
   mongo: MongoContext,
   redis: AugmentedRedis,
-  cache: DataCache,
   config: Config,
   i18n: I18n,
   commentActionsCache: CommentActionsCache,
@@ -430,7 +425,6 @@ export async function createDontAgree(
   const { comment, action } = await addCommentAction(
     mongo,
     redis,
-    cache,
     config,
     i18n,
     broker,
@@ -461,7 +455,6 @@ export type CreateIllegalContent = Pick<CreateActionInput, "commentID"> & {
 export async function createIllegalContent(
   mongo: MongoContext,
   redis: AugmentedRedis,
-  cache: DataCache,
   config: Config,
   i18n: I18n,
   commentActionsCache: CommentActionsCache,
@@ -485,7 +478,6 @@ export async function createIllegalContent(
   const { comment: commentUpdated, action } = await addCommentAction(
     mongo,
     redis,
-    cache,
     config,
     i18n,
     broker,
@@ -551,7 +543,6 @@ export type CreateCommentFlag = Pick<
 export async function createFlag(
   mongo: MongoContext,
   redis: AugmentedRedis,
-  cache: DataCache,
   config: Config,
   i18n: I18n,
   commentActionsCache: CommentActionsCache,
@@ -565,7 +556,6 @@ export async function createFlag(
   const { comment, action } = await addCommentAction(
     mongo,
     redis,
-    cache,
     config,
     i18n,
     broker,
