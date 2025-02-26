@@ -167,6 +167,8 @@ export interface Comment extends TenantResource {
    * from the comment embed API
    */
   embeddedAt?: Date;
+
+  isHidden?: boolean;
 }
 
 export type CreateCommentInput = Omit<
@@ -992,6 +994,22 @@ export async function mergeManyCommentStories(
   );
 }
 
+export async function setDescendantCommentsHidden(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  commentID: string,
+  isHidden: boolean
+) {
+  const result = mongo
+    .comments()
+    .updateMany(
+      { tenantID, storyID, ancestorIDs: commentID },
+      { $set: { isHidden } }
+    );
+  return result;
+}
+
 export async function addCommentTag(
   mongo: MongoContext,
   tenantID: string,
@@ -1711,15 +1729,50 @@ export async function retrieveLatestFeaturedCommentForAuthor(
   return results as Comment[];
 }
 
-export async function retrieveCountOfPublishedRepliesForComment(
+export async function retrieveCountOfPublishedAndNotHiddenRepliesForComment(
   mongo: MongoContext,
   tenantID: string,
+  storyID: string,
   commentID: string
 ) {
   const cursor = mongo.comments().aggregate([
     {
       $match: {
         tenantID,
+        storyID,
+        ancestorIDs: commentID,
+        status: { $in: PUBLISHED_STATUSES },
+        isHidden: { $ne: true },
+      },
+    },
+    { $count: "count" },
+  ]);
+
+  const hasNext = await cursor.hasNext();
+  if (!hasNext) {
+    return 0;
+  }
+
+  const next = await cursor.next();
+  const result = next;
+  if (!result) {
+    return 0;
+  }
+
+  return result.count ?? 0;
+}
+
+export async function retrieveCountOfPublishedRepliesForComment(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  commentID: string
+) {
+  const cursor = mongo.comments().aggregate([
+    {
+      $match: {
+        tenantID,
+        storyID,
         ancestorIDs: commentID,
         status: { $in: PUBLISHED_STATUSES },
       },

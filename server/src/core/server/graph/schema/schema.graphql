@@ -4587,6 +4587,8 @@ type Comment @cacheControl(maxAge: 5) {
   embeddedAt is the date at which the comment was first embedded.
   """
   embeddedAt: Time
+
+  isHidden: Boolean
 }
 
 type PageInfo {

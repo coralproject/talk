@@ -9,7 +9,9 @@ import {
   CommentModerationQueueCounts,
   CommentStatusCounts,
   CommentTagCounts,
+  retrieveCountOfPublishedAndNotHiddenRepliesForComment,
   retrieveCountOfPublishedRepliesForComment,
+  setDescendantCommentsHidden,
   updateSharedCommentCounts,
 } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
@@ -18,7 +20,6 @@ import { updateSiteCounts } from "coral-server/models/site";
 import { Story, updateStoryCounts } from "coral-server/models/story";
 import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { updateUserCommentCounts } from "coral-server/models/user";
-import { hasRejectedAncestors } from "coral-server/services/comments";
 import {
   calculateCounts,
   calculateCountsDiff,
@@ -143,64 +144,31 @@ interface UpdateAllCommentCountsOptions {
   updateShared?: boolean;
 }
 
-const hasRejectedAncestor = async (
-  mongo: MongoContext,
-  tenantID: string,
-  storyID: string,
-  commentID: string
-) => {
-  const story = await mongo.stories().findOne({ id: storyID });
-  if (!story || story.isArchived || story.isArchiving) {
-    return false;
-  }
-
-  const rejectedAncestors = await hasRejectedAncestors(
-    mongo,
-    tenantID,
-    commentID,
-    !!(story.isArchived || story.isArchiving)
-  );
-
-  return !!rejectedAncestors;
-};
-
 export const calculatePresentation = async (
   input: UpdateAllCommentCountsInput,
   mongo: MongoContext
 ) => {
-  // check if newly rejected replies have already been calculated earlier
-  // due to an already rejected parent
-  if (
-    input.after.parentID &&
-    input.after.status === GQLCOMMENT_STATUS.REJECTED
-  ) {
-    const rejectedAncestor = await hasRejectedAncestor(
+  // If after status is REJECTED, then we get count of all replies to the comment since these will no
+  // longer be visible in the stream
+  if (input.after.status === GQLCOMMENT_STATUS.REJECTED) {
+    let count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
       mongo,
       input.tenant.id,
       input.after.storyID,
       input.after.id
     );
-    // if they have been calculated earlier due to an already rejected parent,
-    // decrement PUBLISHED_REPLIES_TO_REJECTED_COMMENTS count by 1 due to this reply
-    // no longer being published
-    if (rejectedAncestor) {
-      return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: -1 };
+    if (input.after.isHidden) {
+      count -= 1;
     }
-  }
-
-  // if no replies at all, then no replies to calculate
-  if (input.after.childCount === 0) {
-    return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: 0 };
-  }
-
-  // If after status is REJECTED, then we get count of all replies to the comment since these will no
-  // longer be visible in the stream
-  if (input.after.status === GQLCOMMENT_STATUS.REJECTED) {
-    const count = await retrieveCountOfPublishedRepliesForComment(
-      mongo,
-      input.tenant.id,
-      input.after.id
-    );
+    if (input.after.childCount > 0) {
+      await setDescendantCommentsHidden(
+        mongo,
+        input.tenant.id,
+        input.after.storyID,
+        input.after.id,
+        true
+      );
+    }
     return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: count };
   }
 
@@ -210,11 +178,24 @@ export const calculatePresentation = async (
     input.before?.status === GQLCOMMENT_STATUS.REJECTED &&
     input.after.status === GQLCOMMENT_STATUS.APPROVED
   ) {
-    const count = await retrieveCountOfPublishedRepliesForComment(
+    let count = await retrieveCountOfPublishedRepliesForComment(
       mongo,
       input.tenant.id,
+      input.after.storyID,
       input.after.id
     );
+    if (input.after.isHidden) {
+      count -= 1;
+    }
+    if (input.after.childCount > 0) {
+      await setDescendantCommentsHidden(
+        mongo,
+        input.tenant.id,
+        input.after.storyID,
+        input.after.id,
+        false
+      );
+    }
     return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: -count };
   }
 
