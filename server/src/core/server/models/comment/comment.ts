@@ -1711,7 +1711,7 @@ export async function retrieveLatestFeaturedCommentForAuthor(
   return results as Comment[];
 }
 
-export async function retrieveCountOfAllRepliesForComment(
+export async function retrieveCountOfPublishedRepliesForComment(
   mongo: MongoContext,
   tenantID: string,
   commentID: string
@@ -1721,6 +1721,7 @@ export async function retrieveCountOfAllRepliesForComment(
       $match: {
         tenantID,
         ancestorIDs: commentID,
+        status: { $in: PUBLISHED_STATUSES },
       },
     },
     { $count: "count" },

@@ -7,6 +7,7 @@ import {
 import {
   CommentModerationCountsPerQueue,
   CommentModerationQueueCounts,
+  CommentPresentationCounts,
   CommentStatusCounts,
   CommentTagCounts,
   RelatedCommentCounts,
@@ -95,11 +96,16 @@ export function createEmptyCommentTagCounts(): CommentTagCounts {
   };
 }
 
+export function createEmptyCommentPresentationCounts(): CommentPresentationCounts {
+  return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: 0 };
+}
+
 export function createEmptyRelatedCommentCounts(): RelatedCommentCounts {
   return {
     action: {},
     status: createEmptyCommentStatusCounts(),
     moderationQueue: createEmptyCommentModerationQueueCounts(),
     tags: createEmptyCommentTagCounts(),
+    presentation: createEmptyCommentPresentationCounts(),
   };
 }

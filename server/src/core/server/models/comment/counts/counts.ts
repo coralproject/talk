@@ -14,6 +14,7 @@ import {
 
 import {
   createEmptyCommentModerationQueueCounts,
+  createEmptyCommentPresentationCounts,
   createEmptyCommentStatusCounts,
   createEmptyCommentTagCounts,
   createEmptyRelatedCommentCounts,
@@ -79,6 +80,10 @@ export interface CommentTagCounts {
   tags: GQLCommentTagCounts;
 }
 
+export interface CommentPresentationCounts {
+  PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: number;
+}
+
 /**
  * RelatedCommentCounts stores all the Comment Counts that will be stored on
  * each related document (like a Story, or a Site).
@@ -103,6 +108,8 @@ export interface RelatedCommentCounts {
   moderationQueue: CommentModerationQueueCounts;
 
   tags: CommentTagCounts;
+
+  presentation: CommentPresentationCounts;
 }
 
 /**
@@ -134,6 +141,19 @@ export function mergeCommentStatusCount(
     }
   }
   return mergedStatusCounts;
+}
+
+export function mergeCommentPresentationCounts(
+  ...presentation: CommentPresentationCounts[]
+): CommentPresentationCounts {
+  const merged = createEmptyCommentPresentationCounts();
+
+  for (const count of presentation) {
+    merged.PUBLISHED_REPLIES_TO_REJECTED_COMMENTS +=
+      count.PUBLISHED_REPLIES_TO_REJECTED_COMMENTS;
+  }
+
+  return merged;
 }
 
 export function mergeCommentModerationQueueCount(
@@ -214,6 +234,18 @@ export function calculateTotalPublishedCommentCount(
     (total, status) => total + commentCounts[status],
     0
   );
+}
+
+export function calculateTotalPublishedAndVisibleCommentCount(
+  commentCounts: RelatedCommentCounts
+) {
+  const publishedCount = PUBLISHED_STATUSES.reduce(
+    (total, status) => total + commentCounts.status[status],
+    0
+  );
+  const notVisibleCount =
+    commentCounts.presentation.PUBLISHED_REPLIES_TO_REJECTED_COMMENTS;
+  return publishedCount - notVisibleCount;
 }
 
 interface RelatedCommentCountsDocument extends Document {

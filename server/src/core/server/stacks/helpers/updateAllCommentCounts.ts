@@ -9,7 +9,7 @@ import {
   CommentModerationQueueCounts,
   CommentStatusCounts,
   CommentTagCounts,
-  retrieveCountOfAllRepliesForComment,
+  retrieveCountOfPublishedRepliesForComment,
   updateSharedCommentCounts,
 } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
@@ -142,6 +142,48 @@ interface UpdateAllCommentCountsOptions {
   updateShared?: boolean;
 }
 
+export const calculatePresentation = async (
+  input: UpdateAllCommentCountsInput,
+  mongo: MongoContext
+) => {
+  // if no replies at all, then no replies to calculate
+  if (input.after.childCount === 0) {
+    return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: 0 };
+  }
+
+  // only check for top-level comments for now
+  if (input.after.parentID) {
+    return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: 0 };
+  }
+
+  // If after status is REJECTED, then we get count of all replies to the comment since these will no
+  // longer be visible in the stream
+  if (input.after.status === GQLCOMMENT_STATUS.REJECTED) {
+    const count = await retrieveCountOfPublishedRepliesForComment(
+      mongo,
+      input.tenant.id,
+      input.after.id
+    );
+    return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: count };
+  }
+
+  // If after status is APPROVED, and before status was REJECTED, then we get count of all replies
+  // to the comment since they will now be visible in the stream again
+  if (
+    input.before?.status === GQLCOMMENT_STATUS.REJECTED &&
+    input.after.status === GQLCOMMENT_STATUS.APPROVED
+  ) {
+    const count = await retrieveCountOfPublishedRepliesForComment(
+      mongo,
+      input.tenant.id,
+      input.after.id
+    );
+    return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: -count };
+  }
+
+  return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: 0 };
+};
+
 export default async function updateAllCommentCounts(
   mongo: MongoContext,
   redis: AugmentedRedis,
@@ -164,6 +206,8 @@ export default async function updateAllCommentCounts(
 
   const tags = calculateTags(input.before?.tags, input.after.tags);
 
+  const presentation = await calculatePresentation(input, mongo);
+
   // Pull out some params from the input for easier usage.
   const {
     tenant,
@@ -172,18 +216,9 @@ export default async function updateAllCommentCounts(
   } = input;
 
   if (options.updateStory) {
-    // If after status is REJECTED, then we get count of all replies to the comment since these will no
-    // longer be visible in the stream
-    if (input.after.status === GQLCOMMENT_STATUS.REJECTED) {
-      await retrieveCountOfAllRepliesForComment(
-        mongo,
-        input.tenant.id,
-        input.after.id
-      );
-    }
-
     // Update the story, site, and user comment counts.
     const updatedStory = (await updateStoryCounts(mongo, tenant.id, storyID, {
+      presentation,
       action,
       status,
       moderationQueue,
@@ -250,6 +285,7 @@ export default async function updateAllCommentCounts(
 
   if (options.updateSite) {
     await updateSiteCounts(mongo, tenant.id, siteID!, {
+      presentation,
       action,
       status,
       moderationQueue,
@@ -266,6 +302,7 @@ export default async function updateAllCommentCounts(
   if (options.updateShared) {
     // Update the shared counts.
     await updateSharedCommentCounts(redis, tenant.id, {
+      presentation,
       action,
       status,
       moderationQueue,
@@ -293,6 +330,7 @@ export async function updateTagCommentCounts(
 
   // Update the story, site, and user comment counts.
   await updateStoryCounts(mongo, tenantID, storyID, {
+    presentation: {},
     action: {},
     status: {},
     moderationQueue: {
@@ -303,6 +341,7 @@ export async function updateTagCommentCounts(
   });
 
   await updateSiteCounts(mongo, tenantID, siteID, {
+    presentation: {},
     action: {},
     status: {},
     moderationQueue: {
@@ -314,6 +353,7 @@ export async function updateTagCommentCounts(
 
   // Update the shared counts.
   await updateSharedCommentCounts(redis, tenantID, {
+    presentation: {},
     action: {},
     status: {},
     moderationQueue: {

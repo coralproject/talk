@@ -4681,11 +4681,21 @@ type CommentStatusCounts {
   SYSTEM_WITHHELD: Int!
 }
 
+type CommentPresentationCounts {
+  PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: Int!
+}
+
 type CommentCounts {
   """
   totalPublished will return the count of all published Comments.
   """
   totalPublished: Int!
+
+  """
+  totalPublishedAndVisible will return the count of all published Comments that are also visible
+  in the stream.
+  """
+  totalPublishedAndVisible: Int!
 
   """
   tags stores the counts of all the Tags against Comment's on this Story.
@@ -4696,6 +4706,8 @@ type CommentCounts {
   statuses stores the counts of all the statuses against Comments on this Story.
   """
   statuses: CommentStatusCounts! @auth(roles: [ADMIN, MODERATOR])
+
+  presentation: CommentPresentationCounts!
 }
 
 ################################################################################

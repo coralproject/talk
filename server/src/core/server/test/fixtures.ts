@@ -297,6 +297,9 @@ export const createUserFixture = (defaults: Defaults<User> = {}): User => {
         [GQLCOMMENT_STATUS.REJECTED]: 0,
         [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: 0,
       },
+      presentation: {
+        PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: 0,
+      },
     },
     bio: "essavta da",
   };
