@@ -93,17 +93,17 @@ const analyseId = (id: string | undefined): PayloadComment[] => {
     });
   }
 
-  const hashRegex = new RegExp(/^[0-9a-zA-Z]{16-256}$/);
-  const hashResult = hashRegex.test(id);
-  if (hashResult) {
-    messages.push({
-      type: AnalysisMessageType.Success,
-      message: "`user.id` appears to be a hash value.",
-    });
+  const nonDigitsRegex = new RegExp(/[^0-9]/);
+  let integerResult = false;
+  try {
+    const value = parseInt(id, 10);
+    const hasNonNumbers = nonDigitsRegex.test(id);
+
+    integerResult = value >= 0 && !hasNonNumbers;
+  } catch {
+    integerResult = false;
   }
 
-  const integerRegex = new RegExp(/^[0-9]{16-256}$/);
-  const integerResult = integerRegex.test(id);
   if (integerResult) {
     messages.push({
       type: AnalysisMessageType.Success,
@@ -111,7 +111,16 @@ const analyseId = (id: string | undefined): PayloadComment[] => {
     });
   }
 
-  if (!uuidResult && !hashResult && !integerRegex) {
+  const hashRegex = new RegExp(/^[0-9a-zA-Z]{16,512}$/);
+  const hashResult = hashRegex.test(id);
+  if (!integerResult && hashResult) {
+    messages.push({
+      type: AnalysisMessageType.Success,
+      message: "`user.id` appears to be a hash value.",
+    });
+  }
+
+  if (!uuidResult && !hashResult && !integerResult) {
     messages.push({
       type: AnalysisMessageType.Warning,
       message:
