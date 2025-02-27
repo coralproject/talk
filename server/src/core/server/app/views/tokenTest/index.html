@@ -46,15 +46,35 @@
       .typeHeader {
         width: 80px;
       }
+
+      .Message {
+        color: black;
+        background-color: aliceblue;
+      }
+
+      .Warning {
+        color: black;
+        background-color: rgb(251, 251, 102);
+      }
+
+      .Error {
+        color: white;
+        background-color: rgb(208, 1, 1);
+      }
+
+      .Success {
+        color: black;
+        background-color: rgb(30, 182, 30);
+      }
     </style>
   </head>
   <body>
     <form class="tokenForm" action="/api/tokenTest" method="post">
-      <label for="token">Paste token below:</label>
+      <label for="token">Paste token below</label>
       <textarea class="wideText" name="token" id="token">{% if token %}{{token}}{% endif %}</textarea>
       <input class="submitButton" type="submit" value="Validate" />
       {% if payload %}
-        <label>Payload:</label>
+        <label>Payload</label>
         <textarea class="wideText" readonly>{{payload}}</textarea>
       {% endif %}
       {% if messages %}
@@ -63,7 +83,7 @@
         {% endfor %}
       {% endif %}
       {% if analysis %}
-        <label>Analysis:</label>
+        <label>Payload Analysis</label>
         <table>
           <tr>
             <th class="typeHeader">Type</th>
@@ -71,7 +91,7 @@
           </tr>
           {% for message in analysis %}
             <tr>
-              <td>{{message.type}}</td>
+              <td class="{{message.type}}">{{message.type}}</td>
               <td>{{message.message}}</td>
             </tr>
           {% endfor %}
