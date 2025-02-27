@@ -197,7 +197,7 @@ export const calculateRelationships = async (
     }
 
     // Then we get a count of all published comment descendants that are NOT still hidden
-    // by any other hiddenAncestor
+    // by any other rejectedAncestor
     let count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
       mongo,
       input.tenant.id,
@@ -206,7 +206,7 @@ export const calculateRelationships = async (
     );
 
     // if the newly APPROVED comment is already hidden by a rejectedAncestor, then we need to add
-    // 1 to the published replies to rejected comments count, since it wasn't already counted in that
+    // 1 to the count, since it wasn't already counted in that
     if (
       input.after.rejectedAncestorIDs &&
       input.after.rejectedAncestorIDs.length > 0

@@ -4589,12 +4589,6 @@ type Comment @cacheControl(maxAge: 5) {
   embeddedAt: Time
 
   """
-  isHidden is whether a comment is visually hidden in the stream, for example, by
-  having a rejected ancestor
-  """
-  isHidden: Boolean
-
-  """
   rejectedAncestorIDs are the commentIDs of all of a comment's ancestors that are rejected
   """
   rejectedAncestorIDs: [String!]
