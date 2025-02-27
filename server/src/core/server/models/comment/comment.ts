@@ -168,7 +168,7 @@ export interface Comment extends TenantResource {
    */
   embeddedAt?: Date;
 
-  isHidden?: boolean;
+  rejectedAncestorIDs?: string[];
 }
 
 export type CreateCommentInput = Omit<
@@ -994,18 +994,32 @@ export async function mergeManyCommentStories(
   );
 }
 
-export async function setDescendantCommentsHidden(
+export async function addCommentToRejectedAncestors(
   mongo: MongoContext,
   tenantID: string,
   storyID: string,
-  commentID: string,
-  isHidden: boolean
+  commentID: string
 ) {
   const result = mongo
     .comments()
     .updateMany(
       { tenantID, storyID, ancestorIDs: commentID },
-      { $set: { isHidden } }
+      { $push: { rejectedAncestorIDs: commentID } }
+    );
+  return result;
+}
+
+export async function removeCommentFromRejectedAncestors(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  commentID: string
+) {
+  const result = mongo
+    .comments()
+    .updateMany(
+      { tenantID, storyID, ancestorIDs: commentID },
+      { $pull: { rejectedAncestorIDs: commentID } }
     );
   return result;
 }
@@ -1742,39 +1756,7 @@ export async function retrieveCountOfPublishedAndNotHiddenRepliesForComment(
         storyID,
         ancestorIDs: commentID,
         status: { $in: PUBLISHED_STATUSES },
-        isHidden: { $ne: true },
-      },
-    },
-    { $count: "count" },
-  ]);
-
-  const hasNext = await cursor.hasNext();
-  if (!hasNext) {
-    return 0;
-  }
-
-  const next = await cursor.next();
-  const result = next;
-  if (!result) {
-    return 0;
-  }
-
-  return result.count ?? 0;
-}
-
-export async function retrieveCountOfPublishedRepliesForComment(
-  mongo: MongoContext,
-  tenantID: string,
-  storyID: string,
-  commentID: string
-) {
-  const cursor = mongo.comments().aggregate([
-    {
-      $match: {
-        tenantID,
-        storyID,
-        ancestorIDs: commentID,
-        status: { $in: PUBLISHED_STATUSES },
+        rejectedAncestors: { $in: [null, []] },
       },
     },
     { $count: "count" },

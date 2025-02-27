@@ -17,11 +17,14 @@ export default function incrementStoryCommentCounts(
   if (story) {
     const commentCounts = story.getLinkedRecord("commentCounts");
     if (commentCounts) {
-      // Increment totalPublished.
-      const currentTotalPublished = commentCounts.getValue(
-        "totalPublished"
+      // Increment totalPublishedAndVisible.
+      const currentTotalPublishedAndVisible = commentCounts.getValue(
+        "totalPublishedAndVisible"
       ) as number;
-      commentCounts.setValue(currentTotalPublished + 1, "totalPublished");
+      commentCounts.setValue(
+        currentTotalPublishedAndVisible + 1,
+        "totalPublishedAndVisible"
+      );
 
       // Now increment tag counts.
       const commentCountsTags = commentCounts.getLinkedRecord("tags");

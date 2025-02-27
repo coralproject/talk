@@ -306,5 +306,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     const seen = seenComments ? id in seenComments.comments : false;
     return seen;
   },
-  isHidden: async ({ isHidden }, input, ctx) => isHidden,
+  isHidden: async ({ rejectedAncestorIDs }, input, ctx) => {
+    return rejectedAncestorIDs && rejectedAncestorIDs.length > 0;
+  },
 };

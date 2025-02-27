@@ -4,14 +4,14 @@ import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
-  calculateTotalPublishedCommentCount,
+  addCommentToRejectedAncestors,
+  calculateTotalPublishedAndVisibleCommentCount,
   Comment,
   CommentModerationQueueCounts,
   CommentStatusCounts,
   CommentTagCounts,
+  removeCommentFromRejectedAncestors,
   retrieveCountOfPublishedAndNotHiddenRepliesForComment,
-  retrieveCountOfPublishedRepliesForComment,
-  setDescendantCommentsHidden,
   updateSharedCommentCounts,
 } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
@@ -157,16 +157,24 @@ export const calculatePresentation = async (
       input.after.storyID,
       input.after.id
     );
-    if (input.after.isHidden) {
+
+    // if the newly REJECTED reply was already hidden, then we don't need to add it to the count; it's
+    // already been included
+    if (
+      input.after.rejectedAncestorIDs &&
+      input.after.rejectedAncestorIDs.length > 0
+    ) {
       count -= 1;
     }
+
+    // if the newly rejected comment has any children, then we need to add its commentID to those children's
+    // (and any descendants they have) rejectedAncestors
     if (input.after.childCount > 0) {
-      await setDescendantCommentsHidden(
+      await addCommentToRejectedAncestors(
         mongo,
         input.tenant.id,
         input.after.storyID,
-        input.after.id,
-        true
+        input.after.id
       );
     }
     return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: count };
@@ -178,24 +186,34 @@ export const calculatePresentation = async (
     input.before?.status === GQLCOMMENT_STATUS.REJECTED &&
     input.after.status === GQLCOMMENT_STATUS.APPROVED
   ) {
-    let count = await retrieveCountOfPublishedRepliesForComment(
+    // First, we remove this comment from its descendant comments' rejectedAncestors
+    if (input.after.childCount > 0) {
+      await removeCommentFromRejectedAncestors(
+        mongo,
+        input.tenant.id,
+        input.after.storyID,
+        input.after.id
+      );
+    }
+
+    // Then we get a count of all published comment descendants that are NOT still hidden
+    // by any other hiddenAncestor
+    let count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
       mongo,
       input.tenant.id,
       input.after.storyID,
       input.after.id
     );
-    if (input.after.isHidden) {
+
+    // if the newly APPROVED comment is already hidden by a rejectedAncestor, then we need to add
+    // 1 to the published replies to rejected comments count, since it wasn't already counted in that
+    if (
+      input.after.rejectedAncestorIDs &&
+      input.after.rejectedAncestorIDs.length > 0
+    ) {
       count -= 1;
     }
-    if (input.after.childCount > 0) {
-      await setDescendantCommentsHidden(
-        mongo,
-        input.tenant.id,
-        input.after.storyID,
-        input.after.id,
-        false
-      );
-    }
+
     return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: -count };
   }
 
@@ -246,8 +264,8 @@ export default async function updateAllCommentCounts(
     // only update Redis cache for comment counts if jsonp_response_cache set to true
     if (config.get("jsonp_response_cache")) {
       if (updatedStory) {
-        const totalCount = calculateTotalPublishedCommentCount(
-          updatedStory.commentCounts.status
+        const totalCount = calculateTotalPublishedAndVisibleCommentCount(
+          updatedStory.commentCounts
         );
 
         const key = getCountRedisCacheKey(updatedStory.url);
@@ -288,8 +306,8 @@ export default async function updateAllCommentCounts(
 
     if (hasFeatureFlag(tenant, GQLFEATURE_FLAG.COUNTS_V2)) {
       if (updatedStory) {
-        const totalCount = calculateTotalPublishedCommentCount(
-          updatedStory.commentCounts.status
+        const totalCount = calculateTotalPublishedAndVisibleCommentCount(
+          updatedStory.commentCounts
         );
         if (PUBLISHED_STATUSES.includes(input.after.status)) {
           const key = `${tenant.id}:${storyID}:count`;
