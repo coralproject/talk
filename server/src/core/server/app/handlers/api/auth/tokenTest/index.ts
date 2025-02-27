@@ -195,7 +195,7 @@ const analyseRole = (role: string | undefined): PayloadComment[] => {
     return [
       {
         type: AnalysisMessageType.Error,
-        message: `\`user.role\` is invalid. Value must be one of ${roleEntries.join(
+        message: `\`user.role\` is invalid. Value must be one of: ${roleEntries.join(
           ", "
         )}`,
       },
