@@ -18,7 +18,7 @@ enum AnalysisMessageType {
   Message = "Message",
   Warning = "Warning",
   Error = "Error",
-  Positive = "Positive",
+  Success = "Success",
 }
 
 const renderIndex = (
@@ -88,7 +88,7 @@ const analyseId = (id: string | undefined): PayloadComment[] => {
   const uuidResult = uuidRegex.test(id);
   if (uuidResult) {
     messages.push({
-      type: AnalysisMessageType.Positive,
+      type: AnalysisMessageType.Success,
       message: "`user.id` appears to be a uuid.",
     });
   }
@@ -97,7 +97,7 @@ const analyseId = (id: string | undefined): PayloadComment[] => {
   const hashResult = hashRegex.test(id);
   if (hashResult) {
     messages.push({
-      type: AnalysisMessageType.Positive,
+      type: AnalysisMessageType.Success,
       message: "`user.id` appears to be a hash value.",
     });
   }
@@ -106,7 +106,7 @@ const analyseId = (id: string | undefined): PayloadComment[] => {
   const integerResult = integerRegex.test(id);
   if (integerResult) {
     messages.push({
-      type: AnalysisMessageType.Positive,
+      type: AnalysisMessageType.Success,
       message: "`user.id` appears to be an integer value.",
     });
   }
@@ -138,7 +138,7 @@ const analyseEmail = (email: string | undefined): PayloadComment[] => {
   const result = regex.test(email);
   if (result) {
     messages.push({
-      type: AnalysisMessageType.Positive,
+      type: AnalysisMessageType.Success,
       message: "`user.email` appears to be valid.",
     });
   } else {
@@ -164,7 +164,7 @@ const analyseUsername = (username: string | undefined): PayloadComment[] => {
 
   return [
     {
-      type: AnalysisMessageType.Positive,
+      type: AnalysisMessageType.Success,
       message: "`user.username` appears to be valid.",
     },
   ];
@@ -187,7 +187,7 @@ const analyseRole = (role: string | undefined): PayloadComment[] => {
   if (roleEntries.includes(role)) {
     return [
       {
-        type: AnalysisMessageType.Positive,
+        type: AnalysisMessageType.Success,
         message: "`user.role` appears to be valid.",
       },
     ];
