@@ -187,19 +187,12 @@ async function addCommentAction(
     );
 
     // Update the comment counts onto other documents.
-    const counts = await updateAllCommentCounts(
-      mongo,
-      redis,
-      config,
-      i18n,
-      {
-        tenant,
-        actionCounts,
-        before: oldComment,
-        after: updatedComment,
-      },
-      undefined
-    );
+    const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
+      tenant,
+      actionCounts,
+      before: oldComment,
+      after: updatedComment,
+    });
 
     // Publish changes to the event publisher.
     // Do not publish if comment is archived
@@ -291,19 +284,12 @@ export async function removeCommentAction(
     }
 
     // Update the comment counts onto other documents.
-    const counts = await updateAllCommentCounts(
-      mongo,
-      redis,
-      config,
-      i18n,
-      {
-        tenant,
-        actionCounts,
-        before: oldComment,
-        after: updatedComment,
-      },
-      undefined
-    );
+    const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
+      tenant,
+      actionCounts,
+      before: oldComment,
+      after: updatedComment,
+    });
 
     // Publish changes to the event publisher.
     await publishChanges(broker, {

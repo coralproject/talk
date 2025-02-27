@@ -499,18 +499,11 @@ export default async function create(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(
-    mongo,
-    redis,
-    config,
-    i18n,
-    {
-      tenant,
-      actionCounts,
-      after: comment,
-    },
-    undefined
-  );
+  const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
+    tenant,
+    actionCounts,
+    after: comment,
+  });
 
   const cacheAvailable = await cache.available(tenant.id);
   if (cacheAvailable) {

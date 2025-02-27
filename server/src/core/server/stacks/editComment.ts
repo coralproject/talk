@@ -284,18 +284,11 @@ export default async function edit(
   }
 
   // Update all the comment counts on stories and users.
-  const counts = await updateAllCommentCounts(
-    mongo,
-    redis,
-    config,
-    i18n,
-    {
-      tenant,
-      actionCounts,
-      ...result,
-    },
-    undefined
-  );
+  const counts = await updateAllCommentCounts(mongo, redis, config, i18n, {
+    tenant,
+    actionCounts,
+    ...result,
+  });
 
   // only clear Redis cache for single comment embed if jsonp_response_cache set to true
   if (config.get("jsonp_response_cache")) {

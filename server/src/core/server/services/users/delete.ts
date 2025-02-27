@@ -280,16 +280,7 @@ export async function deleteUser(
   }
 
   // Delete the user's comments.
-  await deleteUserComments(
-    mongo,
-    redis,
-    config,
-    i18n,
-    userID,
-    tenant,
-    now,
-    undefined
-  );
+  await deleteUserComments(mongo, redis, config, i18n, userID, tenant, now);
   if (mongo.archive) {
     await deleteUserComments(
       mongo,

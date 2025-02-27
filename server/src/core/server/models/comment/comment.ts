@@ -168,6 +168,9 @@ export interface Comment extends TenantResource {
    */
   embeddedAt?: Date;
 
+  /**
+   * rejectedAncestorIDs are the commentIDs of any ancestors of a comment that are rejected
+   */
   rejectedAncestorIDs?: string[];
 }
 

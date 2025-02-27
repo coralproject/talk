@@ -1,5 +1,4 @@
 import { Config } from "coral-server/config";
-import { DataCache } from "coral-server/data/cache/dataCache";
 import { MongoContext } from "coral-server/data/context";
 import { ArchiverQueue } from "coral-server/queue/tasks/archiver";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
@@ -21,7 +20,6 @@ export interface ScheduledJobGroups {
 interface Options {
   mongo: MongoContext;
   redis: AugmentedRedis;
-  cache?: DataCache;
   config: Config;
   i18n: I18n;
   mailerQueue: MailerQueue;
