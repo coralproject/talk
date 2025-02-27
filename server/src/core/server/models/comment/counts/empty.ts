@@ -7,7 +7,7 @@ import {
 import {
   CommentModerationCountsPerQueue,
   CommentModerationQueueCounts,
-  CommentPresentationCounts,
+  CommentRelationshipCounts,
   CommentStatusCounts,
   CommentTagCounts,
   RelatedCommentCounts,
@@ -96,8 +96,8 @@ export function createEmptyCommentTagCounts(): CommentTagCounts {
   };
 }
 
-export function createEmptyCommentPresentationCounts(): CommentPresentationCounts {
-  return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: 0 };
+export function createEmptyCommentRelationshipCounts(): CommentRelationshipCounts {
+  return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: 0 };
 }
 
 export function createEmptyRelatedCommentCounts(): RelatedCommentCounts {
@@ -106,6 +106,6 @@ export function createEmptyRelatedCommentCounts(): RelatedCommentCounts {
     status: createEmptyCommentStatusCounts(),
     moderationQueue: createEmptyCommentModerationQueueCounts(),
     tags: createEmptyCommentTagCounts(),
-    presentation: createEmptyCommentPresentationCounts(),
+    relationships: createEmptyCommentRelationshipCounts(),
   };
 }

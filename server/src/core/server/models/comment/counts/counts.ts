@@ -14,7 +14,7 @@ import {
 
 import {
   createEmptyCommentModerationQueueCounts,
-  createEmptyCommentPresentationCounts,
+  createEmptyCommentRelationshipCounts,
   createEmptyCommentStatusCounts,
   createEmptyCommentTagCounts,
   createEmptyRelatedCommentCounts,
@@ -80,8 +80,8 @@ export interface CommentTagCounts {
   tags: GQLCommentTagCounts;
 }
 
-export interface CommentPresentationCounts {
-  PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: number;
+export interface CommentRelationshipCounts {
+  PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: number;
 }
 
 /**
@@ -109,7 +109,11 @@ export interface RelatedCommentCounts {
 
   tags: CommentTagCounts;
 
-  presentation: CommentPresentationCounts;
+  /**
+   * relationships stores the counts of relationships between comments, such as when
+   * published comments have rejected ancestors
+   */
+  relationships: CommentRelationshipCounts;
 }
 
 /**
@@ -143,14 +147,14 @@ export function mergeCommentStatusCount(
   return mergedStatusCounts;
 }
 
-export function mergeCommentPresentationCounts(
-  ...presentation: CommentPresentationCounts[]
-): CommentPresentationCounts {
-  const merged = createEmptyCommentPresentationCounts();
+export function mergeCommentRelationshipCounts(
+  ...relationship: CommentRelationshipCounts[]
+): CommentRelationshipCounts {
+  const merged = createEmptyCommentRelationshipCounts();
 
-  for (const count of presentation) {
-    merged.PUBLISHED_REPLIES_TO_REJECTED_COMMENTS +=
-      count.PUBLISHED_REPLIES_TO_REJECTED_COMMENTS;
+  for (const count of relationship) {
+    merged.PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS +=
+      count.PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS;
   }
 
   return merged;
@@ -236,6 +240,8 @@ export function calculateTotalPublishedCommentCount(
   );
 }
 
+//
+
 export function calculateTotalPublishedAndVisibleCommentCount(
   commentCounts: RelatedCommentCounts
 ) {
@@ -244,7 +250,7 @@ export function calculateTotalPublishedAndVisibleCommentCount(
     0
   );
   const notVisibleCount =
-    commentCounts.presentation.PUBLISHED_REPLIES_TO_REJECTED_COMMENTS;
+    commentCounts.relationships.PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS;
   return publishedCount - notVisibleCount;
 }
 

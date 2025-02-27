@@ -4692,8 +4692,8 @@ type CommentStatusCounts {
   SYSTEM_WITHHELD: Int!
 }
 
-type CommentPresentationCounts {
-  PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: Int!
+type CommentRelationshipCounts {
+  PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: Int!
 }
 
 type CommentCounts {
@@ -4718,7 +4718,11 @@ type CommentCounts {
   """
   statuses: CommentStatusCounts! @auth(roles: [ADMIN, MODERATOR])
 
-  presentation: CommentPresentationCounts!
+  """
+  relationships stores the counts of relationships between comments, such as when
+  published comments have rejected ancestors
+  """
+  relationships: CommentRelationshipCounts!
 }
 
 ################################################################################

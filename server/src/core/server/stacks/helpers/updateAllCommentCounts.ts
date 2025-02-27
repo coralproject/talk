@@ -144,7 +144,7 @@ interface UpdateAllCommentCountsOptions {
   updateShared?: boolean;
 }
 
-export const calculatePresentation = async (
+export const calculateRelationships = async (
   input: UpdateAllCommentCountsInput,
   mongo: MongoContext
 ) => {
@@ -177,7 +177,7 @@ export const calculatePresentation = async (
         input.after.id
       );
     }
-    return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: count };
+    return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: count };
   }
 
   // If after status is APPROVED, and before status was REJECTED, then we get count of all replies
@@ -214,10 +214,10 @@ export const calculatePresentation = async (
       count -= 1;
     }
 
-    return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: -count };
+    return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: -count };
   }
 
-  return { PUBLISHED_REPLIES_TO_REJECTED_COMMENTS: 0 };
+  return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: 0 };
 };
 
 export default async function updateAllCommentCounts(
@@ -242,7 +242,7 @@ export default async function updateAllCommentCounts(
 
   const tags = calculateTags(input.before?.tags, input.after.tags);
 
-  const presentation = await calculatePresentation(input, mongo);
+  const relationships = await calculateRelationships(input, mongo);
 
   // Pull out some params from the input for easier usage.
   const {
@@ -254,7 +254,7 @@ export default async function updateAllCommentCounts(
   if (options.updateStory) {
     // Update the story, site, and user comment counts.
     const updatedStory = (await updateStoryCounts(mongo, tenant.id, storyID, {
-      presentation,
+      relationships,
       action,
       status,
       moderationQueue,
@@ -321,7 +321,7 @@ export default async function updateAllCommentCounts(
 
   if (options.updateSite) {
     await updateSiteCounts(mongo, tenant.id, siteID!, {
-      presentation,
+      relationships,
       action,
       status,
       moderationQueue,
@@ -338,7 +338,7 @@ export default async function updateAllCommentCounts(
   if (options.updateShared) {
     // Update the shared counts.
     await updateSharedCommentCounts(redis, tenant.id, {
-      presentation,
+      relationships,
       action,
       status,
       moderationQueue,
@@ -366,7 +366,7 @@ export async function updateTagCommentCounts(
 
   // Update the story, site, and user comment counts.
   await updateStoryCounts(mongo, tenantID, storyID, {
-    presentation: {},
+    relationships: {},
     action: {},
     status: {},
     moderationQueue: {
@@ -377,7 +377,7 @@ export async function updateTagCommentCounts(
   });
 
   await updateSiteCounts(mongo, tenantID, siteID, {
-    presentation: {},
+    relationships: {},
     action: {},
     status: {},
     moderationQueue: {
@@ -389,7 +389,7 @@ export async function updateTagCommentCounts(
 
   // Update the shared counts.
   await updateSharedCommentCounts(redis, tenantID, {
-    presentation: {},
+    relationships: {},
     action: {},
     status: {},
     moderationQueue: {

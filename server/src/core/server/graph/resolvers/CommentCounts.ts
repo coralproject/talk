@@ -15,5 +15,5 @@ export const CommentCounts: GQLCommentCountsTypeResolver<CommentCountsInput> = {
     calculateTotalPublishedAndVisibleCommentCount(commentCounts),
   statuses: ({ commentCounts }) => commentCounts.status,
   tags: (s, input, ctx) => ctx.loaders.Comments.tagCounts.load(s.id),
-  presentation: ({ commentCounts }) => commentCounts.presentation,
+  relationships: ({ commentCounts }) => commentCounts.relationships,
 };

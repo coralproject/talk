@@ -23,7 +23,7 @@ import {
 import {
   calculateTotalCommentCount,
   mergeCommentModerationQueueCount,
-  mergeCommentPresentationCounts,
+  mergeCommentRelationshipCounts,
   mergeCommentStatusCount,
   mergeCommentTagCounts,
   mergeManyCommentStories,
@@ -504,8 +504,8 @@ export async function merge(
     tags: mergeCommentTagCounts(
       ...sourceStories.map((s) => s.commentCounts.tags)
     ),
-    presentation: mergeCommentPresentationCounts(
-      ...sourceStories.map((s) => s.commentCounts.presentation)
+    relationships: mergeCommentRelationshipCounts(
+      ...sourceStories.map((s) => s.commentCounts.relationships)
     ),
   };
 
