@@ -33,6 +33,14 @@
         width: 100%;
         padding: 4px;
       }
+
+      .analysis {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 12px;
+      }
     </style>
   </head>
   <body>
@@ -47,6 +55,14 @@
       {% if messages %}
         {% for message in messages %}
         <div>{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+      {% if analysis %}
+        {% for message in analysis %}
+        <div class="analysis">
+          <div>{{message.type}}</div>
+          <div>{{message.message}}</div>
+        </div>
         {% endfor %}
       {% endif %}
     </form>
