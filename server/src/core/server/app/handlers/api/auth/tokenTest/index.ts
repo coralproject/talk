@@ -175,7 +175,7 @@ const analyseRole = (role: string | undefined): PayloadComment[] => {
     return [
       {
         type: AnalysisMessageType.Warning,
-        message: `\`user.role\` is undefined. It will default to "${GQLUSER_ROLE.COMMENTER}."`,
+        message: `\`user.role\` is undefined. It will default to "${GQLUSER_ROLE.COMMENTER}".`,
       },
     ];
   }
