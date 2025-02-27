@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Coral Token Test</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        font-size: 18px;
+
+        display: flex;
+        justify-content: center;
+      }
+
+      .tokenForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 8px;
+
+        width: 400px;
+      }
+
+      .wideText {
+        /* text areas append controls and sliders to right */
+        width: calc(100% - 7px);
+        min-height: 175px;
+        max-width: calc(100% - 7px);
+      }
+
+      .submitButton {
+        font-size: 18px;
+        width: 100%;
+        padding: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="tokenForm" action="/api/tokenTest" method="post">
+      <label for="token">Paste token below:</label>
+      <textarea class="wideText" name="token" id="token">{% if token %}{{token}}{% endif %}</textarea>
+      <input class="submitButton" type="submit" value="Validate" />
+      {% if payload %}
+        <label>Payload:</label>
+        <textarea class="wideText" readonly>{{payload}}</textarea>
+      {% endif %}
+      {% if messages %}
+        {% for message in messages %}
+        <div>{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    </form>
+  </body>
+</html>

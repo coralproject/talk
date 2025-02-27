@@ -8,6 +8,7 @@ import {
   oembedHandler,
   oembedProviderHandler,
 } from "coral-server/app/handlers";
+import { createTokenTestRouter } from "coral-server/app/handlers/api/auth/tokenTest";
 import {
   apolloGraphQLMiddleware,
   authenticate,
@@ -125,6 +126,12 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     corsWhitelisted(app.mongo),
     authenticate(options.passport),
     createTenorRouter(app)
+  );
+
+  router.use(
+    "/tokenTest",
+    authenticate(options.passport),
+    createTokenTestRouter(app)
   );
 
   // General API error handler.
