@@ -943,7 +943,7 @@ configure-moderation-premoderateEmailAliases-enabled-description =
   spammers and trolls to evade bans.
 
 configure-moderation-premoderateDomainAlias-enabled = Pre-moderate domain alias
-configure-moderation-premoderateDomainAlias-enabled-description = If a user signs up for a new account with an email address that contains a subdomain (@subdomain.domain.com), set their status to pre-moderate comments. If the domain is already banned, ban the account. Domain aliases are commonly used by spammers to evade bans.
+configure-moderation-premoderateDomainAlias-enabled-description = If a user signs up for a new account with an email address that contains a subdomain (@subdomain.domain.com), set their status to pre-moderate comments. Domain aliases are commonly used by spammers to evade bans.
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases

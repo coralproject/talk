@@ -77,9 +77,8 @@ const PremoderateEmailAddressConfig: FunctionComponent<Props> = ({
             <HelperText>
               If a user signs up for a new account with an email address that
               contains a subdomain (@subdomain.domain.com), set their status to
-              pre-moderate comments. If the domain is already banned, ban the
-              account. Domain aliases are commonly used by spammers to evade
-              bans.
+              pre-moderate comments. Domain aliases are commonly used by
+              spammers to evade bans.
             </HelperText>
           </Localized>
         </FormFieldHeader>
