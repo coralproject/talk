@@ -227,7 +227,7 @@ const analyseTokenPayload = (
       {
         type: AnalysisMessageType.Error,
         message:
-          "Payload does not match expect structure of a Coral SSO token.",
+          "Payload does not match expected structure of a Coral SSO token.",
       },
     ];
   }
