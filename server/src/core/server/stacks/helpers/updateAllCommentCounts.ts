@@ -158,7 +158,7 @@ export const calculateRelationships = async (
     let count = 0;
 
     if (hasDescendants) {
-      // then we get count of all replies to the comment since these will no
+      // then we get count of all visible replies to the comment since these will no
       // longer be visible in the stream
       count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
         mongo,
@@ -166,8 +166,8 @@ export const calculateRelationships = async (
         input.after.storyID,
         input.after.id
       );
-      // if the newly rejected comment has any children, then we need to add its commentID
-      // to those children's (and any descendants they have) rejectedAncestorIDs
+      // then we need to add the rejected comment's commentID to the rejectedAncestorIDs
+      // of any descendants
       await addCommentToRejectedAncestors(
         mongo,
         input.tenant.id,
@@ -176,9 +176,9 @@ export const calculateRelationships = async (
       );
     }
 
-    // if the newly REJECTED reply was already hidden, then we have to just subtract it from the
+    // if the comment was already hidden, then we have to just subtract it from the
     // PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS since it's no longer published
-    // and its descendants have already been counted too
+    // and its descendants have already been counted
     if (commentHasRejectedAncestors) {
       return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: -1 };
     }
@@ -201,8 +201,8 @@ export const calculateRelationships = async (
       );
     }
 
-    // if the newly APPROVED comment is already hidden by a rejectedAncestor, then we need to add
-    // 1 to the count, since it wasn't already counted in that
+    // if the comment was already hidden by a rejectedAncestor, then we need to add
+    // 1 to the count, since it wasn't already counted as published
     // but its descendants have already been included
     if (commentHasRejectedAncestors) {
       return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: 1 };
