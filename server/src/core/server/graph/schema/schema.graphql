@@ -2029,7 +2029,7 @@ type PremoderateEmailAddressConfiguration {
 
   """
   domainAliases is the configuration for premoderating emails
-  that have too many periods.
+  that are domain aliases.
   """
   domainAliases: DomainAliasesConfig
 
