@@ -4,11 +4,14 @@ import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
 import {
-  calculateTotalPublishedCommentCount,
+  addCommentToRejectedAncestors,
+  calculateTotalPublishedAndVisibleCommentCount,
   Comment,
   CommentModerationQueueCounts,
   CommentStatusCounts,
   CommentTagCounts,
+  removeCommentFromRejectedAncestors,
+  retrieveCountOfPublishedAndNotHiddenRepliesForComment,
   updateSharedCommentCounts,
 } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
@@ -26,6 +29,7 @@ import { AugmentedRedis } from "coral-server/services/redis";
 
 import { COUNTS_V2_CACHE_DURATION } from "coral-common/common/lib/constants";
 import {
+  GQLCOMMENT_STATUS,
   GQLCommentTagCounts,
   GQLFEATURE_FLAG,
   GQLTAG,
@@ -140,6 +144,87 @@ interface UpdateAllCommentCountsOptions {
   updateShared?: boolean;
 }
 
+export const calculateRelationships = async (
+  input: UpdateAllCommentCountsInput,
+  mongo: MongoContext
+) => {
+  const hasDescendants = input.after.childCount > 0;
+  const commentHasRejectedAncestors =
+    input.after.rejectedAncestorIDs &&
+    input.after.rejectedAncestorIDs.length > 0;
+
+  // If the comment is newly REJECTED,
+  if (input.after.status === GQLCOMMENT_STATUS.REJECTED) {
+    let count = 0;
+
+    if (hasDescendants) {
+      // then we get count of all visible replies to the comment since these will no
+      // longer be visible in the stream
+      count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
+        mongo,
+        input.tenant.id,
+        input.after.storyID,
+        input.after.id
+      );
+      // then we need to add the rejected comment's commentID to the rejectedAncestorIDs
+      // of any descendants
+      await addCommentToRejectedAncestors(
+        mongo,
+        input.tenant.id,
+        input.after.storyID,
+        input.after.id
+      );
+    }
+
+    // if the comment was already hidden, then we have to just subtract it from the
+    // PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS since it's no longer published
+    // and its descendants have already been counted
+    if (commentHasRejectedAncestors) {
+      return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: -1 };
+    }
+
+    return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: count };
+  }
+
+  // If after status is APPROVED, and before status was REJECTED
+  if (
+    input.before?.status === GQLCOMMENT_STATUS.REJECTED &&
+    input.after.status === GQLCOMMENT_STATUS.APPROVED
+  ) {
+    // First, we remove this comment from its descendant comments' rejectedAncestorIDs
+    if (hasDescendants) {
+      await removeCommentFromRejectedAncestors(
+        mongo,
+        input.tenant.id,
+        input.after.storyID,
+        input.after.id
+      );
+    }
+
+    // if the comment was already hidden by a rejectedAncestor, then we need to add
+    // 1 to the count, since it wasn't already counted as published
+    // but its descendants have already been included
+    if (commentHasRejectedAncestors) {
+      return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: 1 };
+    }
+
+    if (hasDescendants) {
+      // Then we get a count of all published comment descendants that are NOT still hidden
+      // by any other rejectedAncestor
+      const count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
+        mongo,
+        input.tenant.id,
+        input.after.storyID,
+        input.after.id
+      );
+
+      return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: -count };
+    }
+  }
+
+  return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: 0 };
+};
+
 export default async function updateAllCommentCounts(
   mongo: MongoContext,
   redis: AugmentedRedis,
@@ -162,6 +247,8 @@ export default async function updateAllCommentCounts(
 
   const tags = calculateTags(input.before?.tags, input.after.tags);
 
+  const relationships = await calculateRelationships(input, mongo);
+
   // Pull out some params from the input for easier usage.
   const {
     tenant,
@@ -172,6 +259,7 @@ export default async function updateAllCommentCounts(
   if (options.updateStory) {
     // Update the story, site, and user comment counts.
     const updatedStory = (await updateStoryCounts(mongo, tenant.id, storyID, {
+      relationships,
       action,
       status,
       moderationQueue,
@@ -181,8 +269,8 @@ export default async function updateAllCommentCounts(
     // only update Redis cache for comment counts if jsonp_response_cache set to true
     if (config.get("jsonp_response_cache")) {
       if (updatedStory) {
-        const totalCount = calculateTotalPublishedCommentCount(
-          updatedStory.commentCounts.status
+        const totalCount = calculateTotalPublishedAndVisibleCommentCount(
+          updatedStory.commentCounts
         );
 
         const key = getCountRedisCacheKey(updatedStory.url);
@@ -223,8 +311,8 @@ export default async function updateAllCommentCounts(
 
     if (hasFeatureFlag(tenant, GQLFEATURE_FLAG.COUNTS_V2)) {
       if (updatedStory) {
-        const totalCount = calculateTotalPublishedCommentCount(
-          updatedStory.commentCounts.status
+        const totalCount = calculateTotalPublishedAndVisibleCommentCount(
+          updatedStory.commentCounts
         );
         if (PUBLISHED_STATUSES.includes(input.after.status)) {
           const key = `${tenant.id}:${storyID}:count`;
@@ -238,6 +326,7 @@ export default async function updateAllCommentCounts(
 
   if (options.updateSite) {
     await updateSiteCounts(mongo, tenant.id, siteID!, {
+      relationships,
       action,
       status,
       moderationQueue,
@@ -254,6 +343,7 @@ export default async function updateAllCommentCounts(
   if (options.updateShared) {
     // Update the shared counts.
     await updateSharedCommentCounts(redis, tenant.id, {
+      relationships,
       action,
       status,
       moderationQueue,
@@ -281,6 +371,7 @@ export async function updateTagCommentCounts(
 
   // Update the story, site, and user comment counts.
   await updateStoryCounts(mongo, tenantID, storyID, {
+    relationships: {},
     action: {},
     status: {},
     moderationQueue: {
@@ -291,6 +382,7 @@ export async function updateTagCommentCounts(
   });
 
   await updateSiteCounts(mongo, tenantID, siteID, {
+    relationships: {},
     action: {},
     status: {},
     moderationQueue: {
@@ -302,6 +394,7 @@ export async function updateTagCommentCounts(
 
   // Update the shared counts.
   await updateSharedCommentCounts(redis, tenantID, {
+    relationships: {},
     action: {},
     status: {},
     moderationQueue: {

@@ -167,6 +167,11 @@ export interface Comment extends TenantResource {
    * from the comment embed API
    */
   embeddedAt?: Date;
+
+  /**
+   * rejectedAncestorIDs are the commentIDs of any ancestors of a comment that are rejected
+   */
+  rejectedAncestorIDs?: string[];
 }
 
 export type CreateCommentInput = Omit<
@@ -992,6 +997,36 @@ export async function mergeManyCommentStories(
   );
 }
 
+export async function addCommentToRejectedAncestors(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  commentID: string
+) {
+  const result = mongo
+    .comments()
+    .updateMany(
+      { tenantID, storyID, ancestorIDs: commentID },
+      { $push: { rejectedAncestorIDs: commentID } }
+    );
+  return result;
+}
+
+export async function removeCommentFromRejectedAncestors(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  commentID: string
+) {
+  const result = mongo
+    .comments()
+    .updateMany(
+      { tenantID, storyID, ancestorIDs: commentID },
+      { $pull: { rejectedAncestorIDs: commentID } }
+    );
+  return result;
+}
+
 export async function addCommentTag(
   mongo: MongoContext,
   tenantID: string,
@@ -1709,4 +1744,37 @@ export async function retrieveLatestFeaturedCommentForAuthor(
     .toArray();
 
   return results as Comment[];
+}
+
+export async function retrieveCountOfPublishedAndNotHiddenRepliesForComment(
+  mongo: MongoContext,
+  tenantID: string,
+  storyID: string,
+  commentID: string
+) {
+  const cursor = mongo.comments().aggregate([
+    {
+      $match: {
+        tenantID,
+        storyID,
+        ancestorIDs: commentID,
+        status: { $in: PUBLISHED_STATUSES },
+        rejectedAncestorIDs: { $in: [null, []] },
+      },
+    },
+    { $count: "count" },
+  ]);
+
+  const hasNext = await cursor.hasNext();
+  if (!hasNext) {
+    return 0;
+  }
+
+  const next = await cursor.next();
+  const result = next;
+  if (!result) {
+    return 0;
+  }
+
+  return result.count ?? 0;
 }

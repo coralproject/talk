@@ -645,13 +645,6 @@ const enhanced = withPaginationContainer<
           }
           mode
         }
-        commentCounts {
-          totalPublished
-          tags {
-            REVIEW
-            QUESTION
-          }
-        }
         comments(
           first: $count
           after: $cursor
