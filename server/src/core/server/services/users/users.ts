@@ -46,6 +46,7 @@ import { linkUsersAvailable, Tenant } from "coral-server/models/tenant";
 import {
   acknowledgeOwnModMessage,
   acknowledgeOwnWarning,
+  addProfileToUser as addProfileToUserModel,
   banUser,
   clearDeletionDate,
   consolidateUserBanStatus,
@@ -61,6 +62,7 @@ import {
   EmailNotificationSettingsInput,
   findOrCreateUser,
   FindOrCreateUserInput,
+  findUserByEmail as findUserByEmailModel,
   ignoreUser,
   InPageNotificationSettingsInput,
   linkUsers,
@@ -68,6 +70,7 @@ import {
   mergeUserSiteModerationScopes,
   premodUser,
   PremodUserReason,
+  Profile,
   pullUserMembershipScopes,
   pullUserSiteModerationScopes,
   removeActiveUserSuspensions,
@@ -2630,3 +2633,19 @@ export async function link(
 
   return linked;
 }
+
+export const addProfileToUser = async (
+  mongo: MongoContext,
+  user: Readonly<User>,
+  profile: Profile
+) => {
+  return await addProfileToUserModel(mongo, user, profile);
+};
+
+export const findUserByEmail = async (
+  mongo: MongoContext,
+  tenantID: string,
+  email: string
+) => {
+  return await findUserByEmailModel(mongo, tenantID, email);
+};

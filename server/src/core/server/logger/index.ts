@@ -14,7 +14,7 @@ const logger = bunyan.createLogger({
   src: true,
   serializers,
   streams: getStreams(),
-  level: config.get("logging_level") as LogLevelString,
+  level: config ? (config.get("logging_level") as LogLevelString) : "info",
 });
 
 export default logger;
