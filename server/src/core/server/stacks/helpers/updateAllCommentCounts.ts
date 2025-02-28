@@ -148,7 +148,11 @@ export const calculateRelationships = async (
   input: UpdateAllCommentCountsInput,
   mongo: MongoContext
 ) => {
-  let hasDescendants = input.after.childCount > 0;
+  const hasDescendants = input.after.childCount > 0;
+  const commentHasRejectedAncestors =
+    input.after.rejectedAncestorIDs &&
+    input.after.rejectedAncestorIDs.length > 0;
+
   // If the comment is newly REJECTED,
   if (input.after.status === GQLCOMMENT_STATUS.REJECTED) {
     let count = 0;
@@ -175,10 +179,7 @@ export const calculateRelationships = async (
     // if the newly REJECTED reply was already hidden, then we have to just subtract it from the
     // PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS since it's no longer published
     // and its descendants have already been counted too
-    if (
-      input.after.rejectedAncestorIDs &&
-      input.after.rejectedAncestorIDs.length > 0
-    ) {
+    if (commentHasRejectedAncestors) {
       return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: -1 };
     }
 
@@ -203,10 +204,7 @@ export const calculateRelationships = async (
     // if the newly APPROVED comment is already hidden by a rejectedAncestor, then we need to add
     // 1 to the count, since it wasn't already counted in that
     // but its descendants have already been included
-    if (
-      input.after.rejectedAncestorIDs &&
-      input.after.rejectedAncestorIDs.length > 0
-    ) {
+    if (commentHasRejectedAncestors) {
       return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: 1 };
     }
 
