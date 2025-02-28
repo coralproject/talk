@@ -937,10 +937,12 @@ configure-moderation-premoderateEmailAddress-enabled-description =
 configure-moderation-premoderateEmailAliases-enabled =
   Pre-moderate email aliases
 configure-moderation-premoderateEmailAliases-enabled-description =
+configure-moderation-premoderateEmailAliases-enabled-description-ifThePreviousAccountWas =
   If a user signs up for a new account with an email address that is
   an alias (using a + sign) of an existing account, set their status
-  to pre-moderate comments. Email aliases are commonly used by
-  spammers and trolls to evade bans.
+  to pre-moderate comments. If the previous account was banned, the
+  new account will be banned as well. Email aliases are commonly
+  used by spammers and trolls to evade bans.
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
