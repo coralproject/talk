@@ -24,6 +24,9 @@ graphql`
       emailAliases {
         enabled
       }
+      domainAliases {
+        enabled
+      }
     }
   }
 `;
@@ -62,6 +65,26 @@ const PremoderateEmailAddressConfig: FunctionComponent<Props> = ({
         </FormFieldHeader>
         <OnOffField
           name="premoderateEmailAddress.tooManyPeriods.enabled"
+          disabled={disabled}
+        />
+      </FormField>
+      <FormField container={<FieldSet />}>
+        <FormFieldHeader>
+          <Localized id="configure-moderation-premoderateDomainAlias-enabled">
+            <Label component="legend">Pre-moderate domain alias</Label>
+          </Localized>
+          <Localized id="configure-moderation-premoderateDomainAlias-enabled-description">
+            <HelperText>
+              If a user signs up for a new account with an email address that
+              contains a subdomain (@subdomain.domain.com), set their status to
+              pre-moderate comments. If the domain is already banned, ban the
+              account. Domain aliases are commonly used by spammers to evade
+              bans.
+            </HelperText>
+          </Localized>
+        </FormFieldHeader>
+        <OnOffField
+          name="premoderateEmailAddress.domainAliases.enabled"
           disabled={disabled}
         />
       </FormField>

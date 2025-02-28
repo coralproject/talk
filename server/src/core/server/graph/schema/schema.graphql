@@ -2006,6 +2006,13 @@ type TooManyPeriodsConfig {
   enabled: Boolean!
 }
 
+type DomainAliasesConfig {
+  """
+  enabled decides whether the domain aliases config is enabled or not.
+  """
+  enabled: Boolean!
+}
+
 type EmailAliasesConfig {
   """
   enabled decides whether the email aliases config is enabled or not.
@@ -2019,6 +2026,12 @@ type PremoderateEmailAddressConfiguration {
   that have too many periods.
   """
   tooManyPeriods: TooManyPeriodsConfig
+
+  """
+  domainAliases is the configuration for premoderating emails
+  that have too many periods.
+  """
+  domainAliases: DomainAliasesConfig
 
   """
   emailAliases is the configuration for premoderating email aliases that
@@ -2047,12 +2060,25 @@ input EmailAliasesConfigInput {
   enabled: Boolean
 }
 
+input DomainAliasesConfigInput {
+  """
+  enabled decides whether the domain aliases config is enabled or not.
+  """
+  enabled: Boolean
+}
+
 input PremoderateEmailAddressConfigurationInput {
   """
   tooManyPeriods is the configuration for premoderating emails
   that have too many periods.
   """
   tooManyPeriods: TooManyPeriodsConfigInput
+
+  """
+  domainAliases is the configuration for premoderating emails
+  that have domain aliases.
+  """
+  domainAliases: DomainAliasesConfigInput
 
   """
   emailAliases is the configuration for premoderating email aliases that

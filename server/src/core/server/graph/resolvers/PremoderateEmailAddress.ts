@@ -9,4 +9,8 @@ export const PremoderateEmailAddressConfiguration: GQLPremoderateEmailAddressCon
       config && config.tooManyPeriods
         ? config.tooManyPeriods
         : { enabled: false },
+    domainAliases: (config) =>
+      config && config.domainAliases
+        ? config.domainAliases
+        : { enabled: false },
   };
