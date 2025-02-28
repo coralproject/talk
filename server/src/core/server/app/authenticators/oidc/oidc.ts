@@ -133,6 +133,7 @@ export class OIDCAuthenticator extends OAuth2Authenticator {
         const user = await findOrCreateOIDCUser(
           this.config,
           this.mongo,
+          this.redis,
           tenant,
           this.integration,
           token,
