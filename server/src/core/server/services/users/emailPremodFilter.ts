@@ -104,6 +104,26 @@ const emailIsAnAliasOfExistingUser = async (
   return similarUsers.length > 0;
 };
 
+const emailIsDomainAlias = (email: string | undefined) => {
+  if (!email) {
+    return false;
+  }
+  const emailSplit = email.split("@");
+  if (emailSplit.length < 2) {
+    return false;
+  }
+
+  const domain = emailSplit[1].trim().toLowerCase();
+
+  let periodCount = 0;
+  for (const char of domain) {
+    if (char === ".") {
+      periodCount++;
+    }
+  }
+  return periodCount > 1;
+};
+
 export const shouldPremodDueToLikelySpamEmail = async (
   mongo: MongoContext | undefined = undefined,
   tenant: Readonly<Tenant>,
@@ -141,6 +161,8 @@ export const shouldPremodDueToLikelySpamEmail = async (
     mongo
       ? await emailIsAnAliasOfExistingUser(mongo, tenant, user.email)
       : false,
+    tenant?.premoderateEmailAddress?.domainAliases?.enabled &&
+      emailIsDomainAlias(user.email),
   ];
 
   return results.some((v) => v === true);

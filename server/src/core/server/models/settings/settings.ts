@@ -329,6 +329,9 @@ export interface PremoderateEmailAddressConfig {
   emailAliases?: {
     enabled?: boolean;
   };
+  domainAliases?: {
+    enabled?: boolean;
+  };
 }
 
 export type Settings = GlobalModerationSettings &
