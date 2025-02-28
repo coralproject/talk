@@ -1759,7 +1759,7 @@ export async function retrieveCountOfPublishedAndNotHiddenRepliesForComment(
         storyID,
         ancestorIDs: commentID,
         status: { $in: PUBLISHED_STATUSES },
-        rejectedAncestors: { $in: [null, []] },
+        rejectedAncestorIDs: { $in: [null, []] },
       },
     },
     { $count: "count" },

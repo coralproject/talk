@@ -148,28 +148,22 @@ export const calculateRelationships = async (
   input: UpdateAllCommentCountsInput,
   mongo: MongoContext
 ) => {
-  // If after status is REJECTED, then we get count of all replies to the comment since these will no
-  // longer be visible in the stream
+  let hasDescendants = input.after.childCount > 0;
+  // If the comment is newly REJECTED,
   if (input.after.status === GQLCOMMENT_STATUS.REJECTED) {
-    let count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
-      mongo,
-      input.tenant.id,
-      input.after.storyID,
-      input.after.id
-    );
+    let count = 0;
 
-    // if the newly REJECTED reply was already hidden, then we don't need to add it to the count; it's
-    // already been included
-    if (
-      input.after.rejectedAncestorIDs &&
-      input.after.rejectedAncestorIDs.length > 0
-    ) {
-      count -= 1;
-    }
-
-    // if the newly rejected comment has any children, then we need to add its commentID to those children's
-    // (and any descendants they have) rejectedAncestors
-    if (input.after.childCount > 0) {
+    if (hasDescendants) {
+      // then we get count of all replies to the comment since these will no
+      // longer be visible in the stream
+      count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
+        mongo,
+        input.tenant.id,
+        input.after.storyID,
+        input.after.id
+      );
+      // if the newly rejected comment has any children, then we need to add its commentID
+      // to those children's (and any descendants they have) rejectedAncestorIDs
       await addCommentToRejectedAncestors(
         mongo,
         input.tenant.id,
@@ -177,17 +171,27 @@ export const calculateRelationships = async (
         input.after.id
       );
     }
+
+    // if the newly REJECTED reply was already hidden, then we have to just subtract it from the
+    // PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS since it's no longer published
+    // and its descendants have already been counted too
+    if (
+      input.after.rejectedAncestorIDs &&
+      input.after.rejectedAncestorIDs.length > 0
+    ) {
+      return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: -1 };
+    }
+
     return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: count };
   }
 
-  // If after status is APPROVED, and before status was REJECTED, then we get count of all replies
-  // to the comment since they will now be visible in the stream again
+  // If after status is APPROVED, and before status was REJECTED
   if (
     input.before?.status === GQLCOMMENT_STATUS.REJECTED &&
     input.after.status === GQLCOMMENT_STATUS.APPROVED
   ) {
-    // First, we remove this comment from its descendant comments' rejectedAncestors
-    if (input.after.childCount > 0) {
+    // First, we remove this comment from its descendant comments' rejectedAncestorIDs
+    if (hasDescendants) {
       await removeCommentFromRejectedAncestors(
         mongo,
         input.tenant.id,
@@ -196,25 +200,28 @@ export const calculateRelationships = async (
       );
     }
 
-    // Then we get a count of all published comment descendants that are NOT still hidden
-    // by any other rejectedAncestor
-    let count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
-      mongo,
-      input.tenant.id,
-      input.after.storyID,
-      input.after.id
-    );
-
     // if the newly APPROVED comment is already hidden by a rejectedAncestor, then we need to add
     // 1 to the count, since it wasn't already counted in that
+    // but its descendants have already been included
     if (
       input.after.rejectedAncestorIDs &&
       input.after.rejectedAncestorIDs.length > 0
     ) {
-      count -= 1;
+      return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: 1 };
     }
 
-    return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: -count };
+    if (hasDescendants) {
+      // Then we get a count of all published comment descendants that are NOT still hidden
+      // by any other rejectedAncestor
+      const count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
+        mongo,
+        input.tenant.id,
+        input.after.storyID,
+        input.after.id
+      );
+
+      return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: -count };
+    }
   }
 
   return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: 0 };
