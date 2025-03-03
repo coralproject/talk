@@ -30,4 +30,8 @@ const argv = process.argv.slice(2);
 argv.push("--env=jsdom");
 argv.push("--config", paths.appJestConfig);
 
-jest.run(argv);
+const run = async () => {
+  await jest.run(argv);
+};
+
+run();
