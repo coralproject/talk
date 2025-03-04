@@ -1757,7 +1757,7 @@ export async function getDescendantsForComment(
   commentID: string,
   tenantID: string,
   storyID: string
-): Promise<Comment & { descendants: Comment[] }[]> {
+): Promise<Array<Comment & { descendants: Comment[] }>> {
   const result = await mongo
     .comments()
     .aggregate([
@@ -1779,5 +1779,5 @@ export async function getDescendantsForComment(
       },
     ])
     .toArray();
-  return result as Comment & { descendants: Comment[] }[];
+  return result as Array<Comment & { descendants: Comment[] }>;
 }
