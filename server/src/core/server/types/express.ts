@@ -33,6 +33,12 @@ export type RequestHandler<T = CoralRequest, V = void> = (
   next: NextFunction
 ) => V;
 
+export type AsyncRequestHandler<T = CoralRequest, V = void> = (
+  req: Request<T>,
+  res: Response,
+  next: NextFunction
+) => Promise<V>;
+
 export type ErrorRequestHandler = (
   err: Error,
   req: Request<CoralRequest>,
