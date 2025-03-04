@@ -4587,11 +4587,6 @@ type Comment @cacheControl(maxAge: 5) {
   embeddedAt is the date at which the comment was first embedded.
   """
   embeddedAt: Time
-
-  """
-  rejectedAncestorIDs are the commentIDs of all of a comment's ancestors that are rejected
-  """
-  rejectedAncestorIDs: [String!]
 }
 
 type PageInfo {

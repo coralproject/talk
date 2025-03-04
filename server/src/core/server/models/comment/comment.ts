@@ -1001,14 +1001,17 @@ export async function addCommentToRejectedAncestors(
   mongo: MongoContext,
   tenantID: string,
   storyID: string,
-  commentID: string
+  commentIDs: string[],
+  rejectedCommentID: string
 ) {
-  const result = mongo
-    .comments()
-    .updateMany(
-      { tenantID, storyID, ancestorIDs: commentID },
-      { $push: { rejectedAncestorIDs: commentID } }
-    );
+  const result = await mongo.comments().updateMany(
+    {
+      tenantID,
+      storyID,
+      id: { $in: commentIDs },
+    },
+    { $push: { rejectedAncestorIDs: rejectedCommentID } }
+  );
   return result;
 }
 
@@ -1016,14 +1019,17 @@ export async function removeCommentFromRejectedAncestors(
   mongo: MongoContext,
   tenantID: string,
   storyID: string,
-  commentID: string
+  commentIDs: string[],
+  approvedCommentID: string
 ) {
-  const result = mongo
-    .comments()
-    .updateMany(
-      { tenantID, storyID, ancestorIDs: commentID },
-      { $pull: { rejectedAncestorIDs: commentID } }
-    );
+  const result = await mongo.comments().updateMany(
+    {
+      tenantID,
+      storyID,
+      id: { $in: commentIDs },
+    },
+    { $pull: { rejectedAncestorIDs: approvedCommentID } }
+  );
   return result;
 }
 
@@ -1746,35 +1752,32 @@ export async function retrieveLatestFeaturedCommentForAuthor(
   return results as Comment[];
 }
 
-export async function retrieveCountOfPublishedAndNotHiddenRepliesForComment(
+export async function getDescendantsForComment(
   mongo: MongoContext,
+  commentID: string,
   tenantID: string,
-  storyID: string,
-  commentID: string
-) {
-  const cursor = mongo.comments().aggregate([
-    {
-      $match: {
-        tenantID,
-        storyID,
-        ancestorIDs: commentID,
-        status: { $in: PUBLISHED_STATUSES },
-        rejectedAncestorIDs: { $in: [null, []] },
+  storyID: string
+): Promise<Comment & { descendants: Comment[] }[]> {
+  const result = await mongo
+    .comments()
+    .aggregate([
+      {
+        $match: {
+          id: commentID,
+          tenantID,
+          storyID,
+        },
       },
-    },
-    { $count: "count" },
-  ]);
-
-  const hasNext = await cursor.hasNext();
-  if (!hasNext) {
-    return 0;
-  }
-
-  const next = await cursor.next();
-  const result = next;
-  if (!result) {
-    return 0;
-  }
-
-  return result.count ?? 0;
+      {
+        $graphLookup: {
+          from: "comments",
+          startWith: "$id",
+          connectFromField: "id",
+          connectToField: "parentID",
+          as: "descendants",
+        },
+      },
+    ])
+    .toArray();
+  return result as Comment & { descendants: Comment[] }[];
 }

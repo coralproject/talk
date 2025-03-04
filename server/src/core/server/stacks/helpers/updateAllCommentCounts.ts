@@ -10,8 +10,8 @@ import {
   CommentModerationQueueCounts,
   CommentStatusCounts,
   CommentTagCounts,
+  getDescendantsForComment,
   removeCommentFromRejectedAncestors,
-  retrieveCountOfPublishedAndNotHiddenRepliesForComment,
   updateSharedCommentCounts,
 } from "coral-server/models/comment";
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
@@ -144,6 +144,36 @@ interface UpdateAllCommentCountsOptions {
   updateShared?: boolean;
 }
 
+const findAllDescendants = async (
+  mongo: MongoContext,
+  input: UpdateAllCommentCountsInput
+): Promise<{
+  allDescendants: Comment[];
+  allDescendantIDs: string[];
+  allPublishedAndVisible: Comment[];
+}> => {
+  const result = await getDescendantsForComment(
+    mongo,
+    input.after.id,
+    input.after.tenantID,
+    input.after.storyID
+  );
+
+  const allPublishedAndVisible = result[0].descendants.filter((d: Comment) => {
+    return (
+      PUBLISHED_STATUSES.includes(d.status) &&
+      (!d.rejectedAncestorIDs || d.rejectedAncestorIDs?.length === 0)
+    );
+  });
+  const allDescendantIDs = result[0].descendants.map((d: Comment) => d.id);
+
+  return {
+    allDescendants: result[0].descendants,
+    allDescendantIDs,
+    allPublishedAndVisible,
+  };
+};
+
 export const calculateRelationships = async (
   input: UpdateAllCommentCountsInput,
   mongo: MongoContext
@@ -158,22 +188,18 @@ export const calculateRelationships = async (
     let count = 0;
 
     if (hasDescendants) {
-      // then we get count of all visible replies to the comment since these will no
-      // longer be visible in the stream
-      count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
-        mongo,
-        input.tenant.id,
-        input.after.storyID,
-        input.after.id
-      );
-      // then we need to add the rejected comment's commentID to the rejectedAncestorIDs
-      // of any descendants
+      const { allPublishedAndVisible, allDescendantIDs } =
+        await findAllDescendants(mongo, input);
+
+      // add newly rejected commentID to rejectedAncestorIDs of all comments
       await addCommentToRejectedAncestors(
         mongo,
-        input.tenant.id,
+        input.after.tenantID,
         input.after.storyID,
+        allDescendantIDs,
         input.after.id
       );
+      count = allPublishedAndVisible.length;
     }
 
     // if the comment was already hidden, then we have to just subtract it from the
@@ -191,12 +217,23 @@ export const calculateRelationships = async (
     input.before?.status === GQLCOMMENT_STATUS.REJECTED &&
     input.after.status === GQLCOMMENT_STATUS.APPROVED
   ) {
-    // First, we remove this comment from its descendant comments' rejectedAncestorIDs
+    let count = 0;
+    let allDescendants: Comment[] = [];
+    let allDescendantIDs: string[] = [];
+
+    // First, we want to find all descendants and update them
     if (hasDescendants) {
+      ({ allDescendants, allDescendantIDs } = await findAllDescendants(
+        mongo,
+        input
+      ));
+
+      // remove newly approved comment from descendant rejectedAncestorIDs
       await removeCommentFromRejectedAncestors(
         mongo,
-        input.tenant.id,
+        input.after.tenantID,
         input.after.storyID,
+        allDescendantIDs,
         input.after.id
       );
     }
@@ -209,15 +246,24 @@ export const calculateRelationships = async (
     }
 
     if (hasDescendants) {
-      // Then we get a count of all published comment descendants that are NOT still hidden
-      // by any other rejectedAncestor
-      const count = await retrieveCountOfPublishedAndNotHiddenRepliesForComment(
-        mongo,
-        input.tenant.id,
-        input.after.storyID,
-        input.after.id
-      );
-
+      // figure out how many of allDescendants are NOT still hidden after this comment is
+      // removed from rejectedAncestorIDs
+      const allDescendantsAfterApproval = allDescendants.map((d: Comment) => {
+        return {
+          ...d,
+          rejectedAncestorIDs: d.rejectedAncestorIDs?.filter(
+            (ai) => ai !== input.after.id
+          ),
+        };
+      });
+      const allVisibleDescendantsAfterApproval =
+        allDescendantsAfterApproval.filter((d: Comment) => {
+          return (
+            PUBLISHED_STATUSES.includes(d.status) &&
+            (!d.rejectedAncestorIDs || d.rejectedAncestorIDs?.length === 0)
+          );
+        });
+      count = allVisibleDescendantsAfterApproval.length;
       return { PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: -count };
     }
   }
