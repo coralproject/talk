@@ -54,6 +54,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@ampproject/toolbox-cache-url": "^2.9.0",
+    "@atproto/api": "^0.14.7",
+    "@atproto/oauth-client-node": "^0.2.11",
+    "@atproto/syntax": "^0.3.4",
     "@coralproject/bunyan-prettystream": "^0.1.4",
     "@fluent/bundle": "^0.15.1",
     "@fluent/dom": "^0.7.0",
