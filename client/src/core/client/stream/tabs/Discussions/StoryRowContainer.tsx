@@ -58,7 +58,7 @@ const StoryRowContainer: FunctionComponent<Props> = ({
                 CLASSES.discussions.story.commentsCount
               )}
             >
-              {story.commentCounts.totalPublished}
+              {story.commentCounts.totalPublishedAndVisible}
             </span>
           </Flex>
         </Flex>
@@ -81,7 +81,7 @@ const enhanced = withFragmentContainer<Props>({
         publishedAt
       }
       commentCounts {
-        totalPublished
+        totalPublishedAndVisible
       }
     }
   `,
