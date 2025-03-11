@@ -1,3 +1,6 @@
+import { Redis } from "ioredis";
+
+import { DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY } from "coral-common/common/lib/constants";
 import { MongoContext } from "coral-server/data/context";
 import { NewUserModeration } from "coral-server/models/settings";
 import { Tenant } from "coral-server/models/tenant";
@@ -11,26 +14,7 @@ import {
 
 export const EMAIL_PREMOD_FILTER_PERIOD_LIMIT = 3;
 
-const emailHasTooManyPeriods = (
-  tenant: Readonly<Tenant>,
-  email: string | undefined,
-  limit: number
-) => {
-  if (!tenant?.premoderateEmailAddress?.emailAliases?.enabled) {
-    return false;
-  }
-
-  if (!email) {
-    return false;
-  }
-
-  const split = email.split("@");
-  if (split.length < 2) {
-    return false;
-  }
-
-  const firstHalf = split[0];
-
+const emailHasTooManyPeriods = (firstHalf: string, limit: number) => {
   let periodCount = 0;
   for (const char of firstHalf) {
     if (char === ".") {
@@ -41,21 +25,29 @@ const emailHasTooManyPeriods = (
   return periodCount >= limit;
 };
 
+const emailIsOnDisposableEmailsList = async (
+  domain: string,
+  redis: Redis,
+  tenant: Readonly<Tenant>
+) => {
+  // if domain is included in protected email domains, we should
+  // not pre-moderate it
+  if (tenant?.protectedEmailDomains?.includes(domain)) {
+    return false;
+  }
+
+  const userEmailDomainIsDisposable = await redis.hget(
+    DISPOSABLE_EMAIL_DOMAINS_REDIS_KEY,
+    domain
+  );
+
+  return !!userEmailDomainIsDisposable;
+};
+
 const emailIsOnAutoBanList = (
-  email: string | undefined,
+  domain: string,
   tenant: Readonly<Tenant>
 ): boolean => {
-  if (!email) {
-    return false;
-  }
-
-  const emailSplit = email.split("@");
-  if (emailSplit.length < 2) {
-    return false;
-  }
-
-  const domain = emailSplit[1].trim().toLowerCase();
-
   const autoBanRecord = tenant.emailDomainModeration?.find(
     (record) =>
       record.domain.toLowerCase() === domain &&
@@ -70,14 +62,6 @@ const emailIsAnAliasOfExistingUser = async (
   tenant: Readonly<Tenant>,
   email: string | undefined
 ) => {
-  if (!tenant?.premoderateEmailAddress?.emailAliases?.enabled) {
-    return false;
-  }
-
-  if (!email) {
-    return false;
-  }
-
   // if it is not an alias, can't have another alias or base email
   // user
   const isAlias = emailIsAlias(email);
@@ -107,6 +91,7 @@ const emailIsAnAliasOfExistingUser = async (
 export const shouldPremodDueToLikelySpamEmail = async (
   mongo: MongoContext | undefined = undefined,
   tenant: Readonly<Tenant>,
+  redis: Redis,
   user: Readonly<User>
 ) => {
   // don't need to premod a user that is already premoderated
@@ -121,10 +106,22 @@ export const shouldPremodDueToLikelySpamEmail = async (
     return false;
   }
 
+  if (!user.email) {
+    return false;
+  }
+
+  const emailSplit = user.email.split("@");
+  if (emailSplit.length < 2) {
+    return false;
+  }
+
+  const emailFirstHalf = emailSplit[0];
+  const domain = emailSplit[1].trim().toLowerCase();
+
   // if a user is on auto ban list, they will become banned via their
   // domain, therefore, we don't want to undo the ban by applying a
   // premod state (that would un-ban them)
-  if (emailIsOnAutoBanList(user.email, tenant)) {
+  if (emailIsOnAutoBanList(domain, tenant)) {
     return false;
   }
 
@@ -132,15 +129,14 @@ export const shouldPremodDueToLikelySpamEmail = async (
   // future as we play whack-a-mole trying to block spammers
   // and other trouble makers
   const results = [
-    emailHasTooManyPeriods(
-      tenant,
-      user.email,
-      EMAIL_PREMOD_FILTER_PERIOD_LIMIT
-    ),
+    !!tenant.premoderateEmailAddress?.tooManyPeriods?.enabled &&
+      emailHasTooManyPeriods(emailFirstHalf, EMAIL_PREMOD_FILTER_PERIOD_LIMIT),
+    !!tenant.disposableEmailDomains?.enabled &&
+      (await emailIsOnDisposableEmailsList(domain, redis, tenant)),
     // premod email aliases if the feature is enabled
-    mongo
-      ? await emailIsAnAliasOfExistingUser(mongo, tenant, user.email)
-      : false,
+    mongo &&
+      !!tenant?.premoderateEmailAddress?.emailAliases?.enabled &&
+      (await emailIsAnAliasOfExistingUser(mongo, tenant, user.email)),
   ];
 
   return results.some((v) => v === true);

@@ -1,14 +1,17 @@
 import { Localized } from "@fluent/react/compat";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { Field } from "react-final-form";
 import { graphql } from "relay-runtime";
 
+import { DISPOSABLE_EMAIL_DOMAINS_LIST_URL } from "coral-common/common/lib/constants";
 import { formatStringList, parseStringList } from "coral-framework/lib/form";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { validateEmailDomainList } from "coral-framework/lib/validation";
 import { AddIcon, ButtonSvgIcon } from "coral-ui/components/icons";
 import {
   Button,
+  CallOut,
+  FieldSet,
   Flex,
   FormField,
   FormFieldDescription,
@@ -16,14 +19,17 @@ import {
   HelperText,
   Label,
   Textarea,
+  TextLink,
 } from "coral-ui/components/v2";
 
 import { EmailDomainConfigContainer_settings } from "coral-admin/__generated__/EmailDomainConfigContainer_settings.graphql";
 
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
+import OnOffField from "../../OnOffField";
 import ValidationMessage from "../../ValidationMessage";
 import EmailDomainTableContainer from "./EmailDomainTableContainer";
+import RefreshDisposableEmailDomainsMutation from "./RefreshDisposableEmailDomainsMutation";
 
 import styles from "./EmailDomainConfigContainer.css";
 
@@ -36,6 +42,9 @@ interface Props {
 graphql`
   fragment EmailDomainConfigContainer_formValues on Settings {
     protectedEmailDomains
+    disposableEmailDomains {
+      enabled
+    }
   }
 `;
 
@@ -45,6 +54,43 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
 }) => {
   const { protectedEmailDomains } = settings;
   const [showDomainList, setShowDomainList] = useState(false);
+  const [
+    refreshDisposableEmailDomainsError,
+    setRefreshDisposableEmailDomainsError,
+  ] = useState<string | null>(null);
+  const [
+    refreshingDisposableEmailDomains,
+    setRefreshingDisposableEmailDomains,
+  ] = useState(false);
+
+  const refreshEmailDomains = useMutation(
+    RefreshDisposableEmailDomainsMutation
+  );
+
+  const refreshDisposableEmailDomains = useCallback(async () => {
+    try {
+      setRefreshingDisposableEmailDomains(true);
+      await refreshEmailDomains();
+      setTimeout(() => {
+        setRefreshingDisposableEmailDomains(false);
+      }, 1500);
+    } catch (e) {
+      setRefreshDisposableEmailDomainsError(
+        `Error refreshing disposable domains: ${e}`
+      );
+      setRefreshingDisposableEmailDomains(false);
+    }
+  }, [refreshEmailDomains]);
+
+  const EmailDomainsListLink = () => {
+    return (
+      <Localized id="configure-moderation-emailDomains-disposableEmailDomains-list-linkText">
+        <TextLink target="_blank" href={`${DISPOSABLE_EMAIL_DOMAINS_LIST_URL}`}>
+          {"disposable-email-domains"}
+        </TextLink>
+      </Localized>
+    );
+  };
 
   return (
     <ConfigBox
@@ -92,11 +138,11 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
             <Label component="legend">Exceptions</Label>
           </Localized>
         </FormFieldHeader>
-        <Localized id="configure-moderation-emailDomains-exceptions-helperText">
+        <Localized id="configure-moderation-emailDomains-exceptions-ban-premod-helperText">
           <HelperText>
-            These domains cannot be banned. Domains should be written without
-            www, for example "gmail.com". Separate domains with a comma and a
-            space.
+            These domains cannot be banned or pre-moderated. Domains should be
+            written without www, for example "gmail.com". Separate domains with
+            a comma and a space.
           </HelperText>
         </Localized>
         <Field
@@ -124,6 +170,58 @@ const EmailDomainConfigContainer: FunctionComponent<Props> = ({
           )}
         </Field>
       </FormField>
+      <FormField container={<FieldSet />}>
+        <FormFieldHeader>
+          <Localized id="configure-moderation-emailDomains-disposableEmailDomains-enabled">
+            <Label component="legend">Disposable email domains</Label>
+          </Localized>
+          <Localized id="configure-moderation-emailDomains-disposableEmailDomains-helper-text">
+            <HelperText>
+              If a new user registers using a disposable email address, set
+              their status to 'always pre-moderate comments.' Accounts with
+              disposable email addresses can have a high spam / troll
+              correlation.
+            </HelperText>
+          </Localized>
+        </FormFieldHeader>
+        <OnOffField name="disposableEmailDomains.enabled" disabled={disabled} />
+        <Localized
+          id="configure-moderation-emailDomains-disposableEmailDomains-update-button-helper-text"
+          elems={{
+            link: <EmailDomainsListLink />,
+          }}
+        >
+          <HelperText>
+            The email domains come from the <EmailDomainsListLink /> list, which
+            is regularly updated. Use the button below to import their latest
+            list.
+          </HelperText>
+        </Localized>
+        <Localized
+          id={`${
+            refreshingDisposableEmailDomains
+              ? "configure-moderation-emailDomains-disposableEmailDomains-updating"
+              : "configure-moderation-emailDomains-disposableEmailDomains-update-button"
+          }`}
+        >
+          <Button
+            onClick={refreshDisposableEmailDomains}
+            disabled={
+              !settings.disposableEmailDomains?.enabled ||
+              refreshingDisposableEmailDomains
+            }
+          >
+            {refreshingDisposableEmailDomains
+              ? "Updating"
+              : "Update disposable domains"}
+          </Button>
+        </Localized>
+        {refreshDisposableEmailDomainsError && (
+          <CallOut fullWidth color="error">
+            {refreshDisposableEmailDomainsError}
+          </CallOut>
+        )}
+      </FormField>
     </ConfigBox>
   );
 };
@@ -132,6 +230,9 @@ const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment EmailDomainConfigContainer_settings on Settings {
       protectedEmailDomains
+      disposableEmailDomains {
+        enabled
+      }
       ...EmailDomainTableContainer_settings
     }
   `,

@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { Redis } from "ioredis";
 import Joi from "joi";
 
 import { Config } from "coral-server/config";
@@ -20,6 +21,7 @@ import { ExchangeResponse, OAuth2Authenticator } from "../oauth2";
 interface Options {
   config: Config;
   mongo: MongoContext;
+  redis: Redis;
   signingConfig: JWTSigningConfig;
   integration: Required<FacebookAuthIntegration>;
   callbackPath: string;
@@ -52,10 +54,11 @@ const VERSION = "v3.2";
 export class FacebookAuthenticator extends OAuth2Authenticator {
   private readonly mongo: MongoContext;
   private readonly config: Config;
+  private readonly redis: Redis;
   private readonly profileURL = `https://graph.facebook.com/${VERSION}/me`;
   private readonly integration: Readonly<Required<FacebookAuthIntegration>>;
 
-  constructor({ integration, mongo, config, ...options }: Options) {
+  constructor({ integration, mongo, config, redis, ...options }: Options) {
     super({
       ...options,
       ...integration,
@@ -71,6 +74,7 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
     this.integration = integration;
     this.mongo = mongo;
     this.config = config;
+    this.redis = redis;
   }
 
   /**
@@ -157,6 +161,7 @@ export class FacebookAuthenticator extends OAuth2Authenticator {
         user = await findOrCreate(
           this.config,
           this.mongo,
+          this.redis,
           tenant,
           {
             role: GQLUSER_ROLE.COMMENTER,

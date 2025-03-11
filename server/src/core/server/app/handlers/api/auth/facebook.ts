@@ -8,7 +8,7 @@ import { oauth2Handler } from "./oauth2";
 
 type Options = Pick<
   AppOptions,
-  "tenantCache" | "mongo" | "signingConfig" | "config"
+  "tenantCache" | "mongo" | "signingConfig" | "config" | "redis"
 >;
 
 export const facebookHandler = ({ tenantCache, ...options }: Options) =>
@@ -22,6 +22,7 @@ export const facebookHandler = ({ tenantCache, ...options }: Options) =>
       return new FacebookAuthenticator({
         ...options,
         mongo: options.mongo,
+        redis: options.redis,
         integration,
         callbackPath: "/api/auth/facebook/callback",
       });

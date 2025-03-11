@@ -1,3 +1,4 @@
+import { Redis } from "ioredis";
 import Joi from "joi";
 
 import { Config } from "coral-server/config";
@@ -20,6 +21,7 @@ interface Options {
   mongo: MongoContext;
   signingConfig: JWTSigningConfig;
   config: Config;
+  redis: Redis;
   integration: Required<GoogleAuthIntegration>;
   callbackPath: string;
 }
@@ -39,10 +41,11 @@ interface GoogleUserProfile {
 export class GoogleAuthenticator extends OAuth2Authenticator {
   private readonly mongo: MongoContext;
   private readonly config: Config;
+  private readonly redis: Redis;
   private readonly profileURL = "https://www.googleapis.com/oauth2/v3/userinfo";
   private readonly integration: Readonly<Required<GoogleAuthIntegration>>;
 
-  constructor({ integration, mongo, config, ...options }: Options) {
+  constructor({ integration, mongo, config, redis, ...options }: Options) {
     super({
       ...options,
       ...integration,
@@ -55,6 +58,7 @@ export class GoogleAuthenticator extends OAuth2Authenticator {
     this.integration = integration;
     this.mongo = mongo;
     this.config = config;
+    this.redis = redis;
   }
 
   private async getProfile(accessToken: string): Promise<GoogleUserProfile> {
@@ -122,6 +126,7 @@ export class GoogleAuthenticator extends OAuth2Authenticator {
         user = await findOrCreate(
           this.config,
           this.mongo,
+          this.redis,
           tenant,
           {
             role: GQLUSER_ROLE.COMMENTER,

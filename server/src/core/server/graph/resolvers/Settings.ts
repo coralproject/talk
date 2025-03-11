@@ -84,6 +84,8 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   protectedEmailDomains: ({
     protectedEmailDomains = Array.from(PROTECTED_EMAIL_DOMAINS),
   }) => protectedEmailDomains,
+  disposableEmailDomains: ({ disposableEmailDomains = { enabled: false } }) =>
+    disposableEmailDomains,
   inPageNotifications: ({
     inPageNotifications = { enabled: true, floatingBellIndicator: true },
   }) => inPageNotifications,
