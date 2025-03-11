@@ -1,16 +1,23 @@
+import { Agent } from '@atproto/api';
 import cookie from "cookie";
+import { JWTSigningConfig, signTokenString } from "coral-server/services/jwt";
+import logger from "coral-server/logger";
+import { NodeOAuthClient } from '@atproto/oauth-client-node';
+import {
+  Request,
+  TenantCoralRequest,
+} from "coral-server/types/express";
+import { Response } from "express";
+import { stringifyQuery } from "coral-common/common/lib/utils";
+import { User } from "coral-server/models/user";
+import { WrappedInternalError } from 'coral-server/errors';
+
 import type {
-  NodeOAuthClient,
   NodeSavedSession,
   NodeSavedSessionStore,
   NodeSavedState,
   NodeSavedStateStore,
 } from '@atproto/oauth-client-node';
-import {
-  Request,
-  TenantCoralRequest,
-} from "coral-server/types/express";
-
 
 const enc = encodeURIComponent;
 
@@ -19,10 +26,6 @@ interface Options {
   clientName: string;
   clientURI: string;
  }
-
- interface atprotoCallbackResponse {
-  params: any;
-}
 
 class CookieStore {
   public req: Request<TenantCoralRequest>;
@@ -93,9 +96,16 @@ class SessionStore implements NodeSavedSessionStore {
   }
 }
 
+export function redirectWithHash(
+  res: Response,
+  redirectTo: string,
+  hash: Record<string, any>
+) {
+  res.redirect(`${redirectTo}${stringifyQuery(hash, "#")}`)
+}
 
 export abstract class AtprotoOauthAuthenticator {
-
+  private readonly signingConfig: JWTSigningConfig;
   private readonly clientID: string;
   private readonly clientName: string;
   private readonly clientURI: string;
@@ -149,12 +159,55 @@ export abstract class AtprotoOauthAuthenticator {
     //redirect user to login
     const loginUrl:URL = await this.client.authorize(handle, {
       scope: 'atproto transition:generic',
-    })
+    });
     if (loginUrl) {
       return loginUrl.href;
     } else {
-      throw new Error("authorize request failed")
+      throw new Error("authorize request failed");
     }
   }
 // you need a Helper function to get the Atproto Agent for the active session before you can hook up a callback
+  protected async getSessionAgent(params:URLSearchParams){
+    const { session } = await this.client.callback(params);
+    const agent = new Agent(session);
+    return agent
+  }
+
+  protected async success(
+    redirectTo: string,
+    user: Readonly<User>,
+    req: Request<TenantCoralRequest>,
+    res: Response
+  ){
+    const { tenant, now } = req.coral;
+    try {
+      // Create a new token for the user.
+      const accessToken = await signTokenString(
+        this.signingConfig,
+        user,
+        tenant,
+        {},
+        now
+      );
+      return redirectWithHash(res, redirectTo, { accessToken });
+    } catch (err) {
+      return this.fail(redirectTo, err as Error, req, res);
+    }
+  }
+
+  protected fail(
+    redirectTo: string,
+    err: Error,
+    req: Request<TenantCoralRequest>,
+    res: Response
+  ){
+    const error = new WrappedInternalError(
+      err,
+      "an authentication error occured"
+    );
+    logger.error({ err }, "an authentication error occurred for a user");
+
+    return redirectWithHash(res, redirectTo, {error: error.message });
+  }
+
 }
