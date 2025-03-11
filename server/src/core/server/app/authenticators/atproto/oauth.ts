@@ -21,6 +21,14 @@ import type {
 
 const enc = encodeURIComponent;
 
+export function redirectWithHash(
+  res: Response,
+  redirectTo: string,
+  hash: Record<string, any>
+) {
+  res.redirect(`${redirectTo}${stringifyQuery(hash, "#")}`)
+}
+
 interface Options {
   clientID: string;
   clientName: string;
@@ -96,13 +104,6 @@ class SessionStore implements NodeSavedSessionStore {
   }
 }
 
-export function redirectWithHash(
-  res: Response,
-  redirectTo: string,
-  hash: Record<string, any>
-) {
-  res.redirect(`${redirectTo}${stringifyQuery(hash, "#")}`)
-}
 
 export abstract class AtprotoOauthAuthenticator {
   private readonly signingConfig: JWTSigningConfig;

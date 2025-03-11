@@ -6,6 +6,7 @@ import {
 
 import { oauth2Handler } from "./oauth2";
 
+
 type Options = Pick<
   AppOptions,
   "tenantCache" | "mongo" | "signingConfig" | "config"

@@ -90,59 +90,61 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
 
   public callback: RequestHandler<TenantCoralRequest, Promise<void>> =
     async (req , res, next) => {
-    try {
-      const { tenant, now } = req.coral;
-      //complete the oauth session callback and use the Atproto API to get user's profile
-      const params = new URLSearchParams(req.originalUrl.split('?')[1]);
-      const agent:Agent = await this.getSessionAgent(params);
-      const profile = await agent.getProfile({ actor: agent.did})
-
-      // Validate the profile.
+      //grab where the user started so we can send them back after
+      const redirectTo:string = req.originalUrl
       try {
-        validateSchema(BskyUserProfileSchema, profile.data)
-      } catch {
-        throw new Error("failed to parse the Bluesky profile");
-      }
-      // Lookup or create the User
-      try {
-        const bskyProfile: BskyProfile = {
-          type: "bsky",
-          id: profile.data.did
-        };
-        //Locate an existing coral user
-        let user = await retrieveUserWithProfile(
-          this.mongo,
-          tenant.id,
-          bskyProfile
-        );
-        if (user) {
-          return this.success(agent, user, req, res);
-        }
+        const { tenant, now } = req.coral;
+        //complete the oauth session callback and use the Atproto API to get user's profile
+        const params = new URLSearchParams(req.originalUrl.split('?')[1]);
+        const agent:Agent = await this.getSessionAgent(params);
+        const profile = await agent.getProfile({ actor: agent.did})
 
-        if (!this.integration.allowRegistration) {
-          throw new Error("registration is disabled");
+        // Validate the profile.
+        try {
+          validateSchema(BskyUserProfileSchema, profile.data)
+        } catch {
+          throw new Error("failed to parse the Bluesky profile");
         }
-        // Create the user this time.
-        user = await findOrCreate(
-          this.config,
-          this.mongo,
-          tenant,
-          {
-            role: GQLUSER_ROLE.COMMENTER,
-            emailVerified: false,
-            avatar: profile.data.avatar,
-            profile: bskyProfile,
-          },
-          {},
-          now
-        );
+        // Lookup or create the User
+        try {
+          const bskyProfile: BskyProfile = {
+            type: "bsky",
+            id: profile.data.did
+          };
+          //Locate an existing coral user
+          let user = await retrieveUserWithProfile(
+            this.mongo,
+            tenant.id,
+            bskyProfile
+          );
+          if (user) {
+            return this.success(redirectTo, user, req, res);
+          }
 
-        return this.success(agent, user, req, res);
+          if (!this.integration.allowRegistration) {
+            throw new Error("registration is disabled");
+          }
+          // Create the user this time.
+          user = await findOrCreate(
+            this.config,
+            this.mongo,
+            tenant,
+            {
+              role: GQLUSER_ROLE.COMMENTER,
+              emailVerified: false,
+              avatar: profile.data.avatar,
+              profile: bskyProfile,
+            },
+            {},
+            now
+          );
+
+          return this.success(redirectTo, user, req, res);
+        } catch (err) {
+          return this.fail(redirectTo, err, req, res);
+        }
       } catch (err) {
-        return this.fail(err, req, res);
+          return this.fail(redirectTo, err as Error, req, res)
       }
-    } catch (err) {
-        return this.fail(err as Error, req, res)
-    }
   }
 }
