@@ -4,8 +4,7 @@ import {
   getEnabledIntegration,
 } from "coral-server/app/authenticators/bsky";
 
-import { oauth2Handler } from "./oauth2";
-
+import { atprotoHandler } from "./atproto";
 
 type Options = Pick<
   AppOptions,
@@ -13,7 +12,7 @@ type Options = Pick<
 >;
 
 export const bskyHandler = ({ tenantCache, ...options }: Options) =>
-  oauth2Handler({
+  atprotoHandler({
     tenantCache,
     authenticatorFn: (tenant) => {
       const integration = getEnabledIntegration(tenant.auth.integrations.bsky);
