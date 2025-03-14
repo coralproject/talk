@@ -250,7 +250,8 @@ export function calculateTotalPublishedAndVisibleCommentCount(
     0
   );
   const notVisibleCount =
-    commentCounts.relationships.PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS;
+    commentCounts.relationships?.PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS ??
+    0;
   return publishedCount - notVisibleCount;
 }
 
