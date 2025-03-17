@@ -1047,6 +1047,7 @@ export async function retrieveStoryCommentCounts(
         tenantID,
         storyID,
         status: { $in: [GQLCOMMENT_STATUS.APPROVED, GQLCOMMENT_STATUS.NONE] },
+        rejectedAncestorIDs: { $in: [null, []] },
       },
     },
     { $count: "count" },

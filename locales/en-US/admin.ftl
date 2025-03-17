@@ -913,6 +913,7 @@ configure-moderation-emailDomains-form-description-add = Add a domain and select
 configure-moderation-emailDomains-form-description-edit = Update the domain or action that should be taken when on every new account using the specified domain.
 configure-moderation-emailDomains-exceptions-header = Exceptions
 configure-moderation-emailDomains-exceptions-helperText = These domains cannot be banned. Domains should be written without www, for example "gmail.com". Separate domains with a comma and a space.
+configure-moderation-emailDomains-exceptions-ban-premod-helperText = These domains cannot be banned or pre-moderated. Domains should be written without www, for example "gmail.com". Separate domains with a comma and a space.
 
 configure-moderation-emailDomains-showCurrent = Show current domain list
 configure-moderation-emailDomains-hideCurrent = Hide current domain list
@@ -923,6 +924,13 @@ configuration-moderation-emailDomains-empty = There are no email domains configu
 configure-moderation-emailDomains-allDomains = All domains
 configure-moderation-emailDomains-preMod = Pre-mod
 configure-moderation-emailDomains-banned = Banned
+
+configure-moderation-emailDomains-disposableEmailDomains-enabled = Disposable email domains
+configure-moderation-emailDomains-disposableEmailDomains-helper-text = If a new user registers using a disposable email address, set their status to 'always pre-moderate comments.' Accounts with disposable email addresses can have a high spam / troll correlation.
+configure-moderation-emailDomains-disposableEmailDomains-updating = Updating
+configure-moderation-emailDomains-disposableEmailDomains-update-button = Update disposable domains
+configure-moderation-emailDomains-disposableEmailDomains-list-linkText = disposable-email-domains
+configure-moderation-emailDomains-disposableEmailDomains-update-button-helper-text = The email domains come from the <link></link> list, which is regularly updated. Use the button below to import their latest list.
 
 #### Pre-moderate  Email Address Configuration
 
@@ -937,10 +945,12 @@ configure-moderation-premoderateEmailAddress-enabled-description =
 configure-moderation-premoderateEmailAliases-enabled =
   Pre-moderate email aliases
 configure-moderation-premoderateEmailAliases-enabled-description =
+configure-moderation-premoderateEmailAliases-enabled-description-ifThePreviousAccountWas =
   If a user signs up for a new account with an email address that is
   an alias (using a + sign) of an existing account, set their status
-  to pre-moderate comments. Email aliases are commonly used by
-  spammers and trolls to evade bans.
+  to pre-moderate comments. If the previous account was banned, the
+  new account will be banned as well. Email aliases are commonly
+  used by spammers and trolls to evade bans.
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned words and phrases
