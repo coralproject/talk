@@ -53,6 +53,14 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
     this.config = config;
   }
 
+  public metadata: RequestHandler<TenantCoralRequest, Promise<any>> = async (
+    req,
+    res,
+    next
+  ) => {
+    return res.json(this.getClientMetadata());
+  };
+
   // authenticate is the login function that calls authorize
   public authenticate: RequestHandler<TenantCoralRequest, Promise<void>> =
     async (req, res, next) => {

@@ -16,7 +16,9 @@ interface Options<Authenticator extends AtprotoOauthAuthenticator> {
   authenticatorFn: (tenant: Tenant) => Authenticator;
 }
 
-export function atprotoHandler<Authenticator extends AtprotoOauthAuthenticator>({
+export function atprotoHandler<
+  Authenticator extends AtprotoOauthAuthenticator
+>({
   tenantCache,
   authenticatorFn,
 }: Options<Authenticator>): RequestHandler<TenantCoralRequest> {

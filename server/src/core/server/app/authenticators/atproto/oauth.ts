@@ -3,7 +3,6 @@ import http from "http";
 (global as any).Response = http.ServerResponse;
 import { Agent } from "@atproto/api";
 import { NodeOAuthClient } from "@atproto/oauth-client-node";
-import cookie from "cookie";
 import { stringifyQuery } from "coral-common/common/lib/utils";
 import { WrappedInternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
@@ -15,13 +14,16 @@ import {
   TenantCoralRequest,
 } from "coral-server/types/express";
 import { Response } from "express";
+import { CookieStore } from "./cookie";
+import { SessionStore } from "./session";
+import { StateStore } from "./state";
 
-import type {
-  NodeSavedSession,
-  NodeSavedSessionStore,
-  NodeSavedState,
-  NodeSavedStateStore,
-} from "@atproto/oauth-client-node";
+// import type {
+//   NodeSavedSession,
+//   NodeSavedSessionStore,
+//   NodeSavedState,
+//   NodeSavedStateStore,
+// } from "@atproto/oauth-client-node";
 
 const enc = encodeURIComponent;
 
@@ -40,75 +42,6 @@ interface Options {
   clientURI: string;
 }
 
-class CookieStore {
-  public req: Request<TenantCoralRequest>;
-  public resp: Response;
-
-  async setStateCookie(key: string, state: NodeSavedState) {
-    const data = JSON.stringify(state);
-    this.resp.cookie(key, data); // add back cookie secure options if this works
-  }
-
-  async setSessionCookie(key: string, session: NodeSavedSession) {
-    const data = JSON.stringify(session);
-    this.resp.cookie(key, data);
-  }
-
-  async retrieveCookie(key: string) {
-    const header = this.req.headers.cookie;
-    if (typeof header === "string") {
-      const cookies = cookie.parse(header);
-      if (cookies.keys.includes(key)) {
-        return JSON.parse(cookies[key]);
-      }
-    }
-    throw new Error("missing atproto cookie");
-  }
-
-  async getStateFromCookie(key: string) {
-    const state = await this.retrieveCookie(key);
-    return state as NodeSavedState;
-  }
-
-  async getSessionFromCookie(key: string) {
-    const session = await this.retrieveCookie(key);
-    return session as NodeSavedSession;
-  }
-
-  async deleteCookie(key: string) {
-    this.resp.clearCookie(key);
-  }
-}
-
-class StateStore implements NodeSavedStateStore {
-  // async get, set and del - called by client.authorize()
-  constructor(private store: any) {}
-  async get(key: string): Promise<NodeSavedState | undefined> {
-    const state = await this.store.getStateFromCookie(key);
-    return state as NodeSavedState;
-  }
-  async set(key: string, state: NodeSavedState) {
-    await this.store.setStateCookie(key, state);
-  }
-  async del(key: string) {
-    await this.store.deleteCookie(key);
-  }
-}
-
-class SessionStore implements NodeSavedSessionStore {
-  constructor(private store: any) {}
-  async get(key: string): Promise<NodeSavedSession | undefined> {
-    const session = await this.store.getSessionFromCookie(key);
-    return session as NodeSavedSession;
-  }
-  async set(key: string, session: NodeSavedSession) {
-    await this.store.setSessionCookie(key, session);
-  }
-  async del(key: string) {
-    await this.store.deleteCookie(key);
-  }
-}
-
 export abstract class AtprotoOauthAuthenticator {
   private readonly signingConfig: JWTSigningConfig;
   private readonly callbackPath: string;
@@ -117,8 +50,8 @@ export abstract class AtprotoOauthAuthenticator {
   private readonly clientURI: string;
 
   private readonly cookieStore: CookieStore;
-  private readonly stateStore: NodeSavedStateStore;
-  private readonly sessionStore: NodeSavedSessionStore;
+  private readonly stateStore: StateStore;
+  private readonly sessionStore: SessionStore;
   private readonly client: NodeOAuthClient;
 
   constructor({ callbackPath, clientID, clientName, clientURI }: Options) {
@@ -156,6 +89,12 @@ export abstract class AtprotoOauthAuthenticator {
     Promise<void>
   >;
 
+  public abstract metadata: RequestHandler<TenantCoralRequest, Promise<void>>;
+
+  protected async getClientMetadata() {
+    return this.client.clientMetadata;
+  }
+
   protected async callAuthorize(
     handle: string,
     req: Request<TenantCoralRequest>,
@@ -174,6 +113,7 @@ export abstract class AtprotoOauthAuthenticator {
     );
 
     // redirect user to login
+    // BROKEN - this doesn't see that scope is being passed, and signal is undefined, so error thrown is cant resolve Failed to resolve identity: immber.bsky.social"
     const loginUrl: URL = await this.client.authorize(handle, {
       scope: "atproto transition:generic",
     });
