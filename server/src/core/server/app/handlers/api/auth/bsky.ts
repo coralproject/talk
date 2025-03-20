@@ -3,51 +3,84 @@ import {
   BskyAuthenticator,
   getEnabledIntegration,
 } from "coral-server/app/authenticators/bsky";
-import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
-import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
-
-import { atprotoHandler } from "./atproto";
 import { Tenant } from "coral-server/models/tenant";
+import {
+  TenantCache,
+  TenantCacheAdapter,
+} from "coral-server/services/tenant/cache";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 type Options = Pick<
   AppOptions,
   "tenantCache" | "mongo" | "signingConfig" | "config"
 >;
 
-export const bskyHandler = ({ tenantCache, ...options }: Options) =>
-  atprotoHandler({
-    tenantCache,
-    authenticatorFn: (tenant) => {
-      const integration = getEnabledIntegration(tenant.auth.integrations.bsky);
+async function getBskyAuthenticator(
+  tenant: Tenant,
+  tenantCache: TenantCache,
+  { ...options }: Options
+) {
+  const authenticators = new TenantCacheAdapter<BskyAuthenticator>(tenantCache);
+  // Try to get the authenticator for this Tenant in this cache.
+  let authenticator = authenticators.get(tenant.id);
+  if (!authenticator) {
+    const integration = getEnabledIntegration(tenant.auth.integrations.bsky);
+    // Try to create a new authenticator
+    authenticator = new BskyAuthenticator({
+      ...options,
+      integration,
+      callbackPath: "/api/auth/bsky/callback",
+    });
 
-      return new BskyAuthenticator({
-        ...options,
-        mongo: options.mongo,
-        integration,
-        callbackPath: "/api/auth/bsky/callback",
-      });
-    },
-  });
+    // Update the authenticator in the set of authenticators.
+    authenticators.set(tenant.id, authenticator);
+  }
+  return authenticator;
+}
 
-// The bskyHandler above must have already added the authenticator to the tenant cache
-export const bskyMetadataHandler = ({
+function authHandler({
   tenantCache,
   ...options
-}: Options): RequestHandler<TenantCoralRequest> => {
+}: Options): RequestHandler<TenantCoralRequest> {
   return async (req, res, next) => {
     const { tenant } = req.coral;
-    const authenticators = new TenantCacheAdapter<BskyAuthenticator>(
-      tenantCache
-    );
-    const authenticator = authenticators.get(tenant.id);// <= doesn't get the authenticator, it's only added to the cache if you call .authenticate first, even if it's been added, this still can't find it
-    if (authenticator) {
-      // If found, then send the metadata, if not
-      // then error to the middleware.
-      try {
-        await authenticator?.metadata(req, res, next);
-      } catch (err) {
-        return next(err);
-      }
+    // Get the authenticator and perform the authentication.
+    try {
+      const auth = await getBskyAuthenticator(
+        tenant,
+        tenantCache,
+        options as Options
+      );
+      await auth.authenticate(req, res, next);
+    } catch (err) {
+      return next(err);
     }
   };
-};
+}
+
+function metadataHandler({
+  tenantCache,
+  ...options
+}: Options): RequestHandler<TenantCoralRequest> {
+  return async (req, res, next) => {
+    const { tenant } = req.coral;
+
+    // Get the authenticator instance and return the client-metadata.json
+    const auth = await getBskyAuthenticator(
+      tenant,
+      tenantCache,
+      options as Options
+    );
+    try {
+      await auth.metadata(req, res, next);
+    } catch (err) {
+      return next(err);
+    }
+  };
+}
+
+export const bskyHandler = ({ tenantCache, ...options }: Options) =>
+  authHandler({ tenantCache, ...options });
+
+export const bskyMetadataHandler = ({ tenantCache, ...options }: Options) =>
+  metadataHandler({ tenantCache, ...options });

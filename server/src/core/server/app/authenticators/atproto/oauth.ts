@@ -2,7 +2,7 @@
 import http from "http";
 (global as any).Response = http.ServerResponse;
 import { Agent } from "@atproto/api";
-import { NodeOAuthClient } from "@atproto/oauth-client-node";
+import { AuthorizeOptions, NodeOAuthClient } from "@atproto/oauth-client-node";
 import { stringifyQuery } from "coral-common/common/lib/utils";
 import { WrappedInternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
@@ -68,10 +68,10 @@ export abstract class AtprotoOauthAuthenticator {
         client_name: clientName,
         // client_id: clientID, //fix after working locally
         client_id: `http://localhost?redirect_uri=${enc(
-          `http://127.0.0.1:3000/bsky/callback`
+          `http://127.0.0.1:3000/api/auth/bsky/callback`
         )}&scope=${enc("atproto transition:generic")}`,
         client_uri: "http://127.0.0.1:3000",
-        redirect_uris: [`http://127.0.0.1:3000/bsky/callback`],
+        redirect_uris: [`http://127.0.0.1:3000/api/auth/bsky/callback`],
         scope: "atproto transition:generic",
         grant_types: ["authorization_code", "refresh_token"],
         response_types: ["code"],
@@ -91,7 +91,7 @@ export abstract class AtprotoOauthAuthenticator {
 
   public abstract metadata: RequestHandler<TenantCoralRequest, Promise<void>>;
 
-  protected async getClientMetadata() {
+  protected getClientMetadata() {
     return this.client.clientMetadata;
   }
 
@@ -111,12 +111,13 @@ export abstract class AtprotoOauthAuthenticator {
       this.clientURI,
       this.callbackPath
     );
+    const authorizationOptions = {
+      scope: "atproto transition:generic",
+    } as AuthorizeOptions;
 
     // redirect user to login
     // BROKEN - this doesn't see that scope is being passed, and signal is undefined, so error thrown is cant resolve Failed to resolve identity: immber.bsky.social"
-    const loginUrl: URL = await this.client.authorize(handle, {
-      scope: "atproto transition:generic",
-    });
+    const loginUrl: URL = await this.client.authorize(handle, authorizationOptions);
     if (loginUrl) {
       return loginUrl.href;
     } else {

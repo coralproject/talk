@@ -44,7 +44,7 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
       ...integration,
       callbackPath: "/api/auth/bsky/callback",
       clientID: "",
-      clientName: "",
+      clientName: integration.clientID,
       clientURI: "",
     });
 
@@ -58,7 +58,8 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
     res,
     next
   ) => {
-    return res.json(this.getClientMetadata());
+    const jsonClientMetadata = this.getClientMetadata();
+    return res.json(jsonClientMetadata);
   };
 
   // authenticate is the login function that calls authorize
@@ -74,7 +75,11 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
       }
       try {
         // redirect user to login
-        const loginUrl: string = await this.callAuthorize(handle, req, res as any);
+        const loginUrl: string = await this.callAuthorize(
+          handle,
+          req,
+          res as any
+        );
         if (loginUrl) {
           return res.redirect(loginUrl);
         }
