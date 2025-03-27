@@ -299,7 +299,6 @@ export function createStory(
       isArchiving: false,
       commentCounts: {
         totalPublished: 0,
-        totalPublishedAndVisible: 0,
         tags: {
           FEATURED: 0,
           UNANSWERED: 0,

@@ -14,7 +14,6 @@ import {
 
 import {
   createEmptyCommentModerationQueueCounts,
-  createEmptyCommentRelationshipCounts,
   createEmptyCommentStatusCounts,
   createEmptyCommentTagCounts,
   createEmptyRelatedCommentCounts,
@@ -80,10 +79,6 @@ export interface CommentTagCounts {
   tags: GQLCommentTagCounts;
 }
 
-export interface CommentRelationshipCounts {
-  PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS: number;
-}
-
 /**
  * RelatedCommentCounts stores all the Comment Counts that will be stored on
  * each related document (like a Story, or a Site).
@@ -108,12 +103,6 @@ export interface RelatedCommentCounts {
   moderationQueue: CommentModerationQueueCounts;
 
   tags: CommentTagCounts;
-
-  /**
-   * relationships stores the counts of relationships between comments, such as when
-   * published comments have rejected ancestors
-   */
-  relationships: CommentRelationshipCounts;
 }
 
 /**
@@ -145,19 +134,6 @@ export function mergeCommentStatusCount(
     }
   }
   return mergedStatusCounts;
-}
-
-export function mergeCommentRelationshipCounts(
-  ...relationship: CommentRelationshipCounts[]
-): CommentRelationshipCounts {
-  const merged = createEmptyCommentRelationshipCounts();
-
-  for (const count of relationship) {
-    merged.PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS +=
-      count.PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS;
-  }
-
-  return merged;
 }
 
 export function mergeCommentModerationQueueCount(
@@ -238,21 +214,6 @@ export function calculateTotalPublishedCommentCount(
     (total, status) => total + commentCounts[status],
     0
   );
-}
-
-//
-
-export function calculateTotalPublishedAndVisibleCommentCount(
-  commentCounts: RelatedCommentCounts
-) {
-  const publishedCount = PUBLISHED_STATUSES.reduce(
-    (total, status) => total + commentCounts.status[status],
-    0
-  );
-  const notVisibleCount =
-    commentCounts.relationships?.PUBLISHED_COMMENTS_WITH_REJECTED_ANCESTORS ??
-    0;
-  return publishedCount - notVisibleCount;
 }
 
 interface RelatedCommentCountsDocument extends Document {

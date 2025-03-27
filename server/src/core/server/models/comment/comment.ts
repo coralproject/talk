@@ -167,11 +167,6 @@ export interface Comment extends TenantResource {
    * from the comment embed API
    */
   embeddedAt?: Date;
-
-  /**
-   * rejectedAncestorIDs are the commentIDs of any ancestors of a comment that are rejected
-   */
-  rejectedAncestorIDs?: string[];
 }
 
 export type CreateCommentInput = Omit<
@@ -997,42 +992,6 @@ export async function mergeManyCommentStories(
   );
 }
 
-export async function addCommentToRejectedAncestors(
-  mongo: MongoContext,
-  tenantID: string,
-  storyID: string,
-  commentIDs: string[],
-  rejectedCommentID: string
-) {
-  const result = await mongo.comments().updateMany(
-    {
-      tenantID,
-      storyID,
-      id: { $in: commentIDs },
-    },
-    { $push: { rejectedAncestorIDs: rejectedCommentID } }
-  );
-  return result;
-}
-
-export async function removeCommentFromRejectedAncestors(
-  mongo: MongoContext,
-  tenantID: string,
-  storyID: string,
-  commentIDs: string[],
-  approvedCommentID: string
-) {
-  const result = await mongo.comments().updateMany(
-    {
-      tenantID,
-      storyID,
-      id: { $in: commentIDs },
-    },
-    { $pull: { rejectedAncestorIDs: approvedCommentID } }
-  );
-  return result;
-}
-
 export async function addCommentTag(
   mongo: MongoContext,
   tenantID: string,
@@ -1750,34 +1709,4 @@ export async function retrieveLatestFeaturedCommentForAuthor(
     .toArray();
 
   return results as Comment[];
-}
-
-export async function getDescendantsForComment(
-  mongo: MongoContext,
-  commentID: string,
-  tenantID: string,
-  storyID: string
-): Promise<Array<Comment & { descendants: Comment[] }>> {
-  const result = await mongo
-    .comments()
-    .aggregate([
-      {
-        $match: {
-          id: commentID,
-          tenantID,
-          storyID,
-        },
-      },
-      {
-        $graphLookup: {
-          from: "comments",
-          startWith: "$id",
-          connectFromField: "id",
-          connectToField: "parentID",
-          as: "descendants",
-        },
-      },
-    ])
-    .toArray();
-  return result as Array<Comment & { descendants: Comment[] }>;
 }
