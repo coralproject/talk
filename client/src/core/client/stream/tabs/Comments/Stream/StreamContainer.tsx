@@ -178,7 +178,7 @@ export const StreamContainer: FunctionComponent<Props> = (props) => {
   const warned = !!props.viewer?.status.current.includes(GQLUSER_STATUS.WARNED);
   const modMessaged = !!props.viewer?.status.modMessage.active;
 
-  const allCommentsCount = props.story.commentCounts.totalPublishedAndVisible;
+  const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
   const unansweredCommentsCount = props.story.commentCounts.tags.UNANSWERED;
 
@@ -631,7 +631,7 @@ const enhanced = withFragmentContainer<Props>({
         mode
       }
       commentCounts {
-        totalPublishedAndVisible
+        totalPublished
         tags {
           FEATURED
           UNANSWERED
