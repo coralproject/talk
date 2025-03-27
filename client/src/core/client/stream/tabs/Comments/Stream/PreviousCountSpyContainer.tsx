@@ -51,7 +51,7 @@ const PreviousCountSpyContainer: FunctionComponent<Props> = ({
     }
 
     // value is the current comment count as a string to be stored in storage.
-    const value = story.commentCounts.totalPublishedAndVisible.toString();
+    const value = story.commentCounts.totalPublished.toString();
 
     /**
      * update will take the current published comment count and update it in
@@ -71,7 +71,7 @@ const PreviousCountSpyContainer: FunctionComponent<Props> = ({
   }, [
     featureFlags,
     localStorage,
-    story.commentCounts.totalPublishedAndVisible,
+    story.commentCounts.totalPublished,
     story.id,
     story.isClosed,
   ]);
@@ -85,7 +85,7 @@ const enhanced = withFragmentContainer<Props>({
       id
       isClosed
       commentCounts {
-        totalPublishedAndVisible
+        totalPublished
       }
     }
   `,
