@@ -15,7 +15,7 @@ dependencies:
     specifier: ^0.14.7
     version: 0.14.7
   '@atproto/oauth-client-node':
-    specifier: ^0.2.11
+    specifier: 0.2.11
     version: 0.2.11
   '@atproto/syntax':
     specifier: ^0.3.4

@@ -2,7 +2,7 @@
 import http from "http";
 (global as any).Response = http.ServerResponse;
 import { Agent } from "@atproto/api";
-import { AuthorizeOptions, NodeOAuthClient } from "@atproto/oauth-client-node";
+import { NodeOAuthClient } from "@atproto/oauth-client-node";
 import { stringifyQuery } from "coral-common/common/lib/utils";
 import { WrappedInternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
@@ -111,13 +111,15 @@ export abstract class AtprotoOauthAuthenticator {
       this.clientURI,
       this.callbackPath
     );
-    const authorizationOptions = {
-      scope: "atproto transition:generic",
-    } as AuthorizeOptions;
+    // const authorizationOptions = {
+    //   scope: "atproto transition:generic",
+    // } as AuthorizeOptions;
 
     // redirect user to login
     // BROKEN - this doesn't see that scope is being passed, and signal is undefined, so error thrown is cant resolve Failed to resolve identity: immber.bsky.social"
-    const loginUrl: URL = await this.client.authorize(handle, authorizationOptions);
+    const loginUrl: URL = await this.client.authorize(handle, {
+      scope: "atproto transition:generic",
+    });
     if (loginUrl) {
       return loginUrl.href;
     } else {

@@ -19,6 +19,8 @@ import { loggedInMiddleware } from "coral-server/app/middleware/loggedIn";
 import { authenticate, wrapAuthn } from "coral-server/app/middleware/passport";
 import { RouterOptions } from "coral-server/app/router/types";
 
+import { BskyAuthenticator } from "coral-server/app/authenticators/bsky";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
 import { createAPIRouter } from "./helpers";
 
 // REQUEST_MAX is the maximum request size for routes on this router.
@@ -59,8 +61,11 @@ export function createNewAuthRouter(
   router.delete("/", authenticate(passport), logoutHandler(app));
 
   // Mount the external auth integrations with middleware/handle wrappers.
-  const bsky = bskyHandler(app);
-  const clientMetadata = bskyMetadataHandler(app);
+  const authenticators = new TenantCacheAdapter<BskyAuthenticator>(
+    app.tenantCache
+  );
+  const bsky = bskyHandler(authenticators, app);
+  const clientMetadata = bskyMetadataHandler(authenticators, app);
 
   router.get("/bsky", bsky);
   router.get("/bsky/callback", bsky);
