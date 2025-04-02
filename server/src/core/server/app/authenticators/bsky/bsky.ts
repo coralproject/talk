@@ -66,7 +66,8 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
   public authenticate: RequestHandler<TenantCoralRequest, Promise<void>> =
     async (req, res, next) => {
       // const { tenant, now } = req.coral; // you need these later to handle clientID == tenant settings
-
+      console.log('trying to authenticate handle')
+      console.log(req.body);
       // add handle validation here
       // also pull from req.body after its added to that
       const handle = "immber.bsky.social";

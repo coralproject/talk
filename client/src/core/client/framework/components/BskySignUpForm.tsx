@@ -26,11 +26,11 @@ interface FormProps {
 
 interface FormErrorProps extends FormProps, FormError {}
 
-export interface SignInWithBsky {
+export interface SignUpWithBsky {
   onSubmit: OnSubmit<FormErrorProps>;
 }
 
-const SignInWithBskyForm: FunctionComponent<SignInWithBsky> = (props) => {
+const SignUpWithBskyForm: FunctionComponent<SignUpWithBsky> = (props) => {
   return (
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
@@ -47,13 +47,13 @@ const SignInWithBskyForm: FunctionComponent<SignInWithBsky> = (props) => {
               <Field name="handle" validate={composeValidators(required)}>
                 {({ input, meta }) => (
                   <FormField>
-                    <Localized id="signIn-bskyHandleLabel">
+                    <Localized id="signUp-bskyHandleLabel">
                       <InputLabel htmlFor={input.name}>
                         ATproto or Bluesky Handle
                       </InputLabel>
                     </Localized>
                     <Localized
-                      id="signIn-bskyHandleTextField"
+                      id="signUp-bskyHandleTextField"
                       attrs={{ placeholder: true }}
                     >
                       <TextField
@@ -72,8 +72,8 @@ const SignInWithBskyForm: FunctionComponent<SignInWithBsky> = (props) => {
               </Field>
             </div>
             <div className={styles.actions}>
-              <Localized id="signIn-signInWithBsky">
-                <BskyButton>Sign in with Bluesky</BskyButton>
+              <Localized id="signUp-signUpWithBsky">
+                <BskyButton>Sign Up with Bluesky</BskyButton>
               </Localized>
             </div>
           </HorizontalGutter>
@@ -83,4 +83,4 @@ const SignInWithBskyForm: FunctionComponent<SignInWithBsky> = (props) => {
   );
 };
 
-export default SignInWithBskyForm;
+export default SignUpWithBskyForm;

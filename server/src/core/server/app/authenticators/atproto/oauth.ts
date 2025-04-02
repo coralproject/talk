@@ -1,4 +1,3 @@
-// import { Response } from "express";
 import http from "http";
 (global as any).Response = http.ServerResponse;
 import { Agent } from "@atproto/api";
@@ -17,13 +16,6 @@ import { Response } from "express";
 import { CookieStore } from "./cookie";
 import { SessionStore } from "./session";
 import { StateStore } from "./state";
-
-// import type {
-//   NodeSavedSession,
-//   NodeSavedSessionStore,
-//   NodeSavedState,
-//   NodeSavedStateStore,
-// } from "@atproto/oauth-client-node";
 
 const enc = encodeURIComponent;
 
@@ -111,9 +103,6 @@ export abstract class AtprotoOauthAuthenticator {
       this.clientURI,
       this.callbackPath
     );
-    // const authorizationOptions = {
-    //   scope: "atproto transition:generic",
-    // } as AuthorizeOptions;
 
     // redirect user to login
     // BROKEN - this doesn't see that scope is being passed, and signal is undefined, so error thrown is cant resolve Failed to resolve identity: immber.bsky.social"

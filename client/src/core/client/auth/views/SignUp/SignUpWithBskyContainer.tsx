@@ -1,40 +1,48 @@
 import { isValidHandle } from "@atproto/syntax";
-import SignInWithBsky, {
-  SignInWithBskyForm,
-} from "coral-framework/components/BskyLoginForm";
+import SignUpWithBskyForm, {
+  SignUpWithBsky,
+} from "coral-framework/components/BskySignUpForm";
 import { FORM_ERROR } from "final-form";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
-import { redirectOAuth2 } from "coral-framework/helpers";
-import { withFragmentContainer } from "coral-framework/lib/relay";
-
 import { SignUpWithBskyContainer_auth as AuthData } from "coral-auth/__generated__/SignUpWithBskyContainer_auth.graphql";
+import { REDIRECT_TO_PARAM } from "coral-common/common/lib/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { postBskyApiAuth } from "coral-framework/rest";
+import qs from "querystringify";
 
 interface Props {
   auth: AuthData;
-  handle: string;
 }
 
-const SignUpWithBskyContainer: FunctionComponent<Props> = ({
-  auth,
-  handle,
-}) => {
-  const { window } = useCoralContext();
-  const onSubmit: SignInWithBskyForm["onSubmit"] = useCallback(async () => {
-    try {
-      const validHandle = isValidHandle(handle);
-      if (validHandle) {
-        return redirectOAuth2(window, auth.integrations.bsky.redirectURL);
-      } else {
-        new Error("Invalid Handle");
+const SignUpWithBskyContainer: FunctionComponent<Props> = ({ auth }) => {
+  const { window, rest } = useCoralContext();
+  // grab user origin so we can send back when done with auth
+  const redirectTo = window.location.pathname;
+  // get /api/auth/bsky route for tenant's bsky integration
+  const authPath = `${auth.integrations.bsky.redirectURL}?${qs.stringify({
+    [REDIRECT_TO_PARAM]: redirectTo,
+  })}`;
+  const onSubmit: SignUpWithBsky["onSubmit"] = useCallback(
+    async (input, form) => {
+      try {
+        // catch invalid handle early before redirecting to /api/auth/bsky
+        const handle = input.handle;
+        const validHandle = isValidHandle(handle);
+        if (validHandle) {
+          return await postBskyApiAuth(rest, input.input, authPath);
+        } else {
+          return { [FORM_ERROR]: "Invalid handle" };
+        }
+      } catch (error) {
+        return { [FORM_ERROR]: error.message };
       }
-    } catch (error) {
-      return { [FORM_ERROR]: error.message };
-    }
-  }, [auth.integrations.bsky.redirectURL, handle, window]);
-  return <SignInWithBsky onSubmit={onSubmit} />;
+    },
+    [rest, authPath]
+  );
+  return <SignUpWithBskyForm onSubmit={onSubmit} />;
 };
 
 const enhanced = withFragmentContainer<Props>({
