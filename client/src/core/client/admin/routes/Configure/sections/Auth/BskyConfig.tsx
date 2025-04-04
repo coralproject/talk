@@ -50,10 +50,7 @@ const BskyLink = () => (
 const isEnabled: Condition = (value, values) =>
   Boolean(values.auth.integrations.bsky.enabled);
 
-const BskyConfig: FunctionComponent<Props> = ({
-  disabled,
-  callbackURL,
-}) => (
+const BskyConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
   <ConfigBoxWithToggleField
     data-testid="configure-auth-bsky-container"
     title={
@@ -71,8 +68,10 @@ const BskyConfig: FunctionComponent<Props> = ({
           elems={{ Link: <BskyLink />, br: <br /> }}
         >
           <FormFieldDescription>
-            To enable the integration with Bluesky, you need to
-            set a client ID and secret.
+            Client ID is the name that will identify this ATproto oauth client
+            to users. For more information visit:
+            <br />
+            {<BskyLink />}
           </FormFieldDescription>
         </Localized>
         <RedirectField url={callbackURL} />
