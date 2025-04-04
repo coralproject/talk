@@ -21,7 +21,7 @@ const SignInWithBskyContainer: FunctionComponent<Props> = ({ auth }) => {
   // grab user origin so we can send back when done with auth
   const redirectTo = window.location.pathname;
   // get /api/auth/bsky route for tenant's bsky integration
-  const authPath = `${auth.integrations.bsky.redirectURL}?${qs.stringify({
+  const authPath = `${auth.integrations.bsky.authURL}?${qs.stringify({
     [REDIRECT_TO_PARAM]: redirectTo,
   })}`;
   const onSubmit: SignInWithBsky["onSubmit"] = useCallback(
@@ -49,7 +49,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment SignInWithBskyContainer_auth on Auth {
       integrations {
         bsky {
-          redirectURL
+          authURL
         }
       }
     }

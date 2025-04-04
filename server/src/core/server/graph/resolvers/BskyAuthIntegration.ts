@@ -8,5 +8,5 @@ import { reconstructTenantURLResolver } from "./util";
 export const BskyAuthIntegration: GQLBskyAuthIntegrationTypeResolver<GQLBskyAuthIntegration> =
   {
     callbackURL: reconstructTenantURLResolver("/api/auth/bsky/callback"),
-    redirectURL: reconstructTenantURLResolver("/api/auth/bsky"),
+    authURL: reconstructTenantURLResolver("/api/auth/bsky"),
   };

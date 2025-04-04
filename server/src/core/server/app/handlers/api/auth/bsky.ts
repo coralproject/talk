@@ -5,12 +5,20 @@ import {
 } from "coral-server/app/authenticators/bsky";
 import { Tenant } from "coral-server/models/tenant";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
-import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+import {
+  // AsyncRequestHandler,
+  RequestHandler,
+  TenantCoralRequest,
+} from "coral-server/types/express";
 
 type Options = Pick<
   AppOptions,
   "tenantCache" | "mongo" | "signingConfig" | "config"
 >;
+
+export interface InputBody {
+  handle: string;
+}
 
 async function getBskyAuthenticator(
   tenant: Tenant,
@@ -21,7 +29,8 @@ async function getBskyAuthenticator(
   let authenticator = authenticators.get(tenant.id);
   if (!authenticator) {
     const integration = getEnabledIntegration(tenant.auth.integrations.bsky);
-    // Try to create a new authenticator
+    // console.log(integration);
+    // // Try to create a new authenticator
     authenticator = new BskyAuthenticator({
       ...options,
       integration,
@@ -34,14 +43,37 @@ async function getBskyAuthenticator(
   return authenticator;
 }
 
-function authHandler(
+export const bskyCallbackHandler = (
   authenticators: TenantCacheAdapter<BskyAuthenticator>,
   { tenantCache, ...options }: Options
-): RequestHandler<TenantCoralRequest> {
+) => {
   return async (req, res, next) => {
     const { tenant } = req.coral;
-    console.log("at the handler");
-    console.log(req.body);
+    try {
+      const auth = await getBskyAuthenticator(
+        tenant as Tenant,
+        authenticators,
+        options as Options
+      );
+      if (auth) {
+        return await auth.callback(req, res, next);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  };
+};
+
+export const bskyHandler = (
+  authenticators: TenantCacheAdapter<BskyAuthenticator>,
+  { tenantCache, ...options }: Options
+): RequestHandler<TenantCoralRequest> => {
+  // request isnt a thing here, but why
+  return async (req, res, next) => {
+    console.log("hi from the handler, got");
+    console.log(req.method);
+    console.log(req.url);
+    const { tenant } = req.coral;
     // Get the authenticator and perform the authentication.
     try {
       const auth = await getBskyAuthenticator(
@@ -49,63 +81,30 @@ function authHandler(
         authenticators,
         options as Options
       );
-      await auth.authenticate(req, res, next);
+      return await auth?.authenticate(req, res, next);
+      //   await auth.authenticate(req, res, next);
     } catch (err) {
       return next(err);
     }
   };
-}
+};
 
-function callbackHandler(
+export const bskyMetadataHandler = (
   authenticators: TenantCacheAdapter<BskyAuthenticator>,
   { tenantCache, ...options }: Options
-): RequestHandler<TenantCoralRequest> {
+): RequestHandler<TenantCoralRequest> => {
   return async (req, res, next) => {
     const { tenant } = req.coral;
+    // Get the authenticator instance and return the client-metadata.json
     try {
       const auth = await getBskyAuthenticator(
         tenant,
         authenticators,
         options as Options
       );
-      await auth.callback(req, res, next);
+      return await auth?.metadata(req, res, next);
     } catch (err) {
       return next(err);
     }
   };
-}
-
-function metadataHandler(
-  authenticators: TenantCacheAdapter<BskyAuthenticator>,
-  { tenantCache, ...options }: Options
-): RequestHandler<TenantCoralRequest> {
-  return async (req, res, next) => {
-    const { tenant } = req.coral;
-    // Get the authenticator instance and return the client-metadata.json
-    const auth = await getBskyAuthenticator(
-      tenant,
-      authenticators,
-      options as Options
-    );
-    try {
-      await auth.metadata(req, res, next);
-    } catch (err) {
-      return next(err);
-    }
-  };
-}
-
-export const bskyCallbackHandler = (
-  authenticators: TenantCacheAdapter<BskyAuthenticator>,
-  { tenantCache, ...options }: Options
-) => callbackHandler(authenticators, { tenantCache, ...options });
-
-export const bskyHandler = (
-  authenticators: TenantCacheAdapter<BskyAuthenticator>,
-  { tenantCache, ...options }: Options
-) => authHandler(authenticators, { tenantCache, ...options });
-
-export const bskyMetadataHandler = (
-  authenticators: TenantCacheAdapter<BskyAuthenticator>,
-  { tenantCache, ...options }: Options
-) => metadataHandler(authenticators, { tenantCache, ...options });
+};

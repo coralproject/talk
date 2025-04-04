@@ -1,6 +1,5 @@
 // import crypto from "crypto";
 import { Agent } from "@atproto/api";
-import { isValidHandle } from "@atproto/syntax";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { validateSchema } from "coral-server/helpers";
@@ -8,7 +7,11 @@ import { BskyAuthIntegration } from "coral-server/models/settings";
 import { BskyProfile, retrieveUserWithProfile } from "coral-server/models/user";
 // import { JWTSigningConfig } from "coral-server/services/jwt";
 import { findOrCreate } from "coral-server/services/users";
-import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+import {
+  // AsyncRequestHandler,
+  RequestHandler,
+  TenantCoralRequest,
+} from "coral-server/types/express";
 import Joi from "joi";
 import { AtprotoOauthAuthenticator } from "../atproto/oauth";
 
@@ -21,7 +24,7 @@ interface Options {
   integration: Required<BskyAuthIntegration>;
   callbackPath: string;
   // clientID: string;
-  // clientName: string;
+  clientName: string;
   // clientURI: string;
   // redirectURIs: Array<string>;
 }
@@ -65,22 +68,9 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
   // authenticate is the login function that calls authorize
   public authenticate: RequestHandler<TenantCoralRequest, Promise<void>> =
     async (req, res, next) => {
-      // const { tenant, now } = req.coral; // you need these later to handle clientID == tenant settings
-      console.log('trying to authenticate handle')
-      console.log(req.body);
-      // add handle validation here
-      // also pull from req.body after its added to that
-      const handle = "immber.bsky.social";
-      if (typeof handle !== "string" || !isValidHandle(handle)) {
-        return next(`${handle} is not a valid handle`);
-      }
       try {
         // redirect user to login
-        const loginUrl: string = await this.callAuthorize(
-          handle,
-          req,
-          res as any
-        );
+        const loginUrl: string = await this.callAuthorize(req, res as any);
         if (loginUrl) {
           return res.redirect(loginUrl);
         }

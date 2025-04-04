@@ -1107,11 +1107,11 @@ type BskyAuthIntegration {
   callbackURL: String! @auth(roles: [ADMIN])
 
   """
-  redirectURL is the URL that the user should be redirected to in order to start
-  an authentication flow with the given integration. This field is not stored,
+  authURL is starting point for atproto oauth to start
+  an authentication flow with a handle's host. This field is not stored,
   and is instead computed from the Tenant.
   """
-  redirectURL: String!
+  authURL: String!
 }
 
 ##########################

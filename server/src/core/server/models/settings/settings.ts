@@ -47,7 +47,7 @@ export type FacebookAuthIntegration = Omit<
 
 export type BskyAuthIntegration = Omit<
   GQLBskyAuthIntegration,
-  "callbackURL" | "redirectURL"
+  "callbackURL" | "authURL"
 >;
 
 export interface SSOAuthIntegration extends SigningSecretResource {

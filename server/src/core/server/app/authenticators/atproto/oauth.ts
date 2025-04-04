@@ -8,6 +8,7 @@ import logger from "coral-server/logger";
 import { User } from "coral-server/models/user";
 import { JWTSigningConfig, signTokenString } from "coral-server/services/jwt";
 import {
+  // AsyncRequestHandler,
   Request,
   RequestHandler,
   TenantCoralRequest,
@@ -88,13 +89,14 @@ export abstract class AtprotoOauthAuthenticator {
   }
 
   protected async callAuthorize(
-    handle: string,
     req: Request<TenantCoralRequest>,
     res: Response
   ) {
     // attch this req/resp to the cookiestore
     this.cookieStore.req = req;
     this.cookieStore.resp = res;
+    const handle = req.body.handle as string;
+    console.log(req.body);
 
     // use these somewhere you need them later
     console.log(
@@ -103,16 +105,14 @@ export abstract class AtprotoOauthAuthenticator {
       this.clientURI,
       this.callbackPath
     );
-
-    // redirect user to login
-    // BROKEN - this doesn't see that scope is being passed, and signal is undefined, so error thrown is cant resolve Failed to resolve identity: immber.bsky.social"
-    const loginUrl: URL = await this.client.authorize(handle, {
-      scope: "atproto transition:generic",
-    });
-    if (loginUrl) {
+    try {
+      // redirect user to login
+      const loginUrl: URL = await this.client.authorize(handle, {
+        scope: "atproto transition:generic",
+      });
       return loginUrl.href;
-    } else {
-      throw new Error("authorize request failed");
+    } catch (err) {
+      return err;
     }
   }
   // you need a Helper function to get the Atproto Agent for the active session before you can hook up a callback
