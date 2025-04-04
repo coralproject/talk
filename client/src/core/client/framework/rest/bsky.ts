@@ -11,7 +11,8 @@ export default function postBskyApiAuth(
   authPath: string
 ) {
   try {
-    return fetch<void>(authPath, {
+    console.log(authPath);
+    return rest.fetch<void>("/auth/bsky", {
       method: "POST",
       body: input,
     });

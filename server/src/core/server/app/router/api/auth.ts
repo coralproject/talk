@@ -22,6 +22,7 @@ import { RouterOptions } from "coral-server/app/router/types";
 
 import { BskyAuthenticator } from "coral-server/app/authenticators/bsky";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
+// import express from "express";
 import { createAPIRouter } from "./helpers";
 
 // REQUEST_MAX is the maximum request size for routes on this router.
@@ -65,11 +66,12 @@ export function createNewAuthRouter(
   const authenticators = new TenantCacheAdapter<BskyAuthenticator>(
     app.tenantCache
   );
+
   const bsky = bskyHandler(authenticators, app);
   const bskyCallback = bskyCallbackHandler(authenticators, app);
   const clientMetadata = bskyMetadataHandler(authenticators, app);
 
-  router.post("/bsky", bsky);
+  router.post("/bsky", jsonMiddleware(REQUEST_MAX), bsky);
   router.get("/bsky/callback", bskyCallback);
   router.get("/bsky/client-metadata.json", clientMetadata);
 
