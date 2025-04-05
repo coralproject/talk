@@ -5,13 +5,9 @@ import { MongoContext } from "coral-server/data/context";
 import { validateSchema } from "coral-server/helpers";
 import { BskyAuthIntegration } from "coral-server/models/settings";
 import { BskyProfile, retrieveUserWithProfile } from "coral-server/models/user";
-// import { JWTSigningConfig } from "coral-server/services/jwt";
+import { JWTSigningConfig } from "coral-server/services/jwt";
 import { findOrCreate } from "coral-server/services/users";
-import {
-  // AsyncRequestHandler,
-  RequestHandler,
-  TenantCoralRequest,
-} from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 import Joi from "joi";
 import { AtprotoOauthAuthenticator } from "../atproto/oauth";
 
@@ -20,13 +16,9 @@ import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 interface Options {
   config: Config;
   mongo: MongoContext;
-  // signingConfig: JWTSigningConfig;
+  signingConfig: JWTSigningConfig;
   integration: Required<BskyAuthIntegration>;
   callbackPath: string;
-  // clientID: string;
-  clientName: string;
-  // clientURI: string;
-  // redirectURIs: Array<string>;
 }
 
 const BskyUserProfileSchema = Joi.object().keys({
@@ -46,9 +38,8 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
       ...options,
       ...integration,
       callbackPath: "/api/auth/bsky/callback",
-      clientID: "",
       clientName: integration.clientID,
-      clientURI: "",
+      clientSecret: integration.clientSecret,
     });
 
     this.integration = integration;
@@ -70,9 +61,11 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
     async (req, res, next) => {
       try {
         // redirect user to login
-        const loginUrl: string = await this.callAuthorize(req, res as any);
-        if (loginUrl) {
-          return res.redirect(loginUrl);
+        const loginUrl: URL = await this.callAuthorize(req, res);
+        if (loginUrl instanceof Error) {
+          return next(loginUrl as Error);
+        } else {
+          return res.redirect(loginUrl.href);
         }
       } catch (err) {
         return next(err);
@@ -112,7 +105,7 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
           bskyProfile
         );
         if (user) {
-          return this.success(redirectTo, user, req, res as any);
+          return this.success(redirectTo, user, req, res);
         }
 
         if (!this.integration.allowRegistration) {
@@ -133,12 +126,12 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
           now
         );
 
-        return this.success(redirectTo, user, req, res as any);
+        return this.success(redirectTo, user, req, res);
       } catch (err) {
-        return this.fail(redirectTo, err as Error, req, res as any);
+        return this.fail(redirectTo, err as Error, req, res);
       }
     } catch (err) {
-      return this.fail(redirectTo, err as Error, req, res as any);
+      return this.fail(redirectTo, err as Error, req, res);
     }
   };
 }

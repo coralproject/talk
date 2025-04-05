@@ -8,7 +8,6 @@ import logger from "coral-server/logger";
 import { User } from "coral-server/models/user";
 import { JWTSigningConfig, signTokenString } from "coral-server/services/jwt";
 import {
-  // AsyncRequestHandler,
   Request,
   RequestHandler,
   TenantCoralRequest,
@@ -30,28 +29,25 @@ export function redirectWithHash(
 
 interface Options {
   callbackPath: string;
-  clientID: string;
   clientName: string;
-  clientURI: string;
+  clientSecret: string;
 }
 
 export abstract class AtprotoOauthAuthenticator {
   private readonly signingConfig: JWTSigningConfig;
   private readonly callbackPath: string;
-  private readonly clientID: string;
   private readonly clientName: string;
-  private readonly clientURI: string;
+  private readonly clientSecret: string;
 
   private readonly cookieStore: CookieStore;
   private readonly stateStore: StateStore;
   private readonly sessionStore: SessionStore;
   private readonly client: NodeOAuthClient;
 
-  constructor({ callbackPath, clientID, clientName, clientURI }: Options) {
+  constructor({ callbackPath, clientName, clientSecret }: Options) {
     this.callbackPath = callbackPath;
-    this.clientID = clientID;
     this.clientName = clientName;
-    this.clientURI = clientURI;
+    this.clientSecret = clientSecret;
 
     this.cookieStore = new CookieStore();
     this.stateStore = new StateStore(this.cookieStore);
@@ -91,7 +87,7 @@ export abstract class AtprotoOauthAuthenticator {
   protected async callAuthorize(
     req: Request<TenantCoralRequest>,
     res: Response
-  ) {
+  ): Promise<any> {
     // attch this req/resp to the cookiestore
     this.cookieStore.req = req;
     this.cookieStore.resp = res;
@@ -99,20 +95,15 @@ export abstract class AtprotoOauthAuthenticator {
     console.log(req.body);
 
     // use these somewhere you need them later
-    console.log(
-      this.clientID,
-      this.clientName,
-      this.clientURI,
-      this.callbackPath
-    );
+    console.log(this.clientSecret, this.clientName, this.callbackPath);
     try {
       // redirect user to login
       const loginUrl: URL = await this.client.authorize(handle, {
         scope: "atproto transition:generic",
       });
-      return loginUrl.href;
+      return loginUrl;
     } catch (err) {
-      return err;
+      return err as Error;
     }
   }
   // you need a Helper function to get the Atproto Agent for the active session before you can hook up a callback

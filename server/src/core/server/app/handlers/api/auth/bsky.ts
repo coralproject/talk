@@ -46,12 +46,12 @@ async function getBskyAuthenticator(
 export const bskyCallbackHandler = (
   authenticators: TenantCacheAdapter<BskyAuthenticator>,
   { tenantCache, ...options }: Options
-) => {
+): RequestHandler<TenantCoralRequest> => {
   return async (req, res, next) => {
     const { tenant } = req.coral;
     try {
       const auth = await getBskyAuthenticator(
-        tenant as Tenant,
+        tenant,
         authenticators,
         options as Options
       );
@@ -81,8 +81,9 @@ export const bskyHandler = (
         authenticators,
         options as Options
       );
-      return await auth?.authenticate(req, res, next);
-      //   await auth.authenticate(req, res, next);
+      if (auth) {
+        return await auth.authenticate(req, res, next);
+      }
     } catch (err) {
       return next(err);
     }
