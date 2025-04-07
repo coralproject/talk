@@ -92,7 +92,6 @@ export abstract class AtprotoOauthAuthenticator {
     this.cookieStore.req = req;
     this.cookieStore.resp = res;
     const handle = req.body.handle as string;
-    console.log(req.body);
 
     // use these somewhere you need them later
     console.log(this.clientSecret, this.clientName, this.callbackPath);

@@ -70,9 +70,6 @@ export const bskyHandler = (
 ): RequestHandler<TenantCoralRequest> => {
   // request isnt a thing here, but why
   return async (req, res, next) => {
-    console.log("hi from the handler, got");
-    console.log(req.method);
-    console.log(req.url);
     const { tenant } = req.coral;
     // Get the authenticator and perform the authentication.
     try {
@@ -103,7 +100,9 @@ export const bskyMetadataHandler = (
         authenticators,
         options as Options
       );
-      return await auth?.metadata(req, res, next);
+      if (auth) {
+        return await auth?.metadata(req, res, next);
+      }
     } catch (err) {
       return next(err);
     }

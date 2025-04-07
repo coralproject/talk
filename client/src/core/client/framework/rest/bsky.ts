@@ -1,20 +1,20 @@
 import { FORM_ERROR } from "final-form";
-import { RestClient } from "../lib/rest";
 
 export interface BskyHandleInput {
   handle: string;
 }
 
 export default function postBskyApiAuth(
-  rest: RestClient,
   input: BskyHandleInput,
   authPath: string
 ) {
   try {
-    console.log(authPath);
-    return rest.fetch<void>("/auth/bsky", {
+    return fetch(authPath, {
+      headers: {
+        "Content-Type": "application/json",
+      },
       method: "POST",
-      body: input,
+      body: JSON.stringify(input),
     });
   } catch (err) {
     return { [FORM_ERROR]: err.message };

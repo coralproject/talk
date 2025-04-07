@@ -6,7 +6,7 @@ import SignInWithBskyForm, {
 } from "coral-framework/components/BskyLoginForm";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { postBskyApiAuth } from "coral-framework/rest";
+import { BskyHandleInput, postBskyApiAuth } from "coral-framework/rest";
 import { FORM_ERROR } from "final-form";
 import qs from "querystringify";
 import React, { FormEvent, FunctionComponent, useCallback } from "react";
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const SignInWithBskyContainer: FunctionComponent<Props> = ({ auth }) => {
-  const { window, rest } = useCoralContext();
+  const { window } = useCoralContext();
   // grab user origin so we can send back when done with auth
   const redirectTo = window.location.pathname;
   // get /api/auth/bsky route for tenant's bsky integration
@@ -31,7 +31,7 @@ const SignInWithBskyContainer: FunctionComponent<Props> = ({ auth }) => {
         const handle = input.handle;
         const validHandle = isValidHandle(handle as string);
         if (validHandle) {
-          return await postBskyApiAuth(rest, input.input, authPath);
+          return await postBskyApiAuth(input as BskyHandleInput, authPath);
         } else {
           return { [FORM_ERROR]: "Invalid handle" };
         }
@@ -39,7 +39,7 @@ const SignInWithBskyContainer: FunctionComponent<Props> = ({ auth }) => {
         return { [FORM_ERROR]: error.message };
       }
     },
-    [rest, authPath]
+    [authPath]
   );
   return <SignInWithBskyForm onSubmit={onSubmit} />;
 };

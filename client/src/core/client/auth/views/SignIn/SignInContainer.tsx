@@ -145,7 +145,7 @@ const enhanced = withClearErrorMutation(
           }
           bsky {
             enabled
-            redirectURL
+            authURL
             targetFilter {
               stream
             }
