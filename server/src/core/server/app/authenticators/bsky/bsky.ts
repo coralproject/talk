@@ -32,6 +32,7 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
   private readonly mongo: MongoContext;
   private readonly config: Config;
   private readonly integration: Readonly<Required<BskyAuthIntegration>>;
+  // private readonly secure: Boolean;
 
   constructor({ integration, mongo, config, ...options }: Options) {
     super({
@@ -45,6 +46,7 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
     this.integration = integration;
     this.mongo = mongo;
     this.config = config;
+    // this.secure = config.get("force_ssl");
   }
 
   public metadata: RequestHandler<TenantCoralRequest, Promise<any>> = async (
@@ -61,7 +63,7 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
     async (req, res, next) => {
       try {
         // redirect user to login
-        const loginUrl: string = await this.callAuthorize(req, res as any);
+        const loginUrl: string = await this.callAuthorize(req, res);
         if (loginUrl) {
           return res.redirect(loginUrl);
         }

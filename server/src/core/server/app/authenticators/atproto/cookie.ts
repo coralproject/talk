@@ -8,9 +8,30 @@ import type {
   NodeSavedState,
 } from "@atproto/oauth-client-node";
 
+// export function saveCookie(
+//   req: Request,
+//   res: Response,
+//   data: any,
+//   secure: boolean
+// ) {
+//   const name = "atproto:oauth";
+
+//   res.cookie(name, data, {
+//     httpOnly: true,
+//     secure,
+//   });
+
+//   return;
+// }
+
 export class CookieStore {
   public req: Request<TenantCoralRequest>;
   public resp: Response;
+
+  public attach(req: Request<TenantCoralRequest>, res: Response) {
+    this.req = req;
+    this.resp = res;
+  }
 
   public async setStateCookie(key: string, state: NodeSavedState) {
     const data = JSON.stringify(state);

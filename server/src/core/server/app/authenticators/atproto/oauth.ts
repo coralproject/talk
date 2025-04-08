@@ -12,6 +12,7 @@ import {
   RequestHandler,
   TenantCoralRequest,
 } from "coral-server/types/express";
+import { Response } from "express";
 import { CookieStore } from "./cookie";
 import { SessionStore } from "./session";
 import { StateStore } from "./state";
@@ -87,9 +88,8 @@ export abstract class AtprotoOauthAuthenticator {
     req: Request<TenantCoralRequest>,
     res: Response
   ) {
-    // attch this req/resp to the cookiestore
-    this.cookieStore.req = req;
-    this.cookieStore.resp = res;
+    // attach this req/resp to the cookiestore
+    this.cookieStore.attach(req, res);
     const handle = req.body.handle as string;
 
     // use these somewhere you need them later
@@ -101,7 +101,7 @@ export abstract class AtprotoOauthAuthenticator {
       });
       return loginUrl.href;
     } catch (err) {
-      return err;
+      return new Error(`${err.message || "unable to authorize handle"}`);
     }
   }
   // you need a Helper function to get the Atproto Agent for the active session before you can hook up a callback
