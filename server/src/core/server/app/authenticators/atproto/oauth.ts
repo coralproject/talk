@@ -12,7 +12,6 @@ import {
   RequestHandler,
   TenantCoralRequest,
 } from "coral-server/types/express";
-import { Response } from "express";
 import { CookieStore } from "./cookie";
 import { SessionStore } from "./session";
 import { StateStore } from "./state";
@@ -87,7 +86,7 @@ export abstract class AtprotoOauthAuthenticator {
   protected async callAuthorize(
     req: Request<TenantCoralRequest>,
     res: Response
-  ): Promise<any> {
+  ): Promise<URL | Error> {
     // attch this req/resp to the cookiestore
     this.cookieStore.req = req;
     this.cookieStore.resp = res;

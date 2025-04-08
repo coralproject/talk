@@ -61,11 +61,11 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
     async (req, res, next) => {
       try {
         // redirect user to login
-        const loginUrl: URL = await this.callAuthorize(req, res);
-        if (loginUrl instanceof Error) {
-          return next(loginUrl as Error);
-        } else {
+        const loginUrl = await this.callAuthorize(req, res);
+        if (loginUrl instanceof URL) {
           return res.redirect(loginUrl.href);
+        } else {
+          throw Error(loginUrl.message);
         }
       } catch (err) {
         return next(err);

@@ -31,7 +31,8 @@ const SignInWithBskyContainer: FunctionComponent<Props> = ({ auth }) => {
         const handle = input.handle;
         const validHandle = isValidHandle(handle as string);
         if (validHandle) {
-          return await postBskyApiAuth(input as BskyHandleInput, authPath);
+          await postBskyApiAuth(input as BskyHandleInput, authPath);
+          return;
         } else {
           return { [FORM_ERROR]: "Invalid handle" };
         }

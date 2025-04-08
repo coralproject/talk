@@ -68,7 +68,6 @@ export const bskyHandler = (
   authenticators: TenantCacheAdapter<BskyAuthenticator>,
   { tenantCache, ...options }: Options
 ): RequestHandler<TenantCoralRequest> => {
-  // request isnt a thing here, but why
   return async (req, res, next) => {
     const { tenant } = req.coral;
     // Get the authenticator and perform the authentication.
@@ -104,7 +103,7 @@ export const bskyMetadataHandler = (
         return await auth?.metadata(req, res, next);
       }
     } catch (err) {
-      return next(err);
+      return err;
     }
   };
 };
