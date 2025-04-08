@@ -77,9 +77,7 @@ export const bskyHandler = (
         authenticators,
         options as Options
       );
-      if (auth) {
-        return await auth.authenticate(req, res, next);
-      }
+      return await auth?.authenticate(req, res, next);
     } catch (err) {
       return next(err);
     }

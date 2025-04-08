@@ -86,7 +86,7 @@ export abstract class AtprotoOauthAuthenticator {
   protected async callAuthorize(
     req: Request<TenantCoralRequest>,
     res: Response
-  ): Promise<URL | Error> {
+  ) {
     // attch this req/resp to the cookiestore
     this.cookieStore.req = req;
     this.cookieStore.resp = res;
@@ -99,9 +99,9 @@ export abstract class AtprotoOauthAuthenticator {
       const loginUrl: URL = await this.client.authorize(handle, {
         scope: "atproto transition:generic",
       });
-      return loginUrl;
+      return loginUrl.href;
     } catch (err) {
-      return err as Error;
+      return err;
     }
   }
   // you need a Helper function to get the Atproto Agent for the active session before you can hook up a callback
