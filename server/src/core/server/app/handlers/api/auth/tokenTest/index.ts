@@ -272,37 +272,41 @@ export const submitHandler = ({
   });
 
   return async (req, res, next) => {
-    await ipLimiter.test(req, req.ip);
+    try {
+      await ipLimiter.test(req, req.ip);
 
-    const result = submitSchema.validate(req.body);
-    if (result.error) {
-      res.send(renderIndex([result.error.message]));
-      return;
+      const result = submitSchema.validate(req.body);
+      if (result.error) {
+        res.send(renderIndex([result.error.message]));
+        return;
+      }
+
+      const body = result.value as SubmitBody;
+      if (!body) {
+        res.send(renderIndex());
+        return;
+      }
+
+      const cleanToken = body.token.trim();
+      const decodedToken = jwt.decode(cleanToken);
+      if (!decodedToken) {
+        res.send(renderIndex(["Token is invalid."]));
+        return;
+      }
+
+      const analysis = analyseTokenPayload(decodedToken);
+
+      res.send(
+        renderIndex(
+          [],
+          cleanToken,
+          JSON.stringify(decodedToken, null, 2).trim(),
+          analysis
+        )
+      );
+    } catch (err) {
+      return next(err);
     }
-
-    const body = result.value as SubmitBody;
-    if (!body) {
-      res.send(renderIndex());
-      return;
-    }
-
-    const cleanToken = body.token.trim();
-    const decodedToken = jwt.decode(cleanToken);
-    if (!decodedToken) {
-      res.send(renderIndex(["Token is invalid."]));
-      return;
-    }
-
-    const analysis = analyseTokenPayload(decodedToken);
-
-    res.send(
-      renderIndex(
-        [],
-        cleanToken,
-        JSON.stringify(decodedToken, null, 2).trim(),
-        analysis
-      )
-    );
   };
 };
 
