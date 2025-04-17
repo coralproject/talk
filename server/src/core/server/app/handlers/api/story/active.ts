@@ -13,13 +13,13 @@ export type Options = Pick<AppOptions, "mongo">;
 
 const ActiveStoriesQuerySchema = Joi.object().keys({
   callback: Joi.string().allow("").optional(),
-  siteID: Joi.string().required(),
+  siteID: Joi.string().optional(),
   count: Joi.number().optional().max(999),
 });
 
 interface ActiveStoriesQuery {
   callback: string;
-  siteID: string;
+  siteID?: string | null;
   count: number;
 }
 
@@ -51,10 +51,13 @@ export const activeJSONPHandler =
         req.query
       );
 
-      // Check to see that this site does exist for this Tenant.
-      const site = await retrieveSite(mongo, tenant.id, siteID);
-      if (!site) {
-        throw new Error("site not found");
+      // If there is a siteID provided, check to see that this site
+      // exists for this Tenant.
+      if (siteID) {
+        const site = await retrieveSite(mongo, tenant.id, siteID);
+        if (!site) {
+          throw new Error("site not found");
+        }
       }
 
       // Find top active stories in the last 24 hours.
