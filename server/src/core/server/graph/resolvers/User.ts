@@ -130,4 +130,7 @@ export const User: GQLUserTypeResolver<user.User> = {
 
     return result;
   },
+  commentCounts: ({ commentCounts }) => {
+    return { statuses: commentCounts.status };
+  },
 };
