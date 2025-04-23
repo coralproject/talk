@@ -1,5 +1,4 @@
 import { User } from "@sentry/node";
-import fetch from "node-fetch";
 
 import { MongoContext } from "coral-server/data/context";
 import logger from "coral-server/logger";

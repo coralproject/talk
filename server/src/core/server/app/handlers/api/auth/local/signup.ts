@@ -134,7 +134,7 @@ export const signupHandler = ({
         now
       );
 
-      if (await shouldPremodDueToLikelySpamEmail(mongo, tenant, user)) {
+      if (await shouldPremodDueToLikelySpamEmail(mongo, tenant, redis, user)) {
         await premodUser(
           mongo,
           tenant.id,

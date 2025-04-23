@@ -1,3 +1,4 @@
+import { Redis } from "ioredis";
 import jwks, { JwksClient } from "jwks-rsa";
 
 import { AppOptions } from "coral-server/app";
@@ -17,16 +18,18 @@ import { Verifier } from "../jwt";
 
 export type OIDCVerifierOptions = Pick<
   AppOptions,
-  "mongo" | "tenantCache" | "config"
+  "mongo" | "tenantCache" | "config" | "redis"
 >;
 
 export class OIDCVerifier implements Verifier<OIDCIDToken> {
   private config: Config;
   private mongo: MongoContext;
+  private redis: Redis;
   private cache: TenantCacheAdapter<JwksClient>;
 
-  constructor({ mongo, tenantCache, config }: OIDCVerifierOptions) {
+  constructor({ mongo, redis, tenantCache, config }: OIDCVerifierOptions) {
     this.mongo = mongo;
+    this.redis = redis;
     this.cache = new TenantCacheAdapter(tenantCache);
     this.config = config;
   }
@@ -56,6 +59,7 @@ export class OIDCVerifier implements Verifier<OIDCIDToken> {
     return findOrCreateOIDCUserWithToken(
       this.config,
       this.mongo,
+      this.redis,
       tenant,
       client,
       integration,

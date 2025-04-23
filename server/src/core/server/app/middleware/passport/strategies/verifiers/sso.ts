@@ -231,6 +231,7 @@ export async function findOrCreateSSOUser(
     user = await findOrCreate(
       config,
       mongo,
+      redis,
       tenant,
       {
         id,
