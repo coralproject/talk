@@ -8,7 +8,7 @@ export class SessionStore implements NodeSavedSessionStore {
   constructor(private store: CookieStore) {}
   public async get(key: string): Promise<NodeSavedSession | undefined> {
     const session = await this.store.getSessionFromCookie(key);
-    return session;
+    return session as NodeSavedSession;
   }
   public async set(key: string, session: NodeSavedSession) {
     await this.store.setSessionCookie(key, session);
