@@ -5,15 +5,11 @@ import {
 } from "coral-server/app/authenticators/bsky";
 import { Tenant } from "coral-server/models/tenant";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
-import {
-  // AsyncRequestHandler,
-  RequestHandler,
-  TenantCoralRequest,
-} from "coral-server/types/express";
+import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
 type Options = Pick<
   AppOptions,
-  "tenantCache" | "mongo" | "signingConfig" | "config"
+  "tenantCache" | "mongo" | "redis" | "signingConfig" | "config"
 >;
 
 export interface InputBody {
@@ -29,7 +25,6 @@ async function getBskyAuthenticator(
   let authenticator = authenticators.get(tenant.id);
   if (!authenticator) {
     const integration = getEnabledIntegration(tenant.auth.integrations.bsky);
-    // console.log(integration);
     // // Try to create a new authenticator
     authenticator = new BskyAuthenticator({
       ...options,

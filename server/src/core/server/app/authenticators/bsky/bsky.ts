@@ -1,4 +1,3 @@
-// import crypto from "crypto";
 import { Agent } from "@atproto/api";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -8,14 +7,17 @@ import { BskyProfile, retrieveUserWithProfile } from "coral-server/models/user";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { findOrCreate } from "coral-server/services/users";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
+// import { Response } from "express";
 import Joi from "joi";
 import { AtprotoOauthAuthenticator } from "../atproto/oauth";
 
 import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
+import { Redis } from "ioredis";
 
 interface Options {
   config: Config;
   mongo: MongoContext;
+  redis: Redis;
   signingConfig: JWTSigningConfig;
   integration: Required<BskyAuthIntegration>;
   callbackPath: string;
@@ -32,9 +34,10 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
   private readonly mongo: MongoContext;
   private readonly config: Config;
   private readonly integration: Readonly<Required<BskyAuthIntegration>>;
+  private readonly redis: Redis;
   // private readonly secure: Boolean;
 
-  constructor({ integration, mongo, config, ...options }: Options) {
+  constructor({ integration, mongo, redis, config, ...options }: Options) {
     super({
       ...options,
       ...integration,
@@ -45,9 +48,15 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
 
     this.integration = integration;
     this.mongo = mongo;
+    this.redis = redis;
     this.config = config;
     // this.secure = config.get("force_ssl");
   }
+  // trying to force a redirect, but this doesn't work
+  // makes GET req to the sendTo instead
+  // private async sendUserToAuthorize(res: Response, sendTo: string) {
+  //   return res.redirect(sendTo);
+  // }
 
   public metadata: RequestHandler<TenantCoralRequest, Promise<any>> = async (
     req,
@@ -59,7 +68,7 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
   };
 
   // authenticate is the login function that calls authorize
-  public authenticate: RequestHandler<TenantCoralRequest, Promise<void>> =
+  public authenticate: RequestHandler<TenantCoralRequest, Promise<any>> =
     async (req, res, next) => {
       try {
         // redirect user to login
@@ -68,7 +77,10 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
           res
         )) as unknown as string;
         if (loginUrl) {
+          // more stuff that doesn't work to redirect
           return res.redirect(loginUrl);
+          // return this.cookieStore.resp.redirect(loginUrl);
+          // return this.sendUserToAuthorize(res, loginUrl);
         }
       } catch (err) {
         return next(err);
@@ -81,13 +93,18 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
     next
   ) => {
     // grab where the user started so we can send them back after
-    const redirectTo: string = req.originalUrl;
+    const redirectTo = this.cookieStore.req.headers.referer as string;
+
     try {
       const { tenant, now } = req.coral;
+      // attach this req/resp to the cookiestore
+      this.cookieStore.attach(req, res);
       // complete the oauth session callback and use the Atproto API to get user's profile
       const params = new URLSearchParams(req.originalUrl.split("?")[1]);
-      const agent: Agent = await this.getSessionAgent(params);
-      const profile = await agent.getProfile({ actor: agent.assertDid });
+      const agent:Agent = await this.getSessionAgent(params);
+      // const { session } = await this.client.callback(params);
+      // const agent: Agent = new Agent(session);
+      const profile = await agent.getProfile({ actor: agent.did as string });
 
       // Validate the profile.
       try {
@@ -118,6 +135,7 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
         user = await findOrCreate(
           this.config,
           this.mongo,
+          this.redis,
           tenant,
           {
             role: GQLUSER_ROLE.COMMENTER,

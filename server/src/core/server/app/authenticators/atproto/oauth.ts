@@ -1,5 +1,3 @@
-// import http from "http";
-// (global as any).Response = http.ServerResponse;
 import { Agent } from "@atproto/api";
 import { NodeOAuthClient } from "@atproto/oauth-client-node";
 import { stringifyQuery } from "coral-common/common/lib/utils";
@@ -14,14 +12,12 @@ import {
 } from "coral-server/types/express";
 import { Response } from "express";
 
-import fetch, { Response as NodeFetchResp } from "node-fetch";
+// Overide fetch for @atproto/oauth-client-node client.authorize to work
 (global as any).fetch = fetch;
-(global as any).Response = NodeFetchResp;
 
 import { CookieStore } from "./cookie";
 import { SessionStore } from "./session";
 import { StateStore } from "./state";
-// import { Response } from "node-fetch";
 
 const enc = encodeURIComponent;
 
@@ -44,6 +40,7 @@ export abstract class AtprotoOauthAuthenticator {
   private readonly callbackPath: string;
   private readonly clientName: string;
   private readonly clientSecret: string;
+  private readonly clientID: string;
 
   public readonly cookieStore: CookieStore;
   public readonly stateStore: StateStore;
@@ -54,19 +51,23 @@ export abstract class AtprotoOauthAuthenticator {
     this.callbackPath = callbackPath;
     this.clientName = clientName;
     this.clientSecret = clientSecret;
+    // must use localhost for dev, update after working locally
+    this.clientID = `http://localhost?redirect_uri=${enc(
+      `http://127.0.0.1:3000${this.callbackPath}`
+    )}&scope=${enc("atproto transition:generic")}`;
+    // this.clientID = `${tenantDomain}?redirect_uri=${enc(
+    //   `http://127.0.0.1:3000${this.callbackPath}`
+    // )}&scope=${enc("atproto transition:generic")}`;
 
     this.cookieStore = new CookieStore();
     this.stateStore = new StateStore(this.cookieStore);
     this.sessionStore = new SessionStore(this.cookieStore);
     this.client = new NodeOAuthClient({
       clientMetadata: {
-        client_name: clientName,
-        // client_id: clientID, //fix after working locally
-        client_id: `http://localhost?redirect_uri=${enc(
-          `http://127.0.0.1:3000/api/auth/bsky/callback`
-        )}&scope=${enc("atproto transition:generic")}`,
-        client_uri: "http://127.0.0.1:3000",
-        redirect_uris: [`http://127.0.0.1:3000/api/auth/bsky/callback`],
+        client_name: this.clientName,
+        client_id: this.clientID,
+        client_uri: "http://127.0.0.1:3000", // update to tenant after working locally
+        redirect_uris: [`http://127.0.0.1:3000${this.callbackPath}`], // update to tenant after working locally
         scope: "atproto transition:generic",
         grant_types: ["authorization_code", "refresh_token"],
         response_types: ["code"],
@@ -98,34 +99,19 @@ export abstract class AtprotoOauthAuthenticator {
     this.cookieStore.attach(req, res);
     const handle = req.body.handle as string;
 
-    // see https://github.com/bluesky-social/atproto/issues/3511
-    // fixes "can not resolve handle" error due to Bun's fetch
-    // const agent = new Agent("https://public.api.bsky.app");
-    // const atprotoID = await agent.resolveHandle({
-    //   handle,
-    // });
-    // if (!atprotoID.success) {
-    //   throw new Error("Failed to find DID");
-    // }
-
-    // use these somewhere you need them later
-    console.log(this.clientSecret, this.clientName, this.callbackPath, handle);
+    // use this to make jwt secrets, you need it later
+    console.log(this.clientSecret);
     try {
       // redirect user to login
-      const loginUrl: URL = await this.client.authorize(
-        "did:plc:iinae3zb33z4263joxrnza74",
-        // atprotoID.data.did,
-        // handle,
-        {
-          scope: "atproto transition:generic",
-        }
-      );
+      const loginUrl: URL = await this.client.authorize(handle, {
+        scope: "atproto transition:generic",
+      });
       return loginUrl.href;
     } catch (err) {
       return new Error(`${err.message || "unable to authorize handle"}`);
     }
   }
-  // you need a Helper function to get the Atproto Agent for the active session before you can hook up a callback
+  // you need a Helper function to handle session refresh from the Atproto Agent
   protected async getSessionAgent(params: URLSearchParams) {
     const { session } = await this.client.callback(params);
     const agent = new Agent(session);

@@ -33,8 +33,9 @@ export class CookieStore {
 
   public async setStateCookie(key: string, state: NodeSavedState) {
     const data = JSON.stringify(state);
-    this.resp.cookie(key, data); // add back cookie secure options if this works
-    // saveCookie(this.resp, data, key, false);
+    // this.resp.cookie(key, data); // add back cookie secure options if this works
+    // secure should come from config.forceSSL
+    saveCookie(this.resp, data, key, false);
     return;
   }
 
