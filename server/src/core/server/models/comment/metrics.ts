@@ -223,15 +223,13 @@ export async function retrieveAverageCommentsMetric(
 export async function retrieveTopStoryMetrics(
   mongo: MongoContext,
   tenantID: string,
-  siteID: string,
+  siteID: string | undefined | null,
   limit: number,
   start: Date,
   now: Date
 ) {
-  const results = await mongo
-    .comments()
-    .aggregate<Result>([
-      {
+  const filter = siteID
+    ? {
         $match: {
           tenantID,
           siteID,
@@ -240,7 +238,21 @@ export async function retrieveTopStoryMetrics(
             $in: PUBLISHED_STATUSES,
           },
         },
-      },
+      }
+    : {
+        $match: {
+          tenantID,
+          createdAt: { $gte: start, $lte: now },
+          status: {
+            $in: PUBLISHED_STATUSES,
+          },
+        },
+      };
+
+  const results = await mongo
+    .comments()
+    .aggregate<Result>([
+      filter,
       {
         $group: {
           _id: "$storyID",
