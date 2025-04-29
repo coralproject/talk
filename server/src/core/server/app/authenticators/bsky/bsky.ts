@@ -7,7 +7,6 @@ import { BskyProfile, retrieveUserWithProfile } from "coral-server/models/user";
 import { JWTSigningConfig } from "coral-server/services/jwt";
 import { findOrCreate } from "coral-server/services/users";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
-// import { Response } from "express";
 import Joi from "joi";
 import { AtprotoOauthAuthenticator } from "../atproto/oauth";
 
@@ -35,7 +34,7 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
   private readonly config: Config;
   private readonly integration: Readonly<Required<BskyAuthIntegration>>;
   private readonly redis: Redis;
-  // private readonly secure: Boolean;
+  // private readonly secure: Boolean; //TODO: pass to cookiestore
 
   constructor({ integration, mongo, redis, config, ...options }: Options) {
     super({
@@ -52,11 +51,6 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
     this.config = config;
     // this.secure = config.get("force_ssl");
   }
-  // trying to force a redirect, but this doesn't work
-  // makes GET req to the sendTo instead
-  // private async sendUserToAuthorize(res: Response, sendTo: string) {
-  //   return res.redirect(sendTo);
-  // }
 
   public metadata: RequestHandler<TenantCoralRequest, Promise<any>> = async (
     req,
@@ -68,22 +62,19 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
   };
 
   // authenticate is the login function that calls authorize
-  public authenticate: RequestHandler<TenantCoralRequest, Promise<any>> =
+  public authenticate: RequestHandler<TenantCoralRequest, Promise<void>> =
     async (req, res, next) => {
+      let loginUrl: string | Error;
       try {
-        // redirect user to login
-        const loginUrl: string = (await this.callAuthorize(
-          req,
-          res
-        )) as unknown as string;
-        if (loginUrl) {
-          // more stuff that doesn't work to redirect
-          return res.redirect(loginUrl);
-          // return this.cookieStore.resp.redirect(loginUrl);
-          // return this.sendUserToAuthorize(res, loginUrl);
-        }
+        // get authorization redirect url
+        loginUrl = (await this.callAuthorize(req, res)) as unknown as string;
       } catch (err) {
         return next(err);
+      }
+      if (loginUrl && typeof loginUrl === "string") {
+        res.redirect(loginUrl);
+      } else {
+        return next(loginUrl);
       }
     };
 
@@ -101,9 +92,7 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
       this.cookieStore.attach(req, res);
       // complete the oauth session callback and use the Atproto API to get user's profile
       const params = new URLSearchParams(req.originalUrl.split("?")[1]);
-      const agent:Agent = await this.getSessionAgent(params);
-      // const { session } = await this.client.callback(params);
-      // const agent: Agent = new Agent(session);
+      const agent: Agent = await this.getSessionAgent(params);
       const profile = await agent.getProfile({ actor: agent.did as string });
 
       // Validate the profile.

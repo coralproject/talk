@@ -9,13 +9,22 @@ export default function postBskyApiAuth(
   authPath: string
 ) {
   try {
-    return fetch(authPath, {
+    fetch(authPath, {
       headers: {
         "Content-Type": "application/json",
       },
       method: "POST",
       body: JSON.stringify(input),
-    });
+    })
+      .then((resp) => {
+        if (resp.redirected) {
+          window.location.href = resp.url;
+        }
+      })
+      .catch((err) => {
+        return { [FORM_ERROR]: err.message };
+      });
+    return Promise.resolve();
   } catch (err) {
     return { [FORM_ERROR]: err.message };
   }
