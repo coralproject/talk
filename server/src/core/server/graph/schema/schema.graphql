@@ -3180,6 +3180,13 @@ type UserMembershipScopes {
   siteIDs: [String!]
 }
 
+type UserCommentCounts {
+  """
+  statuses stores the counts of all the statuses against the parent user.
+  """
+  statuses: CommentStatusCounts! @auth(roles: [ADMIN, MODERATOR])
+}
+
 """
 User is someone that leaves Comments, and logs in.
 """
@@ -3520,6 +3527,11 @@ type User {
   newCommenter is whether a user has joined within the last seven days.
   """
   newCommenter: Boolean
+
+  """
+  commentCounts are the tallies for various comment status for this user.
+  """
+  commentCounts: UserCommentCounts
 }
 
 """
