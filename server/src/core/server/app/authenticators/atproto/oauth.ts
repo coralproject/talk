@@ -1,5 +1,5 @@
 import { Agent } from "@atproto/api";
-import { NodeOAuthClient } from "@atproto/oauth-client-node";
+import { NodeOAuthClient, OAuthSession } from "@atproto/oauth-client-node";
 import { stringifyQuery } from "coral-common/common/lib/utils";
 import { WrappedInternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
@@ -51,7 +51,7 @@ export abstract class AtprotoOauthAuthenticator {
     this.callbackPath = callbackPath;
     this.clientName = clientName;
     this.clientSecret = clientSecret;
-    // must use localhost for dev, update after working locally
+    // must use localhost for dev, uncomment after working locally
     this.clientID = `http://localhost?redirect_uri=${enc(
       `http://127.0.0.1:3000${this.callbackPath}`
     )}&scope=${enc("atproto transition:generic")}`;
@@ -112,8 +112,7 @@ export abstract class AtprotoOauthAuthenticator {
     }
   }
   // you need a Helper function to handle session refresh from the Atproto Agent
-  protected async getSessionAgent(params: URLSearchParams) {
-    const { session } = await this.client.callback(params);
+  protected async getSessionAgent(session: OAuthSession) {
     const agent = new Agent(session);
     return agent;
   }

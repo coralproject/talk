@@ -92,7 +92,8 @@ export class BskyAuthenticator extends AtprotoOauthAuthenticator {
       this.cookieStore.attach(req, res);
       // complete the oauth session callback and use the Atproto API to get user's profile
       const params = new URLSearchParams(req.originalUrl.split("?")[1]);
-      const agent: Agent = await this.getSessionAgent(params);
+      const { session } = await this.client.callback(params);
+      const agent: Agent = await this.getSessionAgent(session);
       const profile = await agent.getProfile({ actor: agent.did as string });
 
       // Validate the profile.
