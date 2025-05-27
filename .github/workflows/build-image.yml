@@ -1,4 +1,4 @@
-name: Build and Test
+name: Image Build Test
 
 on:
   workflow_dispatch:
@@ -11,8 +11,8 @@ env:
   DOCKERHUB_USERNAME: "coralproject"
 
 jobs:
-  build-and-test:
-    name: Build and Test
+  image-build-test:
+    name: Image Build Test
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout
