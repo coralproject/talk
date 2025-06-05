@@ -11,13 +11,13 @@ reimagines moderation, comment display, and conversation. Use Coral to add
 smarter, safer discussions to your site without giving away your data.
 
 More than 500 news sites in 28 countries trust Coral to power their on-site
-communities, including The Washington Post, The Financial Times, Wired, The Hindu, and Foreign Policy. [Read more about Coral here](https://coralproject.net/).
+communities, including The Washington Post, The Financial Times, The Hindu, and Foreign Policy. [Read more about Coral here](https://coralproject.net/).
 
 Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
 
 ## Requirements
 
-- MongoDB ^4.2
+- MongoDB ^8.0.3
 - Redis ^3.2
 - NodeJS ^18.16.0
 - PNPM ^8.0
