@@ -90,6 +90,7 @@ jobs:
       # Build tag push the image after a merge to develop
       - name: Build, Tag, Push
         uses: docker/build-push-action@v6
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/arm'
         with:
           platforms: linux/amd64
           push: true
@@ -102,6 +103,7 @@ jobs:
       # Build tag push the release candidate image when the branch name begins with release-
       - name: Build, Tag, Push RC
         uses: docker/build-push-action@v6
+        if: startsWith( github.ref, 'refs/heads/release-')
         with:
           platforms: linux/amd64
           push: true
@@ -132,6 +134,7 @@ jobs:
       # Build tag push the image after a merge to develop
       - name: Build, Tag, Push
         uses: docker/build-push-action@v6
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/arm'
         with:
           platforms: linux/arm64
           push: true
@@ -144,6 +147,7 @@ jobs:
       # Build tag push the release candidate image when the branch name begins with release-
       - name: Build, Tag, Push RC
         uses: docker/build-push-action@v6
+        if: startsWith( github.ref, 'refs/heads/release-')
         with:
           platforms: linux/arm64
           push: true
