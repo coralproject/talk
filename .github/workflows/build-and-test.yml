@@ -153,24 +153,32 @@ jobs:
           # cache-from: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release-arm64
           # cache-to: type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release-arm64
   create-manifest:
-    name: Create Manifest
-    needs: [build-arm64, build-amd64]
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Login to GAR
-        uses: docker/login-action@v3
-        with:
-          registry: us-east1-docker.pkg.dev
-          username: _json_key
-          password: ${{ secrets.GAR_JSON_KEY }}
-      - name: Create and Push Manifest
-        run: |
-          docker manifest create ${{ env.IMAGE_REPOSITORY }}:bchan-arches \
-            ${{ env.IMAGE_REPOSITORY }}:bchan-arches-amd64 \
-            ${{ env.IMAGE_REPOSITORY }}:bchan-arches-arm64
-          docker manifest create ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }} \
-            ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-amd64 \
-            ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-arm64
-
-          docker manifest push ${{ env.IMAGE_REPOSITORY }}:bchan-arches
-          docker manifest push ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
+      name: Create Manifest
+      needs: [build-arm64, build-amd64]
+      runs-on: ubuntu-24.04
+      if: github.ref == 'refs/heads/develop' || startsWith( github.ref, 'refs/heads/release-') || github.ref == 'refs/heads/bchan/arm'
+      env:
+        IMAGE_REPOSITORY: "us-east1-docker.pkg.dev/the-coral-project/coral/talk"
+      steps:
+        - name: Define SHORT_SHA with commit short sha
+          run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+        - name: Login to GAR
+          uses: docker/login-action@v3
+          with:
+            registry: us-east1-docker.pkg.dev
+            username: _json_key
+            password: ${{ secrets.GAR_JSON_KEY }}
+        - name: Create and Push Manifest for develop/bchan branch
+          if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/arm'
+          run: |
+            docker manifest create ${{ env.IMAGE_REPOSITORY }}:bchan-arches \
+              --amend ${{ env.IMAGE_REPOSITORY }}:bchan-arches-amd64 \
+              --amend ${{ env.IMAGE_REPOSITORY }}:bchan-arches-arm64
+            docker manifest push ${{ env.IMAGE_REPOSITORY }}:bchan-arches
+        - name: Create and Push Manifest for release branches
+          if: startsWith( github.ref, 'refs/heads/release-')
+          run: |
+            docker manifest create ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }} \
+              --amend ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-amd64 \
+              --amend ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-arm64
+            docker manifest push ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
