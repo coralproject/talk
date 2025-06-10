@@ -90,13 +90,17 @@ jobs:
           registry: us-east1-docker.pkg.dev
           username: _json_key
           password: ${{ secrets.GAR_JSON_KEY }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       # Build tag push the image after a merge to develop
       - name: Build and Push (develop)
         if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/arm'
         run: |
-          ls -la && pwd
           docker buildx build \
             --platform linux/amd64 \
             --build-arg REVISION_HASH=${GITHUB_SHA} \
@@ -142,6 +146,11 @@ jobs:
           registry: us-east1-docker.pkg.dev
           username: _json_key
           password: ${{ secrets.GAR_JSON_KEY }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       # Build for develop/bchan branch using native docker buildx
