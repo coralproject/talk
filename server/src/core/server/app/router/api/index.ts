@@ -59,8 +59,6 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // only proceed if there is a valid Tenant for the hostname.
   router.use(tenantMiddleware({ mongo: app.mongo, cache: app.tenantCache }));
 
-  // We don't need auth for the story router, so mount it earlier.
-  router.use("/story", createStoryRouter(app));
   router.use("/comment", createCommentRouter(app));
 
   // Setup Passport middleware.
@@ -74,6 +72,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   );
   router.use("/account", createNewAccountRouter(app, options));
   router.use("/user", createNewUserRouter(app));
+  router.use("/story", createStoryRouter(app, options));
 
   // Configure the GraphQL route middleware.
   router.use(
