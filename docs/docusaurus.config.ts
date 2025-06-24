@@ -79,10 +79,6 @@ const config: Config = {
           title: "Community",
           items: [
             {
-              label: "Twitter",
-              href: "https://twitter.com/coralproject",
-            },
-            {
               label: "GitHub",
               href: "https://github.com/coralproject/talk",
             },
