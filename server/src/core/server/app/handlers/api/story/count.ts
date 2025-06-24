@@ -204,6 +204,11 @@ export const countsV2Handler =
     const { tenant } = req.coral;
 
     try {
+      // Check if user is authenticated
+      if (!req.user) {
+        return res.status(401).send("Authentication required");
+      }
+
       if (!hasFeatureFlag(tenant, GQLFEATURE_FLAG.COUNTS_V2)) {
         return res.status(400).send("Counts V2 api not enabled");
       }
