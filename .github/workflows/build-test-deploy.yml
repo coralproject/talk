@@ -108,42 +108,36 @@ jobs:
           echo "MAJOR_TAG=${MAJOR}" >> $GITHUB_ENV
           echo "MINOR_TAG=${MAJOR}.${MINOR}" >> $GITHUB_ENV
           echo "PATCH_TAG=${MAJOR}.${MINOR}.${PATCH}" >> $GITHUB_ENV
-      # - name: Build, Tag, Push Major Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/amd64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-amd64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-major-amd64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-major-amd64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
-      # - name: Build, Tag, Push Minor Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/amd64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-amd64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-minor-amd64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-minor-amd64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
-      # - name: Build, Tag, Push Patch Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/amd64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-amd64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch-amd64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch-amd64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
+      - name: Build, Tag, Push Major Tag
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-amd64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
+      - name: Build, Tag, Push Minor Tag
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-amd64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
+      - name: Build, Tag, Push Patch Tag
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-amd64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
 
   build-arm64:
     name: Build arm64
@@ -189,42 +183,36 @@ jobs:
           echo "MAJOR_TAG=${MAJOR}" >> $GITHUB_ENV
           echo "MINOR_TAG=${MAJOR}.${MINOR}" >> $GITHUB_ENV
           echo "PATCH_TAG=${MAJOR}.${MINOR}.${PATCH}" >> $GITHUB_ENV
-      # - name: Build, Tag, Push Major Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/arm64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-arm64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-major-arm64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-major-arm64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
-      # - name: Build, Tag, Push Minor Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/arm64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-arm64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-minor-arm64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-minor-arm64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
-      # - name: Build, Tag, Push Patch Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/arm64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-arm64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch-arm64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch-arm64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
+      - name: Build, Tag, Push Major Tag
+        run: |
+          docker buildx build \
+            --platform linux/arm64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-arm64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
+      - name: Build, Tag, Push Minor Tag
+        run: |
+          docker buildx build \
+            --platform linux/arm64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-arm64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
+      - name: Build, Tag, Push Patch Tag
+        run: |
+          docker buildx build \
+            --platform linux/arm64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-arm64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
 
   create-manifest:
     name: Create Manifest
