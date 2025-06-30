@@ -97,34 +97,34 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-      # Build tag push the image after a merge to develop
-      - name: Build and Push (develop)
-        if: github.ref == 'refs/heads/develop' || github.ref
-        run: |
-          docker buildx build \
-            --platform linux/amd64 \
-            --build-arg REVISION_HASH=${GITHUB_SHA} \
-            --tag ${{ env.IMAGE_REPOSITORY }}:develop-latest-amd64 \
-            --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop-amd64 \
-            --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop-amd64 \
-            --push \
-            --provenance=false \
-            --sbom=false \
-            .
+      # # Build tag push the image after a merge to develop
+      # - name: Build and Push (develop)
+      #   if: github.ref == 'refs/heads/develop' || github.ref
+      #   run: |
+      #     docker buildx build \
+      #       --platform linux/amd64 \
+      #       --build-arg REVISION_HASH=${GITHUB_SHA} \
+      #       --tag ${{ env.IMAGE_REPOSITORY }}:develop-latest-amd64 \
+      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop-amd64 \
+      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop-amd64 \
+      #       --push \
+      #       --provenance=false \
+      #       --sbom=false \
+      #       .
       # Build tag push the release candidate image when the branch name begins with release-
-      - name: Build and Push (release)
-        if: startsWith( github.ref, 'refs/heads/release-')
-        run: |
-          docker buildx build \
-            --platform linux/amd64 \
-            --build-arg REVISION_HASH=${GITHUB_SHA} \
-            --tag ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-amd64 \
-            --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release-amd64 \
-            --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release-amd64 \
-            --push \
-            --provenance=false \
-            --sbom=false \
-            .
+      # - name: Build and Push (release)
+      #   if: startsWith( github.ref, 'refs/heads/release-')
+      #   run: |
+      #     docker buildx build \
+      #       --platform linux/amd64 \
+      #       --build-arg REVISION_HASH=${GITHUB_SHA} \
+      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-amd64 \
+      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release-amd64 \
+      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release-amd64 \
+      #       --push \
+      #       --provenance=false \
+      #       --sbom=false \
+      #       .
   build-arm64:
     name: Build arm64
     runs-on: coral-ci-arm
@@ -153,34 +153,34 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Define SHORT_SHA with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-      # Build for develop branch using native docker buildx
-      - name: Build and Push (develop)
-        if: github.ref == 'refs/heads/develop'
-        run: |
-          docker buildx build \
-            --platform linux/arm64 \
-            --build-arg REVISION_HASH=${GITHUB_SHA} \
-            --tag ${{ env.IMAGE_REPOSITORY }}:develop-latest-arm64 \
-            --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop-arm64 \
-            --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop-arm64 \
-            --push \
-            --provenance=false \
-            --sbom=false \
-            .
+      # # Build for develop branch using native docker buildx
+      # - name: Build and Push (develop)
+      #   if: github.ref == 'refs/heads/develop'
+      #   run: |
+      #     docker buildx build \
+      #       --platform linux/arm64 \
+      #       --build-arg REVISION_HASH=${GITHUB_SHA} \
+      #       --tag ${{ env.IMAGE_REPOSITORY }}:develop-latest-arm64 \
+      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop-arm64 \
+      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-develop-arm64 \
+      #       --push \
+      #       --provenance=false \
+      #       --sbom=false \
+      #       .
       # Build tag push the release candidate image when the branch name begins with release-
-      - name: Build and Push (release)
-        if: startsWith( github.ref, 'refs/heads/release-')
-        run: |
-          docker buildx build \
-            --platform linux/arm64 \
-            --build-arg REVISION_HASH=${GITHUB_SHA} \
-            --tag ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-arm64 \
-            --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release-arm64 \
-            --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release-arm64 \
-            --push \
-            --provenance=false \
-            --sbom=false \
-            .
+      # - name: Build and Push (release)
+      #   if: startsWith( github.ref, 'refs/heads/release-')
+      #   run: |
+      #     docker buildx build \
+      #       --platform linux/arm64 \
+      #       --build-arg REVISION_HASH=${GITHUB_SHA} \
+      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-arm64 \
+      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release-arm64 \
+      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-release-arm64 \
+      #       --push \
+      #       --provenance=false \
+      #       --sbom=false \
+      #       .
   create-manifest:
       name: Create Manifest
       needs: [build-arm64, build-amd64]
@@ -199,17 +199,17 @@ jobs:
             registry: us-east1-docker.pkg.dev
             username: _json_key
             password: ${{ secrets.GAR_JSON_KEY }}
-        - name: Create and Push Manifest for develop branch
-          if: github.ref == 'refs/heads/develop'
-          run: |
-            docker manifest create ${{ env.IMAGE_REPOSITORY }}:develop-latest \
-              --amend ${{ env.IMAGE_REPOSITORY }}:develop-latest-amd64 \
-              --amend ${{ env.IMAGE_REPOSITORY }}:develop-latest-arm64
-            docker manifest push ${{ env.IMAGE_REPOSITORY }}:develop-latest
-        - name: Create and Push Manifest for release branches
-          if: startsWith( github.ref, 'refs/heads/release-')
-          run: |
-            docker manifest create ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }} \
-              --amend ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-amd64 \
-              --amend ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-arm64
-            docker manifest push ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
+        # - name: Create and Push Manifest for develop branch
+        #   if: github.ref == 'refs/heads/develop'
+        #   run: |
+        #     docker manifest create ${{ env.IMAGE_REPOSITORY }}:develop-latest \
+        #       --amend ${{ env.IMAGE_REPOSITORY }}:develop-latest-amd64 \
+        #       --amend ${{ env.IMAGE_REPOSITORY }}:develop-latest-arm64
+        #     docker manifest push ${{ env.IMAGE_REPOSITORY }}:develop-latest
+        # - name: Create and Push Manifest for release branches
+        #   if: startsWith( github.ref, 'refs/heads/release-')
+        #   run: |
+        #     docker manifest create ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }} \
+        #       --amend ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-amd64 \
+        #       --amend ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}-arm64
+        #     docker manifest push ${{ env.IMAGE_REPOSITORY }}:${{ github.ref_name }}-${{ env.SHORT_SHA }}
