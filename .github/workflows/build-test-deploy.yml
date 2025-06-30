@@ -108,42 +108,36 @@ jobs:
           echo "MAJOR_TAG=${MAJOR}" >> $GITHUB_ENV
           echo "MINOR_TAG=${MAJOR}.${MINOR}" >> $GITHUB_ENV
           echo "PATCH_TAG=${MAJOR}.${MINOR}.${PATCH}" >> $GITHUB_ENV
-      # - name: Build, Tag, Push Major Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/amd64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-amd64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-major-amd64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-major-amd64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
-      # - name: Build, Tag, Push Minor Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/amd64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-amd64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-minor-amd64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-minor-amd64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
-      # - name: Build, Tag, Push Patch Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/amd64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-amd64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch-amd64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch-amd64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
+      - name: Build, Tag, Push Major Tag
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-amd64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
+      - name: Build, Tag, Push Minor Tag
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-amd64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
+      - name: Build, Tag, Push Patch Tag
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-amd64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
 
   build-arm64:
     name: Build arm64
@@ -189,42 +183,36 @@ jobs:
           echo "MAJOR_TAG=${MAJOR}" >> $GITHUB_ENV
           echo "MINOR_TAG=${MAJOR}.${MINOR}" >> $GITHUB_ENV
           echo "PATCH_TAG=${MAJOR}.${MINOR}.${PATCH}" >> $GITHUB_ENV
-      # - name: Build, Tag, Push Major Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/arm64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-arm64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-major-arm64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-major-arm64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
-      # - name: Build, Tag, Push Minor Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/arm64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-arm64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-minor-arm64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-minor-arm64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
-      # - name: Build, Tag, Push Patch Tag
-      #   run: |
-      #     docker buildx build \
-      #       --platform linux/arm64 \
-      #       --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
-      #       --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-arm64 \
-      #       --cache-from type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch-arm64 \
-      #       --cache-to type=registry,ref=${{ env.IMAGE_CACHE_REPOSITORY }}:cache-patch-arm64 \
-      #       --push \
-      #       --provenance=false \
-      #       --sbom=false \
-      #       .
+      - name: Build, Tag, Push Major Tag
+        run: |
+          docker buildx build \
+            --platform linux/arm64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-arm64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
+      - name: Build, Tag, Push Minor Tag
+        run: |
+          docker buildx build \
+            --platform linux/arm64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-arm64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
+      - name: Build, Tag, Push Patch Tag
+        run: |
+          docker buildx build \
+            --platform linux/arm64 \
+            --build-arg REVISION_HASH=${{ env.GITHUB_SHA }} \
+            --tag ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-arm64 \
+            --push \
+            --provenance=false \
+            --sbom=false \
+            .
 
   create-manifest:
     name: Create Manifest
@@ -256,24 +244,24 @@ jobs:
           echo "MAJOR_TAG=${MAJOR}" >> $GITHUB_ENV
           echo "MINOR_TAG=${MAJOR}.${MINOR}" >> $GITHUB_ENV
           echo "PATCH_TAG=${MAJOR}.${MINOR}.${PATCH}" >> $GITHUB_ENV
-      # - name: Create and Push Manifest for Major Tag
-      #   run: |
-      #     docker manifest create ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }} \
-      #       --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-amd64 \
-      #       --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-arm64
-      #     docker manifest push ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}
-      # - name: Create and Push Manifest for Minor Tag
-      #   run: |
-      #     docker manifest create ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }} \
-      #       --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-amd64 \
-      #       --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-arm64
-      #     docker manifest push ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}
-      # - name: Create and Push Manifest for Patch Tag
-      #   run: |
-      #     docker manifest create ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }} \
-      #       --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-amd64 \
-      #       --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-arm64
-      #     docker manifest push ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}
+      - name: Create and Push Manifest for Major Tag
+        run: |
+          docker manifest create ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }} \
+            --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-amd64 \
+            --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}-arm64
+          docker manifest push ${{ env.IMAGE_REPOSITORY }}:${{ env.MAJOR_TAG }}
+      - name: Create and Push Manifest for Minor Tag
+        run: |
+          docker manifest create ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }} \
+            --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-amd64 \
+            --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}-arm64
+          docker manifest push ${{ env.IMAGE_REPOSITORY }}:${{ env.MINOR_TAG }}
+      - name: Create and Push Manifest for Patch Tag
+        run: |
+          docker manifest create ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }} \
+            --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-amd64 \
+            --amend ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}-arm64
+          docker manifest push ${{ env.IMAGE_REPOSITORY }}:${{ env.PATCH_TAG }}
 
   deploy-assets:
     name: Deploy Assets
@@ -304,17 +292,17 @@ jobs:
           echo "MAJOR_TAG=${MAJOR}" >> $GITHUB_ENV
           echo "MINOR_TAG=${MAJOR}.${MINOR}" >> $GITHUB_ENV
           echo "PATCH_TAG=${MAJOR}.${MINOR}.${PATCH}" >> $GITHUB_ENV
-      # - name: Deploy Static Assets to GCS Bucket
-      #   run: |
-      #     CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
-      #     docker cp "${CONTAINER_ID}:/usr/src/app/client/dist/static" static/
-      #     docker rm "${CONTAINER_ID}"
-      #     find ./static -type f -name "*.gz" -print -delete
-      #     gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${PATCH_TAG}/"
-      # - name: Upload to Sentry
-      #   run: |
-      #     CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
-      #     docker cp "${CONTAINER_ID}:/usr/src/app/client/dist" dist/
-      #     docker rm "${CONTAINER_ID}"
-      #     npx @sentry/cli -V
-      #     npx @sentry/cli releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}
+      - name: Deploy Static Assets to GCS Bucket
+        run: |
+          CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
+          docker cp "${CONTAINER_ID}:/usr/src/app/client/dist/static" static/
+          docker rm "${CONTAINER_ID}"
+          find ./static -type f -name "*.gz" -print -delete
+          gsutil -m -h "Cache-Control: public, max-age=86400, immutable" cp -r -z "js,css,map,txt,json" ./static/** "gs://${GOOGLE_CLOUD_BUCKET}/${PATCH_TAG}/"
+      - name: Upload to Sentry
+        run: |
+          CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
+          docker cp "${CONTAINER_ID}:/usr/src/app/client/dist" dist/
+          docker rm "${CONTAINER_ID}"
+          npx @sentry/cli -V
+          npx @sentry/cli releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}
