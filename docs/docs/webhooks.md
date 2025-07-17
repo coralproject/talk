@@ -4,199 +4,130 @@ title: Webhooks
 
 # Webhooks Guide
 
-Webhooks are an advanced feature that allow you to subscribe to Coral events via HTTP.
+Webhooks are a powerful feature that allows you to subscribe to events in Coral and receive real-time updates via HTTP. This guide will walk you through configuring, verifying, and handling webhooks effectively.
 
-You can configure webhooks on your installation of Coral by visiting `/admin/configure/webhooks`.
+## What Are Webhooks?
 
-Once you've configured a webhook endpoint in Coral, you will receive updates
-from Coral when those events occur. These will be in the form of `POST` requests
-with a `JSON` payload consisting of the schema represented below.
+Webhooks enable your application to listen for specific events in Coral, such as when a story is created or a comment is posted. When these events occur, Coral sends an HTTP `POST` request to your configured webhook endpoint with a `JSON` payload containing event details.
+
+For example, you can configure a webhook to notify your application whenever a new comment is created. This allows you to build integrations, automate workflows, or trigger custom actions based on Coral events.
+
+## Configuring Webhooks
+
+To configure webhooks in Coral:
+
+1. Navigate to `/admin/configure/webhooks` in your Coral admin panel.
+2. Add your webhook endpoint URL.
+3. Save your changes.
+
+Once configured, Coral will send event notifications to your endpoint.
 
 ## Webhook Signing
 
-Each webhook sent by Coral is signed by your webhook endpoint signing secret.
-The signature method closely resembles the signing method used by Stripe for
-their `v1` signing method. The `X-Coral-Signature` header contains one or more
-signatures prefixed by `sha256=`.
+To ensure the integrity and authenticity of webhook requests, Coral signs each webhook using your webhook signing secret. The signature is included in the `X-Coral-Signature` header. This header contains one or more signatures prefixed by `sha256=`.
 
-If you receive a signature containing multiple signatures, it is typically when
-you have rolled the signing secret from the administrative panel, and chosen to
-keep the previous secret active for a duration of time.
+### Why Verify Signatures?
 
-### How to verify the signature(s)
+Verifying signatures ensures that the webhook request is genuinely from Coral and has not been tampered with. This is especially important for security when handling sensitive data.
+
+### How to Verify Signatures
+
+Here’s a step-by-step guide to verifying webhook signatures:
+
+#### **Step 1**: Extract Signatures from the Header
+
+The `X-Coral-Signature` header may contain multiple signatures, especially if you’ve rotated your signing secret. Split the header by `,` to get a list of elements, then split each element by `=` to extract the `sha256` signatures.
+
+#### **Step 2**: Prepare the `signed_payload`
+
+The `signed_payload` is the raw body of the webhook request. Ensure you use the unparsed body for this step.
+
+#### **Step 3**: Calculate the Expected Signature
+
+Use the HMAC-SHA256 algorithm to compute the expected signature. The signing secret is the key, and the `signed_payload` is the message.
+
+#### **Step 4**: Compare Signatures
+
+Compare the expected signature with the signatures from the header using a constant-time comparison function to prevent timing attacks.
+
+Here’s an example implementation in Node.js:
 
 ```js
 // Set your signing secret here from the administration panel.
 const SIGNING_SECRET = "< YOUR SIGNING SECRET HERE >";
 
-// We're using crypto to verify the signatures.
+// Import required modules.
 const crypto = require("crypto");
+const express = require("express");
+const bodyParser = require("body-parser");
 
-// We're using express to receive webhooks here.
-const app = require("express")();
+const app = express();
 
-// Use the body-parser to get the raw body as a buffer so we can use it with the
-// hashing functions.
-const parser = require("body-parser");
+// Middleware to parse raw body.
+app.use(bodyParser.raw({ type: "application/json" }));
 
-function extractEvent(body, sig) {
-  // Step 1: Extract signatures from the header.
+// Function to verify webhook signatures.
+function verifySignature(body, sig) {
   const signatures = sig
-    // Split the header by `,` to get a list of elements.
     .split(",")
-    // Split each element by `=` to get a prefix and value pair.
     .map((element) => element.split("="))
-    // Grab all the elements with the prefix of `sha256`.
     .filter(([prefix]) => prefix === "sha256")
-    // Grab the value from the prefix and value pair.
     .map(([, value]) => value);
 
-  // Step 2: Prepare the `signed_payload`.
-  const signed_payload = body;
-
-  // Step 3: Calculate the expected signature.
   const expected = crypto
     .createHmac("sha256", SIGNING_SECRET)
-    .update(signed_payload)
-    .digest()
-    .toString("hex");
+    .update(body)
+    .digest("hex");
 
-  // Step 4: Compare signatures.
   if (
-    // For each of the signatures on the request...
     !signatures.some((signature) =>
-      // Compare the expected signature to the signature on in the header. If at
-      // least one of the match, we should continue to process the event.
       crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected))
     )
   ) {
     throw new Error("Invalid signature");
   }
-
-  // Parse the JSON for the event.
-  return JSON.parse(body.toString());
 }
 
-app.post("/webhook", parser.raw({ type: "application/json" }), (req, res) => {
+// Webhook endpoint.
+app.post("/webhook", (req, res) => {
   const sig = req.headers["x-coral-signature"];
 
-  let event;
-
   try {
-    // Parse the JSON for the event.
-    event = extractEvent(req.body, sig);
+    verifySignature(req.body, sig);
+    const event = JSON.parse(req.body.toString());
+
+    // Handle the event.
+    switch (event.type) {
+      case "STORY_CREATED":
+        console.log(`Story created: ${event.data.storyID}`);
+        break;
+      case "COMMENT_CREATED":
+        console.log(`Comment created: ${event.data.commentID}`);
+        break;
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+    }
+
+    res.json({ received: true });
   } catch (err) {
-    return res.status(400).send(`Webhook Error: ${err.message}`);
+    res.status(400).send(`Webhook Error: ${err.message}`);
   }
-
-  // Handle the event.
-  switch (event.type) {
-    case "STORY_CREATED":
-      const data = event.data;
-      console.log(
-        `A Story with ID ${data.storyID} and URL ${data.storyURL} was created!`
-      );
-      break;
-    case "COMMENT_CREATED":
-      // ... handle COMMENT_CREATED event
-      break;
-    case "COMMENT_REPLY_CREATED":
-      // ... handle COMMENT_REPLY_CREATED event
-      break;
-    // ... handle other event types.
-    default:
-      // Unexpected event type
-      return response.status(400).end();
-  }
-
-  // Return a response to acknowledge receipt of the event
-  res.json({ received: true });
 });
 
-app.listen(4242, () => console.log("Running on port 4242"));
+app.listen(4242, () => console.log("Webhook server running on port 4242"));
 ```
 
-The procedure of how to verify the signatures follows.
+## Testing Webhooks
 
-#### **Step 1**: Extract signatures from the header
+Testing your webhook implementation is crucial to ensure it works as expected. Here are some tools you can use:
 
-Split the header using `,` as the separator, to get a list of elements. Then
-split each of these elements using `=` as the separator, to get a prefix and
-value pair. The value for the prefix `sha256` corresponds to the signature(s).
+- **[Beeceptor](https://beeceptor.com/)**: Quickly create a mock endpoint to inspect incoming webhook requests.
+- **[Pipedream](https://pipedream.com/requestbin)**: Set up a request bin to capture and debug webhook payloads.
+- **[TypedWebhook.tools](https://typedwebhook.tools/)**: Test and validate webhook payloads with schema validation.
 
-#### **Step 2**: Prepare the `signed_payload` string
+## Webhook Event Schema
 
-You can do this by taking the string contents of the body (before parsing or the
-request body).
-
-#### **Step 3**: Calculate the expected signature
-
-Compute an HMAC signature using the SHA256 hash function. You can use the
-webhook endpoint's signing secret as the key, and the above calculated
-`signed_payload` as the message.
-
-#### **Step 4**: Compare signatures
-
-Compare the signature(s) in the header to the expected signature. To protect
-against timing attacks, ensure you use a constant-time string comparison
-function when comparing signatures.
-
-## Schema
-
-```ts
-{
-  /**
-   * id is the identifier for this event, each event
-   * will have a unique id.
-   */
-  id: string;
-
-  /**
-   * type is the name of this event, this indicates
-   * what is stored in the following `data` property.
-   * Refer to the `Events List` below to see what the
-   * type is for each event.
-   */
-  type: string;
-
-  /**
-   * data is the object representing this particular
-   * event. Each type of event has a different shape
-   * to the data property. Refer to the `Events List`
-   * below to see what the data looks like for each
-   * event.
-   */
-  data: object;
-
-  /**
-   * createdAt is the ISO 8601 representation of the
-   * date when this event was created.
-   */
-  createdAt: string;
-
-  /**
-   * tenantID is the ID of the Tenant that this event originated at.
-   */
-  tenantID: string;
-
-  /**
-   * tenantDomain is the domain that is associated with this Tenant that this event originated at.
-   */
-  tenantDomain: string;
-}
-```
-
-## Events Listing
-
-- [`STORY_CREATED`](#story-created-event)
-- [`COMMENT_CREATED`](#comment-created-event)
-- [`COMMENT_REPLY_CREATED`](#comment-reply-created-event)
-- [`COMMENT_ENTERED_MODERATION_QUEUE`](#comment-entered-moderation-queue-event)
-- [`COMMENT_LEFT_MODERATION_QUEUE`](#comment-left-moderation-queue-event)
-
-## Events
-
-- <a id="story-created-event">**STORY_CREATED**</a>
+Each webhook event has a specific schema. Here’s an example of the `STORY_CREATED` event:
 
 ```ts
 {
@@ -205,160 +136,26 @@ function when comparing signatures.
   tenantID: string;
   tenantDomain: string;
   data: {
-    /**
-     * storyID is the ID of the newly created Story.
-     */
     storyID: string;
-
-    /**
-     * storyURL is the URL of the newly created Story.
-     */
     storyURL: string;
-
-    /**
-     * siteID is the Site that the newly created Story was created on.
-     */
     siteID: string;
-  }
+  };
   createdAt: string;
 }
 ```
 
-- <a id="comment-created-event">**COMMENT_CREATED**</a>
-  - only sent for published comments (ie status NONE or APPROVED)
+Refer to the [Events Listing](#events-listing) section for details on other event types.
 
-```ts
-{
-  id: string;
-  type: "COMMENT_CREATED";
-  tenantID: string;
-  tenantDomain: string;
-  data: {
-    /**
-     * storyID is the ID of the story on which the comment was created.
-     */
-    storyID: string;
+## Events Listing
 
-    /**
-     * siteID is the ID of the site to which the story belongs.
-     */
-    siteID: string;
+Here are the supported events:
 
-    /**
-     * commentID is the ID of the newly created comment.
-     */
-    commentID: string;
-  }
-  createdAt: string;
-}
-```
+| Event Type                        | Description                                      |
+|-----------------------------------|--------------------------------------------------|
+| `STORY_CREATED`                   | Triggered when a new story is created.           |
+| `COMMENT_CREATED`                 | Triggered when a new comment is created.         |
+| `COMMENT_REPLY_CREATED`           | Triggered when a reply to a comment is created.  |
+| `COMMENT_ENTERED_MODERATION_QUEUE`| Triggered when a comment enters moderation.      |
+| `COMMENT_LEFT_MODERATION_QUEUE`   | Triggered when a comment leaves moderation.      |
 
-- <a id="comment-reply-created-event">**COMMENT_REPLY_CREATED**</a>
-  - only sent for published comment replies (ie status NONE or APPROVED)
-
-```ts
-{
-  id: string;
-  type: "COMMENT_REPLY_CREATED";
-  tenantID: string;
-  tenantDomain: string;
-  data: {
-    /**
-     * commentID is the ID of the reply comment.
-     */
-    commentID: string;
-
-    /**
-     * storyID is the ID of the story on which the reply comment was made.
-     */
-    storyID: string;
-
-    /**
-     * siteID is the ID of the site to which the story belongs.
-     */
-    siteID: string;
-
-    /**
-     * ancestorIDs are the IDs of the ancestoral comments like parent, grandparent, etc
-     */
-    ancestorIDs: string[];
-  }
-  createdAt: string;
-}
-```
-
-- <a id="comment-entered-moderation-queue-event">**COMMENT_ENTERED_MODERATION_QUEUE**</a>
-
-```ts
-{
-  id: string;
-  type: "COMMENT_ENTERED_MODERATION_QUEUE";
-  tenantID: string;
-  tenantDomain: string;
-  data: {
-    /**
-     * queue is the moderation queue that the comment has been placed into (eg PENDING).
-     */
-    queue: string;
-
-    /**
-     * commentID is the ID of the comment.
-     */
-    commentID: string;
-
-    /**
-     * status is the state that the comment now has (eg PREMOD).
-     */
-    status: string;
-
-    /**
-     * storyID is the ID of the story on which the comment was made.
-     */
-    storyID: string;
-
-    /**
-     * siteID is the ID of the site to which the story belongs.
-     */
-    siteID: string;
-  }
-  createdAt: string;
-}
-```
-
-- <a id="comment-left-moderation-queue-event">**COMMENT_LEFT_MODERATION_QUEUE**</a>
-
-```ts
-{
-  id: string;
-  type: "COMMENT_LEFT_MODERATION_QUEUE";
-  tenantID: string;
-  tenantDomain: string;
-  data: {
-    /**
-     * queue is the moderation queue that the comment has exited (eg PENDING).
-     */
-    queue: string;
-
-    /**
-     * commentID is the ID of the comment.
-     */
-    commentID: string;
-
-    /**
-     * status is the state that the comment now has (eg REJECTED).
-     */
-    status: string;
-
-    /**
-     * storyID is the ID of the story on which the comment was made.
-     */
-    storyID: string;
-
-    /**
-     * siteID is the ID of the site to which the story belongs.
-     */
-    siteID: string;
-  }
-  createdAt: string;
-}
-```
+For detailed schemas, see the [Events](#events) section.
