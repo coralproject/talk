@@ -290,6 +290,11 @@ comments-mobileToolbar-nextUnread = Nächstes Ungelesenes
 comments-replyChangedWarning-theCommentHasJust =
   Dieser Kommentar wurde soeben bearbeitet. Die neueste Version wird oben angezeigt.
 
+comments-refreshComments-closeButton = Schließen <icon></icon>
+  .aria-label = Schließen
+comments-refreshComments-refreshButton = <icon></icon> Neu laden
+  .aria-label = Neu laden
+
 ### Q&A
 
 general-tabBar-qaTab = Fragen und Antworten
