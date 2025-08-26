@@ -179,7 +179,7 @@ const NotificationContainer: FunctionComponent<Props> = ({
       className={styles.link}
       href={permalinkURL}
       target="_blank"
-      rel="noreferrer"
+      rel="noreferrer noopener"
     >
       <div
         className={cn(styles.root, {

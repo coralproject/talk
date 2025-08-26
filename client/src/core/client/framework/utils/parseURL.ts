@@ -1,7 +1,6 @@
 export default function parseURL(url: string) {
-  // eslint-disable-next-line no-restricted-globals
-  const parser = document.createElement("a");
-  parser.href = url;
+  const parser = new URL(url);
+
   return {
     protocol: parser.protocol,
     hostname: parser.hostname,

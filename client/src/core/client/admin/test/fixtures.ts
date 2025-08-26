@@ -642,7 +642,7 @@ export const stories = createFixtures<GQLStory>([
     isUnarchiving: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
-    url: "",
+    url: "http://localhost:8080",
     metadata: {
       author: "Vin Hoa",
       title: "Finally a Cure for Cancer",
@@ -676,7 +676,7 @@ export const stories = createFixtures<GQLStory>([
     isUnarchiving: false,
     status: GQLSTORY_STATUS.OPEN,
     createdAt: "2018-11-29T16:01:51.897Z",
-    url: "",
+    url: "http://localhost:8080/story-2",
     metadata: {
       author: "Linh Nguyen",
       title: "First Colony on Mars",
@@ -713,7 +713,7 @@ export const stories = createFixtures<GQLStory>([
     isArchiving: false,
     isUnarchiving: false,
     status: GQLSTORY_STATUS.CLOSED,
-    url: "",
+    url: "http://localhost:8080/story-3",
     commentCounts: {
       totalPublished: 5,
     },
