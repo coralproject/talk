@@ -175,7 +175,7 @@ it("includes expected information about dsa report", async () => {
     within(container).getByRole("link", { name: "View comment in stream" })
   ).toHaveProperty(
     "href",
-    "http://localhost/admin/reports/report/dsa-report-1?commentID=comment-regular-0"
+    "http://localhost:8080/?commentID=comment-regular-0"
   );
 
   expect(
