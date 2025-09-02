@@ -5,6 +5,10 @@ on:
   push:
   merge_group:
 
+permissions:
+  id-token: write
+  contents: read
+
 env:
   IMAGE_REPOSITORY: "us-east1-docker.pkg.dev/the-coral-project/coral/talk"
   IMAGE_CACHE_REPOSITORY: "coralproject/ci"
