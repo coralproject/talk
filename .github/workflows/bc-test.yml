@@ -10,6 +10,7 @@ permissions:
   contents: read
 
 env:
+  REGION: us-east1
   IMAGE_REPOSITORY: "us-east1-docker.pkg.dev/the-coral-project/coral/talk"
   IMAGE_CACHE_REPOSITORY: "coralproject/ci"
   DOCKERHUB_USERNAME: "coralproject"
@@ -25,3 +26,17 @@ jobs:
           project_id: the-coral-project
           workload_identity_provider: projects/418768622481/locations/global/workloadIdentityPools/github-actions/providers/github
           service_account: github-actions@the-coral-project.iam.gserviceaccount.com
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: |
+            image=moby/buildkit:buildx-stable-1
+      # 2) Install gcloud + wire Docker to use gcloud's cred helper
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
+      - name: Test Pull
+        run: |
+          docker pull us-east1-docker.pkg.dev/the-coral-project/coral/talk:develop-latest
+          docker tag us-east1-docker.pkg.dev/the-coral-project/coral/talk:develop-latest us-east1-docker.pkg.dev/the-coral-project/test:bc-test
