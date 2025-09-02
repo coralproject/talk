@@ -39,5 +39,5 @@ jobs:
       - name: Test Pull
         run: |
           docker pull us-east1-docker.pkg.dev/the-coral-project/coral/talk:develop-latest
-          docker tag us-east1-docker.pkg.dev/the-coral-project/coral/talk:develop-latest us-east1-docker.pkg.dev/the-coral-project/test:bc-test
+          docker tag us-east1-docker.pkg.dev/the-coral-project/coral/talk:develop-latest us-east1-docker.pkg.dev/the-coral-project/test/test:bc-test
           docker push us-east1-docker.pkg.dev/the-coral-project/test/test:bc-test
