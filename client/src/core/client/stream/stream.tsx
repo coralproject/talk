@@ -149,11 +149,34 @@ export async function attach(options: AttachOptions) {
   const expectedCssFiles = internalCssUrls.length + customCssUrls.length;
   const processCssResults: LoadedCssResult[] = [];
 
+  // Log CSS file configuration for debugging
+  // eslint-disable-next-line no-console
+  console.log("[CSS Loading Debug] CSS Files Configuration:", {
+    internalCssUrls,
+    customCssUrls,
+    expectedCssFiles,
+    disableDefaultFonts: options.disableDefaultFonts,
+    customCSSURL: options.customCSSURL,
+    defaultFontsCSSURL: options.defaultFontsCSSURL,
+    customFontsCSSURL: options.customFontsCSSURL,
+  });
+
   const Index: FunctionComponent = () => {
     // Determine whether css has finished loading, before rendering the stream to prevent
     // flash of unstyled content.
     const [isCSSLoaded, setIsCSSLoaded] = useState(false);
     const [hasCssLoadErrors, setHasCssLoadErrors] = useState(false);
+
+    // Log isCSSLoaded state changes
+    useEffect(() => {
+      // eslint-disable-next-line no-console
+      console.log("[CSS Loading Debug] isCSSLoaded state changed:", {
+        isCSSLoaded,
+        processCssResultsLength: processCssResults.length,
+        expectedCssFiles,
+        processCssResults,
+      });
+    }, [isCSSLoaded]);
 
     const handleLoadError = useCallback((href: string) => {
       const message = `Failed to load CSS ${encodeURIComponent(href)}`;
@@ -172,10 +195,21 @@ export async function attach(options: AttachOptions) {
         succeed: false,
         error: message,
       });
+      /* eslint-disable no-console */
+      console.log("[CSS Loading Debug] CSS Load Error:", {
+        href,
+        processCssResultsLength: processCssResults.length,
+        expectedCssFiles,
+        isCSSLoaded: processCssResults.length >= expectedCssFiles,
+      });
 
       setHasCssLoadErrors(true);
 
       if (processCssResults.length >= expectedCssFiles) {
+        /* eslint-disable no-console */
+        console.log(
+          "[CSS Loading Debug] Setting isCSSLoaded to true due to error completion"
+        );
         setIsCSSLoaded(true);
       }
     }, []);
@@ -184,7 +218,15 @@ export async function attach(options: AttachOptions) {
     useEffect(() => {
       const timeout = setTimeout(() => {
         if (!isCSSLoaded) {
-
+          /* eslint-disable no-console */
+          console.log(
+            "[CSS Loading Debug] CSS loading timeout reached, forcing isCSSLoaded to true",
+            {
+              processCssResultsLength: processCssResults.length,
+              expectedCssFiles,
+              processCssResults,
+            }
+          );
           setIsCSSLoaded(true);
         }
       }, 3000); // 3 second timeout
@@ -193,7 +235,7 @@ export async function attach(options: AttachOptions) {
     }, [isCSSLoaded]);
 
     const handleCSSLoad: ReactEventHandler<HTMLLinkElement> = useCallback(
-      (event) => {
+      (event: React.SyntheticEvent<HTMLLinkElement>) => {
         const el = event.target as HTMLLinkElement;
 
         processCssResults.push({
@@ -202,7 +244,19 @@ export async function attach(options: AttachOptions) {
           succeed: true,
         });
 
+        /* eslint-disable no-console */
+        console.log("[CSS Loading Debug] CSS Load Success:", {
+          href: el.href,
+          processCssResultsLength: processCssResults.length,
+          expectedCssFiles,
+          isCSSLoaded: processCssResults.length >= expectedCssFiles,
+        });
+
         if (processCssResults.length >= expectedCssFiles) {
+          /* eslint-disable no-console */
+          console.log(
+            "[CSS Loading Debug] Setting isCSSLoaded to true due to successful completion"
+          );
           setIsCSSLoaded(true);
         }
       },
