@@ -4,6 +4,7 @@ import React, {
   FunctionComponent,
   ReactEventHandler,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -178,6 +179,18 @@ export async function attach(options: AttachOptions) {
         setIsCSSLoaded(true);
       }
     }, []);
+
+    // Add timeout fallback for if CSS load events don't fire
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        if (!isCSSLoaded) {
+
+          setIsCSSLoaded(true);
+        }
+      }, 3000); // 3 second timeout
+
+      return () => clearTimeout(timeout);
+    }, [isCSSLoaded]);
 
     const handleCSSLoad: ReactEventHandler<HTMLLinkElement> = useCallback(
       (event) => {
