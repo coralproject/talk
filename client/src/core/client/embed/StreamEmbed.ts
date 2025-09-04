@@ -5,6 +5,7 @@ import { EventEmitter2 } from "eventemitter2";
 import { RefreshAccessTokenCallback } from "./Coral";
 import {
   withAMPHeight,
+  withCustomEvents,
   withEventEmitter,
   withLiveCommentCount,
   withSetCommentID,
@@ -55,6 +56,7 @@ export interface StreamEmbedConfig {
   amp?: boolean;
   graphQLSubscriptionURI?: string;
   customScrollContainer?: HTMLElement;
+  customEvents?: string[];
 }
 
 export class StreamEmbed {
@@ -130,6 +132,7 @@ export class StreamEmbed {
       this.embedEventEmitter,
       config.enableDeprecatedEvents
     );
+    withCustomEvents(this.streamEventEmitter, config.customEvents);
     if (config.amp) {
       withAMPHeight(this.streamEventEmitter);
     }

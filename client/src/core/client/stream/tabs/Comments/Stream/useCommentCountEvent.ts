@@ -37,9 +37,11 @@ function getText(
 
 /**
  * useCommentCountEvent is a React hook that will
- * emit `commentCount` events.
+ * emit `commentCount` events internally. Custom events are dispatched to the light DOM
+ * only when enabled via the `customEvents` configuration option.
  * @param storyID story id of the comment count
  * @param storyURL story url of the comment count
+ * @param storyMode story mode (regular, QA, ratings, etc.)
  * @param commentCount number of total published comments
  */
 function useCommentCountEvent(
@@ -49,14 +51,23 @@ function useCommentCountEvent(
   commentCount: number
 ) {
   const { eventEmitter, localeBundles } = useCoralContext();
+
   const callback = () => {
-    eventEmitter.emit("commentCount", {
+    const eventData = {
       number: commentCount,
       text: getText(storyMode, localeBundles, commentCount),
       storyID,
       storyURL,
-    });
+    };
+
+    // Emit internally for Coral's own use (e.g., updating comment count displays)
+    eventEmitter.emit("commentCount", eventData);
+
+    // Note: Custom events are now dispatched by the withCustomEvents decorator
+    // based on the user's customEvents configuration. This prevents conflicts
+    // with existing custom events on the user's page.
   };
+
   useEffect(callback, []);
   useEffectWhenChanged(callback, [
     eventEmitter,
