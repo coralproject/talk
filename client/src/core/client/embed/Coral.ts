@@ -41,13 +41,13 @@ export interface Config {
   customScrollContainer?: HTMLElement;
 
   /**
-   * customEvents allows you to subscribe to specific custom events that are dispatched
+   * dataListeners allows you to subscribe to specific data events that are dispatched
    * to the light DOM. This is separate from the normal events system and uses Custom Events API.
    *
-   * Available events:
+   * Available data listeners:
    * - "commentCount": Dispatched when comment counts change
    */
-  customEvents?: string[];
+  dataListeners?: string[];
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
@@ -87,6 +87,6 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     enableDeprecatedEvents: config.enableDeprecatedEvents,
     containerClassName: config.containerClassName || config.bodyClassName,
     customScrollContainer: config.customScrollContainer || undefined,
-    customEvents: config.customEvents || undefined,
+    dataListeners: config.dataListeners || undefined,
   });
 }
