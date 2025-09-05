@@ -1,0 +1,20 @@
+config:
+  runTime: "dockerCompose"
+  version: ""
+  framework: ""
+  buildCommand: "docker-compose build"
+  runCommand: "docker-compose up -d"
+
+environments:
+  - key: "SIGNING_SECRET"
+    value: "random_password"
+
+ports:
+  - protocol: "HTTPS"
+    targetProtocol: "HTTP" 
+    listeningPort: "443"
+    targetPort: "5000"
+    targetIP: "172.17.0.1"
+    public: true
+    path: "/"
+    isAuth: false
