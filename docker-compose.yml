@@ -1,7 +1,7 @@
 version: "2"
 services:
   talk:
-    image: coralproject/talk:7
+    image: coralproject/talk:9
     restart: always
     ports:
       - "172.17.0.1:5000:5000"
