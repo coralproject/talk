@@ -1,13 +1,29 @@
+version: "2"
 services:
-  redis:
-    image: redis:7.2.5
-    container_name: coral-redis
+  talk:
+    image: coralproject/talk:7
     restart: always
     ports:
-      - "6379:6379"
+      - "172.17.0.1:5000:5000"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongo:27017/coral
+      - REDIS_URI=redis://redis:6379
+      - SIGNING_SECRET=${SIGNING_SECRET}
+      - FORCE_SSL=true
+      - TRUST_PROXY=true
+
   mongo:
-    image: mongo:8.0.3
-    container_name: coral-mongo
+    image: mongo:4.2
     restart: always
-    ports:
-      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/db
+
+  redis:
+    image: redis:3.2
+    restart: always
+    volumes:
+      - ./data/redis:/data
