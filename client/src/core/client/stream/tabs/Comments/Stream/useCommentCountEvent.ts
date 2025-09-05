@@ -50,7 +50,7 @@ function useCommentCountEvent(
   storyMode: STORY_MODE | undefined,
   commentCount: number
 ) {
-  const { eventEmitter, localeBundles } = useCoralContext();
+  const { eventEmitter, dataEventEmitter, localeBundles } = useCoralContext();
 
   const callback = () => {
     const eventData = {
@@ -63,14 +63,17 @@ function useCommentCountEvent(
     // Emit internally for Coral's own use (e.g., updating comment count displays)
     eventEmitter.emit("commentCount", eventData);
 
-    // Note: Custom events are now dispatched by the withDataListeners decorator
-    // based on the user's dataListeners configuration. This prevents conflicts
-    // with existing custom events on the user's page.
+    // Emit to dataEventEmitter for dataListeners if available
+    if (dataEventEmitter) {
+      dataEventEmitter.emit("commentCount", eventData);
+    }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(callback, []);
   useEffectWhenChanged(callback, [
     eventEmitter,
+    dataEventEmitter,
     commentCount,
     localeBundles,
     storyID,

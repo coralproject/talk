@@ -77,6 +77,9 @@ export interface CoralContext {
   /** A event emitter */
   eventEmitter: EventEmitter2;
 
+  /** A data event emitter for dataListeners */
+  dataEventEmitter?: EventEmitter2;
+
   /** TokenRefreshProvider is used to obtain a new access token after expiry */
   tokenRefreshProvider: TokenRefreshProvider;
 

@@ -41,13 +41,13 @@ export interface Config {
   customScrollContainer?: HTMLElement;
 
   /**
-   * dataListeners allows you to subscribe to specific data events that are dispatched
-   * to the light DOM. This is separate from the normal events system and uses Custom Events API.
+   * dataEvents callback provides access to data events (like commentCount).
+   * This is separate from the normal analytics events system.
    *
-   * Available data listeners:
-   * - "commentCount": Dispatched when comment counts change
+   * Available data events:
+   * - "commentCount": Emitted when comment counts change
    */
-  dataListeners?: string[];
+  dataEvents?: (dataEventEmitter: EventEmitter2) => void;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
@@ -58,8 +58,17 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     delimiter: ".",
   });
 
+  const dataEventEmitter = new EventEmitter2({
+    wildcard: true,
+    delimiter: ".",
+  });
+
   if (config.events) {
     config.events(embedEventEmitter);
+  }
+
+  if (config.dataEvents) {
+    config.dataEvents(dataEventEmitter);
   }
 
   if (config.bodyClassName) {
@@ -77,6 +86,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     commentID: config.commentID || query.commentID,
     rootURL: config.rootURL || getCurrentScriptOrigin(),
     eventEmitter: embedEventEmitter,
+    dataEventEmitter,
     accessToken: config.accessToken,
     customCSSURL: config.customCSSURL,
     customFontsCSSURL: config.customFontsCSSURL,
@@ -87,6 +97,5 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     enableDeprecatedEvents: config.enableDeprecatedEvents,
     containerClassName: config.containerClassName || config.bodyClassName,
     customScrollContainer: config.customScrollContainer || undefined,
-    dataListeners: config.dataListeners || undefined,
   });
 }

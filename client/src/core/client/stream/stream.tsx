@@ -51,6 +51,7 @@ export interface AttachOptions {
   graphQLSubscriptionURI?: string;
   rootURL: string;
   eventEmitter: EventEmitter2;
+  dataEventEmitter?: EventEmitter2;
   staticConfig: StaticConfig;
   customCSSURL?: string;
   customFontsCSSURL?: string;
@@ -127,6 +128,7 @@ export async function attach(options: AttachOptions) {
     bundle: "stream",
     bundleConfig,
     eventEmitter: options.eventEmitter,
+    dataEventEmitter: options.dataEventEmitter,
     refreshAccessTokenPromise,
     staticConfig: options.staticConfig,
     customScrollContainer: options.customScrollContainer,

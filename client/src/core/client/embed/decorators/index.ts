@@ -3,4 +3,3 @@ export { default as withAMPHeight } from "./withAMPHeight";
 export { default as withEventEmitter } from "./withEventEmitter";
 export { default as withLiveCommentCount } from "./withLiveCommentCount";
 export { default as withSetCommentID } from "./withSetCommentID";
-export { default as withDataListeners } from "./withDataListeners";

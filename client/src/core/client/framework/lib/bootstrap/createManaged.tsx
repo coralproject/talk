@@ -88,6 +88,9 @@ interface CreateContextArguments {
   /** Supports emitting and listening to events. */
   eventEmitter?: EventEmitter2;
 
+  /** Supports emitting and listening to data events for dataListeners. */
+  dataEventEmitter?: EventEmitter2;
+
   /**
    * If true will prompt for additional details during error..
    */
@@ -404,6 +407,7 @@ export default async function createManaged({
   initLocalState = noop,
   localesData,
   eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 1000 }),
+  dataEventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 10 }),
   bundle,
   bundleConfig = {},
   reporterFeedbackPrompt = false,
@@ -495,6 +499,7 @@ export default async function createManaged({
     localeBundles,
     timeagoFormatter,
     eventEmitter,
+    dataEventEmitter,
     rest: createRestClient(rootURL, clientID, accessTokenProvider),
     postMessage,
     localStorage,
