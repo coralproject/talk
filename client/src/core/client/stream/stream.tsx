@@ -50,6 +50,7 @@ export interface AttachOptions {
   graphQLSubscriptionURI?: string;
   rootURL: string;
   eventEmitter: EventEmitter2;
+  dataEventEmitter?: EventEmitter2;
   staticConfig: StaticConfig;
   customCSSURL?: string;
   customFontsCSSURL?: string;
@@ -126,6 +127,7 @@ export async function attach(options: AttachOptions) {
     bundle: "stream",
     bundleConfig,
     eventEmitter: options.eventEmitter,
+    dataEventEmitter: options.dataEventEmitter,
     refreshAccessTokenPromise,
     staticConfig: options.staticConfig,
     customScrollContainer: options.customScrollContainer,
@@ -171,7 +173,6 @@ export async function attach(options: AttachOptions) {
         succeed: false,
         error: message,
       });
-
       setHasCssLoadErrors(true);
 
       if (processCssResults.length >= expectedCssFiles) {
@@ -180,7 +181,7 @@ export async function attach(options: AttachOptions) {
     }, []);
 
     const handleCSSLoad: ReactEventHandler<HTMLLinkElement> = useCallback(
-      (event) => {
+      (event: React.SyntheticEvent<HTMLLinkElement>) => {
         const el = event.target as HTMLLinkElement;
 
         processCssResults.push({

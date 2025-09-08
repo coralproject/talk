@@ -55,6 +55,7 @@ export interface StreamEmbedConfig {
   amp?: boolean;
   graphQLSubscriptionURI?: string;
   customScrollContainer?: HTMLElement;
+  dataEventEmitter: EventEmitter2;
 }
 
 export class StreamEmbed {
@@ -82,6 +83,11 @@ export class StreamEmbed {
    */
   private readonly streamEventEmitter: EventEmitter2;
 
+  /**
+   * dataEventEmitter provides an interface to data events for dataListeners.
+   */
+  private readonly dataEventEmitter: EventEmitter2;
+
   private ready = false;
   private _rendered = false;
   private _assetsPreloaded = false;
@@ -100,6 +106,7 @@ export class StreamEmbed {
 
   constructor(config: StreamEmbedConfig) {
     this.config = config;
+
     const findElement = document.getElementById(config.id);
     if (!findElement) {
       throw new Error(`element ${config.id} was not found`);
@@ -114,6 +121,8 @@ export class StreamEmbed {
       maxListeners: 1000,
       delimiter: ".",
     });
+    // Use the dataEventEmitter passed from createStreamEmbed
+    this.dataEventEmitter = config.dataEventEmitter;
 
     // Save a reference to the event emitter used by the application.
     this.embedEventEmitter = config.eventEmitter;
@@ -130,6 +139,7 @@ export class StreamEmbed {
       this.embedEventEmitter,
       config.enableDeprecatedEvents
     );
+
     if (config.amp) {
       withAMPHeight(this.streamEventEmitter);
     }
@@ -367,6 +377,7 @@ export class StreamEmbed {
       commentID: this.config.commentID,
       rootURL: this.config.rootURL,
       eventEmitter: this.streamEventEmitter,
+      dataEventEmitter: this.dataEventEmitter,
       accessToken: this.config.accessToken,
       cssAssets: this.cssAssets,
       refreshAccessToken: this.config.refreshAccessToken,
@@ -385,6 +396,13 @@ export class StreamEmbed {
       defaultFontsCSSURL: this.defaultFontsCSSURL,
       customScrollContainer: this.config.customScrollContainer,
     });
+  }
+
+  /**
+   * Get the dataEventEmitter for listening to data events.
+   */
+  public getDataEventEmitter(): EventEmitter2 {
+    return this.dataEventEmitter;
   }
 
   public render() {

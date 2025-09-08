@@ -37,9 +37,11 @@ function getText(
 
 /**
  * useCommentCountEvent is a React hook that will
- * emit `commentCount` events.
+ * emit `commentCount` events internally. Data events are dispatched to the light DOM
+ * only when enabled via the `dataListeners` configuration option.
  * @param storyID story id of the comment count
  * @param storyURL story url of the comment count
+ * @param storyMode story mode (regular, QA, ratings, etc.)
  * @param commentCount number of total published comments
  */
 function useCommentCountEvent(
@@ -48,18 +50,30 @@ function useCommentCountEvent(
   storyMode: STORY_MODE | undefined,
   commentCount: number
 ) {
-  const { eventEmitter, localeBundles } = useCoralContext();
+  const { eventEmitter, dataEventEmitter, localeBundles } = useCoralContext();
+
   const callback = () => {
-    eventEmitter.emit("commentCount", {
+    const eventData = {
       number: commentCount,
       text: getText(storyMode, localeBundles, commentCount),
       storyID,
       storyURL,
-    });
+    };
+
+    // Emit internally for Coral's own use (e.g., updating comment count displays)
+    eventEmitter.emit("commentCount", eventData);
+
+    // Emit to dataEventEmitter for dataListeners if available
+    if (dataEventEmitter) {
+      dataEventEmitter.emit("commentCount", eventData);
+    }
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(callback, []);
   useEffectWhenChanged(callback, [
     eventEmitter,
+    dataEventEmitter,
     commentCount,
     localeBundles,
     storyID,

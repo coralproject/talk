@@ -75,6 +75,19 @@ describe("Basic integration test", () => {
           "customCSSURL": undefined,
           "customFontsCSSURL": undefined,
           "customScrollContainer": undefined,
+          "dataEventEmitter": EventEmitter {
+            "_conf": Object {
+              "delimiter": ".",
+              "wildcard": true,
+            },
+            "_events": Object {},
+            "_newListener": false,
+            "_removeListener": false,
+            "delimiter": ".",
+            "listenerTree": Object {},
+            "verboseMemoryLeak": false,
+            "wildcard": true,
+          },
           "defaultFontsCSSURL": undefined,
           "disableDefaultFonts": undefined,
           "element": <div

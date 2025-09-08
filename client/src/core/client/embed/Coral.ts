@@ -39,6 +39,15 @@ export interface Config {
   disableDefaultFonts?: boolean;
   amp?: boolean;
   customScrollContainer?: HTMLElement;
+
+  /**
+   * dataEvents callback provides access to data events (like commentCount).
+   * This is separate from the normal analytics events system.
+   *
+   * Available data events:
+   * - "commentCount": Emitted when comment counts change
+   */
+  dataEvents?: (dataEventEmitter: EventEmitter2) => void;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
@@ -49,8 +58,17 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     delimiter: ".",
   });
 
+  const dataEventEmitter = new EventEmitter2({
+    wildcard: true,
+    delimiter: ".",
+  });
+
   if (config.events) {
     config.events(embedEventEmitter);
+  }
+
+  if (config.dataEvents) {
+    config.dataEvents(dataEventEmitter);
   }
 
   if (config.bodyClassName) {
@@ -68,6 +86,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     commentID: config.commentID || query.commentID,
     rootURL: config.rootURL || getCurrentScriptOrigin(),
     eventEmitter: embedEventEmitter,
+    dataEventEmitter,
     accessToken: config.accessToken,
     customCSSURL: config.customCSSURL,
     customFontsCSSURL: config.customFontsCSSURL,
