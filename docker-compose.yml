@@ -15,6 +15,7 @@ services:
       - SIGNING_SECRET=${SIGNING_SECRET}
       - FORCE_SSL=true
       - TRUST_PROXY=true
+      - ENABLE_GRAPHIQL=true
 
   mongo:
     image: mongo:4.2
