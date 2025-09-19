@@ -99,19 +99,31 @@ export async function findOrCreate(
   // this prevents bad actors from spoofing their request origin
   // and sending us bad url's that don't map within our own sites
   if (input.url) {
-    const url = new URL(input.url);
-    const origin = url.origin;
+    try {
+      const url = new URL(input.url);
+      const origin = url.origin;
 
-    // same as the `corsWhitelisted` middleware, we will attempt
-    // to retrieve a site based on the origin url
-    const site = await retrieveSiteByOrigin(mongo, tenant.id, origin);
+      // same as the `corsWhitelisted` middleware, we will attempt
+      // to retrieve a site based on the origin url
+      const site = await retrieveSiteByOrigin(mongo, tenant.id, origin);
 
-    // if we don't find a site, throw an error and block the
-    // `findOrCreate` request from proceeding any further
-    if (!site) {
+      // if we don't find a site, throw an error and block the
+      // `findOrCreate` request from proceeding any further
+      if (!site) {
+        logger.warn(
+          { storyID: input.id, storyURL: input.url },
+          "story url tampering detected"
+        );
+
+        throw new StoryURLInvalidError({
+          storyURL: input.url,
+          tenantDomain: tenant.domain,
+        });
+      }
+    } catch (err) {
       logger.warn(
-        { storyID: input.id, storyURL: input.url },
-        "story url tampering detected"
+        { storyID: input.id, storyURL: input.url, err },
+        "unable to parse origin off of input story url"
       );
 
       throw new StoryURLInvalidError({
