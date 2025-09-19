@@ -93,6 +93,8 @@ export async function findOrCreate(
   scraper: ScraperQueue,
   now = new Date()
 ) {
+  let siteID = null;
+
   // validate that the input url's origin matches our allowed
   // origins table
   //
@@ -120,6 +122,8 @@ export async function findOrCreate(
           tenantDomain: tenant.domain,
         });
       }
+
+      siteID = site.id;
     } catch (err) {
       logger.warn(
         { storyID: input.id, storyURL: input.url, err },
@@ -138,25 +142,11 @@ export async function findOrCreate(
     validateStoryMode(tenant, input.mode);
   }
 
-  let siteID = null;
   if (input.id) {
     const story = await findStory(mongo, tenant.id, { id: input.id });
     if (story) {
       siteID = story.siteID;
     }
-  }
-
-  if (input.url && siteID === null) {
-    const site = await findSiteByURL(mongo, tenant.id, input.url);
-    // If the URL is provided, and the url is not associated with a site, then refuse
-    // to create the Asset.
-    if (!site) {
-      throw new StoryURLInvalidError({
-        storyURL: input.url,
-        tenantDomain: tenant.domain,
-      });
-    }
-    siteID = site.id;
   }
 
   const { story, wasUpserted } = await findOrCreateStory(
