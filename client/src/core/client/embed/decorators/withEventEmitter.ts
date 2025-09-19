@@ -17,6 +17,8 @@ const withEventEmitter = (
       emitEventName = eventName;
     } else if (startsWith(eventName, "viewer.")) {
       emitEventName = eventName.substr("viewer.".length);
+    } else if (startsWith(eventName, "count.")) {
+      emitEventName = eventName;
     } else if (enableDeprecatedEvents) {
       if (startsWith(eventName, "mutation.")) {
         emitEventName = eventName;
