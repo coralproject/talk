@@ -106,7 +106,7 @@ jobs:
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       # Build tag push the image after a merge to develop
       - name: Build and Push (develop)
-        if: github.ref == 'refs/heads/develop' || github.ref
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/builds'
         run: |
           docker buildx build \
             --platform linux/amd64 \
@@ -161,7 +161,7 @@ jobs:
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       # Build for develop branch using native docker buildx
       - name: Build and Push (develop)
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/builds'
         run: |
           docker buildx build \
             --platform linux/arm64 \
@@ -202,7 +202,7 @@ jobs:
             workload_identity_provider: projects/418768622481/locations/global/workloadIdentityPools/github-actions/providers/github
             service_account: github-actions@the-coral-project.iam.gserviceaccount.com
         - name: Create and Push Manifest for develop branch
-          if: github.ref == 'refs/heads/develop'
+          if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/builds'
           run: |
             docker manifest create ${{ env.IMAGE_REPOSITORY }}:develop-latest \
               --amend ${{ env.IMAGE_REPOSITORY }}:develop-latest-amd64 \
