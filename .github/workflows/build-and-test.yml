@@ -76,7 +76,7 @@ jobs:
   build-amd64:
     name: Build amd64
     runs-on: coral-ci
-    if: github.ref == 'refs/heads/develop' || startsWith( github.ref, 'refs/heads/release-') || github.ref == 'refs/heads/bchan/builds'
+    if: github.ref == 'refs/heads/develop' || startsWith( github.ref, 'refs/heads/release-')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -106,7 +106,7 @@ jobs:
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       # Build tag push the image after a merge to develop
       - name: Build and Push (develop)
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/builds'
+        if: github.ref == 'refs/heads/develop'
         run: |
           docker buildx build \
             --platform linux/amd64 \
@@ -131,7 +131,7 @@ jobs:
   build-arm64:
     name: Build arm64
     runs-on: coral-ci-arm
-    if: github.ref == 'refs/heads/develop' || startsWith( github.ref, 'refs/heads/release-') || github.ref == 'refs/heads/bchan/builds'
+    if: github.ref == 'refs/heads/develop' || startsWith( github.ref, 'refs/heads/release-')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -161,7 +161,7 @@ jobs:
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       # Build for develop branch using native docker buildx
       - name: Build and Push (develop)
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/builds'
+        if: github.ref == 'refs/heads/develop'
         run: |
           docker buildx build \
             --platform linux/arm64 \
@@ -187,7 +187,7 @@ jobs:
       name: Create Manifest
       needs: [build-arm64, build-amd64]
       runs-on: ubuntu-24.04
-      if: github.ref == 'refs/heads/develop' || startsWith( github.ref, 'refs/heads/release-') || github.ref == 'refs/heads/bchan/builds'
+      if: github.ref == 'refs/heads/develop' || startsWith( github.ref, 'refs/heads/release-')
       env:
         IMAGE_REPOSITORY: "us-east1-docker.pkg.dev/the-coral-project/coral/talk"
       steps:
@@ -205,7 +205,7 @@ jobs:
           run: |
             gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
         - name: Create and Push Manifest for develop branch
-          if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/builds'
+          if: github.ref == 'refs/heads/develop'
           run: |
             docker manifest create ${{ env.IMAGE_REPOSITORY }}:develop-latest \
               --amend ${{ env.IMAGE_REPOSITORY }}:develop-latest-amd64 \
