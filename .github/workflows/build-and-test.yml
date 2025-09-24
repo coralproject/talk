@@ -76,7 +76,7 @@ jobs:
   build-amd64:
     name: Build amd64
     runs-on: coral-ci
-    if: github.ref == 'refs/heads/develop' || startsWith( github.ref, 'refs/heads/release-')
+    if: github.ref == 'refs/heads/develop' || startsWith( github.ref, 'refs/heads/release-') || github.ref == 'refs/heads/iambrianchan-patch-1'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
