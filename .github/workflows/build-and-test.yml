@@ -201,6 +201,9 @@ jobs:
             project_id: the-coral-project
             workload_identity_provider: projects/418768622481/locations/global/workloadIdentityPools/github-actions/providers/github
             service_account: github-actions@the-coral-project.iam.gserviceaccount.com
+        - name: Configure Docker GAR
+          run: |
+            gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
         - name: Create and Push Manifest for develop branch
           if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/bchan/builds'
           run: |
