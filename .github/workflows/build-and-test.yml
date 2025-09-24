@@ -10,6 +10,10 @@ env:
   IMAGE_CACHE_REPOSITORY: "coralproject/ci"
   DOCKERHUB_USERNAME: "coralproject"
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build-and-test:
     name: Test
