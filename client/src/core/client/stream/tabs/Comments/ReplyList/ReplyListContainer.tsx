@@ -17,7 +17,7 @@ import {
 } from "coral-framework/lib/relay";
 import { FragmentKeys } from "coral-framework/lib/relay/types";
 import { Overwrite } from "coral-framework/types";
-import { MAX_REPLY_INDENT_DEPTH } from "coral-stream/constants";
+import { MAX_REPLY_INDENT_DEPTH, MAX_PERMALINK_REPLY_INDENT_DEPTH } from "coral-stream/constants";
 
 import {
   ShowAllRepliesEvent,
@@ -240,7 +240,7 @@ type FragmentVariables = Omit<PaginationQuery, "commentID">;
  */
 export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
   const flattenReplies = props.flattenReplies;
-  const [{ keyboardShortcutsConfig, refreshStream }] =
+  const [{ keyboardShortcutsConfig, refreshStream, commentID }] =
     useLocal<ReplyListContainerLocal>(
       graphql`
         fragment ReplyListContainerLocal on Local {
@@ -250,12 +250,16 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
             reverse
           }
           refreshStream
+          commentID
         }
       `
     );
   // We do local replies at the last level when flatten replies are not set.
+  // Use different depth limits for permalink view vs regular stream view
+  const isPermalinkView = Boolean(commentID);
+  const maxDepth = isPermalinkView ? MAX_PERMALINK_REPLY_INDENT_DEPTH : MAX_REPLY_INDENT_DEPTH;
   const atLastLevelLocalReply =
-    props.indentLevel === MAX_REPLY_INDENT_DEPTH - 1 && !flattenReplies;
+    props.indentLevel === maxDepth - 1 && !flattenReplies;
 
   const memoize = useMemoizer();
   const [showAll, isLoadingShowAll] = useLoadMore(props.relay, 999999999);
@@ -337,7 +341,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = (props) => {
               edge.node.id,
               {
                 ...edge.node,
-                replyListElement: props.NextReplyListComponent && (
+                replyListElement: props.NextReplyListComponent && !atLastLevelLocalReply && (
                   // Important: Props are being passed here to the next level!
                   // Not all of them are passed.
                   <props.NextReplyListComponent
