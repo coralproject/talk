@@ -57,7 +57,7 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
         allowTombstoneReveal={allowIgnoredTombstoneReveal}
       >
         <HorizontalGutter spacing={commentSeenEnabled ? 0 : undefined}>
-          <CollapsableComment>
+          <CollapsableComment defaultCollapsed={indentLevel === 1}>
             {({ collapsed, toggleCollapsed }) => {
               const collapseEnabled = !isReplyFlattened(
                 settings.flattenReplies,

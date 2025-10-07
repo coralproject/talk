@@ -7,10 +7,14 @@ interface InjectedCollapsableCommentProps {
 
 interface Props {
   children(props: InjectedCollapsableCommentProps): ReactElement;
+  defaultCollapsed?: boolean;
 }
 
-const CollapsableComment: FunctionComponent<Props> = ({ children }) => {
-  const [collapsed, setCollapsed] = useState<boolean>(false);
+const CollapsableComment: FunctionComponent<Props> = ({
+  children,
+  defaultCollapsed = false,
+}) => {
+  const [collapsed, setCollapsed] = useState<boolean>(defaultCollapsed);
   const toggleCollapsed = useCallback(() => {
     setCollapsed(!collapsed);
   }, [collapsed]);
