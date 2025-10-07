@@ -57,7 +57,10 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
         allowTombstoneReveal={allowIgnoredTombstoneReveal}
       >
         <HorizontalGutter spacing={commentSeenEnabled ? 0 : undefined}>
-          <CollapsableComment defaultCollapsed={indentLevel === 1}>
+          <CollapsableComment
+            defaultCollapsed={indentLevel === 1}
+            comment={comment}
+          >
             {({ collapsed, toggleCollapsed }) => {
               const collapseEnabled = !isReplyFlattened(
                 settings.flattenReplies,
@@ -121,6 +124,7 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ReplyListCommentContainer_comment on Comment {
       enteredLive
+      lastViewerAction
       ...CommentContainer_comment
       ...IgnoredTombstoneOrHideContainer_comment
       ...DeletedTombstoneContainer_comment

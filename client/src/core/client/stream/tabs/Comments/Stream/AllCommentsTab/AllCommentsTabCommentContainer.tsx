@@ -51,7 +51,10 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
       <FadeInTransition active={!!comment.enteredLive}>
-        <CollapsableComment defaultCollapsed={indentLevel === 1}>
+        <CollapsableComment
+          defaultCollapsed={indentLevel === 1}
+          comment={comment}
+        >
           {({ collapsed, toggleCollapsed }) => (
             <HorizontalGutter
               className={cn({
@@ -120,6 +123,7 @@ const enhanced = withFragmentContainer<Props>({
     ) {
       id
       enteredLive
+      lastViewerAction
       seen
       ...CommentContainer_comment
       ...ReplyListContainer1_comment @arguments(refreshStream: $refreshStream)
