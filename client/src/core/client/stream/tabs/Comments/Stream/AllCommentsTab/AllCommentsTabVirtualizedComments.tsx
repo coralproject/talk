@@ -240,7 +240,6 @@ const AllCommentsTabVirtualizedComments: FunctionComponent<Props> = ({
                   story={story}
                   settings={settings}
                   isLast={index === comments.length - 1}
-                  indentLevel={0}
                 />
               </>
             );
