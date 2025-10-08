@@ -289,6 +289,7 @@ export const combineTenantDefaultsAndInput = (
     rte: defaultRTEConfiguration,
     amp: false,
     flattenReplies: false,
+    collapseReplies: false,
     disableDefaultFonts: false,
     emailDomainModeration: [],
     embeddedComments: {

@@ -58,7 +58,7 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
       >
         <HorizontalGutter spacing={commentSeenEnabled ? 0 : undefined}>
           <CollapsableComment
-            defaultCollapsed={indentLevel === 1}
+            defaultCollapsed={indentLevel === 1 && settings.collapseReplies}
             comment={comment}
           >
             {({ collapsed, toggleCollapsed }) => {
@@ -118,6 +118,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment ReplyListCommentContainer_settings on Settings {
       ...CommentContainer_settings
       flattenReplies
+      collapseReplies
       featureFlags
     }
   `,
