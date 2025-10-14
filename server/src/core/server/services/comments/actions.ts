@@ -25,7 +25,7 @@ import {
 import { getLatestRevision } from "coral-server/models/comment/helpers";
 import { retrieveSite } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
-import { User } from "coral-server/models/user";
+import { retrieveUser, User } from "coral-server/models/user";
 import { isSiteBanned } from "coral-server/models/user/helpers";
 import { AugmentedRedis } from "coral-server/services/redis";
 import {
@@ -41,6 +41,7 @@ import {
   publishCommentReactionCreated,
 } from "../events";
 import { I18n } from "../i18n";
+import { ExternalNotificationsService } from "../notifications/externalService";
 import { submitCommentAsSpam } from "../spam";
 
 export type CreateAction = CreateActionInput;
@@ -320,6 +321,7 @@ export async function createReaction(
   tenant: Tenant,
   author: User,
   input: CreateCommentReaction,
+  externalNotifications: ExternalNotificationsService,
   now = new Date()
 ) {
   const { comment, action } = await addCommentAction(
@@ -353,6 +355,20 @@ export async function createReaction(
     ).catch((err) => {
       logger.error({ err }, "could not publish comment flag created");
     });
+
+    if (externalNotifications.active()) {
+      const parentAuthor = comment.authorID
+        ? await retrieveUser(mongo, comment.tenantID, comment.authorID)
+        : null;
+
+      if (parentAuthor) {
+        await externalNotifications.createRec({
+          from: author,
+          to: parentAuthor,
+          comment,
+        });
+      }
+    }
   }
 
   return comment;

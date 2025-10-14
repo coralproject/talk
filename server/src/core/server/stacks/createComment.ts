@@ -41,7 +41,7 @@ import {
   updateStoryLastCommentedAt,
 } from "coral-server/models/story";
 import { ensureFeatureFlag, Tenant } from "coral-server/models/tenant";
-import { User } from "coral-server/models/user";
+import { retrieveUser, User } from "coral-server/models/user";
 import { isSiteBanned, roleIsStaff } from "coral-server/models/user/helpers";
 import { moderate, removeTag } from "coral-server/services/comments";
 import {
@@ -71,6 +71,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import approveComment from "./approveComment";
 import {
   publishChanges,
@@ -214,6 +215,7 @@ export default async function create(
   i18n: I18n,
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
+  externalNotifications: ExternalNotificationsService,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -443,6 +445,23 @@ export default async function create(
         reply: comment,
         type,
       });
+
+      // if we have an external notifications service hooked up
+      // send the reply notification out to that
+      if (externalNotifications.active()) {
+        const parentAuthor = parent.authorID
+          ? await retrieveUser(mongo, parent.tenantID, parent.authorID)
+          : null;
+
+        if (parentAuthor) {
+          await externalNotifications.createReply({
+            from: author,
+            to: parentAuthor,
+            parent,
+            reply: comment,
+          });
+        }
+      }
     }
   }
 
