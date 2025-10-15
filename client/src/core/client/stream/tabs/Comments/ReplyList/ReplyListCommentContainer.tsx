@@ -59,6 +59,7 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
         <HorizontalGutter spacing={commentSeenEnabled ? 0 : undefined}>
           <CollapsableComment
             defaultCollapsed={indentLevel === 1 && settings.collapseReplies}
+            commentID={comment.id}
             comment={comment}
           >
             {({ collapsed, toggleCollapsed }) => {
@@ -124,6 +125,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   comment: graphql`
     fragment ReplyListCommentContainer_comment on Comment {
+      id
       enteredLive
       lastViewerAction
       ...CommentContainer_comment
