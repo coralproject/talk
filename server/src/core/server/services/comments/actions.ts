@@ -357,14 +357,15 @@ export async function createReaction(
     });
 
     if (externalNotifications.active()) {
-      const parentAuthor = comment.authorID
+      const reccingUser = author;
+      const reccedUser = comment.authorID
         ? await retrieveUser(mongo, comment.tenantID, comment.authorID)
         : null;
 
-      if (parentAuthor) {
+      if (reccedUser) {
         await externalNotifications.createRec({
-          from: author,
-          to: parentAuthor,
+          from: reccingUser,
+          to: reccedUser,
           comment,
         });
       }

@@ -449,14 +449,15 @@ export default async function create(
       // if we have an external notifications service hooked up
       // send the reply notification out to that
       if (externalNotifications.active()) {
-        const parentAuthor = parent.authorID
+        const replyingUser = author;
+        const repliedToUser = parent.authorID
           ? await retrieveUser(mongo, parent.tenantID, parent.authorID)
           : null;
 
-        if (parentAuthor) {
+        if (repliedToUser) {
           await externalNotifications.createReply({
-            from: author,
-            to: parentAuthor,
+            from: replyingUser,
+            to: repliedToUser,
             parent,
             reply: comment,
           });
