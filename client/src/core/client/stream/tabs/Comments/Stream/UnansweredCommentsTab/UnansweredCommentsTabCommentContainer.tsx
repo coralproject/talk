@@ -38,7 +38,7 @@ const UnansweredCommentsTabCommentContainer: FunctionComponent<Props> = ({
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
       <FadeInTransition active={!!comment.enteredLive}>
-        <CollapsableComment commentID={comment.id} comment={comment}>
+        <CollapsableComment comment={comment}>
           {({ collapsed, toggleCollapsed }) => (
             <HorizontalGutter
               className={cn({

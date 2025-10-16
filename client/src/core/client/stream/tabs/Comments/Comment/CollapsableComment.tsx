@@ -13,8 +13,8 @@ interface InjectedCollapsableCommentProps {
 interface Props {
   children(props: InjectedCollapsableCommentProps): ReactElement;
   defaultCollapsed?: boolean;
-  commentID: string;
-  comment?: {
+  comment: {
+    id: string;
     lastViewerAction?: string | null;
   };
 }
@@ -22,7 +22,6 @@ interface Props {
 const CollapsableComment: FunctionComponent<Props> = ({
   children,
   defaultCollapsed = false,
-  commentID,
   comment,
 }) => {
   const [{ collapsedCommentSettings }, setLocal] =
@@ -44,20 +43,20 @@ const CollapsableComment: FunctionComponent<Props> = ({
     }
 
     const commentInSettings =
-      collapsedCommentSettings?.commentIDs.includes(commentID) ?? false;
+      collapsedCommentSettings?.commentIDs.includes(comment.id) ?? false;
     // If in settings list, it means it's toggled to opposite of default
     return defaultCollapsed ? !commentInSettings : commentInSettings;
-  }, [collapsedCommentSettings, commentID, defaultCollapsed, isNewlyCreated]);
+  }, [collapsedCommentSettings, comment.id, defaultCollapsed, isNewlyCreated]);
 
   const toggleCollapsed = useCallback(() => {
     const initialSettings = collapsedCommentSettings ?? { commentIDs: [] };
-    const indexOfComment = initialSettings.commentIDs.indexOf(commentID);
+    const indexOfComment = initialSettings.commentIDs.indexOf(comment.id);
 
     if (indexOfComment === -1) {
       // Add to list - comment is now opposite of default
       setLocal({
         collapsedCommentSettings: {
-          commentIDs: initialSettings.commentIDs.concat(commentID),
+          commentIDs: initialSettings.commentIDs.concat(comment.id),
         },
       });
     } else {
@@ -65,12 +64,12 @@ const CollapsableComment: FunctionComponent<Props> = ({
       setLocal({
         collapsedCommentSettings: {
           commentIDs: initialSettings.commentIDs.filter(
-            (id: string) => id !== commentID
+            (id: string) => id !== comment.id
           ),
         },
       });
     }
-  }, [commentID, collapsedCommentSettings, setLocal]);
+  }, [comment.id, collapsedCommentSettings, setLocal]);
 
   return children({ collapsed, toggleCollapsed });
 };

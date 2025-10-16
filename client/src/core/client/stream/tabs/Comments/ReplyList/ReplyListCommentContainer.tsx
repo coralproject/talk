@@ -59,7 +59,6 @@ const ReplyListCommentContainer: FunctionComponent<Props> = ({
         <HorizontalGutter spacing={commentSeenEnabled ? 0 : undefined}>
           <CollapsableComment
             defaultCollapsed={indentLevel === 1 && settings.collapseReplies}
-            commentID={comment.id}
             comment={comment}
           >
             {({ collapsed, toggleCollapsed }) => {

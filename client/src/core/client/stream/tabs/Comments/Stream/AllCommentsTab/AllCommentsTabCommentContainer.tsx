@@ -53,7 +53,6 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
       <FadeInTransition active={!!comment.enteredLive}>
         <CollapsableComment
           defaultCollapsed={indentLevel === 1}
-          commentID={comment.id}
           comment={comment}
         >
           {({ collapsed, toggleCollapsed }) => (
