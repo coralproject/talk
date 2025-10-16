@@ -1,12 +1,14 @@
 import { Localized } from "@fluent/react/compat";
+import React, { FunctionComponent } from "react";
+import { graphql } from "react-relay";
+
 import {
   FieldSet,
   FormField,
   FormFieldDescription,
   Label,
 } from "coral-ui/components/v2";
-import React, { FunctionComponent } from "react";
-import { graphql } from "react-relay";
+
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
