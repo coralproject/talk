@@ -4,7 +4,7 @@ import { MongoContext } from "coral-server/data/context";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { getURLWithCommentID, retrieveStory } from "coral-server/models/story";
 import { User } from "coral-server/models/user";
-import htmlToText from "html-to-text";
+import { convert } from "html-to-text";
 
 const NotificationSource = "Coral";
 const ProfileType = "Coral";
@@ -90,7 +90,7 @@ export class ExternalNotificationsService {
 
   private computeSnippetFromComment(comment: Comment): string {
     const latestRevision = getLatestRevision(comment);
-    const formatted = htmlToText.convert(latestRevision.body);
+    const formatted = convert(latestRevision.body);
     const split = formatted.split(/(\s+)/);
 
     if (split.length < 50) {
