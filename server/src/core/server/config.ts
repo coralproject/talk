@@ -508,13 +508,13 @@ const config = convict({
   external_notifications_api_url: {
     doc: "URL to forward notifications information to an external url.",
     format: "url",
-    default: null,
+    default: "",
     env: "EXTERNAL_NOTIFICATIONS_API_URL",
   },
   external_notifications_api_key: {
     doc: "API key to use when forwarding notifications to an external url",
     format: String,
-    default: null,
+    default: "",
     env: "EXTERNAL_NOTIFICATIONS_API_KEY",
   },
 });
