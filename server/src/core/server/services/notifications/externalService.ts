@@ -5,6 +5,7 @@ import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { getURLWithCommentID, retrieveStory } from "coral-server/models/story";
 import { User } from "coral-server/models/user";
 import { convert } from "html-to-text";
+import fetch from "node-fetch";
 
 const NotificationSource = "Coral";
 const ProfileType = "Coral";
