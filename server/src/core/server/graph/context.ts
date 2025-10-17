@@ -157,17 +157,19 @@ export default class GraphContext {
       this.config.get("redis_cache_expiry") / 1000
     );
 
-    this.notifications = new InternalNotificationContext(
-      this.mongo,
-      this.redis,
-      this.i18n,
-      this.logger
-    );
-
     this.externalNotifications = new ExternalNotificationsService(
       this.config,
       this.logger,
       this.mongo
+    );
+
+    this.notifications = new InternalNotificationContext(
+      this.mongo,
+      this.redis,
+      this.logger,
+      // if external notifications are active, we
+      // turn off the internal notifications
+      !this.externalNotifications.active()
     );
   }
 }
