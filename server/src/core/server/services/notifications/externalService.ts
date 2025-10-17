@@ -122,16 +122,25 @@ export class ExternalNotificationsService {
       return;
     }
 
-    const data = {
-      source: NotificationSource,
-      type: NotificationType.CoralRec,
-      from: this.userToExternalProfile(input.from),
-      to: this.userToExternalProfile(input.to),
-      storyId: input.comment.storyID,
-      comment: this.commentToPayload(input.comment),
-    };
+    try {
+      const data = {
+        source: NotificationSource,
+        type: NotificationType.CoralRec,
+        from: this.userToExternalProfile(input.from),
+        to: this.userToExternalProfile(input.to),
+        storyId: input.comment.storyID,
+        comment: this.commentToPayload(input.comment),
+      };
 
-    return await this.send(data);
+      return await this.send(data);
+    } catch (err) {
+      this.logger.warn(
+        { err, input },
+        "an error occurred while sending a rec notification"
+      );
+    }
+
+    return false;
   }
 
   public async createReply(input: CreateReplyInput) {
@@ -139,22 +148,31 @@ export class ExternalNotificationsService {
       return;
     }
 
-    const data = {
-      source: NotificationSource,
-      type: NotificationType.CoralReply,
-      from: this.userToExternalProfile(input.from),
-      to: this.userToExternalProfile(input.to),
-      storyId: input.parent.storyID,
-      comment: await this.commentToPayload(input.parent),
-      reply: await this.commentToPayload(input.reply),
-    };
+    try {
+      const data = {
+        source: NotificationSource,
+        type: NotificationType.CoralReply,
+        from: this.userToExternalProfile(input.from),
+        to: this.userToExternalProfile(input.to),
+        storyId: input.parent.storyID,
+        comment: await this.commentToPayload(input.parent),
+        reply: await this.commentToPayload(input.reply),
+      };
 
-    return await this.send(data);
+      return await this.send(data);
+    } catch (err) {
+      this.logger.warn(
+        { err, input },
+        "an error occurred while sending a reply notification"
+      );
+    }
+
+    return false;
   }
 
   private async send(notification: any) {
     if (!this.active()) {
-      return;
+      return false;
     }
 
     const data = {
