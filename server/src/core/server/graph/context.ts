@@ -29,6 +29,7 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { Request } from "coral-server/types/express";
 
+import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import loaders from "./loaders";
 import mutators from "./mutators";
 import SeenCommentsCollection from "./seenCommentsCollection";
@@ -105,6 +106,7 @@ export default class GraphContext {
   public readonly wordList: WordListService;
 
   public readonly notifications: InternalNotificationContext;
+  public readonly externalNotifications: ExternalNotificationsService;
 
   constructor(options: GraphContextOptions) {
     this.id = options.id || uuid();
@@ -155,11 +157,19 @@ export default class GraphContext {
       this.config.get("redis_cache_expiry") / 1000
     );
 
+    this.externalNotifications = new ExternalNotificationsService(
+      this.config,
+      this.logger,
+      this.mongo
+    );
+
     this.notifications = new InternalNotificationContext(
       this.mongo,
       this.redis,
-      this.i18n,
-      this.logger
+      this.logger,
+      // if external notifications are active, we
+      // turn off the internal notifications
+      !this.externalNotifications.active()
     );
   }
 }

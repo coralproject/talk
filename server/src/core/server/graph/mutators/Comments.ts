@@ -64,6 +64,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.i18n,
         ctx.broker,
         ctx.notifications,
+        ctx.externalNotifications,
         ctx.tenant,
         ctx.user!,
         {
@@ -130,6 +131,7 @@ export const Comments = (ctx: GraphContext) => ({
         commentID,
         commentRevisionID,
       },
+      ctx.externalNotifications,
       ctx.now
     ),
   removeReaction: ({

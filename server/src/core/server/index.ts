@@ -49,6 +49,7 @@ import { retrieveAllTenants, retrieveTenant, Tenant } from "./models/tenant";
 import { WordListCategory } from "./services/comments/pipeline/phases/wordList/message";
 import { WordListService } from "./services/comments/pipeline/phases/wordList/service";
 import { ErrorReporter, SentryErrorReporter } from "./services/errors";
+import { ExternalNotificationsService } from "./services/notifications/externalService";
 import { InternalNotificationContext } from "./services/notifications/internal/context";
 import {
   isInstalled,
@@ -259,6 +260,12 @@ class Server {
     // Prime the tenant cache so it'll be ready to serve now.
     await this.tenantCache.primeAll();
 
+    const externalNotifications = new ExternalNotificationsService(
+      this.config,
+      logger,
+      this.mongo
+    );
+
     // Create the Job Queue.
     this.tasks = createQueue({
       config: this.config,
@@ -267,11 +274,12 @@ class Server {
       tenantCache: this.tenantCache,
       i18n: this.i18n,
       signingConfig: this.signingConfig,
+      externalNotifications,
       notifications: new InternalNotificationContext(
         this.mongo,
         this.redis,
-        this.i18n,
-        logger
+        logger,
+        !externalNotifications.active()
       ),
     });
 

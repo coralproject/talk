@@ -15,7 +15,6 @@ import {
   User,
 } from "coral-server/models/user";
 import { authorIsIgnored } from "coral-server/models/user/helpers";
-import { I18n } from "coral-server/services/i18n";
 
 import {
   GQLCOMMENT_STATUS,
@@ -77,18 +76,18 @@ export class InternalNotificationContext {
   private mongo: MongoContext;
   private redis: AugmentedRedis;
   private log: Logger;
-  // private i18n: I18n;
+  private active: boolean;
 
   constructor(
     mongo: MongoContext,
     redis: AugmentedRedis,
-    i18n: I18n,
-    log: Logger
+    log: Logger,
+    active = true
   ) {
     this.mongo = mongo;
     this.redis = redis;
-    // this.i18n = i18n;
     this.log = log;
+    this.active = active;
   }
 
   public async create(
@@ -96,6 +95,10 @@ export class InternalNotificationContext {
     lang: LanguageCode,
     input: CreateNotificationInput
   ) {
+    if (!this.active) {
+      return;
+    }
+
     const {
       type,
       targetUserID,
