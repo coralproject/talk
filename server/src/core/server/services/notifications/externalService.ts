@@ -1,6 +1,5 @@
 import Logger from "bunyan";
 import { Config } from "coral-server/config";
-import { MongoContext } from "coral-server/data/context";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { Site } from "coral-server/models/site";
 import { getURLWithCommentID, Story } from "coral-server/models/story";
@@ -82,11 +81,9 @@ export class ExternalNotificationsService {
   private url?: string | null;
   private apiKey?: string | null;
   private logger: Logger;
-  private mongo: MongoContext;
 
-  constructor(config: Config, logger: Logger, mongo: MongoContext) {
+  constructor(config: Config, logger: Logger) {
     this.logger = logger;
-    this.mongo = mongo;
 
     this.url = config.get("external_notifications_api_url");
     this.apiKey = config.get("external_notifications_api_key");

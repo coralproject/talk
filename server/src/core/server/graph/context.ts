@@ -159,8 +159,7 @@ export default class GraphContext {
 
     this.externalNotifications = new ExternalNotificationsService(
       this.config,
-      this.logger,
-      this.mongo
+      this.logger
     );
 
     this.notifications = new InternalNotificationContext(
