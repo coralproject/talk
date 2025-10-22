@@ -16,6 +16,7 @@ import {
 } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
+import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import { ArchiverQueue, createArchiverTask } from "./tasks/archiver";
 import { createMailerTask, MailerQueue } from "./tasks/mailer";
 import { createNotifierTask, NotifierQueue } from "./tasks/notifier";
@@ -60,6 +61,7 @@ export interface QueueOptions {
   signingConfig: JWTSigningConfig;
   redis: AugmentedRedis;
   notifications: InternalNotificationContext;
+  externalNotifications: ExternalNotificationsService;
 }
 
 export interface TaskQueue {

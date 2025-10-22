@@ -64,6 +64,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.i18n,
         ctx.broker,
         ctx.notifications,
+        ctx.externalNotifications,
         ctx.tenant,
         ctx.user!,
         {
@@ -118,13 +119,7 @@ export const Comments = (ctx: GraphContext) => ({
     commentRevisionID,
   }: GQLCreateCommentReactionInput) =>
     createReaction(
-      ctx.mongo,
-      ctx.redis,
-      ctx.config,
-      ctx.i18n,
-      ctx.cache,
-      ctx.broker,
-      ctx.tenant,
+      ctx,
       ctx.user!,
       {
         commentID,
