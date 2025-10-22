@@ -2,7 +2,8 @@ import Logger from "bunyan";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
-import { getURLWithCommentID, retrieveStory } from "coral-server/models/story";
+import { Site } from "coral-server/models/site";
+import { getURLWithCommentID, Story } from "coral-server/models/story";
 import { User } from "coral-server/models/user";
 import { convert } from "html-to-text";
 import fetch from "node-fetch";
@@ -12,16 +13,22 @@ const ProfileType = "Coral";
 
 // From Coral input types
 
-interface CreateReplyInput {
+interface CreateReplyParams {
   from: User;
   to: User;
+
+  story: Readonly<Story>;
+  site: Readonly<Site>;
   parent: Comment;
   reply: Comment;
 }
 
-interface CreateRecInput {
+interface CreateRecParams {
   from: User;
   to: User;
+
+  story: Readonly<Story>;
+  site: Readonly<Site>;
   comment: Comment;
 }
 
@@ -31,6 +38,16 @@ interface CreateRecInput {
 enum NotificationType {
   CoralRec = "CoralRec",
   CoralReply = "CoralReply",
+}
+
+interface StoryInput {
+  id: string;
+  url: string;
+}
+
+interface SiteInput {
+  id: string;
+  name: string;
 }
 
 interface ExternalUserProfile {
@@ -43,7 +60,7 @@ interface ExternalUserProfile {
   ssoIds?: string[];
 }
 
-interface CommentPayload {
+interface CommentInput {
   id: string;
   storyId: string;
   snippet?: string | null;
@@ -101,13 +118,11 @@ export class ExternalNotificationsService {
     }
   }
 
-  private async commentToPayload(comment: Comment): Promise<CommentPayload> {
-    const story = await retrieveStory(
-      this.mongo,
-      comment.tenantID,
-      comment.storyID
-    );
-    const url = story ? getURLWithCommentID(story.url, comment.id) : null;
+  private async commentToPayload(
+    comment: Comment,
+    story: Story
+  ): Promise<CommentInput> {
+    const url = getURLWithCommentID(story.url, comment.id);
 
     return {
       id: comment.id,
@@ -117,7 +132,21 @@ export class ExternalNotificationsService {
     };
   }
 
-  public async createRec(input: CreateRecInput) {
+  private storyToInput(story: Story): StoryInput {
+    return {
+      id: story.id,
+      url: story.url,
+    };
+  }
+
+  private siteToInput(site: Site): SiteInput {
+    return {
+      id: site.id,
+      name: site.name,
+    };
+  }
+
+  public async createRec(input: CreateRecParams) {
     if (!this.active()) {
       return;
     }
@@ -128,8 +157,9 @@ export class ExternalNotificationsService {
         type: NotificationType.CoralRec,
         from: this.userToExternalProfile(input.from),
         to: this.userToExternalProfile(input.to),
-        storyId: input.comment.storyID,
-        comment: this.commentToPayload(input.comment),
+        story: this.storyToInput(input.story),
+        site: this.siteToInput(input.site),
+        comment: this.commentToPayload(input.comment, input.story),
       };
 
       return await this.send(data);
@@ -143,7 +173,7 @@ export class ExternalNotificationsService {
     return false;
   }
 
-  public async createReply(input: CreateReplyInput) {
+  public async createReply(input: CreateReplyParams) {
     if (!this.active()) {
       return;
     }
@@ -154,9 +184,10 @@ export class ExternalNotificationsService {
         type: NotificationType.CoralReply,
         from: this.userToExternalProfile(input.from),
         to: this.userToExternalProfile(input.to),
-        storyId: input.parent.storyID,
-        comment: await this.commentToPayload(input.parent),
-        reply: await this.commentToPayload(input.reply),
+        story: this.storyToInput(input.story),
+        site: this.siteToInput(input.site),
+        comment: await this.commentToPayload(input.parent, input.story),
+        reply: await this.commentToPayload(input.reply, input.story),
       };
 
       return await this.send(data);
