@@ -262,8 +262,7 @@ class Server {
 
     const externalNotifications = new ExternalNotificationsService(
       this.config,
-      logger,
-      this.mongo
+      logger
     );
 
     // Create the Job Queue.

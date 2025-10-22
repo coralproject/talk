@@ -454,12 +454,16 @@ export default async function create(
           ? await retrieveUser(mongo, parent.tenantID, parent.authorID)
           : null;
 
-        if (repliedToUser) {
+        const site = await retrieveSite(mongo, tenant.id, story.siteID!);
+
+        if (repliedToUser && site) {
           await externalNotifications.createReply({
             from: replyingUser,
             to: repliedToUser,
             parent,
             reply: comment,
+            story,
+            site,
           });
         }
       }

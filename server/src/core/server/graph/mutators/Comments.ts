@@ -119,19 +119,12 @@ export const Comments = (ctx: GraphContext) => ({
     commentRevisionID,
   }: GQLCreateCommentReactionInput) =>
     createReaction(
-      ctx.mongo,
-      ctx.redis,
-      ctx.config,
-      ctx.i18n,
-      ctx.cache,
-      ctx.broker,
-      ctx.tenant,
+      ctx,
       ctx.user!,
       {
         commentID,
         commentRevisionID,
       },
-      ctx.externalNotifications,
       ctx.now
     ),
   removeReaction: ({
