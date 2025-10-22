@@ -119,7 +119,7 @@ export class ExternalNotificationsService {
     }
   }
 
-  private async commentToPayload(
+  private async commentToInput(
     comment: Comment,
     story: Story
   ): Promise<CommentInput> {
@@ -161,7 +161,7 @@ export class ExternalNotificationsService {
         to: this.userToExternalProfile(input.to),
         story: this.storyToInput(input.story),
         site: this.siteToInput(input.site),
-        comment: this.commentToPayload(input.comment, input.story),
+        comment: this.commentToInput(input.comment, input.story),
       };
 
       return await this.send(data);
@@ -188,8 +188,8 @@ export class ExternalNotificationsService {
         to: this.userToExternalProfile(input.to),
         story: this.storyToInput(input.story),
         site: this.siteToInput(input.site),
-        comment: await this.commentToPayload(input.parent, input.story),
-        reply: await this.commentToPayload(input.reply, input.story),
+        comment: await this.commentToInput(input.parent, input.story),
+        reply: await this.commentToInput(input.reply, input.story),
       };
 
       return await this.send(data);
