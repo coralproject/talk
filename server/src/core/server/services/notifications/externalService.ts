@@ -42,6 +42,7 @@ enum NotificationType {
 
 interface StoryInput {
   id: string;
+  title: string;
   url: string;
 }
 
@@ -135,6 +136,7 @@ export class ExternalNotificationsService {
   private storyToInput(story: Story): StoryInput {
     return {
       id: story.id,
+      title: story.metadata?.title ?? "",
       url: story.url,
     };
   }
