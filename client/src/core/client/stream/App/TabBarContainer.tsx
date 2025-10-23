@@ -120,7 +120,6 @@ const enhanced = withSetActiveTabMutation(
         role
         inPageNotifications {
           enabled
-          active
         }
         ...useLiveNotificationsPolling_viewer
       }

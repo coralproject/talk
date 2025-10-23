@@ -104,7 +104,7 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
         active: false,
       };
     }
-    return inPageNotifications;
+    return { ...inPageNotifications, active: true };
   },
   showUnmoderatedCounts: ({ showUnmoderatedCounts = true }) =>
     showUnmoderatedCounts,
