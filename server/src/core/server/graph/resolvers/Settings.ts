@@ -86,9 +86,26 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   }) => protectedEmailDomains,
   disposableEmailDomains: ({ disposableEmailDomains = { enabled: false } }) =>
     disposableEmailDomains,
-  inPageNotifications: ({
-    inPageNotifications = { enabled: true, floatingBellIndicator: true },
-  }) => inPageNotifications,
+  inPageNotifications: (
+    {
+      inPageNotifications = {
+        enabled: true,
+        floatingBellIndicator: true,
+        active: true,
+      },
+    },
+    args,
+    ctx
+  ) => {
+    // if external notifications are active, we disable the in-page notifications
+    if (ctx.externalNotifications.active()) {
+      return {
+        ...inPageNotifications,
+        active: false,
+      };
+    }
+    return inPageNotifications;
+  },
   showUnmoderatedCounts: ({ showUnmoderatedCounts = true }) =>
     showUnmoderatedCounts,
 };
