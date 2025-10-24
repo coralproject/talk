@@ -25,7 +25,6 @@ import {
 import { getLatestRevision } from "coral-server/models/comment/helpers";
 import { retrieveSite } from "coral-server/models/site";
 import { Tenant } from "coral-server/models/tenant";
-import { User } from "coral-server/models/user";
 import { isSiteBanned } from "coral-server/models/user/helpers";
 import { AugmentedRedis } from "coral-server/services/redis";
 import {
@@ -36,6 +35,8 @@ import { Request } from "coral-server/types/express";
 
 import { GQLCOMMENT_FLAG_REPORTED_REASON } from "coral-server/graph/schema/__generated__/types";
 
+import GraphContext from "coral-server/graph/context";
+import { User } from "coral-server/models/user";
 import {
   publishCommentFlagCreated,
   publishCommentReactionCreated,
@@ -311,17 +312,22 @@ export type CreateCommentReaction = Pick<
 >;
 
 export async function createReaction(
-  mongo: MongoContext,
-  redis: AugmentedRedis,
-  config: Config,
-  i18n: I18n,
-  cache: DataCache,
-  broker: CoralEventPublisherBroker,
-  tenant: Tenant,
+  context: GraphContext,
   author: User,
   input: CreateCommentReaction,
   now = new Date()
 ) {
+  const {
+    mongo,
+    redis,
+    i18n,
+    cache,
+    config,
+    broker,
+    tenant,
+    externalNotifications,
+  } = context;
+
   const { comment, action } = await addCommentAction(
     mongo,
     redis,
@@ -353,6 +359,32 @@ export async function createReaction(
     ).catch((err) => {
       logger.error({ err }, "could not publish comment flag created");
     });
+
+    if (externalNotifications.active()) {
+      const reccingUser = author;
+      const reccedUser = comment.authorID
+        ? await context.loaders.Users.user.load(comment.authorID)
+        : null;
+
+      const story = await context.loaders.Stories.find.load({
+        id: comment.storyID,
+      });
+
+      const site =
+        story && story.siteID
+          ? await context.loaders.Sites.site.load(story.siteID)
+          : null;
+
+      if (reccedUser && story && site) {
+        await externalNotifications.createRec({
+          from: reccingUser,
+          to: reccedUser,
+          comment,
+          story,
+          site,
+        });
+      }
+    }
   }
 
   return comment;

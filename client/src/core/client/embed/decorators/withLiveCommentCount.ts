@@ -3,11 +3,11 @@ import { EventEmitter2 } from "eventemitter2";
 import { COUNT_SELECTOR } from "coral-framework/constants";
 
 /**
- * withLiveCommentCount will listen to `commentCount` events
+ * withLiveCommentCount will listen to `count.comments` events
  * and update any comment counts managed by our `count.js` script.
  */
 const withLiveCommentCount = (streamEventEmitter: EventEmitter2) => {
-  streamEventEmitter.on("commentCount", (args) => {
+  streamEventEmitter.on("count.comments", (args) => {
     // Find all matching elements.
     const elements = document.querySelectorAll(
       `${COUNT_SELECTOR}[data-coral-url='${args.storyURL}'], ${COUNT_SELECTOR}[data-coral-id='${args.storyID}']`

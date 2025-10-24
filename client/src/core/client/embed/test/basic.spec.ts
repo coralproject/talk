@@ -95,8 +95,10 @@ describe("Basic integration test", () => {
             "_removeListener": false,
             "delimiter": ".",
             "listenerTree": Object {
-              "commentCount": Object {
-                "_listeners": [Function],
+              "count": Object {
+                "comments": Object {
+                  "_listeners": [Function],
+                },
               },
               "ready": Object {
                 "_listeners": [Function],

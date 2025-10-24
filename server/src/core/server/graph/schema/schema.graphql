@@ -2038,6 +2038,8 @@ type InPageNotificationsConfiguration {
   enabled: Boolean
 
   floatingBellIndicator: Boolean
+
+  active: Boolean
 }
 
 input TooManyPeriodsConfigInput {

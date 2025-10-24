@@ -37,7 +37,7 @@ function getText(
 
 /**
  * useCommentCountEvent is a React hook that will
- * emit `commentCount` events.
+ * emit `count.comments` events.
  * @param storyID story id of the comment count
  * @param storyURL story url of the comment count
  * @param commentCount number of total published comments
@@ -50,7 +50,7 @@ function useCommentCountEvent(
 ) {
   const { eventEmitter, localeBundles } = useCoralContext();
   const callback = () => {
-    eventEmitter.emit("commentCount", {
+    eventEmitter.emit("count.comments", {
       number: commentCount,
       text: getText(storyMode, localeBundles, commentCount),
       storyID,

@@ -83,7 +83,8 @@ export const TabBarContainer: FunctionComponent<Props> = ({
     <>
       {!!viewer &&
         !!settings?.inPageNotifications?.enabled &&
-        !!settings?.inPageNotifications?.floatingBellIndicator && (
+        !!settings?.inPageNotifications?.floatingBellIndicator &&
+        !!settings?.inPageNotifications?.active && (
           <FloatingNotificationButton
             viewerID={viewer?.id}
             enabled={!!viewer?.inPageNotifications?.enabled}
@@ -97,7 +98,9 @@ export const TabBarContainer: FunctionComponent<Props> = ({
           showDiscussionsTab={showDiscussionsTab}
           showConfigureTab={showConfigureTab}
           showNotificationsTab={
-            !!viewer && !!settings?.inPageNotifications?.enabled
+            !!viewer &&
+            !!settings?.inPageNotifications?.enabled &&
+            !!settings?.inPageNotifications?.active
           }
           hasNewNotifications={!!hasNewNotifications}
           userNotificationsEnabled={!!viewer?.inPageNotifications?.enabled}
@@ -135,6 +138,7 @@ const enhanced = withSetActiveTabMutation(
         inPageNotifications {
           enabled
           floatingBellIndicator
+          active
         }
         ...useLiveNotificationsPolling_settings
       }

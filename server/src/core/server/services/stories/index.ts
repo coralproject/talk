@@ -69,6 +69,7 @@ import {
   GQLFEATURE_FLAG,
   GQLSTORY_MODE,
 } from "coral-server/graph/schema/__generated__/types";
+import { retrieveSiteByOrigin } from "coral-server/models/site";
 
 export type FindStory = FindStoryInput;
 
@@ -92,30 +93,60 @@ export async function findOrCreate(
   scraper: ScraperQueue,
   now = new Date()
 ) {
-  // Validate the mode if passed.
-  if (input.mode) {
-    validateStoryMode(tenant, input.mode);
-  }
-
   let siteID = null;
-  if (input.id) {
-    const story = await findStory(mongo, tenant.id, { id: input.id });
-    if (story) {
-      siteID = story.siteID;
-    }
-  }
 
-  if (input.url && siteID === null) {
-    const site = await findSiteByURL(mongo, tenant.id, input.url);
-    // If the URL is provided, and the url is not associated with a site, then refuse
-    // to create the Asset.
-    if (!site) {
+  // validate that the input url's origin matches our allowed
+  // origins table
+  //
+  // this prevents bad actors from spoofing their request origin
+  // and sending us bad url's that don't map within our own sites
+  if (input.url) {
+    try {
+      const url = new URL(input.url);
+      const origin = url.origin;
+
+      // same as the `corsWhitelisted` middleware, we will attempt
+      // to retrieve a site based on the origin url
+      const site = await retrieveSiteByOrigin(mongo, tenant.id, origin);
+
+      // if we don't find a site, throw an error and block the
+      // `findOrCreate` request from proceeding any further
+      if (!site) {
+        logger.warn(
+          { storyID: input.id, storyURL: input.url },
+          "story url tampering detected"
+        );
+
+        throw new StoryURLInvalidError({
+          storyURL: input.url,
+          tenantDomain: tenant.domain,
+        });
+      }
+
+      siteID = site.id;
+    } catch (err) {
+      logger.warn(
+        { storyID: input.id, storyURL: input.url, err },
+        "unable to parse origin off of input story url"
+      );
+
       throw new StoryURLInvalidError({
         storyURL: input.url,
         tenantDomain: tenant.domain,
       });
     }
-    siteID = site.id;
+  }
+
+  // Validate the mode if passed.
+  if (input.mode) {
+    validateStoryMode(tenant, input.mode);
+  }
+
+  if (input.id) {
+    const story = await findStory(mongo, tenant.id, { id: input.id });
+    if (story) {
+      siteID = story.siteID;
+    }
   }
 
   const { story, wasUpserted } = await findOrCreateStory(
