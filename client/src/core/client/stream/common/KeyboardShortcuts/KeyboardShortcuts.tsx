@@ -84,6 +84,7 @@ interface Props {
   viewNewCount: number;
   hasMore: boolean;
   userNotificationsEnabled: boolean;
+  inPageNotificationsActive: boolean;
 }
 
 export interface KeyboardEventData {
@@ -291,6 +292,7 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
   viewNewCount,
   hasMore,
   userNotificationsEnabled,
+  inPageNotificationsActive,
 }) => {
   const {
     relayEnvironment,
@@ -1431,17 +1433,19 @@ const KeyboardShortcuts: FunctionComponent<Props> = ({
                   </Flex>
                 </button>
               </div>
-              <div
-                className={cn(
-                  styles.notificationActionContainer,
-                  CLASSES.mobileToolbar.notificationsAction
-                )}
-              >
-                <MobileNotificationButton
-                  viewerID={viewerID}
-                  enabled={userNotificationsEnabled}
-                />
-              </div>
+              {inPageNotificationsActive && (
+                <div
+                  className={cn(
+                    styles.notificationActionContainer,
+                    CLASSES.mobileToolbar.notificationsAction
+                  )}
+                >
+                  <MobileNotificationButton
+                    viewerID={viewerID}
+                    enabled={userNotificationsEnabled}
+                  />
+                </div>
+              )}
             </Flex>
           </MobileToolbar>
         )
