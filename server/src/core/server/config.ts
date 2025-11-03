@@ -502,7 +502,7 @@ const config = convict({
   internal_notifications: {
     doc: "When true, will enable the in-page (internal) notifications systems",
     format: Boolean,
-    default: false,
+    default: true,
     env: "INTERNAL_NOTIFICATIONS",
   },
   notifications_poll_rate: {

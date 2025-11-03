@@ -278,7 +278,8 @@ class Server {
         this.mongo,
         this.redis,
         logger,
-        !externalNotifications.active()
+        !!this.config.get("internal_notifications") ||
+          !externalNotifications.active()
       ),
     });
 
