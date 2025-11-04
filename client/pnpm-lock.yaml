@@ -12,6 +12,9 @@ dependencies:
   '@ampproject/toolbox-cache-url':
     specifier: ^2.9.0
     version: 2.9.0
+  '@atproto/syntax':
+    specifier: ^0.3.3
+    version: 0.3.4
   '@coralproject/bunyan-prettystream':
     specifier: ^0.1.4
     version: 0.1.4
@@ -791,6 +794,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       tslib: 2.0.3
+
+  /@atproto/syntax@0.3.4:
+    resolution: {integrity: sha512-8CNmi5DipOLaVeSMPggMe7FCksVag0aO6XZy9WflbduTKM4dFZVCs4686UeMLfGRXX+X966XgwECHoLYrovMMg==}
+    dev: false
 
   /@babel/code-frame@7.18.6:
     resolution: {integrity: sha512-TDCmlK5eOvH+eH7cdAFlNXeVJqWIQ7gW9tY1GJIpUtFb6CmjVyq2VM3u71bOyR8CRihcCgMUYoDNyLXao3+70Q==}
