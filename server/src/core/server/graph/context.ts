@@ -166,9 +166,8 @@ export default class GraphContext {
       this.mongo,
       this.redis,
       this.logger,
-      // if external notifications are active, we
-      // turn off the internal notifications
-      !this.externalNotifications.active()
+      !!this.config.get("internal_notifications") ||
+        !this.externalNotifications.active()
     );
   }
 }
