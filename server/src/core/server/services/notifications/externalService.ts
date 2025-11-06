@@ -78,6 +78,7 @@ const CreateNotificationsMutation = `
 `;
 
 export class ExternalNotificationsService {
+  private _active: boolean;
   private url?: string | null;
   private apiKey?: string | null;
   private logger: Logger;
@@ -85,12 +86,13 @@ export class ExternalNotificationsService {
   constructor(config: Config, logger: Logger) {
     this.logger = logger;
 
+    this._active = config.get("external_notifications");
     this.url = config.get("external_notifications_api_url");
     this.apiKey = config.get("external_notifications_api_key");
   }
 
   public active(): boolean {
-    return !!(this.url && this.apiKey);
+    return !!(this._active && this.url && this.apiKey);
   }
 
   private userToExternalProfile(user: User): ExternalUserProfile {

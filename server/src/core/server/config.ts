@@ -499,11 +499,23 @@ const config = convict({
     default: ms("86400s"),
     env: "REDIS_CACHE_EXPIRY",
   },
+  internal_notifications: {
+    doc: "When true, will enable the in-page (internal) notifications systems",
+    format: Boolean,
+    default: true,
+    env: "INTERNAL_NOTIFICATIONS",
+  },
   notifications_poll_rate: {
     doc: "rate at which live notification updates should poll client side.",
     format: "ms",
     default: ms("3000s"),
     env: "NOTIFICATIONS_POLL_RATE",
+  },
+  external_notifications: {
+    doc: "When true, will enable the external, forwarded notifications systems",
+    format: Boolean,
+    default: false,
+    env: "EXTERNAL_NOTIFICATIONS",
   },
   external_notifications_api_url: {
     doc: "URL to forward notifications information to an external url.",

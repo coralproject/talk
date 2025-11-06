@@ -97,14 +97,16 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
     args,
     ctx
   ) => {
-    // if external notifications are active, we disable the in-page notifications
-    if (ctx.externalNotifications.active()) {
-      return {
-        ...inPageNotifications,
-        active: false,
-      };
-    }
-    return { ...inPageNotifications, active: true };
+    // if we have the env var set to enable in-page (internal)
+    // notifications, we are active
+    //
+    // otherwise, the default behaviour is to disable in-page
+    // if we have external notifications enabled
+    const active =
+      !!ctx.config.get("internal_notifications") ||
+      !ctx.externalNotifications.active();
+
+    return { ...inPageNotifications, active };
   },
   showUnmoderatedCounts: ({ showUnmoderatedCounts = true }) =>
     showUnmoderatedCounts,
