@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 services:
   talk:
     image: coralproject/talk:9.10.8
