@@ -1,11 +1,13 @@
 import Logger from "bunyan";
-import { Config } from "coral-server/config";
-import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { Site } from "coral-server/models/site";
-import { getURLWithCommentID, Story } from "coral-server/models/story";
-import { User } from "coral-server/models/user";
 import { convert } from "html-to-text";
 import fetch from "node-fetch";
+
+import { Config } from "coral-server/config";
+import { Comment, getLatestRevision } from "coral-server/models/comment";
+import { getURLWithCommentID, Story } from "coral-server/models/story";
+import { User } from "coral-server/models/user";
+import { shouldSendNotification } from "./filters";
 
 const NotificationSource = "Coral";
 const ProfileType = "Coral";
@@ -152,6 +154,11 @@ export class ExternalNotificationsService {
       return;
     }
 
+    const shouldSend = shouldSendNotification(input.from.id, input.to);
+    if (!shouldSend) {
+      return false;
+    }
+
     try {
       const data = {
         source: NotificationSource,
@@ -176,7 +183,12 @@ export class ExternalNotificationsService {
 
   public async createReply(input: CreateReplyParams) {
     if (!this.active()) {
-      return;
+      return false;
+    }
+
+    const shouldSend = shouldSendNotification(input.from.id, input.to);
+    if (!shouldSend) {
+      return false;
     }
 
     try {
