@@ -12,9 +12,7 @@ import {
 import {
   defaultInPageNotificationSettings,
   retrieveUser,
-  User,
 } from "coral-server/models/user";
-import { authorIsIgnored } from "coral-server/models/user/helpers";
 
 import {
   GQLCOMMENT_STATUS,
@@ -24,6 +22,7 @@ import {
   GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 import { AugmentedRedis } from "coral-server/services/redis";
+import { shouldSendReplyNotification } from "../filters";
 
 export interface DSALegality {
   legality: GQLDSAReportDecisionLegality;
@@ -55,22 +54,6 @@ interface CreationResult {
   notification: Notification | null;
   attempted: boolean;
 }
-
-const shouldSendReplyNotification = (
-  replyAuthorID: string | null,
-  targetUser: Readonly<User>
-) => {
-  if (replyAuthorID) {
-    // don't notify on replies to own comments
-    if (replyAuthorID === targetUser.id) {
-      return false;
-    }
-    // don't notify when ignored users reply
-    return !authorIsIgnored(replyAuthorID, targetUser);
-  }
-
-  return false;
-};
 
 export class InternalNotificationContext {
   private mongo: MongoContext;
