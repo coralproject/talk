@@ -154,6 +154,14 @@ export class ExternalNotificationsService {
       return;
     }
 
+    const shouldNotifyReply = shouldSendReplyNotification(
+      input.from.id,
+      input.to
+    );
+    if (!shouldNotifyReply) {
+      return false;
+    }
+
     try {
       const data = {
         source: NotificationSource,
