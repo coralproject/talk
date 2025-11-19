@@ -7,7 +7,7 @@ import { Config } from "coral-server/config";
 import { Comment, getLatestRevision } from "coral-server/models/comment";
 import { getURLWithCommentID, Story } from "coral-server/models/story";
 import { User } from "coral-server/models/user";
-import { shouldSendReplyNotification } from "./filters";
+import { shouldSendNotification } from "./filters";
 
 const NotificationSource = "Coral";
 const ProfileType = "Coral";
@@ -154,11 +154,8 @@ export class ExternalNotificationsService {
       return;
     }
 
-    const shouldNotifyReply = shouldSendReplyNotification(
-      input.from.id,
-      input.to
-    );
-    if (!shouldNotifyReply) {
+    const shouldSend = shouldSendNotification(input.from.id, input.to);
+    if (!shouldSend) {
       return false;
     }
 
@@ -189,11 +186,8 @@ export class ExternalNotificationsService {
       return false;
     }
 
-    const shouldNotifyReply = shouldSendReplyNotification(
-      input.from.id,
-      input.to
-    );
-    if (!shouldNotifyReply) {
+    const shouldSend = shouldSendNotification(input.from.id, input.to);
+    if (!shouldSend) {
       return false;
     }
 

@@ -1,7 +1,7 @@
 import { User } from "coral-server/models/user";
 import { authorIsIgnored } from "coral-server/models/user/helpers";
 
-export const shouldSendReplyNotification = (
+export const shouldSendNotification = (
   replyAuthorID: string | null,
   targetUser: Readonly<User>
 ) => {

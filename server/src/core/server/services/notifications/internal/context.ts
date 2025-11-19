@@ -22,7 +22,7 @@ import {
   GQLREJECTION_REASON_CODE,
 } from "coral-server/graph/schema/__generated__/types";
 import { AugmentedRedis } from "coral-server/services/redis";
-import { shouldSendReplyNotification } from "../filters";
+import { shouldSendNotification } from "../filters";
 
 export interface DSALegality {
   legality: GQLDSAReportDecisionLegality;
@@ -177,7 +177,7 @@ export class InternalNotificationContext {
       );
       result.attempted = true;
     } else if (type === GQLNOTIFICATION_TYPE.REPLY && comment && reply) {
-      const shouldNotifyReply = shouldSendReplyNotification(
+      const shouldNotifyReply = shouldSendNotification(
         reply.authorID,
         targetUser
       );
@@ -195,7 +195,7 @@ export class InternalNotificationContext {
       );
       result.attempted = true;
     } else if (type === GQLNOTIFICATION_TYPE.REPLY_STAFF && comment && reply) {
-      const shouldNotifyReply = shouldSendReplyNotification(
+      const shouldNotifyReply = shouldSendNotification(
         reply.authorID,
         targetUser
       );
