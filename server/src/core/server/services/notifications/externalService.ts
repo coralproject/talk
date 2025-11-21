@@ -120,10 +120,7 @@ export class ExternalNotificationsService {
     }
   }
 
-  private async commentToInput(
-    comment: Comment,
-    story: Story
-  ): Promise<CommentInput> {
+  private commentToInput(comment: Comment, story: Story): CommentInput {
     const url = getURLWithCommentID(story.url, comment.id);
 
     return {
@@ -199,8 +196,8 @@ export class ExternalNotificationsService {
         to: this.userToExternalProfile(input.to),
         story: this.storyToInput(input.story),
         site: this.siteToInput(input.site),
-        comment: await this.commentToInput(input.parent, input.story),
-        reply: await this.commentToInput(input.reply, input.story),
+        comment: this.commentToInput(input.parent, input.story),
+        reply: this.commentToInput(input.reply, input.story),
       };
 
       return await this.send(data);
