@@ -154,43 +154,51 @@ const approveComment = async (
       }
     }
 
-    // if external notifications are active, send a reply notification to the parent comment's author
+    // if external notifications are active, and it's a reply, send a reply notification
+    // to the parent comment's author
     if (externalNotifications.active()) {
-      const parentComment = await retrieveComment(
-        mongo,
-        tenant.id,
-        result.after.parentID!
-      );
-      if (parentComment) {
-        const notificationOwner = await retrieveUser(
+      if (result.after.parentID) {
+        const parentComment = await retrieveComment(
           mongo,
           tenant.id,
-          parentComment.authorID!
+          result.after.parentID
         );
-        const story = await retrieveStory(
-          mongo,
-          tenant.id,
-          parentComment.storyID
-        );
-        const site = await retrieveSite(
-          mongo,
-          tenant.id,
-          parentComment.siteID!
-        );
-        const replyingUser = await retrieveUser(
-          mongo,
-          tenant.id,
-          result.after.authorID!
-        );
-        if (replyingUser && notificationOwner && story && site) {
-          await externalNotifications.createReply({
-            from: replyingUser,
-            to: notificationOwner,
-            parent: parentComment,
-            reply: result.after,
-            story,
-            site,
-          });
+        if (
+          parentComment?.authorID &&
+          result.after.storyID &&
+          result.after.siteID &&
+          result.after.authorID
+        ) {
+          const notificationOwner = await retrieveUser(
+            mongo,
+            tenant.id,
+            parentComment.authorID
+          );
+          const story = await retrieveStory(
+            mongo,
+            tenant.id,
+            result.after.storyID
+          );
+          const site = await retrieveSite(
+            mongo,
+            tenant.id,
+            result.after.siteID
+          );
+          const replyingUser = await retrieveUser(
+            mongo,
+            tenant.id,
+            result.after.authorID
+          );
+          if (replyingUser && notificationOwner && story && site) {
+            await externalNotifications.createReply({
+              from: replyingUser,
+              to: notificationOwner,
+              parent: parentComment,
+              reply: result.after,
+              story,
+              site,
+            });
+          }
         }
       }
     }
