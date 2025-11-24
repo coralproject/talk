@@ -170,7 +170,7 @@ const approveComment = async (
         const story = await retrieveStory(
           mongo,
           tenant.id,
-          parentComment.storyID!
+          parentComment.storyID
         );
         const site = await retrieveSite(
           mongo,
