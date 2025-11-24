@@ -26,6 +26,7 @@ import {
 import { retrieveSite } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
+import { sendExternalReplyNotification } from "./createComment";
 import { publishChanges } from "./helpers";
 
 const sendExternalApproveNotification = async (
@@ -149,6 +150,15 @@ const approveComment = async (
       tenant,
       result.after
     );
+
+    if (result.after.parentID) {
+      await sendExternalReplyNotification(
+        mongo,
+        externalNotifications,
+        tenant,
+        result.after
+      );
+    }
   }
 
   // create notification if dsa enabled upon approval of previously rejected comment
