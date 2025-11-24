@@ -33,6 +33,30 @@ interface CreateRecParams {
   comment: Comment;
 }
 
+interface CreateApproveParams {
+  to: User;
+
+  story: Readonly<Story>;
+  site: Readonly<Site>;
+  comment: Comment;
+}
+
+interface CreateRejectParams {
+  to: User;
+
+  story: Readonly<Story>;
+  site: Readonly<Site>;
+  comment: Comment;
+}
+
+interface CreateFeatureParams {
+  to: User;
+
+  story: Readonly<Story>;
+  site: Readonly<Site>;
+  comment: Comment;
+}
+
 // To notifications service types
 
 // eslint-disable-next-line no-shadow
@@ -198,6 +222,84 @@ export class ExternalNotificationsService {
         site: this.siteToInput(input.site),
         comment: this.commentToInput(input.parent, input.story),
         reply: this.commentToInput(input.reply, input.story),
+      };
+
+      return await this.send(data);
+    } catch (err) {
+      this.logger.warn(
+        { err, input },
+        "an error occurred while sending a reply notification"
+      );
+    }
+
+    return false;
+  }
+
+  public async createApprove(input: CreateApproveParams) {
+    if (!this.active()) {
+      return false;
+    }
+
+    try {
+      const data = {
+        source: NotificationSource,
+        type: NotificationType.CoralReply,
+        to: this.userToExternalProfile(input.to),
+        story: this.storyToInput(input.story),
+        site: this.siteToInput(input.site),
+        comment: this.commentToInput(input.comment, input.story),
+      };
+
+      return await this.send(data);
+    } catch (err) {
+      this.logger.warn(
+        { err, input },
+        "an error occurred while sending a reply notification"
+      );
+    }
+
+    return false;
+  }
+
+  public async createReject(input: CreateRejectParams) {
+    if (!this.active()) {
+      return false;
+    }
+
+    try {
+      const data = {
+        source: NotificationSource,
+        type: NotificationType.CoralReply,
+        to: this.userToExternalProfile(input.to),
+        story: this.storyToInput(input.story),
+        site: this.siteToInput(input.site),
+        comment: this.commentToInput(input.comment, input.story),
+      };
+
+      return await this.send(data);
+    } catch (err) {
+      this.logger.warn(
+        { err, input },
+        "an error occurred while sending a reply notification"
+      );
+    }
+
+    return false;
+  }
+
+  public async createFeature(input: CreateFeatureParams) {
+    if (!this.active()) {
+      return false;
+    }
+
+    try {
+      const data = {
+        source: NotificationSource,
+        type: NotificationType.CoralReply,
+        to: this.userToExternalProfile(input.to),
+        story: this.storyToInput(input.story),
+        site: this.siteToInput(input.site),
+        comment: this.commentToInput(input.comment, input.story),
       };
 
       return await this.send(data);

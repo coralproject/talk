@@ -26,6 +26,9 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { retrieveSite } from "coral-server/models/site";
+import { retrieveStory } from "coral-server/models/story";
+import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import { publishChanges } from "./helpers";
 import { updateTagCommentCounts } from "./helpers/updateAllCommentCounts";
 
@@ -74,6 +77,39 @@ const stripTag = async (
   return tagResult;
 };
 
+const sendExternalRejectNotification = async (
+  mongo: MongoContext,
+  externalNotifications: ExternalNotificationsService,
+  tenant: Tenant,
+  comment: Comment
+) => {
+  if (!externalNotifications.active() || !comment.authorID || !comment.siteID) {
+    return;
+  }
+
+  const author = await retrieveUser(mongo, tenant.id, comment.authorID);
+  if (!author) {
+    return;
+  }
+
+  const site = await retrieveSite(mongo, tenant.id, comment.siteID);
+  if (!site) {
+    return;
+  }
+
+  const story = await retrieveStory(mongo, tenant.id, comment.storyID);
+  if (!story) {
+    return;
+  }
+
+  await externalNotifications.createReject({
+    to: author,
+    comment,
+    story,
+    site,
+  });
+};
+
 const rejectComment = async (
   mongo: MongoContext,
   redis: AugmentedRedis,
@@ -82,6 +118,7 @@ const rejectComment = async (
   i18n: I18n,
   broker: CoralEventPublisherBroker | null,
   notifications: InternalNotificationContext,
+  externalNotifications: ExternalNotificationsService,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -187,6 +224,13 @@ const rejectComment = async (
       previousStatus: result.before.status,
     });
   }
+
+  await sendExternalRejectNotification(
+    mongo,
+    externalNotifications,
+    tenant,
+    result.after
+  );
 
   // check for a reply notification for the comment being rejected
   // if exists, check that notification user's lastSeenNotificationDate to see if less than reply createdAt
