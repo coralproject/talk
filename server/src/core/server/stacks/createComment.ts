@@ -43,7 +43,11 @@ import {
 import { ensureFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { retrieveUser, User } from "coral-server/models/user";
 import { isSiteBanned, roleIsStaff } from "coral-server/models/user/helpers";
-import { moderate, removeTag } from "coral-server/services/comments";
+import {
+  moderate,
+  removeTag,
+  retrieveComment,
+} from "coral-server/services/comments";
 import {
   addCommentActions,
   CreateAction,
@@ -71,6 +75,7 @@ import {
   GQLTAG,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import approveComment from "./approveComment";
 import {
@@ -93,6 +98,64 @@ export type CreateComment = Omit<
 > & {
   rating?: number;
   media?: CreateCommentMediaInput;
+};
+
+export const sendExternalReplyNotification = async (
+  mongo: MongoContext,
+  externalNotifications: ExternalNotificationsService,
+  tenant: Tenant,
+  reply: Comment
+) => {
+  if (
+    !externalNotifications.active() ||
+    !reply.authorID ||
+    !reply.siteID ||
+    !reply.parentID
+  ) {
+    return;
+  }
+
+  if (!PUBLISHED_STATUSES.includes(reply.status)) {
+    return;
+  }
+
+  const parent = await retrieveComment(mongo, tenant.id, reply.parentID);
+  if (!parent || !parent.authorID) {
+    return;
+  }
+
+  const repliedToUser = await retrieveUser(
+    mongo,
+    parent.tenantID,
+    parent.authorID
+  );
+  if (!repliedToUser) {
+    return;
+  }
+
+  const replyingUser = await retrieveUser(mongo, tenant.id, reply.authorID);
+  if (!replyingUser) {
+    return;
+  }
+
+  const site = await retrieveSite(mongo, tenant.id, reply.siteID);
+  if (!site) {
+    return;
+  }
+
+  const story = await retrieveStory(mongo, tenant.id, reply.storyID);
+  if (!story) {
+    return;
+  }
+
+  await externalNotifications.createReply({
+    from: replyingUser,
+    to: repliedToUser,
+    parent,
+    reply,
+    story,
+    site,
+  });
 };
 
 const markCommentAsAnswered = async (
@@ -451,25 +514,12 @@ export default async function create(
 
       // if we have an external notifications service hooked up
       // send the reply notification out to that
-      if (externalNotifications.active()) {
-        const replyingUser = author;
-        const repliedToUser = parent.authorID
-          ? await retrieveUser(mongo, parent.tenantID, parent.authorID)
-          : null;
-
-        const site = await retrieveSite(mongo, tenant.id, story.siteID!);
-
-        if (repliedToUser && site) {
-          await externalNotifications.createReply({
-            from: replyingUser,
-            to: repliedToUser,
-            parent,
-            reply: comment,
-            story,
-            site,
-          });
-        }
-      }
+      await sendExternalReplyNotification(
+        mongo,
+        externalNotifications,
+        tenant,
+        comment
+      );
     }
   }
 
