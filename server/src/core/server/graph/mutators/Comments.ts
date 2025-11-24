@@ -267,6 +267,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.i18n,
         ctx.broker,
         ctx.notifications,
+        ctx.externalNotifications,
         ctx.tenant,
         commentID,
         commentRevisionID,

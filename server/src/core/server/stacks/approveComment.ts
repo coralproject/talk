@@ -4,6 +4,8 @@ import { MongoContext } from "coral-server/data/context";
 import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { getLatestRevision } from "coral-server/models/comment";
 import { retrieveNotificationByCommentReply } from "coral-server/models/notifications/notification";
+import { retrieveSite } from "coral-server/models/site";
+import { retrieveStory } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import { retrieveComment } from "coral-server/services/comments";
@@ -12,6 +14,7 @@ import {
   PENDING_STATUS,
 } from "coral-server/services/comments/moderation";
 import { I18n } from "coral-server/services/i18n";
+import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import { InternalNotificationContext } from "coral-server/services/notifications/internal/context";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsNotSpam } from "coral-server/services/spam";
@@ -32,6 +35,7 @@ const approveComment = async (
   i18n: I18n,
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
+  externalNotifications: ExternalNotificationsService,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -123,6 +127,8 @@ const approveComment = async (
   // and there is a reply notification for it, increment the notificationCount
   // for that notification's owner since it was decremented upon original
   // rejection
+  // if external notifications are active, send a reply notification to the parent comment's author
+  // in this case as well
   if (
     previousComment?.status === GQLCOMMENT_STATUS.REJECTED ||
     previousComment?.status === GQLCOMMENT_STATUS.PREMOD ||
@@ -144,6 +150,47 @@ const approveComment = async (
               replyNotification.createdAt)
         ) {
           await notifications.incrementCountForUser(tenant.id, ownerID);
+        }
+      }
+    }
+
+    // if external notifications are active, send a reply notification to the parent comment's author
+    if (externalNotifications.active()) {
+      const parentComment = await retrieveComment(
+        mongo,
+        tenant.id,
+        result.after.parentID!
+      );
+      if (parentComment) {
+        const notificationOwner = await retrieveUser(
+          mongo,
+          tenant.id,
+          parentComment.authorID!
+        );
+        const story = await retrieveStory(
+          mongo,
+          tenant.id,
+          parentComment.storyID!
+        );
+        const site = await retrieveSite(
+          mongo,
+          tenant.id,
+          parentComment.siteID!
+        );
+        const replyingUser = await retrieveUser(
+          mongo,
+          tenant.id,
+          result.after.authorID!
+        );
+        if (replyingUser && notificationOwner && story && site) {
+          await externalNotifications.createReply({
+            from: replyingUser,
+            to: notificationOwner,
+            parent: parentComment,
+            reply: result.after,
+            story,
+            site,
+          });
         }
       }
     }

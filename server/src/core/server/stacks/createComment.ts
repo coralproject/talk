@@ -154,6 +154,7 @@ const markCommentAsAnswered = async (
       i18n,
       broker,
       notifications,
+      externalNotifications,
       tenant,
       comment.parentID,
       comment.parentRevisionID,
@@ -449,6 +450,14 @@ export default async function create(
       // if we have an external notifications service hooked up
       // send the reply notification out to that
       if (externalNotifications.active()) {
+        // don't send reply notifications now for premod, system withheld, or rejected comments
+        if (
+          comment.status === GQLCOMMENT_STATUS.PREMOD ||
+          comment.status === GQLCOMMENT_STATUS.SYSTEM_WITHHELD ||
+          comment.status === GQLCOMMENT_STATUS.REJECTED
+        ) {
+          return;
+        }
         const replyingUser = author;
         const repliedToUser = parent.authorID
           ? await retrieveUser(mongo, parent.tenantID, parent.authorID)
