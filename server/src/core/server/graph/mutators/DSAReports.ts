@@ -78,6 +78,7 @@ export const DSAReports = (ctx: GraphContext) => ({
       ctx.i18n,
       ctx.broker,
       ctx.notifications,
+      ctx.externalNotifications,
       ctx.tenant,
       await ctx.loaders.Comments.comment.load(commentID),
       {

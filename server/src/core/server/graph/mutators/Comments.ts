@@ -6,7 +6,7 @@ import {
   hasTag,
   retrieveLatestFeaturedCommentForAuthor,
 } from "coral-server/models/comment";
-import { updateLastFeaturedDate } from "coral-server/models/user";
+import { retrieveUser, updateLastFeaturedDate } from "coral-server/models/user";
 import { addTag, removeTag } from "coral-server/services/comments";
 import {
   createDontAgree,
@@ -44,8 +44,47 @@ import {
   GQLUnfeatureCommentInput,
 } from "coral-server/graph/schema/__generated__/types";
 
+import { MongoContext } from "coral-server/data/context";
+import { Comment } from "coral-server/models/comment";
+import { retrieveSite } from "coral-server/models/site";
+import { retrieveStory } from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
+import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import { validateUserModerationScopes } from "./helpers";
 import { validateMaximumLength, WithoutMutationID } from "./util";
+
+const sendExternalFeatureNotification = async (
+  mongo: MongoContext,
+  externalNotifications: ExternalNotificationsService,
+  tenant: Tenant,
+  comment: Comment
+) => {
+  if (!externalNotifications.active() || !comment.authorID || !comment.siteID) {
+    return;
+  }
+
+  const author = await retrieveUser(mongo, tenant.id, comment.authorID);
+  if (!author) {
+    return;
+  }
+
+  const site = await retrieveSite(mongo, tenant.id, comment.siteID);
+  if (!site) {
+    return;
+  }
+
+  const story = await retrieveStory(mongo, tenant.id, comment.storyID);
+  if (!story) {
+    return;
+  }
+
+  await externalNotifications.createFeature({
+    to: author,
+    comment,
+    story,
+    site,
+  });
+};
 
 export const Comments = (ctx: GraphContext) => ({
   create: ({
@@ -267,6 +306,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.i18n,
         ctx.broker,
         ctx.notifications,
+        ctx.externalNotifications,
         ctx.tenant,
         commentID,
         commentRevisionID,
@@ -311,6 +351,13 @@ export const Comments = (ctx: GraphContext) => ({
       comment,
       type: GQLNOTIFICATION_TYPE.COMMENT_FEATURED,
     });
+
+    await sendExternalFeatureNotification(
+      ctx.mongo,
+      ctx.externalNotifications,
+      ctx.tenant,
+      comment
+    );
 
     // Return it to the next step.
     return comment;
