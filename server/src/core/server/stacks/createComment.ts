@@ -84,6 +84,7 @@ import {
   updateAllCommentCounts,
 } from "./helpers";
 import { updateTagCommentCounts } from "./helpers/updateAllCommentCounts";
+import { sendExternalRejectNotification } from "./rejectComment";
 
 export type CreateComment = Omit<
   CreateCommentInput,
@@ -573,6 +574,13 @@ export default async function create(
       rejectionReason: result.moderationAction.rejectionReason,
       type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
     });
+
+    await sendExternalRejectNotification(
+      mongo,
+      externalNotifications,
+      tenant,
+      comment
+    );
   }
 
   // Update all the comment counts on stories and users.

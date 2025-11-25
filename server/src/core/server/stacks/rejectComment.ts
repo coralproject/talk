@@ -77,7 +77,7 @@ const stripTag = async (
   return tagResult;
 };
 
-const sendExternalRejectNotification = async (
+export const sendExternalRejectNotification = async (
   mongo: MongoContext,
   externalNotifications: ExternalNotificationsService,
   tenant: Tenant,
@@ -223,15 +223,14 @@ const rejectComment = async (
       type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
       previousStatus: result.before.status,
     });
+
+    await sendExternalRejectNotification(
+      mongo,
+      externalNotifications,
+      tenant,
+      result.after
+    );
   }
-
-  await sendExternalRejectNotification(
-    mongo,
-    externalNotifications,
-    tenant,
-    result.after
-  );
-
   // check for a reply notification for the comment being rejected
   // if exists, check that notification user's lastSeenNotificationDate to see if less than reply createdAt
   // decrement notificationCount if so
