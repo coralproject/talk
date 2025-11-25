@@ -63,6 +63,10 @@ interface CreateFeatureParams {
 enum NotificationType {
   CoralRec = "CoralRec",
   CoralReply = "CoralReply",
+  CoralUnRec = "CoralUnRec",
+  CoralCommentApproved = "CoralCommentApproved",
+  CoralCommentFeatured = "CoralCommentFeatured",
+  CoralCommentRejected = "CoralCommentRejected",
 }
 
 interface StoryInput {
@@ -243,7 +247,7 @@ export class ExternalNotificationsService {
     try {
       const data = {
         source: NotificationSource,
-        type: NotificationType.CoralReply,
+        type: NotificationType.CoralCommentApproved,
         to: this.userToExternalProfile(input.to),
         story: this.storyToInput(input.story),
         site: this.siteToInput(input.site),
@@ -254,7 +258,7 @@ export class ExternalNotificationsService {
     } catch (err) {
       this.logger.warn(
         { err, input },
-        "an error occurred while sending a reply notification"
+        "an error occurred while sending a comment approved notification"
       );
     }
 
@@ -269,7 +273,7 @@ export class ExternalNotificationsService {
     try {
       const data = {
         source: NotificationSource,
-        type: NotificationType.CoralReply,
+        type: NotificationType.CoralCommentRejected,
         to: this.userToExternalProfile(input.to),
         story: this.storyToInput(input.story),
         site: this.siteToInput(input.site),
@@ -280,7 +284,7 @@ export class ExternalNotificationsService {
     } catch (err) {
       this.logger.warn(
         { err, input },
-        "an error occurred while sending a reply notification"
+        "an error occurred while sending a comment rejected notification"
       );
     }
 
@@ -295,7 +299,7 @@ export class ExternalNotificationsService {
     try {
       const data = {
         source: NotificationSource,
-        type: NotificationType.CoralReply,
+        type: NotificationType.CoralCommentFeatured,
         to: this.userToExternalProfile(input.to),
         story: this.storyToInput(input.story),
         site: this.siteToInput(input.site),
@@ -306,7 +310,7 @@ export class ExternalNotificationsService {
     } catch (err) {
       this.logger.warn(
         { err, input },
-        "an error occurred while sending a reply notification"
+        "an error occurred while sending a featured comment notification"
       );
     }
 
