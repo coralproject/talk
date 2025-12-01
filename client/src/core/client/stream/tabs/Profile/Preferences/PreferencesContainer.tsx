@@ -22,8 +22,7 @@ const PreferencesContainer: FunctionComponent<Props> = (props) => {
   const showInternalNotificationSettings =
     !props.settings.externalNotifications?.active;
   const showInPageNotificationSettings =
-    !!props.settings.inPageNotifications?.enabled &&
-    !!props.settings.inPageNotifications?.active;
+    !!props.settings.inPageNotifications?.enabled;
   return (
     <HorizontalGutter spacing={4}>
       <BioContainer viewer={props.viewer} settings={props.settings} />
@@ -47,7 +46,6 @@ const enhanced = withFragmentContainer<Props>({
     fragment PreferencesContainer_settings on Settings {
       inPageNotifications {
         enabled
-        active
       }
       externalNotifications {
         active
