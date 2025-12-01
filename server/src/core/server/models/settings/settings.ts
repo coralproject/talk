@@ -320,6 +320,11 @@ export interface NewCommenterConfig {
 export interface InPageNotificationsConfig {
   enabled?: boolean;
   floatingBellIndicator?: boolean;
+  active?: boolean;
+}
+
+export interface ExternalNotificationsConfig {
+  active?: boolean;
 }
 
 export interface PremoderateEmailAddressConfig {
@@ -471,6 +476,12 @@ export type Settings = GlobalModerationSettings &
      * as an option for commenters
      */
     inPageNotifications?: InPageNotificationsConfig;
+
+    /**
+     * externalNotifications specifies whether or not external notifications are enabled
+     * as an option for commenters
+     */
+    externalNotifications?: ExternalNotificationsConfig;
 
     /**
      * showUnmoderatedCounts specifies whether or not the unmoderated comment count
