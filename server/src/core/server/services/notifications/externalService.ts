@@ -33,6 +33,15 @@ interface CreateRecParams {
   comment: Comment;
 }
 
+interface CreateUnrecParams {
+  from: User;
+  to: User;
+
+  story: Readonly<Story>;
+  site: Readonly<Site>;
+  comment: Comment;
+}
+
 interface CreateApproveParams {
   to: User;
 
@@ -200,6 +209,38 @@ export class ExternalNotificationsService {
       this.logger.warn(
         { err, input },
         "an error occurred while sending a rec notification"
+      );
+    }
+
+    return false;
+  }
+
+  public async createUnrec(input: CreateUnrecParams) {
+    if (!this.active()) {
+      return false;
+    }
+
+    const shouldSend = shouldSendNotification(input.from.id, input.to);
+    if (!shouldSend) {
+      return false;
+    }
+
+    try {
+      const data = {
+        source: NotificationSource,
+        type: NotificationType.CoralUnRec,
+        from: this.userToExternalProfile(input.from),
+        to: this.userToExternalProfile(input.to),
+        story: this.storyToInput(input.story),
+        site: this.siteToInput(input.site),
+        comment: this.commentToInput(input.comment, input.story),
+      };
+
+      return await this.send(data);
+    } catch (err) {
+      this.logger.warn(
+        { err, input },
+        "an error occurred while sending an unrec notification"
       );
     }
 
