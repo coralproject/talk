@@ -86,6 +86,9 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   }) => protectedEmailDomains,
   disposableEmailDomains: ({ disposableEmailDomains = { enabled: false } }) =>
     disposableEmailDomains,
+  externalNotifications: (parent, args, ctx) => {
+    return { active: ctx.externalNotifications.active() };
+  },
   inPageNotifications: (
     {
       inPageNotifications = {
