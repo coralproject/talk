@@ -170,20 +170,10 @@ export const Comments = (ctx: GraphContext) => ({
     commentID,
     commentRevisionID,
   }: GQLRemoveCommentReactionInput) =>
-    removeReaction(
-      ctx.mongo,
-      ctx.redis,
-      ctx.config,
-      ctx.i18n,
-      ctx.cache,
-      ctx.broker,
-      ctx.tenant,
-      ctx.user!,
-      {
-        commentID,
-        commentRevisionID,
-      }
-    ),
+    removeReaction(ctx, ctx.user!, {
+      commentID,
+      commentRevisionID,
+    }),
   createIllegalContent: async ({
     commentID,
     commentRevisionID,

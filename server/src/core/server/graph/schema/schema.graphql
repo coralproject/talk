@@ -2042,6 +2042,10 @@ type InPageNotificationsConfiguration {
   active: Boolean
 }
 
+type ExternalNotificationsConfiguration {
+  active: Boolean
+}
+
 input TooManyPeriodsConfigInput {
   """
   enabled decides whether the too many periods config is enabled or not.
@@ -2444,6 +2448,12 @@ type Settings @cacheControl(maxAge: 30) {
   whether it's enabled as an option for commenters.
   """
   inPageNotifications: InPageNotificationsConfiguration
+
+  """
+  externalNotifications is the configuration for external notifications, including
+  whether it's enabled as an option for commenters.
+  """
+  externalNotifications: ExternalNotificationsConfiguration
 
   """
   showUnmoderatedCounts is whether to show the unmoderated comment count in the

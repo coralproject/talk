@@ -396,24 +396,18 @@ export type RemoveCommentReaction = Pick<
 >;
 
 export async function removeReaction(
-  mongo: MongoContext,
-  redis: AugmentedRedis,
-  config: Config,
-  i18n: I18n,
-  cache: DataCache,
-  broker: CoralEventPublisherBroker,
-  tenant: Tenant,
+  ctx: GraphContext,
   author: User,
   input: RemoveCommentReaction
 ) {
-  return removeCommentAction(
-    mongo,
-    redis,
-    config,
-    i18n,
-    cache,
-    broker,
-    tenant,
+  const result = await removeCommentAction(
+    ctx.mongo,
+    ctx.redis,
+    ctx.config,
+    ctx.i18n,
+    ctx.cache,
+    ctx.broker,
+    ctx.tenant,
     {
       actionType: ACTION_TYPE.REACTION,
       commentID: input.commentID,
@@ -421,6 +415,33 @@ export async function removeReaction(
       userID: author.id,
     }
   );
+
+  if (ctx.externalNotifications.active()) {
+    const unReccedUser = result.authorID
+      ? await ctx.loaders.Users.user.load(result.authorID)
+      : null;
+
+    const story = result.storyID
+      ? await ctx.loaders.Stories.find.load({
+          id: result.storyID,
+        })
+      : null;
+
+    const site = result.siteID
+      ? await ctx.loaders.Sites.site.load(result.siteID)
+      : null;
+    if (unReccedUser && story && site) {
+      await ctx.externalNotifications.createUnrec({
+        from: author,
+        to: unReccedUser,
+        comment: result,
+        story,
+        site,
+      });
+    }
+  }
+
+  return result;
 }
 
 export type CreateCommentDontAgree = Pick<
