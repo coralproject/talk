@@ -54,6 +54,10 @@ type ExpandedMediaSettings {
   commentIDs: [String!]!
 }
 
+type CollapsedCommentSettings {
+  commentIDs: [String!]!
+}
+
 extend type Comment {
   # pending is true during the optimistic response.
   pending: Boolean
@@ -119,6 +123,9 @@ extend type Local {
   # Keeps track of comments that have been expanded/collapsed (opposite of the user's default
   # media settings)
   expandedMediaSettings: ExpandedMediaSettings
+  # Keeps track of comments that have been collapsed/expanded (opposite of their default
+  # state based on depth and tenant settings)
+  collapsedCommentSettings: CollapsedCommentSettings
 
   archivingEnabled: Boolean!
   autoArchiveOlderThanMs: Int!

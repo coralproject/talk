@@ -398,6 +398,7 @@ export function createSettings(): GQLSettings {
     },
     premoderateSuspectWords: false,
     flattenReplies: false,
+    collapseReplies: false,
     auth: {
       integrations: {
         local: {

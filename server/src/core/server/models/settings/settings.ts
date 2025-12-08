@@ -436,6 +436,11 @@ export type Settings = GlobalModerationSettings &
     flattenReplies: boolean;
 
     /**
+     * collapseReplies is whether or not to collapse first-level replies by default
+     */
+    collapseReplies: boolean;
+
+    /**
      * forReviewQueue is whether the tenant wants to enable the For Review
      * moderation queue in the admin to review every flag that has been
      * put on a comment by a user.

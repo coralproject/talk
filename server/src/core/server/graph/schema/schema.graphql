@@ -2197,6 +2197,12 @@ type Settings @cacheControl(maxAge: 30) {
   flattenReplies: Boolean!
 
   """
+  collapseReplies when enabled, will cause first-level replies to be collapsed
+  by default in the comment stream.
+  """
+  collapseReplies: Boolean!
+
+  """
   customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
   customCSSURL: String
@@ -6928,6 +6934,11 @@ input SettingsInput {
   flattenReplies is whether or not to flatten replies
   """
   flattenReplies: Boolean
+
+  """
+  collapseReplies is whether or not to collapse first-level replies by default
+  """
+  collapseReplies: Boolean
 
   """
   forReviewQueue is whether or not to show the For Review queue in
