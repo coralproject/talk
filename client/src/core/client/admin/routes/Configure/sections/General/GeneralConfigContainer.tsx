@@ -15,6 +15,7 @@ import AnnouncementConfigContainer from "./AnnouncementConfigContainer";
 import BadgeConfig from "./BadgeConfig";
 import ClosedStreamMessageConfig from "./ClosedStreamMessageConfig";
 import ClosingCommentStreamsConfig from "./ClosingCommentStreamsConfig";
+import CollapseRepliesConfig from "./CollapseRepliesConfig";
 import CommentEditingConfig from "./CommentEditingConfig";
 import CommentLengthConfig from "./CommentLengthConfig";
 import FeaturedByConfig from "./FeaturedByConfig";
@@ -54,6 +55,7 @@ const GeneralConfigContainer: React.FunctionComponent<Props> = ({
       <DSAConfigContainer disabled={submitting} settings={settings} />
       <InPageNotificationsConfig disabled={submitting} />
       <FlattenRepliesConfig disabled={submitting} />
+      <CollapseRepliesConfig disabled={submitting} />
       <SitewideCommentingConfig disabled={submitting} />
       <AnnouncementConfigContainer disabled={submitting} settings={settings} />
       <GuidelinesConfig disabled={submitting} />
@@ -79,6 +81,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment GeneralConfigContainer_settings on Settings {
       ...AnnouncementConfigContainer_settings
       ...FlattenRepliesConfig_formValues @relay(mask: false)
+      ...CollapseRepliesConfig_formValues @relay(mask: false)
       ...InPageNotificationsConfig_formValues @relay(mask: false)
       ...LocaleConfig_formValues @relay(mask: false)
       ...DSAConfigContainer_formValues @relay(mask: false)

@@ -185,6 +185,7 @@ export const createTenantFixture = (
     },
     amp: false,
     flattenReplies: false,
+    collapseReplies: false,
     disableDefaultFonts: false,
     emailDomainModeration: [],
     dsa: {

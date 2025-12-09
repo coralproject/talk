@@ -38,7 +38,7 @@ const UnansweredCommentsTabCommentContainer: FunctionComponent<Props> = ({
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
       <FadeInTransition active={!!comment.enteredLive}>
-        <CollapsableComment>
+        <CollapsableComment comment={comment}>
           {({ collapsed, toggleCollapsed }) => (
             <HorizontalGutter
               className={cn({
@@ -100,7 +100,9 @@ const enhanced = withFragmentContainer<Props>({
     @argumentDefinitions(
       refreshStream: { type: "Boolean", defaultValue: false }
     ) {
+      id
       enteredLive
+      lastViewerAction
       ...CommentContainer_comment
       ...ReplyListContainer1_comment @arguments(refreshStream: $refreshStream)
       ...IgnoredTombstoneOrHideContainer_comment

@@ -27,6 +27,7 @@ interface Props {
   settings: AllCommentsTabCommentContainer_settings;
   story: AllCommentsTabCommentContainer_story;
   isLast: boolean;
+  indentLevel?: number;
 }
 
 const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
@@ -35,6 +36,7 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   settings,
   story,
   isLast,
+  indentLevel,
 }) => {
   const [{ refreshStream }] = useLocal<AllCommentsTabCommentContainerLocal>(
     graphql`
@@ -49,7 +51,10 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
   return (
     <IgnoredTombstoneOrHideContainer viewer={viewer} comment={comment}>
       <FadeInTransition active={!!comment.enteredLive}>
-        <CollapsableComment>
+        <CollapsableComment
+          defaultCollapsed={indentLevel === 1}
+          comment={comment}
+        >
           {({ collapsed, toggleCollapsed }) => (
             <HorizontalGutter
               className={cn({
@@ -68,6 +73,7 @@ const AllCommentsTabCommentContainer: FunctionComponent<Props> = ({
                   comment={comment}
                   story={story}
                   toggleCollapsed={toggleCollapsed}
+                  indentLevel={indentLevel}
                 />
               </DeletedTombstoneContainer>
               {!collapsed && (
@@ -117,6 +123,7 @@ const enhanced = withFragmentContainer<Props>({
     ) {
       id
       enteredLive
+      lastViewerAction
       seen
       ...CommentContainer_comment
       ...ReplyListContainer1_comment @arguments(refreshStream: $refreshStream)

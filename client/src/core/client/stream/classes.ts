@@ -492,6 +492,11 @@ const CLASSES = {
      * indentation classes for the different levels.
      */
     indent: (level: number) => `coral coral-indent coral-indent-${level}`,
+
+    /**
+     * collapseFirstLevelDefault is the class added to the comment container if the first level is collapsed by default.
+     */
+    collapseFirstLevelDefault: "coral coral-collapseFirstLevelDefault",
   },
 
   /**
