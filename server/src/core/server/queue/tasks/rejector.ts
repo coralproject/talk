@@ -25,6 +25,7 @@ import {
   GQLRejectionReason,
 } from "coral-server/graph/schema/__generated__/types";
 import { I18n } from "coral-server/services/i18n";
+import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 
 const JOB_NAME = "rejector";
 
@@ -34,6 +35,7 @@ export interface RejectorProcessorOptions {
   tenantCache: TenantCache;
   config: Config;
   notifications: InternalNotificationContext;
+  externalNotifications: ExternalNotificationsService;
   i18n: I18n;
 }
 
@@ -160,6 +162,7 @@ const rejectLiveComments = async (
   cache: DataCache,
   config: Config,
   notifications: InternalNotificationContext,
+  externalNotifications: ExternalNotificationsService,
   i18n: I18n,
   tenant: Readonly<Tenant>,
   authorID: string,
@@ -184,6 +187,7 @@ const rejectLiveComments = async (
         i18n,
         null,
         notifications,
+        externalNotifications,
         tenant,
         comment.id,
         revision.id,
@@ -214,6 +218,7 @@ const createJobProcessor =
     tenantCache,
     config,
     notifications,
+    externalNotifications,
     i18n,
   }: RejectorProcessorOptions): JobProcessor<RejectorData> =>
   async (job) => {
@@ -257,6 +262,7 @@ const createJobProcessor =
       cache,
       config,
       notifications,
+      externalNotifications,
       i18n,
       tenant,
       authorID,

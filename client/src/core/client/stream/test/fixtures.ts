@@ -134,6 +134,7 @@ export const settings = createFixture<GQLSettings>({
     sarcasm: false,
   },
   flattenReplies: false,
+  collapseReplies: false,
   flairBadges: {
     flairBadgesEnabled: true,
     badges: [{ name: "subscriber", url: "https://wwww.example.com/image.jpg" }],

@@ -524,6 +524,11 @@ configure-general-flattenReplies-enabled = Flatten replies enabled
 configure-general-flattenReplies-explanation =
   Change how levels of replies display. When enabled, replies to comments can go up to seven levels deep before they are no longer indented on the page. When disabled, after a depth of seven replies, the rest of the conversation is displayed in a dedicated view away from the other comments.
 
+#### Collapse Replies
+configure-general-collapseReplies-title = Collapse replies
+configure-general-collapseReplies-enabled = Collapse replies enabled
+configure-general-collapseReplies-explanation =
+  When enabled, top-level replies to comments will be collapsed by default.
 configure-general-featuredBy-title = Featured by
 configure-general-featuredBy-enabled = Featured by enabled
 configure-general-featuredBy-explanation = Add moderator name to featured comment display

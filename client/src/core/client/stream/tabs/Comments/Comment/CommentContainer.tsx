@@ -439,7 +439,11 @@ export const CommentContainer: FunctionComponent<Props> = ({
         className,
         CLASSES.comment.$root,
         `${CLASSES.comment.reacted}-${comment.actionCounts.reaction.total}`,
-        badgesClassName
+        badgesClassName,
+        {
+          [CLASSES.comment.collapseFirstLevelDefault]:
+            indentLevel === 1 && settings.collapseReplies,
+        }
       )}
       tabIndex={-1}
       id={commentElementID}
@@ -917,6 +921,7 @@ const enhanced = withShowAuthPopupMutation(
     settings: graphql`
       fragment CommentContainer_settings on Settings {
         flattenReplies
+        collapseReplies
         disableCommenting {
           enabled
         }

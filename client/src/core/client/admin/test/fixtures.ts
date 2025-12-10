@@ -226,6 +226,7 @@ export const settings = createFixture<GQLSettings>({
   },
   amp: false,
   flattenReplies: false,
+  collapseReplies: false,
   forReviewQueue: false,
   emailDomainModeration: [],
   embeddedComments: {

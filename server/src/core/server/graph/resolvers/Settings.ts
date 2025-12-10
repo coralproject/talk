@@ -41,6 +41,7 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   stories: ({ stories }) => stories,
   amp: (parent, args, ctx) => isAMPEnabled(ctx.tenant),
   flattenReplies: (parent, args, ctx) => areRepliesFlattened(ctx.tenant),
+  collapseReplies: (parent, args, ctx) => ctx.tenant.collapseReplies || false,
   forReviewQueue: (parent, args, ctx) => isForReviewQueueEnabled(ctx.tenant),
   disableDefaultFonts: ({ disableDefaultFonts }) =>
     Boolean(disableDefaultFonts),
@@ -86,6 +87,9 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   }) => protectedEmailDomains,
   disposableEmailDomains: ({ disposableEmailDomains = { enabled: false } }) =>
     disposableEmailDomains,
+  externalNotifications: (parent, args, ctx) => {
+    return { active: ctx.externalNotifications.active() };
+  },
   inPageNotifications: (
     {
       inPageNotifications = {
