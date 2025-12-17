@@ -116,6 +116,14 @@ const CreateNotificationsMutation = `
   }
 `;
 
+export const automatedModerator = {
+  id: "00000000-0000-0000-0000-000000000002",
+  email: "automated-moderator",
+  username: "<automated-moderator>",
+  type: ProfileType,
+  createdAt: new Date(),
+};
+
 export class ExternalNotificationsService {
   private _active: boolean;
   private url?: string | null;
@@ -289,6 +297,7 @@ export class ExternalNotificationsService {
       const data = {
         source: NotificationSource,
         type: NotificationType.CoralCommentApproved,
+        from: automatedModerator,
         to: this.userToExternalProfile(input.to),
         story: this.storyToInput(input.story),
         site: this.siteToInput(input.site),
@@ -315,6 +324,7 @@ export class ExternalNotificationsService {
       const data = {
         source: NotificationSource,
         type: NotificationType.CoralCommentRejected,
+        from: automatedModerator,
         to: this.userToExternalProfile(input.to),
         story: this.storyToInput(input.story),
         site: this.siteToInput(input.site),
@@ -341,6 +351,7 @@ export class ExternalNotificationsService {
       const data = {
         source: NotificationSource,
         type: NotificationType.CoralCommentFeatured,
+        from: automatedModerator,
         to: this.userToExternalProfile(input.to),
         story: this.storyToInput(input.story),
         site: this.siteToInput(input.site),
