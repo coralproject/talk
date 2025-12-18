@@ -121,7 +121,6 @@ export const automatedModerator = {
   email: "automated-moderator",
   username: "<automated-moderator>",
   type: ProfileType,
-  createdAt: new Date(),
 };
 
 export class ExternalNotificationsService {
