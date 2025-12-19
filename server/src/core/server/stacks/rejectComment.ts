@@ -213,16 +213,17 @@ const rejectComment = async (
 
   if (
     sendNotification &&
-    !(reason?.code === GQLREJECTION_REASON_CODE.BANNED_WORD) &&
-    tenant.dsa?.enabled
+    !(reason?.code === GQLREJECTION_REASON_CODE.BANNED_WORD)
   ) {
-    await notifications.create(tenant.id, tenant.locale, {
-      targetUserID: result.after.authorID!,
-      comment: result.after,
-      rejectionReason: reason,
-      type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
-      previousStatus: result.before.status,
-    });
+    if (tenant.dsa?.enabled) {
+      await notifications.create(tenant.id, tenant.locale, {
+        targetUserID: result.after.authorID!,
+        comment: result.after,
+        rejectionReason: reason,
+        type: GQLNOTIFICATION_TYPE.COMMENT_REJECTED,
+        previousStatus: result.before.status,
+      });
+    }
 
     await sendExternalRejectNotification(
       mongo,
