@@ -1065,6 +1065,56 @@ type FacebookAuthIntegration {
 }
 
 ##########################
+## BlueskyAuthIntegration
+##########################
+
+type BskyAuthIntegration {
+  """
+  enabled, when true, will enable Bluesky as an authentication integration.
+  """
+  enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter!
+
+  """
+  clientID is the Client Identifier as provided by the Bluesky Developer
+  Console.
+  """
+  clientID: String @auth(roles: [ADMIN])
+
+  """
+  clientSecret is the Client Secret as provided by the Bluesky Developer
+  Console.
+  """
+  clientSecret: String @auth(roles: [ADMIN])
+
+  """
+  callbackURL is the URL that the user should be redirected to in order to continue
+  the authentication flow. This field is not stored, and is instead computed from
+  the Tenant.
+  """
+  callbackURL: String! @auth(roles: [ADMIN])
+
+  """
+  authURL is starting point for atproto oauth to start
+  an authentication flow with a handle's host. This field is not stored,
+  and is instead computed from the Tenant.
+  """
+  authURL: String!
+}
+
+##########################
 ## Auth
 ##########################
 
@@ -1093,6 +1143,11 @@ type AuthIntegrations {
   facebook stores configuration related to Facebook based logins.
   """
   facebook: FacebookAuthIntegration!
+
+  """
+  bsky stores configuration related to Bluesky based logins.
+  """
+  bsky: BskyAuthIntegration!
 }
 
 """
@@ -2493,6 +2548,10 @@ type SSOProfile {
   id: String!
 }
 
+type BskyProfile {
+  id: String!
+}
+
 type FacebookProfile {
   id: String!
 }
@@ -2509,6 +2568,7 @@ union Profile =
     LocalProfile
   | OIDCProfile
   | SSOProfile
+  | BskyProfile
   | FacebookProfile
   | GoogleProfile
 
@@ -6056,6 +6116,38 @@ input SettingsFacebookAuthIntegrationInput {
   clientSecret: String
 }
 
+input SettingsBskyAuthIntegrationInput {
+  """
+  enabled, when true, will enable Bluesky as an authentication integration.
+  """
+  enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
+  """
+  clientID is the Client Identifier as provided by the Bluesky Developer
+  Console.
+  """
+  clientID: String
+
+  """
+  clientSecret is the Client Secret as provided by the Bluesky Developer
+  Console.
+  """
+  clientSecret: String
+}
+
 input SettingsAuthIntegrationsInput {
   """
   local stores configuration related to email/password based logins.
@@ -6081,6 +6173,12 @@ input SettingsAuthIntegrationsInput {
   facebook stores configuration related to Facebook based logins.
   """
   facebook: SettingsFacebookAuthIntegrationInput
+
+  """
+  bsky stores configuration related to Bluesky based logins.
+  """
+  bsky: SettingsBskyAuthIntegrationInput
+
 }
 
 """
