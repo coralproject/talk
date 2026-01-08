@@ -254,6 +254,26 @@ export class ExternalNotificationsService {
     return false;
   }
 
+  public buildReply(input: CreateReplyParams) {
+    const shouldSend = shouldSendNotification(input.from.id, input.to);
+    if (!shouldSend) {
+      return null;
+    }
+
+    const data = {
+      source: NotificationSource,
+      type: NotificationType.CoralReply,
+      from: this.userToExternalProfile(input.from),
+      to: this.userToExternalProfile(input.to),
+      story: this.storyToInput(input.story),
+      site: this.siteToInput(input.site),
+      comment: this.commentToInput(input.parent, input.story),
+      reply: this.commentToInput(input.reply, input.story),
+    };
+
+    return data;
+  }
+
   public async createReply(input: CreateReplyParams) {
     if (!this.active()) {
       return false;
@@ -265,16 +285,7 @@ export class ExternalNotificationsService {
     }
 
     try {
-      const data = {
-        source: NotificationSource,
-        type: NotificationType.CoralReply,
-        from: this.userToExternalProfile(input.from),
-        to: this.userToExternalProfile(input.to),
-        story: this.storyToInput(input.story),
-        site: this.siteToInput(input.site),
-        comment: this.commentToInput(input.parent, input.story),
-        reply: this.commentToInput(input.reply, input.story),
-      };
+      const data = this.buildReply(input);
 
       return await this.send(data);
     } catch (err) {
@@ -287,21 +298,27 @@ export class ExternalNotificationsService {
     return false;
   }
 
+  public buildApprove(input: CreateApproveParams) {
+    const data = {
+      source: NotificationSource,
+      type: NotificationType.CoralCommentApproved,
+      from: automatedModerator,
+      to: this.userToExternalProfile(input.to),
+      story: this.storyToInput(input.story),
+      site: this.siteToInput(input.site),
+      comment: this.commentToInput(input.comment, input.story),
+    };
+
+    return data;
+  }
+
   public async createApprove(input: CreateApproveParams) {
     if (!this.active()) {
       return false;
     }
 
     try {
-      const data = {
-        source: NotificationSource,
-        type: NotificationType.CoralCommentApproved,
-        from: automatedModerator,
-        to: this.userToExternalProfile(input.to),
-        story: this.storyToInput(input.story),
-        site: this.siteToInput(input.site),
-        comment: this.commentToInput(input.comment, input.story),
-      };
+      const data = this.buildApprove(input);
 
       return await this.send(data);
     } catch (err) {
@@ -368,7 +385,15 @@ export class ExternalNotificationsService {
     return false;
   }
 
-  private async send(notification: any) {
+  public async send(notification: any) {
+    if (!notification) {
+      return false;
+    }
+
+    return this.sendMany([notification]);
+  }
+
+  public async sendMany(notifications: any[]) {
     if (!this.active()) {
       return false;
     }
@@ -377,7 +402,7 @@ export class ExternalNotificationsService {
       query: CreateNotificationsMutation,
       variables: {
         input: {
-          items: [notification],
+          items: notifications.filter((n) => n !== null),
         },
       },
     };

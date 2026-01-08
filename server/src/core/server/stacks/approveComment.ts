@@ -26,35 +26,35 @@ import {
 import { retrieveSite } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
-import { sendExternalReplyNotification } from "./createComment";
+import { buildExternalReplyNotification } from "./createComment";
 import { publishChanges } from "./helpers";
 
-const sendExternalApproveNotification = async (
+const buildApproveNotification = async (
   mongo: MongoContext,
   externalNotifications: ExternalNotificationsService,
   tenant: Tenant,
   comment: Comment
 ) => {
   if (!externalNotifications.active() || !comment.authorID || !comment.siteID) {
-    return;
+    return null;
   }
 
   const author = await retrieveUser(mongo, tenant.id, comment.authorID);
   if (!author) {
-    return;
+    return null;
   }
 
   const site = await retrieveSite(mongo, tenant.id, comment.siteID);
   if (!site) {
-    return;
+    return null;
   }
 
   const story = await retrieveStory(mongo, tenant.id, comment.storyID);
   if (!story) {
-    return;
+    return null;
   }
 
-  await externalNotifications.createApprove({
+  return externalNotifications.buildApprove({
     to: author,
     comment,
     story,
@@ -144,21 +144,27 @@ const approveComment = async (
       type: GQLNOTIFICATION_TYPE.COMMENT_APPROVED,
     });
 
-    await sendExternalApproveNotification(
-      mongo,
-      externalNotifications,
-      tenant,
-      result.after
-    );
-
-    if (result.after.parentID) {
-      await sendExternalReplyNotification(
+    const extToSend: any[] = [
+      buildApproveNotification(
         mongo,
         externalNotifications,
         tenant,
         result.after
+      ),
+    ];
+
+    if (result.after.parentID) {
+      extToSend.push(
+        buildExternalReplyNotification(
+          mongo,
+          externalNotifications,
+          tenant,
+          result.after
+        )
       );
     }
+
+    await externalNotifications.sendMany(extToSend);
   }
 
   // create notification if dsa enabled upon approval of previously rejected comment

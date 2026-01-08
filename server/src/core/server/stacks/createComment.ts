@@ -101,7 +101,7 @@ export type CreateComment = Omit<
   media?: CreateCommentMediaInput;
 };
 
-export const sendExternalReplyNotification = async (
+export const buildExternalReplyNotification = async (
   mongo: MongoContext,
   externalNotifications: ExternalNotificationsService,
   tenant: Tenant,
@@ -113,16 +113,16 @@ export const sendExternalReplyNotification = async (
     !reply.siteID ||
     !reply.parentID
   ) {
-    return;
+    return null;
   }
 
   if (!PUBLISHED_STATUSES.includes(reply.status)) {
-    return;
+    return null;
   }
 
   const parent = await retrieveComment(mongo, tenant.id, reply.parentID);
   if (!parent || !parent.authorID) {
-    return;
+    return null;
   }
 
   const repliedToUser = await retrieveUser(
@@ -131,25 +131,25 @@ export const sendExternalReplyNotification = async (
     parent.authorID
   );
   if (!repliedToUser) {
-    return;
+    return null;
   }
 
   const replyingUser = await retrieveUser(mongo, tenant.id, reply.authorID);
   if (!replyingUser) {
-    return;
+    return null;
   }
 
   const site = await retrieveSite(mongo, tenant.id, reply.siteID);
   if (!site) {
-    return;
+    return null;
   }
 
   const story = await retrieveStory(mongo, tenant.id, reply.storyID);
   if (!story) {
-    return;
+    return null;
   }
 
-  await externalNotifications.createReply({
+  const data = externalNotifications.buildReply({
     from: replyingUser,
     to: repliedToUser,
     parent,
@@ -157,6 +157,26 @@ export const sendExternalReplyNotification = async (
     story,
     site,
   });
+
+  return data;
+};
+
+export const sendExternalReplyNotification = async (
+  mongo: MongoContext,
+  externalNotifications: ExternalNotificationsService,
+  tenant: Tenant,
+  reply: Comment
+) => {
+  const notification = buildExternalReplyNotification(
+    mongo,
+    externalNotifications,
+    tenant,
+    reply
+  );
+
+  if (notification) {
+    await externalNotifications.send(notification);
+  }
 };
 
 const markCommentAsAnswered = async (
