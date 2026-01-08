@@ -17,6 +17,7 @@ import { InternalNotificationContext } from "coral-server/services/notifications
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsNotSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
+import { v4 as uuid } from "uuid";
 
 import {
   GQLCOMMENT_STATUS,
@@ -25,6 +26,7 @@ import {
 
 import { retrieveSite } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
+import { ExternalNotificationsQueue } from "coral-server/queue/tasks/externalNotifications";
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import { buildExternalReplyNotification } from "./createComment";
 import { publishChanges } from "./helpers";
@@ -71,6 +73,7 @@ const approveComment = async (
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
   externalNotifications: ExternalNotificationsService,
+  externalNotificationsQueue: ExternalNotificationsQueue,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -164,7 +167,11 @@ const approveComment = async (
       );
     }
 
-    await externalNotifications.sendMany(extToSend);
+    await externalNotificationsQueue.add({
+      tenantID: tenant.id,
+      taskID: uuid(),
+      notifications: extToSend,
+    });
   }
 
   // create notification if dsa enabled upon approval of previously rejected comment

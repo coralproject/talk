@@ -397,6 +397,7 @@ class Server {
       this.tasks.archiver.process();
       this.tasks.loadCache.process();
       this.tasks.unarchiver.process();
+      this.tasks.externalNotifications.process();
 
       // Start up the cron job processors.
       this.scheduledTasks = startScheduledTasks({
@@ -460,6 +461,7 @@ class Server {
       webhookQueue: this.tasks.webhook,
       loadCacheQueue: this.tasks.loadCache,
       unarchiverQueue: this.tasks.unarchiver,
+      externalNotificationsQueue: this.tasks.externalNotifications,
       wordList: this.wordList,
     };
 

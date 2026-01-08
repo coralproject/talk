@@ -331,21 +331,27 @@ export class ExternalNotificationsService {
     return false;
   }
 
+  public buildReject(input: CreateRejectParams) {
+    const data = {
+      source: NotificationSource,
+      type: NotificationType.CoralCommentRejected,
+      from: automatedModerator,
+      to: this.userToExternalProfile(input.to),
+      story: this.storyToInput(input.story),
+      site: this.siteToInput(input.site),
+      comment: this.commentToInput(input.comment, input.story),
+    };
+
+    return data;
+  }
+
   public async createReject(input: CreateRejectParams) {
     if (!this.active()) {
       return false;
     }
 
     try {
-      const data = {
-        source: NotificationSource,
-        type: NotificationType.CoralCommentRejected,
-        from: automatedModerator,
-        to: this.userToExternalProfile(input.to),
-        story: this.storyToInput(input.story),
-        site: this.siteToInput(input.site),
-        comment: this.commentToInput(input.comment, input.story),
-      };
+      const data = this.buildReject(input);
 
       return await this.send(data);
     } catch (err) {

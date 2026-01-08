@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { isNumber } from "lodash";
+import { v4 as uuid } from "uuid";
 
 import { ERROR_TYPES } from "coral-common/common/lib/errors";
 import { Config } from "coral-server/config";
@@ -76,6 +77,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
+import { ExternalNotificationsQueue } from "coral-server/queue/tasks/externalNotifications";
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import approveComment from "./approveComment";
 import {
@@ -188,6 +190,7 @@ const markCommentAsAnswered = async (
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
   externalNotifications: ExternalNotificationsService,
+  externalNotificationsQueue: ExternalNotificationsQueue,
   tenant: Tenant,
   comment: Readonly<Comment>,
   story: Story,
@@ -240,6 +243,7 @@ const markCommentAsAnswered = async (
       broker,
       notifications,
       externalNotifications,
+      externalNotificationsQueue,
       tenant,
       comment.parentID,
       comment.parentRevisionID,
@@ -302,6 +306,7 @@ export default async function create(
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
   externalNotifications: ExternalNotificationsService,
+  externalNotificationsQueue: ExternalNotificationsQueue,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -491,6 +496,7 @@ export default async function create(
       broker,
       notifications,
       externalNotifications,
+      externalNotificationsQueue,
       tenant,
       comment,
       story,
@@ -535,12 +541,20 @@ export default async function create(
 
       // if we have an external notifications service hooked up
       // send the reply notification out to that
-      await sendExternalReplyNotification(
+      const notification = await buildExternalReplyNotification(
         mongo,
         externalNotifications,
         tenant,
         comment
       );
+
+      if (notification) {
+        await externalNotificationsQueue.add({
+          tenantID: tenant.id,
+          taskID: uuid(),
+          notifications: [notification],
+        });
+      }
     }
   }
 
