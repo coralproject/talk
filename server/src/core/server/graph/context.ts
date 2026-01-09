@@ -29,6 +29,7 @@ import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 import { Request } from "coral-server/types/express";
 
+import { ExternalNotificationsQueue } from "coral-server/queue/tasks/externalNotifications";
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import loaders from "./loaders";
 import mutators from "./mutators";
@@ -56,6 +57,8 @@ export interface GraphContextOptions {
   notifierQueue: NotifierQueue;
   loadCacheQueue: LoadCacheQueue;
   unarchiverQueue: UnarchiverQueue;
+  externalNotificationsQueue: ExternalNotificationsQueue;
+
   mongo: MongoContext;
   pubsub: RedisPubSub;
   redis: AugmentedRedis;
@@ -84,6 +87,7 @@ export default class GraphContext {
   public readonly notifierQueue: NotifierQueue;
   public readonly loadCacheQueue: LoadCacheQueue;
   public readonly unarchiverQueue: UnarchiverQueue;
+  public readonly externalNotificationsQueue: ExternalNotificationsQueue;
   public readonly mongo: MongoContext;
   public readonly mutators: ReturnType<typeof mutators>;
   public readonly now: Date;
@@ -137,6 +141,7 @@ export default class GraphContext {
     this.webhookQueue = options.webhookQueue;
     this.loadCacheQueue = options.loadCacheQueue;
     this.unarchiverQueue = options.unarchiverQueue;
+    this.externalNotificationsQueue = options.externalNotificationsQueue;
     this.signingConfig = options.signingConfig;
     this.clientID = options.clientID;
     this.reporter = options.reporter;

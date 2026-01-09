@@ -18,6 +18,7 @@ import { InternalNotificationContext } from "coral-server/services/notifications
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
+import { v4 as uuid } from "uuid";
 
 import {
   GQLCOMMENT_STATUS,
@@ -28,6 +29,7 @@ import {
 
 import { retrieveSite } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
+import { ExternalNotificationsQueue } from "coral-server/queue/tasks/externalNotifications";
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import { publishChanges } from "./helpers";
 import { updateTagCommentCounts } from "./helpers/updateAllCommentCounts";
@@ -77,37 +79,55 @@ const stripTag = async (
   return tagResult;
 };
 
-export const sendExternalRejectNotification = async (
+export const buildExternalRejectNotification = async (
   mongo: MongoContext,
   externalNotifications: ExternalNotificationsService,
   tenant: Tenant,
   comment: Comment
 ) => {
   if (!externalNotifications.active() || !comment.authorID || !comment.siteID) {
-    return;
+    return null;
   }
 
   const author = await retrieveUser(mongo, tenant.id, comment.authorID);
   if (!author) {
-    return;
+    return null;
   }
 
   const site = await retrieveSite(mongo, tenant.id, comment.siteID);
   if (!site) {
-    return;
+    return null;
   }
 
   const story = await retrieveStory(mongo, tenant.id, comment.storyID);
   if (!story) {
-    return;
+    return null;
   }
 
-  await externalNotifications.createReject({
+  return externalNotifications.buildReject({
     to: author,
     comment,
     story,
     site,
   });
+};
+
+export const sendExternalRejectNotification = async (
+  mongo: MongoContext,
+  externalNotifications: ExternalNotificationsService,
+  tenant: Tenant,
+  comment: Comment
+) => {
+  const notification = await buildExternalRejectNotification(
+    mongo,
+    externalNotifications,
+    tenant,
+    comment
+  );
+
+  if (notification) {
+    await externalNotifications.send(notification);
+  }
 };
 
 const rejectComment = async (
@@ -119,6 +139,7 @@ const rejectComment = async (
   broker: CoralEventPublisherBroker | null,
   notifications: InternalNotificationContext,
   externalNotifications: ExternalNotificationsService,
+  externalNotificationsQueue: ExternalNotificationsQueue,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -225,12 +246,18 @@ const rejectComment = async (
       });
     }
 
-    await sendExternalRejectNotification(
+    const notification = await buildExternalRejectNotification(
       mongo,
       externalNotifications,
       tenant,
       result.after
     );
+
+    await externalNotificationsQueue.add({
+      tenantID: tenant.id,
+      taskID: uuid(),
+      notifications: [notification],
+    });
   }
   // check for a reply notification for the comment being rejected
   // if exists, check that notification user's lastSeenNotificationDate to see if less than reply createdAt

@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { isNumber } from "lodash";
+import { v4 as uuid } from "uuid";
 
 import { ERROR_TYPES } from "coral-common/common/lib/errors";
 import { Config } from "coral-server/config";
@@ -76,6 +77,7 @@ import {
 } from "coral-server/graph/schema/__generated__/types";
 
 import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
+import { ExternalNotificationsQueue } from "coral-server/queue/tasks/externalNotifications";
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import approveComment from "./approveComment";
 import {
@@ -101,7 +103,7 @@ export type CreateComment = Omit<
   media?: CreateCommentMediaInput;
 };
 
-export const sendExternalReplyNotification = async (
+export const buildExternalReplyNotification = async (
   mongo: MongoContext,
   externalNotifications: ExternalNotificationsService,
   tenant: Tenant,
@@ -113,16 +115,16 @@ export const sendExternalReplyNotification = async (
     !reply.siteID ||
     !reply.parentID
   ) {
-    return;
+    return null;
   }
 
   if (!PUBLISHED_STATUSES.includes(reply.status)) {
-    return;
+    return null;
   }
 
   const parent = await retrieveComment(mongo, tenant.id, reply.parentID);
   if (!parent || !parent.authorID) {
-    return;
+    return null;
   }
 
   const repliedToUser = await retrieveUser(
@@ -131,25 +133,25 @@ export const sendExternalReplyNotification = async (
     parent.authorID
   );
   if (!repliedToUser) {
-    return;
+    return null;
   }
 
   const replyingUser = await retrieveUser(mongo, tenant.id, reply.authorID);
   if (!replyingUser) {
-    return;
+    return null;
   }
 
   const site = await retrieveSite(mongo, tenant.id, reply.siteID);
   if (!site) {
-    return;
+    return null;
   }
 
   const story = await retrieveStory(mongo, tenant.id, reply.storyID);
   if (!story) {
-    return;
+    return null;
   }
 
-  await externalNotifications.createReply({
+  const data = externalNotifications.buildReply({
     from: replyingUser,
     to: repliedToUser,
     parent,
@@ -157,6 +159,26 @@ export const sendExternalReplyNotification = async (
     story,
     site,
   });
+
+  return data;
+};
+
+export const sendExternalReplyNotification = async (
+  mongo: MongoContext,
+  externalNotifications: ExternalNotificationsService,
+  tenant: Tenant,
+  reply: Comment
+) => {
+  const notification = buildExternalReplyNotification(
+    mongo,
+    externalNotifications,
+    tenant,
+    reply
+  );
+
+  if (notification) {
+    await externalNotifications.send(notification);
+  }
 };
 
 const markCommentAsAnswered = async (
@@ -168,6 +190,7 @@ const markCommentAsAnswered = async (
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
   externalNotifications: ExternalNotificationsService,
+  externalNotificationsQueue: ExternalNotificationsQueue,
   tenant: Tenant,
   comment: Readonly<Comment>,
   story: Story,
@@ -220,6 +243,7 @@ const markCommentAsAnswered = async (
       broker,
       notifications,
       externalNotifications,
+      externalNotificationsQueue,
       tenant,
       comment.parentID,
       comment.parentRevisionID,
@@ -282,6 +306,7 @@ export default async function create(
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
   externalNotifications: ExternalNotificationsService,
+  externalNotificationsQueue: ExternalNotificationsQueue,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -471,6 +496,7 @@ export default async function create(
       broker,
       notifications,
       externalNotifications,
+      externalNotificationsQueue,
       tenant,
       comment,
       story,
@@ -515,12 +541,20 @@ export default async function create(
 
       // if we have an external notifications service hooked up
       // send the reply notification out to that
-      await sendExternalReplyNotification(
+      const notification = await buildExternalReplyNotification(
         mongo,
         externalNotifications,
         tenant,
         comment
       );
+
+      if (notification) {
+        await externalNotificationsQueue.add({
+          tenantID: tenant.id,
+          taskID: uuid(),
+          notifications: [notification],
+        });
+      }
     }
   }
 
