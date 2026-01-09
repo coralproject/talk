@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/static/index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script class="coral-script" src="{{ coralURL }}/assets/js/count.js" defer></script>
+    {% for story in dynamicStories %}
+      <script>
+        function loadStory(name, id, url, mode) {
+          const list = document.getElementById("storyList");
+          if (!list) {
+            console.error("unable to find story list");
+            return;
+          }
+
+          const item = document.createElement("div");
+          item.className = "item";
+
+          item.innerHTML = `
+            <div>
+              <a href="${url}">${name}</a>
+            </div>
+            <div>ID: ${id}</div>
+            <div>Mode: {{ story.mode }}</div>
+            <div>
+              <span class="coral-count" data-coral-url="${url}" data-coral-id="${id}"></span>
+            </div>
+          `;
+
+          list.appendChild(item);
+
+          setTimeout(() => {
+            if (!window.CoralCount) {
+              console.log("unable to find window.CoralCount");
+              return;
+            }
+
+            window.CoralCount.reload();
+          }, 1);
+        }
+        setTimeout(
+          () => loadStory("{{ story.name }}", "{{ story.id }}", "{{ story.url }}", "{{ story.mode }}"),
+          {{ story.delay }}
+        );
+      </script>
+    {% endfor %}
+  </head>
+  <body>
+    <h2>Port: {{ port }}</h2>
+
+    {% if ssoEnabled %}
+    <div class="section">
+      <a href="/ssotoken">Create SSO Token</a>
+    </div>
+    {% endif %}
+
+    <div>Coral URL: <a href="{{ coralURL }}">{{ coralURL }}</a></div>
+
+    <h3>Stories:</h3>
+    <div id="storyList">
+      {% for story in stories %}
+        <div class="item">
+          <div>
+            <a href="{{ story.url }}">{{ story.name }}</a>
+          </div>
+          <div>ID: {{ story.id }}</div>
+          <div>Mode: {{ story.mode }}</div>
+          <div>
+            <span class="coral-count" data-coral-url="{{ story.url }}" data-coral-id="{{ story.id }}"></span>
+          </div>
+        </div>
+      {% else %}
+        <div>No stories found</div>
+      {% endfor %}
+    </div>
+  </body>
+</html>
