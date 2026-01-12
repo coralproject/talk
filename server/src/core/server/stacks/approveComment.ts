@@ -148,7 +148,7 @@ const approveComment = async (
     });
 
     const extToSend: any[] = [
-      buildApproveNotification(
+      await buildApproveNotification(
         mongo,
         externalNotifications,
         tenant,
@@ -158,7 +158,7 @@ const approveComment = async (
 
     if (result.after.parentID) {
       extToSend.push(
-        buildExternalReplyNotification(
+        await buildExternalReplyNotification(
           mongo,
           externalNotifications,
           tenant,

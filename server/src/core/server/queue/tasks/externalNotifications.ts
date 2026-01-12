@@ -36,7 +36,7 @@ const createJobProcessor =
     log.info("attempting to send notifications for task");
 
     try {
-      await externalNotifications.send(notifications);
+      await externalNotifications.sendMany(notifications);
     } catch (err) {
       log.error(
         { taskID, tenantID, notifications },
