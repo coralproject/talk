@@ -1,0 +1,7 @@
+node_modules/
+dist/
+
+config.json
+.env
+
+.DS_Store

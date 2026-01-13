@@ -48,6 +48,7 @@ import { PersistedQueryCache } from "coral-server/services/queries";
 import { AugmentedRedis } from "coral-server/services/redis";
 import { TenantCache } from "coral-server/services/tenant/cache";
 
+import { ExternalNotificationsQueue } from "coral-server/queue/tasks/externalNotifications";
 import { healthHandler, versionHandler } from "./handlers";
 import { compileTrust } from "./helpers";
 import { basicAuth } from "./middleware/basicAuth";
@@ -78,6 +79,7 @@ export interface AppOptions {
   webhookQueue: WebhookQueue;
   loadCacheQueue: LoadCacheQueue;
   unarchiverQueue: UnarchiverQueue;
+  externalNotificationsQueue: ExternalNotificationsQueue;
   wordList: WordListService;
 }
 
