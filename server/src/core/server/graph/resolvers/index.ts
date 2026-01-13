@@ -11,6 +11,7 @@ import { AuthIntegrations } from "./AuthIntegrations";
 import { BanStatus } from "./BanStatus";
 import { BanStatusHistory } from "./BanStatusHistory";
 import { BlueskyMediaConfiguration } from "./BlueskyMediaConfiguration";
+import { BskyAuthIntegration } from "./BskyAuthIntegration";
 import { CloseCommenting } from "./CloseCommenting";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
@@ -98,6 +99,7 @@ const Resolvers: GQLResolver = {
   AuthIntegrations,
   BanStatus,
   BanStatusHistory,
+  BskyAuthIntegration,
   CloseCommenting,
   Comment,
   CommentCounts,

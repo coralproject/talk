@@ -1,6 +1,7 @@
 import {
   GQLAuth,
   GQLAuthenticationTargetFilter,
+  GQLBskyAuthIntegration,
   GQLCOMMENT_BODY_FORMAT,
   GQLDSA_METHOD_OF_REDRESS,
   GQLEmailConfiguration,
@@ -44,6 +45,11 @@ export type FacebookAuthIntegration = Omit<
   "callbackURL" | "redirectURL"
 >;
 
+export type BskyAuthIntegration = Omit<
+  GQLBskyAuthIntegration,
+  "callbackURL" | "authURL"
+>;
+
 export interface SSOAuthIntegration extends SigningSecretResource {
   enabled: boolean;
   allowRegistration: boolean;
@@ -60,6 +66,7 @@ export interface AuthIntegrations {
   oidc: OIDCAuthIntegration;
   google: GoogleAuthIntegration;
   facebook: FacebookAuthIntegration;
+  bsky: BskyAuthIntegration;
 }
 
 /**

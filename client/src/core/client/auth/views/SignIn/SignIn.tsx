@@ -10,6 +10,7 @@ import CLASSES from "coral-stream/classes";
 import { HorizontalGutter } from "coral-ui/components/v2";
 import { Button, CallOut } from "coral-ui/components/v3";
 
+import SignInWithBskyContainer from "./SignInWithBskyContainer";
 import SignInWithEmailContainer from "./SignInWithEmailContainer";
 import SignInWithFacebookContainer from "./SignInWithFacebookContainer";
 import SignInWithGoogleContainer from "./SignInWithGoogleContainer";
@@ -22,10 +23,12 @@ export interface SignInForm {
   onGotoSignUp: React.EventHandler<React.MouseEvent>;
   signUpHref: string;
   emailEnabled?: boolean;
+  bskyEnabled?: boolean;
   facebookEnabled?: boolean;
   googleEnabled?: boolean;
   oidcEnabled?: boolean;
   auth: PropTypesOf<typeof SignInWithOIDCContainer>["auth"] &
+    PropTypesOf<typeof SignInWithBskyContainer>["auth"] &
     PropTypesOf<typeof SignInWithFacebookContainer>["auth"] &
     PropTypesOf<typeof SignInWithGoogleContainer>["auth"];
 }
@@ -33,6 +36,7 @@ export interface SignInForm {
 const SignIn: FunctionComponent<SignInForm> = ({
   onGotoSignUp,
   emailEnabled,
+  bskyEnabled,
   facebookEnabled,
   googleEnabled,
   oidcEnabled,
@@ -42,7 +46,7 @@ const SignIn: FunctionComponent<SignInForm> = ({
 }) => {
   const ref = useResizePopup();
   const oneClickIntegrationEnabled =
-    facebookEnabled || googleEnabled || oidcEnabled;
+    bskyEnabled || facebookEnabled || googleEnabled || oidcEnabled;
   return (
     <div ref={ref} data-testid="signIn-container">
       <div role="banner">
@@ -122,6 +126,7 @@ const SignIn: FunctionComponent<SignInForm> = ({
         {emailEnabled && <SignInWithEmailContainer />}
         {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
         <HorizontalGutter>
+          {bskyEnabled && <SignInWithBskyContainer auth={auth} />}
           {facebookEnabled && <SignInWithFacebookContainer auth={auth} />}
           {googleEnabled && <SignInWithGoogleContainer auth={auth} />}
           {oidcEnabled && <SignInWithOIDCContainer auth={auth} />}

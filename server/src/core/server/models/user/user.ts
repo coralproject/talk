@@ -95,6 +95,11 @@ export interface SSOProfile {
   lastIssuedAt?: Date;
 }
 
+export interface BskyProfile {
+  type: "bsky";
+  id: string;
+}
+
 export interface FacebookProfile {
   type: "facebook";
   id: string;
@@ -113,6 +118,7 @@ export type Profile =
   | LocalProfile
   | OIDCProfile
   | SSOProfile
+  | BskyProfile
   | FacebookProfile
   | GoogleProfile;
 

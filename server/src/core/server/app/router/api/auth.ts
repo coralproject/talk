@@ -2,6 +2,9 @@ import bytes from "bytes";
 
 import { AppOptions } from "coral-server/app";
 import {
+  bskyCallbackHandler,
+  bskyHandler,
+  bskyMetadataHandler,
   facebookHandler,
   forgotCheckHandler,
   forgotHandler,
@@ -17,6 +20,9 @@ import { loggedInMiddleware } from "coral-server/app/middleware/loggedIn";
 import { authenticate, wrapAuthn } from "coral-server/app/middleware/passport";
 import { RouterOptions } from "coral-server/app/router/types";
 
+import { BskyAuthenticator } from "coral-server/app/authenticators/bsky";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
+// import express from "express";
 import { createAPIRouter } from "./helpers";
 
 // REQUEST_MAX is the maximum request size for routes on this router.
@@ -57,6 +63,18 @@ export function createNewAuthRouter(
   router.delete("/", authenticate(passport), logoutHandler(app));
 
   // Mount the external auth integrations with middleware/handle wrappers.
+  const authenticators = new TenantCacheAdapter<BskyAuthenticator>(
+    app.tenantCache
+  );
+
+  const bsky = bskyHandler(authenticators, app);
+  const bskyCallback = bskyCallbackHandler(authenticators, app);
+  const clientMetadata = bskyMetadataHandler(authenticators, app);
+
+  router.post("/bsky", jsonMiddleware(REQUEST_MAX), bsky);
+  router.get("/bsky/callback", bskyCallback);
+  router.get("/bsky/client-metadata.json", clientMetadata);
+
   const facebook = facebookHandler(app);
 
   router.get("/facebook", facebook);

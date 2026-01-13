@@ -44,6 +44,13 @@ graphql`
             stream
           }
         }
+        bsky {
+          enabled
+          allowRegistration
+          targetFilter {
+            stream
+          }
+        }
       }
     }
   }
@@ -56,6 +63,7 @@ graphql`
 export function weControlAuth(data: NoFragmentRefs<authControl_settings>) {
   const integrations = data.auth.integrations;
   return [
+    integrations.bsky,
     integrations.facebook,
     integrations.google,
     integrations.local,
@@ -70,6 +78,7 @@ export function weControlAuth(data: NoFragmentRefs<authControl_settings>) {
 export function supportsRegister(data: NoFragmentRefs<authControl_settings>) {
   const integrations = data.auth.integrations;
   return [
+    integrations.bsky,
     integrations.facebook,
     integrations.google,
     integrations.local,

@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "target": "es2018",
+    "target": "ES2020",
     "allowJs": false,
     "sourceMap": true,
     "pretty": false,
@@ -10,7 +10,7 @@
     "outDir": "../dist",
     // See https://github.com/prismagraphql/graphql-request/issues/26 for why we
     // have to include "dom" here.
-    "lib": ["dom", "es2018", "esnext.asynciterable"],
+    "lib": ["dom", "ES2020", "esnext.asynciterable"],
     "baseUrl": "./",
     "paths": {
       "coral-server/*": ["./core/server/*"],

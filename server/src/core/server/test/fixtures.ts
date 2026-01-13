@@ -116,6 +116,14 @@ export const createTenantFixture = (
             stream: true,
           },
         },
+        bsky: {
+          enabled: false,
+          allowRegistration: false,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+        },
       },
     },
     email: {
