@@ -17,6 +17,7 @@ import { InternalNotificationContext } from "coral-server/services/notifications
 import { AugmentedRedis } from "coral-server/services/redis";
 import { submitCommentAsNotSpam } from "coral-server/services/spam";
 import { Request } from "coral-server/types/express";
+import { v4 as uuid } from "uuid";
 
 import {
   GQLCOMMENT_STATUS,
@@ -25,36 +26,37 @@ import {
 
 import { retrieveSite } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
+import { ExternalNotificationsQueue } from "coral-server/queue/tasks/externalNotifications";
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
-import { sendExternalReplyNotification } from "./createComment";
+import { buildExternalReplyNotification } from "./createComment";
 import { publishChanges } from "./helpers";
 
-const sendExternalApproveNotification = async (
+const buildApproveNotification = async (
   mongo: MongoContext,
   externalNotifications: ExternalNotificationsService,
   tenant: Tenant,
   comment: Comment
 ) => {
   if (!externalNotifications.active() || !comment.authorID || !comment.siteID) {
-    return;
+    return null;
   }
 
   const author = await retrieveUser(mongo, tenant.id, comment.authorID);
   if (!author) {
-    return;
+    return null;
   }
 
   const site = await retrieveSite(mongo, tenant.id, comment.siteID);
   if (!site) {
-    return;
+    return null;
   }
 
   const story = await retrieveStory(mongo, tenant.id, comment.storyID);
   if (!story) {
-    return;
+    return null;
   }
 
-  await externalNotifications.createApprove({
+  return externalNotifications.buildApprove({
     to: author,
     comment,
     story,
@@ -71,6 +73,7 @@ const approveComment = async (
   broker: CoralEventPublisherBroker,
   notifications: InternalNotificationContext,
   externalNotifications: ExternalNotificationsService,
+  externalNotificationsQueue: ExternalNotificationsQueue,
   tenant: Tenant,
   commentID: string,
   commentRevisionID: string,
@@ -144,21 +147,31 @@ const approveComment = async (
       type: GQLNOTIFICATION_TYPE.COMMENT_APPROVED,
     });
 
-    await sendExternalApproveNotification(
-      mongo,
-      externalNotifications,
-      tenant,
-      result.after
-    );
-
-    if (result.after.parentID) {
-      await sendExternalReplyNotification(
+    const extToSend: any[] = [
+      await buildApproveNotification(
         mongo,
         externalNotifications,
         tenant,
         result.after
+      ),
+    ];
+
+    if (result.after.parentID) {
+      extToSend.push(
+        await buildExternalReplyNotification(
+          mongo,
+          externalNotifications,
+          tenant,
+          result.after
+        )
       );
     }
+
+    await externalNotificationsQueue.add({
+      tenantID: tenant.id,
+      taskID: uuid(),
+      notifications: extToSend,
+    });
   }
 
   // create notification if dsa enabled upon approval of previously rejected comment

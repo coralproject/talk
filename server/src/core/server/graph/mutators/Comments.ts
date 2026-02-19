@@ -104,6 +104,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.broker,
         ctx.notifications,
         ctx.externalNotifications,
+        ctx.externalNotificationsQueue,
         ctx.tenant,
         ctx.user!,
         {
@@ -297,6 +298,7 @@ export const Comments = (ctx: GraphContext) => ({
         ctx.broker,
         ctx.notifications,
         ctx.externalNotifications,
+        ctx.externalNotificationsQueue,
         ctx.tenant,
         commentID,
         commentRevisionID,

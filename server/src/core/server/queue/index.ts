@@ -18,6 +18,10 @@ import { TenantCache } from "coral-server/services/tenant/cache";
 
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import { ArchiverQueue, createArchiverTask } from "./tasks/archiver";
+import {
+  createExternalNotificationsTask,
+  ExternalNotificationsQueue,
+} from "./tasks/externalNotifications";
 import { createMailerTask, MailerQueue } from "./tasks/mailer";
 import { createNotifierTask, NotifierQueue } from "./tasks/notifier";
 import { createRejectorTask, RejectorQueue } from "./tasks/rejector";
@@ -73,6 +77,7 @@ export interface TaskQueue {
   archiver: ArchiverQueue;
   loadCache: LoadCacheQueue;
   unarchiver: UnarchiverQueue;
+  externalNotifications: ExternalNotificationsQueue;
 }
 
 export function createQueue(options: QueueOptions): TaskQueue {
@@ -91,7 +96,14 @@ export function createQueue(options: QueueOptions): TaskQueue {
     ...options,
   });
   const webhook = createWebhookTask(queueOptions, options);
-  const rejector = createRejectorTask(queueOptions, options);
+  const externalNotifications = createExternalNotificationsTask(
+    queueOptions,
+    options
+  );
+  const rejector = createRejectorTask(queueOptions, {
+    ...options,
+    externalNotificationsQueue: externalNotifications,
+  });
   const archiver = createArchiverTask(queueOptions, options);
   const loadCache = createLoadCacheTask(queueOptions, options);
   const unarchiver = createUnarchiverTask(queueOptions, options);
@@ -106,5 +118,6 @@ export function createQueue(options: QueueOptions): TaskQueue {
     archiver,
     loadCache,
     unarchiver,
+    externalNotifications,
   };
 }
