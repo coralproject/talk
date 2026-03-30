@@ -186,7 +186,7 @@ export const sendExternalReplyNotification = async (
   );
 
   if (notification) {
-    await externalNotifications.send(notification);
+    await externalNotifications.send(notification, tenant.id);
   }
 };
 

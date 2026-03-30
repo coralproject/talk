@@ -211,7 +211,7 @@ export class ExternalNotificationsService {
         comment: this.commentToInput(input.comment, input.story),
       };
 
-      return await this.send(data);
+      return await this.send(data, input.comment.tenantID);
     } catch (err) {
       this.logger.warn(
         { err, input },
@@ -243,7 +243,7 @@ export class ExternalNotificationsService {
         comment: this.commentToInput(input.comment, input.story),
       };
 
-      return await this.send(data);
+      return await this.send(data, input.comment.tenantID);
     } catch (err) {
       this.logger.warn(
         { err, input },
@@ -287,7 +287,7 @@ export class ExternalNotificationsService {
     try {
       const data = this.buildReply(input);
 
-      return await this.send(data);
+      return await this.send(data, input.reply.tenantID);
     } catch (err) {
       this.logger.warn(
         { err, input },
@@ -320,7 +320,7 @@ export class ExternalNotificationsService {
     try {
       const data = this.buildApprove(input);
 
-      return await this.send(data);
+      return await this.send(data, input.comment.tenantID);
     } catch (err) {
       this.logger.warn(
         { err, input },
@@ -353,7 +353,7 @@ export class ExternalNotificationsService {
     try {
       const data = this.buildReject(input);
 
-      return await this.send(data);
+      return await this.send(data, input.comment.tenantID);
     } catch (err) {
       this.logger.warn(
         { err, input },
@@ -380,7 +380,7 @@ export class ExternalNotificationsService {
         comment: this.commentToInput(input.comment, input.story),
       };
 
-      return await this.send(data);
+      return await this.send(data, input.comment.tenantID);
     } catch (err) {
       this.logger.warn(
         { err, input },
@@ -391,15 +391,15 @@ export class ExternalNotificationsService {
     return false;
   }
 
-  public async send(notification: any) {
+  public async send(notification: any, tenantID: string) {
     if (!notification) {
       return false;
     }
 
-    return this.sendMany([notification]);
+    return this.sendMany([notification], tenantID);
   }
 
-  public async sendMany(notifications: any[]) {
+  public async sendMany(notifications: any[], tenantID: string) {
     if (!this.active()) {
       return false;
     }
@@ -418,6 +418,7 @@ export class ExternalNotificationsService {
       headers: {
         "Content-Type": "application/json",
         "x-notifications-api-key": this.apiKey!,
+        "x-notifications-coral-tenant-id": tenantID,
       },
       body: JSON.stringify(data),
     });

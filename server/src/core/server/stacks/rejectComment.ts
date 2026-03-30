@@ -136,7 +136,7 @@ export const sendExternalRejectNotification = async (
   );
 
   if (notification) {
-    await externalNotifications.send(notification);
+    await externalNotifications.send(notification, tenant.id);
   }
 };
 
