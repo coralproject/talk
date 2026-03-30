@@ -9,7 +9,7 @@ import {
   UpdateCommentStatus,
 } from "coral-server/models/comment";
 import { retrieveNotificationByCommentReply } from "coral-server/models/notifications/notification";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import { removeTag } from "coral-server/services/comments";
 import { moderate } from "coral-server/services/comments/moderation";
@@ -22,6 +22,7 @@ import { v4 as uuid } from "uuid";
 
 import {
   GQLCOMMENT_STATUS,
+  GQLFEATURE_FLAG,
   GQLNOTIFICATION_TYPE,
   GQLREJECTION_REASON_CODE,
   GQLTAG,
@@ -85,7 +86,16 @@ export const buildExternalRejectNotification = async (
   tenant: Tenant,
   comment: Comment
 ) => {
-  if (!externalNotifications.active() || !comment.authorID || !comment.siteID) {
+  const externalNotificationsDisabledOnTenant = hasFeatureFlag(
+    tenant,
+    GQLFEATURE_FLAG.DISABLE_EXTERNAL_NOTIFICATIONS
+  );
+  if (
+    !externalNotifications.active() ||
+    externalNotificationsDisabledOnTenant ||
+    !comment.authorID ||
+    !comment.siteID
+  ) {
     return null;
   }
 

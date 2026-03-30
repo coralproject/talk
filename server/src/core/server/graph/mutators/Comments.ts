@@ -35,6 +35,7 @@ import {
   GQLCreateCommentReplyInput,
   GQLCreateIllegalContentInput,
   GQLEditCommentInput,
+  GQLFEATURE_FLAG,
   GQLFeatureCommentInput,
   GQLMarkCommentsAsSeenInput,
   GQLNOTIFICATION_TYPE,
@@ -48,7 +49,7 @@ import { MongoContext } from "coral-server/data/context";
 import { Comment } from "coral-server/models/comment";
 import { retrieveSite } from "coral-server/models/site";
 import { retrieveStory } from "coral-server/models/story";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { ExternalNotificationsService } from "coral-server/services/notifications/externalService";
 import { validateUserModerationScopes } from "./helpers";
 import { validateMaximumLength, WithoutMutationID } from "./util";
@@ -59,7 +60,16 @@ const sendExternalFeatureNotification = async (
   tenant: Tenant,
   comment: Comment
 ) => {
-  if (!externalNotifications.active() || !comment.authorID || !comment.siteID) {
+  const externalNotificationsDisabledOnTenant = hasFeatureFlag(
+    tenant,
+    GQLFEATURE_FLAG.DISABLE_EXTERNAL_NOTIFICATIONS
+  );
+  if (
+    !externalNotifications.active() ||
+    externalNotificationsDisabledOnTenant ||
+    !comment.authorID ||
+    !comment.siteID
+  ) {
     return;
   }
 
