@@ -24,7 +24,7 @@ import {
 } from "coral-server/models/comment";
 import { getLatestRevision } from "coral-server/models/comment/helpers";
 import { retrieveSite } from "coral-server/models/site";
-import { Tenant } from "coral-server/models/tenant";
+import { hasFeatureFlag, Tenant } from "coral-server/models/tenant";
 import { isSiteBanned } from "coral-server/models/user/helpers";
 import { AugmentedRedis } from "coral-server/services/redis";
 import {
@@ -33,7 +33,10 @@ import {
 } from "coral-server/stacks/helpers";
 import { Request } from "coral-server/types/express";
 
-import { GQLCOMMENT_FLAG_REPORTED_REASON } from "coral-server/graph/schema/__generated__/types";
+import {
+  GQLCOMMENT_FLAG_REPORTED_REASON,
+  GQLFEATURE_FLAG,
+} from "coral-server/graph/schema/__generated__/types";
 
 import GraphContext from "coral-server/graph/context";
 import { User } from "coral-server/models/user";
@@ -360,7 +363,14 @@ export async function createReaction(
       logger.error({ err }, "could not publish comment flag created");
     });
 
-    if (externalNotifications.active()) {
+    const externalNotificationsDisabledOnTenant = hasFeatureFlag(
+      tenant,
+      GQLFEATURE_FLAG.DISABLE_EXTERNAL_NOTIFICATIONS
+    );
+    if (
+      externalNotifications.active() &&
+      !externalNotificationsDisabledOnTenant
+    ) {
       const reccingUser = author;
       const reccedUser = comment.authorID
         ? await context.loaders.Users.user.load(comment.authorID)
@@ -416,7 +426,14 @@ export async function removeReaction(
     }
   );
 
-  if (ctx.externalNotifications.active()) {
+  const externalNotificationsDisabledOnTenant = hasFeatureFlag(
+    ctx.tenant,
+    GQLFEATURE_FLAG.DISABLE_EXTERNAL_NOTIFICATIONS
+  );
+  if (
+    ctx.externalNotifications.active() &&
+    !externalNotificationsDisabledOnTenant
+  ) {
     const unReccedUser = result.authorID
       ? await ctx.loaders.Users.user.load(result.authorID)
       : null;

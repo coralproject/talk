@@ -6,6 +6,7 @@ import {
 import validFeatureFlagsFilter from "coral-server/models/settings/validFeatureFlagsFilter";
 import {
   areRepliesFlattened,
+  hasFeatureFlag,
   isAMPEnabled,
   isForReviewQueueEnabled,
   retrieveAnnouncementIfEnabled,
@@ -13,6 +14,7 @@ import {
 } from "coral-server/models/tenant";
 
 import {
+  GQLFEATURE_FLAG,
   GQLSettingsTypeResolver,
   GQLWEBHOOK_EVENT_NAME,
 } from "coral-server/graph/schema/__generated__/types";
@@ -88,7 +90,15 @@ export const Settings: GQLSettingsTypeResolver<Tenant> = {
   disposableEmailDomains: ({ disposableEmailDomains = { enabled: false } }) =>
     disposableEmailDomains,
   externalNotifications: (parent, args, ctx) => {
-    return { active: ctx.externalNotifications.active() };
+    const externalNotificationsDisabledOnTenant = hasFeatureFlag(
+      ctx.tenant,
+      GQLFEATURE_FLAG.DISABLE_EXTERNAL_NOTIFICATIONS
+    );
+    return {
+      active:
+        ctx.externalNotifications.active() &&
+        !externalNotificationsDisabledOnTenant,
+    };
   },
   inPageNotifications: (
     {
