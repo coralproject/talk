@@ -595,6 +595,11 @@ enum FEATURE_FLAG {
   COUNTS_V2 will allow the use of the new /counts/v2 api endpoint to retrieve story comment counts.
   """
   COUNTS_V2
+
+  """
+  DISABLE_EXTERNAL_NOTIFICATIONS will disable the external notifications feature at the tenant level.
+  """
+  DISABLE_EXTERNAL_NOTIFICATIONS
 }
 
 # The moderation mode of the site.

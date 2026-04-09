@@ -41,7 +41,11 @@ import {
   Story,
   updateStoryLastCommentedAt,
 } from "coral-server/models/story";
-import { ensureFeatureFlag, Tenant } from "coral-server/models/tenant";
+import {
+  ensureFeatureFlag,
+  hasFeatureFlag,
+  Tenant,
+} from "coral-server/models/tenant";
 import { retrieveUser, User } from "coral-server/models/user";
 import { isSiteBanned, roleIsStaff } from "coral-server/models/user/helpers";
 import {
@@ -109,8 +113,13 @@ export const buildExternalReplyNotification = async (
   tenant: Tenant,
   reply: Comment
 ) => {
+  const externalNotificationsDisabledOnTenant = hasFeatureFlag(
+    tenant,
+    GQLFEATURE_FLAG.DISABLE_EXTERNAL_NOTIFICATIONS
+  );
   if (
     !externalNotifications.active() ||
+    externalNotificationsDisabledOnTenant ||
     !reply.authorID ||
     !reply.siteID ||
     !reply.parentID
@@ -177,7 +186,7 @@ export const sendExternalReplyNotification = async (
   );
 
   if (notification) {
-    await externalNotifications.send(notification);
+    await externalNotifications.send(notification, tenant.id);
   }
 };
 
