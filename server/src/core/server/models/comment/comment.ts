@@ -10,6 +10,8 @@ import {
   CommentRevisionNotFoundError,
   StoryNotFoundError,
 } from "coral-server/errors";
+import { CommentReportedThresholdReachedCoralEvent } from "coral-server/events/events";
+import { CoralEventPublisherBroker } from "coral-server/events/publisher";
 import { createTimer } from "coral-server/helpers";
 import logger from "coral-server/logger";
 import {
@@ -912,6 +914,8 @@ export async function updateCommentStatus(
  * @param id the id of the Comment being updated
  * @param revisionID the id of the Comment revision being updated
  * @param actionCounts the action counts to merge into the Comment
+ * @param broker the event publisher broker
+ * @param reportingThreshold the threshold for reporting events
  */
 export async function updateCommentActionCounts(
   mongo: MongoContext,
@@ -919,6 +923,8 @@ export async function updateCommentActionCounts(
   id: string,
   revisionID: string,
   actionCounts: EncodedCommentActionCounts,
+  broker: CoralEventPublisherBroker,
+  reportingThreshold: number,
   isArchived = false
 ) {
   const collection =
@@ -944,6 +950,17 @@ export async function updateCommentActionCounts(
   );
   if (!result) {
     throw new CommentRevisionNotFoundError(id, revisionID);
+  }
+
+  // Check if the flag count has reached the reporting threshold.
+  const flagCount = result.actionCounts.FLAG || 0;
+  if (flagCount >= reportingThreshold) {
+    await CommentReportedThresholdReachedCoralEvent.publish(broker, {
+      commentID: result.id,
+      storyID: result.storyID,
+      siteID: result.siteID!,
+      reportCount: flagCount,
+    });
   }
 
   return result;

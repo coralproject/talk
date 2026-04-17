@@ -495,6 +495,7 @@ export interface DSAConfiguration {
   methodOfRedress: {
     method: GQLDSA_METHOD_OF_REDRESS;
   };
+  reportingThreshold: number;
 }
 
 export const defaultDSAConfiguration: DSAConfiguration = {
@@ -502,4 +503,5 @@ export const defaultDSAConfiguration: DSAConfiguration = {
   methodOfRedress: {
     method: GQLDSA_METHOD_OF_REDRESS.NONE,
   },
+  reportingThreshold: 5,
 };

@@ -1810,6 +1810,7 @@ enum WEBHOOK_EVENT_NAME {
   COMMENT_REPLY_CREATED
   COMMENT_ENTERED_MODERATION_QUEUE
   COMMENT_LEFT_MODERATION_QUEUE
+  COMMENT_REPORTED_THRESHOLD_REACHED
 }
 
 type WebhookEndpoint {
@@ -2115,6 +2116,12 @@ type DSAConfiguration {
   moderation decision
   """
   methodOfRedress: DSAMethodOfRedressConfiguration!
+
+  """
+  reportingThreshold is the number of reports required before
+  a webhook event is triggered for a comment being reported.
+  """
+  reportingThreshold: Int!
 }
 
 """
@@ -6747,6 +6754,12 @@ input DSAConfigurationInput {
   moderation decision
   """
   methodOfRedress: DSAMethodOfRedressConfigurationInput
+
+  """
+  reportingThreshold is the number of reports required before
+  a webhook event is triggered for a comment being reported.
+  """
+  reportingThreshold: Int
 }
 
 """

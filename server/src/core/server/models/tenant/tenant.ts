@@ -305,6 +305,7 @@ export const combineTenantDefaultsAndInput = (
       methodOfRedress: {
         method: GQLDSA_METHOD_OF_REDRESS.NONE,
       },
+      reportingThreshold: 5,
     },
     topCommenter: {
       enabled: false,

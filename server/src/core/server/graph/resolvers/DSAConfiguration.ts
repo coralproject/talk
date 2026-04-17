@@ -15,4 +15,6 @@ export const DSAConfiguration: GQLDSAConfigurationTypeResolver<settings.DSAConfi
         email: "",
         url: "",
       },
+    reportingThreshold: (config, args, { tenant }) =>
+      tenant.dsa?.reportingThreshold ?? 5,
   };

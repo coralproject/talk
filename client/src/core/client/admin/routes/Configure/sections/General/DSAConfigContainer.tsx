@@ -1,8 +1,10 @@
 import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
+import { Field } from "react-final-form";
 import { graphql } from "react-relay";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { parseIntegerNullable } from "coral-framework/lib/form";
 import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import HTMLContent from "coral-stream/common/HTMLContent";
@@ -19,6 +21,7 @@ import { DSAConfigContainer_settings } from "coral-admin/__generated__/DSAConfig
 import ConfigBox from "../../ConfigBox";
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
+import TextFieldWithValidation from "../../TextFieldWithValidation";
 import DSAMethodOfRedressOptions from "./DSAMethodOfRedressOptions";
 
 // eslint-disable-next-line no-unused-expressions
@@ -31,6 +34,7 @@ graphql`
         url
         email
       }
+      reportingThreshold
     }
   }
 `;
@@ -97,6 +101,29 @@ export const DSAConfigContainer: FunctionComponent<Props> = ({
           defaultMethod={settings?.dsa?.methodOfRedress?.method ?? null}
         />
       </FormField>
+
+      <FormField>
+        <Localized id="configure-general-dsaConfig-reportingThreshold">
+          <Label>Reporting threshold for webhook notifications</Label>
+        </Localized>
+        <Localized id="configure-general-dsaConfig-reportingThreshold-explanation">
+          <HelperText>
+            Number of reports a comment must receive before webhook notifications are sent
+          </HelperText>
+        </Localized>
+        <Field name="dsa.reportingThreshold" parse={parseIntegerNullable}>
+          {({ input, meta }) => (
+            <TextFieldWithValidation
+              {...input}
+              id={input.name}
+              type="number"
+              fullWidth
+              disabled={disabled}
+              meta={meta}
+            />
+          )}
+        </Field>
+      </FormField>
     </ConfigBox>
   );
 };
@@ -111,6 +138,7 @@ const enhanced = withFragmentContainer<Props>({
           url
           email
         }
+        reportingThreshold
       }
     }
   `,
