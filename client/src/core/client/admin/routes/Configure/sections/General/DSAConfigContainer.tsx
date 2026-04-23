@@ -108,7 +108,8 @@ export const DSAConfigContainer: FunctionComponent<Props> = ({
         </Localized>
         <Localized id="configure-general-dsaConfig-reportingThreshold-explanation">
           <HelperText>
-            Number of reports a comment must receive before webhook notifications are sent
+            Number of reports a comment must receive before webhook
+            notifications are sent
           </HelperText>
         </Localized>
         <Field name="dsa.reportingThreshold" parse={parseIntegerNullable}>
