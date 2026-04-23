@@ -6,6 +6,7 @@ import { CLIENT_ID_HEADER } from "coral-common/common/lib/constants";
 import { AppOptions } from "coral-server/app";
 import GraphContext, { GraphContextOptions } from "coral-server/graph/context";
 import {
+  CacheControlApolloServerPlugin,
   CommentSeenServerPlugin,
   ErrorApolloServerPlugin,
   LoggerApolloServerPlugin,
@@ -71,6 +72,7 @@ export const apolloGraphQLMiddleware = ({
   }
 
   const plugins: ApolloServerPlugin[] = [
+    CacheControlApolloServerPlugin,
     ErrorApolloServerPlugin,
     LoggerApolloServerPlugin,
     MetricsApolloServerPlugin(metrics),
