@@ -924,7 +924,6 @@ export async function updateCommentActionCounts(
   revisionID: string,
   actionCounts: EncodedCommentActionCounts,
   broker: CoralEventPublisherBroker,
-  reportingThreshold: number,
   isArchived = false
 ) {
   const collection =
@@ -954,7 +953,7 @@ export async function updateCommentActionCounts(
 
   // Check if the flag count has reached the reporting threshold.
   const flagCount = result.actionCounts.FLAG || 0;
-  if (flagCount >= reportingThreshold) {
+  if (flagCount > 0) {
     await CommentReportedThresholdReachedCoralEvent.publish(broker, {
       commentID: result.id,
       storyID: result.storyID,

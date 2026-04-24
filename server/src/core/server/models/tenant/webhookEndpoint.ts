@@ -33,6 +33,7 @@ export interface CreateTenantWebhookEndpointInput {
   url: string;
   all: boolean;
   events: GQLWEBHOOK_EVENT_NAME[];
+  reportingThreshold?: number;
 }
 
 export async function createTenantWebhookEndpoint(
@@ -83,6 +84,7 @@ export interface UpdateTenantWebhookEndpointInput {
   url?: string;
   all?: boolean;
   events?: GQLWEBHOOK_EVENT_NAME[];
+  reportingThreshold?: number;
 }
 
 export async function updateTenantWebhookEndpoint(

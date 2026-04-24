@@ -92,6 +92,14 @@ export interface Endpoint extends SigningSecretResource {
   events: GQLWEBHOOK_EVENT_NAME[];
 
   /**
+   * reportingThreshold is the number of reports a comment must receive before
+   * the COMMENT_REPORTED_THRESHOLD_REACHED event is triggered for this
+   * endpoint. Only meaningful when the endpoint subscribes to the
+   * COMMENT_REPORTED_THRESHOLD_REACHED event (directly or via all=true).
+   */
+  reportingThreshold?: number;
+
+  /**
    * createdAt is the date that this endpoint was created.
    */
   createdAt: Date;
@@ -305,7 +313,6 @@ export const combineTenantDefaultsAndInput = (
       methodOfRedress: {
         method: GQLDSA_METHOD_OF_REDRESS.NONE,
       },
-      reportingThreshold: 5,
     },
     topCommenter: {
       enabled: false,

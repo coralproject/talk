@@ -91,7 +91,6 @@ export async function addCommentActionCounts(
     revision.id,
     action,
     broker,
-    tenant.dsa?.reportingThreshold || 5,
     isArchived
   );
   if (!updatedComment) {
@@ -277,8 +276,7 @@ export async function removeCommentAction(
       commentID,
       commentRevisionID,
       actionCounts,
-      broker,
-      tenant.dsa?.reportingThreshold || 5
+      broker
     );
 
     // Check to see if there was an actual comment returned.

@@ -193,7 +193,6 @@ export const createTenantFixture = (
       methodOfRedress: {
         method: GQLDSA_METHOD_OF_REDRESS.NONE,
       },
-      reportingThreshold: 5,
     },
     embeddedComments: {
       allowReplies: true,

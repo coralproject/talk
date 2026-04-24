@@ -58,6 +58,14 @@ export class WebhookCoralEventListener
             return true;
           }
 
+          if (
+            event.type === CoralEventType.COMMENT_REPORTED_THRESHOLD_REACHED &&
+            endpoint.reportingThreshold &&
+            event.data.reportCount < endpoint.reportingThreshold
+          ) {
+            return false;
+          }
+
           // If this event name is specifically listed, include it. We have to do
           // some nasty casting here to address the fact that the types don't
           // technically overlap.

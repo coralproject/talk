@@ -1849,6 +1849,14 @@ type WebhookEndpoint {
   for.
   """
   events: [WEBHOOK_EVENT_NAME!]!
+
+  """
+  reportingThreshold is the number of reports a comment must receive before
+  the COMMENT_REPORTED_THRESHOLD_REACHED event is triggered for this
+  endpoint. Only meaningful when the endpoint subscribes to the
+  COMMENT_REPORTED_THRESHOLD_REACHED event (directly or via all=true).
+  """
+  reportingThreshold: Int
 }
 
 type WebhookConfiguration {
@@ -2116,12 +2124,6 @@ type DSAConfiguration {
   moderation decision
   """
   methodOfRedress: DSAMethodOfRedressConfiguration!
-
-  """
-  reportingThreshold is the number of reports required before
-  a webhook event is triggered for a comment being reported.
-  """
-  reportingThreshold: Int!
 }
 
 """
@@ -6754,12 +6756,6 @@ input DSAConfigurationInput {
   moderation decision
   """
   methodOfRedress: DSAMethodOfRedressConfigurationInput
-
-  """
-  reportingThreshold is the number of reports required before
-  a webhook event is triggered for a comment being reported.
-  """
-  reportingThreshold: Int
 }
 
 """
@@ -8277,6 +8273,14 @@ input CreateWebhookEndpointInput {
   for.
   """
   events: [WEBHOOK_EVENT_NAME!]!
+
+  """
+  reportingThreshold is the number of reports a comment must receive before
+  the COMMENT_REPORTED_THRESHOLD_REACHED event is triggered for this
+  endpoint. Only meaningful when the endpoint subscribes to the
+  COMMENT_REPORTED_THRESHOLD_REACHED event.
+  """
+  reportingThreshold: Int
 }
 
 type CreateWebhookEndpointPayload {
@@ -8326,6 +8330,14 @@ input UpdateWebhookEndpointInput {
   for.
   """
   events: [WEBHOOK_EVENT_NAME!]
+
+  """
+  reportingThreshold is the number of reports a comment must receive before
+  the COMMENT_REPORTED_THRESHOLD_REACHED event is triggered for this
+  endpoint. Only meaningful when the endpoint subscribes to the
+  COMMENT_REPORTED_THRESHOLD_REACHED event.
+  """
+  reportingThreshold: Int
 }
 
 type UpdateWebhookEndpointPayload {
