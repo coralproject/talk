@@ -59,6 +59,22 @@ export const CommentFlagCreatedCoralEvent =
     CoralEventType.COMMENT_FLAG_CREATED
   );
 
+export type CommentReportedThresholdReachedCoralEventPayload =
+  CoralEventPayload<
+    CoralEventType.COMMENT_REPORTED_THRESHOLD_REACHED,
+    {
+      commentID: string;
+      storyID: string;
+      siteID: string;
+      reportCount: number;
+    }
+  >;
+
+export const CommentReportedThresholdReachedCoralEvent =
+  createCoralEvent<CommentReportedThresholdReachedCoralEventPayload>(
+    CoralEventType.COMMENT_REPORTED_THRESHOLD_REACHED
+  );
+
 export type CommentLeftModerationQueueCoralEventPayload = CoralEventPayload<
   CoralEventType.COMMENT_LEFT_MODERATION_QUEUE,
   CommentLeftModerationQueueInput

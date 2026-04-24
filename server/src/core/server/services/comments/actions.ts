@@ -77,6 +77,7 @@ export async function addCommentActionCounts(
   tenant: Tenant,
   oldComment: Readonly<Comment>,
   action: EncodedCommentActionCounts,
+  broker: CoralEventPublisherBroker,
   isArchived = false
 ) {
   // Grab the last revision (the most recent).
@@ -89,6 +90,7 @@ export async function addCommentActionCounts(
     oldComment.id,
     revision.id,
     action,
+    broker,
     isArchived
   );
   if (!updatedComment) {
@@ -187,6 +189,7 @@ async function addCommentAction(
       tenant,
       oldComment,
       actionCounts,
+      broker,
       isArchived
     );
 
@@ -272,7 +275,8 @@ export async function removeCommentAction(
       tenant.id,
       commentID,
       commentRevisionID,
-      actionCounts
+      actionCounts,
+      broker
     );
 
     // Check to see if there was an actual comment returned.

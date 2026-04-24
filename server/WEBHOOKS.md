@@ -200,6 +200,7 @@ function when comparing signatures.
 - [`COMMENT_REPLY_CREATED`](#comment-reply-created-event)
 - [`COMMENT_ENTERED_MODERATION_QUEUE`](#comment-entered-moderation-queue-event)
 - [`COMMENT_LEFT_MODERATION_QUEUE`](#comment-left-moderation-queue-event)
+- [`COMMENT_REPORTED_THRESHOLD_REACHED`](#comment-reported-threshold-reached-event)
 
 ## Events
 
@@ -226,6 +227,39 @@ function when comparing signatures.
      * siteID is the Site that the newly created Story was created on.
      */
     siteID: string;
+  }
+  createdAt: string;
+}
+```
+
+- <a id="comment-reported-threshold-reached-event">**COMMENT_REPORTED_THRESHOLD_REACHED**</a>
+
+```ts
+{
+  id: string;
+  type: "COMMENT_REPORTED_THRESHOLD_REACHED";
+  tenantID: string;
+  tenantDomain: string;
+  data: {
+    /**
+     * commentID is the ID of the comment that has been reported.
+     */
+    commentID: string;
+
+    /**
+     * storyID is the ID of the story on which the comment was made.
+     */
+    storyID: string;
+
+    /**
+     * siteID is the ID of the site to which the story belongs.
+     */
+    siteID: string;
+
+    /**
+     * reportCount is the number of reports the comment has received.
+     */
+    reportCount: number;
   }
   createdAt: string;
 }
