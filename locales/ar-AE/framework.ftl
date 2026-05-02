@@ -18,57 +18,65 @@ framework-shortNumber-1000000000 = 0.0B
 ## Validation
 
 framework-validation-required = هذا الحقل مطلوب.
-framework-validation-tooShort = الرجاء إدخال {$minLength} محرفاً على الأقل.
-framework-validation-tooLong = الرجاء إدخال {$maxLength} محرفاً كحد أقصى.
-framework-validation-usernameTooShort = اسم المستخدم يجب أن يضم {$minLength} محرفاً على الأقل.
-framework-validation-usernameTooLong = لا يمكن أن يكون اسم المستخدم أطول من {$maxLength} محرفاً.
-framework-validation-invalidCharacters = محارف غير صالحة. الرجاء المحاولة مجدداً.
-framework-validation-invalidEmail = الرجاء إدخال عنوان بريد إلكتروني صالح.
-framework-validation-passwordTooShort = يجب أن تحتوي كلمة المرور {$minLength} محرفاً على الأقل.
-framework-validation-passwordsDoNotMatch = كلمتا المرور غير متطابقتان. الرجاء المحاولة مجدداً.
+framework-validation-tooShort = يرجى إدخال {$minLength} حرفاً على الأقل.
+framework-validation-tooLong = يرجى إدخال {$maxLength} حرفاً كحد أقصى.
+framework-validation-usernameTooShort = يجب أن يحتوي اسم المستخدم على {$minLength} حرفاً على الأقل.
+framework-validation-usernameTooLong = لا يمكن أن يتجاوز اسم المستخدم {$maxLength} حرفاً.
+framework-validation-invalidCharacters = أحرف غير صالحة. حاول مجدداً.
+framework-validation-invalidEmail = يرجى إدخال عنوان بريد إلكتروني صالح.
+framework-validation-passwordTooShort = يجب أن تحتوي كلمة المرور على {$minLength} حرفاً على الأقل.
+framework-validation-passwordsDoNotMatch = كلمتا المرور غير متطابقتين. حاول مجدداً.
 framework-validation-invalidURL = رابط غير صالح
-framework-validation-emailsDoNotMatch = عناوين البريد الإلكتروني غير متطابقة. الرجاء المحاولة مجدداً.
-framework-validation-notAWholeNumberBetween = الرجاء إدخال رقم صحيح بين { $min } و { $max }.
-framework-validation-notAWholeNumberGreaterThan = الرجاء إدخال رقم صحيح أكبر من { $x }
-framework-validation-notAWholeNumberGreaterThanOrEqual = الرجاء إدخال رقم صحيح أكبر أو يساوي { $x }
-framework-validation-usernamesDoNotMatch = اسم المستخدم غير متطابق. الرجاء المحاولة مجدداً.
-framework-validation-deleteConfirmationInvalid = تأكيد غير صحيح. الرجاء المحاولة مجدداً.
-framework-validation-invalidWebhookEndpointEventSelection = الرجاء اختيار حدث واحد للتلقي.
-framework-validation-media-url-invalid = الرجاء اختيار رابط صالح للصورة (.png, .jpg, or .gif)
+framework-validation-emailsDoNotMatch = عنوانا البريد الإلكتروني غير متطابقين. حاول مجدداً.
+framework-validation-notAWholeNumberBetween = يرجى إدخال عدد صحيح بين { $min } و { $max }.
+framework-validation-notAWholeNumberGreaterThan = يرجى إدخال عدد صحيح أكبر من { $x }
+framework-validation-notAWholeNumberGreaterThanOrEqual = يرجى إدخال عدد صحيح أكبر من أو يساوي { $x }
+framework-validation-usernamesDoNotMatch = اسما المستخدم غير متطابقين. حاول مجدداً.
+framework-validation-deleteConfirmationInvalid = تأكيد غير صحيح. حاول مجدداً.
+framework-validation-invalidWebhookEndpointEventSelection = يرجى اختيار حدث واحد على الأقل لتلقيه.
+framework-validation-media-url-invalid = يرجى إدخال رابط صورة صالح (.png أو .jpg أو .gif)
+framework-validation-invalidEmailDomain = صيغة نطاق البريد الإلكتروني غير صالحة. يرجى استخدام "email.com"
+framework-validation-invalidExternalProfileURL = يجب أن تحتوي جميع أنماط روابط الملفات الشخصية الخارجية على $USER_NAME أو $USER_ID.
 
-framework-timeago-just-now = الآن فقط
+framework-timeago-just-now = الآن
 
 framework-timeago-time =
   { $value } { $unit ->
     [second] { $value ->
       [1] ثانية
-      *[other] ثانية
+      *[other] ثوانٍ
     }
     [minute] { $value ->
       [1] دقيقة
-      *[other] دقيقة
+      *[other] دقائق
     }
     [hour] { $value ->
       [1] ساعة
-      *[other] ساعة
+      *[other] ساعات
     }
     [day] { $value ->
       [1] يوم
-      *[other] يوم
+      *[other] أيام
     }
     [week] { $value ->
       [1] أسبوع
-      *[other] أسبوع
+      *[other] أسابيع
     }
     [month] { $value ->
       [1] شهر
-      *[other] شهر
+      *[other] أشهر
     }
     [year] { $value ->
-      [1] عام
-      *[other] عام
+      [1] سنة
+      *[other] سنوات
     }
     *[other] وحدة غير معروفة
+  }
+
+framework-timeago =
+  { $suffix ->
+    [ago] منذ {framework-timeago-time}
+    *[noSuffix] {framework-timeago-time}
   }
 
 ## Components
@@ -85,16 +93,16 @@ framework-passwordField =
 ### Markdown Editor
 framework-markdownEditor-bold = عريض
 framework-markdownEditor-italic = مائل
-framework-markdownEditor-titleSubtitleHeading = العنوان, العنوان الفرعي, الترويسة
+framework-markdownEditor-titleSubtitleHeading = العنوان، العنوان الفرعي، الترويسة
 framework-markdownEditor-quote = اقتباس
 framework-markdownEditor-genericList = قائمة عامة
 framework-markdownEditor-numberedList = قائمة مرقمة
 framework-markdownEditor-createLink = إنشاء رابط
-framework-markdownEditor-insertImage = إدخال صورة
-framework-markdownEditor-togglePreview = تبديل لعرض المصغرات
-framework-markdownEditor-toggleSideBySide = تبديل للعرض جانبي
-framework-markdownEditor-toggleFullscreen = تبديل لعرض ملء الشاشة
-framework-markdownEditor-markdownGuide = دليل التخفيضات
+framework-markdownEditor-insertImage = إدراج صورة
+framework-markdownEditor-togglePreview = تبديل المعاينة
+framework-markdownEditor-toggleSideBySide = تبديل العرض الجانبي
+framework-markdownEditor-toggleFullscreen = تبديل ملء الشاشة
+framework-markdownEditor-markdownGuide = دليل Markdown
 
 ### Duration Field
 
@@ -102,23 +110,23 @@ framework-durationField-unit =
   { $unit ->
     [second] { $value ->
       [1] ثانية
-      *[other] ثانية
+      *[other] ثوانٍ
     }
     [minute] { $value ->
       [1] دقيقة
-      *[other] دقيقة
+      *[other] دقائق
     }
     [hour] { $value ->
       [1] ساعة
-      *[other] ساعة
+      *[other] ساعات
     }
     [day] { $value ->
       [1] يوم
-      *[other] يوم
+      *[other] أيام
     }
     [week] { $value ->
       [1] أسبوع
-      *[other] أسبوع
+      *[other] أسابيع
     }
     *[other] وحدة غير معروفة
   }
@@ -126,11 +134,11 @@ framework-durationField-unit =
 framework-starRating =
   .aria-label = { $value ->
     [1] نجمة واحدة
-    *[other] {$value} نجمة
+    *[other] {$value} نجوم
   }
 
 ### Relay Network Request Error
 
 framework-error-relayNetworkRequestError-anUnexpectedNetworkError =
-  حصل خطأ غير متوقع في الشبكة، الرجاء المحاولة لاحقاً.
-framework-error-relayNetworkRequestError-code = رمز
+  حدث خطأ غير متوقع في الشبكة، يرجى المحاولة لاحقاً.
+framework-error-relayNetworkRequestError-code = الرمز
