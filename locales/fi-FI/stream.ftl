@@ -591,6 +591,9 @@ profile-account-notifications-updated = Ilmoitusasetuksesi on päivitetty
 profile-account-notifications-button = Päivitä ilmoitusasetukset
 profile-account-notifications-button-update = Päivitä
 
+notifications-title = Ilmoitukset
+notifications-youDoNotCurrentlyHaveAny = Ei ilmoituksia tällä hetkellä
+
 ## Report Comment Popover
 comments-reportPopover =
   .description = Ilmoita asiattomia kommentteja
@@ -601,6 +604,7 @@ comments-reportPopover-reasonOffensive = Se on loukkaava
 comments-reportPopover-reasonAbusive = Se on herjaava
 comments-reportPopover-reasonIDisagree = Olen asiasta eri mieltä
 comments-reportPopover-reasonSpam = Se on mainos tai muu roskaviesti
+comments-reportPopover-reasonBio = Tämän kommentoijan profiiliteksti on loukkaava tai asiaton
 comments-reportPopover-reasonOther = Muusta syystä
 
 comments-reportPopover-additionalInformation =
