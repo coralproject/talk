@@ -1,7 +1,7 @@
 ### Localization for Account
 
 account-tokenNotFound =
-  الرابط المحدد غير صالح، الرجاء التحقق من نسخه بشكل صحيح.
+  الرابط المحدد غير صالح، يرجى التحقق من نسخه بشكل صحيح.
 
 ## Not Found
 
@@ -10,57 +10,65 @@ notFound = غير موجود
 ## Password Reset
 
 resetPassword-resetPassword = إعادة تعيين كلمة المرور
-resetPassword-resetYourPassword = إعادة تعيين كلمة المرور خاصتك
+resetPassword-resetYourPassword = أعد تعيين كلمة المرور
 resetPassword-pleaseEnterNewPassword =
-  الرجاء إدخال كلمة مرور جديدة لاستعمالها في الدخول إلى حسابك.
-  الرجاء إدخال كلمة مرور صعبة التوقع والتأكد من الاحتفاظ بها.
-resetPassword-passwordLabel = كلمة مرور
-resetPassword-passwordDescription = يجب أن تكون على الأقل {$minLength} محرفاً
+  يرجى إدخال كلمة مرور جديدة لتسجيل الدخول إلى حسابك.
+  تأكد من أنها فريدة واحتفظ بها في مكان آمن.
+resetPassword-passwordLabel = كلمة المرور
+resetPassword-passwordDescription = يجب أن تكون {$minLength} حرفاً على الأقل
 resetPassword-passwordTextField =
-  .placeholder = كلمة مرور
+  .placeholder = كلمة المرور
 resetPassword-successfullyReset = تمت إعادة تعيين كلمة المرور بنجاح
 resetPassword-youMayClose =
-  يمكن الآن إغلاق النافذة والدخول إلى الموقع بكلمة المرور الجديدة.
-resetPassword-oopsSorry = نأسف على ذلك!
+  يمكنك الآن إغلاق هذه النافذة وتسجيل الدخول إلى حسابك بكلمة المرور الجديدة.
+resetPassword-oopsSorry = عذراً!
 resetPassword-missingResetToken = يبدو أن رمز إعادة التعيين مفقود.
 
 ## Email Confirmation
 
+confirmEmail-emailConfirmation =
 confirmEmail-confirmYourEmailAddress =
-  الرجاء تأكيد عنوان البريد الإلكتروني
+  تأكيد عنوان بريدك الإلكتروني
 confirmEmail-confirmEmail = تأكيد البريد الإلكتروني
-confirmEmail-pleaseClickToConfirm = الرجاء النقر لتأكيد عنوان بريدك الإلكتروني
-confirmEmail-oopsSorry = نأسف على ذلك!
-confirmEmail-missingConfirmToken = يبدو أن رمز إعادة التعيين مفقود.
+confirmEmail-pleaseClickToConfirm = انقر أدناه لتأكيد عنوان بريدك الإلكتروني.
+confirmEmail-oopsSorry = عذراً!
+confirmEmail-missingConfirmToken = يبدو أن رمز التأكيد مفقود.
 confirmEmail-successfullyConfirmed = تم تأكيد البريد الإلكتروني بنجاح
 confirmEmail-youMayClose =
-  بمكن إغلاق هذه النافذة الآن.
+  يمكنك الآن إغلاق هذه النافذة.
 
 ## Download
 
-download-landingPage-title = تحميل ملف التعليقات
+download-landingPage-title = تحميل سجل تعليقاتك
 download-landingPage-description =
-  سيتم تحميل ملف التعليقات الخاص بك بصيغة ملف مضغوط .zip وبعد فكّ الضغط ستحصل على ملف مفصّل (أو بصيغة .csv) يمكنك استيراده بسهولة إلى أيّ تطبيق إكسل.
+  سيتم تحميل سجل تعليقاتك في ملف مضغوط بصيغة .zip. بعد
+  فك الضغط ستحصل على ملف بصيغة القيم المفصولة بفواصل (.csv)
+  يمكنك استيراده بسهولة إلى أي تطبيق جداول بيانات.
 download-landingPage-contentsDescription =
-  كل تعليق يتضمن المعلومات التالية:
+  يتضمن كل تعليق المعلومات التالية:
 download-landingPage-contentsDate =
-  تاريخ كتابتك للتعليق
+  تاريخ كتابة التعليق
 download-landingPage-contentsUrl =
-  رابط التعليق
+  الرابط الدائم للتعليق
 download-landingPage-contentsText =
   نص التعليق
 download-landingPage-contentsStoryUrl =
   رابط المقال أو الخبر الذي يظهر فيه التعليق
+download-landingPage-downloadComments =
 download-landingPage-download = تحميل
 download-landingPage-sorry = رابط التحميل غير صالح.
 
 ## Unsubscribe
 
-unsubscribe-unsubscribeFromEmails = إلغاء التنبيهات عبر البريد الإلكتروني
-unsubscribe-oopsSorry = نأسف لذلك!
+unsubscribe-confirm =
+unsubscribe-successfullyUnsubscribed =
+
+unsubscribe-unsubscribeFromEmails = إلغاء الاشتراك في إشعارات البريد الإلكتروني
+unsubscribe-oopsSorry = عذراً!
 unsubscribe-clickToConfirm =
-  انقر هنا لتأكيد رغبتك بإلغاء الاشتراك بجميع التنبيهات.
+  انقر أدناه لتأكيد رغبتك في إلغاء الاشتراك من جميع الإشعارات.
+unsubscribe-submit-unsubscribe = إلغاء الاشتراك
 unsubscribe-unsubscribedSuccessfully =
-  تم إلغاء التنبيهات عبر البريد الإلكتروني بنجاح
+  تم إلغاء الاشتراك في إشعارات البريد الإلكتروني بنجاح
 unsubscribe-youMayNowClose =
-  يمكن الآن إغلاق هذه النافذة
+  يمكنك الآن إغلاق هذه النافذة
