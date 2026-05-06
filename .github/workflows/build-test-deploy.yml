@@ -295,5 +295,7 @@ jobs:
           CONTAINER_ID=$(docker create "coralproject/talk:${PATCH_TAG}")
           docker cp "${CONTAINER_ID}:/usr/src/app/client/dist" dist/
           docker rm "${CONTAINER_ID}"
-          npx @sentry/cli -V
-          npx @sentry/cli releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}
+          # Sentry CLI 3.x removed the legacy release-file sourcemap upload flow.
+          # This project still uses the older JS SDK/release-based setup, so pin 2.x here.
+          npx @sentry/cli@2 -V
+          npx @sentry/cli@2 releases files "coral@${PATCH_TAG}" upload-sourcemaps ./dist --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }}
