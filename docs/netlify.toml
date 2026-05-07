@@ -1,0 +1,8 @@
+[build]
+  base = "docs"
+  command = "pnpm install --frozen-lockfile && pnpm build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--prefix=/dev/null"
