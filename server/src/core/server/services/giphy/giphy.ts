@@ -87,6 +87,7 @@ function convertLanguage(locale: LanguageCode): GiphyLanguage {
     case "de":
       return "de";
     case "pt-BR":
+    case "pt-PT":
       return "pt";
     default:
       return "en";
