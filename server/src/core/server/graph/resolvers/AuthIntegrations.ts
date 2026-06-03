@@ -12,4 +12,5 @@ export const AuthIntegrations: GQLAuthIntegrationsTypeResolver<GQLAuthIntegratio
     oidc: (auth) => auth.oidc || disabled,
     google: (auth) => auth.google || disabled,
     facebook: (auth) => auth.facebook || disabled,
+    bsky: (auth) => auth.bsky || disabled,
   };
