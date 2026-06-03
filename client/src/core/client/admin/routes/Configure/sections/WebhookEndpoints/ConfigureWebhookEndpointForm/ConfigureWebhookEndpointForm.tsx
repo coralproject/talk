@@ -7,7 +7,11 @@ import { graphql } from "react-relay";
 
 import getEndpointLink from "coral-admin/helpers/getEndpointLink";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import {
+  colorFromMeta,
+  parseIntegerNullable,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -19,6 +23,7 @@ import {
   CallOut,
   Flex,
   FormField,
+  HelperText,
   HorizontalGutter,
   Label,
   TextField,
@@ -27,6 +32,7 @@ import {
 import { ConfigureWebhookEndpointForm_settings } from "coral-admin/__generated__/ConfigureWebhookEndpointForm_settings.graphql";
 import { ConfigureWebhookEndpointForm_webhookEndpoint } from "coral-admin/__generated__/ConfigureWebhookEndpointForm_webhookEndpoint.graphql";
 
+import { GQLWEBHOOK_EVENT_NAME } from "coral-framework/schema";
 import CreateWebhookEndpointMutation from "./CreateWebhookEndpointMutation";
 import EventsSelectField from "./EventsSelectField";
 import UpdateWebhookEndpointMutation from "./UpdateWebhookEndpointMutation";
@@ -45,8 +51,15 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
   const create = useMutation(CreateWebhookEndpointMutation);
   const update = useMutation(UpdateWebhookEndpointMutation);
   const { router } = useRouter();
+
   const onSubmit = useCallback(
-    async (values: { id: string; url: string; all: boolean; events: any }) => {
+    async (values: {
+      id: string;
+      url: string;
+      all: boolean;
+      events: any;
+      reportingThreshold?: number | null;
+    }) => {
       try {
         if (webhookEndpoint) {
           // The webhook endpoint was defined, update it.
@@ -62,11 +75,14 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
         }
 
         return;
-      } catch (err) {
+      } catch (err: unknown) {
         if (err instanceof InvalidRequestError) {
           return err.invalidArgs;
         }
-        return { [FORM_ERROR]: err.message };
+        return {
+          [FORM_ERROR]:
+            err instanceof Error ? err.message : "An unknown error occurred",
+        };
       }
     },
     [webhookEndpoint, create, update, router]
@@ -76,10 +92,12 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
     <Form
       onSubmit={onSubmit}
       initialValues={
-        webhookEndpoint ? webhookEndpoint : { events: [], all: false, url: "" }
+        webhookEndpoint
+          ? webhookEndpoint
+          : { events: [], all: false, url: "", reportingThreshold: null }
       }
     >
-      {({ handleSubmit, submitting, submitError, pristine }) => (
+      {({ handleSubmit, submitting, submitError, pristine, values }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <HorizontalGutter size="double">
             {submitError && (
@@ -107,6 +125,37 @@ const ConfigureWebhookEndpointForm: FunctionComponent<Props> = ({
               )}
             </Field>
             <EventsSelectField settings={settings} />
+            {values.all ||
+              (values.events?.includes(
+                GQLWEBHOOK_EVENT_NAME.COMMENT_REPORTED_THRESHOLD_REACHED
+              ) && (
+                <FormField>
+                  <Localized id="configure-webhooks-reportingThreshold">
+                    <Label>Reporting threshold</Label>
+                  </Localized>
+                  <HelperText>
+                    Number of reports before event triggered
+                  </HelperText>
+                  <Field
+                    name="reportingThreshold"
+                    validate={required}
+                    parse={parseIntegerNullable}
+                  >
+                    {({ input, meta }) => (
+                      <>
+                        <TextField
+                          {...input}
+                          id={input.name}
+                          type="number"
+                          fullWidth
+                          color={colorFromMeta(meta)}
+                        />
+                        <ValidationMessage meta={meta} fullWidth />
+                      </>
+                    )}
+                  </Field>
+                </FormField>
+              ))}
             <Flex direction="row" justifyContent="flex-end" itemGutter>
               {onCancel && (
                 <Localized id="configure-webhooks-cancelButton">
@@ -143,6 +192,7 @@ const enhanced = withFragmentContainer<Props>({
       url
       events
       all
+      reportingThreshold
     }
   `,
   settings: graphql`
