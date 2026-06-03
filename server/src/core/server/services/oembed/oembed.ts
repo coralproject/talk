@@ -44,7 +44,7 @@ export async function fetchOEmbedResponse(
       break;
     }
     case "twitter": {
-      uri = `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}`;
+      uri = `https://publish.x.com/oembed?url=${encodeURIComponent(url)}`;
       break;
     }
     case "bluesky": {
