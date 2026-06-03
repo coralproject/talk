@@ -20,13 +20,13 @@ role-siteModerator = Moderador do site
 role-organizationModerator = Moderador da Organização
 role-staff = Staff
 role-member = Membro
-role-commenter = Comentarista
+role-commenter = Comentador
 
 role-plural-admin = Administradores
 role-plural-moderator = Moderadores
 role-plural-staff = Staff
 role-plural-member = Membros
-role-plural-commenter = Comentaristas
+role-plural-commenter = Comentadores
 
 comments-react =
   .aria-label = {$count ->
@@ -433,9 +433,9 @@ configure-general-sitewideCommenting-messageExplanation =
 configure-general-embedLinks-title = Multimédia incorporada
 configure-general-embedLinks-desc =
 configure-general-embedLinks-description =
-  Permitir que os comentaristas adicionem um vídeo do YouTube, tweet ou GIF ao final do comentário
+  Permitir que os comentadores adicionem um vídeo do YouTube, tweet ou GIF ao final do comentário
 configure-general-embedLinks-description-addASinglePiece =
-  Permitir que os comentaristas adicionem um único conteúdo incorporado ao final do comentário
+  Permitir que os comentadores adicionem um único conteúdo incorporado ao final do comentário
 configure-general-embedLinks-enableTwitterEmbeds = Permitir incorporações do Twitter
 configure-general-embedLinks-enableBlueskyEmbeds = Permitir incorporações do Bluesky
 configure-general-embedLinks-enableYouTubeEmbeds = Permitir incorporações do YouTube
@@ -446,7 +446,7 @@ configure-general-embedLinks-On = Sim
 configure-general-embedLinks-Off = Não
 
 configure-general-embedLinks-giphyMaxRating = Classificação de conteúdo GIF
-configure-general-embedLinks-giphyMaxRating-desc = Selecione a classificação máxima de conteúdo para os GIFs que aparecerão nos resultados de pesquisa dos comentaristas
+configure-general-embedLinks-giphyMaxRating-desc = Selecione a classificação máxima de conteúdo para os GIFs que aparecerão nos resultados de pesquisa dos comentadores
 
 configure-general-embedLinks-giphyMaxRating-g = G
 configure-general-embedLinks-giphyMaxRating-g-desc = Conteúdo adequado para todas as idades
@@ -461,7 +461,7 @@ configure-general-embedLinks-configuration = Configuração
 
 configure-general-embedLinks-gifProvider = Fornecedor de GIF
 configure-general-embedLinks-gifProvider-desc =
-  Determina qual o fornecedor que os comentaristas utilizam para pesquisar e mostrar GIFs.
+  Determina qual o fornecedor que os comentadores utilizam para pesquisar e mostrar GIFs.
 
 configure-general-embedLinks-gifs-provider-Giphy = Giphy
 configure-general-embedLinks-gifs-provider-Tenor = Tenor
@@ -513,7 +513,7 @@ configure-general-commentLength-validateLongerThanMin =
 #### Comment Editing
 configure-general-commentEditing-title = Edição de Comentários
 configure-general-commentEditing-explanation =
-  Defina um limite de tempo para os comentaristas editarem os seus comentários em todo o site.
+  Defina um limite de tempo para os comentadores editarem os seus comentários em todo o site.
   Os comentários editados são marcados como (Editado) no fluxo de comentários e
   no painel de moderação.
 configure-general-commentEditing-commentEditTimeFrame = Período de tempo de edição de comentários
@@ -535,9 +535,9 @@ configure-general-featuredBy-title = Destaque
 configure-general-featuredBy-enabled = Destaque ativado
 configure-general-featuredBy-explanation = Adicionar nome do moderador à exibição de comentários em destaque
 
-configure-general-topCommenter-title = Badge de principal comentarista
-configure-general-topCommenter-explanation = Adicione o badge de principal comentarista aos comentaristas com comentários em destaque nos últimos 10 dias
-configure-general-topCommenter-enabled = Ativar badges de principal comentarista
+configure-general-topCommenter-title = Badge de principal comentador
+configure-general-topCommenter-explanation = Adicione o badge de principal comentador aos comentadores com comentários em destaque nos últimos 10 dias
+configure-general-topCommenter-enabled = Ativar badges de principal comentador
 
 configure-general-flairBadge-header = Badges de estilos personalizados
 configure-general-flairBadge-description =  Incentive o envolvimento e a participação do utilizador adicionando badges de estilos personalizados ao seu site. Os badges podem ser alocados como parte do seu <externalLink>JWT claim</externalLink>.
@@ -561,9 +561,9 @@ configure-general-flairBadge-table-empty = Nenhum badge de estilo adicionado par
 
 #### In-page notifications
 configure-general-inPageNotifications-title = Notificações na página
-configure-general-inPageNotifications-explanation = Adicione notificações ao Coral. Quando ativado, os comentaristas podem receber
+configure-general-inPageNotifications-explanation = Adicione notificações ao Coral. Quando ativado, os comentadores podem receber
   notificações quando recebem todas as respostas, apenas respostas de membros
-  da sua equipa, quando um comentário Pendente é publicado. Os comentaristas podem
+  da sua equipa, quando um comentário Pendente é publicado. Os comentadores podem
   desativar os indicadores visuais de notificação nas suas preferências de Perfil. Isto removerá as notificações por e-mail.
 configure-general-inPageNotifications-enabled = Notificações na página ativadas
 configure-general-inPageNotifications-floatingBellIndicator = Indicador de sino flutuante
@@ -788,17 +788,17 @@ configure-auth-settings-session-duration-label = Duração da sessão
 configure-moderation-recentCommentHistory-title = Histórico recente de comentários
 configure-moderation-recentCommentHistory-timeFrame = Período recente do histórico de comentários
 configure-moderation-recentCommentHistory-timeFrame-description =
-  Período de tempo em que a taxa de rejeição de um comentarista é calculada e os comentários enviados são contados.
+  Período de tempo em que a taxa de rejeição de um comentador é calculada e os comentários enviados são contados.
 configure-moderation-recentCommentHistory-enabled = Filtro de histórico recente de comentários
 configure-moderation-recentCommentHistory-enabled-description =
   Impede os infratores de publicar repetidamente comentários sem aprovação.
-  Após a taxa de rejeição de um comentarista ultrapassar o limite definido
+  Após a taxa de rejeição de um comentador ultrapassar o limite definido
   abaixo, os comentários enviados seguintes são <strong>enviados para Pendente para
   aprovação do moderador.</strong> O filtro é removido quando a taxa de rejeição normaliza novamente.
 configure-moderation-recentCommentHistory-triggerRejectionRate = Limite da taxa de rejeição
 configure-moderation-recentCommentHistory-triggerRejectionRate-description =
   Calculado pela divisão do número de comentários rejeitados pela soma
-  dos comentários rejeitados e publicados do comentarista, dentro do período recente
+  dos comentários rejeitados e publicados do comentador, dentro do período recente
   do histórico de comentários (não inclui comentários pendentes por toxicidade, spam ou pré-moderação.)
 
 #### External links for moderators
@@ -882,12 +882,12 @@ configure-moderation-perspective-accountNote =
   Para obter informações adicionais sobre como configurar o filtro de comentários tóxicos da Perspective API, visite:
   <externalLink>https://github.com/conversationai/perspectiveapi#readme</externalLink>
 
-configure-moderation-newCommenters-title = Aprovação de novos comentaristas
-configure-moderation-newCommenters-enable = Ativar aprovação de novos comentaristas
+configure-moderation-newCommenters-title = Aprovação de novos comentadores
+configure-moderation-newCommenters-enable = Ativar aprovação de novos comentadores
 configure-moderation-newCommenters-description =
-  Quando isto estiver ativo, os comentários iniciais de um novo comentarista
+  Quando isto estiver ativo, os comentários iniciais de um novo comentador
   serão enviados para Pendente para aprovação do moderador antes da publicação.
-configure-moderation-newCommenters-enable-description = Ativar pré-moderação para novos comentaristas
+configure-moderation-newCommenters-enable-description = Ativar pré-moderação para novos comentadores
 configure-moderation-newCommenters-approvedCommentsThreshold = Número de comentários a aprovar
 configure-moderation-newCommenters-approvedCommentsThreshold-description =
   A quantidade de comentários aprovados para que os comentários sejam aprovados automaticamente sem necessidade de pré-moderação.
@@ -1117,7 +1117,7 @@ moderate-marker-recentHistory = Histórico recente
 moderate-marker-bodyCount = Tamanho do conteúdo
 moderate-marker-offensive = Ofensivo
 moderate-marker-abusive = Abusivo
-moderate-marker-newCommenter = Novo comentarista
+moderate-marker-newCommenter = Novo comentador
 moderate-marker-repeatPost = Comentário repetido
 moderate-marker-other = Outro
 moderate-marker-preMod-userEmail = E-mail do utilizador
@@ -1185,7 +1185,7 @@ moderate-queue-viewNew =
   }
 
 moderate-comment-deleted-body =
-  Este comentário já não está disponível. O comentarista eliminou a conta.
+  Este comentário já não está disponível. O comentador eliminou a conta.
 
 ### Moderate Search Bar
 moderate-searchBar-allStories = Todas as histórias
@@ -1275,7 +1275,7 @@ moderate-user-drawer-account-history-premod-removed = Pré-moderação removida
 moderate-user-drawer-account-history-modMessage-sent = Mensagem do utilizador
 moderate-user-drawer-account-history-modMessage-acknowledged = Mensagem reconhecida a { $acknowledgedAt }
 
-moderate-user-drawer-newCommenter = Novo comentarista
+moderate-user-drawer-newCommenter = Novo comentador
 
 moderate-user-drawer-suspension =
   Suspensão, { $value } { $unit ->
@@ -1406,7 +1406,7 @@ moderate-forReview-reviewed = Revisto
 
 moderate-forReview-detectedBannedWord = Palavra proibida
 moderate-forReview-detectedLinks = Links
-moderate-forReview-detectedNewCommenter = Novo comentarista
+moderate-forReview-detectedNewCommenter = Novo comentador
 moderate-forReview-detectedPreModUser = Utilizador pré-moderado
 moderate-forReview-detectedRecentHistory = Histórico recente
 moderate-forReview-detectedRepeatPost = Publicação repetida
@@ -1504,8 +1504,8 @@ community-userStatus-removePremod = Remover pré-moderação
 
 community-banModal-allSites-title = Tem a certeza de que pretende banir <username></username>?
 community-banModal-banEmailDomain-title = Banir domínio de e-mail
-community-banModal-banEmailDomain = Banir todas as contas de comentaristas de { $domain }
-community-banModal-banEmailDomain-callOut = Isto impedirá que qualquer comentarista utilize este domínio de e-mail
+community-banModal-banEmailDomain = Banir todas as contas de comentadores de { $domain }
+community-banModal-banEmailDomain-callOut = Isto impedirá que qualquer comentador utilize este domínio de e-mail
 community-banModal-banEmailDomain-confirmationText = Digite "{ $text }" para confirmar
 community-banModal-specificSites-title = Tem a certeza de que pretende gerir o estado de banimento de <username></username>?
 community-banModal-noSites-title = Tem a certeza de que pretende desbanir <username></username>?
@@ -1543,7 +1543,7 @@ community-suspendModal-suspendUser = Suspender utilizador
 community-suspendModal-emailTemplate =
   Olá { $username },
 
-  De acordo com as orientações da comunidade da { $organizationName }, a sua conta foi temporariamente suspensa. Durante a suspensão, não poderá comentar, denunciar ou interagir com outros comentaristas. Por favor tente comentar novamente em { framework-timeago-time }.
+  De acordo com as orientações da comunidade da { $organizationName }, a sua conta foi temporariamente suspensa. Durante a suspensão, não poderá comentar, denunciar ou interagir com outros comentadores. Por favor tente comentar novamente em { framework-timeago-time }.
 
 community-suspendModal-customize = Personalizar o e-mail de suspensão.
 
@@ -1599,7 +1599,7 @@ community-warnModal-success =
   Um aviso foi enviado para <strong>{ $username }</strong>.
 community-warnModal-success-close = Ok
 community-warnModal-areYouSure = Avisar <strong>{ $username }</strong>?
-community-warnModal-consequence = Um aviso pode melhorar a conduta de um comentarista sem suspensão ou banimento. O utilizador deve reconhecer o aviso antes de continuar a comentar.
+community-warnModal-consequence = Um aviso pode melhorar a conduta de um comentador sem suspensão ou banimento. O utilizador deve reconhecer o aviso antes de continuar a comentar.
 community-warnModal-message-label = Mensagem
 community-warnModal-message-required = Obrigatório
 community-warnModal-message-description = Explique a este utilizador como deve mudar o comportamento no seu site.
@@ -1612,7 +1612,7 @@ community-userStatus-message = Mensagem
 community-modMessageModal-success = Uma mensagem foi enviada para <strong>{ $username }</strong>.
 community-modMessageModal-success-close = Ok
 community-modMessageModal-areYouSure = Mensagem para <strong>{ $username }</strong>?
-community-modMessageModal-consequence = Enviar uma mensagem a um comentarista que é visível apenas para ele.
+community-modMessageModal-consequence = Enviar uma mensagem a um comentador que é visível apenas para ele.
 community-modMessageModal-message-label = Mensagem
 community-modMessageModal-message-required = Obrigatório
 community-modMessageModal-cancel = Cancelar
@@ -1711,7 +1711,7 @@ userDetails-warned-explanation = O utilizador não reconheceu o aviso.
 configure-general-reactions-title = Reações
 configure-general-reactions-explanation =
   Permita a interação da sua comunidade através de reações expressas
-  por meio de um clique. Por defeito, o Coral permite que os comentaristas "Respeitem"
+  por meio de um clique. Por defeito, o Coral permite que os comentadores "Respeitem"
   uns aos outros.
 configure-general-reactions-label = Legenda para a reação
 configure-general-reactions-input =
@@ -1725,9 +1725,9 @@ configure-general-reactions-sort-input =
 configure-general-reactions-preview = Pré-visualização
 configure-general-reaction-sortMenu-sortBy = Ordenar por
 
-configure-general-newCommenter-title = Badge de novo comentarista
-configure-general-newCommenter-explanation = Adicione o badge <icon></icon> aos comentaristas que criaram as suas contas nos últimos sete dias.
-configure-general-newCommenter-enabled = Ativar badges de novo comentarista
+configure-general-newCommenter-title = Badge de novo comentador
+configure-general-newCommenter-explanation = Adicione o badge <icon></icon> aos comentadores que criaram as suas contas nos últimos sete dias.
+configure-general-newCommenter-enabled = Ativar badges de novo comentador
 configure-general-badges-title = Badge de membros Staff
 configure-general-badges-explanation =
   Mostra um badge personalizado para membros staff da sua organização. Este badge
@@ -1761,7 +1761,7 @@ configure-general-rte-spoilerDesc =
 
 configure-general-dsaConfig-title = Conjunto de recursos da Lei de Serviços Digitais
 configure-general-dsaConfig-description =
-  A Lei de Serviços Digitais (DSA) da UE exige que os editores sediados na UE ou direcionados aos cidadãos da UE forneçam determinados recursos para os seus comentaristas e moderadores.
+  A Lei de Serviços Digitais (DSA) da UE exige que os editores sediados na UE ou direcionados aos cidadãos da UE forneçam determinados recursos para os seus comentadores e moderadores.
   <br/>
   <br/>
   O conjunto de ferramentas DSA do Coral inclui:
@@ -1769,7 +1769,7 @@ configure-general-dsaConfig-description =
   <ul style="padding-inline-start: var(--spacing-5);">
     <li>Um fluxo dedicado para comentários denunciados como ilegais</li>
     <li>Motivos de moderação obrigatórios para cada comentário rejeitado</li>
-    <li>Notificações de comentaristas para denúncias de comentários ilegais e comentários rejeitados</li>
+    <li>Notificações de comentadores para denúncias de comentários ilegais e comentários rejeitados</li>
     <li>Texto obrigatório explicando os métodos de recurso/apelo, se existirem</li>
   </ul>
 configure-general-dsaConfig-reportingAndModerationExperience =
@@ -1785,9 +1785,9 @@ configure-general-dsaConfig-methodOfRedress-url = URL
 configure-general-dsaConfig-methodOfRedress-url-placeholder = https://moderation.example.com
 
 
-configure-account-features-title = Gestão de funcionalidades da conta de comentaristas
+configure-account-features-title = Gestão de funcionalidades da conta de comentadores
 configure-account-features-explanation =
-  Pode ativar ou desativar certas funcionalidades para os seus comentaristas
+  Pode ativar ou desativar certas funcionalidades para os seus comentadores
   utilizarem dentro das suas contas. Estas funcionalidades também ajudam na
   conformidade com o RGPD
 configure-account-features-allow = Permitir aos utilizadores:
@@ -1796,7 +1796,7 @@ configure-account-features-change-usernames-details = O nome de utilizador pode 
 configure-account-features-yes = Sim
 configure-account-features-no = Não
 configure-account-features-download-comments = Transferir os seus comentários
-configure-account-features-download-comments-details = Os comentaristas podem transferir um csv do histórico de comentarista
+configure-account-features-download-comments-details = Os comentadores podem transferir um csv do histórico de comentador
 configure-account-features-delete-account = Eliminar as suas contas.
 configure-account-features-delete-account-details =
   Remover todos os dados de comentários, nome de utilizador e endereço de e-mail do site e da base de dados

@@ -76,9 +76,9 @@ comments-featuredCommentTooltip-toggleButton =
   .aria-label = Alternar sugestão de comentários em destaque
   .title = Alternar sugestão de comentários em destaque
 
-comment-top-commenter-tooltip-header = <icon></icon> Principais comentaristas
+comment-top-commenter-tooltip-header = <icon></icon> Principais comentadores
 comment-top-commenter-tooltip-details = Um dos seus comentários foi destaque nos últimos 10 dias
-comment-new-commenter-tooltip-details = Novo comentarista, diga olá
+comment-new-commenter-tooltip-details = Novo comentador, diga olá
 comments-collapse-toggle-with-username =
   .aria-label = Ocultar comentário de { $username } e as suas respostas
 comments-collapse-toggle-without-username =
@@ -180,7 +180,7 @@ comments-permalinkView-reportIllegalContent-additionalComments-validCommentURLLe
 comments-permalinkView-reportIllegalContent-additionalComments-previouslyReportedCommentError = Já denunciou anteriormente este comentário por conter conteúdo potencialmente ilegal. Só pode denunciar um comentário por este motivo uma vez.
 comments-permalinkView-reportIllegalContent-confirmation-successHeader = Recebemos a sua denúncia de conteúdo ilegal
 comments-permalinkView-reportIllegalContent-confirmation-description = A sua denúncia será revista pela nossa equipa de moderação. Receberá uma notificação assim que uma decisão for tomada. Se o conteúdo for
-  considerado potencialmente ilegal, será removido do site e poderão ser tomadas medidas adicionais contra o comentarista.
+  considerado potencialmente ilegal, será removido do site e poderão ser tomadas medidas adicionais contra o comentador.
 comments-permalinkView-reportIllegalContent-confirmation-errorHeader = Obrigado por enviar esta denúncia
 comments-permalinkView-reportIllegalContent-confirmation-errorDescription = Não conseguimos enviar a sua denúncia pelos seguintes motivos:
 comments-permalinkView-reportIllegalContent-confirmation-returnToComments = Pode agora fechar este separador para voltar aos comentários

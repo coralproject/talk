@@ -54,7 +54,7 @@ common-moderationReason-changeReason =
   &lt; Mudar motivo
 common-moderationReason-reasonLabel = Motivo
 common-moderationReason-detailedExplanation =
-  Explicação detalhada (partilhada com o comentarista)
+  Explicação detalhada (partilhada com o comentador)
 common-moderationReason-detailedExplanation-placeholder =
    .placeholder = Adicione a sua explicação
 common-moderationReason-customReason = Motivo personalizado (obrigatório)
