@@ -17,7 +17,6 @@ import { HorizontalGutter } from "coral-ui/components/v2";
 
 import { GifGrid, GifResult } from "../GifGrid";
 import { GifSearchInput } from "../GifSearchInput/GifSearchInput";
-//   import KlipyAttribution from "./KlipyAttribution";
 
 import styles from "./KlipyInput.css";
 
@@ -165,7 +164,6 @@ const KlipyInput: FunctionComponent<Props> = ({ onSelect }) => {
           onSelectGif={onGifClick}
           onLoadMore={onLoadMore}
         />
-        {/* <KlipyAttribution /> */}
       </HorizontalGutter>
     </div>
   );
