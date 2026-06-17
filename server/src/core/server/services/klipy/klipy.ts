@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { FetchPayload } from "coral-common/common/lib/types/tenor";
+import { FetchPayload } from "coral-common/common/lib/types/klipy";
 import { InternalError } from "coral-server/errors";
 import { validateSchema } from "coral-server/helpers";
 import { supportsMediaType, Tenant } from "coral-server/models/tenant";
