@@ -35,7 +35,6 @@ export async function retrieveFromKlipy(
   const url = new URL(`${KLIPY_FETCH_URL}`);
   url.searchParams.set("key", tenant.media.gifs.key);
   url.searchParams.set("ids", id);
-  //   url.searchParams.set("media_filter", "preview,mp4");
 
   try {
     const res = await fetch(url.toString());
