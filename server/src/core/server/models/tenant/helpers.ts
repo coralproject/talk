@@ -108,7 +108,14 @@ export function getWebhookEndpoint(
 
 export function supportsMediaType(
   tenant: Pick<Tenant, "media" | "featureFlags">,
-  type: "twitter" | "bluesky" | "youtube" | "giphy" | "tenor" | "external"
+  type:
+    | "twitter"
+    | "bluesky"
+    | "youtube"
+    | "giphy"
+    | "tenor"
+    | "klipy"
+    | "external"
 ): tenant is Omit<Tenant, "media"> & Required<Pick<Tenant, "media">> {
   switch (type) {
     case "external":
@@ -130,6 +137,12 @@ export function supportsMediaType(
         !!tenant.media?.gifs?.enabled &&
         !!tenant.media.gifs.key &&
         tenant.media.gifs.provider === GQLGIF_MEDIA_SOURCE.TENOR
+      );
+    case "klipy":
+      return (
+        !!tenant.media?.gifs?.enabled &&
+        !!tenant.media.gifs.key &&
+        tenant.media.gifs.provider === GQLGIF_MEDIA_SOURCE.KLIPY
       );
   }
 }

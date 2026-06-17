@@ -108,6 +108,7 @@ export const oembedProviderHandler = ({
           mediaUrl,
           giphyMedia,
           tenorMedia,
+          klipyMedia,
           externalMediaUrl,
           simpleEmbedMediaUrl,
         } = await getCommentEmbedData(mongo, comment, tenant.id);
@@ -160,6 +161,7 @@ export const oembedProviderHandler = ({
           staticRoot: staticURI || tenantURL,
           giphyMedia,
           tenorMedia,
+          klipyMedia,
           sanitized,
           replyMessage,
           goToConversationMessage,

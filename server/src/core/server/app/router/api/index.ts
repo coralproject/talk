@@ -35,6 +35,7 @@ import { createCommentRouter } from "./comment";
 import { createDashboardRouter } from "./dashboard";
 import { createDSAReportRouter } from "./dsaReport";
 import { createNewInstallRouter } from "./install";
+import { createKlipyRouter } from "./klipy";
 import { createRemoteMediaRouter } from "./remoteMedia";
 import { createStoryRouter } from "./story";
 import { createTenorRouter } from "./tenor";
@@ -125,6 +126,13 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
     corsWhitelisted(app.mongo),
     authenticate(options.passport),
     createTenorRouter(app)
+  );
+
+  router.use(
+    "/klipy",
+    corsWhitelisted(app.mongo),
+    authenticate(options.passport),
+    createKlipyRouter(app)
   );
 
   router.use(

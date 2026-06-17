@@ -464,6 +464,7 @@ configure-general-embedLinks-gifProvider-desc =
 
 configure-general-embedLinks-gifs-provider-Giphy = Giphy
 configure-general-embedLinks-gifs-provider-Tenor = Tenor
+configure-general-embedLinks-gifs-provider-Klipy = Klipy
 
 configure-general-embedLinks-configuration-desc =
 configure-general-embedLinks-configuration-giphy-desc =
@@ -474,6 +475,9 @@ configure-general-embedLinks-configuration-tenor-desc =
   For additional information on TENOR’s API please visit: <externalLink>https://developers.google.com/tenor/guides/endpoints</externalLink>
 configure-general-embedLinks-tenorAPIKey = TENOR API key
 
+configure-general-embedLinks-configuration-klipy-desc =
+  For additional information on KLIPY’s API please visit: <externalLink>https://klipy.com/api-overview#overview</externalLink>
+configure-general-embedLinks-klipyAPIKey = KLIPY API key
 
 #### Configure Announcements
 

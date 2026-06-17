@@ -5,6 +5,7 @@ import {
   BlueskyMedia,
   ExternalMedia,
   GiphyMedia,
+  KlipyMedia,
   TenorMedia,
   TwitterMedia,
   YouTubeMedia,
@@ -14,6 +15,7 @@ import {
   ratingIsAllowed,
   retrieveFromGiphy,
 } from "coral-server/services/giphy";
+import { retrieveFromKlipy } from "coral-server/services/klipy";
 import { fetchOEmbedResponse } from "coral-server/services/oembed";
 import { retrieveFromTenor } from "coral-server/services/tenor";
 
@@ -82,6 +84,36 @@ async function attachTenorMedia(
       throw new Error("cannot attach Tenor Media");
     }
     throw new WrappedInternalError(err, "cannot attach Tenor Media");
+  }
+}
+
+async function attachKlipyMedia(
+  tenant: Tenant,
+  id: string,
+  url: string
+): Promise<KlipyMedia | undefined> {
+  const { results } = await retrieveFromKlipy(tenant, id);
+  if (!results || !(results.length === 1)) {
+    return;
+  }
+  const data = results[0];
+  try {
+    // Return the formed Klipy Media.
+    return {
+      type: "klipy",
+      id,
+      url,
+      title: data.title,
+      still: data.media_formats.preview.url,
+      width: data.media_formats.preview.dims[0],
+      height: data.media_formats.preview.dims[1],
+      video: data.media_formats.mp4.url,
+    };
+  } catch (err) {
+    if (!(err instanceof Error)) {
+      throw new Error("cannot attach Klipy Media");
+    }
+    throw new WrappedInternalError(err, "cannot attach Klipy Media");
   }
 }
 
@@ -182,7 +214,14 @@ async function attachOEmbedMedia(
 }
 
 export interface CreateCommentMediaInput {
-  type: "giphy" | "tenor" | "twitter" | "bluesky" | "youtube" | "external";
+  type:
+    | "giphy"
+    | "tenor"
+    | "klipy"
+    | "twitter"
+    | "bluesky"
+    | "youtube"
+    | "external";
   url: string;
   id?: string;
   width?: string;
@@ -215,6 +254,13 @@ export async function attachMedia(
       }
 
       return attachTenorMedia(tenant, input.id, input.url);
+    case "klipy":
+      if (!input.id) {
+        throw new Error(
+          "id is required when attaching a KlipyMedia object to a comment"
+        );
+      }
+      return attachKlipyMedia(tenant, input.id, input.url);
     case "external":
       return attachExternalMedia(input.url, input.width, input.height);
     case "twitter":

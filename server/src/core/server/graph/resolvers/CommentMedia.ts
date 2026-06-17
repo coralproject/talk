@@ -10,6 +10,8 @@ const resolveType: GQLCommentMediaTypeResolver<comment.CommentMedia> = (
       return "GiphyMedia";
     case "tenor":
       return "TenorMedia";
+    case "klipy":
+      return "KlipyMedia";
     case "youtube":
       return "YouTubeMedia";
     case "twitter":

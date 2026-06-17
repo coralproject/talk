@@ -55,6 +55,11 @@ function getMediaFromComment(comment: CommentData) {
         type: "tenor",
         url: comment.revision.media.url,
       };
+    case "KlipyMedia":
+      return {
+        type: "klipy",
+        url: comment.revision.media.url,
+      };
     case "TwitterMedia":
       return {
         type: "twitter",
@@ -209,6 +214,10 @@ const enhanced = withEditCommentMutation(
               video
             }
             ... on TenorMedia {
+              url
+              title
+            }
+            ... on KlipyMedia {
               url
               title
             }
