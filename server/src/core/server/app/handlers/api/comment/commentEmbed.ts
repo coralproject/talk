@@ -124,6 +124,7 @@ export const commentEmbedJSONPHandler =
           mediaUrl,
           giphyMedia,
           tenorMedia,
+          klipyMedia,
           externalMediaUrl,
         } = await getCommentEmbedData(mongo, comment, tenant.id);
 
@@ -159,6 +160,7 @@ export const commentEmbedJSONPHandler =
           staticRoot: staticURI || tenantURL,
           giphyMedia,
           tenorMedia,
+          klipyMedia,
           tenantURL,
           sanitized,
           replyMessage,

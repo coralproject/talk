@@ -24,6 +24,7 @@ import {
   ExternalMedia,
   getLatestRevision,
   GiphyMedia,
+  KlipyMedia,
   retrieveComment,
   TenorMedia,
   TwitterMedia,
@@ -163,6 +164,7 @@ export default async function edit(
   let media:
     | GiphyMedia
     | TenorMedia
+    | KlipyMedia
     | TwitterMedia
     | BlueskyMedia
     | YouTubeMedia

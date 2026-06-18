@@ -15,6 +15,7 @@ const hasMediaAttached: Condition = (value, values) =>
   !!values.media &&
   (values.media.type === "giphy" ||
     values.media.type === "tenor" ||
+    values.media.type === "klipy" ||
     values.media.type === "external") &&
   !!values.media.url;
 

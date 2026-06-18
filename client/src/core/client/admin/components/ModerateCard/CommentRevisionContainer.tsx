@@ -74,6 +74,16 @@ const CommentRevisionContainer: FunctionComponent<Props> = ({ comment }) => {
                 url={c.media.url}
               />
             )}
+            {c.media && c.media.__typename === "KlipyMedia" && (
+              <GifMedia
+                still={c.media.klipyStill}
+                video={c.media.klipyVideo}
+                title={c.media.title}
+                width={c.media.width}
+                height={c.media.height}
+                url={c.media.url}
+              />
+            )}
           </div>
         ))}
     </HorizontalGutter>
@@ -111,6 +121,14 @@ const enhanced = withFragmentContainer<Props>({
             height
             tenorStill: still
             tenorVideo: video
+          }
+          ... on KlipyMedia {
+            url
+            title
+            width
+            height
+            klipyStill: still
+            klipyVideo: video
           }
           ... on TwitterMedia {
             url
