@@ -71,7 +71,8 @@ export const repeatPost: IntermediateModerationPhase = async ({
       similarity = false;
     } else if (
       supportsMediaType(tenant, "giphy") ||
-      supportsMediaType(tenant, "tenor")
+      supportsMediaType(tenant, "tenor") ||
+      supportsMediaType(tenant, "klipy")
     ) {
       // gifs are enabled. If the medias are the same, then this is a repeat
       // comment otherwise they are not.
@@ -87,11 +88,14 @@ export const repeatPost: IntermediateModerationPhase = async ({
         // object.
         lastCommentRevision.media &&
         (lastCommentRevision.media.type === "giphy" ||
-          lastCommentRevision.media.type === "tenor") &&
+          lastCommentRevision.media.type === "tenor" ||
+          lastCommentRevision.media.type === "klipy") &&
         // Check to see if the current comment revision has a Giphy/Tenor Media
         // object.
         media &&
-        (media.type === "giphy" || media.type === "tenor") &&
+        (media.type === "giphy" ||
+          media.type === "tenor" ||
+          media.type === "klipy") &&
         // Check to see if the media id's are the same.
         lastCommentRevision.media.id === media.id
       ) {
@@ -102,7 +106,7 @@ export const repeatPost: IntermediateModerationPhase = async ({
         similarity = false;
       }
     } else {
-      // Body text was the same and Giphy/Tenor support was not enabled.
+      // Body text was the same and Giphy/Tenor/Klipy support was not enabled.
       similarity = true;
     }
 

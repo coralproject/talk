@@ -14,6 +14,7 @@ import {
   TwitterMedia,
   YouTubeMedia,
 } from "coral-stream/common/Media";
+import KlipyMedia from "coral-stream/common/Media/KlipyMedia";
 import TenorMedia from "coral-stream/common/Media/TenorMedia";
 import {
   AddIcon,
@@ -125,6 +126,9 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
         {media.__typename === "TenorMedia" && (
           <Localized id="comments-embedLinks-show-gif">Show GIF</Localized>
         )}
+        {media.__typename === "KlipyMedia" && (
+          <Localized id="comments-embedLinks-show-gif">Show GIF</Localized>
+        )}
       </Button>
     );
   }
@@ -159,6 +163,9 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
             <Localized id="comments-embedLinks-hide-gif">Hide GIF</Localized>
           )}
           {media.__typename === "TenorMedia" && (
+            <Localized id="comments-embedLinks-hide-gif">Hide GIF</Localized>
+          )}
+          {media.__typename === "KlipyMedia" && (
             <Localized id="comments-embedLinks-hide-gif">Hide GIF</Localized>
           )}
           {media.__typename === "YouTubeMedia" && (
@@ -215,6 +222,7 @@ const MediaSectionContainer: FunctionComponent<Props> = ({
         />
       )}
       {media.__typename === "TenorMedia" && <TenorMedia url={media.url} />}
+      {media.__typename === "KlipyMedia" && <KlipyMedia url={media.url} />}
     </HorizontalGutter>
   );
 };
@@ -237,6 +245,9 @@ const enhanced = withFragmentContainer<Props>({
             video
           }
           ... on TenorMedia {
+            url
+          }
+          ... on KlipyMedia {
             url
           }
           ... on TwitterMedia {

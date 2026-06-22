@@ -19,6 +19,7 @@ import ExternalImageInput from "../../ExternalImageInput";
 import { GifResult } from "../../GifGrid";
 import GiphyInput, { GifPreview } from "../../GiphyInput";
 import { getMediaValidators } from "../../helpers";
+import KlipyInput from "../../KlipyInput/KlipyInput";
 import TenorInput from "../../TenorInput/TenorInput";
 
 export type Widget = "gifs" | "external" | null;
@@ -41,7 +42,14 @@ interface Props {
 
 interface Media {
   id?: string;
-  type: "giphy" | "tenor" | "twitter" | "bluesky" | "youtube" | "external";
+  type:
+    | "giphy"
+    | "tenor"
+    | "klipy"
+    | "twitter"
+    | "bluesky"
+    | "youtube"
+    | "external";
   url: string;
   width?: string;
   height?: string;
@@ -78,6 +86,18 @@ const MediaField: FunctionComponent<Props> = ({
     (gif: GifResult) => {
       onChange({
         type: "tenor",
+        id: gif.id,
+        url: gif.url,
+      });
+      setWidget(null);
+    },
+    [onChange, setWidget]
+  );
+
+  const onKlipySelect = useCallback(
+    (gif: GifResult) => {
+      onChange({
+        type: "klipy",
         id: gif.id,
         url: gif.url,
       });
@@ -180,6 +200,9 @@ const MediaField: FunctionComponent<Props> = ({
             )}
             {gifConfig.provider === GQLGIF_MEDIA_SOURCE.TENOR && (
               <TenorInput onSelect={onTenorSelect} />
+            )}
+            {gifConfig.provider === GQLGIF_MEDIA_SOURCE.KLIPY && (
+              <KlipyInput onSelect={onKlipySelect} />
             )}
           </>
         )

@@ -78,6 +78,17 @@ const MediaContainer: FunctionComponent<Props> = ({ comment }) => {
           url={media.url}
         />
       );
+    case "KlipyMedia":
+      return (
+        <GifMedia
+          still={media.klipyStill}
+          video={media.klipyVideo}
+          title={media.title}
+          width={media.width}
+          height={media.height}
+          url={media.url}
+        />
+      );
     case "%other":
       return null;
   }
@@ -108,6 +119,14 @@ const enhanced = withFragmentContainer<Props>({
             height
             tenorStill: still
             tenorVideo: video
+          }
+          ... on KlipyMedia {
+            url
+            title
+            width
+            height
+            klipyStill: still
+            klipyVideo: video
           }
           ... on TwitterMedia {
             url

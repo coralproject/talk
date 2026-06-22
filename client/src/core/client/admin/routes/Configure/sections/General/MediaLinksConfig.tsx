@@ -201,6 +201,21 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                     </>
                   )}
                 </Field>
+                <Field name="media.gifs.provider" type="radio" value="KLIPY">
+                  {({ input }) => (
+                    <>
+                      <Localized id="configure-general-embedLinks-gifs-provider-Klipy">
+                        <RadioButton
+                          {...input}
+                          id="KLIPY"
+                          disabled={gifsDisabled || disabled}
+                        >
+                          Klipy
+                        </RadioButton>
+                      </Localized>
+                    </>
+                  )}
+                </Field>
               </FormField>
               <FormField>
                 <Localized id="configure-general-embedLinks-giphyMaxRating">
@@ -342,6 +357,24 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                 </Localized>
               )}
 
+              {provider === GQLGIF_MEDIA_SOURCE.KLIPY && (
+                <Localized
+                  id="configure-general-embedLinks-configuration-klipy-desc"
+                  elems={{
+                    externalLink: (
+                      <ExternalLink
+                        href={"https://klipy.com/api-overview#overview"}
+                      />
+                    ),
+                  }}
+                >
+                  <HelperText>
+                    For additional information on KLIPY’s API please visit:
+                    https://klipy.com/api-overview#overview
+                  </HelperText>
+                </Localized>
+              )}
+
               <FormField>
                 {provider === GQLGIF_MEDIA_SOURCE.GIPHY && (
                   <Localized id="configure-general-embedLinks-giphyAPIKey">
@@ -351,6 +384,11 @@ const MediaLinksConfig: FunctionComponent<Props> = ({ disabled }) => {
                 {provider === GQLGIF_MEDIA_SOURCE.TENOR && (
                   <Localized id="configure-general-embedLinks-tenorAPIKey">
                     <Label>TENOR API Key</Label>
+                  </Localized>
+                )}
+                {provider === GQLGIF_MEDIA_SOURCE.KLIPY && (
+                  <Localized id="configure-general-embedLinks-klipyAPIKey">
+                    <Label>KLIPY API Key</Label>
                   </Localized>
                 )}
 
