@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { PropTypesOf } from "coral-framework/types";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
+import BskyConfigContainer from "./BskyConfigContainer";
 import FacebookConfigContainer from "./FacebookConfigContainer";
 import GoogleConfigContainer from "./GoogleConfigContainer";
 import LocalAuthConfigContainer from "./LocalAuthConfigContainer";
@@ -11,7 +12,8 @@ import SSOConfigContainer from "./SSOConfigContainer";
 
 interface Props {
   disabled?: boolean;
-  auth: PropTypesOf<typeof FacebookConfigContainer>["auth"] &
+  auth: PropTypesOf<typeof BskyConfigContainer>["auth"] &
+    PropTypesOf<typeof FacebookConfigContainer>["auth"] &
     PropTypesOf<typeof GoogleConfigContainer>["auth"] &
     PropTypesOf<typeof SSOConfigContainer>["auth"] &
     PropTypesOf<typeof OIDCConfigContainer>["auth"];
@@ -27,6 +29,7 @@ const AuthIntegrationsConfig: FunctionComponent<Props> = ({
     <SSOConfigContainer disabled={disabled} auth={auth} />
     <GoogleConfigContainer disabled={disabled} auth={auth} />
     <FacebookConfigContainer disabled={disabled} auth={auth} />
+    <BskyConfigContainer disabled={disabled} auth={auth} />
   </HorizontalGutter>
 );
 
