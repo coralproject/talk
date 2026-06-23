@@ -1,3 +1,6 @@
 .klipyMedia {
-  maxwidth: 100px;
+}
+
+.klipyMediaImage {
+  max-width: 100%;
 }
