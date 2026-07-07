@@ -1,5 +1,4 @@
 import Joi from "joi";
-import fetch from "node-fetch";
 
 import { SearchPayload } from "coral-common/common/lib/types/tenor";
 import { AppOptions } from "coral-server/app/";

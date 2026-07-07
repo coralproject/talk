@@ -60,6 +60,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@ampproject/toolbox-cache-url": "^2.9.0",
+    "@atproto/syntax": "^0.3.3",
     "@coralproject/bunyan-prettystream": "^0.1.4",
     "@fluent/bundle": "^0.15.1",
     "@fluent/dom": "^0.7.0",

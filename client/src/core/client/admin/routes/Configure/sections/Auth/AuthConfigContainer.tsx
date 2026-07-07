@@ -50,6 +50,7 @@ const AuthConfigContainer: FunctionComponent<Props> = ({
     const integrations = [
       data.auth.integrations.google,
       data.auth.integrations.facebook,
+      data.auth.integrations.bsky,
       data.auth.integrations.sso,
       data.auth.integrations.local,
       data.auth.integrations.oidc,
@@ -122,6 +123,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   auth: graphql`
     fragment AuthConfigContainer_auth on Auth {
+      ...BskyConfig_formValues @relay(mask:false)
       ...FacebookConfig_formValues @relay(mask: false)
       ...GoogleConfig_formValues @relay(mask: false)
       ...SSOConfig_formValues @relay(mask: false)
@@ -130,6 +132,7 @@ const enhanced = withFragmentContainer<Props>({
       ...SessionConfig_formValues @relay(mask: false)
 
       ...FacebookConfigContainer_auth
+      ...BskyConfigContainer_auth
       ...GoogleConfigContainer_auth
       ...SSOConfigContainer_auth
       ...OIDCConfigContainer_auth

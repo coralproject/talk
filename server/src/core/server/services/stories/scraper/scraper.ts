@@ -4,7 +4,7 @@ import authorScraper from "metascraper-author";
 import descriptionScraper from "metascraper-description";
 import imageScraper from "metascraper-image";
 import titleScraper from "metascraper-title";
-import { ProxyAgent } from "proxy-agent";
+// import { ProxyAgent } from "proxy-agent";
 
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -93,7 +93,7 @@ class Scraper {
   }: ScrapeOptions) {
     const log = this.log.child({ storyURL: url }, true);
 
-    const options: FetchOptions = { method: "GET", timeout, size };
+    const options: FetchOptions = { method: "GET", timeout };
     if (customUserAgent) {
       options.headers = {
         ...options.headers,
@@ -109,7 +109,7 @@ class Scraper {
     }
 
     if (proxyURL) {
-      options.agent = new ProxyAgent({ getProxyForUrl: () => proxyURL });
+      // options.agent = new ProxyAgent({ getProxyForUrl: () => proxyURL });
 
       log.debug("using proxy for scrape");
     }
