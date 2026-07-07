@@ -155,7 +155,9 @@ export class ExternalNotificationsService {
   private computeSnippetFromComment(comment: Comment): string {
     const latestRevision = getLatestRevision(comment);
     const formatted = convert(latestRevision.body);
-    const split = formatted.split(/(\s+)/);
+
+    // Split by whitespace, filter out empty elements
+    const split = formatted.split(/\s+/).filter(Boolean);
 
     if (split.length < 50) {
       return split.join(" ");
