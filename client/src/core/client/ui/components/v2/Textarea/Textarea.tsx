@@ -12,9 +12,11 @@ const Textarea: FunctionComponent<Props> = ({
   className,
   children,
   fullwidth,
+  dir,
   ...rest
 }) => (
   <textarea
+    dir={dir || "auto"}
     {...rest}
     className={cn(
       styles.root,

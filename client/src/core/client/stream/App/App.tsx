@@ -7,6 +7,8 @@ import CLASSES from "coral-stream/classes";
 import NotificationsQuery from "coral-stream/tabs/Notifications/NotificationsQuery";
 import { HorizontalGutter, TabContent, TabPane } from "coral-ui/components/v2";
 
+import { useUIContext } from "coral-ui/components/v2/UIContext/UIContext";
+
 import Comments from "../tabs/Comments";
 import Configure from "../tabs/Configure";
 import Discussions from "../tabs/Discussions";
@@ -20,6 +22,26 @@ type TabValue = "COMMENTS" | "PROFILE" | "DISCUSSIONS" | "%future added value";
 export interface AppProps {
   activeTab: TabValue;
 }
+
+const ShadowDirSync: FunctionComponent = () => {
+  const { dir } = useUIContext();
+  const ref = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (ref.current && dir) {
+      const rootNode = ref.current.getRootNode() as ShadowRoot | Document;
+      if (rootNode) {
+        const coralDiv = rootNode.querySelector("#coral");
+        if (coralDiv) {
+          coralDiv.setAttribute("dir", dir);
+        }
+        if ("host" in rootNode && rootNode.host) {
+          (rootNode.host as HTMLElement).setAttribute("dir", dir);
+        }
+      }
+    }
+  }, [dir]);
+  return <div ref={ref} style={{ display: "none" }} data-testid="shadow-dir-sync" />;
+};
 
 const App: FunctionComponent<AppProps> = (props) => {
   const { browserInfo } = useCoralContext();
@@ -35,6 +57,7 @@ const App: FunctionComponent<AppProps> = (props) => {
         container="main"
         aria-label="Comments Embed"
       >
+        <ShadowDirSync />
         <Localized id="general-mainTablist" attrs={{ "aria-label": true }}>
           <nav aria-label="Main Tablist">
             <TabBarQuery />

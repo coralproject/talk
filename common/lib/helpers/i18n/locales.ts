@@ -43,3 +43,6 @@ export const LOCALES_MAP: Record<LanguageCode, string> = {
 export const LOCALES: LanguageCode[] = Object.keys(
   LOCALES_MAP
 ) as LanguageCode[];
+
+export * from "./direction";
+

@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 
+import { useUIContext } from "../components/v2/UIContext/UIContext";
 import { withForwardRef } from "../hocs";
 import DivWithWindowBreakpointClasses from "./DivWithWindowBreakpointClasses";
 
@@ -16,8 +17,14 @@ const CoralWindowContainer: FunctionComponent<Props> = ({
   forwardRef,
   ...rest
 }) => {
+  const { dir } = useUIContext();
   return (
-    <DivWithWindowBreakpointClasses ref={forwardRef} {...rest} id="coral" />
+    <DivWithWindowBreakpointClasses
+      ref={forwardRef}
+      {...rest}
+      id="coral"
+      dir={dir}
+    />
   );
 };
 

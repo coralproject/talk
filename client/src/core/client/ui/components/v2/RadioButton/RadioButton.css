@@ -83,3 +83,13 @@
 .input:checked:disabled + .label:after {
   background: var(--palette-background-input-disabled);
 }
+
+:global([dir="rtl"]) .input + .label:before {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+:global([dir="rtl"]) .input:checked + .label:after {
+  left: auto;
+  right: 3px;
+}

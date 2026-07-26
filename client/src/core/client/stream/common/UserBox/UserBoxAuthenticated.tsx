@@ -19,7 +19,7 @@ const UserBoxAuthenticated: FunctionComponent<UserBoxAuthenticatedProps> = (
 ) => {
   const Username = () => (
     <div className={cn(CLASSES.viewerBox.username, styles.username)}>
-      {props.username}
+      <bdi>{props.username}</bdi>
     </div>
   );
 

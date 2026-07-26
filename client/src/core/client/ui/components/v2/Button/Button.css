@@ -715,3 +715,25 @@ $button-text-stream-foreground-active: var(--palette-primary-700);
 .underline {
   text-decoration: underline;
 }
+
+:global([dir="rtl"]) .root {
+  & > * {
+    margin: 0 0 0 var(--spacing-1);
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+
+  &.iconLeft i,
+  &.iconLeft svg,
+  &.iconLeft span {
+    padding-right: 0;
+    padding-left: var(--spacing-1);
+  }
+
+  &.iconRight i,
+  &.iconRight span {
+    padding-left: 0;
+    padding-right: var(--spacing-1);
+  }
+}

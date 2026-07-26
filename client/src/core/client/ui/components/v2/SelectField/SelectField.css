@@ -77,3 +77,13 @@
 .afterWrapperDisabled {
   color: var(--palette-text-500);
 }
+
+:global([dir="rtl"]) .afterWrapper {
+  right: auto !important;
+  left: var(--spacing-2) !important;
+}
+
+:global([dir="rtl"]) .select {
+  padding-right: var(--spacing-3) !important;
+  padding-left: var(--spacing-6) !important;
+}
