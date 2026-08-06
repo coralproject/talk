@@ -115,8 +115,9 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
     void approve({
       commentID: comment.id,
       commentRevisionID: comment.revision.id,
+      storyID: story.id,
     });
-  }, [approve, comment]);
+  }, [approve, comment, story]);
   const onReject = useCallback(async () => {
     if (!comment.revision) {
       return;

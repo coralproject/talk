@@ -1035,6 +1035,32 @@ export async function addCommentTag(
   return result;
 }
 
+/**
+ * hasExpertReply will determine if a Comment has a direct reply by a story
+ * expert. In Q&A this is what makes a question answered. The reply's status is
+ * deliberately not considered, because a question is marked as answered when
+ * the answer is written rather than when it is published.
+ * @param mongo is the mongo context.
+ * @param tenantID is the filtering tenant for this operation.
+ * @param comment is the question we are looking for an answer to.
+ */
+export async function hasExpertReply(
+  mongo: MongoContext,
+  tenantID: string,
+  comment: Pick<Comment, "id" | "storyID">
+) {
+  const filter: FilterQuery<Comment> = {
+    tenantID,
+    storyID: comment.storyID,
+    parentID: comment.id,
+    "tags.type": GQLTAG.EXPERT,
+  };
+
+  const reply = await mongo.comments().findOne(filter);
+
+  return !!reply;
+}
+
 export async function removeCommentTag(
   mongo: MongoContext,
   tenantID: string,
