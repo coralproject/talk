@@ -77,6 +77,17 @@ docker-compose up -d
 
 Then head on over to http://localhost:5000 to install Coral!
 
+### Easypanel
+
+Coral has a one-click deployment template on [Easypanel](https://easypanel.io), a self-hosted Docker deployment platform:
+
+[![Deploy on Easypanel][easypanel-btn]][easypanel-deploy]
+
+[easypanel-btn]: https://easypanel.io/img/deploy-on-easypanel-40.svg
+[easypanel-deploy]: https://easypanel.io/templates/coralproject
+
+![Coral running in the Easypanel dashboard after a one-click deploy](/img/easypanel-deploy.png)
+
 ### Source
 
 Coral requires NodeJS >=14, we recommend using `nvm` to help manage node
