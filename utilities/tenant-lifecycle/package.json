@@ -1,0 +1,23 @@
+{
+  "name": "coral-tenant-lifecycle",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Archive, verify, and purge a Coral tenant from shared MongoDB databases",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "start": "npm run build && node dist/main.js",
+    "test": "npm run build && node --test dist/*.test.js"
+  },
+  "engines": {
+    "node": ">=18.16.0"
+  },
+  "dependencies": {
+    "mongodb": "^6.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "mongodb-memory-server": "^10.1.3",
+    "typescript": "^5.2.2"
+  }
+}
