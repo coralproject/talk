@@ -1286,10 +1286,11 @@ function enabledAuthenticationIntegrations(
 
   return integrations.filter((key) => {
     // Get the filter and enabled status for the integration.
-    const { enabled, targetFilter } = tenant.auth.integrations[key];
-    if (!enabled) {
+    const integration = tenant.auth.integrations[key];
+    if (!integration || !integration.enabled) {
       return false;
     }
+    const { targetFilter } = integration;
 
     // If the target was specified, then filter for that target.
     if (target) {

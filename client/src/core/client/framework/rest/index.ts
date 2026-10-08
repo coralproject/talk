@@ -7,3 +7,4 @@ export {
   ForgotPasswordInput,
 } from "./forgotPassword";
 export { default as linkAccount, LinkAccountInput } from "./linkAccount";
+export { default as postAtprotoApiAuth, AtprotoHandleInput } from "./atproto";

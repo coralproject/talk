@@ -85,7 +85,8 @@ export function hasEnabledAuthIntegration(
     return true;
   }
 
-  return tenant.auth.integrations[integration].enabled;
+  // Integrations added after a tenant was created (like atproto) can be absent.
+  return tenant.auth.integrations[integration]?.enabled ?? false;
 }
 
 export function linkUsersAvailable(
@@ -94,7 +95,8 @@ export function linkUsersAvailable(
 ) {
   return (
     hasEnabledAuthIntegration(config, tenant, "local") &&
-    (hasEnabledAuthIntegration(config, tenant, "facebook") ||
+    (hasEnabledAuthIntegration(config, tenant, "atproto") ||
+      hasEnabledAuthIntegration(config, tenant, "facebook") ||
       hasEnabledAuthIntegration(config, tenant, "google"))
   );
 }
