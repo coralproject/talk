@@ -69,7 +69,6 @@
     "@rudderstack/rudder-sdk-node": "1.1.4",
     "@sentry/integrations": "^6.19.7",
     "@types/url-regex-safe": "^1.0.0",
-    "actor-typeahead": "^0.1.2",
     "bunyan": "^1.8.12",
     "convict": "^6.2.3",
     "coral-common": "../common/dist",

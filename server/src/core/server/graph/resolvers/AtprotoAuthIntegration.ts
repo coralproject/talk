@@ -8,5 +8,8 @@ import { reconstructTenantURLResolver } from "./util";
 export const AtprotoAuthIntegration: GQLAtprotoAuthIntegrationTypeResolver<GQLAtprotoAuthIntegration> =
   {
     callbackURL: reconstructTenantURLResolver("/api/auth/atproto/callback"),
+    clientMetadataURL: reconstructTenantURLResolver(
+      "/api/auth/atproto/clientmetadata.json"
+    ),
     authURL: reconstructTenantURLResolver("/api/auth/atproto"),
   };

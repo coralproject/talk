@@ -48,7 +48,17 @@ export function storeState(
   return key;
 }
 
-export function verifyState(req: Request, res: Response, secure: boolean) {
+/**
+ * verifyState checks the state cookie against the state key, which comes from
+ * the request's `state` query parameter unless `stateKey` is provided (for
+ * flows like atproto where a library owns the `state` parameter).
+ */
+export function verifyState(
+  req: Request,
+  res: Response,
+  secure: boolean,
+  stateKey?: string
+) {
   // Get the state from the cookie that's on the request.
   const header = req.headers.cookie;
   if (typeof header !== "string" || header.length === 0) {
@@ -79,8 +89,8 @@ export function verifyState(req: Request, res: Response, secure: boolean) {
     throw new Error("state data is corrupted");
   }
 
-  // Get the nonce that's stored on the query.
-  const { state: key } = req.query;
+  // Get the nonce that's stored on the query, unless one was provided.
+  const key = stateKey ?? req.query.state;
   if (!key || typeof key !== "string") {
     throw new Error("missing state parameter");
   }

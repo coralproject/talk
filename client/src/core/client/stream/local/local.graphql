@@ -42,6 +42,11 @@ type AuthPopup {
   open: Boolean!
   focus: Boolean!
   view: VIEW
+  """
+  handoffID lets the popup pass its token back through the server when it
+  loses window.opener. A new one is made each time the popup opens.
+  """
+  handoffID: String
 }
 
 type KeyboardShortcutsConfig {

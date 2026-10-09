@@ -20,6 +20,7 @@ const AtprotoConfigContainer: React.FunctionComponent<Props> = ({
     <AtprotoConfig
       disabled={disabled}
       callbackURL={auth.integrations.atproto.callbackURL}
+      clientMetadataURL={auth.integrations.atproto.clientMetadataURL}
     />
   );
 };
@@ -30,6 +31,7 @@ const enhanced = withFragmentContainer<Props>({
       integrations {
         atproto {
           callbackURL
+          clientMetadataURL
         }
       }
     }

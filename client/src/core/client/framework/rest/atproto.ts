@@ -6,12 +6,13 @@ export interface AtprotoHandleInput {
 
 /**
  * postAtprotoApiAuth sends a validated handle to the tenant's atproto auth
- * endpoint. It resolves to a form error when the request fails, so the form
- * can show it, and to undefined on success.
+ * endpoint, then sends the browser to the authorization URL it replies with.
+ * It resolves to a form error when the request fails, so the form can show it.
  */
 export default async function postAtprotoApiAuth(
   input: AtprotoHandleInput,
-  authPath: string
+  authPath: string,
+  window: Window
 ) {
   let resp: Response;
   try {
@@ -44,5 +45,17 @@ export default async function postAtprotoApiAuth(
     return { [FORM_ERROR]: message };
   }
 
+  let url: unknown;
+  try {
+    ({ url } = await resp.json());
+  } catch (err) {
+    // Handled below.
+  }
+  if (typeof url !== "string" || !url.startsWith("https://")) {
+    return { [FORM_ERROR]: "Sign in failed, please try again." };
+  }
+
+  // Leave the page for the user's authorization server.
+  window.location.href = url;
   return undefined;
 }

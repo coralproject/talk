@@ -1093,14 +1093,16 @@ type AtprotoAuthIntegration {
   targetFilter: AuthenticationTargetFilter!
 
   """
-  clientID is the Client Identifier as configured in the Admin Console.
+  clientName is the name shown to users on their authorization server's
+  consent screen. When not set, the organization name is used.
   """
-  clientID: String @auth(roles: [ADMIN])
+  clientName: String @auth(roles: [ADMIN])
 
   """
-  clientSecret is the Client Secret as configured in the Admin Console.
+  logoURI is the URL of a logo shown to users on their authorization server's
+  consent screen.
   """
-  clientSecret: String @auth(roles: [ADMIN])
+  logoURI: String @auth(roles: [ADMIN])
 
   """
   callbackURL is the URL that the user should be redirected to in order to continue
@@ -1108,6 +1110,13 @@ type AtprotoAuthIntegration {
   the Tenant.
   """
   callbackURL: String! @auth(roles: [ADMIN])
+
+  """
+  clientMetadataURL is the URL of this site's OAuth client metadata document,
+  which is also its client ID. This field is not stored, and is instead
+  computed from the Tenant.
+  """
+  clientMetadataURL: String! @auth(roles: [ADMIN])
 
   """
   redirectURL is always null for atproto, because the URL the user is sent to
@@ -6182,15 +6191,16 @@ input SettingsAtprotoAuthIntegrationInput {
   targetFilter: SettingsAuthenticationTargetFilterInput
 
   """
-  clientID is the Client Identifier as configured in the Admin Console
-  Console.
+  clientName is the name shown to users on their authorization server's
+  consent screen.
   """
-  clientID: String
+  clientName: String
 
   """
-  clientSecret is the Client Secret as configured in the Admin Console.
+  logoURI is the URL of a logo shown to users on their authorization server's
+  consent screen.
   """
-  clientSecret: String
+  logoURI: String
 }
 
 input SettingsAuthIntegrationsInput {

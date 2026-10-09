@@ -47,7 +47,7 @@ export type FacebookAuthIntegration = Omit<
 
 export type AtprotoAuthIntegration = Omit<
   GQLAtprotoAuthIntegration,
-  "callbackURL" | "redirectURL" | "authURL"
+  "callbackURL" | "redirectURL" | "authURL" | "clientMetadataURL"
 >;
 
 export interface SSOAuthIntegration extends SigningSecretResource {

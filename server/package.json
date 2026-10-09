@@ -54,6 +54,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@ampproject/toolbox-cache-url": "^2.9.0",
+    "@atproto/oauth-client-node": "~0.3.17",
     "@coralproject/bunyan-prettystream": "^0.1.4",
     "@fluent/bundle": "^0.15.1",
     "@fluent/dom": "^0.7.0",
@@ -147,6 +148,7 @@
     "striptags": "^3.2.0",
     "subscriptions-transport-ws": "^0.9.16",
     "tsscmp": "^1.0.6",
+    "undici": "^5.29.0",
     "url-regex-safe": "^2.0.2",
     "uuid": "^7.0.3",
     "verror": "^1.10.0"
@@ -350,7 +352,9 @@
   },
   "pnpm": {
     "overrides": {
-      "protobufjs": ">=7.2.4"
+      "protobufjs": ">=7.2.4",
+      "@atproto/oauth-client>core-js": "^3.38.0",
+      "@atproto/lex-data>core-js": "^3.38.0"
     }
   },
   "dependencies-pins-documentation": {

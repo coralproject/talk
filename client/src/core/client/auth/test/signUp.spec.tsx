@@ -300,6 +300,9 @@ describe("auth configuration", () => {
         settings: {
           auth: {
             integrations: {
+              atproto: {
+                enabled: false,
+              },
               facebook: {
                 enabled: false,
               },
@@ -318,6 +321,7 @@ describe("auth configuration", () => {
     expect(queryByText("facebook")).toBeNull();
     expect(queryByText("google")).toBeNull();
     expect(queryByText("oidc")).toBeNull();
+    expect(queryByText("Sign up with Atproto or Bluesky")).toBeNull();
   });
   it("renders all social login disabled for stream target", async () => {
     const { main } = await createTestRenderer({
@@ -325,6 +329,12 @@ describe("auth configuration", () => {
         settings: {
           auth: {
             integrations: {
+              atproto: {
+                enabled: true,
+                targetFilter: {
+                  stream: false,
+                },
+              },
               facebook: {
                 enabled: true,
                 targetFilter: {
@@ -352,6 +362,7 @@ describe("auth configuration", () => {
     expect(queryByText("facebook")).toBeNull();
     expect(queryByText("google")).toBeNull();
     expect(queryByText("oidc")).toBeNull();
+    expect(queryByText("Sign up with Atproto or Bluesky")).toBeNull();
   });
   it("renders all social login disabled by turning off registration", async () => {
     const { main } = await createTestRenderer({
@@ -359,6 +370,10 @@ describe("auth configuration", () => {
         settings: {
           auth: {
             integrations: {
+              atproto: {
+                enabled: true,
+                allowRegistration: false,
+              },
               facebook: {
                 enabled: true,
                 allowRegistration: false,
@@ -380,5 +395,6 @@ describe("auth configuration", () => {
     expect(queryByText("facebook")).toBeNull();
     expect(queryByText("google")).toBeNull();
     expect(queryByText("oidc")).toBeNull();
+    expect(queryByText("Sign up with Atproto or Bluesky")).toBeNull();
   });
 });

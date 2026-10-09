@@ -33,7 +33,8 @@ const SignInWithAtprotoContainer: FunctionComponent<Props> = ({ auth }) => {
         if (validHandle) {
           return await postAtprotoApiAuth(
             input as AtprotoHandleInput,
-            authPath
+            authPath,
+            window
           );
         } else {
           return { [FORM_ERROR]: "Invalid handle" };
@@ -42,7 +43,7 @@ const SignInWithAtprotoContainer: FunctionComponent<Props> = ({ auth }) => {
         return { [FORM_ERROR]: error.message };
       }
     },
-    [authPath]
+    [authPath, window]
   );
   return <SignInWithAtprotoForm onSubmit={onSubmit} />;
 };

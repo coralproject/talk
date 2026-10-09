@@ -55,7 +55,7 @@ const SignInWithAtprotoForm: FunctionComponent<SignInWithAtproto> = (props) => {
                       <TextField
                         {...input}
                         id={input.name}
-                        placeholder="immber.bsky.social"
+                        placeholder="yourname.bsky.social"
                         type="text"
                         color={streamColorFromMeta(meta)}
                         disabled={submitting}

@@ -2,18 +2,13 @@ import { Localized } from "@fluent/react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import {
-  Condition,
-  required,
-  validateWhen,
-} from "coral-framework/lib/validation";
-import { FormFieldDescription, TextLink } from "coral-ui/components/v2";
+import { validateURL } from "coral-framework/lib/validation";
+import { FormFieldDescription, Label, TextLink } from "coral-ui/components/v2";
 
 import Header from "../../Header";
 import HorizontalRule from "../../HorizontalRule";
-import ClientIDField from "./ClientIDField";
-import ClientSecretField from "./ClientSecretField";
 import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
+import LabeledTextField from "./LabeledTextField";
 import RedirectField from "./RedirectField";
 import RegistrationField from "./RegistrationField";
 import TargetFilterField from "./TargetFilterField";
@@ -29,8 +24,8 @@ graphql`
           admin
           stream
         }
-        clientID
-        clientSecret
+        clientName
+        logoURI
       }
     }
   }
@@ -39,6 +34,7 @@ graphql`
 interface Props {
   disabled?: boolean;
   callbackURL: string;
+  clientMetadataURL: string;
 }
 
 const AtprotoLink = () => (
@@ -47,10 +43,11 @@ const AtprotoLink = () => (
   </TextLink>
 );
 
-const isEnabled: Condition = (value, values) =>
-  Boolean(values.auth.integrations.atproto.enabled);
-
-const AtprotoConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
+const AtprotoConfig: FunctionComponent<Props> = ({
+  disabled,
+  callbackURL,
+  clientMetadataURL,
+}) => (
   <ConfigBoxWithToggleField
     data-testid="configure-auth-atproto-container"
     title={
@@ -68,23 +65,65 @@ const AtprotoConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
           elems={{ Link: <AtprotoLink />, br: <br /> }}
         >
           <FormFieldDescription>
-            Client ID is the name that will identify this ATproto oauth client
-            to users. For more information visit:
+            Users sign in with their ATproto or Bluesky handle. No client ID or
+            secret is needed, this site identifies itself with a client metadata
+            document. For more information visit:
             <br />
             {<AtprotoLink />}
           </FormFieldDescription>
         </Localized>
         <RedirectField url={callbackURL} />
-        <HorizontalRule />
-        <ClientIDField
-          name="auth.integrations.atproto.clientID"
-          validate={validateWhen(isEnabled, required)}
-          disabled={disabledInside}
+        <RedirectField
+          url={clientMetadataURL}
+          label={
+            <Localized id="configure-auth-atproto-clientMetadataURL">
+              <Label>Client ID (client metadata URL)</Label>
+            </Localized>
+          }
+          description={
+            <Localized id="configure-auth-atproto-clientMetadataURLDescription">
+              <FormFieldDescription>
+                Authorization servers identify this site by this URL. It must be
+                publicly reachable over HTTPS. Local development uses a loopback
+                client instead.
+              </FormFieldDescription>
+            </Localized>
+          }
         />
-        <ClientSecretField
-          name="auth.integrations.atproto.clientSecret"
-          validate={validateWhen(isEnabled, required)}
+        <HorizontalRule />
+        <LabeledTextField
+          name="auth.integrations.atproto.clientName"
           disabled={disabledInside}
+          label={
+            <Localized id="configure-auth-atproto-clientName">
+              <span>Client name</span>
+            </Localized>
+          }
+          description={
+            <Localized id="configure-auth-atproto-clientNameDescription">
+              <FormFieldDescription>
+                Shown to users when they approve signing in. Uses your
+                organization name when left empty.
+              </FormFieldDescription>
+            </Localized>
+          }
+        />
+        <LabeledTextField
+          name="auth.integrations.atproto.logoURI"
+          validate={validateURL}
+          disabled={disabledInside}
+          label={
+            <Localized id="configure-auth-atproto-logoURI">
+              <span>Logo URL</span>
+            </Localized>
+          }
+          description={
+            <Localized id="configure-auth-atproto-logoURIDescription">
+              <FormFieldDescription>
+                Optional. An image shown to users when they approve signing in.
+              </FormFieldDescription>
+            </Localized>
+          }
         />
         <TargetFilterField
           label={

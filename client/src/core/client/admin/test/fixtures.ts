@@ -167,6 +167,17 @@ export const settings = createFixture<GQLSettings>({
         callbackURL: "http://localhost/facebook/callback",
         redirectURL: "http://localhost/facebook",
       },
+      atproto: {
+        enabled: false,
+        allowRegistration: true,
+        targetFilter: {
+          admin: true,
+          stream: true,
+        },
+        callbackURL: "http://localhost/atproto/callback",
+        clientMetadataURL: "http://localhost/atproto/clientmetadata.json",
+        authURL: "http://localhost/atproto",
+      },
       oidc: {
         enabled: false,
         allowRegistration: false,
@@ -322,6 +333,17 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
           name: "",
           callbackURL: "http://localhost/oidc/callback",
           redirectURL: "http://localhost/oidc",
+        },
+        atproto: {
+          enabled: false,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          callbackURL: "http://localhost/atproto/callback",
+          clientMetadataURL: "http://localhost/atproto/clientmetadata.json",
+          authURL: "http://localhost/atproto",
         },
       },
     },
