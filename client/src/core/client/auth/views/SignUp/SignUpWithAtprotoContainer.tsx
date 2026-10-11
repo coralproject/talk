@@ -8,6 +8,10 @@ import { graphql } from "react-relay";
 
 import { SignUpWithAtprotoContainer_auth as AuthData } from "coral-auth/__generated__/SignUpWithAtprotoContainer_auth.graphql";
 import { REDIRECT_TO_PARAM } from "coral-common/common/lib/constants";
+import {
+  announceAuthHandoff,
+  getAuthHandoffID,
+} from "coral-framework/lib/auth/handoff";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { AtprotoHandleInput, postAtprotoApiAuth } from "coral-framework/rest";
@@ -18,7 +22,7 @@ interface Props {
 }
 
 const SignUpWithAtprotoContainer: FunctionComponent<Props> = ({ auth }) => {
-  const { window } = useCoralContext();
+  const { window, postMessage, sessionStorage } = useCoralContext();
   // grab user origin so we can send back when done with auth
   const redirectTo = window.location.pathname;
   // get /api/auth/atproto route for tenant's atproto integration
@@ -33,9 +37,15 @@ const SignUpWithAtprotoContainer: FunctionComponent<Props> = ({ auth }) => {
         const validHandle = isValidHandle(handle);
         if (validHandle) {
           return await postAtprotoApiAuth(
-            input as AtprotoHandleInput,
+            {
+              ...(input as AtprotoHandleInput),
+              handoff: await getAuthHandoffID(window, sessionStorage),
+            },
             authPath,
-            window
+            window,
+            // Lets the page wait for this popup's token, as the sign in page
+            // may cut this popup off from it (see the auth handoff).
+            () => announceAuthHandoff(window, postMessage, sessionStorage)
           );
         } else {
           return { [FORM_ERROR]: "Invalid handle" };
@@ -44,7 +54,7 @@ const SignUpWithAtprotoContainer: FunctionComponent<Props> = ({ auth }) => {
         return { [FORM_ERROR]: error.message };
       }
     },
-    [authPath, window]
+    [authPath, window, postMessage, sessionStorage]
   );
   return <SignUpWithAtprotoForm onSubmit={onSubmit} />;
 };

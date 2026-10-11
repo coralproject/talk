@@ -2,17 +2,22 @@ import { FORM_ERROR } from "final-form";
 
 export interface AtprotoHandleInput {
   handle: string;
+  /** The sign in popup's handoff ID, see the auth handoff. */
+  handoff?: string;
 }
 
 /**
  * postAtprotoApiAuth sends a validated handle to the tenant's atproto auth
  * endpoint, then sends the browser to the authorization URL it replies with.
- * It resolves to a form error when the request fails, so the form can show it.
+ * beforeRedirect runs just before leaving, while this window can still reach
+ * the page that opened it. It resolves to a form error when the request
+ * fails, so the form can show it.
  */
 export default async function postAtprotoApiAuth(
   input: AtprotoHandleInput,
   authPath: string,
-  window: Window
+  window: Window,
+  beforeRedirect?: () => Promise<void>
 ) {
   let resp: Response;
   try {
@@ -53,6 +58,10 @@ export default async function postAtprotoApiAuth(
   }
   if (typeof url !== "string" || !url.startsWith("https://")) {
     return { [FORM_ERROR]: "Sign in failed, please try again." };
+  }
+
+  if (beforeRedirect) {
+    await beforeRedirect();
   }
 
   // Leave the page for the user's authorization server.

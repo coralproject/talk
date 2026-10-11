@@ -3,6 +3,10 @@ import { REDIRECT_TO_PARAM } from "coral-common/common/lib/constants";
 import SignInWithAtprotoForm, {
   SignInWithAtproto,
 } from "coral-framework/components/AtprotoLoginForm";
+import {
+  announceAuthHandoff,
+  getAuthHandoffID,
+} from "coral-framework/lib/auth/handoff";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { AtprotoHandleInput, postAtprotoApiAuth } from "coral-framework/rest";
@@ -18,7 +22,7 @@ interface Props {
 }
 
 const SignInWithAtprotoContainer: FunctionComponent<Props> = ({ auth }) => {
-  const { window } = useCoralContext();
+  const { window, postMessage, sessionStorage } = useCoralContext();
   const redirectTo = window.location.pathname;
   // get /api/auth/atproto route for tenant's Atproto integration
   const authPath = `${auth.integrations.atproto.authURL}?${qs.stringify({
@@ -32,9 +36,15 @@ const SignInWithAtprotoContainer: FunctionComponent<Props> = ({ auth }) => {
         const validHandle = isValidHandle(handle);
         if (validHandle) {
           return await postAtprotoApiAuth(
-            input as AtprotoHandleInput,
+            {
+              ...(input as AtprotoHandleInput),
+              handoff: await getAuthHandoffID(window, sessionStorage),
+            },
             authPath,
-            window
+            window,
+            // Lets the page wait for this popup's token, as the sign in page
+            // may cut this popup off from it (see the auth handoff).
+            () => announceAuthHandoff(window, postMessage, sessionStorage)
           );
         } else {
           return { [FORM_ERROR]: "Invalid handle" };
@@ -43,7 +53,7 @@ const SignInWithAtprotoContainer: FunctionComponent<Props> = ({ auth }) => {
         return { [FORM_ERROR]: error.message };
       }
     },
-    [authPath, window]
+    [authPath, window, postMessage, sessionStorage]
   );
   return <SignInWithAtprotoForm onSubmit={onSubmit} />;
 };

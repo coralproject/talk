@@ -1,5 +1,6 @@
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 
+import { PostMessageService } from "../postMessage";
 import { RestClient } from "../rest";
 
 /**
@@ -8,18 +9,25 @@ import { RestClient } from "../rest";
  * `window.opener`. That happens when a sign in page it visited sends
  * `Cross-Origin-Opener-Policy: same-origin`, as bsky.social does.
  *
- * The page creates a random ID and adds it to the popup's URL. The popup keeps
- * it in sessionStorage, which survives the trip to the sign in provider and
- * back, and stores its token on the server under it. The page polls for it.
+ * 1. The page creates a random ID and adds it to the popup's URL. The popup
+ *    keeps it in sessionStorage, which survives the trip to the sign in
+ *    provider and back.
+ * 2. The popup sends the ID with the request that starts sign in, so the
+ *    server knows a sign in for it was started. Just before the popup leaves for the sign in provider, while it can still
+ *    reach the page, it tells the page (AUTH_HANDOFF_STARTED).
+ * 3. The page makes a single request that the server holds open until the
+ *    popup stores its token under the ID when sign in completes.
+ *
+ * Nothing happens unless a sign in that leaves the popup is started, and if it
+ * never completes, the one request ends and nothing is retried.
  */
 
 export const AUTH_HANDOFF_PARAM = "handoff";
 
-const STORAGE_KEY = "authHandoff";
+/** The postMessage the popup sends the page before it leaves to sign in. */
+export const AUTH_HANDOFF_STARTED = "authHandoffStarted";
 
-// How often, and for how long, the page checks for a handed off token.
-const POLL_INTERVAL = 2000;
-const POLL_TIMEOUT = 5 * 60 * 1000;
+const STORAGE_KEY = "authHandoff";
 
 /**
  * createAuthHandoffID returns 32 random bytes, base64url encoded (43 chars).
@@ -56,6 +64,46 @@ export async function rememberAuthHandoffID(
 }
 
 /**
+ * getAuthHandoffID returns this popup's handoff ID, to send with the request
+ * that starts sign in. It returns undefined when there's no opener (e.g. the
+ * admin's full page sign in) or no handoff ID.
+ */
+export async function getAuthHandoffID(
+  window: Window,
+  sessionStorage: PromisifiedStorage
+) {
+  if (!window.opener) {
+    return undefined;
+  }
+
+  return (await sessionStorage.getItem(STORAGE_KEY)) || undefined;
+}
+
+/**
+ * announceAuthHandoff tells the page that opened this popup that the popup is
+ * about to leave for a sign in provider, so the page can wait for the token.
+ * It does nothing when there's no opener (e.g. the admin's full page sign in)
+ * or no handoff ID.
+ */
+export async function announceAuthHandoff(
+  window: Window,
+  postMessage: PostMessageService,
+  sessionStorage: PromisifiedStorage
+) {
+  const opener = window.opener as Window | null | undefined;
+  if (!opener) {
+    return;
+  }
+
+  const id = await sessionStorage.getItem(STORAGE_KEY);
+  if (!id) {
+    return;
+  }
+
+  postMessage.send(AUTH_HANDOFF_STARTED, id, opener, "*");
+}
+
+/**
  * handOffAccessToken stores the token on the server for the page to pick up.
  * It returns false when this popup has no handoff ID.
  */
@@ -80,52 +128,37 @@ export async function handOffAccessToken(
 }
 
 /**
- * pollForAuthHandoff checks for a token handed off under the ID, and calls
- * onToken once if one arrives. It stops early when shouldStop returns true,
- * and returns a function that stops polling.
+ * waitForAuthHandoff makes one request that the server holds open until a
+ * token is handed off under the ID, and calls onToken if one arrives. It is
+ * not retried. It returns a function that stops waiting.
  */
-export function pollForAuthHandoff(
+export function waitForAuthHandoff(
   rest: RestClient,
   id: string,
-  onToken: (accessToken: string) => void,
-  shouldStop: () => boolean = () => false
+  onToken: (accessToken: string) => void
 ) {
-  let stopped = false;
-  let timer: ReturnType<typeof setTimeout> | null = null;
-  const startedAt = Date.now();
+  const controller = new AbortController();
 
-  const stop = () => {
-    stopped = true;
-    if (timer) {
-      clearTimeout(timer);
-    }
-  };
-
-  const check = async () => {
-    if (stopped || shouldStop() || Date.now() - startedAt > POLL_TIMEOUT) {
-      return;
-    }
-
-    try {
-      const result = await rest.fetch<{ token?: string } | "">(
-        `/auth/handoff/${id}`,
-        { method: "GET" }
-      );
-      if (!stopped && result && typeof result.token === "string") {
-        stop();
-        onToken(result.token);
-        return;
+  rest
+    .fetch<{ token?: string } | "">(`/auth/handoff/${id}`, {
+      method: "GET",
+      signal: controller.signal,
+    })
+    .then(
+      (result) => {
+        if (
+          !controller.signal.aborted &&
+          result &&
+          typeof result.token === "string"
+        ) {
+          onToken(result.token);
+        }
+      },
+      () => {
+        // Aborted, timed out, or the server couldn't be reached. Not retried,
+        // the user can sign in again.
       }
-    } catch {
-      // Keep trying until the timeout, the server may be briefly unreachable.
-    }
+    );
 
-    if (!stopped) {
-      timer = setTimeout(() => void check(), POLL_INTERVAL);
-    }
-  };
-
-  timer = setTimeout(() => void check(), POLL_INTERVAL);
-
-  return stop;
+  return () => controller.abort();
 }
