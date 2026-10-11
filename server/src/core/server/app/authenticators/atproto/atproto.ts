@@ -7,6 +7,10 @@ import { Response } from "express";
 import { fetch as undiciFetch } from "undici";
 import { URL } from "url";
 
+import {
+  completeAuthHandoff,
+  markAuthHandoffPending,
+} from "coral-server/app/handlers/api/auth/handoff";
 import { reconstructTenantURL } from "coral-server/app/url";
 import { Config } from "coral-server/config";
 import { MongoContext } from "coral-server/data/context";
@@ -17,6 +21,7 @@ import { Tenant } from "coral-server/models/tenant";
 import {
   AtprotoProfile,
   retrieveUserWithProfile,
+  User,
 } from "coral-server/models/user";
 import { JWTSigningConfig, signTokenString } from "coral-server/services/jwt";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -173,11 +178,17 @@ export class AtprotoAuthenticator {
       return;
     }
 
+    // The sign in popup's auth handoff ID, if it was opened from the stream.
+    const handoff: unknown = req.body?.handoff;
+
     let key: string;
     try {
       // Binds the callback to this browser and stores where to send the user
-      // afterwards. It throws on a missing or absolute redirectTo.
-      key = storeState(req, res, req.secure);
+      // afterwards, and the handoff ID so the callback can complete it. It
+      // throws on a missing or absolute redirectTo.
+      key = storeState(req, res, req.secure, {
+        handoff: typeof handoff === "string" ? handoff : undefined,
+      });
     } catch (err) {
       return next(err);
     }
@@ -188,6 +199,9 @@ export class AtprotoAuthenticator {
         scope: ATPROTO_SCOPE,
         state: key,
       });
+
+      // Lets the page that opened the sign in popup wait for its token.
+      await markAuthHandoffPending(this.redis, this.tenant.id, handoff);
 
       res.json({ url: url.href });
     } catch (err) {
@@ -290,11 +304,48 @@ export class AtprotoAuthenticator {
         now
       );
 
+      // When the account doesn't need completing, hand the token to the page
+      // that opened the sign in popup now. Otherwise the popup hands it off
+      // once the user completes their account.
+      if (state.handoff && this.isAccountComplete(user)) {
+        try {
+          await completeAuthHandoff(
+            this.redis,
+            this.tenant.id,
+            state.handoff,
+            accessToken
+          );
+        } catch (err) {
+          logger.error(
+            { err, tenantID: this.tenant.id },
+            "could not complete atproto auth handoff"
+          );
+        }
+      }
+
       return redirectWithHash(res, state, { accessToken });
     } catch (err) {
       return this.fail(res, state, err as Error);
     }
   };
+
+  /**
+   * isAccountComplete mirrors the sign in popup's account completion: a user
+   * needs an email address, a username, and a password when local sign in is
+   * enabled for the stream.
+   */
+  private isAccountComplete(user: User) {
+    if (!user.email || !user.username) {
+      return false;
+    }
+
+    const { local } = this.tenant.auth.integrations;
+    if (local.enabled && local.targetFilter.stream) {
+      return !!user.profiles?.some((p) => p.type === "local");
+    }
+
+    return true;
+  }
 
   /**
    * getEmail reads the user's email from their PDS, which the

@@ -3,6 +3,7 @@ import {
   AtprotoAuthenticator,
   getEnabledIntegration,
 } from "coral-server/app/authenticators/atproto";
+import { Limiter } from "coral-server/app/request/limiter";
 import { TenantCacheAdapter } from "coral-server/services/tenant/cache";
 import { RequestHandler, TenantCoralRequest } from "coral-server/types/express";
 
@@ -22,10 +23,31 @@ export const atprotoHandlers = ({ tenantCache, ...options }: Options) => {
     tenantCache
   );
 
+  // Starting a sign in resolves the handle and contacts the user's server, so
+  // it's limited like Coral's local sign in. The URL carries a redirectTo
+  // query, so the limit is counted on a fixed resource.
+  const ipLimiter = new Limiter({
+    redis: options.redis,
+    ttl: "10m",
+    max: 10,
+    prefix: "ip",
+    resource: "/api/auth/atproto",
+    operation: "POST",
+    config: options.config,
+  });
+
   const handle =
     (action: Action): RequestHandler<TenantCoralRequest> =>
     async (req, res, next) => {
       const { tenant } = req.coral;
+
+      if (action === "login") {
+        try {
+          await ipLimiter.test(req.ip);
+        } catch (err) {
+          return next(err);
+        }
+      }
 
       let authenticator = authenticators.get(tenant.id);
       if (!authenticator) {

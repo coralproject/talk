@@ -8,6 +8,8 @@ const COOKIE_NAME = "oauth2:state";
 
 export interface StateData {
   redirectTo: string;
+  /** The sign in popup's auth handoff ID, if it has one. */
+  handoff?: string;
 }
 
 function createState(data: StateData) {
@@ -25,7 +27,8 @@ function createState(data: StateData) {
 export function storeState(
   req: Request,
   res: Response,
-  secure: boolean
+  secure: boolean,
+  extra: Omit<StateData, "redirectTo"> = {}
 ): string {
   // Unpack the redirection.
   const { [REDIRECT_TO_PARAM]: redirectTo } = req.query;
@@ -38,7 +41,7 @@ export function storeState(
     throw new Error("invalid redirect parameter");
   }
 
-  const { state, key } = createState({ redirectTo });
+  const { state, key } = createState({ ...extra, redirectTo });
 
   res.cookie(COOKIE_NAME, state, {
     httpOnly: true,
