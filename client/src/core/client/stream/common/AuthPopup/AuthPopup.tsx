@@ -9,7 +9,15 @@ import Popup from "coral-ui/components/v2/Popup";
 
 import { AuthPopup_local } from "coral-stream/__generated__/AuthPopup_local.graphql";
 
-const AuthPopup: FunctionComponent = () => {
+interface Props {
+  /**
+   * withHandoff adds the auth handoff ID to the popup's URL. Only atproto sign
+   * in needs it, so it's left off when atproto isn't enabled.
+   */
+  withHandoff?: boolean;
+}
+
+const AuthPopup: FunctionComponent<Props> = ({ withHandoff = false }) => {
   const { rootURL } = useCoralContext();
   const [local, setLocal] = useLocal<AuthPopup_local>(graphql`
     fragment AuthPopup_local on Local {
@@ -32,7 +40,8 @@ const AuthPopup: FunctionComponent = () => {
 
   // The handoff ID lets the popup pass its token back through the server if
   // it loses window.opener, see OnAuthHandoff.
-  const handoff = handoffID ? `&${AUTH_HANDOFF_PARAM}=${handoffID}` : "";
+  const handoff =
+    withHandoff && handoffID ? `&${AUTH_HANDOFF_PARAM}=${handoffID}` : "";
 
   return (
     <Popup

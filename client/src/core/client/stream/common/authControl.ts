@@ -85,3 +85,12 @@ export function supportsRegister(data: NoFragmentRefs<authControl_settings>) {
     integrations.oidc,
   ].some((i) => i.allowRegistration && i.enabled && i.targetFilter.stream);
 }
+
+/**
+ * Determine whether atproto sign in is offered on the stream, which is the
+ * only sign in that needs the auth handoff.
+ */
+export function supportsAtproto(data: NoFragmentRefs<authControl_settings>) {
+  const { atproto } = data.auth.integrations;
+  return atproto.enabled && atproto.targetFilter.stream;
+}

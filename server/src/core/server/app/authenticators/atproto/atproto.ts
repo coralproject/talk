@@ -7,6 +7,7 @@ import { Response } from "express";
 import { fetch as undiciFetch } from "undici";
 import { URL } from "url";
 
+import { DEFAULT_SESSION_DURATION } from "coral-common/common/lib/constants";
 import {
   completeAuthHandoff,
   markAuthHandoffPending,
@@ -37,7 +38,12 @@ import { GQLUSER_ROLE } from "coral-server/graph/schema/__generated__/types";
 import { redirectWithHash } from "../oauth2";
 import { StateData, storeState, verifyState } from "../oauth2/state";
 import { installFetchClasses } from "./globals";
-import { createSessionStore, createStateStore } from "./stores";
+import {
+  createRequestLock,
+  createSessionStore,
+  createStateStore,
+  MAX_SESSION_TTL,
+} from "./stores";
 
 // "atproto" identifies the user, "transition:email" lets us read their email.
 export const ATPROTO_SCOPE = "atproto transition:email";
@@ -113,7 +119,9 @@ export class AtprotoAuthenticator {
       ...(!loopback && logoURI ? { logo_uri: logoURI } : {}),
       redirect_uris: [redirectURI],
       scope: ATPROTO_SCOPE,
-      grant_types: ["authorization_code"],
+      // refresh_token lets the user's atproto session be kept alive while they
+      // are signed in to Coral (see restoreSession).
+      grant_types: ["authorization_code", "refresh_token"],
       response_types: ["code"],
       application_type: "web",
       token_endpoint_auth_method: "none",
@@ -131,7 +139,16 @@ export class AtprotoAuthenticator {
       clientMetadata: this.clientMetadata(req),
       fetch: undiciFetch as unknown as typeof globalThis.fetch,
       stateStore: createStateStore(this.redis, this.tenant.id),
-      sessionStore: createSessionStore(this.redis, this.tenant.id),
+      sessionStore: createSessionStore(
+        this.redis,
+        this.tenant.id,
+        // Kept as long as the user's Coral session, within atproto's limit.
+        Math.min(
+          this.tenant.auth.sessionDuration || DEFAULT_SESSION_DURATION,
+          MAX_SESSION_TTL
+        )
+      ),
+      requestLock: createRequestLock(this.redis, this.tenant.id),
     });
   }
 
@@ -145,6 +162,28 @@ export class AtprotoAuthenticator {
     }
 
     return this.client;
+  }
+
+  /**
+   * restoreSession loads the stored session with the PDS of the user with
+   * this DID, refreshing its tokens if they have expired. It's for actions
+   * that need to check the user's atproto session still exists, and isn't
+   * called yet. It rejects if there is no session, or the user's
+   * authorization server no longer accepts it (it expired or the user revoked
+   * it), and the user has to sign in again.
+   */
+  public async restoreSession(req: Request, did: string) {
+    const client = await this.getClient(req);
+    return client.restore(did);
+  }
+
+  /**
+   * revokeSession ends the stored session of the user with this DID at their
+   * authorization server, and deletes it.
+   */
+  public async revokeSession(req: Request, did: string) {
+    const client = await this.getClient(req);
+    await client.revoke(did);
   }
 
   /**

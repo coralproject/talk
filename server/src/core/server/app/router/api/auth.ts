@@ -56,8 +56,16 @@ export function createNewAuthRouter(
     linkHandler(app)
   );
 
+  // The atproto handlers are shared with the logout handler, which ends the
+  // user's atproto session when they sign out.
+  const atproto = atprotoHandlers(app);
+
   // Mount the logout handler.
-  router.delete("/", authenticate(passport), logoutHandler(app));
+  router.delete(
+    "/",
+    authenticate(passport),
+    logoutHandler({ ...app, revokeAtproto: atproto.revoke })
+  );
 
   // Mount the external auth integrations with middleware/handle wrappers.
   const facebook = facebookHandler(app);
@@ -77,8 +85,6 @@ export function createNewAuthRouter(
 
   // The atproto login takes the handle from the sign in form and replies with
   // the authorization URL, instead of redirecting like the integrations above.
-  const atproto = atprotoHandlers(app);
-
   router.post("/atproto", jsonMiddleware(REQUEST_MAX), atproto.login);
   router.get("/atproto/clientmetadata.json", atproto.metadata);
   router.get("/atproto/callback", atproto.callback);
