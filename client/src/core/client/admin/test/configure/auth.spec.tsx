@@ -402,6 +402,7 @@ it("change atproto settings", async () => {
               },
               clientName: "My Site",
               logoURI: "https://example.com/logo.png",
+              typeaheadHost: "https://public.api.bsky.app",
             }
           );
           return {
@@ -448,6 +449,45 @@ it("change atproto settings", async () => {
   await act(async () => {
     await wait(() => expect(atprotoEnabled.props.disabled).toBe(false));
   });
+});
+
+it("turns off atproto handle suggestions when the host is cleared", async () => {
+  let saved: unknown;
+  const { testRenderer } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        updateSettings: ({ variables }) => {
+          saved = variables.settings.auth!.integrations!.atproto!.typeaheadHost;
+          return {
+            settings: pureMerge(settingsWithEmptyAuth, variables.settings),
+          };
+        },
+      },
+    }),
+  });
+
+  const atprotoContainer = within(testRenderer.root).getByTestID(
+    "configure-auth-atproto-container"
+  );
+  const atprotoEnabled = within(atprotoContainer).getByLabelText("Enabled");
+  const form = findParentWithType(atprotoContainer, "form")!;
+
+  // The host defaults to Bluesky's public AppView.
+  const typeaheadHost = within(atprotoContainer).getByLabelText(
+    "Atproto handle suggestions"
+  );
+  expect(typeaheadHost.props.value).toBe("https://public.api.bsky.app");
+
+  act(() => atprotoEnabled.props.onChange({}));
+  act(() => typeaheadHost.props.onChange(""));
+  act(() => {
+    form.props.onSubmit({ preventDefault: noop });
+  });
+
+  await act(async () => {
+    await wait(() => expect(atprotoEnabled.props.disabled).toBe(false));
+  });
+  expect(saved).toBeNull();
 });
 
 it("rejects an invalid atproto logo URL", async () => {

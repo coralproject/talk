@@ -39,6 +39,9 @@ dependencies:
   '@types/url-regex-safe':
     specifier: ^1.0.0
     version: 1.0.0
+  actor-typeahead:
+    specifier: ^0.1.2
+    version: 0.1.2
   bunyan:
     specifier: ^1.8.12
     version: 1.8.12
@@ -4444,6 +4447,10 @@ packages:
     resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
+
+  /actor-typeahead@0.1.2:
+    resolution: {integrity: sha512-I97YqqNl7Kar0J/bIJvgY/KmHpssHcDElhfwVTLP7wRFlkxso2ZLBqiS2zol5A8UVUJbQK2JXYaqNpZXz8Uk2A==}
+    dev: false
 
   /address@1.1.2:
     resolution: {integrity: sha512-aT6camzM4xEA54YVJYSqxz1kv4IHnQZRtThJJHhUMRExaU5spC7jX5ugSwTaTgJliIgs4VhZOk7htClvQ/LmRA==}

@@ -706,21 +706,30 @@ configure-auth-facebook-useLoginOn = Use Facebook login on
 
 configure-auth-atproto-loginWith = Login with ATproto or Bluesky
 configure-auth-atproto-toEnableIntegration =
-  Users sign in with their ATproto or Bluesky handle. No client ID or
-  secret is needed, this site identifies itself with a client metadata
-  document. For more information visit: <br></br><Link></Link>
+  Users sign in with their ATproto or Bluesky handle. This site
+  identifies itself with a client metadata document. For more
+  information visit: <br></br><Link></Link>
 configure-auth-atproto-useLoginOn = Use ATproto login on
 configure-auth-atproto-clientName = Client name
 configure-auth-atproto-clientNameDescription =
-  Shown to users when they approve signing in. Uses your
-  organization name when left empty.
+  Will be shown to users by authorization servers that trust this site
+  when they authorize this app. If this client is untrusted the Client
+  ID will be shown instead. Uses your organization name when left empty.
 configure-auth-atproto-logoURI = Logo URL
 configure-auth-atproto-logoURIDescription =
-  Optional. An image shown to users when they approve signing in.
+  Optional. An image shown to users by authorization servers that trust
+  this site when they authorize this app. Most show no logo.
+configure-auth-atproto-typeaheadHost = Atproto handle suggestions
+configure-auth-atproto-typeaheadHostDescription =
+  The typeahead lookup host that should be used to suggest Atproto
+  handles while users type them in the sign in form. Must serve
+  app.bsky.actor.searchActorsTypeahead. Defaults to Bluesky's public
+  AppView (https://public.api.bsky.app). Leave it empty to turn
+  suggestions off.
 configure-auth-atproto-clientMetadataURL = Client ID (client metadata URL)
 configure-auth-atproto-clientMetadataURLDescription =
-  Authorization servers identify this site by this URL. It must be
-  publicly reachable over HTTPS. Local development uses a loopback
+  Authorization servers identify this organization by this URL. It must
+  be publicly reachable over HTTPS. Local development uses a loopback
   client instead.
 
 configure-auth-google-loginWith = Login with Google

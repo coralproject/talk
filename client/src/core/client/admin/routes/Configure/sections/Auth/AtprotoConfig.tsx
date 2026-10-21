@@ -26,6 +26,7 @@ graphql`
         }
         clientName
         logoURI
+        typeaheadHost
       }
     }
   }
@@ -65,9 +66,9 @@ const AtprotoConfig: FunctionComponent<Props> = ({
           elems={{ Link: <AtprotoLink />, br: <br /> }}
         >
           <FormFieldDescription>
-            Users sign in with their ATproto or Bluesky handle. No client ID or
-            secret is needed, this site identifies itself with a client metadata
-            document. For more information visit:
+            Users sign in with their ATproto or Bluesky handle. This site
+            identifies itself with a client metadata document. For more
+            information visit:
             <br />
             {<AtprotoLink />}
           </FormFieldDescription>
@@ -83,9 +84,9 @@ const AtprotoConfig: FunctionComponent<Props> = ({
           description={
             <Localized id="configure-auth-atproto-clientMetadataURLDescription">
               <FormFieldDescription>
-                Authorization servers identify this site by this URL. It must be
-                publicly reachable over HTTPS. Local development uses a loopback
-                client instead.
+                Authorization servers identify this organization by this URL. It
+                must be publicly reachable over HTTPS. Local development uses a
+                loopback client instead.
               </FormFieldDescription>
             </Localized>
           }
@@ -102,8 +103,10 @@ const AtprotoConfig: FunctionComponent<Props> = ({
           description={
             <Localized id="configure-auth-atproto-clientNameDescription">
               <FormFieldDescription>
-                Shown to users when they approve signing in. Uses your
-                organization name when left empty.
+                Will be shown to users by authorization servers that trust this
+                site when they authorize this app. If this client is untrusted
+                the Client ID will be shown instead. Uses your organization name
+                when left empty.
               </FormFieldDescription>
             </Localized>
           }
@@ -120,7 +123,29 @@ const AtprotoConfig: FunctionComponent<Props> = ({
           description={
             <Localized id="configure-auth-atproto-logoURIDescription">
               <FormFieldDescription>
-                Optional. An image shown to users when they approve signing in.
+                Optional. An image shown to users by authorization servers that
+                trust this site when they authorize this app. Most show no logo.
+              </FormFieldDescription>
+            </Localized>
+          }
+        />
+        <LabeledTextField
+          name="auth.integrations.atproto.typeaheadHost"
+          validate={validateURL}
+          disabled={disabledInside}
+          label={
+            <Localized id="configure-auth-atproto-typeaheadHost">
+              <span>Atproto handle suggestions</span>
+            </Localized>
+          }
+          description={
+            <Localized id="configure-auth-atproto-typeaheadHostDescription">
+              <FormFieldDescription>
+                The typeahead lookup host that should be used to suggest Atproto
+                handles while users type them in the sign in form. Must serve
+                app.bsky.actor.searchActorsTypeahead. Defaults to Bluesky's
+                public AppView (https://public.api.bsky.app). Leave it empty to
+                turn suggestions off.
               </FormFieldDescription>
             </Localized>
           }

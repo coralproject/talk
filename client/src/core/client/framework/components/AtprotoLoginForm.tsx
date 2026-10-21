@@ -19,17 +19,20 @@ import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 import styles from "../../auth/views/SignIn/SignInWithEmail.css";
 import AtprotoButton from "./AtprotoButton";
+import AtprotoHandleTypeahead from "./AtprotoHandleTypeahead";
 
 interface FormErrorProps extends AtprotoHandleInput, FormError {}
 
 export interface SignInWithAtproto {
   onSubmit: OnSubmit<FormErrorProps>;
+  /** typeaheadHost suggests handles as they're typed, when it's set. */
+  typeaheadHost?: string | null;
 }
 
 const SignInWithAtprotoForm: FunctionComponent<SignInWithAtproto> = (props) => {
   return (
     <Form onSubmit={props.onSubmit}>
-      {({ handleSubmit, submitting, submitError }) => (
+      {({ handleSubmit, submitting, submitError, form }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <HorizontalGutter>
             {submitError && (
@@ -48,20 +51,27 @@ const SignInWithAtprotoForm: FunctionComponent<SignInWithAtproto> = (props) => {
                         ATproto or Bluesky Handle
                       </InputLabel>
                     </Localized>
-                    <Localized
-                      id="signIn-atprotoHandleTextField"
-                      attrs={{ placeholder: true }}
+                    <AtprotoHandleTypeahead
+                      host={props.typeaheadHost}
+                      value={input.value}
+                      onChange={(handle) => form.change("handle", handle)}
+                      onSubmit={() => void form.submit()}
                     >
-                      <TextField
-                        {...input}
-                        id={input.name}
-                        placeholder="yourname.bsky.social"
-                        type="text"
-                        color={streamColorFromMeta(meta)}
-                        disabled={submitting}
-                        fullWidth
-                      />
-                    </Localized>
+                      <Localized
+                        id="signIn-atprotoHandleTextField"
+                        attrs={{ placeholder: true }}
+                      >
+                        <TextField
+                          {...input}
+                          id={input.name}
+                          placeholder="yourname.bsky.social"
+                          type="text"
+                          color={streamColorFromMeta(meta)}
+                          disabled={submitting}
+                          fullWidth
+                        />
+                      </Localized>
+                    </AtprotoHandleTypeahead>
                     <ValidationMessage meta={meta} />
                   </FormField>
                 )}

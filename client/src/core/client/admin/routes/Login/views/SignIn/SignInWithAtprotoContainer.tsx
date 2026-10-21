@@ -45,7 +45,12 @@ const SignInWithAtprotoContainer: FunctionComponent<Props> = ({ auth }) => {
     },
     [authPath, window]
   );
-  return <SignInWithAtprotoForm onSubmit={onSubmit} />;
+  return (
+    <SignInWithAtprotoForm
+      onSubmit={onSubmit}
+      typeaheadHost={auth.integrations.atproto.typeaheadHost}
+    />
+  );
 };
 
 const enhanced = withFragmentContainer<Props>({
@@ -54,6 +59,7 @@ const enhanced = withFragmentContainer<Props>({
       integrations {
         atproto {
           authURL
+          typeaheadHost
         }
       }
     }

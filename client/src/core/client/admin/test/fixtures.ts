@@ -177,6 +177,7 @@ export const settings = createFixture<GQLSettings>({
         callbackURL: "http://localhost/atproto/callback",
         clientMetadataURL: "http://localhost/atproto/clientmetadata.json",
         authURL: "http://localhost/atproto",
+        typeaheadHost: "https://public.api.bsky.app",
       },
       oidc: {
         enabled: false,
@@ -344,6 +345,7 @@ export const settingsWithEmptyAuth = createFixture<GQLSettings>(
           callbackURL: "http://localhost/atproto/callback",
           clientMetadataURL: "http://localhost/atproto/clientmetadata.json",
           authURL: "http://localhost/atproto",
+          typeaheadHost: "https://public.api.bsky.app",
         },
       },
     },
