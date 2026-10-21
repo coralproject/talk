@@ -234,6 +234,14 @@ export const combineTenantDefaultsAndInput = (
             stream: true,
           },
         },
+        atproto: {
+          enabled: false,
+          allowRegistration: false,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+        },
       },
     },
     email: {

@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "9.11.8",
+  "version": "9.11.8-atproto.2",
   "author": "The Coral Project",
   "homepage": "https://coralproject.net/",
   "sideEffects": [
@@ -60,6 +60,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@ampproject/toolbox-cache-url": "^2.9.0",
+    "@atproto/syntax": "^0.3.3",
     "@coralproject/bunyan-prettystream": "^0.1.4",
     "@fluent/bundle": "^0.15.1",
     "@fluent/dom": "^0.7.0",
@@ -68,6 +69,7 @@
     "@rudderstack/rudder-sdk-node": "1.1.4",
     "@sentry/integrations": "^6.19.7",
     "@types/url-regex-safe": "^1.0.0",
+    "actor-typeahead": "^0.1.2",
     "bunyan": "^1.8.12",
     "convict": "^6.2.3",
     "coral-common": "../common/dist",

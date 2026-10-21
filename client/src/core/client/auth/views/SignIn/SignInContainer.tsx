@@ -59,7 +59,7 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
   );
 
   const {
-    integrations: { local, facebook, google, oidc },
+    integrations: { local, atproto, facebook, google, oidc },
   } = auth;
 
   useEffect(() => {
@@ -81,7 +81,9 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
       return;
     }
 
-    const enabled = [facebook, google, oidc].filter((i) => isEnabled(i));
+    const enabled = [atproto, facebook, google, oidc].filter((i) =>
+      isEnabled(i)
+    );
 
     // If there is more than one integration enabled, or there is no
     // integrations enabled, then we can't redirect the viewer.
@@ -97,7 +99,7 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
     }
 
     return integration.redirectURL;
-  }, [error, facebook, google, local, oidc]);
+  }, [error, atproto, facebook, google, local, oidc]);
 
   useEffect(() => {
     // If there's no url to redirect to, then we can't redirect the viewer.
@@ -119,6 +121,7 @@ const SignInContainer: FunctionComponent<Props> = ({ auth, clearError }) => {
       auth={auth}
       onGotoSignUp={goToSignUp}
       emailEnabled={isEnabled(local)}
+      atprotoEnabled={isEnabled(atproto)}
       facebookEnabled={isEnabled(facebook)}
       googleEnabled={isEnabled(google)}
       oidcEnabled={isEnabled(oidc)}
@@ -134,9 +137,17 @@ const enhanced = withClearErrorMutation(
         ...SignInWithOIDCContainer_auth
         ...SignInWithGoogleContainer_auth
         ...SignInWithFacebookContainer_auth
+        ...SignInWithAtprotoContainer_auth
         integrations {
           local {
             enabled
+            targetFilter {
+              stream
+            }
+          }
+          atproto {
+            enabled
+            redirectURL
             targetFilter {
               stream
             }

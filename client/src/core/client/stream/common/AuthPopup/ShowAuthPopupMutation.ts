@@ -1,6 +1,7 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { waitFor } from "coral-common/common/lib/helpers";
+import { createAuthHandoffID } from "coral-framework/lib/auth/handoff";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   createMutation,
@@ -18,7 +19,10 @@ export interface ShowAuthPopupInput {
 export async function commit(
   environment: Environment,
   input: ShowAuthPopupInput,
-  { eventEmitter }: Pick<CoralContext, "eventEmitter">
+  {
+    eventEmitter,
+    window,
+  }: Pick<CoralContext, "eventEmitter"> & Partial<Pick<CoralContext, "window">>
 ) {
   if (input.view === "SIGN_IN") {
     LoginPromptEvent.emit(eventEmitter);
@@ -38,6 +42,10 @@ export async function commit(
     const record = store.get(AUTH_POPUP_ID)!;
     record.setValue(input.view, "view");
     if (!record.getValue("open")) {
+      // A new popup gets a new handoff ID (see OnAuthHandoff).
+      if (window) {
+        record.setValue(createAuthHandoffID(window), "handoffID");
+      }
       record.setValue(true, "open");
       return;
     }

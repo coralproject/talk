@@ -1070,6 +1070,76 @@ type FacebookAuthIntegration {
 }
 
 ##########################
+## Atproto Integration
+##########################
+
+type AtprotoAuthIntegration {
+  """
+  enabled, when true, will enable Atproto as an authentication integration.
+  """
+  enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter!
+
+  """
+  clientName is the name shown to users on their authorization server's
+  consent screen. When not set, the organization name is used.
+  """
+  clientName: String @auth(roles: [ADMIN])
+
+  """
+  logoURI is the URL of a logo shown to users on their authorization server's
+  consent screen.
+  """
+  logoURI: String @auth(roles: [ADMIN])
+
+  """
+  typeaheadHost is the host that suggests handles while users type them in the
+  sign in form, using app.bsky.actor.searchActorsTypeahead. It defaults to
+  Bluesky's public AppView, and is null when handle suggestions are disabled.
+  """
+  typeaheadHost: String
+
+  """
+  callbackURL is the URL that the user should be redirected to in order to continue
+  the authentication flow. This field is not stored, and is instead computed from
+  the Tenant.
+  """
+  callbackURL: String! @auth(roles: [ADMIN])
+
+  """
+  clientMetadataURL is the URL of this site's OAuth client metadata document,
+  which is also its client ID. This field is not stored, and is instead
+  computed from the Tenant.
+  """
+  clientMetadataURL: String! @auth(roles: [ADMIN])
+
+  """
+  redirectURL is always null for atproto, because the URL the user is sent to
+  depends on the handle they enter. Use authURL to start the flow instead.
+  """
+  redirectURL: String
+
+  """
+  authURL is starting point for atproto oauth to start
+  an authentication flow with a handle's host. This field is not stored,
+  and is instead computed from the Tenant.
+  """
+  authURL: String!
+}
+
+##########################
 ## Auth
 ##########################
 
@@ -1098,6 +1168,11 @@ type AuthIntegrations {
   facebook stores configuration related to Facebook based logins.
   """
   facebook: FacebookAuthIntegration!
+
+  """
+  atproto stores configuration related to Atproto logins.
+  """
+  atproto: AtprotoAuthIntegration!
 }
 
 """
@@ -2499,6 +2574,10 @@ type SSOProfile {
   id: String!
 }
 
+type AtprotoProfile {
+  id: String!
+}
+
 type FacebookProfile {
   id: String!
 }
@@ -2515,6 +2594,7 @@ union Profile =
     LocalProfile
   | OIDCProfile
   | SSOProfile
+  | AtprotoProfile
   | FacebookProfile
   | GoogleProfile
 
@@ -6098,6 +6178,44 @@ input SettingsFacebookAuthIntegrationInput {
   clientSecret: String
 }
 
+input SettingsAtprotoAuthIntegrationInput {
+  """
+  enabled, when true, will enable Atproto as an authentication integration.
+  """
+  enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
+  """
+  clientName is the name shown to users on their authorization server's
+  consent screen.
+  """
+  clientName: String
+
+  """
+  logoURI is the URL of a logo shown to users on their authorization server's
+  consent screen.
+  """
+  logoURI: String
+
+  """
+  typeaheadHost is the host that suggests handles while users type them in the
+  sign in form. An empty value disables handle suggestions.
+  """
+  typeaheadHost: String
+}
+
 input SettingsAuthIntegrationsInput {
   """
   local stores configuration related to email/password based logins.
@@ -6123,6 +6241,11 @@ input SettingsAuthIntegrationsInput {
   facebook stores configuration related to Facebook based logins.
   """
   facebook: SettingsFacebookAuthIntegrationInput
+
+  """
+  atproto stores configuration related to atproto based logins.
+  """
+  atproto: SettingsAtprotoAuthIntegrationInput
 }
 
 """

@@ -11,6 +11,15 @@ export const settings = {
         },
         redirectURL: "http://localhost/facebook",
       },
+      atproto: {
+        enabled: false,
+        allowRegistration: true,
+        targetFilter: {
+          stream: true,
+          admin: true,
+        },
+        authURL: "http://localhost/atproto",
+      },
       google: {
         enabled: false,
         allowRegistration: true,

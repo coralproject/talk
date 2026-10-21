@@ -1,0 +1,17 @@
+/*
+ * actor-typeahead renders its suggestions in a shadow root. It's styled with
+ * the custom properties it reads, and its parts.
+ */
+.root {
+  --color-background: var(--palette-background-popover);
+  --color-border: var(--palette-grey-300);
+  --color-hover: var(--palette-grey-100);
+  --radius: var(--round-corners);
+}
+
+.root::part(menu) {
+  z-index: 1;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-3);
+  color: var(--palette-text-500);
+}

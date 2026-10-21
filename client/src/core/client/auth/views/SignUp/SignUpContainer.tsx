@@ -32,7 +32,7 @@ const SignUpContainer: FunctionComponent<Props> = ({ auth }) => {
   }, [setView]);
 
   const {
-    integrations: { local, facebook, google, oidc },
+    integrations: { local, atproto, facebook, google, oidc },
   } = auth;
 
   return (
@@ -40,6 +40,7 @@ const SignUpContainer: FunctionComponent<Props> = ({ auth }) => {
       auth={auth}
       onSignIn={onSignIn}
       localEnabled={isEnabled(local)}
+      atprotoEnabled={isEnabled(atproto)}
       facebookEnabled={isEnabled(facebook)}
       googleEnabled={isEnabled(google)}
       oidcEnabled={isEnabled(oidc)}
@@ -53,9 +54,17 @@ const enhanced = withFragmentContainer<Props>({
       ...SignUpWithOIDCContainer_auth
       ...SignUpWithGoogleContainer_auth
       ...SignUpWithFacebookContainer_auth
+      ...SignUpWithAtprotoContainer_auth
 
       integrations {
         local {
+          enabled
+          targetFilter {
+            stream
+          }
+          allowRegistration
+        }
+        atproto {
           enabled
           targetFilter {
             stream
