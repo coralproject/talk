@@ -16,7 +16,7 @@ metadata:
       url: https://github.com/coralproject/talk
       icon: github
     - title: "Coral documentation"
-      url: https://docs.coralproject.net/
+      url: "https://docs.coralproject.net"
       icon: docs
 spec:
   type: service
