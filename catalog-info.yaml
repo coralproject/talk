@@ -1,0 +1,21 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: talk
+  namespace: production
+  description: "A better commenting experience from Vox Media"
+  annotations:
+    github.com/project-slug: coralproject/talk
+    backstage.io/source-location: url:https://github.com/coralproject/talk
+  tags:
+    - typescript
+  links:
+    - title: Website
+      url: https://coralproject.net
+    - title: GitHub Repository
+      url: https://github.com/coralproject/talk
+      icon: github
+spec:
+  type: service
+  lifecycle: production
+  owner: default/developers
