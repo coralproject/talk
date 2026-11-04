@@ -31,6 +31,10 @@ community work starts now, before you go live. You have a unique opportunity
 pre-launch to set your community up for success. Read our
 [Community Guides](https://guides.coralproject.net/start-here/) to learn more.
 
+## One-Click Deploy
+
+[![Deploy on RepoCloud](https://d16t0pc4846x52.cloudfront.net/deploylobe.svg)](https://repocloud.io/details/Coral/)
+
 ## Support
 
 We can help you set up Coral, migrate your comments from another system,
