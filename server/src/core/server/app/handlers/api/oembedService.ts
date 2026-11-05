@@ -37,31 +37,31 @@ export const oembedProviderHandler = ({
   return async (req, res, next) => {
     const { tenant } = req.coral;
 
-    const bundle = i18n.getBundle(tenant.locale);
-    const replyMessage = translate(
-      bundle,
-      "Reply",
-      "comments-replyButton-reply"
-    );
-    const goToConversationMessage = translate(
-      bundle,
-      "Go to conversation",
-      "featured-gotoConversation"
-    );
-
-    const {
-      customFontsCSSURL,
-      customCSSURL,
-      staticURI,
-      streamCSS,
-      defaultFontsCSS,
-    } = await getCommentEmbedCSS(tenant, { config });
-
-    const formatter = getCommentEmbedCreatedAtFormatter(tenant);
-
-    const tenantURL = constructTenantURL(config, tenant);
-
     try {
+      const bundle = i18n.getBundle(tenant.locale);
+      const replyMessage = translate(
+        bundle,
+        "Reply",
+        "comments-replyButton-reply"
+      );
+      const goToConversationMessage = translate(
+        bundle,
+        "Go to conversation",
+        "featured-gotoConversation"
+      );
+
+      const {
+        customFontsCSSURL,
+        customCSSURL,
+        staticURI,
+        streamCSS,
+        defaultFontsCSS,
+      } = await getCommentEmbedCSS(tenant, { config });
+
+      const formatter = getCommentEmbedCreatedAtFormatter(tenant);
+
+      const tenantURL = constructTenantURL(config, tenant);
+
       const {
         url,
         allowReplies,
