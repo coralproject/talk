@@ -21,6 +21,7 @@ import {
   TenantCoralRequest,
 } from "coral-server/types/express";
 
+import { Entrypoint } from "../helpers/entrypoints";
 import ManifestLoader, {
   createManifestLoader,
   EntrypointLoader,
@@ -180,7 +181,13 @@ const clientHandler =
       rootURL = `${req.protocol}://${req.coral.tenant?.domain}:${port}`;
     }
 
-    const entrypoint = await entrypointLoader();
+    let entrypoint: Readonly<Entrypoint> | null;
+    try {
+      entrypoint = await entrypointLoader();
+    } catch (err) {
+      next(err);
+      return;
+    }
     if (!entrypoint) {
       next(new Error("Entrypoint not available"));
       return;
@@ -217,10 +224,17 @@ const createEmbedBootstrapHandler: (
 
     const streamEntrypointLoader =
       manifestLoader.createEntrypointLoader("stream");
-    const entrypoint = await streamEntrypointLoader();
-    const defaultFontsCSSURL = (await manifestLoader.load())[
-      "assets/css/typography.css"
-    ]?.src;
+    let entrypoint: Readonly<Entrypoint> | null;
+    let defaultFontsCSSURL: string | undefined;
+    try {
+      entrypoint = await streamEntrypointLoader();
+      defaultFontsCSSURL = (await manifestLoader.load())[
+        "assets/css/typography.css"
+      ]?.src;
+    } catch (err) {
+      next(err);
+      return;
+    }
 
     if (!entrypoint) {
       next(new Error("Entrypoint not available"));

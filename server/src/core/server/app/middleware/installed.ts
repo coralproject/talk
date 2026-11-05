@@ -17,7 +17,12 @@ export const installedMiddleware =
     redirectURL = defaultOptions.redirectURL,
   }: Options = defaultOptions): RequestHandler =>
   async (req, res, next) => {
-    const installed = await isInstalled(req.coral.cache.tenant, req.hostname);
+    let installed: boolean;
+    try {
+      installed = await isInstalled(req.coral.cache.tenant, req.hostname);
+    } catch (err) {
+      return next(err);
+    }
 
     // If Coral is installed, and redirectIfInstall is true, then it will
     // redirect. If Coral is not installed, and redirectIfInstall is false, then
