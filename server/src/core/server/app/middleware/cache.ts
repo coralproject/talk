@@ -51,8 +51,12 @@ const cacheMiddleware =
   ): RequestHandler =>
   async (req, res, next) => {
     // Compute the cache key.
-    const url = new URL(`${req.hostname}:${req.originalUrl}`);
-    const params = new URLSearchParams(url.search);
+    let params: URLSearchParams;
+    try {
+      params = new URL(req.originalUrl, "http://localhost").searchParams;
+    } catch {
+      return next();
+    }
 
     let key: string | null = null;
     if (jsonpType === "count") {
@@ -68,7 +72,13 @@ const cacheMiddleware =
     const log = logger.child({ key }, true);
 
     // Try to lookup the entry in the cache.
-    let entry = await get(redis, ttl, key);
+    let entry: CacheEntry | null;
+    try {
+      entry = await get(redis, ttl, key);
+    } catch (err) {
+      log.error({ err }, "could not read request from cache");
+      return next();
+    }
     if (entry) {
       log.debug("request was in the cache");
 
