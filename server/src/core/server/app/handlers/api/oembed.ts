@@ -42,13 +42,13 @@ export const oembedHandler = ({
   return async (req, res, next) => {
     const { tenant } = req.coral;
 
-    const entrypoint = await entrypointLoader();
-    if (!entrypoint) {
-      next(new Error("Entrypoint not available"));
-      return;
-    }
-
     try {
+      const entrypoint = await entrypointLoader();
+      if (!entrypoint) {
+        next(new Error("Entrypoint not available"));
+        return;
+      }
+
       const { type, url, maxWidth, commentID }: OEmbedQuery = validate(
         OEmbedQuerySchema,
         req.query

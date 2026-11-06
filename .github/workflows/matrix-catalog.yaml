@@ -1,0 +1,24 @@
+# Registers catalog-info.yaml with PMC Matrix after it reaches the default branch.
+# Sentinel is intentionally omitted. The reusable workflow is pinned to main until
+# voxmedia/gha-workflows publishes it on the v2 tag.
+name: Register Matrix catalog
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - catalog-info.yaml
+      - catalog-prod.yaml
+      - catalog-stg.yaml
+      - catalogs/**
+
+permissions:
+  contents: read
+
+jobs:
+  register-catalog:
+    name: Register Matrix catalog
+    uses: voxmedia/gha-workflows/.github/workflows/matrix-catalog.yaml@main
+    secrets:
+      MATRIX_API_TOKEN_CATALOG: ${{ secrets.MATRIX_API_TOKEN_CATALOG }}
