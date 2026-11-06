@@ -1735,3 +1735,32 @@ conversation-modal-commentNotFound = Reactie is niet gevonden.
 conversation-modal-showMoreReplies = Toon meer reacties
 conversation-modal-header-title = Conversatie op:
 conversation-modal-header-moderate-link = Modereer artikel
+
+#### DSA
+configure-general-dsaConfig-title = Digital Services Act functieset
+configure-general-dsaConfig-description =
+  De Europese Digital Services Act (DSA) vereist dat uitgevers die gevestigd zijn in de EU of EU-burgers als doelpubliek hebben, bepaalde functies bieden aan hun commentatoren en moderatoren.
+  <br/>
+  <br/>
+  Coral's DSA-toolset omvat:
+  <br/>
+  <ul style="padding-inline-start: var(--spacing-5);">
+    <li>Een speciale stream voor reacties die als illegaal zijn gerapporteerd</li>
+    <li>Verplichte moderatieredenen voor elke afgewezen reactie</li>
+    <li>Commentator notificaties voor illegale reactie rapporten en afgewezen reacties</li>
+    <li>Verplichte tekst die beroepsprocedures uitlegt, indien van toepassing</li>
+  </ul>
+configure-general-dsaConfig-reportingAndModerationExperience =
+  DSA rapportage en moderatie ervaring
+configure-general-dsaConfig-methodOfRedress =
+  Kies uw beroeps-methode
+configure-general-dsaConfig-methodOfRedress-explanation =
+  Vertel gebruikers of en hoe ze een moderatiebeslissing kunnen aanvechten
+configure-general-dsaConfig-methodOfRedress-none = Geen
+configure-general-dsaConfig-methodOfRedress-email = E-mail
+configure-general-dsaConfig-methodOfRedress-email-placeholder = moderation@example.com
+configure-general-dsaConfig-methodOfRedress-url = URL
+configure-general-dsaConfig-methodOfRedress-url-placeholder = https://moderation.example.com
+configure-general-dsaConfig-reportingThreshold = Rapportagedrempel voor webhook notificaties
+configure-general-dsaConfig-reportingThreshold-explanation =
+  Aantal rapporten dat een reactie moet ontvangen voordat webhook notificaties worden verzonden
