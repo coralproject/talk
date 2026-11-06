@@ -19,7 +19,7 @@ Built with ❤️ by Coral by [Vox Media](https://product.voxmedia.com/).
 
 - MongoDB ^8.0.3
 - Redis ^3.2
-- NodeJS ^18.16.0
+- NodeJS ^24.14.1
 - PNPM ^8.0
 
 ## Running
