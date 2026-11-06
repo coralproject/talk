@@ -1,0 +1,88 @@
+diff --git a/execution/execute.js b/execution/execute.js
+index 4e734745be4c6ce4a98cd68387eb01bb8484c69f..8f9bfe2a7264a610675110fbe7d3662349b72693 100644
+--- a/execution/execute.js
++++ b/execution/execute.js
+@@ -268,19 +268,30 @@ function executeFields(exeContext, parentType, sourceValue, path, fields) {
+   var results = Object.create(null);
+   var containsPromise = false;
+ 
+-  for (var _i4 = 0, _Object$keys2 = Object.keys(fields); _i4 < _Object$keys2.length; _i4++) {
+-    var responseName = _Object$keys2[_i4];
+-    var fieldNodes = fields[responseName];
+-    var fieldPath = (0, _Path.addPath)(path, responseName);
+-    var result = resolveField(exeContext, parentType, sourceValue, fieldNodes, fieldPath);
++  try {
++    for (var _i4 = 0, _Object$keys2 = Object.keys(fields); _i4 < _Object$keys2.length; _i4++) {
++      var responseName = _Object$keys2[_i4];
++      var fieldNodes = fields[responseName];
++      var fieldPath = (0, _Path.addPath)(path, responseName);
++      var result = resolveField(exeContext, parentType, sourceValue, fieldNodes, fieldPath);
+ 
+-    if (result !== undefined) {
+-      results[responseName] = result;
++      if (result !== undefined) {
++        results[responseName] = result;
+ 
+-      if (!containsPromise && (0, _isPromise.default)(result)) {
+-        containsPromise = true;
++        if (!containsPromise && (0, _isPromise.default)(result)) {
++          containsPromise = true;
++        }
+       }
+     }
++  } catch (error) {
++    if (containsPromise) {
++      // Ensure that any promises returned by other fields are handled, as they may also reject.
++      return (0, _promiseForObject.default)(results).finally(function () {
++        throw error;
++      });
++    }
++
++    throw error;
+   } // If there are no promises, we can just return the object
+ 
+ 
+diff --git a/execution/execute.mjs b/execution/execute.mjs
+index 1a893abf9d46d874c81d9964b78cc2493915fbda..1d2a0638745a323dadf218c0a331cdba7053d974 100644
+--- a/execution/execute.mjs
++++ b/execution/execute.mjs
+@@ -255,19 +255,30 @@ function executeFields(exeContext, parentType, sourceValue, path, fields) {
+   var results = Object.create(null);
+   var containsPromise = false;
+ 
+-  for (var _i4 = 0, _Object$keys2 = Object.keys(fields); _i4 < _Object$keys2.length; _i4++) {
+-    var responseName = _Object$keys2[_i4];
+-    var fieldNodes = fields[responseName];
+-    var fieldPath = addPath(path, responseName);
+-    var result = resolveField(exeContext, parentType, sourceValue, fieldNodes, fieldPath);
++  try {
++    for (var _i4 = 0, _Object$keys2 = Object.keys(fields); _i4 < _Object$keys2.length; _i4++) {
++      var responseName = _Object$keys2[_i4];
++      var fieldNodes = fields[responseName];
++      var fieldPath = addPath(path, responseName);
++      var result = resolveField(exeContext, parentType, sourceValue, fieldNodes, fieldPath);
+ 
+-    if (result !== undefined) {
+-      results[responseName] = result;
++      if (result !== undefined) {
++        results[responseName] = result;
+ 
+-      if (!containsPromise && isPromise(result)) {
+-        containsPromise = true;
++        if (!containsPromise && isPromise(result)) {
++          containsPromise = true;
++        }
+       }
+     }
++  } catch (error) {
++    if (containsPromise) {
++      // Ensure that any promises returned by other fields are handled, as they may also reject.
++      return promiseForObject(results).finally(function () {
++        throw error;
++      });
++    }
++
++    throw error;
+   } // If there are no promises, we can just return the object
+ 
+ 

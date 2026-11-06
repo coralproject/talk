@@ -7,6 +7,11 @@ settings:
 overrides:
   protobufjs: '>=7.2.4'
 
+patchedDependencies:
+  graphql@14.6.0:
+    hash: sd2ab3xi3rjnezpojbjagatab4
+    path: patches/graphql@14.6.0.patch
+
 dependencies:
   '@ampproject/toolbox-cache-url':
     specifier: ^2.9.0
@@ -156,8 +161,8 @@ dependencies:
     specifier: ^8.1.0
     version: 8.1.0
   graphql:
-    specifier: ^14.6.0
-    version: 14.6.0
+    specifier: 14.6.0
+    version: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
   graphql-config:
     specifier: ^3.2.0
     version: 3.4.1(@types/node@12.12.34)(graphql@14.6.0)(typescript@4.9.5)
@@ -935,7 +940,7 @@ packages:
       graphql: ^14.2.1 || ^15.0.0
     dependencies:
       apollo-env: 0.6.5
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -2380,7 +2385,7 @@ packages:
       dependency-graph: 0.11.0
       detect-indent: 6.0.0
       glob: 7.2.3
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       graphql-config: 3.4.1(@types/node@12.12.34)(graphql@14.6.0)(typescript@4.9.5)
       inquirer: 7.3.3
       is-glob: 4.0.3
@@ -2417,7 +2422,7 @@ packages:
       '@graphql-codegen/plugin-helpers': 1.18.8(graphql@14.6.0)
       '@graphql-tools/merge': 6.2.17(graphql@14.6.0)
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.2.0
     dev: true
 
@@ -2427,7 +2432,7 @@ packages:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     dependencies:
       '@graphql-codegen/plugin-helpers': 1.18.8(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.0.3
     dev: true
 
@@ -2438,7 +2443,7 @@ packages:
     dependencies:
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
       common-tags: 1.8.0
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       import-from: 4.0.0
       lodash: 4.17.21
       tslib: 2.3.1
@@ -2451,7 +2456,7 @@ packages:
     dependencies:
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
       cross-fetch: 3.0.6
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.0.3
     dev: true
 
@@ -2462,7 +2467,7 @@ packages:
     dependencies:
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
       dataloader: 2.0.0
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.2.0
       value-or-promise: 1.0.6
 
@@ -2473,7 +2478,7 @@ packages:
     dependencies:
       '@graphql-tools/graphql-tag-pluck': 6.5.1(graphql@14.6.0)
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.1.0
     transitivePeerDependencies:
       - supports-color
@@ -2489,7 +2494,7 @@ packages:
       '@graphql-tools/schema': 7.1.5(graphql@14.6.0)
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
       dataloader: 2.0.0
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.2.0
       value-or-promise: 1.0.6
 
@@ -2500,7 +2505,7 @@ packages:
     dependencies:
       '@graphql-tools/graphql-tag-pluck': 6.5.1(graphql@14.6.0)
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.1.0
     transitivePeerDependencies:
       - supports-color
@@ -2514,7 +2519,7 @@ packages:
       '@graphql-tools/graphql-tag-pluck': 6.5.1(graphql@14.6.0)
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
       cross-fetch: 3.0.6
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.0.3
     transitivePeerDependencies:
       - supports-color
@@ -2527,7 +2532,7 @@ packages:
     dependencies:
       '@graphql-tools/import': 6.7.6(graphql@14.6.0)
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.1.0
 
   /@graphql-tools/graphql-tag-pluck@6.5.1(graphql@14.6.0):
@@ -2539,7 +2544,7 @@ packages:
       '@babel/traverse': 7.12.13
       '@babel/types': 7.12.13
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.1.0
     transitivePeerDependencies:
       - supports-color
@@ -2551,7 +2556,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       '@graphql-tools/utils': 8.12.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       resolve-from: 5.0.0
       tslib: 2.6.2
 
@@ -2561,7 +2566,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0
     dependencies:
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.0.3
 
   /@graphql-tools/load@6.2.8(graphql@14.6.0):
@@ -2572,7 +2577,7 @@ packages:
       '@graphql-tools/merge': 6.2.17(graphql@14.6.0)
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
       globby: 11.0.3
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       import-from: 3.0.0
       is-glob: 4.0.1
       p-limit: 3.1.0
@@ -2587,7 +2592,7 @@ packages:
     dependencies:
       '@graphql-tools/schema': 8.5.1(graphql@14.6.0)
       '@graphql-tools/utils': 8.0.2(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.3.1
 
   /@graphql-tools/merge@6.2.5(graphql@14.6.0):
@@ -2597,7 +2602,7 @@ packages:
     dependencies:
       '@graphql-tools/schema': 7.1.5(graphql@14.6.0)
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.0.3
 
   /@graphql-tools/merge@8.3.1(graphql@14.6.0):
@@ -2606,7 +2611,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       '@graphql-tools/utils': 8.9.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.6.2
 
   /@graphql-tools/prisma-loader@6.3.0(@types/node@12.12.34)(graphql@14.6.0):
@@ -2623,7 +2628,7 @@ packages:
       chalk: 4.1.2
       debug: 4.3.4(supports-color@6.1.0)
       dotenv: 8.2.0
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       graphql-request: 3.7.0(graphql@14.6.0)
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.1
@@ -2650,7 +2655,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0
     dependencies:
       '@graphql-tools/utils': 6.2.4(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.0.3
     dev: false
 
@@ -2660,7 +2665,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0
     dependencies:
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.2.0
       value-or-promise: 1.0.6
 
@@ -2671,7 +2676,7 @@ packages:
     dependencies:
       '@graphql-tools/merge': 8.3.1(graphql@14.6.0)
       '@graphql-tools/utils': 8.9.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.6.2
       value-or-promise: 1.0.11
 
@@ -2689,7 +2694,7 @@ packages:
       cross-fetch: 3.1.4
       extract-files: 9.0.0
       form-data: 4.0.0
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       graphql-ws: 4.9.0(graphql@14.6.0)
       is-promise: 4.0.0
       isomorphic-ws: 4.0.1(ws@7.4.5)
@@ -2713,7 +2718,7 @@ packages:
     dependencies:
       '@ardatan/aggregate-error': 0.0.6
       camel-case: 4.1.1
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.0.3
     dev: false
 
@@ -2724,7 +2729,7 @@ packages:
     dependencies:
       '@ardatan/aggregate-error': 0.0.6
       camel-case: 4.1.2
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.2.0
 
   /@graphql-tools/utils@8.0.2(graphql@14.6.0):
@@ -2732,7 +2737,7 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0
     dependencies:
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.3.1
 
   /@graphql-tools/utils@8.12.0(graphql@14.6.0):
@@ -2740,7 +2745,7 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.6.2
 
   /@graphql-tools/utils@8.9.0(graphql@14.6.0):
@@ -2748,7 +2753,7 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.6.2
 
   /@graphql-tools/wrap@7.0.8(graphql@14.6.0):
@@ -2759,7 +2764,7 @@ packages:
       '@graphql-tools/delegate': 7.1.5(graphql@14.6.0)
       '@graphql-tools/schema': 7.1.5(graphql@14.6.0)
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       tslib: 2.2.0
       value-or-promise: 1.0.6
 
@@ -5160,7 +5165,7 @@ packages:
     dependencies:
       apollo-server-env: 2.4.5
       apollo-server-plugin-base: 0.10.1(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -5195,7 +5200,7 @@ packages:
       graphql: ^14.2.1 || ^15.0.0
     dependencies:
       apollo-env: 0.6.5
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       lodash.sortby: 4.7.0
     transitivePeerDependencies:
       - encoding
@@ -5207,7 +5212,7 @@ packages:
       graphql: ^0.11.3 || ^0.12.3 || ^0.13.0 || ^14.0.0
     dependencies:
       apollo-utilities: 1.3.3(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       ts-invariant: 0.4.4
       tslib: 1.14.1
       zen-observable-ts: 0.8.20
@@ -5251,7 +5256,7 @@ packages:
       apollo-tracing: 0.11.4(graphql@14.6.0)
       async-retry: 1.3.1
       fast-json-stable-stringify: 2.1.0
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       graphql-extensions: 0.12.5(graphql@14.6.0)
       graphql-tag: 2.11.0(graphql@14.6.0)
       graphql-tools: 4.0.7(graphql@14.6.0)
@@ -5285,7 +5290,7 @@ packages:
     peerDependencies:
       graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     dependencies:
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     dev: false
 
   /apollo-server-express@2.18.1(graphql@14.6.0):
@@ -5307,7 +5312,7 @@ packages:
       body-parser: 1.19.0(supports-color@6.1.0)
       cors: 2.8.5
       express: 4.17.1(supports-color@6.1.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       graphql-subscriptions: 1.1.0(graphql@14.6.0)
       graphql-tools: 4.0.7(graphql@14.6.0)
       parseurl: 1.3.3
@@ -5328,7 +5333,7 @@ packages:
       graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     dependencies:
       apollo-server-types: 0.6.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -5343,7 +5348,7 @@ packages:
       apollo-cache-control: 0.11.3(graphql@14.6.0)
       apollo-server-caching: 0.5.2
       apollo-server-plugin-base: 0.10.1(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -5358,7 +5363,7 @@ packages:
       apollo-reporting-protobuf: 0.6.0
       apollo-server-caching: 0.5.2
       apollo-server-env: 2.4.5
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -5372,7 +5377,7 @@ packages:
     dependencies:
       apollo-server-env: 2.4.5
       apollo-server-plugin-base: 0.10.1(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -5384,7 +5389,7 @@ packages:
     dependencies:
       '@wry/equality': 0.1.9
       fast-json-stable-stringify: 2.1.0
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       ts-invariant: 0.4.4
       tslib: 1.14.1
     dev: false
@@ -6090,7 +6095,7 @@ packages:
       graphql: ^14.2.0
     dependencies:
       babel-plugin-macros: 2.0.0
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     dev: true
 
   /babel-plugin-syntax-async-functions@6.13.0:
@@ -11228,7 +11233,7 @@ packages:
       '@graphql-tools/utils': 7.10.0(graphql@14.6.0)
       cosmiconfig: 7.0.0
       cosmiconfig-toml-loader: 1.0.0
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       minimatch: 3.0.4
       string-env-interpolation: 1.0.1
     transitivePeerDependencies:
@@ -11248,7 +11253,7 @@ packages:
       '@apollographql/apollo-tools': 0.4.8(graphql@14.6.0)
       apollo-server-env: 2.4.5
       apollo-server-types: 0.6.0(graphql@14.6.0)
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -11278,7 +11283,7 @@ packages:
       cross-fetch: 3.1.4
       extract-files: 9.0.0
       form-data: 3.0.1
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     dev: true
 
   /graphql-schema-linter@0.4.0:
@@ -11300,7 +11305,7 @@ packages:
       graphql: '*'
       typescript: '*'
     dependencies:
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       typescript: 4.9.5
       yargs: 11.1.1
     dev: true
@@ -11310,7 +11315,7 @@ packages:
     peerDependencies:
       graphql: ^0.10.5 || ^0.11.3 || ^0.12.0 || ^0.13.0 || ^14.0.0
     dependencies:
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       iterall: 1.3.0
     dev: false
 
@@ -11319,7 +11324,7 @@ packages:
     peerDependencies:
       graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     dependencies:
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
     dev: false
 
   /graphql-tools@4.0.7(graphql@14.6.0):
@@ -11335,7 +11340,7 @@ packages:
       apollo-link: 1.2.13(graphql@14.6.0)
       apollo-utilities: 1.3.3(graphql@14.6.0)
       deprecated-decorator: 0.1.6
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       iterall: 1.3.0
       uuid: 3.4.0
     dev: false
@@ -11348,7 +11353,7 @@ packages:
     dependencies:
       busboy: 0.3.1
       fs-capacitor: 2.0.4
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       http-errors: 1.8.0
       object-path: 0.11.8
     dev: false
@@ -11359,13 +11364,15 @@ packages:
     peerDependencies:
       graphql: '>=0.11 <=15'
     dependencies:
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
 
-  /graphql@14.6.0:
+  /graphql@14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4):
     resolution: {integrity: sha512-VKzfvHEKybTKjQVpTFrA5yUq2S9ihcZvfJAtsDBBCuV6wauPu1xl/f9ehgVf0FcEJJs4vz6ysb/ZMkGigQZseg==}
     engines: {node: '>= 6.x'}
+    deprecated: 'No longer supported; please update to a newer version. Details: https://github.com/graphql/graphql-js#version-support'
     dependencies:
       iterall: 1.3.0
+    patched: true
 
   /graphql@15.3.0:
     resolution: {integrity: sha512-GTCJtzJmkFLWRfFJuoo9RWWa/FfamUHgiFosxi/X1Ani4AVWbeyBenZTNX6dM+7WSbbFfTo/25eh0LLkwHMw2w==}
@@ -17957,7 +17964,7 @@ packages:
       fb-watchman: 2.0.0
       fbjs: 1.0.0
       glob: 7.2.3
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       immutable: 3.7.6
       nullthrows: 1.1.1
       relay-runtime: 10.0.1
@@ -17973,7 +17980,7 @@ packages:
       graphql: '>=0.5.0'
       relay-runtime: '>=1.0.0'
     dependencies:
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       relay-runtime: 10.0.1
     dev: true
 
@@ -19389,7 +19396,7 @@ packages:
     dependencies:
       backo2: 1.0.2
       eventemitter3: 3.1.0
-      graphql: 14.6.0
+      graphql: 14.6.0(patch_hash=sd2ab3xi3rjnezpojbjagatab4)
       iterall: 1.3.0
       symbol-observable: 1.2.0
       ws: 5.2.3
