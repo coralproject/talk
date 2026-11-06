@@ -208,3 +208,18 @@ $tab-stream-default: var(--palette-text-500);
   right: 0;
   top: 0;
 }
+
+:global([dir="rtl"]) .root:not(:first-child) .streamPrimary {
+  border-left-width: 1px;
+  border-right-width: 0px;
+}
+
+:global([dir="rtl"]) .root:not(:first-child) .notifications {
+  border-left-width: 1px;
+  border-right-width: 0px;
+}
+
+:global([dir="rtl"]) .floatRight {
+  right: auto;
+  left: 0;
+}

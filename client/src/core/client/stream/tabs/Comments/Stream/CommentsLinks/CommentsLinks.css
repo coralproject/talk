@@ -50,3 +50,8 @@ $linkColorActive: var(--palette-primary-800);
     width: var(--font-size-icon-lg);
   }
 }
+
+:global([dir="rtl"]) .link {
+  margin-right: 0;
+  margin-left: var(--spacing-4);
+}

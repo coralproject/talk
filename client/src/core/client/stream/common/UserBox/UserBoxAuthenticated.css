@@ -35,3 +35,18 @@
 
   padding-left: var(--spacing-1);
 }
+
+:global([dir="rtl"]) .username {
+  padding-right: 0 !important;
+  padding-left: var(--spacing-2) !important;
+  margin-left: var(--spacing-1) !important;
+}
+
+:global([dir="rtl"]) .signOut {
+  margin-right: var(--spacing-1) !important;
+}
+
+:global([dir="rtl"]) .userBoxButton {
+  padding-left: var(--spacing-1) !important;
+  padding-right: var(--spacing-1) !important;
+}

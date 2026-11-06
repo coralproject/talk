@@ -75,6 +75,7 @@ const HTMLContent: FunctionComponent<HTMLContentProps> = ({
   const { window } = useCoralContext();
   return (
     <div
+      dir="auto"
       className={cn(styles.root, className)}
       dangerouslySetInnerHTML={{ __html: transform(window, children) }}
     />

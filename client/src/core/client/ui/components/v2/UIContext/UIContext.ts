@@ -10,6 +10,9 @@ export interface UIContextProps {
 
   locales?: string[];
 
+  /** Text direction ("rtl" or "ltr") */
+  dir?: "rtl" | "ltr";
+
   /**
    * This is the target window, where our React Elements are rendered to.
    * This could be different than the global `window` object when we render

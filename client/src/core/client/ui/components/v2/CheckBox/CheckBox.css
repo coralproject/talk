@@ -102,3 +102,18 @@ input:checked + .label {
 .input:checked:disabled + .label:after {
   color: var(--palette-text-input-disabled);
 }
+
+:global([dir="rtl"]) .label {
+  padding-left: 0;
+  padding-right: calc(var(--spacing-3) + 14px);
+}
+
+:global([dir="rtl"]) .input + .label:before {
+  left: auto;
+  right: 0px;
+}
+
+:global([dir="rtl"]) .input:checked + .label:after {
+  left: auto;
+  right: 2px;
+}
