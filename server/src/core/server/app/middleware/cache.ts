@@ -53,7 +53,11 @@ const cacheMiddleware =
     // Compute the cache key.
     let params: URLSearchParams;
     try {
-      params = new URL(req.originalUrl, "http://localhost").searchParams;
+      // originalUrl is a path and query, which new URL() cannot parse
+      // without an absolute base. Only the query string is used for the
+      // cache key, so this host is a placeholder. A fixed host also keeps
+      // an IP address in req.hostname from throwing.
+      params = new URL(req.originalUrl, "https://sbnation.com").searchParams;
     } catch {
       return next();
     }
