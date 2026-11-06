@@ -157,9 +157,14 @@ export const cspSiteMiddleware =
 
     // If the frame ancestors is being set to deny (admin pages), then
     // use our domains, otherwise look it up from the request (stream).
-    const origins = frameAncestorsDeny
-      ? domains
-      : await retrieveOriginsFromRequest(mongo, config, req);
+    let origins: string[];
+    try {
+      origins = frameAncestorsDeny
+        ? domains
+        : await retrieveOriginsFromRequest(mongo, config, req);
+    } catch (err) {
+      return next(err);
+    }
 
     const frameOptions = generateFrameOptions(req, origins);
     if (frameOptions) {

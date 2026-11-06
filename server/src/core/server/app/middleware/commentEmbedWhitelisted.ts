@@ -12,46 +12,61 @@ export const commentEmbedWhitelisted =
   ({ mongo }: Pick<AppOptions, "mongo">, oembedAPI = false): RequestHandler =>
   async (req, res, next) => {
     // First try to get the commentID from the query params
-    let commentID: string | null = req.query.commentID;
+    let commentID: string | null =
+      typeof req.query.commentID === "string" ? req.query.commentID : null;
 
     // For the Oembed endpoint, will need to get commentID from the url
     if (!commentID) {
-      const url: string = req.query.url;
-      const urlToParse = new URL(url);
-      commentID = urlToParse.searchParams.get("commentID");
+      const url: unknown = req.query.url;
+      if (typeof url !== "string") {
+        res.sendStatus(400);
+        return;
+      }
+
+      try {
+        commentID = new URL(url).searchParams.get("commentID");
+      } catch {
+        res.sendStatus(400);
+        return;
+      }
     }
 
     const { tenant } = req.coral;
 
-    if (commentID && tenant) {
-      const comment = await retrieveComment(
-        mongo.comments(),
-        tenant.id,
-        commentID
-      );
-      const siteID = comment?.siteID;
-      if (siteID) {
-        const site = await retrieveSite(mongo, tenant.id, siteID);
-        if (site) {
-          let origin: string | null | undefined = getRequesterOrigin(req);
-          if (!origin) {
-            origin = req.header("Origin");
-          }
-          if (origin) {
-            // if oEmbed API call, we also check oEmbed allowed origins on tenant
-            if (
-              oembedAPI &&
-              tenant.embeddedComments?.oEmbedAllowedOrigins.includes(origin)
-            ) {
-              return next();
+    try {
+      if (commentID && tenant) {
+        const comment = await retrieveComment(
+          mongo.comments(),
+          tenant.id,
+          commentID
+        );
+        const siteID = comment?.siteID;
+        if (siteID) {
+          const site = await retrieveSite(mongo, tenant.id, siteID);
+          if (site) {
+            let origin: string | null | undefined = getRequesterOrigin(req);
+            if (!origin) {
+              origin = req.header("Origin");
             }
-            if (site.allowedOrigins.includes(origin)) {
-              return next();
+            if (origin) {
+              // if oEmbed API call, we also check oEmbed allowed origins on tenant
+              if (
+                oembedAPI &&
+                tenant.embeddedComments?.oEmbedAllowedOrigins.includes(origin)
+              ) {
+                return next();
+              }
+              if (site.allowedOrigins.includes(origin)) {
+                return next();
+              }
             }
           }
         }
       }
+    } catch (err) {
+      return next(err);
     }
+
     res.sendStatus(401);
   };
 
