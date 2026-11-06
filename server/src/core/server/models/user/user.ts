@@ -94,6 +94,10 @@ export interface SSOProfile {
   id: string;
   lastIssuedAt?: Date;
 }
+export interface AtprotoProfile {
+  type: "atproto";
+  id: string;
+}
 
 export interface FacebookProfile {
   type: "facebook";
@@ -113,6 +117,7 @@ export type Profile =
   | LocalProfile
   | OIDCProfile
   | SSOProfile
+  | AtprotoProfile
   | FacebookProfile
   | GoogleProfile;
 

@@ -13,7 +13,11 @@ import { UserBoxContainer_settings as SettingsData } from "coral-stream/__genera
 import { UserBoxContainer_viewer as ViewerData } from "coral-stream/__generated__/UserBoxContainer_viewer.graphql";
 import { UserBoxContainerLocal } from "coral-stream/__generated__/UserBoxContainerLocal.graphql";
 
-import { supportsRegister, weControlAuth } from "../authControl";
+import {
+  supportsAtproto,
+  supportsRegister,
+  weControlAuth,
+} from "../authControl";
 import AuthPopup, {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
@@ -64,7 +68,7 @@ export const UserBoxContainer: FunctionComponent<Props> = ({
 
   return (
     <>
-      <AuthPopup />
+      <AuthPopup withHandoff={supportsAtproto(settings)} />
       <UserBoxUnauthenticated
         onSignIn={handleSignIn}
         onRegister={(supportsRegister(settings) && handleRegister) || undefined}

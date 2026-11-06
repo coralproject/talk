@@ -191,6 +191,11 @@ it("do not render createPassword view when local auth is disabled", async () => 
 });
 
 it("send back access token", async () => {
+  // The popup was opened by the page, so it has an opener to post to.
+  // eslint-disable-next-line no-restricted-globals
+  const originalOpener = window.opener;
+  // eslint-disable-next-line no-restricted-globals
+  window.opener = window;
   const { context } = await createTestRenderer({
     resolvers: {
       Query: {
@@ -214,4 +219,54 @@ it("send back access token", async () => {
   await waitFor(() => expect(windowMock.closeStub.called).toBe(true));
 
   postMessageMock.verify();
+  // eslint-disable-next-line no-restricted-globals
+  window.opener = originalOpener;
+});
+
+it("hands off the access token through the server without an opener", async () => {
+  // eslint-disable-next-line no-restricted-globals
+  const originalOpener = window.opener;
+  // eslint-disable-next-line no-restricted-globals
+  window.opener = null;
+  try {
+    const { context } = createContext({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () =>
+            pureMerge(viewer, {
+              email: "hans@test.com",
+              username: "hans",
+              profiles: [{ __typename: "LocalProfile" }],
+            }),
+        },
+      }),
+      initLocalState: (localRecord) => {
+        localRecord.setValue("CREATE_PASSWORD", "view");
+        localRecord.setValue(accessToken, "accessToken");
+      },
+    });
+    // The popup remembered this ID before it navigated away to sign in.
+    await context.sessionStorage.setItem("authHandoff", "handoff-id");
+
+    const postMessageMock = sinon.mock(context.postMessage);
+    postMessageMock.expects("send").never();
+    const fetchStub = sinon.stub(context.rest, "fetch").resolves("");
+
+    customRenderAppWithContext(context);
+
+    await waitFor(() => expect(windowMock.closeStub.called).toBe(true));
+
+    postMessageMock.verify();
+    expect(
+      fetchStub.calledWithMatch("/auth/handoff", {
+        method: "POST",
+        body: { id: "handoff-id" },
+        token: accessToken,
+      })
+    ).toBe(true);
+  } finally {
+    // eslint-disable-next-line no-restricted-globals
+    window.opener = originalOpener;
+  }
 });

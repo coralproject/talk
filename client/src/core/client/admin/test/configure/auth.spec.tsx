@@ -386,3 +386,135 @@ it("change settings", async () => {
     await wait(() => expect(oidcEnabled.props.disabled).toBe(false));
   });
 });
+
+it("change atproto settings", async () => {
+  const { testRenderer } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        updateSettings: ({ variables }) => {
+          expectAndFail(variables.settings.auth!.integrations!.atproto).toEqual(
+            {
+              enabled: true,
+              allowRegistration: true,
+              targetFilter: {
+                admin: true,
+                stream: true,
+              },
+              clientName: "My Site",
+              logoURI: "https://example.com/logo.png",
+              typeaheadHost: "https://public.api.bsky.app",
+            }
+          );
+          return {
+            settings: pureMerge(settingsWithEmptyAuth, variables.settings),
+          };
+        },
+      },
+    }),
+  });
+
+  const atprotoContainer = within(testRenderer.root).getByTestID(
+    "configure-auth-atproto-container"
+  );
+
+  // The client metadata URL, which is the client ID, is shown to admins.
+  expect(
+    atprotoContainer.findAll(
+      (n) => n.props.value === "http://localhost/atproto/clientmetadata.json"
+    ).length
+  ).toBeGreaterThan(0);
+
+  const atprotoEnabled = within(atprotoContainer).getByLabelText("Enabled");
+  const form = findParentWithType(atprotoContainer, "form")!;
+
+  // There is no client ID or secret to fill in, only a name and logo.
+  act(() => atprotoEnabled.props.onChange({}));
+  act(() =>
+    within(atprotoContainer)
+      .getByLabelText("Client name")
+      .props.onChange("My Site")
+  );
+  act(() =>
+    within(atprotoContainer)
+      .getByLabelText("Logo URL")
+      .props.onChange("https://example.com/logo.png")
+  );
+
+  act(() => {
+    form.props.onSubmit({ preventDefault: noop });
+  });
+  // Fields are disabled while submitting.
+  expect(atprotoEnabled.props.disabled).toBe(true);
+
+  await act(async () => {
+    await wait(() => expect(atprotoEnabled.props.disabled).toBe(false));
+  });
+});
+
+it("turns off atproto handle suggestions when the host is cleared", async () => {
+  let saved: unknown;
+  const { testRenderer } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        updateSettings: ({ variables }) => {
+          saved = variables.settings.auth!.integrations!.atproto!.typeaheadHost;
+          return {
+            settings: pureMerge(settingsWithEmptyAuth, variables.settings),
+          };
+        },
+      },
+    }),
+  });
+
+  const atprotoContainer = within(testRenderer.root).getByTestID(
+    "configure-auth-atproto-container"
+  );
+  const atprotoEnabled = within(atprotoContainer).getByLabelText("Enabled");
+  const form = findParentWithType(atprotoContainer, "form")!;
+
+  // The host defaults to Bluesky's public AppView.
+  const typeaheadHost = within(atprotoContainer).getByLabelText(
+    "Atproto handle suggestions"
+  );
+  expect(typeaheadHost.props.value).toBe("https://public.api.bsky.app");
+
+  act(() => atprotoEnabled.props.onChange({}));
+  act(() => typeaheadHost.props.onChange(""));
+  act(() => {
+    form.props.onSubmit({ preventDefault: noop });
+  });
+
+  await act(async () => {
+    await wait(() => expect(atprotoEnabled.props.disabled).toBe(false));
+  });
+  expect(saved).toBeNull();
+});
+
+it("rejects an invalid atproto logo URL", async () => {
+  const updateSettings = sinon.stub();
+  const { testRenderer } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: { updateSettings },
+    }),
+  });
+
+  const atprotoContainer = within(testRenderer.root).getByTestID(
+    "configure-auth-atproto-container"
+  );
+  const form = findParentWithType(atprotoContainer, "form")!;
+
+  act(() =>
+    within(atprotoContainer).getByLabelText("Enabled").props.onChange({})
+  );
+  act(() =>
+    within(atprotoContainer)
+      .getByLabelText("Logo URL")
+      .props.onChange("not a url")
+  );
+  act(() => {
+    form.props.onSubmit({ preventDefault: noop });
+  });
+
+  within(atprotoContainer).getByText("Invalid URL", { exact: false });
+  expect(updateSettings.called).toBe(false);
+});

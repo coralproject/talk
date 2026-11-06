@@ -2,6 +2,10 @@ FROM node:18-alpine
 
 ENV NODE_OPTIONS="--max-old-space-size=8192 --openssl-legacy-provider --no-experimental-fetch"
 
+# redis-memory-server is only used by the server test suite, which doesn't run
+# in this image. Skip its postinstall, which compiles Redis "stable" from source.
+ENV REDISMS_DISABLE_POSTINSTALL=1
+
 # Install build dependancies.
 RUN apk --no-cache --update add g++ make git python3 py3-pip py3-setuptools linux-headers \
   && rm -rf /var/cache/apk/*

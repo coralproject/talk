@@ -1,4 +1,5 @@
 import {
+  GQLAtprotoAuthIntegration,
   GQLAuth,
   GQLAuthenticationTargetFilter,
   GQLCOMMENT_BODY_FORMAT,
@@ -44,6 +45,11 @@ export type FacebookAuthIntegration = Omit<
   "callbackURL" | "redirectURL"
 >;
 
+export type AtprotoAuthIntegration = Omit<
+  GQLAtprotoAuthIntegration,
+  "callbackURL" | "redirectURL" | "authURL" | "clientMetadataURL"
+>;
+
 export interface SSOAuthIntegration extends SigningSecretResource {
   enabled: boolean;
   allowRegistration: boolean;
@@ -60,6 +66,7 @@ export interface AuthIntegrations {
   oidc: OIDCAuthIntegration;
   google: GoogleAuthIntegration;
   facebook: FacebookAuthIntegration;
+  atproto?: AtprotoAuthIntegration;
 }
 
 /**

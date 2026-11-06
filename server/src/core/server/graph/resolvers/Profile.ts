@@ -10,6 +10,8 @@ const resolveType: GQLProfileTypeResolver<user.Profile> = (profile) => {
       return "OIDCProfile";
     case "sso":
       return "SSOProfile";
+    case "atproto":
+      return "AtprotoProfile";
     case "facebook":
       return "FacebookProfile";
     case "google":

@@ -64,6 +64,17 @@ export const settings = createFixture<GQLSettings>({
           stream: true,
         },
       },
+      atproto: {
+        enabled: false,
+        allowRegistration: true,
+        targetFilter: {
+          admin: true,
+          stream: true,
+        },
+        callbackURL: "http://localhost/atproto/callback",
+        clientMetadataURL: "http://localhost/atproto/clientmetadata.json",
+        authURL: "http://localhost/atproto",
+      },
       google: {
         enabled: false,
         allowRegistration: true,

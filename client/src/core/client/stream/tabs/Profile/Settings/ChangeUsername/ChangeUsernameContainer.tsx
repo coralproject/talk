@@ -479,6 +479,12 @@ const enhanced = withFragmentContainer<Props>({
               stream
             }
           }
+          atproto {
+            enabled
+            targetFilter {
+              stream
+            }
+          }
         }
       }
     }

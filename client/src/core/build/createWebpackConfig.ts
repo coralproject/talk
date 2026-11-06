@@ -435,6 +435,21 @@ export default function createWebpackConfig(
                 },
               ],
             },
+            // actor-typeahead is modern JavaScript this build can't parse, so it
+            // is emitted as a file of its own and loaded with a script tag (see
+            // AtprotoHandleTypeahead), instead of being bundled.
+            {
+              test: /node_modules\/actor-typeahead\/actor-typeahead\.js$/,
+              type: "javascript/auto",
+              use: [
+                {
+                  loader: "file-loader",
+                  options: {
+                    name: "assets/js/[name].[hash].js",
+                  },
+                },
+              ],
+            },
             // Makes sure node_modules are transpiled the way we need them to be.
             {
               test: /\.js$/,
