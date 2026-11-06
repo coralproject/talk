@@ -1,5 +1,7 @@
 {% extends "layouts/account-notification.html" %}
 
 {% block content %}
+  <div data-l10n-id="email-template-accountNotificationDeleteRequestCancel" data-l10n-args="{{ context | dump }}">
   The account deletion request for {{ context.organizationName }} has been cancelled. Your account is now reactivated.
+  </div>
 {% endblock %}
