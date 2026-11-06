@@ -371,6 +371,9 @@
       "types-are-capitalized"
     ]
   },
+  "redisMemoryServer": {
+    "disablePostinstall": "1"
+  },
   "browsers": [
     ">1%",
     "last 4 versions",
