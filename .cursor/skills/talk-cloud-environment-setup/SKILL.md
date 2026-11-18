@@ -21,6 +21,10 @@ are optional embed test beds.
   can precede nvm on `PATH`; `re2` then fails to compile during install
   (`v8::AccessControl` errors, `node -v v22...` in the gyp log). `env.sh`
   prepends `$NVM_BIN` to fix this.
+- **Native addons build from source on Node 18** (`pprof` has no prebuilt for
+  ABI 108). pnpm 8's node-gyp needs Python `distutils`; on Python 3.12 that
+  requires `python3-setuptools` (`ModuleNotFoundError: No module named 'distutils'`
+  otherwise). The shared image installs it.
 - **The server needs one development build before `watch` works.** Without
   `server/dist/.../wordList/worker.js` it crashes on boot
   (`Cannot find module ... wordList/worker.js`). Run
