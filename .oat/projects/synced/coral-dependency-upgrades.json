@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "slug": "coral-dependency-upgrades",
+  "scope": "synced",
+  "ref": "refs/oat/projects/coral-dependency-upgrades",
+  "remote": "origin",
+  "status": "active",
+  "createdAt": "2026-11-19T17:56:04.829Z",
+  "completedAt": null
+}
