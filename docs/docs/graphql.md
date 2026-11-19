@@ -26,7 +26,12 @@ running instance of Coral.
 
 ### Get an access token
 
-Coral's GraphQL API requires you to generate an access token for authentication.
+Coral's GraphQL API requires you to generate an access token for
+authentication. You can generate one using the `coral-cli`, or directly
+against Coral's REST and GraphQL APIs if you'd rather not install it.
+
+#### With the CLI
+
 You can get an access token by using the [`coral-cli`](https://github.com/coralproject/coral-cli#coral-cli-tokencreate):
 
 ```bash
@@ -81,6 +86,69 @@ coral-cli token:revoke --domain "{{ CORAL_DOMAIN_NAME }}" --id "{{ accessToken
 Where `{{ accessTokenID }}` is the `id` from the `token:create` or `token:list`
 responses. This will mark the token as revoked and will prevent that token from
 being accepted for future calls to the Coral GraphQL API.
+
+#### Without the CLI
+
+If you'd rather not install `coral-cli`, you can generate an access token by
+calling Coral's REST and GraphQL APIs directly. This requires logging in as
+an administrator, since only administrators can create access tokens.
+
+First, log in to get a short-lived session token:
+
+```bash
+curl --request POST \
+  --url https://{{ CORAL_DOMAIN_NAME }}/api/auth/local \
+  --header "Content-Type: application/json" \
+  --data '{"email": "{{ adminEmail }}", "password": "{{ adminPassword }}"}'
+```
+
+You should get a response containing a JSON payload with the following
+structure:
+
+```json
+{
+  "token": "eyJhbG...M31PJU"
+}
+```
+
+Then use that session token to call the `createToken` mutation, which will
+create and return a `signedToken` — this is the same kind of non-expiring
+token that `coral-cli token:create` produces:
+
+```bash
+curl --request POST \
+  --url https://{{ CORAL_DOMAIN_NAME }}/api/graphql \
+  --header "Authorization: Bearer {{ sessionToken }}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "query": "mutation CreateToken($input: CreateTokenInput!) { createToken(input: $input) { token { id name createdAt } signedToken } }",
+    "variables": { "input": { "name": "{{ accessTokenName }}", "clientMutationId": "1" } }
+  }'
+```
+
+You should get a response like:
+
+```json
+{
+  "data": {
+    "createToken": {
+      "token": {
+        "id": "00c125f6-ec9a-4fe9-9a72-89a34cce5e2e",
+        "name": "test",
+        "createdAt": "2021-02-23T19:52:22.993Z"
+      },
+      "signedToken": "eyJhbG...M31PJU"
+    }
+  }
+}
+```
+
+The `signedToken` in the response is your `{{ accessToken }}` — use it the
+same way described below. Note that `{{ sessionToken }}` from the login step
+expires based on your tenant's [session duration setting](/auth#session-settings),
+so you'll need to log in again if it expires before you create your access
+token. You can list your existing tokens with a `viewer { tokens { id name
+createdAt } }` query, and revoke one with the `deactivateToken` mutation.
 
 ### Make an API request
 
