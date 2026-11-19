@@ -34,6 +34,7 @@ function convertLanguage(locale: LanguageCode): PerspectiveLanguage {
     case "de":
       return "de";
     case "pt-BR":
+    case "pt-PT":
       return "pt";
     default:
       return "en";
@@ -48,33 +49,33 @@ interface Options {
 
 type Request =
   | {
-      operation: "comments:analyze";
-      locale: LanguageCode;
-      body: {
-        /**
-         * text respresentation of the comment html body.
-         */
-        text: string;
-        doNotStore: boolean;
-        model: string;
-      };
-    }
-  | {
-      operation: "comments:suggestscore";
-      locale: LanguageCode;
-      body: {
-        /**
-         * text respresentation of the comment html body.
-         */
-        text: string;
-        commentID: string;
-        commentParentID?: string;
-        commentStatus: "APPROVED" | "DELETED";
-        storyURL: string;
-        tenantURL: string;
-        model: string;
-      };
+    operation: "comments:analyze";
+    locale: LanguageCode;
+    body: {
+      /**
+       * text respresentation of the comment html body.
+       */
+      text: string;
+      doNotStore: boolean;
+      model: string;
     };
+  }
+  | {
+    operation: "comments:suggestscore";
+    locale: LanguageCode;
+    body: {
+      /**
+       * text respresentation of the comment html body.
+       */
+      text: string;
+      commentID: string;
+      commentParentID?: string;
+      commentStatus: "APPROVED" | "DELETED";
+      storyURL: string;
+      tenantURL: string;
+      model: string;
+    };
+  };
 
 function formatBody(req: Request): object {
   // Get the language from the locale. This won't be a 1-1 mapping because the
