@@ -114,12 +114,15 @@ comments-postComment-confirmMedia-add-tweet = Tweet hinzufügen
 comments-postComment-confirmMedia-add-video = Video hinzufügen
 comments-postComment-confirmMedia-remove = Entfernen
 comments-commentForm-gifPreview-remove = Entfernen
+comments-viewNew-loading = Laden...
 comments-viewNew =
   { $count ->
     [1] Ansicht {$count} Neuer Kommentar
     *[other] Ansicht {$count} Neue Kommentare
   }
 comments-loadMore = Mehr laden
+comments-loadAll = Alle Laden
+comments-loadAll-loading = Laden...
 
 comments-permalinkPopover =
   .description = Dialog, der einen Permalink zum Kommentar anzeigt
@@ -781,7 +784,7 @@ configure-experts-none-yet = Es gibt derzeit keine Experten für dieses Q&A.
 configure-experts-search-title = Suche nach einem Experten
 configure-experts-assigned-title = Experten
 configure-experts-noLongerAnExpert = ist nicht länger ein Experte
-comments-tombstone-ignore = Dieser Kommentar ist ausgeblendet, weil Sie {$username} derzeit ignorieren.
+comments-tombstone-ignore-user = Dieser Kommentar ist ausgeblendet, weil Sie diesen Benutzer ignorieren.
 comments-tombstone-showComment = Kommentar anzeigen
 comments-tombstone-deleted =
   Dieser Kommentar ist nicht mehr verfügbar. Der Benutzer hat sein Benutzerkonto gelöscht.
