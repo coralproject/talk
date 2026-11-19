@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "slug": "update-coral-dependencies",
+  "scope": "synced",
+  "ref": "refs/oat/projects/update-coral-dependencies",
+  "remote": "origin",
+  "status": "active",
+  "createdAt": "2026-11-19T17:49:13.449Z",
+  "completedAt": null
+}
