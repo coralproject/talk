@@ -7,7 +7,7 @@ settings:
 overrides:
   '@babel/traverse': 7.23.2
   '@grpc/grpc-js': 1.13.6
-  ansi-regex: 3.0.1
+  ansi-regex@2: 3.0.1
   axios: 0.35.0
   basic-ftp: 6.2.1
   brace-expansion@1: 1.1.20
@@ -19,16 +19,14 @@ overrides:
   form-data@2: 2.5.6
   form-data@3: 3.0.5
   form-data@4: 4.0.6
-  image-size: 2.0.3
+  image-size: 0.7.5
   install-artifact-from-github: 1.7.0
   jsonwebtoken: 9.0.3
   jws@3: 3.2.3
   jws@4: 4.0.1
-  linkify-it: 5.0.2
   lodash: 4.18.0
   luxon@1: 1.28.1
   luxon@3: 3.2.1
-  markdown-it: 14.3.3
   minimatch@3: 3.1.4
   minimatch@5: 5.1.8
   minimatch@9: 9.0.7
@@ -36,8 +34,8 @@ overrides:
   nanoid: 3.3.18
   node-forge: 1.4.1
   node-fetch@2: 2.7.0
-  nth-check: 2.0.1
-  parse-duration: 2.1.3
+  nth-check: 1.0.2
+  parse-duration: 1.1.2
   path-to-regexp@0.1: 0.1.13
   picomatch: 2.3.2
   protobufjs: 7.6.1
@@ -45,7 +43,10 @@ overrides:
   proxy-addr: 2.0.8
   qs: 6.14.1
   semver@5: 5.7.2
-  serialize-javascript: 7.0.3
+  serialize-javascript@2: 2.1.2
+  serialize-javascript@3: 3.1.0
+  serialize-javascript@5: 5.0.1
+  serialize-javascript@6: 6.0.2
   sha.js: 2.4.12
   tar: 7.5.21
   tmp: 0.2.7
@@ -231,7 +232,7 @@ dependencies:
     specifier: ^4.16.1
     version: 4.28.5
   joi:
-    specifier: 17.2.1
+    specifier: ^17.2.1
     version: 17.2.1
   jsdom:
     specifier: ^16.3.0
@@ -2419,7 +2420,7 @@ packages:
       delay: 5.0.0
       extend: 3.0.2
       gcp-metadata: 4.3.1
-      parse-duration: 2.1.3
+      parse-duration: 1.1.2
       pprof: 3.2.1
       pretty-ms: 7.0.1
       protobufjs: 7.6.1
@@ -3536,7 +3537,7 @@ packages:
       md5: 2.3.0
       ms: 2.1.3
       remove-trailing-slash: 0.1.1
-      serialize-javascript: 7.0.3
+      serialize-javascript: 6.0.2
       uuid: 8.3.2
       winston: 3.8.2
     transitivePeerDependencies:
@@ -5232,6 +5233,19 @@ packages:
   /ansi-regex@3.0.1:
     resolution: {integrity: sha512-+O9Jct8wf++lXxxFc4hc8LsjaSq0HFzzL7cVsw8pRDIPdjKD2mT4ytDZlLuSBZ4cLKZFXIrMGO7DbQCtMJJMKw==}
     engines: {node: '>=4'}
+
+  /ansi-regex@4.1.1:
+    resolution: {integrity: sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g==}
+    engines: {node: '>=6'}
+    dev: true
+
+  /ansi-regex@5.0.1:
+    resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
+    engines: {node: '>=8'}
+
+  /ansi-regex@6.6.0:
+    resolution: {integrity: sha512-XZ5apbzreCbXSKwPjJstu8R0zOi247w3XYwWxtwBXgpZrCyc1Ka7p9/xY0A9/diMewmHbEKz+FIraWaEWjlN5g==}
+    engines: {node: '>=12'}
 
   /ansi-styles@2.2.1:
     resolution: {integrity: sha512-kmCevFghRiWM7HB5zTPULl4r9bVFSWjz62MhqizDGUrq2NWuNMQyuv4tHHoKJHs69M/MF64lEcHdYIocrdWQYA==}
@@ -7908,7 +7922,7 @@ packages:
       find-cache-dir: 3.3.1
       neo-async: 2.6.2
       schema-utils: 2.6.5
-      serialize-javascript: 7.0.3
+      serialize-javascript: 2.1.2
       webpack: 4.46.0(webpack-cli@3.3.12)
       webpack-sources: 1.4.3
     transitivePeerDependencies:
@@ -8563,7 +8577,7 @@ packages:
       boolbase: 1.0.0
       css-what: 2.1.3
       domutils: 1.5.1
-      nth-check: 2.0.1
+      nth-check: 1.0.2
 
   /css-select@2.1.0:
     resolution: {integrity: sha512-Dqk7LQKpwLoH3VovzZnkzegqNSuAziQyNZUcrdDM401iY+R5NkGBXGmtO05/yaXQziALuPogeG0b7UAgjnTJTQ==}
@@ -8571,7 +8585,7 @@ packages:
       boolbase: 1.0.0
       css-what: 3.3.0
       domutils: 1.7.0
-      nth-check: 2.0.1
+      nth-check: 1.0.2
     dev: true
 
   /css-selector-tokenizer@0.7.2:
@@ -8793,7 +8807,7 @@ packages:
     resolution: {integrity: sha512-zS2HSf9pI5XPlNZgIqJg/wCJpecgU/HA6E/uv2EfaWnW1EiTGLfy/EexTIsC9c99yoCOTXlqeeWk4FkCSuO3/g==}
     engines: {node: '>= 4'}
     dependencies:
-      image-size: 2.0.3
+      image-size: 0.7.5
       mimer: 1.1.1
     dev: false
 
@@ -12306,9 +12320,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /image-size@2.0.3:
-    resolution: {integrity: sha512-9BJAtVCBth+76NwqnEfWr3PiRnYhbquk6K/USuQ1GQajz5NgLzO7tNsnoNjHfO7LuftgkBf+CCH6j28hjMbIYQ==}
-    engines: {node: '>=18'}
+  /image-size@0.7.5:
+    resolution: {integrity: sha512-Hiyv+mXHfFEP7LzUL/llg9RwFxxY+o9N3JVLIeG5E7iFIFAalxvRU9UZthBdYDEVnzHMgjnKJPPpay5BWf1g9g==}
+    engines: {node: '>=6.9.0'}
+    deprecated: Please migrate to image-size@2.x
     hasBin: true
     dev: false
 
@@ -14854,7 +14869,7 @@ packages:
     resolution: {integrity: sha512-FlCHFwNnutLgVTflOYHPW2pPcl2AACqVzExlkGQNsi4CJgqOHN7YTgDd4LuhgN1BFO3TS0vLAruV1Td6dwWPJA==}
     peerDependencies:
       '@types/markdown-it': '*'
-      markdown-it: 14.3.3
+      markdown-it: '*'
     dependencies:
       '@types/markdown-it': 14.2.0
       markdown-it: 14.3.3
@@ -15757,8 +15772,8 @@ packages:
       set-blocking: 2.0.0
     dev: false
 
-  /nth-check@2.0.1:
-    resolution: {integrity: sha512-it1vE95zF6dTT9lBsYbxvqh0Soy4SPowchj0UBGj/V6cTPnXXtQOPUbhZ6CmGzAD/rW22LQK6E96pcdJXk4A4w==}
+  /nth-check@1.0.2:
+    resolution: {integrity: sha512-WeBOdju8SnzPN5vTUJYxYUxLeXpCaVP5i5e0LF8fg7WORF2Wd7wFX/pk0tYZk7s8T+J7VLy0Da6J1+wCT0AtHg==}
     dependencies:
       boolbase: 1.0.0
 
@@ -16241,8 +16256,8 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /parse-duration@2.1.3:
-    resolution: {integrity: sha512-MtbharL7Bets65qDBXuDOHHWyY1BxTJZmJ/xGmS90iEbKE0gZ6yZpZtCda7O79GeOi/f0NwBaplIuReExIoVsw==}
+  /parse-duration@1.1.2:
+    resolution: {integrity: sha512-p8EIONG8L0u7f8GFgfVlL4n8rnChTt8O5FSxgxMz2tjc9FMP199wxVKVB6IbKx11uTbKHACSvaLVIKNnoeNR/A==}
     dev: false
 
   /parse-entities@1.1.2:
@@ -17404,7 +17419,7 @@ packages:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      ansi-regex: 3.0.1
+      ansi-regex: 5.0.1
       ansi-styles: 5.2.0
       react-is: 17.0.2
     dev: true
@@ -17718,7 +17733,6 @@ packages:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
     dependencies:
       safe-buffer: 5.2.1
-    dev: true
 
   /randomfill@1.0.4:
     resolution: {integrity: sha512-87lcbR8+MhcWcUiQ+9e+Rwx8MyR2P7qnt15ynUlbm3TU/fjbgz4GsvfSUDTemtCCtVCqb4ZcEFlyPNTh9bBTLw==}
@@ -18834,9 +18848,26 @@ packages:
       upper-case-first: 2.0.2
     dev: true
 
-  /serialize-javascript@7.0.3:
-    resolution: {integrity: sha512-h+cZ/XXarqDgCjo+YSyQU/ulDEESGGf8AMK9pPNmhNSl/FzPl6L8pMp1leca5z6NuG6tvV/auC8/43tmovowww==}
-    engines: {node: '>=20.0.0'}
+  /serialize-javascript@2.1.2:
+    resolution: {integrity: sha512-rs9OggEUF0V4jUSecXazOYsLfu7OGK2qIn3c7IPBiffz32XniEp/TX9Xmc9LQfK2nQ2QKHvZ2oygKUGU0lG4jQ==}
+    dev: true
+
+  /serialize-javascript@3.1.0:
+    resolution: {integrity: sha512-JIJT1DGiWmIKhzRsG91aS6Ze4sFUrYbltlkg2onR5OrnNM02Kl/hnY/T4FN2omvyeBbQmMJv+K4cPOpGzOTFBg==}
+    dependencies:
+      randombytes: 2.1.0
+    dev: true
+
+  /serialize-javascript@5.0.1:
+    resolution: {integrity: sha512-SaaNal9imEO737H2c05Og0/8LUXG7EnsZyMa8MzkmuHoELfT6txuj0cMqRj6zfPKnmQ1yasR4PCJc8x+M4JSPA==}
+    dependencies:
+      randombytes: 2.1.0
+    dev: true
+
+  /serialize-javascript@6.0.2:
+    resolution: {integrity: sha512-Saa1xPByTTq2gdeFZYLLo+RFE35NHZkAbqZeWNd3BpzppeVisAqpDjcp8dyf6uIvEqJRd46jemmyA4iFIeVk8g==}
+    dependencies:
+      randombytes: 2.1.0
 
   /serve-index@1.9.1(supports-color@6.1.0):
     resolution: {integrity: sha512-pXHfKNP4qujrtteMrSBb0rc8HJ9Ms/GrXwcUtUtD5s4ewDJI8bT3Cz2zTVRMKtri49pLx2e0Ya8ziP5Ya2pZZw==}
@@ -19570,27 +19601,27 @@ packages:
     resolution: {integrity: sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==}
     engines: {node: '>=6'}
     dependencies:
-      ansi-regex: 3.0.1
+      ansi-regex: 4.1.1
     dev: true
 
   /strip-ansi@6.0.0:
     resolution: {integrity: sha512-AuvKTrTfQNYNIctbR1K/YGTR1756GycPsg7b9bdV9Duqur4gv6aKqHXah67Z8ImS7WEz5QVcOtlfW2rZEugt6w==}
     engines: {node: '>=8'}
     dependencies:
-      ansi-regex: 3.0.1
+      ansi-regex: 5.0.1
     dev: true
 
   /strip-ansi@6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
     engines: {node: '>=8'}
     dependencies:
-      ansi-regex: 3.0.1
+      ansi-regex: 5.0.1
 
   /strip-ansi@7.1.0:
     resolution: {integrity: sha512-iq6eVVI64nQQTRYq2KtEg2d2uU7LElhTJwsH4YzIHZshxlgZms/wIc4VoDQTlG/IvVIrBKG06CrZnp0qv7hkcQ==}
     engines: {node: '>=12'}
     dependencies:
-      ansi-regex: 3.0.1
+      ansi-regex: 6.6.0
 
   /strip-bom-string@1.0.0:
     resolution: {integrity: sha512-uCC2VHvQRYu+lMh4My/sFNmF2klFymLX1wHJeXnbEJERpV/ZsVuonzerjfrGpIGF7LBVa1O7i9kjiWvJiFck8g==}
@@ -19867,7 +19898,7 @@ packages:
       find-cache-dir: 2.1.0
       is-wsl: 1.1.0
       schema-utils: 1.0.0
-      serialize-javascript: 7.0.3
+      serialize-javascript: 3.1.0
       source-map: 0.6.1
       terser: 4.8.0
       webpack: 4.46.0(webpack-cli@3.3.12)
@@ -19886,7 +19917,7 @@ packages:
       jest-worker: 26.6.2
       p-limit: 3.1.0
       schema-utils: 3.1.1
-      serialize-javascript: 7.0.3
+      serialize-javascript: 5.0.1
       source-map: 0.6.1
       terser: 5.10.0(acorn@8.11.3)
       webpack: 4.46.0(webpack-cli@3.3.12)
@@ -19914,7 +19945,7 @@ packages:
     dependencies:
       jest-worker: 27.4.2
       schema-utils: 3.1.1
-      serialize-javascript: 7.0.3
+      serialize-javascript: 6.0.2
       source-map: 0.6.1
       terser: 5.10.0(acorn@8.11.3)
       webpack: 5.65.0(webpack-cli@3.3.12)
