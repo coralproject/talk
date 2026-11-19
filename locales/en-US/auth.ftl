@@ -29,6 +29,10 @@ signIn-signInWithEmail = Sign in with Email
 signIn-signInWithFacebook = Sign in with Facebook
 signIn-signInWithGoogle = Sign in with Google
 signIn-signInWithOIDC = Sign in with { $name }
+signIn-signInWithAtproto = Sign in with Atproto or Bluesky
+signIn-atprotoHandleLabel = ATproto or Bluesky Handle
+signIn-atprotoHandleTextField =
+  .placeholder = yourname.bsky.social
 
 signIn-passwordLabel = Password
 signIn-passwordTextField =
@@ -47,6 +51,10 @@ signUp-signUpWithEmail = Sign up with Email
 signUp-signUpWithFacebook = Sign up with Facebook
 signUp-signUpWithGoogle = Sign up with Google
 signUp-signUpWithOIDC = Sign up with { $name }
+signUp-signUpWithAtproto = Sign up with Atproto or Bluesky
+signUp-atprotoHandleLabel = ATproto or Bluesky Handle
+signUp-atprotoHandleTextField =
+  .placeholder = yourname.bsky.social
 
 signUp-accountAvailableSignIn = Already have an account? <textlink>Sign in</textlink>
 

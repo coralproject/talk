@@ -6,6 +6,7 @@ import { GQLResolver } from "coral-server/graph/schema/__generated__/types";
 
 import { AkismetExternalIntegration } from "./AkismetExternalIntegration";
 import { ApproveCommentPayload } from "./ApproveCommentPayload";
+import { AtprotoAuthIntegration } from "./AtprotoAuthIntegration";
 import { AuthenticationTargetFilter } from "./AuthenticationTargetFilter";
 import { AuthIntegrations } from "./AuthIntegrations";
 import { BanStatus } from "./BanStatus";
@@ -95,6 +96,7 @@ import { YouTubeMediaConfiguration } from "./YouTubeMediaConfiguration";
 const Resolvers: GQLResolver = {
   AkismetExternalIntegration,
   ApproveCommentPayload,
+  AtprotoAuthIntegration,
   AuthIntegrations,
   BanStatus,
   BanStatusHistory,

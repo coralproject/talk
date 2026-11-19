@@ -10,6 +10,7 @@ import CLASSES from "coral-stream/classes";
 import { HorizontalGutter } from "coral-ui/components/v2";
 
 import SignInWithLocalHeader from "./SignInWithLocalHeader";
+import SignUpWithAtprotoContainer from "./SignUpWithAtprotoContainer";
 import SignUpWithEmailContainer from "./SignUpWithEmailContainer";
 import SignUpWithFacebookContainer from "./SignUpWithFacebookContainer";
 import SignUpWithGoogleContainer from "./SignUpWithGoogleContainer";
@@ -20,10 +21,12 @@ import styles from "./SignUp.css";
 interface Props {
   onSignIn: () => void;
   localEnabled?: boolean;
+  atprotoEnabled?: boolean;
   facebookEnabled?: boolean;
   googleEnabled?: boolean;
   oidcEnabled?: boolean;
   auth: PropTypesOf<typeof SignUpWithOIDCContainer>["auth"] &
+    PropTypesOf<typeof SignUpWithAtprotoContainer>["auth"] &
     PropTypesOf<typeof SignUpWithFacebookContainer>["auth"] &
     PropTypesOf<typeof SignUpWithGoogleContainer>["auth"];
 }
@@ -31,6 +34,7 @@ interface Props {
 const SignUp: FunctionComponent<Props> = ({
   onSignIn,
   localEnabled,
+  atprotoEnabled,
   facebookEnabled,
   googleEnabled,
   oidcEnabled,
@@ -39,7 +43,7 @@ const SignUp: FunctionComponent<Props> = ({
   const ref = useResizePopup();
 
   const oneClickIntegrationEnabled =
-    facebookEnabled || googleEnabled || oidcEnabled;
+    atprotoEnabled || facebookEnabled || googleEnabled || oidcEnabled;
 
   return (
     <div ref={ref} data-testid="signUp-container">
@@ -66,6 +70,7 @@ const SignUp: FunctionComponent<Props> = ({
         {localEnabled && <SignUpWithEmailContainer />}
         {localEnabled && oneClickIntegrationEnabled && <OrSeparator />}
         <HorizontalGutter>
+          {atprotoEnabled && <SignUpWithAtprotoContainer auth={auth} />}
           {facebookEnabled && <SignUpWithFacebookContainer auth={auth} />}
           {googleEnabled && <SignUpWithGoogleContainer auth={auth} />}
           {oidcEnabled && <SignUpWithOIDCContainer auth={auth} />}

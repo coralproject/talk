@@ -7,6 +7,7 @@ import { AppContainerLocal } from "coral-stream/__generated__/AppContainerLocal.
 
 import App from "./App";
 import {
+  OnAuthHandoff,
   OnEmbedLogin,
   OnEmbedLogout,
   OnEmbedSetCommentID,
@@ -21,6 +22,7 @@ const listeners = (
     <OnEmbedLogout />
     <OnEmbedSetCommentID />
     <OnPostMessageSetAccessToken />
+    <OnAuthHandoff />
     <OnEventsForRudderStack />
   </>
 );

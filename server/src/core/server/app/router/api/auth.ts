@@ -2,6 +2,7 @@ import bytes from "bytes";
 
 import { AppOptions } from "coral-server/app";
 import {
+  atprotoHandlers,
   facebookHandler,
   forgotCheckHandler,
   forgotHandler,
@@ -10,7 +11,9 @@ import {
   linkHandler,
   logoutHandler,
   oidcHandler,
+  retrieveAuthHandoffHandler,
   signupHandler,
+  storeAuthHandoffHandler,
 } from "coral-server/app/handlers";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
 import { loggedInMiddleware } from "coral-server/app/middleware/loggedIn";
@@ -53,8 +56,16 @@ export function createNewAuthRouter(
     linkHandler(app)
   );
 
+  // The atproto handlers are shared with the logout handler, which ends the
+  // user's atproto session when they sign out.
+  const atproto = atprotoHandlers(app);
+
   // Mount the logout handler.
-  router.delete("/", authenticate(passport), logoutHandler(app));
+  router.delete(
+    "/",
+    authenticate(passport),
+    logoutHandler({ ...app, revokeAtproto: atproto.revoke })
+  );
 
   // Mount the external auth integrations with middleware/handle wrappers.
   const facebook = facebookHandler(app);
@@ -71,6 +82,23 @@ export function createNewAuthRouter(
 
   router.get("/oidc", oidc);
   router.get("/oidc/callback", oidc);
+
+  // The atproto login takes the handle from the sign in form and replies with
+  // the authorization URL, instead of redirecting like the integrations above.
+  router.post("/atproto", jsonMiddleware(REQUEST_MAX), atproto.login);
+  router.get("/atproto/clientmetadata.json", atproto.metadata);
+  router.get("/atproto/callback", atproto.callback);
+
+  // Passes a token from the sign in popup to the page that opened it, when the
+  // popup can't reach it with window.opener.
+  router.post(
+    "/handoff",
+    authenticate(passport),
+    loggedInMiddleware,
+    jsonMiddleware(REQUEST_MAX),
+    storeAuthHandoffHandler(app)
+  );
+  router.get("/handoff/:id", retrieveAuthHandoffHandler(app));
 
   return router;
 }

@@ -44,6 +44,13 @@ graphql`
             stream
           }
         }
+        atproto {
+          enabled
+          allowRegistration
+          targetFilter {
+            stream
+          }
+        }
       }
     }
   }
@@ -56,6 +63,7 @@ graphql`
 export function weControlAuth(data: NoFragmentRefs<authControl_settings>) {
   const integrations = data.auth.integrations;
   return [
+    integrations.atproto,
     integrations.facebook,
     integrations.google,
     integrations.local,
@@ -70,9 +78,19 @@ export function weControlAuth(data: NoFragmentRefs<authControl_settings>) {
 export function supportsRegister(data: NoFragmentRefs<authControl_settings>) {
   const integrations = data.auth.integrations;
   return [
+    integrations.atproto,
     integrations.facebook,
     integrations.google,
     integrations.local,
     integrations.oidc,
   ].some((i) => i.allowRegistration && i.enabled && i.targetFilter.stream);
+}
+
+/**
+ * Determine whether atproto sign in is offered on the stream, which is the
+ * only sign in that needs the auth handoff.
+ */
+export function supportsAtproto(data: NoFragmentRefs<authControl_settings>) {
+  const { atproto } = data.auth.integrations;
+  return atproto.enabled && atproto.targetFilter.stream;
 }
