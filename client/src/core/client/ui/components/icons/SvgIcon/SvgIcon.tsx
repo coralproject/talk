@@ -10,6 +10,7 @@ export interface SvgIconProps {
   color?: "stream" | "teal" | "tealLight" | "error" | "success";
   strokeWidth?: "thin" | "regular" | "bold" | "semibold";
   filled?: "none" | "currentColor" | "teal" | "tealLight" | "white";
+  flipRTL?: boolean;
   className?: string;
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLSpanElement>;
@@ -21,6 +22,7 @@ const SvgIcon: React.FC<SvgIconProps> = ({
   color = "inherit",
   strokeWidth = "regular",
   filled = "none",
+  flipRTL,
   className,
   forwardRef,
   ...rest
@@ -104,7 +106,8 @@ const SvgIcon: React.FC<SvgIconProps> = ({
     className,
     colorStyle,
     strokeWidthStyle,
-    fillStyle
+    fillStyle,
+    flipRTL && styles.flipRTL
   );
   return (
     <span className={spanClassNames} {...rest} ref={forwardRef}>

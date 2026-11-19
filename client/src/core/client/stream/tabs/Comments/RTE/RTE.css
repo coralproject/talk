@@ -43,3 +43,13 @@ $commentsRTEPlaceholder: var(--palette-text-placeholder);
   background: var(--palette-background-input-disabled);
   color: var(--palette-text-input-disabled);
 }
+
+:global([dir="rtl"]) .placeholder {
+  margin: 10px 10px 0 0;
+  text-align: right;
+}
+
+:global([dir="rtl"]) .content {
+  direction: rtl;
+  text-align: right;
+}

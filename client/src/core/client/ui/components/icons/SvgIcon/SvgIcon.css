@@ -96,3 +96,9 @@
 .tealLightFill svg {
   fill: $colors-teal-200;
 }
+
+:global([dir="rtl"]) .flipRTL,
+:global([dir="rtl"]) .flipRTL svg {
+  transform: scaleX(-1);
+}
+

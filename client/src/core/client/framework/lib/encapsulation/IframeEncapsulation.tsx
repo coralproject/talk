@@ -46,6 +46,17 @@ const TargetPortal: FunctionComponent<TargetPortalProps> = ({
     () => getUIContextPropsFromCoralContext(newCoralContext),
     [newCoralContext]
   );
+  useEffect(() => {
+    if (target.ownerDocument) {
+      target.ownerDocument.body.setAttribute("dir", newUIContext.dir);
+      if (target.ownerDocument.documentElement) {
+        target.ownerDocument.documentElement.setAttribute(
+          "dir",
+          newUIContext.dir
+        );
+      }
+    }
+  }, [target.ownerDocument, newUIContext.dir]);
   return ReactDOM.createPortal(
     <CoralReactContext.Provider value={newCoralContext}>
       <UIContext.Provider value={newUIContext}>{children}</UIContext.Provider>

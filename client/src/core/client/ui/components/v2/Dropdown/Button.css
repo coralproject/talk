@@ -53,3 +53,22 @@
 .blankAdornment {
   padding-right: var(--spacing-6);
 }
+
+:global([dir="rtl"]) .root {
+  text-align: right;
+}
+
+:global([dir="rtl"]) .iconBefore {
+  margin-right: 0;
+  margin-left: var(--spacing-2);
+}
+
+:global([dir="rtl"]) .iconAfter {
+  margin-left: 0;
+  margin-right: var(--spacing-2);
+}
+
+:global([dir="rtl"]) .blankAdornment {
+  padding-right: 0;
+  padding-left: var(--spacing-6);
+}

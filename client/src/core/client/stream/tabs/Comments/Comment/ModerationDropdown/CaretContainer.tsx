@@ -11,6 +11,7 @@ import {
   SvgIcon,
 } from "coral-ui/components/icons";
 import { BaseButton, ClickOutside, Popover } from "coral-ui/components/v2";
+import { useUIContext } from "coral-ui/components/v2/UIContext/UIContext";
 
 import { CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
 import { CaretContainer_settings } from "coral-stream/__generated__/CaretContainer_settings.graphql";
@@ -34,6 +35,7 @@ interface Props {
 }
 
 const CaretContainer: FunctionComponent<Props> = (props) => {
+  const { dir } = useUIContext();
   const popoverID = `comments-moderationMenu-${props.comment.id}`;
   const setSpamBanned = useMutation(SetSpamBanned);
   const setSpamBannedOnClickOutside = useCallback(() => {
@@ -50,7 +52,7 @@ const CaretContainer: FunctionComponent<Props> = (props) => {
       <Popover
         id={popoverID}
         visible={props.open}
-        placement="bottom-end"
+        placement={dir === "rtl" ? "bottom-start" : "bottom-end"}
         description="A popover menu to moderate the comment"
         body={({ toggleVisibility, scheduleUpdate }) => (
           <ClickOutside

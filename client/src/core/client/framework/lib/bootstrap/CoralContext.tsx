@@ -6,7 +6,10 @@ import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
 
-import { LanguageCode } from "coral-common/common/lib/helpers/i18n";
+import {
+  getLanguageDirection,
+  LanguageCode,
+} from "coral-common/common/lib/helpers/i18n";
 import { BrowserInfo } from "coral-framework/lib/browserInfo";
 import { PostMessageService } from "coral-framework/lib/postMessage";
 import { RestClient } from "coral-framework/lib/rest";
@@ -27,6 +30,9 @@ export interface CoralContext {
 
   /** locales */
   locales: string[];
+
+  /** Text direction ("rtl" or "ltr") */
+  dir?: "rtl" | "ltr";
 
   /** localeBundles for our i18n framework. */
   localeBundles: FluentBundle[];
@@ -113,10 +119,12 @@ export const useCoralContext = () => React.useContext(CoralReactContext);
 export const CoralContextConsumer = CoralReactContext.Consumer;
 
 export function getUIContextPropsFromCoralContext(ctx: CoralContext) {
+  const dir = ctx.dir || getLanguageDirection(ctx.locales?.[0]);
   return {
     timeagoFormatter: ctx.timeagoFormatter,
     mediaQueryValues: ctx.mediaQueryValues,
     locales: ctx.locales,
+    dir,
     renderWindow: ctx.renderWindow,
   };
 }
@@ -130,6 +138,19 @@ export const CoralContextProvider: FunctionComponent<{
   children?: React.ReactNode;
 }> = ({ value, children }) => {
   const l10n = new ReactLocalization(value.localeBundles);
+  const dir = value.dir || getLanguageDirection(value.locales?.[0]);
+
+  React.useEffect(() => {
+    if (value.renderWindow && value.renderWindow.document) {
+      value.renderWindow.document.body.setAttribute("dir", dir);
+      if (value.renderWindow.document.documentElement) {
+        value.renderWindow.document.documentElement.setAttribute("dir", dir);
+      }
+      const shadowElements = value.renderWindow.document.querySelectorAll("#coral, #coral-shadow-container");
+      shadowElements.forEach((el) => el.setAttribute("dir", dir));
+    }
+  }, [value.renderWindow, value.locales, value.dir, dir]);
+
   return (
     <CoralReactContext.Provider value={value}>
       <LocalizationProvider l10n={l10n}>
