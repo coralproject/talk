@@ -3,11 +3,16 @@ import { WebhookQueue } from "coral-server/queue/tasks/webhook";
 
 import { GQLWEBHOOK_EVENT_NAME } from "coral-server/graph/schema/__generated__/types";
 
-import { StoryCreatedCoralEventPayload } from "../events";
+import {
+  CommentReportedThresholdReachedCoralEventPayload,
+  StoryCreatedCoralEventPayload,
+} from "../events";
 import { CoralEventListener, CoralEventPublisherFactory } from "../publisher";
 import { CoralEventType } from "../types";
 
-export type WebhookCoralEventListenerPayloads = StoryCreatedCoralEventPayload;
+export type WebhookCoralEventListenerPayloads =
+  | StoryCreatedCoralEventPayload
+  | CommentReportedThresholdReachedCoralEventPayload;
 
 export class WebhookCoralEventListener
   implements CoralEventListener<WebhookCoralEventListenerPayloads>
@@ -19,6 +24,7 @@ export class WebhookCoralEventListener
     CoralEventType.COMMENT_REPLY_CREATED,
     CoralEventType.COMMENT_ENTERED_MODERATION_QUEUE,
     CoralEventType.COMMENT_LEFT_MODERATION_QUEUE,
+    CoralEventType.COMMENT_REPORTED_THRESHOLD_REACHED,
   ];
 
   private readonly queue: WebhookQueue;
@@ -50,6 +56,14 @@ export class WebhookCoralEventListener
           // If all notifications have been enabled for this endpoint, include it.
           if (endpoint.all) {
             return true;
+          }
+
+          if (
+            event.type === CoralEventType.COMMENT_REPORTED_THRESHOLD_REACHED &&
+            endpoint.reportingThreshold &&
+            event.data.reportCount < endpoint.reportingThreshold
+          ) {
+            return false;
           }
 
           // If this event name is specifically listed, include it. We have to do

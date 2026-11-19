@@ -1811,6 +1811,7 @@ enum WEBHOOK_EVENT_NAME {
   COMMENT_REPLY_CREATED
   COMMENT_ENTERED_MODERATION_QUEUE
   COMMENT_LEFT_MODERATION_QUEUE
+  COMMENT_REPORTED_THRESHOLD_REACHED
 }
 
 type WebhookEndpoint {
@@ -1849,6 +1850,14 @@ type WebhookEndpoint {
   for.
   """
   events: [WEBHOOK_EVENT_NAME!]!
+
+  """
+  reportingThreshold is the number of reports a comment must receive before
+  the COMMENT_REPORTED_THRESHOLD_REACHED event is triggered for this
+  endpoint. Only meaningful when the endpoint subscribes to the
+  COMMENT_REPORTED_THRESHOLD_REACHED event (directly or via all=true).
+  """
+  reportingThreshold: Int
 }
 
 type WebhookConfiguration {
@@ -8301,6 +8310,14 @@ input CreateWebhookEndpointInput {
   for.
   """
   events: [WEBHOOK_EVENT_NAME!]!
+
+  """
+  reportingThreshold is the number of reports a comment must receive before
+  the COMMENT_REPORTED_THRESHOLD_REACHED event is triggered for this
+  endpoint. Only meaningful when the endpoint subscribes to the
+  COMMENT_REPORTED_THRESHOLD_REACHED event.
+  """
+  reportingThreshold: Int
 }
 
 type CreateWebhookEndpointPayload {
@@ -8350,6 +8367,14 @@ input UpdateWebhookEndpointInput {
   for.
   """
   events: [WEBHOOK_EVENT_NAME!]
+
+  """
+  reportingThreshold is the number of reports a comment must receive before
+  the COMMENT_REPORTED_THRESHOLD_REACHED event is triggered for this
+  endpoint. Only meaningful when the endpoint subscribes to the
+  COMMENT_REPORTED_THRESHOLD_REACHED event.
+  """
+  reportingThreshold: Int
 }
 
 type UpdateWebhookEndpointPayload {
