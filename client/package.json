@@ -69,10 +69,10 @@
     "@sentry/integrations": "^6.19.7",
     "@types/url-regex-safe": "^1.0.0",
     "bunyan": "^1.8.12",
-    "convict": "^6.2.3",
+    "convict": "^6.2.5",
     "coral-common": "../common/dist",
     "coral-config": "../config/dist",
-    "dompurify": "^2.0.17",
+    "dompurify": "^2.5.9",
     "dotenv": "^8.2.0",
     "env-rewrite": "^1.0.2",
     "express": "^4.17.1",
@@ -317,7 +317,11 @@
   "pnpm": {
     "overrides": {
       "@testing-library/dom": "9.3.4",
-      "axe-core": "3.5.5"
+      "axe-core": "3.5.5",
+      "form-data@3": "3.0.4",
+      "form-data@4": "4.0.4",
+      "proxy-addr": "2.0.8",
+      "tar": "7.5.19"
     }
   },
   "dependencies-pins-documentation": {
