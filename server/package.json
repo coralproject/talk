@@ -12,8 +12,8 @@
     "url": "git://github.com/coralproject/talk.git"
   },
   "engines": {
-    "node": "^18.16.0",
-    "pnpm": "8.14.3"
+    "node": "^24.14.1",
+    "pnpm": "10.33.0"
   },
   "bugs": "https://github.com/coralproject/talk/issues",
   "contributors": [
@@ -21,10 +21,10 @@
   ],
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
-    "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development pnpm run generate && pnpm run build:server",
+    "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=development pnpm run generate && pnpm run build:server",
     "build:server": "gulp server",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true pnpm run generate && pnpm run build:server",
-    "build": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production pnpm run generate-persist && pnpm run build:server",
+    "build": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=production pnpm run generate-persist && pnpm run build:server",
     "clean": "gulp clean",
     "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' WEBHOOKS.md EXTERNAL_MODERATION_PHASES.md",
     "generate-persist": "pnpm run generate:schema",
@@ -40,16 +40,16 @@
     "lint": "pnpm run '/^lint:.*/' && pnpm run '/^tscheck:.*/'",
     "migration:create": "ts-node --transpile-only ./scripts/migration/create.ts",
     "preinstall": "npx only-allow pnpm",
-    "start:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
-    "start:development:withJobs": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
-    "start": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production node dist/index.js",
-    "test": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" node --no-compilation-cache --trace-warnings scripts/test.js --watch",
-    "test:server": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" node --no-compilation-cache --max-old-space-size=2048 --trace-warnings scripts/testServer.js --maxWorkers=50%",
+    "start:development": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
+    "start:development:withJobs": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=development TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts",
+    "start": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=production node dist/index.js",
+    "test": "NODE_OPTIONS=\"--openssl-legacy-provider\" node --no-compilation-cache --trace-warnings scripts/test.js --watch",
+    "test:server": "NODE_OPTIONS=\"--openssl-legacy-provider\" node --no-compilation-cache --max-old-space-size=2048 --trace-warnings scripts/testServer.js --maxWorkers=50%",
     "test:cache": "node --trace-warnings scripts/test.cache.js --env=jsdom",
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",
     "tscheck": "pnpm run --parallel '/^tscheck:.*/'",
-    "watch": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development STATIC_URI=http://127.0.0.1:8080 ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
+    "watch": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=development STATIC_URI=http://127.0.0.1:8080 ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -272,7 +272,7 @@
     "found": "^0.5.9",
     "found-relay": "^0.8.2",
     "graphql-schema-linter": "^0.4.0",
-    "graphql-schema-typescript": "^1.3.2",
+    "graphql-schema-typescript": "^1.6.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-cli": "^2.3.0",
@@ -349,6 +349,10 @@
     "whatwg-fetch": "^3.4.0"
   },
   "pnpm": {
+    "allowBuilds": {
+      "re2": true,
+      "pprof": true
+    },
     "overrides": {
       "protobufjs": ">=7.2.4"
     }

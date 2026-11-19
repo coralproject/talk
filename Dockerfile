@@ -1,12 +1,12 @@
-FROM node:18-alpine
+FROM node:24-alpine
 
-ENV NODE_OPTIONS="--max-old-space-size=8192 --openssl-legacy-provider --no-experimental-fetch"
+ENV NODE_OPTIONS="--max-old-space-size=8192 --openssl-legacy-provider"
 
 # Install build dependancies.
 RUN apk --no-cache --update add g++ make git python3 py3-pip py3-setuptools linux-headers \
   && rm -rf /var/cache/apk/*
 
-RUN npm install -g pnpm@8.14.3
+RUN npm install -g pnpm@10.33.0
 
 # Create app directory.
 RUN mkdir -p /usr/src/app

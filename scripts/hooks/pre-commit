@@ -6,7 +6,7 @@
 
 FAST_LINT=true
 
-export PATH=$PATH:~/.nvm/versions/node/v18.16.0/bin
+export PATH=$PATH:~/.nvm/versions/node/v24.14.1/bin
 
 cd server
 pnpm run precommit
