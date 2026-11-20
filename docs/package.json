@@ -61,7 +61,7 @@
     ]
   },
   "engines": {
-    "node": "^24"
+    "node": "^24.15.0"
   },
   "pnpm": {
     "overrides": {

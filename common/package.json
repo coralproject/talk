@@ -4,6 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "engines": {
+    "node": "^24.15.0"
+  },
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "preinstall": "npx only-allow pnpm",

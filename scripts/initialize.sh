@@ -22,7 +22,7 @@ else
 fi
 
 echo "installing correct pnpm version globally (needed for git hooks)"
-nvm i 24
+nvm i 24.22.2
 npm install -g pnpm@8.14.3
 
 # set working directory here within `scripts`
