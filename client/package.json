@@ -21,7 +21,7 @@
   ],
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
-    "build:client": "NODE_OPTIONS=\"--openssl-legacy-provider\" ts-node --transpile-only ./scripts/build.ts",
+    "build:client": "NODE_OPTIONS=\"--openssl-legacy-provider --max-old-space-size=4096\" ts-node --transpile-only ./scripts/build.ts",
     "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=development pnpm run generate && pnpm run build:client",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true pnpm run --parallel generate build:client",
     "build": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=production pnpm run generate-persist && pnpm run build:client",
@@ -55,7 +55,7 @@
     "tscheck:client": "tsc --project ./src/core/client/tsconfig.json --noEmit",
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck": "pnpm run '/^tscheck:.*/'",
-    "watch": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
+    "watch": "NODE_OPTIONS=\"--openssl-legacy-provider --max-old-space-size=4096\" NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },
   "license": "Apache-2.0",
   "dependencies": {
