@@ -83,5 +83,5 @@ docker compose down -v && $S/start-services.sh    # wipe mongo/redis data, then 
   port 3000 directly.
 - `pnpm run watch` in `server` logs `failed to set logging project id` (no
   GCP) and Sentry `offlineDebug` messages; both are harmless in dev.
-- Node 18 is end-of-life upstream; it is what CI uses, so do not upgrade it
-  as part of environment work.
+- CI and cloud development use Node 24.22.2 with pnpm 8.14.3; run commands
+  through `scripts/run.sh` so native addons use the matching Node ABI.

@@ -28,10 +28,10 @@ jobs:
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.REPO_PATCHED_DEPLOY_KEY }}
-      - name: Setup Node18.x
+      - name: Setup Node 24.x
         uses: actions/setup-node@v4
         with:
-          node-version: "18.16.x"
+          node-version: "24.x"
       - name: Install pnpm 8
         run: npm install -g pnpm@8.14.3 --registry=https://registry.npmjs.org
       # - name: npm Lockfile Version
