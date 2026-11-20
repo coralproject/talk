@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Source this file (do not execute it) to select the CI toolchain for Coral:
-# Node 18.16.x and pnpm 8.14.3 (see .github/workflows/build-and-test.yml).
+# Node 24.22.2 and pnpm 8.14.3 (see .github/workflows/build-and-test.yml).
 #
 #   . .cursor/skills/talk-cloud-environment-setup/scripts/env.sh
 
-TALK_NODE_VERSION="${TALK_NODE_VERSION:-18.16.1}"
+TALK_NODE_VERSION="${TALK_NODE_VERSION:-24.22.2}"
 TALK_PNPM_VERSION="${TALK_PNPM_VERSION:-8.14.3}"
 TALK_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../.." && pwd)"
 export TALK_ROOT TALK_NODE_VERSION TALK_PNPM_VERSION

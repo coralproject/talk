@@ -9,7 +9,7 @@ Use the `talk-cloud-environment-setup` skill
 for installing, running, testing, and exercising Coral in a cloud VM. The
 highest-impact gotchas:
 
-- Use Node 18.16.x and pnpm 8.14.3 (CI pins); there is no root `package.json`,
+- Use Node 24.x and pnpm 8.14.3 (CI pins); there is no root `package.json`,
   so each of `config`, `common`, `client`, `server`, `docs` installs separately.
 - In dev mode, use port 3000 (not the 8080 dev-server proxy) for `/admin`,
   `/install`, and `/api`.

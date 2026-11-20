@@ -39,6 +39,7 @@
     "long-settimeout": "^1.0.1",
     "ms": "^2.1.2",
     "querystringify": "^2.1.1",
+    "re2": "^1.27.2",
     "striptags": "^3.2.0",
     "timekeeper": "^2.2.0",
     "ts-loader": "^7.0.5",
