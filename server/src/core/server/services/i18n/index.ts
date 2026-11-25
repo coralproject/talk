@@ -43,6 +43,17 @@ export class I18n {
 
       // Load all the translation files for each of the folders.
       for (const folder of folders) {
+        // macOS writes .DS_Store into folders opened in Finder. Skip dotfiles
+        // and anything that is not a locale directory. A real directory with
+        // an unknown name still fails below.
+        if (folder.startsWith(".")) {
+          continue;
+        }
+        const folderPath = path.join(localesFolder, folder);
+        if (!(await fs.stat(folderPath)).isDirectory()) {
+          continue;
+        }
+
         // Parse out the language code.
         const locale = path.basename(folder);
         if (!isLanguageCode(locale)) {
@@ -58,10 +69,17 @@ export class I18n {
           new FluentBundle(locale, { useIsolating: false });
 
         // Load all the translations in the folder.
-        const files = await fs.readdir(path.join(localesFolder, folder));
+        const files = await fs.readdir(folderPath);
 
         for (const file of files) {
-          const filePath = path.join(localesFolder, folder, file);
+          // The same Finder metadata can land inside a locale directory.
+          if (file.startsWith(".")) {
+            continue;
+          }
+          const filePath = path.join(folderPath, file);
+          if (!(await fs.stat(filePath)).isFile()) {
+            continue;
+          }
           logger.debug({ locale, filePath }, "loading messages for locale");
 
           const messages = await fs.readFile(filePath, "utf8");
