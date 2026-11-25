@@ -67,7 +67,10 @@ export default function ({
       disableDotRule: true,
       rewrites: [],
     },
-    allowedHosts: "auto",
+    // Listed explicitly so cross-site asset loads (the localhost:3000 iframe
+    // loading from STATIC_URI=http://127.0.0.1:8080) pass the dev server's
+    // cross-origin check.
+    allowedHosts: ["localhost", "127.0.0.1"],
     proxy: [
       {
         context: "/api/graphql/live",

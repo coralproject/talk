@@ -38,9 +38,6 @@ export type Manifest = {
 interface ManifestLoaderOptions {
   /** If set, load manifest from webpack dev server instead */
   fromWebpackDevServerURL?: string | null;
-
-  /** If set, inject the dev server bundle into entrypoint */
-  injectWebpackDevServerBundle?: boolean;
 }
 
 export type EntrypointLoader = () => Promise<Readonly<Entrypoint> | null>;
@@ -167,20 +164,9 @@ export default class ManifestLoader {
 
   public createEntrypointLoader(name: string): EntrypointLoader {
     if (this.options.fromWebpackDevServerURL) {
-      return async () => {
-        let entrypoint = new Entrypoints(await this.load()).get(name);
-        // Inject webpack dev server script.
-        if (entrypoint && this.options.injectWebpackDevServerBundle) {
-          entrypoint = {
-            ...entrypoint,
-            js: [
-              ...entrypoint.js,
-              { src: `webpack-dev-server.js`, integrity: "" },
-            ],
-          };
-        }
-        return entrypoint;
-      };
+      // webpack-dev-server 5 injects its client into each entry, so the
+      // entrypoint needs no extra dev server script.
+      return async () => new Entrypoints(await this.load()).get(name);
     }
     // Used cached manifest loaded from file instead.
     if (this.entrypoints) {
@@ -199,6 +185,5 @@ export function createManifestLoader(config: Config, manifestFilename: string) {
       : null;
   return new ManifestLoader(manifestFilename, {
     fromWebpackDevServerURL,
-    injectWebpackDevServerBundle: process.env.WEBPACK_DEV_SERVER === "true",
   });
 }

@@ -663,11 +663,13 @@ export default function createWebpackConfig(
             filename: "embed.html",
             templateContent: fs.readFileSync(paths.appEmbedHTML, "utf8"),
             inject: "head",
+            scriptLoading: "blocking",
           }),
           new HtmlWebpackPlugin({
             filename: "story.html",
             templateContent: fs.readFileSync(paths.appEmbedStoryHTML, "utf8"),
             inject: "head",
+            scriptLoading: "blocking",
           }),
           new HtmlWebpackPlugin({
             filename: "storyButton.html",
@@ -676,11 +678,13 @@ export default function createWebpackConfig(
               "utf8"
             ),
             inject: "head",
+            scriptLoading: "blocking",
           }),
           new HtmlWebpackPlugin({
             filename: "amp.html",
             templateContent: fs.readFileSync(paths.appEmbedAMPHTML, "utf8"),
             inject: "head",
+            scriptLoading: "blocking",
           }),
           new HtmlWebpackPlugin({
             filename: "storyAMP.html",
@@ -728,6 +732,7 @@ export default function createWebpackConfig(
             filename: "count.html",
             templateContent: fs.readFileSync(paths.appCountHTML, "utf8"),
             inject: "body",
+            scriptLoading: "blocking",
           })
         ),
         new WebpackAssetsManifest({
@@ -797,6 +802,7 @@ export default function createWebpackConfig(
             filename: "commentEmbed.html",
             templateContent: fs.readFileSync(paths.appCommentEmbedHTML, "utf8"),
             inject: "body",
+            scriptLoading: "blocking",
           })
         ),
         new WebpackAssetsManifest({
