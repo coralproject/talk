@@ -65,8 +65,8 @@ The client and server builds use webpack 5 and webpack-dev-server 5. Hot
 reload uses the dev server's native WebSocket client at `ws://localhost:8080/ws`
 (the old `/sockjs-node` endpoint is gone). Ports and watch commands are
 unchanged, and `--openssl-legacy-provider` is no longer needed. The dev server
-keeps its default host check (`allowedHosts: "auto"`), so open it through
-`localhost` or `127.0.0.1`.
+only accepts the `localhost` and `127.0.0.1` hosts, so open it through one of
+those.
 
 ## Verify the production embed
 
@@ -110,5 +110,14 @@ docker compose down -v && $S/start-services.sh    # wipe mongo/redis data, then 
   port 3000 directly.
 - `pnpm run watch` in `server` logs `failed to set logging project id` (no
   GCP) and Sentry `offlineDebug` messages; both are harmless in dev.
+- **Server watcher hangs once a tenant is installed**: the word list worker
+  thread runs under ts-node-dev's require hook, whose file-based compile
+  requests from worker threads go unanswered, so the server never logs
+  `now listening` and one thread spins at 100% CPU. This happens with
+  ts-node-dev 2.0.0 on Node 18, 22, and 24. Adding `--poll` to the
+  `ts-node-dev` command in `server`'s `start:development` script (locally, not
+  committed) avoids it, at the cost of polling file watchers. To run it by
+  hand instead, run from `server`:
+  `WEBPACK_DEV_SERVER=true NODE_ENV=development STATIC_URI=http://127.0.0.1:8080 TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ./node_modules/.bin/ts-node-dev --poll --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts`.
 - CI and cloud development use Node 24.22.2 with pnpm 8.14.3; run commands
   through `scripts/run.sh` so native addons use the matching Node ABI.
