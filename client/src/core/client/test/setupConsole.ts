@@ -33,7 +33,7 @@ const mutePatterns: PatternMap = {
   "Recompose - React.createFactory() is deprecated (https://github.com/acdlite/recompose/pull/795)":
     /React.createFactory\(\) is deprecated/g,
   "RTE - ComponentWillReceiveProps has been renamed, and is not recommended for use (https://github.com/coralproject/rte)":
-    /componentWillReceiveProps has been renamed, and is not recommended for use.*RTE/gs,
+    /componentWillReceiveProps has been renamed, and is not recommended for use[\s\S]*RTE/g,
 };
 
 let matchedFail: MatchedItem[] = [];
@@ -91,9 +91,13 @@ function createMockImplementation(
 
     // Get filename and line from stack trace.
     const stackFrame = stackTrace.parse(new Error())[1];
-    const origin = `${stackFrame
-      .getFileName()
-      .replace(`${process.cwd()}/`, "")}:${stackFrame.getLineNumber()}\n`;
+    const fileName = stackFrame?.getFileName();
+    const origin = fileName
+      ? `${fileName.replace(
+          `${process.cwd()}/`,
+          ""
+        )}:${stackFrame.getLineNumber()}\n`
+      : "";
 
     originalFunction(origin, ...args);
     return;

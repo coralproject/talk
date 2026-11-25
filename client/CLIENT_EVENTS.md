@@ -623,7 +623,7 @@ createComment.error
       onFeatured?: boolean | null | undefined;
       onStaffReplies?: boolean | null | undefined;
       onModeration?: boolean | null | undefined;
-      digestFrequency?: "NONE" | "DAILY" | "HOURLY" | null | undefined;
+      digestFrequency?: DIGEST_FREQUENCY | null | undefined;
       success: {};
       error: {
           message: string;
@@ -653,7 +653,7 @@ createComment.error
       live?: {
           enabled?: boolean | null | undefined;
       } | null | undefined;
-      moderation?: "POST" | "PRE" | "SPECIFIC_SITES_PRE" | null | undefined;
+      moderation?: MODERATION_MODE | null | undefined;
       premodLinksEnable?: boolean | null | undefined;
       messageBox?: {
           enabled?: boolean | null | undefined;

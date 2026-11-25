@@ -45,7 +45,11 @@ export interface ConnectionConfig<
  * withPaginationContainer is a curried version of `createPaginationContainers`
  * from Relay.
  */
-export default <T, QueryVariables, FragmentVariables>(
+export default <
+    T,
+    QueryVariables extends Variables,
+    FragmentVariables extends Variables
+  >(
     fragmentSpec: { [P in FragmentKeysNoLocal<T>]: GraphQLTaggedNode } & {
       _?: never;
     },
@@ -61,7 +65,7 @@ export default <T, QueryVariables, FragmentVariables>(
       {
         ...connectionConfig,
         query: resolveModule(connectionConfig.query),
-      }
+      } as any
     );
     result.displayName = wrapDisplayName(component, "Relay");
     return result as any;

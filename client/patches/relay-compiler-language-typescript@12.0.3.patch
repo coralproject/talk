@@ -1,0 +1,62 @@
+diff --git a/lib/FindGraphQLTags.js b/lib/FindGraphQLTags.js
+index 61b9872e6691f2e3d7258063ec3e34488369dc10..c47e063477d08da272ff692601404a31fc9440db 100644
+--- a/lib/FindGraphQLTags.js
++++ b/lib/FindGraphQLTags.js
+@@ -20,7 +20,7 @@ var __spread = (this && this.__spread) || function () {
+     return ar;
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+-var ts = require("typescript");
++var ts = require("typescript-relay");
+ var util = require("util");
+ function isCreateContainerFunction(fnName) {
+     return (fnName === "createFragmentContainer" ||
+diff --git a/lib/TypeScriptGenerator.js b/lib/TypeScriptGenerator.js
+index 41a6bd405d8996b4d25f18bb47a6b44571b168fe..f6dd78f77e4274974980d64138e6524c2fa9ba53 100644
+--- a/lib/TypeScriptGenerator.js
++++ b/lib/TypeScriptGenerator.js
+@@ -48,7 +48,7 @@ var MaskTransform = require("relay-compiler/lib/transforms/MaskTransform");
+ var MatchTransform = require("relay-compiler/lib/transforms/MatchTransform");
+ var RefetchableFragmentTransform = require("relay-compiler/lib/transforms/RefetchableFragmentTransform");
+ var RelayDirectiveTransform = require("relay-compiler/lib/transforms/RelayDirectiveTransform");
+-var ts = require("typescript");
++var ts = require("typescript-relay");
+ var TypeScriptTypeTransformers_1 = require("./TypeScriptTypeTransformers");
+ var REF_TYPE = " $refType";
+ var FRAGMENT_REFS = " $fragmentRefs";
+diff --git a/lib/TypeScriptTypeTransformers.js b/lib/TypeScriptTypeTransformers.js
+index 8ab638893f313282b9c675efa099389cb5668571..803281914267cfd22a36381a37c711ef2b0c1d77 100644
+--- a/lib/TypeScriptTypeTransformers.js
++++ b/lib/TypeScriptTypeTransformers.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-var ts = require("typescript");
++var ts = require("typescript-relay");
+ function getInputObjectTypeIdentifier(schema, typeID) {
+     return schema.getTypeString(typeID);
+ }
+diff --git a/lib/addAnyTypeCast.js b/lib/addAnyTypeCast.js
+index bedf047dfce29c46a5a15cb3efd2d33d43922794..129449fc29bf556799b1c9905340941f266b0ec1 100644
+--- a/lib/addAnyTypeCast.js
++++ b/lib/addAnyTypeCast.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-var ts = require("typescript");
++var ts = require("typescript-relay");
+ function addAsAnyToObjectLiterals(oldSource) {
+     function transformer(context) {
+         return function transform(rootNode) {
+diff --git a/lib/loadCompilerOptions.js b/lib/loadCompilerOptions.js
+index 0b21b7dc879071ad9b5f40dd7d25a953921b8b94..5561471df861e265d6be2738d701071878d37e92 100644
+--- a/lib/loadCompilerOptions.js
++++ b/lib/loadCompilerOptions.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-var ts = require("typescript");
++var ts = require("typescript-relay");
+ exports.loadCompilerOptions = function () {
+     var configFileName = ts.findConfigFile(process.cwd(), ts.sys.fileExists);
+     if (!configFileName) {

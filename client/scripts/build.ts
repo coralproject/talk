@@ -116,6 +116,9 @@ function build(previousFileSizes: any) {
       if (err) {
         return reject(err);
       }
+      if (!stats) {
+        return reject(new Error("Webpack completed without build statistics"));
+      }
       const messages = formatWebpackMessages(
         stats.toJson({
           children: webpackConfig.map((c) => c.stats || {}) as any,

@@ -24,7 +24,7 @@ $S/install-deps.sh                                             # ~4 min cold
 $S/run.sh sh scripts/generate.sh                               # ~10 s
 $S/run.sh sh scripts/lint.sh                                   # ~2 min (eslint + tsc: client, server, docs)
 $S/run.sh bash -c 'cd client && npx @coralproject/package-version-lint'
-$S/run.sh bash -c 'cd server && pnpm run test:server -- --ci'  # ~20 s, 187 tests
+$S/run.sh bash -c 'cd server && pnpm run test:server -- --ci'  # ~20 s, 188 tests
 $S/run.sh bash -c 'cd client && pnpm run test:client:stream -- --ci'   # ~1.5 min
 $S/run.sh bash -c 'cd client && pnpm run test:client:admin -- --ci'    # ~1.5 min
 $S/run.sh bash -c 'cd client && pnpm run test:client:other -- --ci'    # ~30 s
@@ -61,6 +61,33 @@ Then `$S/seed-install.sh` and `$S/smoke-api.sh`. Expected smoke output ends in
 notifications, and other job queues. Server env vars go in `server/.env`
 (see `docs/docs/environment-variables.md`); defaults work for local dev.
 
+The client and server builds use webpack 5 and webpack-dev-server 5. Hot
+reload uses the dev server's native WebSocket client at `ws://localhost:8080/ws`
+(the old `/sockjs-node` endpoint is gone). Ports and watch commands are
+unchanged, and `--openssl-legacy-provider` is no longer needed. The dev server
+only accepts the `localhost` and `127.0.0.1` hosts, so open it through one of
+those.
+
+## Verify the production embed
+
+Use this to check the production bundle (what the Docker image serves) rather
+than the 8080 dev-server bundle. Stop the dev-mode watchers first so nothing
+else holds 3000 or 8080.
+
+```bash
+$S/start-services.sh
+$S/run.sh sh scripts/build.sh                    # webpack 5 production build into client/dist
+tmux new-session -d -s talk-prod "SIGNING_SECRET=\$(openssl rand -hex 32) $S/run.sh bash -c 'cd server && pnpm start'"
+$S/seed-install.sh && $S/smoke-api.sh            # once `now listening (port=3000)` appears
+TALK_EMBED_SCRIPT_URL=http://localhost:3000/assets/js/embed.js $S/host-page.sh 8000
+```
+
+Open `http://localhost:8000/?story=demo-1`. The stream should render inside
+the host page and load `embed.js` from port 3000. Sign in, post a comment, then
+moderate it in `http://localhost:3000/admin` and reload the host page to see the
+result. The `SIGNING_SECRET` is throwaway; generate it in the shell and never
+print it.
+
 Optional SMTP sink for email flows (configure Coral Admin -> Configure -> Email
 with host `localhost`, port `2500`, no auth):
 
@@ -83,5 +110,14 @@ docker compose down -v && $S/start-services.sh    # wipe mongo/redis data, then 
   port 3000 directly.
 - `pnpm run watch` in `server` logs `failed to set logging project id` (no
   GCP) and Sentry `offlineDebug` messages; both are harmless in dev.
+- **Server watcher hangs once a tenant is installed**: the word list worker
+  thread runs under ts-node-dev's require hook, whose file-based compile
+  requests from worker threads go unanswered, so the server never logs
+  `now listening` and one thread spins at 100% CPU. This happens with
+  ts-node-dev 2.0.0 on Node 18, 22, and 24. Adding `--poll` to the
+  `ts-node-dev` command in `server`'s `start:development` script (locally, not
+  committed) avoids it, at the cost of polling file watchers. To run it by
+  hand instead, run from `server`:
+  `WEBPACK_DEV_SERVER=true NODE_ENV=development STATIC_URI=http://127.0.0.1:8080 TS_NODE_PROJECT=./src/tsconfig.json DISABLE_JOB_PROCESSORS=true ./node_modules/.bin/ts-node-dev --poll --transpile-only --no-notify -r tsconfig-paths/register --ignore-watch ./docs/ ./src/index.ts`.
 - CI and cloud development use Node 24.22.2 with pnpm 8.14.3; run commands
   through `scripts/run.sh` so native addons use the matching Node ABI.

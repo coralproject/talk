@@ -1,8 +1,9 @@
+const typescriptEslintPlugin = require("@typescript-eslint/eslint-plugin");
 const typescriptEslintRecommended =
-  require("@typescript-eslint/eslint-plugin/dist/configs/eslint-recommended")
-    .overrides[0];
-const typescriptRecommended = require("@typescript-eslint/eslint-plugin/dist/configs/recommended.js");
-const typescriptRecommendedTypeChecking = require("@typescript-eslint/eslint-plugin/dist/configs/recommended-requiring-type-checking.js");
+  typescriptEslintPlugin.configs["eslint-recommended"].overrides[0];
+const typescriptRecommended = typescriptEslintPlugin.configs.recommended;
+const typescriptRecommendedTypeChecking =
+  typescriptEslintPlugin.configs["recommended-requiring-type-checking"];
 const typescriptEslintPrettier = require("eslint-config-prettier/@typescript-eslint");
 const react = require("eslint-plugin-react").configs.recommended;
 const jsxA11y = require("eslint-plugin-jsx-a11y").configs.recommended;
@@ -44,16 +45,6 @@ const typescriptOverrides = {
       "@typescript-eslint/array-type": [
         "error",
         { default: "array-simple", readonly: "generic" },
-      ],
-      "@typescript-eslint/ban-types": [
-        "error",
-        {
-          types: {
-            "{}": false,
-            object: false,
-            extendDefaults: true,
-          },
-        },
       ],
       "@typescript-eslint/camelcase": "off",
       "@typescript-eslint/consistent-type-assertions": "error",
@@ -136,13 +127,31 @@ const typescriptTypeCheckingOverrides = {
         },
       },
     ],
+    "@typescript-eslint/await-thenable": "off",
+    "@typescript-eslint/no-base-to-string": "off",
+    "@typescript-eslint/no-duplicate-type-constituents": "off",
+    "@typescript-eslint/no-empty-object-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/no-redundant-type-constituents": "off",
+    "@typescript-eslint/no-require-imports": "off",
+    "@typescript-eslint/no-unnecessary-type-assertion": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-declaration-merging": "off",
+    "@typescript-eslint/no-unsafe-enum-comparison": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { args: "none", caughtErrors: "none", ignoreRestSiblings: true },
+    ],
+    "@typescript-eslint/only-throw-error": "off",
     // 28.11.19: (cvle) Disabled because behavior of regexp.exec seems different than str.match?
     "@typescript-eslint/prefer-regexp-exec": "off",
+    "@typescript-eslint/prefer-promise-reject-errors": "off",
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/unbound-method": "off", // 10.10.19: (cvle) seems to give false positive.

@@ -1,5 +1,3 @@
-const path = require("path");
-
 const createConfig = () => {
   const d3Pkgs = [
     "d3|@3.1.0/d3",
@@ -54,12 +52,20 @@ const createConfig = () => {
     setupFilesAfterEnv: [
       "<rootDir>/src/core/client/test/setupTestFramework.ts",
     ],
+    snapshotFormat: {
+      escapeString: true,
+      printBasicPrototype: true,
+    },
     testMatch: ["**/*.spec.{js,jsx,mjs,ts,tsx}"],
+    testRunner: "jest-jasmine2",
     testEnvironment: "node",
-    testURL: "http://localhost",
+    testEnvironmentOptions: {
+      customExportConditions: ["node", "node-addons"],
+      url: "http://localhost",
+    },
     transform: {
       "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest",
+      "^.+\\.tsx?$": "<rootDir>/config/jest/clientTypeScriptTransform.js",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^.+\\.ftl$": "<rootDir>/config/jest/contentTransform.js",
       "^(?!.*\\.(js|jsx|mjs|ts|tsx|css|json|ftl)$)":
@@ -81,15 +87,6 @@ const createConfig = () => {
       "^coral-test/(.*)$": "<rootDir>/src/core/client/test/$1",
     },
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node", "ftl"],
-    globals: {
-      "ts-jest": {
-        babelConfig: true,
-        tsConfig: path.resolve(
-          __dirname,
-          "../../src/core/client/tsconfig.json"
-        ),
-      },
-    },
     preset: "ts-jest/presets/js-with-babel",
   };
 };

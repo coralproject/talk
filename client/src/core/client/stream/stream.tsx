@@ -34,7 +34,6 @@ import localesData from "./locales";
 // Import css variables.
 import { ACCESS_TOKEN_KEY } from "coral-framework/lib/auth";
 import "coral-ui/theme/streamEmbed.css";
-import "coral-ui/theme/typography.css";
 
 export interface AttachOptions {
   locale?: LanguageCode;

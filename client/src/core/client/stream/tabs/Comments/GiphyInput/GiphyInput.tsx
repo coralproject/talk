@@ -84,9 +84,7 @@ const GiphyInput: FunctionComponent<Props> = ({
     const mappedResponse = mapGifs(response);
 
     setGifs(mappedResponse);
-    setOffset(
-      response.pagination.count + response.pagination.offset + 1 ?? null
-    );
+    setOffset(response.pagination.count + response.pagination.offset + 1);
     setIsNext(
       response.pagination.total_count > response.pagination.count + offset
     );
@@ -101,9 +99,7 @@ const GiphyInput: FunctionComponent<Props> = ({
     const mappedResponse = mapGifs(response);
 
     setGifs([...gifs, ...mappedResponse]);
-    setOffset(
-      response.pagination.count + response.pagination.offset + 1 ?? null
-    );
+    setOffset(response.pagination.count + response.pagination.offset + 1);
     setIsNext(
       response.pagination.total_count > response.pagination.count + offset
     );

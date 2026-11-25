@@ -19,8 +19,6 @@ const url = require("url");
 const chalk = require("chalk");
 const clearConsole = require("react-dev-utils/clearConsole");
 const formatWebpackMessages = require("react-dev-utils/formatWebpackMessages");
-const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
-const forkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 
 // (cvle): Changed to false as we are sharing the tty with other processes.
 // const isInteractive = process.stdout.isTTY && false;
@@ -107,15 +105,7 @@ function printInstructions(appName, urls, useYarn) {
   console.log();
 }
 
-function createCompiler({
-  appName,
-  config,
-  devSocket,
-  urls,
-  useYarn,
-  useTypeScript,
-  webpack,
-}) {
+function createCompiler({ appName, config, urls, useYarn, webpack }) {
   // "Compiler" is a low-level interface to Webpack.
   // It lets us listen to some events and provide our own custom messages.
   let compiler;
@@ -141,53 +131,10 @@ function createCompiler({
   });
 
   let isFirstCompile = true;
-  const tsMessagesPromises = [];
-
-  if (useTypeScript) {
-    compiler.compilers.forEach((singleCompiler) => {
-      let tsMessagesPromise;
-      let tsMessagesResolver;
-      singleCompiler.hooks.beforeCompile.tap("beforeCompile", () => {
-        tsMessagesPromise = new Promise((resolve) => {
-          tsMessagesResolver = (msgs) => resolve(msgs);
-        });
-        tsMessagesPromises.push(tsMessagesPromise);
-      });
-
-      const tsCheckerHooks =
-        forkTsCheckerWebpackPlugin.getCompilerHooks(singleCompiler);
-
-      // now access hooks just like before
-      // TODO: (cvle) this doesn't work currently.
-      tsCheckerHooks.waiting.tap("yourListenerName", () => {
-        console.log("waiting for typecheck results");
-      });
-
-      // TODO: (cvle) this doesn't work currently.
-      tsCheckerHooks.receive.tap(
-        "afterTypeScriptCheck",
-        (diagnostics, lints) => {
-          console.log("RECEIVED");
-          const allMsgs = [...diagnostics, ...lints];
-          const format = (message) =>
-            `${message.file}\n${typescriptFormatter(message, true)}`;
-
-          tsMessagesResolver({
-            errors: allMsgs
-              .filter((msg) => msg.severity === "error")
-              .map(format),
-            warnings: allMsgs
-              .filter((msg) => msg.severity === "warning")
-              .map(format),
-          });
-        }
-      );
-    });
-  }
 
   // "done" event fires when Webpack has finished recompiling the bundle.
   // Whether or not you have warnings or errors, you will get this event.
-  compiler.hooks.done.tap("done", async (stats) => {
+  compiler.hooks.done.tap("done", (stats) => {
     if (isInteractive) {
       clearConsole();
     }
@@ -207,40 +154,6 @@ function createCompiler({
       statOptions.children = config.map((c) => c.stats || {});
     }
     const statsData = stats.toJson(statOptions);
-
-    if (useTypeScript && statsData.errors.length === 0) {
-      const delayedMsg = setTimeout(() => {
-        console.log(
-          chalk.yellow(
-            "Files successfully emitted, waiting for typecheck results..."
-          )
-        );
-      }, 100);
-
-      // Get back all tscheck results.
-      const results = await Promise.all(tsMessagesPromises);
-      clearTimeout(delayedMsg);
-
-      results.forEach((msgs) => {
-        statsData.errors.push(...msgs.errors);
-        statsData.warnings.push(...msgs.warnings);
-
-        // Push errors and warnings into compilation result
-        // to show them after page refresh triggered by user.
-        stats.compilation.errors.push(...msgs.errors);
-        stats.compilation.warnings.push(...msgs.warnings);
-
-        if (msgs.errors.length > 0) {
-          devSocket.errors(msgs.errors);
-        } else if (msgs.warnings.length > 0) {
-          devSocket.warnings(msgs.warnings);
-        }
-      });
-
-      if (isInteractive) {
-        clearConsole();
-      }
-    }
 
     const messages = formatWebpackMessages(statsData);
     const isSuccessful = !messages.errors.length && !messages.warnings.length;

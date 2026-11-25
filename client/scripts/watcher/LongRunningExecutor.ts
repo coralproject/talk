@@ -65,28 +65,20 @@ export default class LongRunningExecutor implements Executor {
   private async internalKill(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const signal = "SIGTERM";
+      const pid = this.process!.pid!;
       if (process.platform === "win32") {
         // Force kill (/F) the whole child tree (/T) by PID
-        spawn.sync("taskkill", [
-          "/pid",
-          this.process!.pid.toString(),
-          "/T",
-          "/F",
-        ]);
+        spawn.sync("taskkill", ["/pid", pid.toString(), "/T", "/F"]);
         resolve();
         return;
       }
 
-      psTree(this.process!.pid, (err, kids) => {
+      psTree(pid, (err, kids) => {
         if (err) {
           reject(err);
         }
         if (kids) {
-          spawn.sync("kill", [
-            `-${signal}`,
-            this.process!.pid.toString(),
-            ...kids,
-          ]);
+          spawn.sync("kill", [`-${signal}`, pid.toString(), ...kids]);
         }
         resolve();
       });

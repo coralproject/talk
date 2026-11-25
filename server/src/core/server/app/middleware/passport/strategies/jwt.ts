@@ -29,7 +29,6 @@ export type JWTStrategyOptions = Pick<
 /**
  * Token is the various forms of the Token that can be verified.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type Token = OIDCIDToken | SSOToken | JWTToken | object | string | null;
 
 /**
@@ -56,7 +55,6 @@ export interface Verifier<T = Token> {
    * checkForValidationError will validate the token against the verifier and
    * return an error if there is one.
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
   checkForValidationError: (
     token: T | object,
     kid?: string
