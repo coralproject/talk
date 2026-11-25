@@ -24,6 +24,7 @@ export type TenantCoralRequest = RequireProperty<CoralRequest, "tenant">;
 
 export interface Request<T = CoralRequest> extends ExpressRequest {
   coral: T;
+  ip: string;
   user?: User;
 }
 

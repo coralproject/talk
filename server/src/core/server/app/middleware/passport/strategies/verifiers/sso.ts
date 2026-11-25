@@ -72,7 +72,6 @@ export interface SSOToken {
   user: SSOUserProfile;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function validateToken(token: SSOToken | object): string | undefined {
   const { error } = SSOTokenSchema.validate(token, { allowUnknown: true });
   return error ? "SSO: " + error.message : undefined;
@@ -365,7 +364,6 @@ export class SSOVerifier implements Verifier<SSOToken> {
   }
 
   public checkForValidationError(
-    // eslint-disable-next-line @typescript-eslint/ban-types
     token: SSOToken | object,
     kid?: string
   ): string | undefined {

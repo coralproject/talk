@@ -1,0 +1,13 @@
+diff --git a/smtp/client.ts b/smtp/client.ts
+index 9deb7d28b9c5e95f6fcf233dc422fc6be3e541af..18f372f77e693b2cabaf22030026023f98a69657 100644
+--- a/smtp/client.ts
++++ b/smtp/client.ts
+@@ -30,7 +30,7 @@ export class SMTPClient {
+ 
+ 	protected sending = false;
+ 	protected ready = false;
+-	protected timer: NodeJS.Timer | null = null;
++	protected timer: NodeJS.Timeout | null = null;
+ 
+ 	/**
+ 	 * Create a standard SMTP client backed by a self-managed SMTP connection.
