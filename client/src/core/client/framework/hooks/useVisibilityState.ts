@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 
-function isVisible(state: VisibilityState) {
+function isVisible(state: DocumentVisibilityState) {
   return state === "visible";
 }
 

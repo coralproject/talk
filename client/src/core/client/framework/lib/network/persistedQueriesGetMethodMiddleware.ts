@@ -28,7 +28,7 @@ const persistedQueriesGetMethodMiddleware: Middleware =
       const body: Record<string, any> = JSON.parse(
         req.fetchOpts.body as string
       );
-      delete req.fetchOpts.body;
+      delete (req.fetchOpts as { body?: unknown }).body;
 
       // Reconfigure the fetch for GET.
       req.fetchOpts.method = "GET";

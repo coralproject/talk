@@ -4,7 +4,7 @@
 // Copyright https://github.com/Connormiha/jest-css-modules-transform/graphs/contributors
 // This oututs `module.exports = cssObject` instead of `module.exports = { default: cssObject }`;
 
-const { sep: pathSep, resolve, basename, extname } = require("path");
+const { basename, extname } = require("path");
 const postcss = require("postcss");
 const postcssNested = postcss([require("postcss-nested")]);
 
@@ -86,20 +86,19 @@ const getCSSSelectors = (css, path) => {
 
 module.exports = {
   process(src, path, config) {
-    const filename = path.slice(path.lastIndexOf(pathSep) + 1);
     const textCSS = postcssNested.process(src).css;
     const selectors = getCSSSelectors(textCSS, path);
     const component = basename(path, extname(path));
 
     // Prefix class names with component name.
-    Object.keys(selectors).forEach(k => {
+    Object.keys(selectors).forEach((k) => {
       selectors[k] = selectors[k]
         .split(/\s+/)
-        .map(v => `${component}-${v}`)
+        .map((v) => `${component}-${v}`)
         .join(" ");
     });
 
     const exprt = JSON.stringify(selectors);
-    return `module.exports = ${exprt}`;
+    return { code: `module.exports = ${exprt}` };
   },
 };

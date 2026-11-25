@@ -96,13 +96,15 @@ function gatherEntries(
   function serializeEventSymbol(symbol: ts.Symbol) {
     const type = checker.getTypeOfSymbolAtLocation(
       symbol,
-      symbol.valueDeclaration
+      symbol.valueDeclaration!
     );
     const typeNode = checker.typeToTypeNode(type, undefined, buildFlags)!;
     const typeName = symbol.getName();
     const entry: DocEntry = {
       name: typeName,
-      docs: ts.displayPartsToString(symbol.getDocumentationComment(checker)),
+      docs: ts
+        .displayPartsToString(symbol.getDocumentationComment(checker))
+        .trim(),
       type: type.getSymbol()!.getName() as DocEntry["type"],
     };
     typeNode.forEachChild((ch) => {

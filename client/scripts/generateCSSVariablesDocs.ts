@@ -74,7 +74,7 @@ function gatherEntries(
         if (symbol) {
           const type = checker.getTypeOfSymbolAtLocation(
             symbol,
-            symbol.valueDeclaration
+            symbol.valueDeclaration!
           );
           type.getProperties().forEach((property) => {
             serializePropertySymbol(property);
@@ -87,18 +87,16 @@ function gatherEntries(
   /** This will evaluate `symbol` and addthe doc entries */
   function serializePropertySymbol(symbol: ts.Symbol, parent?: DocEntry) {
     const entry: DocEntry = { key: symbol.name };
-    const pt = checker.getTypeOfSymbolAtLocation(
-      symbol,
-      symbol.valueDeclaration
-    );
+    const valueDeclaration = symbol.valueDeclaration!;
+    const pt = checker.getTypeOfSymbolAtLocation(symbol, valueDeclaration);
     if (pt.symbol?.name === "__object") {
       pt.getProperties().forEach((p2) => {
         serializePropertySymbol(p2, entry);
       });
     } else {
-      entry.value = symbol.valueDeclaration
+      entry.value = valueDeclaration
         // Last child contains value.
-        .getChildAt(symbol.valueDeclaration.getChildCount() - 1)!
+        .getChildAt(valueDeclaration.getChildCount() - 1)!
         .getFullText();
     }
     entry.docs = ts.displayPartsToString(
