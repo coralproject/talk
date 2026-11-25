@@ -32,13 +32,29 @@ const DEFAULT_QUERY_VALUES = {
   target: "",
 };
 
+function isLocaleDirectory(localesDirectory, name) {
+  // macOS Finder writes .DS_Store next to the locale directories. Skip
+  // dotfiles and anything that is not a directory. Real locale directories
+  // are unchanged.
+  if (name.startsWith(".")) {
+    return false;
+  }
+  return fs.statSync(path.join(localesDirectory, name)).isDirectory();
+}
+
 function getFiles(target, pathToLocale, context) {
   const { commonFiles } = context;
 
   const common = [];
   const suffixes = [];
 
-  const files = fs.readdirSync(pathToLocale);
+  const files = fs.readdirSync(pathToLocale).filter((name) => {
+    // The same Finder metadata can land inside a locale directory.
+    if (name.startsWith(".")) {
+      return false;
+    }
+    return fs.statSync(path.join(pathToLocale, name)).isFile();
+  });
 
   files.forEach((f) => {
     if (commonFiles.includes(f)) {
@@ -158,7 +174,9 @@ module.exports = function (source) {
     commonFiles,
   } = options;
 
-  let locales = fs.readdirSync(pathToLocales);
+  let locales = fs
+    .readdirSync(pathToLocales)
+    .filter((name) => isLocaleDirectory(pathToLocales, name));
   if (availableLocales) {
     availableLocales.forEach((locale) => {
       if (!locales.includes(locale)) {
