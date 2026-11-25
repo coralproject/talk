@@ -6,54 +6,23 @@ settings:
 
 overrides:
   '@babel/traverse': 7.23.2
-  '@grpc/grpc-js': 1.13.6
   ansi-regex@2: 3.0.1
   axios: 0.35.0
   basic-ftp: 6.2.1
-  brace-expansion@1: 1.1.20
-  brace-expansion@2: 2.1.6
   braces: 3.0.3
-  browserslist: 4.28.7
-  cross-spawn@6: 6.0.6
-  cross-spawn@7: 7.0.5
   form-data@2: 2.5.6
-  form-data@3: 3.0.5
   form-data@4: 4.0.6
-  image-size: 0.7.5
-  install-artifact-from-github: 1.7.0
   jsonwebtoken: 9.0.3
-  jws@3: 3.2.3
-  jws@4: 4.0.1
   lodash: 4.18.0
-  luxon@1: 1.28.1
-  luxon@3: 3.2.1
   minimatch@3: 3.1.4
-  minimatch@5: 5.1.8
   minimatch@9: 9.0.7
-  msgpackr: 1.10.1
-  nanoid: 3.3.18
-  node-forge: 1.4.1
   node-fetch@2: 2.7.0
-  nth-check: 1.0.2
-  parse-duration: 1.1.2
-  path-to-regexp@0.1: 0.1.13
-  picomatch: 2.3.2
   protobufjs: 7.6.1
-  protobufjs-cli: 1.3.2
-  proxy-addr: 2.0.8
   qs: 6.14.1
   semver@5: 5.7.2
-  serialize-javascript@2: 2.1.2
-  serialize-javascript@3: 3.1.0
-  serialize-javascript@5: 5.0.1
-  serialize-javascript@6: 6.0.2
-  sha.js: 2.4.12
   tar: 7.5.21
   tmp: 0.2.7
   underscore: 1.13.8
-  validator: 13.15.35
-  ws@5: 5.2.5
-  ws@6: 6.2.4
   ws@7: 7.5.11
 
 packageExtensionsChecksum: 155e88c7c604eaf85389758faa7fd8ab
@@ -269,7 +238,7 @@ dependencies:
     specifier: ^5.1.1
     version: 5.1.1
   luxon:
-    specifier: 1.28.1
+    specifier: ^1.28.1
     version: 1.28.1
   metascraper-author:
     specifier: ^5.22.5
@@ -646,7 +615,7 @@ devDependencies:
     specifier: ^3.6.4
     version: 3.6.4
   cross-spawn:
-    specifier: 7.0.5
+    specifier: ^7.0.5
     version: 7.0.5
   css-loader:
     specifier: ^7.1.5
@@ -2398,7 +2367,7 @@ packages:
       '@google-cloud/paginator': 5.0.2
       '@google-cloud/projectify': 4.0.0
       '@google-cloud/promisify': 4.0.0
-      '@grpc/grpc-js': 1.13.6
+      '@grpc/grpc-js': 1.14.7
       '@opentelemetry/api': 1.10.0
       arrify: 2.0.1
       dot-prop: 6.0.1
@@ -2882,16 +2851,27 @@ packages:
       tslib: 2.2.0
       value-or-promise: 1.0.6
 
-  /@grpc/grpc-js@1.13.6:
-    resolution: {integrity: sha512-S9U8ioEds9fo8zCt4K8CyWHLJPg63FBgZo/hYUPVTiKppwsx/ykTnFg4g4/70beoa/DYao9uROQRcoahVH8PVQ==}
+  /@grpc/grpc-js@1.14.7:
+    resolution: {integrity: sha512-W4W/fcBMGRVtG6dW2c7cw2mnpS3hvbBd+oQXjh2iYFTZDk1JJmcNqkM5KSaPubQpamlUUurrlb7G1s9NJeERmQ==}
     engines: {node: '>=12.10.0'}
     dependencies:
-      '@grpc/proto-loader': 0.7.15
+      '@grpc/proto-loader': 0.8.1
       '@js-sdsl/ordered-map': 4.4.2
     dev: false
 
   /@grpc/proto-loader@0.7.15:
     resolution: {integrity: sha512-tMXdRCfYVixjuFK+Hk0Q1s38gV9zDiDJfWL3h1rv4Qc39oILCu1TRTDt7+fGUI8K4G1Fj125Hx/ru3azECWTyQ==}
+    engines: {node: '>=6'}
+    hasBin: true
+    dependencies:
+      lodash.camelcase: 4.3.0
+      long: 5.3.2
+      protobufjs: 7.6.1
+      yargs: 17.7.2
+    dev: false
+
+  /@grpc/proto-loader@0.8.1:
+    resolution: {integrity: sha512-wtF6h+DY6M3YaDBPAmvuuA6jV8Sif9MjtOI5euKFWRgCDl5PeDpPsHR9u2l6St5ceY8AZgoNDww5+HvEsXFsGg==}
     engines: {node: '>=6'}
     hasBin: true
     dependencies:
@@ -8171,7 +8151,7 @@ packages:
       css-what: 6.2.2
       domhandler: 4.3.1
       domutils: 2.8.0
-      nth-check: 1.0.2
+      nth-check: 2.1.1
     dev: true
 
   /css-select@6.0.0:
@@ -8181,7 +8161,7 @@ packages:
       css-what: 7.0.0
       domhandler: 5.0.3
       domutils: 3.2.2
-      nth-check: 1.0.2
+      nth-check: 2.1.1
     dev: true
 
   /css-selector-tokenizer@0.7.2:
@@ -9958,16 +9938,16 @@ packages:
       pend: 1.2.0
     dev: true
 
-  /fdir@6.5.0(picomatch@2.3.2):
+  /fdir@6.5.0(picomatch@4.0.7):
     resolution: {integrity: sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
-      picomatch: 2.3.2
+      picomatch: ^3 || ^4
     peerDependenciesMeta:
       picomatch:
         optional: true
     dependencies:
-      picomatch: 2.3.2
+      picomatch: 4.0.7
 
   /feature-policy@0.3.0:
     resolution: {integrity: sha512-ZtijOTFN7TzCujt1fnNhfWPFPSHeZkesff9AXZj+UEjYBynWNUIYpC87Ve4wHzyexQsImicLu7WsC2LHq7/xrQ==}
@@ -10861,7 +10841,7 @@ packages:
     resolution: {integrity: sha512-V6eky/xz2mcKfAd1Ioxyd6nmA61gao3n01C+YeuIwu3vzM9EDR6wcVzMSIbLMDXWeoi9SHYctXuKYC5uJUT3eQ==}
     engines: {node: '>=14'}
     dependencies:
-      '@grpc/grpc-js': 1.13.6
+      '@grpc/grpc-js': 1.14.7
       '@grpc/proto-loader': 0.7.15
       '@types/long': 4.0.1
       abort-controller: 3.0.0
@@ -11870,8 +11850,8 @@ packages:
       through: 2.3.8
     dev: true
 
-  /install-artifact-from-github@1.7.0:
-    resolution: {integrity: sha512-qAb91yAKVF9rFY4rVP21ZtYUyCScxAFt9udwzVWNLBE1pQcdQeB2gd1HlNPcQNYCzCDvJ/QJQPuWQ6aTmSlU8g==}
+  /install-artifact-from-github@1.8.1:
+    resolution: {integrity: sha512-lV8dRlR/3i6Tk4X9agaqhMRY6ScVU3YOuKse0VRnP9+rUWfImeCjo1TeAefXEauNVF3a8QgOb6jW3CZJetVopw==}
     engines: {node: '>=18'}
     hasBin: true
     dev: false
@@ -12529,7 +12509,7 @@ packages:
   /isomorphic-ws@4.0.1(ws@7.5.11):
     resolution: {integrity: sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==}
     peerDependencies:
-      ws: 5.2.5
+      ws: 7.5.11
     dependencies:
       ws: 7.5.11
 
@@ -13070,7 +13050,7 @@ packages:
       chalk: 4.1.2
       ci-info: 4.5.0
       graceful-fs: 4.2.11
-      picomatch: 2.3.2
+      picomatch: 4.0.7
     dev: true
 
   /jest-validate@29.7.0:
@@ -14758,8 +14738,8 @@ packages:
   /nan@2.30.0:
     resolution: {integrity: sha512-P5mokDkSvCGBz6mZDD/2l+w9QoICRXdCyZ9ONGmTePr40oihJg3Kpn0YU3twKd6PJnwSlLBWNQeOT6yWEV2c4A==}
 
-  /nanoid@3.3.18:
-    resolution: {integrity: sha512-DTg4MJbGMWkfi6VZFdNt2/caMbQy4Ou+Op/hJQvGEWcnVfoA1QA+xzRKAzw9jD6+GVOOeYr/mIcuDSdug6F6+w==}
+  /nanoid@3.3.20:
+    resolution: {integrity: sha512-uKdg2G3GNCKQn9byYOpxbGqrT2fGO5KRt5J/8b3pok8rT6qxGWF6hxMyJiEYtAf+FVyYuD9hRaDqX5uPFYJ4ZQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -14998,6 +14978,13 @@ packages:
     resolution: {integrity: sha512-WeBOdju8SnzPN5vTUJYxYUxLeXpCaVP5i5e0LF8fg7WORF2Wd7wFX/pk0tYZk7s8T+J7VLy0Da6J1+wCT0AtHg==}
     dependencies:
       boolbase: 1.0.0
+    dev: false
+
+  /nth-check@2.1.1:
+    resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
+    dependencies:
+      boolbase: 1.0.0
+    dev: true
 
   /nullthrows@1.1.1:
     resolution: {integrity: sha512-2vPPEi+Z7WqML2jZYddDIfy5Dqb0r2fze2zTxNNknZaFpVHU3mFB3R+DWeJWGVx0ecvttSGlJTI+WG+8Z4cDWw==}
@@ -15627,6 +15614,10 @@ packages:
   /picomatch@2.3.2:
     resolution: {integrity: sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA==}
     engines: {node: '>=8.6'}
+
+  /picomatch@4.0.7:
+    resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
+    engines: {node: '>=12'}
 
   /pify@2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
@@ -16513,7 +16504,7 @@ packages:
     resolution: {integrity: sha512-RVHEU9/Pp1Fnjr/MpAJsZoADukCKhfIi15OunEYiGktIkYLkPVvC1sioWolGDS7XByMTx9m/IGbro0Js13zhnQ==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.18
+      nanoid: 3.3.20
       picocolors: 1.1.1
       source-map-js: 1.2.4
 
@@ -16843,7 +16834,7 @@ packages:
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     requiresBuild: true
     dependencies:
-      install-artifact-from-github: 1.7.0
+      install-artifact-from-github: 1.8.1
       nan: 2.30.0
       node-gyp: 13.1.0
     dev: false
@@ -19033,8 +19024,8 @@ packages:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      fdir: 6.5.0(picomatch@2.3.2)
-      picomatch: 2.3.2
+      fdir: 6.5.0(picomatch@4.0.7)
+      picomatch: 4.0.7
 
   /title-case@3.0.3:
     resolution: {integrity: sha512-e1zGYRvbffpcHIrnuqT0Dh+gEJtDaxDSoG4JAIpq4oDFyooziLBIiYQv0GBT4FUAnUop5uZ1hiIAj7oAF6sOCA==}
@@ -19275,7 +19266,7 @@ packages:
     dependencies:
       chalk: 4.1.2
       loader-utils: 2.0.0
-      picomatch: 2.3.2
+      picomatch: 4.0.7
       source-map: 0.7.4
       typescript: 5.9.3
       webpack: 5.113.0(clean-css@5.3.3)(postcss@8.5.33)(webpack-cli@5.1.4)
@@ -19773,7 +19764,7 @@ packages:
     resolution: {integrity: sha512-WPJuOnjI9FWDct4fB+ej4Mz8opLaw5CDcZ2t44tFZ0vIQVYWzBhWR3mkixuUj/A7+vY4V9+ApOZ2YYLwdgq46w==}
     hasBin: true
     peerDependencies:
-      browserslist: 4.28.7
+      browserslist: '>= 4.21.0'
     dependencies:
       browserslist: 4.28.7
       escalade: 3.2.0

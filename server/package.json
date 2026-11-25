@@ -350,54 +350,23 @@
     },
     "overrides": {
       "@babel/traverse": "7.23.2",
-      "@grpc/grpc-js": "1.13.6",
       "ansi-regex@2": "3.0.1",
       "axios": "0.35.0",
       "basic-ftp": "6.2.1",
-      "brace-expansion@1": "1.1.20",
-      "brace-expansion@2": "2.1.6",
       "braces": "3.0.3",
-      "browserslist": "4.28.7",
-      "cross-spawn@6": "6.0.6",
-      "cross-spawn@7": "7.0.5",
       "form-data@2": "2.5.6",
-      "form-data@3": "3.0.5",
       "form-data@4": "4.0.6",
-      "image-size": "0.7.5",
-      "install-artifact-from-github": "1.7.0",
       "jsonwebtoken": "9.0.3",
-      "jws@3": "3.2.3",
-      "jws@4": "4.0.1",
       "lodash": "4.18.0",
-      "luxon@1": "1.28.1",
-      "luxon@3": "3.2.1",
       "minimatch@3": "3.1.4",
-      "minimatch@5": "5.1.8",
       "minimatch@9": "9.0.7",
-      "msgpackr": "1.10.1",
-      "nanoid": "3.3.18",
-      "node-forge": "1.4.1",
       "node-fetch@2": "2.7.0",
-      "nth-check": "1.0.2",
-      "parse-duration": "1.1.2",
-      "path-to-regexp@0.1": "0.1.13",
-      "picomatch": "2.3.2",
       "protobufjs": "7.6.1",
-      "protobufjs-cli": "1.3.2",
-      "proxy-addr": "2.0.8",
       "qs": "6.14.1",
       "semver@5": "5.7.2",
-      "serialize-javascript@2": "2.1.2",
-      "serialize-javascript@3": "3.1.0",
-      "serialize-javascript@5": "5.0.1",
-      "serialize-javascript@6": "6.0.2",
-      "sha.js": "2.4.12",
       "tar": "7.5.21",
       "tmp": "0.2.7",
       "underscore": "1.13.8",
-      "validator": "13.15.35",
-      "ws@5": "5.2.5",
-      "ws@6": "6.2.4",
       "ws@7": "7.5.11"
     },
     "patchedDependencies": {
@@ -410,6 +379,63 @@
     ],
     "wait-for-expect@1.x.x": [
       "Newer versions breaks the use of jest fake timers"
+    ],
+    "@babel/traverse": [
+      "Keeps transitive @babel/traverse via @babel/core at >= 7.23.2."
+    ],
+    "ansi-regex@2": [
+      "Keeps transitive ansi-regex via listr-update-renderer at >= 3.0.1."
+    ],
+    "axios": [
+      "Keeps transitive axios via @rudderstack/rudder-sdk-node at >= 0.35.0."
+    ],
+    "basic-ftp": [
+      "Keeps transitive basic-ftp via proxy-agent and get-uri at >= 6.2.1."
+    ],
+    "braces": [
+      "Keeps transitive braces via fast-glob and micromatch at >= 3.0.3."
+    ],
+    "form-data@2": [
+      "Keeps transitive form-data 2 via @google-cloud/profiler and @types/request at >= 2.5.6."
+    ],
+    "form-data@4": [
+      "Keeps transitive form-data 4 via @rudderstack/rudder-sdk-node and axios at >= 4.0.6."
+    ],
+    "jsonwebtoken": [
+      "Keeps transitive jsonwebtoken via jwks-rsa at >= 9.0.3."
+    ],
+    "lodash": [
+      "Keeps transitive lodash via @rudderstack/rudder-sdk-node and bull at >= 4.18.0."
+    ],
+    "minimatch@3": [
+      "Keeps transitive minimatch 3 via archiver and glob at >= 3.1.4."
+    ],
+    "minimatch@9": [
+      "Keeps transitive minimatch 9 via redis-memory-server and glob at >= 9.0.7."
+    ],
+    "node-fetch@2": [
+      "Keeps transitive node-fetch 2 via @google-cloud/profiler and gaxios at >= 2.7.0."
+    ],
+    "protobufjs": [
+      "Keeps transitive protobufjs via @google-cloud/profiler and @grpc/proto-loader at >= 7.6.1."
+    ],
+    "qs": [
+      "Keeps transitive qs via Express and body-parser at >= 6.14.1."
+    ],
+    "semver@5": [
+      "Keeps transitive semver 5 via juice and cross-spawn at >= 5.7.2."
+    ],
+    "tar": [
+      "Keeps transitive tar via re2 and node-gyp at >= 7.5.21."
+    ],
+    "tmp": [
+      "Keeps transitive tmp via @graphql-codegen/cli and external-editor at >= 0.2.7."
+    ],
+    "underscore": [
+      "Keeps transitive underscore via doctoc at >= 1.13.8."
+    ],
+    "ws@7": [
+      "Keeps transitive ws 7 via jsdom at >= 7.5.11."
     ],
     "consolidate@14.0.0": [
       "Newer versions has problems with using nunjucks.",

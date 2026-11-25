@@ -313,32 +313,13 @@
       "@testing-library/dom": "9.3.4",
       "axe-core": "3.5.5",
       "axios": "0.35.0",
-      "brace-expansion@1": "1.1.20",
-      "brace-expansion@2": "2.1.6",
       "braces": "3.0.3",
-      "browserslist": "4.28.7",
-      "cross-spawn@7": "7.0.5",
-      "form-data@3": "3.0.5",
       "form-data@4": "4.0.6",
-      "install-artifact-from-github": "1.7.0",
       "lodash": "4.18.0",
-      "luxon@1": "1.28.1",
-      "luxon@3": "3.2.1",
       "minimatch@3": "3.1.4",
       "minimatch@9": "9.0.7",
-      "msgpackr": "1.10.1",
-      "nanoid": "3.3.18",
       "node-fetch@2": "2.7.0",
-      "path-to-regexp@0.1": "0.1.13",
-      "picomatch": "2.3.2",
-      "proxy-addr": "2.0.8",
       "qs": "6.14.1",
-      "serialize-javascript@2": "2.1.2",
-      "serialize-javascript@3": "3.1.0",
-      "serialize-javascript@5": "5.0.1",
-      "serialize-javascript@6": "6.0.2",
-      "tar": "7.5.21",
-      "ws@5": "5.2.5",
       "ws@7": "7.5.11"
     },
     "patchedDependencies": {
@@ -356,6 +337,39 @@
     ],
     "wait-for-expect@1.x.x": [
       "Newer versions breaks the use of jest fake timers"
+    ],
+    "@testing-library/dom": [
+      "Keeps transitive @testing-library/dom via @testing-library/react at >= 9.3.4."
+    ],
+    "axe-core": [
+      "Keeps axe-core consumers on the shared 3.5.5 compatibility line used by the client test helpers."
+    ],
+    "axios": [
+      "Keeps transitive axios via @rudderstack/rudder-sdk-node at >= 0.35.0."
+    ],
+    "braces": [
+      "Keeps transitive braces via fast-glob and micromatch at >= 3.0.3."
+    ],
+    "form-data@4": [
+      "Keeps transitive form-data 4 via @rudderstack/rudder-sdk-node and axios at >= 4.0.6."
+    ],
+    "lodash": [
+      "Keeps transitive lodash via @rudderstack/rudder-sdk-node and bull at >= 4.18.0."
+    ],
+    "minimatch@3": [
+      "Keeps transitive minimatch 3 via bunyan and glob at >= 3.1.4."
+    ],
+    "minimatch@9": [
+      "Keeps transitive minimatch 9 via typescript-eslint at >= 9.0.7."
+    ],
+    "node-fetch@2": [
+      "Keeps transitive node-fetch 2 via @graphql-tools/url-loader and cross-fetch at >= 2.7.0."
+    ],
+    "qs": [
+      "Keeps transitive qs via Express and body-parser at >= 6.14.1."
+    ],
+    "ws@7": [
+      "Keeps transitive ws 7 via jsdom at >= 7.5.11."
     ]
   },
   "bundlesize": [
