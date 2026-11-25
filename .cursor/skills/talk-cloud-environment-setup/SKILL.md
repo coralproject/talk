@@ -1,6 +1,6 @@
 ---
 name: talk-cloud-environment-setup
-description: Set up, run, lint, test, and exercise Coral (coralproject/talk) in a Cursor Cloud VM - Node 18 + pnpm 8 toolchain, MongoDB/Redis via Docker, client and server watchers, seeding a dev tenant, and validating the third-party embed on a separate host-page origin. Use when installing talk dependencies, starting Coral locally, running its CI checks, or testing comment/embed/moderation flows.
+description: Set up, run, lint, test, and exercise Coral (coralproject/talk) in a Cursor Cloud VM - Node 24 + pnpm 8 toolchain, MongoDB/Redis via Docker, client and server watchers, seeding a dev tenant, and validating the third-party embed on a separate host-page origin. Use when installing talk dependencies, starting Coral locally, running its CI checks, or testing comment/embed/moderation flows.
 ---
 
 # Coral (talk) cloud environment
@@ -13,18 +13,16 @@ are optional embed test beds.
 
 ## Must-know gotchas
 
-- **Toolchain is Node 18.16.x + pnpm 8.14.3** (CI:
+- **Toolchain is Node 24.22.2 + pnpm 8.14.3** (CI:
   `.github/workflows/build-and-test.yml`; lockfiles are v6). Newer pnpm rejects
   `--frozen-lockfile`. Always `. scripts/env.sh` (or use `scripts/run.sh`)
   before running repo commands.
-- **`nvm use` is not enough in agent shells.** `/exec-daemon/node` (Node 22)
-  can precede nvm on `PATH`; `re2` then fails to compile during install
-  (`v8::AccessControl` errors, `node -v v22...` in the gyp log). `env.sh`
-  prepends `$NVM_BIN` to fix this.
-- **Native addons build from source on Node 18** (`pprof` has no prebuilt for
-  ABI 108). pnpm 8's node-gyp needs Python `distutils`; on Python 3.12 that
-  requires `python3-setuptools` (`ModuleNotFoundError: No module named 'distutils'`
-  otherwise). The shared image installs it.
+- **`nvm use` is not enough in agent shells.** `/exec-daemon/node` can precede
+  nvm on `PATH`, so installs can use the wrong Node ABI. `env.sh` prepends
+  `$NVM_BIN` to fix this.
+- **Native addons support Node 24.** `re2` 1.27 downloads its ABI-137 artifact,
+  while `pprof` 5 builds from source against the Node 24 headers. The shared
+  image includes the compiler and Python tooling required by node-gyp.
 - **The server needs one development build before `watch` works.** Without
   `server/dist/.../wordList/worker.js` it crashes on boot
   (`Cannot find module ... wordList/worker.js`). Run
@@ -65,7 +63,7 @@ Then open `http://localhost:8000/?story=demo-1` (embed), `http://localhost:3000/
 
 | Script | Purpose |
 | --- | --- |
-| `scripts/env.sh` | Source to select Node 18.16.1 + pnpm 8.14.3 and fix `PATH` ordering. |
+| `scripts/env.sh` | Source to select Node 24.22.2 + pnpm 8.14.3 and fix `PATH` ordering. |
 | `scripts/run.sh <cmd...>` | Run any command from the repo root with that toolchain. |
 | `scripts/install-deps.sh` | `pnpm install --frozen-lockfile` in config, common, client, server, docs. |
 | `scripts/start-services.sh` | Start dockerd if needed and `docker compose up -d mongo redis`; waits for readiness. |
@@ -88,6 +86,6 @@ Lint, test, generate, and build use the repo's own scripts (`scripts/generate.sh
 
 The VM image and boot `install` step are owned by the mounted
 `cloud-agent-env-node` repo (`.cursor/Dockerfile`, `.cursor/install-repos.sh`).
-Its install step already runs the frozen installs above with Node 18 + pnpm 8
+Its install step runs the frozen installs above with Node 24 + pnpm 8
 for this repo; change toolchain pins there, not here. No secrets are required
 for local development.

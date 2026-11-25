@@ -12,7 +12,7 @@
     "url": "git://github.com/coralproject/talk.git"
   },
   "engines": {
-    "node": "^18.16.0",
+    "node": "^24.15.0",
     "pnpm": "8.14.3"
   },
   "bugs": "https://github.com/coralproject/talk/issues",
@@ -21,10 +21,10 @@
   ],
   "description": "A better commenting experience from Vox Media.",
   "scripts": {
-    "build:client": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" ts-node --transpile-only ./scripts/build.ts",
-    "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development pnpm run generate && pnpm run build:client",
+    "build:client": "NODE_OPTIONS=\"--openssl-legacy-provider --max-old-space-size=4096\" ts-node --transpile-only ./scripts/build.ts",
+    "build:development": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=development pnpm run generate && pnpm run build:client",
     "build:withProfiler": "NODE_ENV=production REACT_PROFILER=true pnpm run --parallel generate build:client",
-    "build": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=production pnpm run generate-persist && pnpm run build:client",
+    "build": "NODE_OPTIONS=\"--openssl-legacy-provider\" NODE_ENV=production pnpm run generate-persist && pnpm run build:client",
     "docs:css-variables": "ts-node ./scripts/generateCSSVariablesDocs.ts ./src/core/client/ui/theme/streamVariables.ts ./CSS_VARIABLES.md",
     "docs:events": "ts-node ./scripts/generateEventDocs.ts ./src/core/client/stream/events.ts ./CLIENT_EVENTS.md",
     "doctoc": "doctoc --maxlevel=3 --title '## Table of Contents' CLIENT_EVENTS.md ../CONTRIBUTING.md",
@@ -55,7 +55,7 @@
     "tscheck:client": "tsc --project ./src/core/client/tsconfig.json --noEmit",
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "tscheck": "pnpm run '/^tscheck:.*/'",
-    "watch": "NODE_OPTIONS=\"--openssl-legacy-provider --no-experimental-fetch\" NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
+    "watch": "NODE_OPTIONS=\"--openssl-legacy-provider --max-old-space-size=4096\" NODE_ENV=development ts-node --transpile-only ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -86,7 +86,7 @@
     "luxon": "^1.28.1",
     "postcss": "^8.3.5",
     "querystringify": "^2.1.1",
-    "re2": "^1.20.9",
+    "re2": "^1.27.2",
     "source-map-support": "^0.5.16",
     "uuid": "^7.0.3"
   },
@@ -364,7 +364,7 @@
   "bundlesize": [
     {
       "path": "./dist/static/assets/js/embed.js",
-      "maxSize": "30.05 kB",
+      "maxSize": "30.1 kB",
       "maxSizeOld": "17 kB"
     },
     {
