@@ -41,6 +41,17 @@ interface CreateWebpackOptions {
 
 const publicPath = "/";
 
+/**
+ * Emitted CSS lives in assets/css and references media in assets/media, so its
+ * url()s must be relative. Set this on the extract loader rather than as the
+ * asset generator publicPath, which mini-css-extract-plugin joins with
+ * output.publicPath into `../..//`.
+ */
+const cssExtractLoader = {
+  loader: MiniCssExtractPlugin.loader,
+  options: { publicPath: "../../" },
+};
+
 /** These alias are required in production if you want to keep the profiling tools */
 const reactProfilerAlias = {
   "react-dom$": "react-dom/profiling",
@@ -373,18 +384,20 @@ export default function createWebpackConfig(
               },
               generator: {
                 filename: isProduction
-                  ? "assets/media/[name].[contenthash].[ext]"
-                  : "assets/media/[name].[ext]",
+                  ? "assets/media/[name].[contenthash][ext]"
+                  : "assets/media/[name][ext]",
               },
             },
             {
               test: /\.css\.ts$/,
               use: [
-                MiniCssExtractPlugin.loader,
+                cssExtractLoader,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
                     modules: {
+                      namedExport: false,
+                      exportLocalsConvention: "as-is",
                       localIdentName: "[name]-[local]-[contenthash]",
                     },
                     importLoaders: 2,
@@ -483,7 +496,7 @@ export default function createWebpackConfig(
             {
               test: /\/typography\.css$/,
               use: [
-                MiniCssExtractPlugin.loader,
+                cssExtractLoader,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
@@ -510,11 +523,13 @@ export default function createWebpackConfig(
               test: /\.css$/,
               exclude: /\/typography\.css$/,
               use: [
-                MiniCssExtractPlugin.loader,
+                cssExtractLoader,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
                     modules: {
+                      namedExport: false,
+                      exportLocalsConvention: "as-is",
                       localIdentName: "[name]-[local]-[contenthash]",
                     },
                     importLoaders: 1,
@@ -542,14 +557,12 @@ export default function createWebpackConfig(
               // its runtime that would otherwise processed through "file" loader.
               // Also exclude `html` and `json` extensions so they get processed
               // by webpacks internal loaders.
-              exclude: [/\.(js|ts|tsx)$/, /\.html$/, /\.json$/],
+              exclude: [/\.(js|mjs|cjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
               type: "asset/resource",
               generator: {
-                // Resources referenced from emitted CSS need a relative URL.
-                publicPath: "../../",
                 filename: isProduction
-                  ? "assets/media/[name].[contenthash].[ext]"
-                  : "assets/media/[name].[ext]",
+                  ? "assets/media/[name].[contenthash][ext]"
+                  : "assets/media/[name][ext]",
               },
             },
           ],

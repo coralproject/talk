@@ -37,18 +37,25 @@ const postCssVariables = mapValues(kebabs, (value, key) => {
   return value;
 });
 
-module.exports = {
+module.exports = (api) => ({
   // Necessary for external CSS imports to work
   // https://github.com/facebookincubator/create-react-app/issues/2677
   ident: "postcss",
   plugins: [
-    // This allows us to define dynamic css variables.
-    postcssPrependImports({
-      path: "",
-      files: [paths.appThemeMixinsCSS],
-    }),
-    // Needed by above plugin.
-    postcssImport(),
+    // `.css.ts` theme files are parsed with postcss-js, which postcss-import
+    // would also apply to the prepended CSS mixins, emitting garbage rules
+    // that make the minifier drop the theme variables. They use no mixins.
+    ...(api && api.file && api.file.endsWith(".css.ts")
+      ? []
+      : [
+          // This allows us to define dynamic css variables.
+          postcssPrependImports({
+            path: "",
+            files: [paths.appThemeMixinsCSS],
+          }),
+          // Needed by above plugin.
+          postcssImport(),
+        ]),
     // Support mixins.
     postcssMixins(),
     // Support nesting.
@@ -64,4 +71,4 @@ module.exports = {
       flexbox: "no-2009",
     }),
   ],
-};
+});
