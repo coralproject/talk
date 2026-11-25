@@ -24,7 +24,7 @@ $S/install-deps.sh                                             # ~4 min cold
 $S/run.sh sh scripts/generate.sh                               # ~10 s
 $S/run.sh sh scripts/lint.sh                                   # ~2 min (eslint + tsc: client, server, docs)
 $S/run.sh bash -c 'cd client && npx @coralproject/package-version-lint'
-$S/run.sh bash -c 'cd server && pnpm run test:server -- --ci'  # ~20 s, 187 tests
+$S/run.sh bash -c 'cd server && pnpm run test:server -- --ci'  # ~20 s, 188 tests
 $S/run.sh bash -c 'cd client && pnpm run test:client:stream -- --ci'   # ~1.5 min
 $S/run.sh bash -c 'cd client && pnpm run test:client:admin -- --ci'    # ~1.5 min
 $S/run.sh bash -c 'cd client && pnpm run test:client:other -- --ci'    # ~30 s
@@ -60,6 +60,33 @@ Then `$S/seed-install.sh` and `$S/smoke-api.sh`. Expected smoke output ends in
 `pnpm run start:development:withJobs` (no file watcher) to exercise mailer,
 notifications, and other job queues. Server env vars go in `server/.env`
 (see `docs/docs/environment-variables.md`); defaults work for local dev.
+
+The client and server builds use webpack 5 and webpack-dev-server 5. Hot
+reload uses the dev server's native WebSocket client at `ws://localhost:8080/ws`
+(the old `/sockjs-node` endpoint is gone). Ports and watch commands are
+unchanged, and `--openssl-legacy-provider` is no longer needed. The dev server
+keeps its default host check (`allowedHosts: "auto"`), so open it through
+`localhost` or `127.0.0.1`.
+
+## Verify the production embed
+
+Use this to check the production bundle (what the Docker image serves) rather
+than the 8080 dev-server bundle. Stop the dev-mode watchers first so nothing
+else holds 3000 or 8080.
+
+```bash
+$S/start-services.sh
+$S/run.sh sh scripts/build.sh                    # webpack 5 production build into client/dist
+tmux new-session -d -s talk-prod "SIGNING_SECRET=\$(openssl rand -hex 32) $S/run.sh bash -c 'cd server && pnpm start'"
+$S/seed-install.sh && $S/smoke-api.sh            # once `now listening (port=3000)` appears
+TALK_EMBED_SCRIPT_URL=http://localhost:3000/assets/js/embed.js $S/host-page.sh 8000
+```
+
+Open `http://localhost:8000/?story=demo-1`. The stream should render inside
+the host page and load `embed.js` from port 3000. Sign in, post a comment, then
+moderate it in `http://localhost:3000/admin` and reload the host page to see the
+result. The `SIGNING_SECRET` is throwaway; generate it in the shell and never
+print it.
 
 Optional SMTP sink for email flows (configure Coral Admin -> Configure -> Email
 with host `localhost`, port `2500`, no auth):
