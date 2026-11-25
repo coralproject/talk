@@ -56,6 +56,8 @@ overrides:
   ws@6: 6.2.4
   ws@7: 7.5.11
 
+packageExtensionsChecksum: 155e88c7c604eaf85389758faa7fd8ab
+
 dependencies:
   '@ampproject/toolbox-cache-url':
     specifier: ^2.9.0
@@ -17046,6 +17048,7 @@ packages:
       delay: 5.0.0
       findit2: 2.2.3
       nan: 2.30.0
+      node-gyp: 13.1.0
       p-limit: 3.1.0
       protobufjs: 7.6.1
       source-map: 0.8.0

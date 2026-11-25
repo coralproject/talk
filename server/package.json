@@ -349,6 +349,13 @@
     "whatwg-fetch": "^3.4.0"
   },
   "pnpm": {
+    "packageExtensions": {
+      "pprof@5.0.0": {
+        "dependencies": {
+          "node-gyp": "13.1.0"
+        }
+      }
+    },
     "overrides": {
       "@babel/traverse": "7.23.2",
       "@grpc/grpc-js": "1.13.6",
