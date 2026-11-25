@@ -1,4 +1,4 @@
-require("ts-node/register");
+require("ts-node/register/transpile-only");
 
 const kebabCase = require("lodash/kebabCase");
 const mapKeys = require("lodash/mapKeys");

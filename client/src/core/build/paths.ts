@@ -19,6 +19,7 @@ export default {
   appLocales: resolveSrc("../../locales"),
   appSassLikeVariables: resolveSrc("core/client/ui/theme/sassLikeVariables.ts"),
   appThemeMixinsCSS: resolveSrc("core/client/ui/theme/mixins.css"),
+  appTypographyCSS: resolveSrc("core/client/ui/theme/typography.css"),
 
   appStreamLocalesTemplate: resolveSrc("core/client/stream/locales.ts"),
   appStreamIndex: resolveSrc("core/client/stream/index.tsx"),
@@ -53,7 +54,4 @@ export default {
   appDistStatic: resolveApp("dist/static"),
   appPublic: resolveApp("public"),
   appPackageJson: resolveApp("package.json"),
-  appNodeModules: resolveApp("node_modules"),
-
-  appWebpackHotDevClient: resolveApp("scripts/webpackHotDevClient.js"),
 };
